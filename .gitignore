@@ -4,6 +4,7 @@
 *.Rproj
 *.dropbox
 *.pptx
+*.Rhistory
 
 # Compiled source #
 ###################
