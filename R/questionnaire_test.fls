@@ -1,0 +1,6 @@
+PWD C:/Users/progi_adm/Dropbox/Research/ilsasim/R
+INPUT c:/texlive/2016/texmf.cnf
+INPUT c:/texlive/2016/texmf-dist/web2c/texmf.cnf
+INPUT c:/texlive/2016/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT c:/Users/progi_adm/Dropbox/Research/ilsasim/R/questionnaire_test.R
+OUTPUT C:\Users\progi_adm\Dropbox\Research\ilsasim\R/questionnaire_test.log
