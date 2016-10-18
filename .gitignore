@@ -6,6 +6,13 @@
 *.pptx
 *.Rhistory
 
+
+# tex stuff
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+
 # Compiled source #
 ###################
 *.com
