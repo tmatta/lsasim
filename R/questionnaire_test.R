@@ -1,6 +1,8 @@
 library(polycor)
 
 setwd("C:\\Users\\progi_adm\\Dropbox\\Research\\ilsasim")
+
+
 #------------------------------------------------------------------------------#
 #--- Create 1 categorical variable from standard normal -----------------------#
 x1 <- rnorm(10, 0, 1)
@@ -61,10 +63,11 @@ cor(z1, z2, method="kendall", use="pairwise")
 #--- Test questionnaire function ----------------------------------------------#
 source("R\\questionnaire_gen.R")
 
-#--- number of variables
+#--- number of variables and observations
 n_var <- 200
+n_obs <- 20000
 
-#--- random pos-def corr matrix
+#--- random pos-semi-def corr matrix
 R <- matrix(runif(n_var*n_var), ncol=n_var) 
 RxR <- R %*% t(R) 
 Q <- cov2cor(RxR) 
@@ -77,18 +80,32 @@ max_pr <- c(.49, .48, .38, .28, .18)
 for(i in 1: n_var){
   rand_n_cats[i] <- round(runif(1, min = 1, max = 5))
   rand_pr <- list()
+
   if (rand_n_cats[i] != 1){  
+    
     rand_pr[[1]] <- round(runif(1, min = .1, max = rand_n_cats[i]*.1), 2)  
+    
     for (j in 2 : rand_n_cats[i]){
       k <- j - 1
       rand_pr[[j]] <- rand_pr[[k]] + round(runif(1, min = .1, max = max_pr[rand_n_cats[i]]), 2)
     }
+    
     rand_pr[[rand_n_cats[i]]] <- 1
+  
   } else {
+  
   	rand_pr[[1]] <- 1
+  
   }
+  
   cat_pr[[i]] <- unlist(rand_pr)
 }
 
-df1 <- questionnaire(n = 20000, cat_prop = cat_pr, cor_matrix = Q)
+ptm <- proc.time()
+df1 <- questionnaire(n = n_obs, cat_prop = cat_pr, cor_matrix = Q)
+proc.time() - ptm
+
+# >    user  system elapsed 
+#      1.71    0.00    1.73 
+
 str(df1)
