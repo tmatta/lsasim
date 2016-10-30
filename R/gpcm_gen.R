@@ -35,6 +35,9 @@ mean(b_uncentered)
 b <- b_uncentered - mean(b_uncentered)
 round(mean(b), 3)
 
+
+
+
 b <- list(i01 = c(-.3, .2), 
 	      i02 = c(.25),
 	      i03 = c(-.75, -.1, .3),
@@ -48,7 +51,7 @@ b <- list(i01 = c(-.3, .2),
 
 b_mean <- mean(unlist(b))
 
-b_center <- lapply(b, function(x) x - b_mean
+b_center <- lapply(b, function(x) x - b_mean)
 round(mean(unlist(b_center)))
 #=============================================================================#
 ## TO DO!  
@@ -62,7 +65,7 @@ i  <- rep(1 : I, times = J)
 j  <- rep(1 : J, each = I)
 
 # Function to simulate responses
-simulate_response <- function(theta, alpha, beta) {
+simulate_response <- function(theta, alpha = 1, beta) {
     unsummed <- c(0, alpha * (theta - beta))
     numers <- exp(cumsum(unsummed))
     denom <- sum(numers)
