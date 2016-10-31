@@ -39,15 +39,15 @@ round(mean(b), 3)
 
 
 b <- list(i01 = c(-.3, .2), 
-	      i02 = c(.25),
-	      i03 = c(-.75, -.1, .3),
-	      i04 = c(.4),
-	      i05 = c(-.2, .3, .65), 
-	      i06 = c(1.2),
-	      i07 = c(-1.1),
-	      i08 = c(.1, .7, 1.4),
-	      i09 = c(-1.4, -.9, -.2),
-	      i10 = c(4., .9, 1.5) )
+          i02 = c(.25), 
+          i03 = c(-.75, -.1, .3),
+          i04 = c(.4),
+          i05 = c(-.2, .3, .65), 
+          i06 = c(1.2),
+          i07 = c(-1.1),
+          i08 = c(.1, .7, 1.4),
+          i09 = c(-1.4, -.9, -.2),
+          i10 = c(4., .9, 1.5) )
 
 b_mean <- mean(unlist(b))
 
@@ -77,8 +77,8 @@ simulate_response <- function(theta, alpha = 1, beta) {
 y <- numeric(obs)
 
 for (n in 1 : obs) y[n] <- simulate_response(theta = t[j[n]], 
-	                                         alpha = a[i[n]], 
-	                                         beta = b_center[[i[n]]])
+                                           alpha = a[i[n]], 
+                                           beta = b_center[[i[n]]])
 
 
 
