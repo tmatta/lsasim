@@ -6,10 +6,10 @@
 
 # proportion of each k (should sum to 1)
 
-item_gen <- function(i_num, b_range, a_range = NULL, k_options = 1, k_proportions = NULL){
+item_gen <- function(n_items, b_range, a_range = NULL, k_options = 1, k_proportions = NULL){
 
   #--- Number of items
-  i <- i_num             
+  i <- n_items             
 
   #--- Discrimination parameters
   if (is.null(a_range)) {
@@ -51,28 +51,4 @@ item_gen <- function(i_num, b_range, a_range = NULL, k_options = 1, k_proportion
   return(list(b = b_center, a = a))
 
 }
-
-#=== Some tests ===============================================================#
-#--- Rasch
-item_gen(i_num = 15, 
-         b_range = c(-2, 2))
-
-#--- Rasch partial credit
-item_gen(i_num = 15, 
-         b_range = c(-2, 2),
-         k_options = 1:3, 
-         k_proportions = c(.5, .3, .2))
-
-#-- 2PL
-item_gen(i = 15, 
-         b_range = c(-2, 2),
-         a_range = c(-.5, 1.75))
-
-#--- General partial credit
-item_gen(i = 15, 
-         b_range = c(-2, 2),
-         a_range = c(-.5, 1.75), 
-         k_options = 1:3, 
-         k_proportions = c(.5, .3, .2))
-
 
