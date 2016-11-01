@@ -1,17 +1,16 @@
-response_data <- function(n_subj, n_items, theta, alpha = NULL, beta){
+response_gen <- function(subject, item, theta, alpha = NULL, beta){
 
-  if (is.null(alpha)) alpha <- rep(1, n_items)
-
-  obs <- n_subj * n_items 
-  i  <- rep(1 : n_items, times = n_subj)   # item i
-  j  <- rep(1 : n_subj, each = n_items)    # subject j
+  if (is.null(alpha)) alpha <- rep(1, length(item))
+ 
+  y <- numeric(length(subject))
   
-  y <- numeric(obs)
-  
-  for (n in 1 : obs) y[n] <- simulate_response(theta = theta[j[n]], 
-                                               alpha = alpha[i[n]], 
-                                               beta  = beta[[i[n]]])
+  for (n in 1 : length(subject)) {
+    y[n] <- gpcm_gen(theta = theta[subject[n]], 
+                     alpha = alpha[item[n]], 
+                     beta  = beta[[item[n]]])
+  }
 
-  df <- data.frame(item = i, subject = j, y)
+  df <- data.frame(item = item, subject = subject, response = y)
   return(y = df)
 }
+

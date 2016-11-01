@@ -7,15 +7,15 @@
 #=============================================================================#
 
 
-  # Function to simulate responses
-  simulate_response <- function(theta, alpha = 1, beta) {
-      unsummed <- c(0, alpha * (theta - beta))
-      numers <- exp(cumsum(unsummed))
-      denom <- sum(numers)
-      response_pr <- numers/denom
-      y <- sample(1:length(response_pr) - 1, size = 1, prob = response_pr)
-      return(y)
-  }
+# Function to simulate responses
+gpcm_gen <- function(theta, alpha = 1, beta) {
+  unsummed <- c(0, alpha * (theta - beta))
+  numers <- exp(cumsum(unsummed))
+  denom <- sum(numers)
+  response_pr <- numers/denom
+  y <- sample(1:length(response_pr) - 1, size = 1, prob = response_pr)
+  return(y)
+}
   
 #-----------------------------------------------------------------------------#
 # How the GPCM works:
