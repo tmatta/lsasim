@@ -1,18 +1,18 @@
 
 #=============================================================================#
 ## TO DO!  
-##  Generate betas based on a random number of responses (some will have 2, some will have 3)
+##  Generate bs based on a random number of responses (some will have 2, some will have 3)
 ##    that can also use "known thresholds"
 ##  Simulate data 
 #=============================================================================#
 
 
 # Function to simulate responses
-gpcm_gen <- function(theta, alpha = 1, beta) {
-  unsummed <- c(0, alpha * (theta - beta))
-  numers <- exp(cumsum(unsummed))
-  denom <- sum(numers)
-  response_pr <- numers/denom
+irt_gen <- function(theta, a_par = 1, b_par, c_par = 0) {
+  unsummed <- c(0, a_par * (theta - b_par))
+  num <- exp(cumsum(unsummed))
+  den <- sum(num)
+  response_pr <- c_par + (1 - c_par) * (num / den)
   y <- sample(1:length(response_pr) - 1, size = 1, prob = response_pr)
   return(y)
 }
@@ -22,6 +22,7 @@ gpcm_gen <- function(theta, alpha = 1, beta) {
 #-----------------------------------------------------------------------------#
 
 # unsummed = 0.000000 1.544215 1.369215
+
 # unsummed <- c(0, a[i[1]] * (t[j[1]] - b_center[[i[1]]]))
 
 # numerators = exp( c(0, 0 + 1.544215, 0 + 1.544215 + 1.369215)

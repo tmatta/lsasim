@@ -7,7 +7,17 @@
 # form_length is a number
 # book_design is a matrix
 
-book_gen <- function(n_forms, form_length, book_design){
+book_gen <- function(n_forms, form_length, book_design = NULL){
+
+  # Default book_design matrix
+  if (is.null(book_design)){
+    book_design <- matrix(NA, nrow = n_forms, ncol = 2)
+    spiral <- rep(seq(from = 1, to = n_forms, by = 1), 2)[1:(n_forms + 1)]
+
+    for (i in 1:n_forms) {
+      book_design[i, ] <- spiral[i:(i + 1)]
+    }
+  } 
 
   # Number of items are determined my form length and number of forms
   n_items <- n_forms*form_length
