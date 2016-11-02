@@ -17,12 +17,13 @@ source("R\\test_assembly.R")       # generate response data
 
 
 #=== Small test ===============================================================#
-n_subj   <- 50                  # number of students
-n_vars   <- 15                  # number of questionnaire variables
-n_forms  <- 8                   # number of test forms
-form_len <- 5                   # number of items per form
+n_subj   <- 10000                  # number of students
+n_vars   <- 200                  # number of questionnaire variables
+n_forms  <- 16                   # number of test forms
+form_len <- 10                   # number of items per form
 n_items  <- n_forms * form_len  # number of total items
 
+ptm <- proc.time()
 #--- survey data
 cat_pr1 <- rand_cum_proportions(n_var = n_vars, max_category = 5)
 q1 <- rand_pd_corr(n_var = n_vars)
@@ -47,8 +48,9 @@ datGPCM <- response_gen(subject = test1$item_assign$subj,
                         a_par   = genGPCM$a)
 
 final_data <- merge(surv1, datGPCM, by = "subject")
-str(final_data)
+proc.time() - ptm
 
+str(final_data)
 
 #=== Large Test ===============================================================#
 
