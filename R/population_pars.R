@@ -16,8 +16,16 @@ rand_cum_proportions <- function(n_var, max_category){
   rand_n_cats <- matrix(NA, nrow = n_var) 
   max_pr <- c(.49, .48, .38, .28, .18)
 
+  rand_n_cats[1] <- 1  # make first 1 always. 
+
   for(i in 1: n_var){
+
+    if (i == 1){
+     rand_n_cats[i] <- 1  # make first 1 always. 
+    } else {
     rand_n_cats[i] <- round(runif(1, min = 1, max = max_category))
+    }
+
     rand_pr <- list()
   
     if (rand_n_cats[i] != 1){  

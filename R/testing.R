@@ -2,11 +2,10 @@
 home_dir <- "tylerm"
 setwd(paste0("C:\\Users\\", home_dir, "\\Dropbox\\Research\\ilsasim"))
 
-# home_dir <- "tmatta"
-# setwd(paste0("/Users/", home_dir, "/Dropbox/Research/ilsasim"))
+### EXPLORE TAM
 
 #--- source function ----------------------------------------------------------#
-source("R\\population_pars.R")     # functions to build population parameter for questionnaire_gen 
+source("R\\population_pars.R")     # generate population parameter for questionnaire_gen 
 source("R\\questionnaire_gen.R")   # generate questionnaire data, including theta
 source("R\\item_gen.R")            # generate item parameters (if you don't have your own!)
 source("R\\irt_gen.R")             # generate responses based on theta and item parameters
@@ -14,11 +13,9 @@ source("R\\book_gen.R")            # generate booklet design (can provide your o
 source("R\\response_gen.R")        # generate response data
 source("R\\test_assembly.R")       # generate response data
 
-
-
 #=== Small test ===============================================================#
-n_subj   <- 10000                  # number of students
-n_vars   <- 200                  # number of questionnaire variables
+n_subj   <- 10                  # number of students
+n_vars   <- 20                  # number of questionnaire variables
 n_forms  <- 16                   # number of test forms
 form_len <- 10                   # number of items per form
 n_items  <- n_forms * form_len  # number of total items
@@ -27,6 +24,7 @@ ptm <- proc.time()
 #--- survey data
 cat_pr1 <- rand_cum_proportions(n_var = n_vars, max_category = 5)
 q1 <- rand_pd_corr(n_var = n_vars)
+
 surv1 <- questionnaire(n = n_subj, cat_prop = cat_pr1, cor_matrix = q1)
 
 #--- test_assembly(), all default
@@ -141,3 +139,21 @@ datGPCM <- response_gen(subject = item_assign_l$subj,
 ptm <- proc.time()
 surv1 <- questionnaire(n_subj = n_obs, cat_prop = cat_pr1, cor_matrix = q1)
 proc.time() - ptm
+
+
+
+
+
+
+
+
+
+
+
+mydf <- data.frame(matrix(1:12, ncol = 4))
+colnames(mydf)[2] <- "theta"
+colnames(mydf)[which(colnames(mydf)!="theta")] <- paste0("p", 1:(ncol(mydf)-1))
+
+mydf <- mydf[, c("theta", paste0("p", 1:(length(mydf)-1)))]
+
+sub <- mydata[!(mydata$group %in% c("A", "B", "E", "G")),] 
