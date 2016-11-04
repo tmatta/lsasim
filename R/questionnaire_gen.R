@@ -1,5 +1,7 @@
 
 #--- NOTE:  ASSUMES THE FIRST FLOATING VAR IS THETA IF UNLABELED
+#--- CHECK TO SEE LAST VAR ROUNDS TO INTEGER
+#---  TRY WITH RANDOM 0s in the cululative probabilities. 
 
 #------------------------------------------------------------------------------#
 #--- Create n correlated categorical and continuous variables -----------------#

@@ -1,39 +1,6 @@
 Beta_centered
 beta <- as.vector(t(Beta_centered))
 beta
-theta
-simulate_response <- function(theta, mu, alpha, beta) {#
-    unsummed <- c(0, alpha * (theta + mu - beta))#
-    numerators <- exp(cumsum(unsummed))#
-    denominator <- sum(numerators)#
-    response_probs <- numerators/denominator#
-    simulated_y <- sample(1:length(response_probs) - 1, size = 1, prob = response_probs)#
-    return(simulated_y)#
-}
-simulate_response()
-simulate_response(theta = theta, mu = mu, alpha = alpha, beta = beta)
-data_list <- list(I = I, J = J, N = I * J, ii = rep(1:I, times = J), jj = rep(1:J, #
-    each = I), K = ncol(W), W = W)
-data_list
-data_list$y <- numeric(data_list$N)
-data_list
-for (n in 1:data_list$N) {#
-    data_list$y[n] <- simulate_response(theta[data_list$jj[n]], mu[data_list$jj[n]], #
-        alpha[data_list$ii[n]], Beta_centered[data_list$ii[n], ])#
-}
-data_list
-Beta_uncentered <- matrix(NA, nrow = I, ncol = 2)
-Beta_uncentered[, 1] <- seq(from = -1.5, to = 1.5, length.out = I)
-Beta_uncentered[, 2] <- Beta_uncentered[, 1] + rep(c(0.25, 0.5, 0.75, 1), length.out = I)
-Beta_uncentered
-rep(c(0.25, 0.5, 0.75, 1), length.out = I)
-Beta_uncentered[, 1]
-mean(Beta_uncentered)
-Beta_centered <- Beta_uncentered - mean(Beta_uncentered)
-setwd("$file_path")
-Beta_centered
-beta <- as.vector(t(Beta_centered))
-beta
 t(Beta_centered)
 mean(beta)
 round(mean(beta), 3)
@@ -368,71 +335,143 @@ i <- 10                 # number of items
 a <- runif(i, .75, 1.25) # item discrimination parameter
 k <- sample(x = 1:3, size = i, replace = T, prob = c(.5, .35, .15))
 k
-obs <- 10
-mu <- 0
-sigma <- 2
-dat <- rnorm(n = obs, mu, sigma)
-dat
-var(dat)
-sd(dat)
-hist(dat)
-plot(dat)
-hist(dat)
-getwd()
-home_dir <- "tmatta"
-setwd(paste0("/Users/", home_dir, "/Dropbox/Research/ilsasim"))
-source("R\\item_gen.R")
-source("R\\gpcm_gen.R")
-source("R\\test_gen.R")
-n_forms <- 5
-form_len <- 20
-n_items <- n_forms*form_len
-item_matrix <- matrix(NA, nrow = n_items, ncol = n_forms)
-eq(1, n_items, n_forms )
-esq(1, n_items, n_forms )
-seq(1, n_items, n_forms )
-seq(2, n_items, n_forms )
-seq(3, n_items, n_forms )
-seq(4, n_items, n_forms )
-seq(5, n_items, n_forms )
-form <- seq(1, n_items, n_forms)
-form
-item_matrix[form, k] <-  1
-item_matrix[form, 1] <-  1
-item_matrix
-item_matrix[is.na, 1] <- 0
-item_matrix[which(is.na), 1] <- 0
-item_matrix[is.na(item_matrix), 1] <- 0
-item_matrix[, 1] <- ifelse(is.na(item_matrix[, 1]), 0, item_matrix[, 1])
-item_matrix
-item_matrix <- matrix(NA, nrow = n_items, ncol = n_forms)#
+setwd("Dropbox/Research/ilsasim")
+source("R/population_pars.R")     # generate population parameter for questionnaire_gen #
+source("R/questionnaire_gen.R")   # generate questionnaire data, including theta#
+source("R/item_gen.R")            # generate item parameters (if you don't have your own!)#
+source("R/irt_gen.R")             # generate responses based on theta and item parameters#
+source("R/book_gen.R")            # generate booklet design (can provide your own boo)#
+source("R/response_gen.R")        # generate response data#
+source("R/test_assembly.R")       # generate response data
+n_subj   <- 10                  # number of students#
+n_vars   <- 20                  # number of questionnaire variables#
+n_forms  <- 5                   # number of test forms#
+form_len <- 10                   # number of items per form#
+n_items  <- n_forms * form_len  # number of total items
+cat_pr1 <- rand_cum_proportions(n_var = n_vars, max_category = 3)
+cat_pr1
+cat_pr1 <- rand_cum_proportions(n_var = n_vars, max_category = 3)
+cat_pr1
+q1 <- rand_pd_corr(n_var = n_vars)
+q1
+surv1 <- questionnaire(n = n_subj, cat_prop = cat_pr1, cor_matrix = q1)
+surv1
+runif(1, 0, 0)
+#--- item parameter generation partial credit#
+genGPCM <- item_gen(n_items   = n_items, #
+                    b_bounds  = c(-2, 2),#
+                    a_bounds  = c(-.5, 1.75),#
+                    c_bounds  = c(0, 2), #
+                    k_options = 1:3, #
+                    k_proportions = c(.5, .3, .2))
+genGPCM
+test1
+test1 <- test_assembly(n_subj = n_subj, n_forms = n_forms, form_length = form_len)
+test1
+datGPCM <- response_gen(subject = test1$item_assign$subject, #
+                        item    = test1$item_assign$item, #
+                        theta   = surv1$theta, #
+                        b_par   = genGPCM$b,#
+                        a_par   = genGPCM$a,#
+                        c_per   = genGPCM$c)
+test1$item_assign$subject
+test1$item_assign$item
+surv1$theta
+genGPCM$c
+genGPCM
+genGPCM$a_par
+datGPCM <- response_gen(subject = test1$item_assign$subject, #
+                        item    = test1$item_assign$item, #
+                        theta   = surv1$theta, #
+                        b_par   = genGPCM$b_par,#
+                        a_par   = genGPCM$a_par,#
+                        c_per   = genGPCM$c_par)
+#--- item responses #
+datGPCM <- response_gen(subject = test1$item_assign$subject, #
+                        item    = test1$item_assign$item, #
+                        theta   = surv1$theta, #
+                        b_par   = genGPCM$b_par,#
+                        a_par   = genGPCM$a_par,#
+                        c_par   = genGPCM$c_par)
+datGPCM
+final_data <- merge(surv1, datGPCM, by = "subject")
+str(final_data)
+n <- 20
+frm <- 8
+frm_l <- 5
+itm <- frm*frm_l
+spiral <- c(1,2, 2,3, 3,4, 4,5, 5,6, 6,7, 7,8, 8,1, 1,5, 2,6, 3,7, 4,8)
+books <- matrix(spiral, ncol = 2, byrow = T)
+books
+itm
+test3 <- test_assembly(n_subj = n, n_forms = frm, form_length = frm_l, book_design = books)
+n <- 100
+frm <- 8
+frm_l <- 5
+itm <- frm*frm_l
+spiral <- c(1,2, #
+            2,3, #
+            3,4, #
+            4,5, #
+            5,6, #
+            6,7, #
+            7,8, #
+            8,1, #
+            1,5, #
+            2,6, #
+            3,7, #
+            4,8)
+test3 <- test_assembly(n_subj = n, n_forms = frm, form_length = frm_l, book_design = books)
+test3
+n <- 100
+frm <- 8
+frm_l <- 5
+itm <- frm*frm_l
+spiral <- c(1,2, #
+            2,3, #
+            3,4, #
+            4,5, #
+            5,6, #
+            6,7, #
+            7,8, #
+            8,1, #
+            1,5, #
+            2,6, #
+            3,7, #
+            4,8)#
+books <- matrix(spiral, ncol = 2, byrow = T)
+test3 <- test_assembly(n_subj = n, n_forms = frm, form_length = frm_l, book_design = books)
+head(test3$book_assign)
+test3$items_per_book
+test3 <- test_assembly(n_subj = n, n_forms = frm, form_length = frm_l, book_design = books)
+test3$items_per_book
+theta <- rnorm(n, 0, 1)
+gen1PL <- item_gen(n_items  = itm, #
+                   b_bounds = c(-2, 2))#
+str(gen1PL)
+dat1PL <- response_gen(subject = test3$item_assign$subject, #
+                       item    = test3$item_assign$item, #
+                       theta   = theta, #
+                       b_par   = gen1PL$b_par)
+dat1PL
+gen1PL
+gen2PL <- item_gen(n_items  = itm, #
+                   b_bounds = c(-2, 2),#
+                   a_bounds = c(-.5, 1.75))#
 #
-#--- indicate which items go to which form#
-for (k in 1:n_forms)){#
-  # items in forms x#
-  form <- seq(k, n_items, n_forms)#
-  item_matrix[form, 1] <-  1#
-  item_matrix[, 1] <- ifelse(is.na(item_matrix[, 1]), 0, item_matrix[, 1])#
-}
-#--- empry matrix#
-item_matrix <- matrix(NA, nrow = n_items, ncol = n_forms)#
-#
-#--- indicate which items go to which form#
-for (k in 1:n_forms){#
-  # items in forms x#
-  form <- seq(k, n_items, n_forms)#
-  item_matrix[form, 1] <-  1#
-  item_matrix[, 1] <- ifelse(is.na(item_matrix[, 1]), 0, item_matrix[, 1])#
-}
-item_matrix
-#--- empry matrix#
-item_matrix <- matrix(NA, nrow = n_items, ncol = n_forms)#
-#
-#--- indicate which items go to which form#
-for (k in 1:n_forms){#
-  # items in forms x#
-  form <- seq(k, n_items, n_forms)#
-  item_matrix[form, k] <-  1#
-  item_matrix[, k] <- ifelse(is.na(item_matrix[, k]), 0, item_matrix[, k])#
-}
-item_matrix
+dat2PL <- response_gen(subject = test3$item_assign$subj, #
+                       item    = test3$item_assign$item, #
+                       theta   = theta, #
+                       b_par  = gen2PL$b,#
+                       a_par  = gen2PL$a)
+gen2PL
+genRPCM <- item_gen(n_items       = itm, #
+                    b_bounds      = c(-2, 2),#
+                    k_options     = 1:3, #
+                    k_proportions = c(.5, .3, .2))#
+datRPCM <- response_gen(subject = test3$item_assign$subj, #
+                        item    = test3$item_assign$item, #
+                        theta   = theta, #
+                        b_par   = genRPCM$b,#
+                        a_par   = genRPCM$a)
+genRPCM

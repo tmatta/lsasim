@@ -4,7 +4,7 @@
 test_assembly <- function(n_subj, n_forms, form_length, book_design = NULL, 
                           e = .1, iter = 20){
 
-  booklets <- book_gen(n_forms = n_forms, form_length = form_length, book_design = NULL)
+  booklets <- book_gen(n_forms = n_forms, form_length = form_length, book_design = book_design)
 
   #--- distribute books randomly to subject
   pr_dist <- .2

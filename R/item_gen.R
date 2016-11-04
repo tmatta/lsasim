@@ -1,8 +1,15 @@
-# i_num: number of items
-# a_range: bounds of the discrimination parameters 
+#==============================================================================#
+# Generates item parameters from uniform distribution
+# User specified the bounds of the parameters 
+# Currently, b parameter is constrained to keep partial credit items in range
+#==============================================================================#
+
+# i_num: number of items# 
+# b_bounds: bounds of the difficulty parameter
+# a_bounds: bounds of the discrimination parameters 
+# c_bounds: bounds of the guessing parameter
 # k_options: vector: number of thresholds
-# k_proportions: vector: proportion of each item types
-# b_range:  bounds of the difficulty parameter
+# k_proportions: vector: proportion of each item type
 
 # proportion of each k (should sum to 1)
 
@@ -40,11 +47,12 @@ item_gen <- function(n_items,
     b_i <- list()
   
     if (k[p] != 1){  
-      
-      b_i[[1]] <- runif(1, min = b_bounds[1], max = b_bounds[2])
+      # dividing the b_bounds[2] by 5 helps keep partial credit items from getting too big.
+      b_i[[1]] <- runif(1, min = b_bounds[1], max = (b_bounds[2] * 0.2)) 
       
       for (j in 2 : k[p]){
-        b_i[[j]] <- b_i[[(j - 1)]] + runif(1, min = b_bounds[1] + .5, max = (b_bounds[2] / 2))
+        d <- runif(1, min = .1, max = (b_bounds[2] * 0.8))  # must be positive
+        b_i[[j]] <- b_i[[(j - 1)]] + d
       }
     
     } else {
