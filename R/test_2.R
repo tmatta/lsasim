@@ -40,8 +40,8 @@ gen1PL <- item_gen(n_items  = n_items,
                    b_bounds = c(-2, 2))
 
 #--- Generate item responses 
-dat1PL <- response_gen(subject = test3$item_assign$subject, 
-                       item    = test3$item_assign$item, 
+dat1PL <- response_gen(subject = test2$item_assign$subject, 
+                       item    = test2$item_assign$item, 
                        theta   = theta, 
                        b_par   = gen1PL$b_par)
 
@@ -55,8 +55,8 @@ genRPCM <- item_gen(n_items       = n_items,
                     k_proportions = c(.5, .3, .2))
 
 #--- Generate item responses 
-datRPCM <- response_gen(subject = test3$item_assign$subj, 
-                        item    = test3$item_assign$item, 
+datRPCM <- response_gen(subject = test2$item_assign$subj, 
+                        item    = test2$item_assign$item, 
                         theta   = theta, 
                         b_par   = genRPCM$b_par,
                         a_par   = genRPCM$a_par)
@@ -69,8 +69,8 @@ gen2PL <- item_gen(n_items  = n_items,
                    a_bounds = c(-.5, 1.75))
 
 #--- Generate item responses 
-dat2PL <- response_gen(subject = test3$item_assign$subj, 
-                       item    = test3$item_assign$item, 
+dat2PL <- response_gen(subject = test2$item_assign$subj, 
+                       item    = test2$item_assign$item, 
                        theta   = theta, 
                        b_par   = gen2PL$b_par,
                        a_par   = gen2PL$a_par)
@@ -84,8 +84,8 @@ gen3PL <- item_gen(n_items  = n_items,
                    c_bounds = c(0, 2))
 
 #--- Generate item responses 
-dat3PL <- response_gen(subject = test3$item_assign$subj, 
-                       item    = test3$item_assign$item, 
+dat3PL <- response_gen(subject = test2$item_assign$subj, 
+                       item    = test2$item_assign$item, 
                        theta   = theta, 
                        b_par   = gen3PL$b_par,
                        a_par   = gen3PL$a_par,
@@ -101,8 +101,8 @@ genGPCM <- item_gen(n_items   = n_items,
                     k_proportions = c(.5, .3, .2))
 
 #--- Generate item responses 
-datGPCM <- response_gen(subject = test3$item_assign$subj, 
-                        item    = test3$item_assign$item, 
+datGPCM <- response_gen(subject = test2$item_assign$subj, 
+                        item    = test2$item_assign$item, 
                         theta   = theta, 
                         b_par   = genGPCM$b_par,
                         a_par   = genGPCM$a_par)
