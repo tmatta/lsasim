@@ -23,7 +23,9 @@ source("R\\test_assembly.R")       # generate response data
 
 #=== Parameters ===============================================================#
 n_subj   <- 10                  # number of students
-n_vars   <- 20                  # number of questionnaire variables
+resp_typs <- c(1, 3, 5)
+n_typs <- c(1, 5, 5)
+n_vars   <- length(rep(resp_typs, n_typs))  # number of questionnaire variables
 n_forms  <- 5                   # number of test forms
 form_len <- 10                  # number of items per form
 n_items  <- n_forms * form_len  # number of total items
@@ -31,15 +33,14 @@ n_items  <- n_forms * form_len  # number of total items
 #=== Survey data ==============================================================#
 
 #--- Generate marginal probabilities 
-cat_pr1 <- rand_cum_proportions(n_var = n_vars, 
-                                cat_options = 2:3, 
-                                cat_proportions = c(.75, .25))
+cat_pr1 <- gen_proportions(cat_options = resp_typs, 
+                           n_cat_options = n_typs)
 
 #--- Generate correlation matrix 
 q1 <- rand_pd_corr(n_var = n_vars)
 
 #--- Generate questionnaire data 
-surv1 <- questionnaire(n = n_subj, cat_prop = cat_pr1, cor_matrix = q1)
+surv1 <- questionnaire(n = n_subj, cat_prop = cat_pr1, cor_matrix = q1, theta = TRUE)
 
 
 #=== Cognitive data ===========================================================#

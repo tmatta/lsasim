@@ -1,10 +1,23 @@
 
 # depends on booklets()
 
-test_assembly <- function(n_subj, n_forms, form_length, book_design = NULL, 
+test_assembly <- function(n_subj, n_forms = 1, form_length, 
+                          book_design = NULL, 
                           e = .1, iter = 20){
 
   booklets <- book_gen(n_forms = n_forms, form_length = form_length, book_design = book_design)
+
+  #if (n_forms > 2){
+  #  booklets <- book_gen(n_forms = n_forms, form_length = form_length, book_design = book_design)
+  #} else {
+  #  booklets <- lapply(1:n_forms, function(x){ 
+  #                              seq(from = ((form_len[x] * x) - form_len[x] + 1), 
+  #                                  to = (form_len[x] * x), 
+  #                                  by = 1)
+  #                            }
+  #                  )
+  #
+  #}
 
   #--- distribute books randomly to subject
   pr_dist <- .2
@@ -20,7 +33,7 @@ test_assembly <- function(n_subj, n_forms, form_length, book_design = NULL,
     if (x < iter) {
        cat("iteration ", x, " difference in booklet distribution ", pr_dist, "\n" )  
     } else if (x == iter){
-       cat("iteration ", x, " difference in booklet distributio ", pr_dist, "\n 
+       cat("iteration ", x, " difference in booklet distribution ", pr_dist, "\n 
              Sampling terminated \n" )
        break
      }

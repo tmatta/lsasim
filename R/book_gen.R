@@ -1,5 +1,5 @@
 #==============================================================================#
-# Fucntion to create booklet design
+# Function to create booklet design
 # Results in a list of vectors containing the item numbers associated with that booklet
 #==============================================================================#
 
@@ -8,6 +8,8 @@
 # book_design is a matrix
 
 book_gen <- function(n_forms, form_length, book_design = NULL){
+
+  if (n_forms <= 2 & is.null(book_design)) stop("Default booklet assembly requires more than 2 forms", call. = FALSE)
 
   # Default book_design matrix
   if (is.null(book_design)){
@@ -23,10 +25,10 @@ book_gen <- function(n_forms, form_length, book_design = NULL){
   n_items <- n_forms*form_length
 
   #--- Can add an extra row of 1s to link all forms.
-  #--- empry matrix
+  #--- empty matrix
   item_matrix <- matrix(NA, nrow = n_items, ncol = n_forms)
 
-  #--- Balanced incomplete deisgn 
+  #--- Balanced incomplete design 
   for (k in 1:n_forms){
     # items in forms x
     form <- seq(k, n_items, n_forms)

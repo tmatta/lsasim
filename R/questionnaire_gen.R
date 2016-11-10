@@ -6,7 +6,7 @@
 #------------------------------------------------------------------------------#
 #--- Create n correlated categorical and continuous variables -----------------#
 
-questionnaire <- function(n_subj, cat_prop, cor_matrix){
+questionnaire <- function(n_subj, cat_prop, cor_matrix, theta = FALSE){
 # n is the number of observations
 # cat_prop is a list() with a vector of cumulative probabilities ending with 1
 # cor_matrix is a correlation matrix
@@ -51,19 +51,30 @@ questionnaire <- function(n_subj, cat_prop, cor_matrix){
   }  
 
   discrete_df <- data.frame(discrete_dat)
+  if (any(discrete_df %% 1 != 0) & theta == TRUE){
+    stop("Cannot assign theta, all data are discrete", call. = FALSE)
+  }
 
   #--- If the list cat_prop is not labeld, give it labels q1, ..., qX
   if (is.null(names(cat_prop))) {
   
-    # Call first non-integer variable theta. 
-    colnames(discrete_df)[which(discrete_df[1, ]%%1 != 0)[1]] <- "theta"
+    if (theta == TRUE){
 
-    xtra_cols <- paste0("p", 1:(ncol(discrete_df)-1) )
+      #  Call first non-integer variable theta. 
+      colnames(discrete_df)[which(discrete_df[1, ] %% 1 != 0)[1]] <- "theta"
+      xtra_cols <- paste0("p", 1:(ncol(discrete_df)-1) )
+      colnames(discrete_df)[which(colnames(discrete_df) != "theta")] <- xtra_cols
+      discrete_df$subject <- 1:nrow(discrete_df)
+      discrete_df <- discrete_df[, c("subject", "theta", xtra_cols)]
 
-    colnames(discrete_df)[which(colnames(discrete_df)!="theta")] <- xtra_cols
-    
-    discrete_df$subject <- 1:nrow(discrete_df)
-    discrete_df <- discrete_df[, c("subject", "theta", xtra_cols)]
+    } else {
+
+      xtra_cols <- paste0("p", 1:(ncol(discrete_df)) )
+      colnames(discrete_df) <- xtra_cols
+      discrete_df$subject <- 1:nrow(discrete_df)
+      discrete_df <- discrete_df[, c("subject", xtra_cols)]
+
+    }
   
   } else {
   
