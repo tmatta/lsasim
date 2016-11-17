@@ -1,3 +1,17 @@
+#'
+#' Generate the matrix sampling design
+#' 
+#' An internal function used in \code{test_assembly} that assigns item numbers to booklets
+#' 
+#' If \code{n_forms} is greater than 2 and \code{is.null(book_design)} is true, booklets are built
+#' using a spiraling design. If \code{n_forms} is less than or equal to 2 then \code{book_design} 
+#' must be specified,  
+#' 
+#' @inheritParams test_assembly
+#' 
+#' @return A list of vectors containing the item numbers.  Each vector in the list is a booklet. 
+
+
 #==============================================================================#
 # Function to create booklet design
 # Results in a list of vectors containing the item numbers associated with that booklet

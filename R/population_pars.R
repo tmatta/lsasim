@@ -2,7 +2,7 @@
 
 rand_pd_corr <- function(n_var){ 
   #--- random pos-semi-def corr matrix
-  R <- matrix(runif(n_var*n_var), ncol=n_var) 
+  R <- matrix(runif(n_var*n_var, -1, 1), ncol=n_var) 
   RxR <- R %*% t(R) 
   Q <- cov2cor(RxR) 
   return(Q)

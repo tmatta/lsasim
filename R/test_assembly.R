@@ -1,23 +1,23 @@
-
-# depends on booklets()
+#'
+#' Assign test items to subjects
+#' 
+#' \code{test_assembly} uses a resampling procedure to try to reduce the difference in
+#' booklet coverage.  \code{e} is defined as max(pr) - min(pr) where max(pr) is the proprtion of individuals
+#' who have been assigned to the most used booklet and min(pr) is the proportion of indivudials who
+#' have been assigned the least used booklet.  The default it .1 meaning at most a 10 percent difference,
+#' 
+#' @param n_subj the number of subjects
+#' @param n_forms the number of forms used to create the booklets
+#' @param form_length the number of items per form
+#' @param book_design a matrix that describes how the test forms should be combined
+#' @param e stopping criteria for booklet sampling
+#' @param iter the maximum number of times the booklets will be resampled
 
 test_assembly <- function(n_subj, n_forms = 1, form_length, 
                           book_design = NULL, 
                           e = .1, iter = 20){
 
   booklets <- book_gen(n_forms = n_forms, form_length = form_length, book_design = book_design)
-
-  #if (n_forms > 2){
-  #  booklets <- book_gen(n_forms = n_forms, form_length = form_length, book_design = book_design)
-  #} else {
-  #  booklets <- lapply(1:n_forms, function(x){ 
-  #                              seq(from = ((form_len[x] * x) - form_len[x] + 1), 
-  #                                  to = (form_len[x] * x), 
-  #                                  by = 1)
-  #                            }
-  #                  )
-  #
-  #}
 
   #--- distribute books randomly to subject
   pr_dist <- .2

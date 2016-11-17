@@ -1,18 +1,38 @@
 
-#--- NOTE:  ASSUMES THE FIRST FLOATING VAR IS THETA IF UNLABELED
-#--- CHECK TO SEE LAST VAR ROUNDS TO INTEGER
-#---  TRY WITH RANDOM 0s in the cululative probabilities. 
-
-#------------------------------------------------------------------------------#
-#--- Create n correlated categorical and continuous variables -----------------#
-
-questionnaire <- function(n_subj, cat_prop, cor_matrix, theta = FALSE){
-# n is the number of observations
-# cat_prop is a list() with a vector of cumulative probabilities ending with 1
-# cor_matrix is a correlation matrix
+#' Generation of discrete and continuous variables 
+#'
+#' Creates a \code{data.frame} of discrete and continuous variables based on 
+#' an latent correlation matrix and marginal proportions.  
+#'
+#' \itemize{
+#'   \item \code{cat_prop} is a list where \code{length(cat_prop)} is the number of
+#'         items to be generated.  Each element of the list is a vector containing 
+#'         the marginal cumulative proportions for each category, summing to 1.  For
+#'         continuous items, the associated element in the list should be 1. 
+#'   \item \code{cor_matrix} is correlation matrix that is the same size as 
+#'         \code{length(cat_prop)}.  The correlations related to the correlation 
+#'         between variables on the latent scale. 
+#'   \item \code{theta} is a logical indicator that determines if the first continuous 
+#'         item should be labeled \emph{theta}. If \code{theta = TRUE} but there are no
+#'         continuous variables generated, an error will be returned.    
+#' }
+#' If \code{cat_prop} is a named list, those names will be used as variable names 
+#' for the returned \code{data.frame}.  If \code{cat_prop} is not named and then
+#' generic names will be provided to the variables.  
+#' 
+#' @param n_obs number of observations to generate
+#' @param cat_prop list of cumulative proportions for each item
+#' @param cor_matrix latent correlation matrix
+#' @param theta if \code{TRUE} will labeled the first continuous variable 'theta'
+#' 
+#' @examples
+#' questionnaire(n = 10, cat_prop = list(c(1), c(.25, .6, 1)), 
+#'              cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2), theta = TRUE)
+#' 
+questionnaire <- function(n_obs, cat_prop, cor_matrix, theta = FALSE){
 
 #--- Load functions -----------------------------------------------------------#
-  #--- generates data from num_x indpendent standard normals
+  #--- generates data from num_x independent standard normals
   mvsn <- function(n, num_x){
     uncor_mat <- matrix(NA, nrow = n, ncol = num_x)
     for (i in 1:num_x) uncor_mat[, i] <- rnorm(n, 0, 1)
@@ -22,7 +42,7 @@ questionnaire <- function(n_subj, cat_prop, cor_matrix, theta = FALSE){
 #------------------------------------------------------------------------------#
   #--- Generate uncorrelated standard normals   
   n_vars <- length(cat_prop)
-  uncor_dat <- mvsn(n = n_subj, num_x = n_vars)
+  uncor_dat <- mvsn(n = n_obs, num_x = n_vars)
 
   #--- Correlate data
   chol_cor_matrix <- chol(cor_matrix)
@@ -54,11 +74,11 @@ questionnaire <- function(n_subj, cat_prop, cor_matrix, theta = FALSE){
   }  
 
   discrete_df <- data.frame(discrete_dat)
-  if (any(discrete_df %% 1 != 0) & theta == TRUE){
+  if (all(discrete_df %% 1 != 0) & theta == TRUE){
     stop("Cannot assign theta, all data are discrete", call. = FALSE)
   }
 
-  #--- If the list cat_prop is not labeld, give it labels q1, ..., qX
+  #--- If the list cat_prop is not labeled, give it labels q1, ..., qX
   if (is.null(names(cat_prop))) {
   
     if (theta == TRUE){
