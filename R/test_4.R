@@ -6,14 +6,14 @@
 #--- Set directory ------------------------------------------------------------#
 
 #--- Windows
-setwd("Dropbox\\Research\\ilsasim")
+setwd("Dropbox/Research/ilsasim")
 
 #--- OSX
 # setwd("Dropbox/Research/ilsasim")
 
 #--- Source function ----------------------------------------------------------#
-source("R\\population_pars.R")     # generate population parameter for questionnaire_gen 
-source("R\\questionnaire_gen.R")   # generate questionnaire data, including theta
+source("R/population_pars.R")     # generate population parameter for questionnaire_gen 
+source("R/questionnaire_gen.R")   # generate questionnaire data, including theta
 
 #=== Parameters ===============================================================#
 n_subj   <- 10                              # number of students
@@ -52,21 +52,6 @@ questionnaire(n = n_subj, cat_prop = cat_pr2, cor_matrix = q2, theta = TRUE)
 
 table(surv1[, 20])
 #=== Speed tests ==============================================================#
-
-
-
-
-
-
-
-
-
-
-min(.99, rbeta(1, 2, 2) + rbeta(1, 2, 2))
-
-
-plot(dbeta(x = seq(from = 0, to = 1, by = .01), 15, 1), type = "l")
-plot(dbeta(x = seq(from = 0, to = 1, by = .01), 1, 15), type = "l")
 
 
 

@@ -34,14 +34,17 @@ questionnaire <- function(n_subj, cat_prop, cor_matrix, theta = FALSE){
   #--- which variables are discrete
   discrete_var <- which(n_cats > 1)
 
-  #--- Replace cumulative pr = 1 with .9999 for computation
-  cat_prop <- lapply(cat_prop[discrete_var], function(x) ifelse(x == 1, .9999, x))
+  #--- Replace cumulative pr = 1 with .999999 for computation
+  cat_prop <- lapply(cat_prop[discrete_var], function(x) ifelse(x == 1, (1 - 1e-7), x))
   
   #--- Find thresholds assuming standard normal
   var_thresholds <- lapply(cat_prop, function(x) qnorm(x, 0, 1))
 
   #--- Coarsen variables based on thresholds
   discrete_dat <- cor_dat
+
+  #--- place an upper limit on the z score so that it will not exceed the upper threshold
+  discrete_dat[discrete_dat > 5.6] <- 5.6 
 
   for (i in 1:length(discrete_var)) {
     for (j in rev(1:length(var_thresholds[[i]]))) {
