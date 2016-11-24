@@ -9,13 +9,11 @@ Overall aim: to simulate data that mimics large-scale assessments, including bac
   - Enable user to specify varying block\cluster lengths. 
   - Enable user to specify varying blocks\clusters per booklet. 
 
-* For questionnaire_gen.R
-  - Resulting categorical vars should be factors
-  - How to handle random zeros 
-
 * For item_gen and book_gen
   - Enable users to input data frame with a b c d1 ... dk parameters
+  - Specify specific number of items for each item type
 
+* Create a booklet difficulty function
 
 ## Authors
 

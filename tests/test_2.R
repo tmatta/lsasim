@@ -6,17 +6,17 @@
 #--- Set directory ------------------------------------------------------------#
 
 #--- Windows
-setwd("Dropbox\\Research\\ilsasim")
+setwd("Dropbox/Research/ilsasim")
 
 #--- OSX
 setwd("Dropbox/Research/ilsasim")
 
 #--- Source function ----------------------------------------------------------#
-source("R\\book_gen.R")            # generate booklet design
-source("R\\test_assembly.R")       # generate response data
-source("R\\irt_gen.R")             # generate responses based on theta and item parameters
-source("R\\item_gen.R")            # generate item parameters 
-source("R\\response_gen.R")        # generate response data
+source("R/book_gen.R")            # generate booklet design
+source("R/test_assembly.R")       # generate response data
+source("R/irt_gen.R")             # generate responses based on theta and item parameters
+source("R/item_gen.R")            # generate item parameters 
+source("R/response_gen.R")        # generate response data
 
 
 #=== Parameters ===============================================================#

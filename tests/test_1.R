@@ -5,21 +5,18 @@
 #==============================================================================#
 
 #--- Set directory ------------------------------------------------------------#
+set.seed(5656)
 
-#--- Windows
-setwd("Dropbox\\Research\\ilsasim")
-
-#--- OSX
 setwd("Dropbox/Research/ilsasim")
 
 #--- Source function ----------------------------------------------------------#
-source("R\\population_pars.R")     # generate population parameter for questionnaire_gen 
-source("R\\questionnaire_gen.R")   # generate questionnaire data, including theta
-source("R\\item_gen.R")            # generate item parameters (if you don't have your own!)
-source("R\\irt_gen.R")             # generate responses based on theta and item parameters
-source("R\\book_gen.R")            # generate booklet design (can provide your own boo)
-source("R\\response_gen.R")        # generate response data
-source("R\\test_assembly.R")       # generate response data
+source("R/population_pars.R")     # generate population parameter for questionnaire_gen 
+source("R/questionnaire_gen.R")   # generate questionnaire data, including theta
+source("R/item_gen.R")            # generate item parameters (if you don't have your own!)
+source("R/irt_gen.R")             # generate responses based on theta and item parameters
+source("R/book_gen.R")            # generate booklet design (can provide your own boo)
+source("R/response_gen.R")        # generate response data
+source("R/test_assembly.R")       # generate response data
 
 #=== Parameters ===============================================================#
 n_subj   <- 10                  # number of students
@@ -46,13 +43,17 @@ surv1 <- questionnaire(n = n_subj, cat_prop = cat_pr1, cor_matrix = q1, theta = 
 #=== Cognitive data ===========================================================#
 
 #--- Generate test assembly
-test1 <- test_assembly(n_subj = n_subj, n_forms = n_forms, form_length = form_len)
+#-- change form to blocks of items 
+# unbalanced blocks
+# balanced difficulty check.
+test1 <- test_assembly(n_subj = n_subj, n_forms = n_forms, form_length = form_len, e =.05, iter = 100)
 
 #--- Generate item parameters (generalized partial credit / 3PL)
+# hard code number of items per option
 genGPCM <- item_gen(n_items   = n_items, 
                     b_bounds  = c(-2, 2),
-                    a_bounds  = c(-.5, 1.75),
-                    c_bounds  = c(0, 1), 
+                    a_bounds  = c(-.75, 1.25),
+                    c_bounds  = c(0, .25), 
                     k_options = 1:3, 
                     k_proportions = c(.5, .3, .2))
 
@@ -64,6 +65,7 @@ datGPCM <- response_gen(subject = test1$item_assign$subject,
                         a_par   = genGPCM$a_par,
                         c_par   = genGPCM$c_par)
 
+# book number in final output
 #=== Combine Survey data and Cognitive data ===================================#
 final_data <- merge(surv1, datGPCM, by = "subject")
 

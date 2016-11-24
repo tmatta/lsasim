@@ -1,94 +1,134 @@
 #==============================================================================#
 # test_4.R
-# This syntax utilizes the default settings to generate backgroud data
+# This syntax tests the functionality of the questionnaire() function
 #==============================================================================#
 
 #--- Set directory ------------------------------------------------------------#
-
-#--- Windows
 setwd("Dropbox/Research/ilsasim")
 
-#--- OSX
-# setwd("Dropbox/Research/ilsasim")
+set.seed(5656)
+options(width = 100)
 
 #--- Source function ----------------------------------------------------------#
-source("R/population_pars.R")     # generate population parameter for questionnaire_gen 
-source("R/questionnaire_gen.R")   # generate questionnaire data, including theta
+source("R/population_pars.R")   # generate population parameter for questionnaire() 
+source("R/questionnaire_gen.R") # generate questionnaire data, including theta
 
 #=== Parameters ===============================================================#
-n_subj   <- 10                              # number of students
+n_subj    <- 10                              # number of students
 resp_typs <- c(1, 3, 5)
-n_typs <- c(6, 2, 2)
-n_vars   <- length(rep(resp_typs, n_typs))  # number of questionnaire variables
+n_typs    <- c(6, 2, 2)
+n_vars    <- length(rep(resp_typs, n_typs))  # number of questionnaire variables
 
 #==============================================================================#
-#=== Test 1 ===================================================================#
+#=== Test 1: theta argument when a continuous outcome is present ==============#
+
 #--- Generate marginal proportions 
-cat_pr1 <- NULL
-cat_pr1 <- gen_proportions(cat_options = resp_typs, 
-                           n_cat_options = n_typs)
+cat_pr <- NULL
+cat_pr <- gen_proportions(cat_options = resp_typs, n_cat_options = n_typs)
 
 #--- Generate correlation matrix 
-(q1 <- round(rand_pd_corr(n_var = 4),2))
+q <- NULL
+q <- rand_pd_corr(n_var = n_vars)
+
+#--- Generate questionnaire data, default theta
+questionnaire(n = n_subj, cat_prop = cat_pr, cor_matrix = q)
+
+#--- Generate questionnaire data, theta = TRUE
+questionnaire(n = n_subj, cat_prop = cat_pr, cor_matrix = q, theta = TRUE)
+
+#--- Generate questionnaire data, theta = FALSE (explicit)
+questionnaire(n = n_subj, cat_prop = cat_pr, cor_matrix = q, theta = FALSE)
 
 
-names(cat_pr1)
-#--- Generate questionnaire data 
+#==============================================================================#
+#=== Test 2: rescaling continuous variables ===================================#
+
+source("R/questionnaire_gen.R") # generate questionnaire data, including theta
+
+n_subj    <- 100                             # number of students
+resp_typs <- c(1, 3)
+n_typs    <- c(6, 2)
+n_vars    <- length(rep(resp_typs, n_typs))  # number of questionnaire variables
+
+
+#--- Generate marginal proportions 
+cat_pr <- NULL
+cat_pr <- gen_proportions(cat_options = resp_typs, n_cat_options = n_typs)
+
+#--- Generate correlation matrix 
+q <- NULL
+q <- rand_pd_corr(n_var = n_vars)
+
+#--- Generate questionnaire data, default theta
+t2 <- questionnaire(n = n_subj, cat_prop = cat_pr, cor_matrix = q, 
+  c_mean = c(1, 2, 3, 4, 5, 6), c_sd = c(1, 1.5, 2, 2.5, 3, 3.5))
+
+colMeans(t2[, 2:7])
+apply(t2[, 2:7], 2, sd)
+
+round(cor(t2[, 2:7]) - q[1:6, 1:6], 3)
+
+#--- Generate questionnaire data, theta = TRUE
 questionnaire(n = n_subj, cat_prop = cat_pr1, cor_matrix = q1, theta = TRUE)
 
+#--- Generate questionnaire data, theta = FALSE (explicit)
 questionnaire(n = n_subj, cat_prop = cat_pr1, cor_matrix = q1, theta = FALSE)
 
+
 #==============================================================================#
-#=== Test 2 ===================================================================#
-#--- Generate marginal probabilities 
-cat_pr2 <- gen_proportions(cat_options = 2, 
-                           n_cat_options = 10)
+#=== Test 3: theta argument when no continuous outcomes are present ===========#
+
+#--- Generate marginal probabilities, only discrete variables 
+cat_pr <- NULL
+cat_pr <- gen_proportions(cat_options = 2, n_cat_options = n_vars)
 
 #--- Generate correlation matrix 
-q2 <- rand_pd_corr(n_var = 10)
+q <- NULL
+q <- rand_pd_corr(n_var = n_vars)
 
-#--- Generate questionnaire data 
-questionnaire(n = n_subj, cat_prop = cat_pr2, cor_matrix = q2, theta = FALSE)
-questionnaire(n = n_subj, cat_prop = cat_pr2, cor_matrix = q2, theta = TRUE)
+#--- Generate questionnaire data, default theta
+questionnaire(n = 10, cat_prop = cat_pr, cor_matrix = q, theta = FALSE)
 
-table(surv1[, 20])
-#=== Speed tests ==============================================================#
-
-matrix(c(1, .6, .6, 1), nrow = 2)
-
-questionnaire(n = 5, cat_prop = list(c(1), c(.25, .6, 1)), 
-              cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2), theta = TRUE)
-
-ptm <- proc.time()
-# CODE HERER
-proc.time() - ptm
+#--- Generate questionnaire data, theta = TRUE
+questionnaire(n = 10, cat_prop = cat_pr, cor_matrix = q, theta = TRUE)
+# 11/24/2016: works:
+# Error: Cannot assign theta, all data are discrete
 
 
+#==============================================================================#
+#=== Test 4: named lists ======================================================#
+
+#--- Generate marginal probabilities 
+cat_pr <- NULL
+cat_pr <- gen_proportions(cat_options = resp_typs, n_cat_options = n_typs)
+names(cat_pr)[1] <- "var1"
+names(cat_pr)[4] <- "var4"
+names(cat_pr)[7] <- "var7"
+
+#--- Generate correlation matrix 
+q <- NULL
+q <- rand_pd_corr(n_var = n_vars)
+
+#--- Generate questionnaire data
+questionnaire(n = 10, cat_prop = cat_pr, cor_matrix = q)
+
+#--- Generate questionnaire data with named list when theta = TRUE
+questionnaire(n = 10, cat_prop = cat_pr, cor_matrix = q, theta = TRUE)
+# 11/24/2016: works.  Ignores theta = TRUE. 
 
 
-(q1 <- round(rand_pd_corr(n_var = 4),2))
-df <- questionnaire(n = 50, 
-                    cat_prop = list(c(1), 
-                                    c(1),
-                                    c(.25, .6, .8, 1),
-                                    c(.45, 1)), 
-                    cor_matrix = q1)
+#==============================================================================#
+#=== Test 5: floating zeros ===================================================#
 
-df$p1 <- round((df$p1 * 10) + 50, 2)
-df$p2 <- round((df$p2 * 15) + 50, 2)
-df$p3 <- factor(df$p3, levels = c(1, 2, 3, 4), labels = c("strongly disagree", "disagree", "agree", "strongly agree"))
-df$p4 <- factor(df$p4, levels = c(1, 2), labels = c("male", "female"))
+#--- Generate marginal probabilities 
+cat_pr <- NULL
+cat_pr <- gen_proportions(cat_options = 10, n_cat_options = 3)
 
-write.csv2(df, file = "finals_data.csv", row.names = FALSE)
+#--- Generate correlation matrix 
+q <- NULL
+q <- rand_pd_corr(n_var = 3)
 
-mean(df$p1)
-sd(df$p1)
-
-mean(df$p2)
-sd(df$p2)
-
-cor(df$p1, df$p2)
-table(df$p3, df$p4)
-
-summary(df$p1[which(df$p4 == "female")])
-summary(df$p1[which(df$p4 == "male")])
+#--- Generate questionnaire datat
+t5 <- questionnaire(n = 25, cat_prop = cat_pr, cor_matrix = q)
+table(t5[, 2])
+# works

@@ -4,16 +4,12 @@
 #==============================================================================#
 
 #--- Set directory ------------------------------------------------------------#
-
-#--- Windows
-setwd("Dropbox\\Research\\ilsasim")
-
-#--- OSX
 setwd("Dropbox/Research/ilsasim")
 
+
 #--- Source function ----------------------------------------------------------#
-source("R\\book_gen.R")            # generate booklet design
-source("R\\test_assembly.R")       # generate response data
+source("R/book_gen.R")            # generate booklet design
+source("R/test_assembly.R")       # generate response data
 
 #=== Test 3.1 =================================================================#
 #--- User defined booklet assembly 

@@ -1,0 +1,2379 @@
+proj_dir <- "Dropbox/AP_design/resources/beamer/"
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 8, height = 2)#
+#--- Predicted means#
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 232, line = -.7, las = 2, cex = 1, col = "grey20") #
+dev.off()
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
+#--- Predicted means#
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 232, line = -.7, las = 2, cex = 1, col = "grey20") #
+dev.off()
+?pos
+??pos
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 232, line = 0, las = 2, cex = 1, col = "grey20", pos = 2)
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
+#--- Predicted means#
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 232, line = 0, las = 2, cex = 1, col = "grey20", pos = 2) #
+dev.off()
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
+#--- Predicted means#
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 2325, line = 0, las = 2, cex = 1, col = "grey20", pos = 2) #
+dev.off()
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
+#--- Predicted means#
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", pos = 2) #
+dev.off()
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+mtext(seq(from = 190, to = 230, by = 10), side=2, axes = FALSE, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", pos = 2)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50", axes = FALSE)#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", pos = 2)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+#box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50", axes = FALSE)#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", pos = 2)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+#box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50", axis = FALSE)#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20")
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
+#--- Predicted means#
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+#box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", pos = 2) #
+dev.off()
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
+#--- Predicted means#
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", pos = 2) #
+dev.off()
+?mtext
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
+#--- Predicted means#
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", adj = 2) #
+dev.off()
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", adj = 1)
+?adj
+#--- Predicted means#
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", adj = 0)
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
+#--- Predicted means#
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", adj = 0) #
+dev.off()
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
+#--- Predicted means#
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+#--- x-axis#
+axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+#--- y-axis#
+axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+mtext(seq(from = 190, to = 230, by = 10), side=2, #
+      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", adj = 1) #
+dev.off()
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(NULL, bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "")#
+points(y = df_m$y, x = df_m$gs, ch = 16, col = "grey70")#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+plot(NULL, bty="n", xlim = (3, 8), ylim = (180, 240), xaxt="n", yaxt = "n", xlab = "", ylab = "")#
+points(y = df_m$y, x = df_m$gs, ch = 16, col = "grey70")#
+plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
+box(col="grey50")#
+abline(v = 4:8, lty = 2, col = "grey50")#
+lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = (3, 8), ylim = (180, 240), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 4:8, lty = 2, col = "grey50")
+par(mar = c(2.5, 2.5, 1.5, 1))
+plot(NULL, xlim = (3, 8), ylim = (180, 240), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")
+box(col="grey50")
+plot(NULL, xlim = (3, 8), ylim = (180, 240), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")
+plot(NULL, xlim = c(3, 8), ylim = c(180, 240), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")
+box(col="grey50")
+abline(v = 4:8, lty = 2, col = "grey50")
+abline(v = 3:8, lty = 2, col = "grey50")
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 8), ylim = c(180, 240), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:8, lty = 2, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, ch = 16, col = "grey70")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", adj = 1) #
+dev.off()
+#--- m2 Predicted means -------------------------------------------------------##
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 8), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:8, lty = 2, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, ch = 16, fill = "grey70")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", adj = 1) #
+dev.off()
+?points
+#--- m2 Predicted means -------------------------------------------------------##
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 8), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:8, lty = 2, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, ch = 16, bg = "grey70")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", adj = 1) #
+dev.off()
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 8), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:8, lty = 5, col = "grey50")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 8), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:8, lty = 3, col = "grey50")
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 8), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:8, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey70")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", adj = 1) #
+dev.off()
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:8, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey70")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", adj = 1) #
+dev.off()
+#--- m2 Predicted means -------------------------------------------------------##
+pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey70")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", adj = 1) #
+dev.off()
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$m2_resid, x = df_m$gs, pch = 16, bg = "grey70")#
+#
+points(y = m2_resid, x = df_m$gs)#
+abline(v = 4:8, lty = 2, col = "Grey75")#
+lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)])#
+lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)])#
+lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)])#
+lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)])#
+lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)])#
+lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$m2_resid, x = df_m$gs, pch = 16, bg = "grey70")#
+#
+lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)])#
+lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)])#
+lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)])#
+lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)])#
+lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)])#
+lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-3, 3), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$m2_resid, x = df_m$gs, pch = 16, bg = "grey70")#
+#
+lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)])#
+lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)])#
+lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)])#
+lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)])#
+lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)])#
+lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-5, 5), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$m2_resid, x = df_m$gs, pch = 16, bg = "grey70")#
+#
+lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)])#
+lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)])#
+lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)])#
+lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)])#
+lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)])#
+lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-5, 5), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey70")#
+#
+lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)])#
+lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)])#
+lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)])#
+lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)])#
+lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)])#
+lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-5, 5), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey70")#
+#
+lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 2)#
+lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 2)#
+lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 2)#
+lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 2)#
+lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 2)#
+lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 2)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-5, 5), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey50")#
+#
+lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 2)#
+lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 2)#
+lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 2)#
+lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 2)#
+lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 2)#
+lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 2)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-5, 5), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 3, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey50")#
+#
+lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 2)#
+lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 2)#
+lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 2)#
+lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 2)#
+lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 2)#
+lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 2)
+set.seed(7546329578)
+norms_dir <- "Dropbox/NWEA/Linking_Studies/StateNorms"#
+proj_dir <- "Dropbox/AP_design/resources/beamer/"#
+#--- read in SAS data and remove character vars for easy attribute cleanup.#
+df <- read.sas7bdat(paste(norms_dir, "ky_statusnorms.sas7bdat", sep="/"))[, -1]#
+df <- as.data.frame(as.matrix(df))#
+str(df)#
+head(df)#
+#
+#--- subset math outcomes and remove unneeded variables#
+df_m <- df[which(df$Subject == 1), -(3:7)]#
+colnames(df_m) <- c("grd", "mu", "subj", "term")#
+head(df_m)#
+#
+#--- create factor term#
+df_m$term_f <- factor(df_m$term, levels = c(1, 2, 4), labels = c("w", "s", "f"))#
+df_m$term_f = factor(df_m$term_f ,levels(df_m$term_f )[c(3,1,2)])
+df_m$y <- ifelse(df_m$grd == 3 & df_m$term_f == "f", df_m$mu + rnorm(1, 0, 1),#
+           ifelse(df_m$grd == 3 & df_m$term_f == "w", df_m$mu + rnorm(1, 0, 1.3), #
+            ifelse(df_m$grd == 3 & df_m$term_f == "s", df_m$mu + rnorm(1, 0, 1.6), #
+             ifelse(df_m$grd == 4 & df_m$term_f == "f", df_m$mu + rnorm(1, 0, 1),#
+              ifelse(df_m$grd == 4 & df_m$term_f == "w", df_m$mu + rnorm(1, 0, 1.3), #
+               ifelse(df_m$grd == 4 & df_m$term_f == "s", df_m$mu + rnorm(1, 0, 1.6), #
+                ifelse(df_m$grd == 5 & df_m$term_f == "f", df_m$mu + rnorm(1, 0, 1),#
+                 ifelse(df_m$grd == 5 & df_m$term_f == "w", df_m$mu + rnorm(1, 0, 1.3), #
+                  ifelse(df_m$grd == 5 & df_m$term_f == "s", df_m$mu + rnorm(1, 0, 1.6), #
+                   ifelse(df_m$grd == 6 & df_m$term_f == "f", df_m$mu + rnorm(1, 0, 1),#
+                    ifelse(df_m$grd == 6 & df_m$term_f == "w", df_m$mu + rnorm(1, 0, 1.3), #
+                     ifelse(df_m$grd == 6 & df_m$term_f == "s", df_m$mu + rnorm(1, 0, 1.6), #
+                      ifelse(df_m$grd == 7 & df_m$term_f == "f", df_m$mu + rnorm(1, 0, 1),#
+                       ifelse(df_m$grd == 7 & df_m$term_f == "w", df_m$mu + rnorm(1, 0, 1.3), #
+                        ifelse(df_m$grd == 7 & df_m$term_f == "s", df_m$mu + rnorm(1, 0, 1.6), #
+                         ifelse(df_m$grd == 8 & df_m$term_f == "f", df_m$mu + rnorm(1, 0, 1),#
+                          ifelse(df_m$grd == 8 & df_m$term_f == "w", df_m$mu + rnorm(1, 0, 1.3), #
+                           ifelse(df_m$grd == 8 & df_m$term_f == "s", df_m$mu + rnorm(1, 0, 1.6), #
+                            NA))))))))))))))))))#
+#
+#--- create continuous time variable#
+df_m$gs <- ifelse(df_m$grd == 3 & df_m$term_f == "f", 3.1,#
+            ifelse(df_m$grd == 3 & df_m$term_f == "w", 3.4, #
+             ifelse(df_m$grd == 3 & df_m$term_f == "s", 3.7, #
+              ifelse(df_m$grd == 4 & df_m$term_f == "f", 4.1,#
+               ifelse(df_m$grd == 4 & df_m$term_f == "w", 4.4, #
+                ifelse(df_m$grd == 4 & df_m$term_f == "s", 4.7, #
+                 ifelse(df_m$grd == 5 & df_m$term_f == "f", 5.1,#
+                  ifelse(df_m$grd == 5 & df_m$term_f == "w", 5.4, #
+                   ifelse(df_m$grd == 5 & df_m$term_f == "s", 5.7, #
+                    ifelse(df_m$grd == 6 & df_m$term_f == "f", 6.1,#
+                     ifelse(df_m$grd == 6 & df_m$term_f == "w", 6.4, #
+                      ifelse(df_m$grd == 6 & df_m$term_f == "s", 6.7, #
+                       ifelse(df_m$grd == 7 & df_m$term_f == "f", 7.1,#
+                        ifelse(df_m$grd == 7 & df_m$term_f == "w", 7.4, #
+                         ifelse(df_m$grd == 7 & df_m$term_f == "s", 7.7, #
+                          ifelse(df_m$grd == 8 & df_m$term_f == "f", 8.1,#
+                           ifelse(df_m$grd == 8 & df_m$term_f == "w", 8.4, #
+                            ifelse(df_m$grd == 8 & df_m$term_f == "s", 8.7, #
+                             NA))))))))))))))))))#
+#
+#--- create higher order variables#
+df_m$gs2 <- df_m$gs^2  #
+df_m$gs3 <- df_m$gs^3     #
+df_m$gs4 <- df_m$gs^4      #
+df_m$gs5 <- df_m$gs^5      #
+df_m$gs6 <- df_m$gs^6      #
+df_m$gs7 <- df_m$gs^7      #
+df_m$gs8 <- df_m$gs^8      #
+df_m$gs9 <- df_m$gs^9      #
+#
+head(df_m)
+#--- m2: Quadratic Model ------------------------------------------------------##
+m2 <- lm(df_m$y ~ 1 + df_m$gs + df_m$gs2)#
+m2_yhat <- model.matrix(m2) %*% coef(m2)#
+m2_resid <- df_m$y - m2_yhat#
+#
+grd_lab <- c(expression(3[F]),expression(3[W]),expression(3[S]),#
+             expression(4[F]),expression(4[W]),expression(4[S]),#
+             expression(5[F]),expression(5[W]),expression(5[S]),#
+             expression(6[F]),expression(6[W]),expression(6[S]),#
+             expression(7[F]),expression(7[W]),expression(7[S]),#
+             expression(8[F]),expression(8[W]),expression(8[S]))
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-5, 5), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 3, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey50")#
+#
+  lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 2)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-10, 10), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 3, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey50")#
+#
+  lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -10, to = 10, by = 2), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = -10, to = 10, by = 2), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 0, las = 1, cex = 1, col = "grey20", adj = 1)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-10, 10), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 3, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey50")#
+#
+  lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -8, to = 8, by = 2), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = -8, to = 8, by = 2), side=2, #
+        at = seq(from = -8, to = 8, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 0, las = 1, cex = 1, col = "grey20", adj = 1)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-8, 8), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 3, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey50")#
+#
+  lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -8, to = 8, by = 2), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = -8, to = 8, by = 2), side = 2, #
+        at = seq(from = -8, to = 8, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 0, las = 0, cex = 1, col = "grey20", adj = 1)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-8, 8), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 3, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey50")#
+#
+  lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -8, to = 8, by = 2), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = -8, to = 8, by = 2), side = 2, #
+        at = seq(from = -8, to = 8, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 1, las = 0, cex = 1, col = "grey20", adj = 0)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-8, 8), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 3, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey50")#
+#
+  lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -8, to = 8, by = 2), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = -8, to = 8, by = 2), side = 2, #
+        at = seq(from = -8, to = 8, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 1, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 3, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey50")#
+#
+  lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -6, to = 6, by = 2), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = -6, to = 6, by = 2), side = 2, #
+        at = seq(from = -6, to = 6, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 1, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 3, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey50")#
+#
+  lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -6, to = 6, by = 2), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = -6, to = 6, by = 2), side = 2, #
+        at = seq(from = -6, to = 6, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 1.5, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey50")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("MATH", side=2, at = 210, line = 0, las = 1, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey50")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 0, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey50")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey50")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey50")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(c(1,3), at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(c(2,4), at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey50")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(c(1,3), at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(side = c(2,4), at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey50")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(c(1,3), at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(4, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 3, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey50")#
+#
+  lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 2)#
+  lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")  #
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -6, to = 6, by = 2), labels = NA, tck=-.01, col = "grey50")#
+  axis(4, at = seq(from = -6, to = 6, by = 2), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = -6, to = 6, by = 2), side = 2, #
+        at = seq(from = -6, to = 6, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 1.5, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 1, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey60")#
+  lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 1)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")  #
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -6, to = 6, by = 2), labels = NA, tck=-.01, col = "grey50")#
+  axis(4, at = seq(from = -6, to = 6, by = 2), labels = NA, tck=-.01, col = "grey50")#
+  mtext(seq(from = -6, to = 6, by = 2), side = 2, #
+        at = seq(from = -6, to = 6, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 1.5, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 1, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey60")#
+  lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 1)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")  #
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  axis(4, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  mtext(seq(from = -6, to = 6, by = 2), side = 2, #
+        at = seq(from = -6, to = 6, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 1.5, las = 0, cex = 1, col = "grey20")
+#--- m2 Predicted means -------------------------------------------------------##
+pdf(paste0(proj_dir, "m2_yhat.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey60")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(4, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20") #
+dev.off()#
+#
+#--- m2 Predicted means -------------------------------------------------------##
+pdf(paste0(proj_dir, "m2_resid.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 1, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey60")#
+  lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 1)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")  #
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  axis(4, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  mtext(seq(from = -6, to = 6, by = 2), side = 2, #
+        at = seq(from = -6, to = 6, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 1.5, las = 0, cex = 1, col = "grey20") #
+dev.off()
+pdf(paste0(proj_dir, "m2_yhat.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey75")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 1)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(4, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20") #
+dev.off()#
+#
+#--- m2 Predicted means -------------------------------------------------------##
+pdf(paste0(proj_dir, "m2_resid.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 1, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, bg = "grey75")#
+  lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 1)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")  #
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  axis(4, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  mtext(seq(from = -6, to = 6, by = 2), side = 2, #
+        at = seq(from = -6, to = 6, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 1.5, las = 0, cex = 1, col = "grey20") #
+dev.off()
+load("/Users/tmatta/Dropbox/Stan_Examples/M3/dat_d_nmar1_true.Rda")
+pdf(paste0(proj_dir, "m2_yhat.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey75")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 1)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  #mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(4, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20") #
+dev.off()
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey75")#
+  lines(y = yhat(df_m3)[[1]][,1], x = yhat(df_m3)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m4)[[1]][,1], x = yhat(df_m4)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m5)[[1]][,1], x = yhat(df_m5)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m6)[[1]][,1], x = yhat(df_m6)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m7)[[1]][,1], x = yhat(df_m7)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m8)[[1]][,1], x = yhat(df_m8)[[1]][,2], lty = 1, lwd = 2, col = "grey20")
+df_m3 <- df_m[which(df_m$gs < 4), c("y", "gs")]#
+df_m4 <- df_m[which(df_m$gs >= 4 & df_m$gs < 5), c("y", "gs")]#
+df_m5 <- df_m[which(df_m$gs >= 5 & df_m$gs < 6), c("y", "gs")]#
+df_m6 <- df_m[which(df_m$gs >= 6 & df_m$gs < 7), c("y", "gs")]#
+df_m7 <- df_m[which(df_m$gs >= 7 & df_m$gs < 8), c("y", "gs")]#
+df_m8 <- df_m[which(df_m$gs >= 8), c("y", "gs")]#
+#
+yhat <- function(df){#
+  m <- lm(df[, "y"] ~ 1 + df[, "gs"])#
+  yhat <- model.matrix(m) %*% coef(m)#
+  yhat <- cbind(yhat, df[, "gs"])#
+  resid <- df[, "y"] - yhat#
+  return(list(yhat, resid))#
+}
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey75")#
+  lines(y = yhat(df_m3)[[1]][,1], x = yhat(df_m3)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m4)[[1]][,1], x = yhat(df_m4)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m5)[[1]][,1], x = yhat(df_m5)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m6)[[1]][,1], x = yhat(df_m6)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m7)[[1]][,1], x = yhat(df_m7)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m8)[[1]][,1], x = yhat(df_m8)[[1]][,2], lty = 1, lwd = 2, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey75")#
+  lines(y = yhat(df_m3)[[1]][,1], x = yhat(df_m3)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m4)[[1]][,1], x = yhat(df_m4)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m5)[[1]][,1], x = yhat(df_m5)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m6)[[1]][,1], x = yhat(df_m6)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m7)[[1]][,1], x = yhat(df_m7)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m8)[[1]][,1], x = yhat(df_m8)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  #mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(4, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20")
+set.seed(7546329578)#
+norms_dir <- "Dropbox/NWEA/Linking_Studies/StateNorms"#
+proj_dir <- "Dropbox/AP_design/resources/beamer/"#
+#--- read in SAS data and remove character vars for easy attribute cleanup.#
+df <- read.sas7bdat(paste(norms_dir, "ky_statusnorms.sas7bdat", sep="/"))[, -1]#
+df <- as.data.frame(as.matrix(df))#
+str(df)#
+head(df)#
+#
+#--- subset math outcomes and remove unneeded variables#
+df_m <- df[which(df$Subject == 1), -(3:7)]#
+colnames(df_m) <- c("grd", "mu", "subj", "term")#
+head(df_m)#
+#
+#--- create factor term#
+df_m$term_f <- factor(df_m$term, levels = c(1, 2, 4), labels = c("w", "s", "f"))#
+df_m$term_f = factor(df_m$term_f ,levels(df_m$term_f )[c(3,1,2)])
+require(sas7bdat)
+set.seed(7546329578)
+require(sas7bdat)
+set.seed(7546329578)
+set.seed(754632)
+norms_dir <- "Dropbox/NWEA/Linking_Studies/StateNorms"
+proj_dir <- "Dropbox/AP_design/resources/beamer/"
+df <- read.sas7bdat(paste(norms_dir, "ky_statusnorms.sas7bdat", sep="/"))[, -1]
+df <- as.data.frame(as.matrix(df))
+str(df)
+head(df)
+df_m <- df[which(df$Subject == 1), -(3:7)]
+colnames(df_m) <- c("grd", "mu", "subj", "term")
+head(df_m)
+df_m$term_f <- factor(df_m$term, levels = c(1, 2, 4), labels = c("w", "s", "f"))
+df_m$term_f = factor(df_m$term_f ,levels(df_m$term_f )[c(3,1,2)])
+df_m$y <- ifelse(df_m$grd == 3 & df_m$term_f == "f", df_m$mu + rnorm(1, 0, 1),#
+           ifelse(df_m$grd == 3 & df_m$term_f == "w", df_m$mu + rnorm(1, 0, 1.3), #
+            ifelse(df_m$grd == 3 & df_m$term_f == "s", df_m$mu + rnorm(1, 0, 1.6), #
+             ifelse(df_m$grd == 4 & df_m$term_f == "f", df_m$mu + rnorm(1, 0, 1),#
+              ifelse(df_m$grd == 4 & df_m$term_f == "w", df_m$mu + rnorm(1, 0, 1.3), #
+               ifelse(df_m$grd == 4 & df_m$term_f == "s", df_m$mu + rnorm(1, 0, 1.6), #
+                ifelse(df_m$grd == 5 & df_m$term_f == "f", df_m$mu + rnorm(1, 0, 1),#
+                 ifelse(df_m$grd == 5 & df_m$term_f == "w", df_m$mu + rnorm(1, 0, 1.3), #
+                  ifelse(df_m$grd == 5 & df_m$term_f == "s", df_m$mu + rnorm(1, 0, 1.6), #
+                   ifelse(df_m$grd == 6 & df_m$term_f == "f", df_m$mu + rnorm(1, 0, 1),#
+                    ifelse(df_m$grd == 6 & df_m$term_f == "w", df_m$mu + rnorm(1, 0, 1.3), #
+                     ifelse(df_m$grd == 6 & df_m$term_f == "s", df_m$mu + rnorm(1, 0, 1.6), #
+                      ifelse(df_m$grd == 7 & df_m$term_f == "f", df_m$mu + rnorm(1, 0, 1),#
+                       ifelse(df_m$grd == 7 & df_m$term_f == "w", df_m$mu + rnorm(1, 0, 1.3), #
+                        ifelse(df_m$grd == 7 & df_m$term_f == "s", df_m$mu + rnorm(1, 0, 1.6), #
+                         ifelse(df_m$grd == 8 & df_m$term_f == "f", df_m$mu + rnorm(1, 0, 1),#
+                          ifelse(df_m$grd == 8 & df_m$term_f == "w", df_m$mu + rnorm(1, 0, 1.3), #
+                           ifelse(df_m$grd == 8 & df_m$term_f == "s", df_m$mu + rnorm(1, 0, 1.6), #
+                            NA))))))))))))))))))
+df_m$gs <- ifelse(df_m$grd == 3 & df_m$term_f == "f", 3.1,#
+            ifelse(df_m$grd == 3 & df_m$term_f == "w", 3.4, #
+             ifelse(df_m$grd == 3 & df_m$term_f == "s", 3.7, #
+              ifelse(df_m$grd == 4 & df_m$term_f == "f", 4.1,#
+               ifelse(df_m$grd == 4 & df_m$term_f == "w", 4.4, #
+                ifelse(df_m$grd == 4 & df_m$term_f == "s", 4.7, #
+                 ifelse(df_m$grd == 5 & df_m$term_f == "f", 5.1,#
+                  ifelse(df_m$grd == 5 & df_m$term_f == "w", 5.4, #
+                   ifelse(df_m$grd == 5 & df_m$term_f == "s", 5.7, #
+                    ifelse(df_m$grd == 6 & df_m$term_f == "f", 6.1,#
+                     ifelse(df_m$grd == 6 & df_m$term_f == "w", 6.4, #
+                      ifelse(df_m$grd == 6 & df_m$term_f == "s", 6.7, #
+                       ifelse(df_m$grd == 7 & df_m$term_f == "f", 7.1,#
+                        ifelse(df_m$grd == 7 & df_m$term_f == "w", 7.4, #
+                         ifelse(df_m$grd == 7 & df_m$term_f == "s", 7.7, #
+                          ifelse(df_m$grd == 8 & df_m$term_f == "f", 8.1,#
+                           ifelse(df_m$grd == 8 & df_m$term_f == "w", 8.4, #
+                            ifelse(df_m$grd == 8 & df_m$term_f == "s", 8.7, #
+                             NA))))))))))))))))))
+df_m$gs2 <- df_m$gs^2  #
+df_m$gs3 <- df_m$gs^3     #
+df_m$gs4 <- df_m$gs^4      #
+df_m$gs5 <- df_m$gs^5      #
+df_m$gs6 <- df_m$gs^6      #
+df_m$gs7 <- df_m$gs^7      #
+df_m$gs8 <- df_m$gs^8      #
+df_m$gs9 <- df_m$gs^9      #
+#
+head(df_m)
+plot(y = df_m$mu, x = df_m$gs)
+lines(y = df_m$mu, x = df_m$gs)
+lines(y = df_m$y, x = df_m$gs)
+plot(y = df_m$y, x = df_m$gs)
+lines(y = df_m$mu, x = df_m$gs)
+lines(y = df_m$y, x = df_m$gs)
+save(df_m, file = "math_means.Rdata")
+getwd()
+save(df_m, file = "Dropbox/AP_design/resources/math_means.Rdata")
+m2 <- lm(df_m$y ~ 1 + df_m$gs + df_m$gs2)
+m2_yhat <- model.matrix(m2) %*% coef(m2)
+m2_resid <- df_m$y - m2_yhat
+grd_lab <- c(expression(3[F]),expression(3[W]),expression(3[S]),
+expression(4[F]),expression(4[W]),expression(4[S]),
+expression(5[F]),expression(5[W]),expression(5[S]),
+expression(6[F]),expression(6[W]),expression(6[S]),
+expression(7[F]),expression(7[W]),expression(7[S]),
+expression(8[F]),expression(8[W]),expression(8[S]))
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey75")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 1)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  #mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(4, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey50")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 1)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  #mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(4, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, bg = "grey70")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 1)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  #mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(4, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, col = "grey70")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 1)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  #mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(4, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y, x = df_m$gs, pch = 16, col = "grey50")#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 1)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  #mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(4, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 1, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, col = "grey75")#
+  segments(x0 = df_m$gs, y0 = m2_resid, x1 = df_m$gs, y1 = 0)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 1, col = "grey50")#
+#
+  points(y = m2_resid, x = df_m$gs, pch = 16, col = "grey75")#
+  segments(x0 = df_m$gs, y0 = m2_resid, x1 = df_m$gs, y1 = 0)#
+#
+  lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 1)#
+  lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 1)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 1, col = "grey50")#
+#
+  segments(x0 = df_m$gs, y0 = m2_resid, x1 = df_m$gs, y1 = 0)#
+  points(y = m2_resid, x = df_m$gs, pch = 16, col = "grey50")
+install.packages("colorspace")
+require(colorspace)
+col1 <- pal(diverge_hsv(7))
+?diverge_hsl
+??diverge_hsl
+col1 <- diverge_hsl
+col1 <- diverge_hsl(2)
+col1 <- diverge_hsl(4)
+col1 <- pal(diverge_hcl(7))
+pal <- function(col, border = "light gray", ...){#
+  n <- length(col)#
+  plot(0, 0, type="n", xlim = c(0, 1), ylim = c(0, 1),#
+  axes = FALSE, xlab = "", ylab = "", ...)#
+  rect(0:(n-1)/n, 0, 1:n/n, 1, col = col, border = border)#
+}
+col1 <- pal(diverge_hcl(3))
+m2_resid
+fa <- seq(from = 1, to = 18, by = 3)
+wi <- seq(from = 2, to = 18, by = 3)
+sp <- seq(from = 3, to = 18, by = 3)
+sp
+wi
+fa
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 1, col = "grey50")#
+#
+  segments(x0 = df_m$gs, y0 = m2_resid, x1 = df_m$gs, y1 = 0)#
+  points(y = m2_resid[fa], x = df_m$gs[fa], pch = 16, col = col1[1])#
+  points(y = m2_resid[wi], x = df_m$gs[wi], pch = 16, col = col1[2])#
+  points(y = m2_resid[sp], x = df_m$gs[sp], pch = 16, col = col1[3])#
+#
+  #lines(y = m2_resid[which(df_m$gs < 4)], x = df_m$gs[which(df_m$gs < 4)], col = "grey20", lwd = 2, lty = 1)#
+  #lines(y = m2_resid[which(df_m$gs >= 4 & df_m$gs < 5)], x = df_m$gs[which(df_m$gs >= 4 & df_m$gs < 5)], col = "grey20", lwd = 2, lty = 1)#
+  #lines(y = m2_resid[which(df_m$gs >= 5 & df_m$gs < 6)], x = df_m$gs[which(df_m$gs >= 5 & df_m$gs < 6)], col = "grey20", lwd = 2, lty = 1)#
+  #lines(y = m2_resid[which(df_m$gs >= 6 & df_m$gs < 7)], x = df_m$gs[which(df_m$gs >= 6 & df_m$gs < 7)], col = "grey20", lwd = 2, lty = 1)#
+  #lines(y = m2_resid[which(df_m$gs >= 7 & df_m$gs < 8)], x = df_m$gs[which(df_m$gs >= 7 & df_m$gs < 8)], col = "grey20", lwd = 2, lty = 1)#
+  #lines(y = m2_resid[which(df_m$gs >= 8)], x = df_m$gs[which(df_m$gs >= 8)], col = "grey20", lwd = 2, lty = 1)
+col1 <- pal(diverge_hcl(3))
+col1
+col1 <- pal(diverge_hcl(3))
+diverge_hcl(3)
+col <- diverge_hcl(3)
+col1 <- diverge_hcl(3)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 1, col = "grey50")#
+#
+  segments(x0 = df_m$gs, y0 = m2_resid, x1 = df_m$gs, y1 = 0)#
+  points(y = m2_resid[fa], x = df_m$gs[fa], pch = 16, col = col1[1])#
+  points(y = m2_resid[wi], x = df_m$gs[wi], pch = 16, col = col1[2])#
+  points(y = m2_resid[sp], x = df_m$gs[sp], pch = 16, col = col1[3])
+col1 <- pal(diverge_hcl(5))
+col1 <- diverge_hcl(5)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 1, col = "grey50")#
+#
+  segments(x0 = df_m$gs, y0 = m2_resid, x1 = df_m$gs, y1 = 0)#
+  points(y = m2_resid[fa], x = df_m$gs[fa], pch = 16, col = col1[2])#
+  points(y = m2_resid[wi], x = df_m$gs[wi], pch = 16, col = "grey50")#
+  points(y = m2_resid[sp], x = df_m$gs[sp], pch = 16, col = col1[5])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 1, col = "grey50")#
+#
+  segments(x0 = df_m$gs, y0 = m2_resid, x1 = df_m$gs, y1 = 0)#
+  points(y = m2_resid[fa], x = df_m$gs[fa], pch = 16, col = col1[2])#
+  points(y = m2_resid[wi], x = df_m$gs[wi], pch = 16, col = "grey50")#
+  points(y = m2_resid[sp], x = df_m$gs[sp], pch = 16, col = col1[4])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 1, col = "grey50")#
+#
+  segments(x0 = df_m$gs, y0 = m2_resid, x1 = df_m$gs, y1 = 0)#
+  points(y = m2_resid[fa], x = df_m$gs[fa], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = m2_resid[wi], x = df_m$gs[wi], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = m2_resid[sp], x = df_m$gs[sp], pch = 16, col = rainbow_hcl(3)[3])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = f_m$y[fa], x = df_m$gs[fa], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = f_m$y[wi], x = df_m$gs[wi], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = f_m$y[sp], x = df_m$gs[sp], pch = 16, col = rainbow_hcl(3)[3])#
+#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 1)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y[fa], x = df_m$gs[fa], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = df_m$y[wi], x = df_m$gs[wi], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = df_m$y[sp], x = df_m$gs[sp], pch = 16, col = rainbow_hcl(3)[3])#
+#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 1)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  points(y = df_m$y[fa], x = df_m$gs[fa], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = df_m$y[wi], x = df_m$gs[wi], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = df_m$y[sp], x = df_m$gs[sp], pch = 16, col = rainbow_hcl(3)[3])#
+#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey40", lwd = 2, lty = 1)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey50")#
+  abline(h = 0, lty = 1, col = "grey50")#
+#
+  segments(x0 = df_m$gs, y0 = m2_resid, x1 = df_m$gs, y1 = 0)#
+  points(y = m2_resid[fa], x = df_m$gs[fa], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = m2_resid[wi], x = df_m$gs[wi], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = m2_resid[sp], x = df_m$gs[sp], pch = 16, col = rainbow_hcl(3)[3])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  abline(h = 0, lty = 1, col = "grey50")#
+#
+  segments(x0 = df_m$gs, y0 = m2_resid, x1 = df_m$gs, y1 = 0)#
+  points(y = m2_resid[fa], x = df_m$gs[fa], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = m2_resid[wi], x = df_m$gs[wi], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = m2_resid[sp], x = df_m$gs[sp], pch = 16, col = rainbow_hcl(3)[3])
+pdf(paste0(proj_dir, "m2_yhat.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  points(y = df_m$y[fa], x = df_m$gs[fa], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = df_m$y[wi], x = df_m$gs[wi], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = df_m$y[sp], x = df_m$gs[sp], pch = 16, col = rainbow_hcl(3)[3])#
+#
+  lines(y = m2_yhat, x = df_m$gs, col = "grey40", lwd = 2, lty = 1)#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  #mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(4, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20") #
+dev.off()
+pdf(paste0(proj_dir, "m2_resid.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  abline(h = 0, lty = 1, col = "grey50")#
+#
+  segments(x0 = df_m$gs, y0 = m2_resid, x1 = df_m$gs, y1 = 0)#
+  points(y = m2_resid[fa], x = df_m$gs[fa], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = m2_resid[wi], x = df_m$gs[wi], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = m2_resid[sp], x = df_m$gs[sp], pch = 16, col = rainbow_hcl(3)[3])#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")  #
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  axis(4, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  mtext(seq(from = -6, to = 6, by = 2), side = 2, #
+        at = seq(from = -6, to = 6, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 1.5, las = 0, cex = 1, col = "grey20") #
+dev.off()
+df_m3 <- df_m[which(df_m$gs < 4), c("y", "gs")]#
+df_m4 <- df_m[which(df_m$gs >= 4 & df_m$gs < 5), c("y", "gs")]#
+df_m5 <- df_m[which(df_m$gs >= 5 & df_m$gs < 6), c("y", "gs")]#
+df_m6 <- df_m[which(df_m$gs >= 6 & df_m$gs < 7), c("y", "gs")]#
+df_m7 <- df_m[which(df_m$gs >= 7 & df_m$gs < 8), c("y", "gs")]#
+df_m8 <- df_m[which(df_m$gs >= 8), c("y", "gs")]#
+#
+yhat <- function(df){#
+  m <- lm(df[, "y"] ~ 1 + df[, "gs"])#
+  yhat <- model.matrix(m) %*% coef(m)#
+  yhat <- cbind(yhat, df[, "gs"])#
+  resid <- df[, "y"] - yhat#
+  return(list(yhat, resid))#
+}
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  points(y = df_m$y[fa], x = df_m$gs[fa], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = df_m$y[wi], x = df_m$gs[wi], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = df_m$y[sp], x = df_m$gs[sp], pch = 16, col = rainbow_hcl(3)[3])#
+  lines(y = yhat(df_m3)[[1]][,1], x = yhat(df_m3)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m4)[[1]][,1], x = yhat(df_m4)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m5)[[1]][,1], x = yhat(df_m5)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m6)[[1]][,1], x = yhat(df_m6)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m7)[[1]][,1], x = yhat(df_m7)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m8)[[1]][,1], x = yhat(df_m8)[[1]][,2], lty = 1, lwd = 2, col = "grey20")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+#
+  lines(y = yhat(df_m3)[[1]][,1], x = yhat(df_m3)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m4)[[1]][,1], x = yhat(df_m4)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m5)[[1]][,1], x = yhat(df_m5)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m6)[[1]][,1], x = yhat(df_m6)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m7)[[1]][,1], x = yhat(df_m7)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+  lines(y = yhat(df_m8)[[1]][,1], x = yhat(df_m8)[[1]][,2], lty = 1, lwd = 2, col = "grey20")#
+#
+  points(y = df_m$y[fa], x = df_m$gs[fa], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = df_m$y[wi], x = df_m$gs[wi], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = df_m$y[sp], x = df_m$gs[sp], pch = 16, col = rainbow_hcl(3)[3])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+#
+  lines(y = yhat(df_m3)[[1]][,1], x = yhat(df_m3)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m4)[[1]][,1], x = yhat(df_m4)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m5)[[1]][,1], x = yhat(df_m5)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m6)[[1]][,1], x = yhat(df_m6)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m7)[[1]][,1], x = yhat(df_m7)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m8)[[1]][,1], x = yhat(df_m8)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+#
+  points(y = df_m$y[fa], x = df_m$gs[fa], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = df_m$y[wi], x = df_m$gs[wi], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = df_m$y[sp], x = df_m$gs[sp], pch = 16, col = rainbow_hcl(3)[3])
+yhat(df_m8)[[2]]
+df_m$yhat(df_m8)[[2]][fa,1]
+yhat(df_m8)[[2]][fa,1]
+yhat(df_m8)[[2]]
+fa
+yhat(df_m8)[[2]][fa,1]
+yhat(df_m8)[[2]]
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+#
+  lines(y = yhat(df_m3)[[2]][,1], x = yhat(df_m3)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m4)[[2]][,1], x = yhat(df_m4)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m5)[[2]][,1], x = yhat(df_m5)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m6)[[2]][,1], x = yhat(df_m6)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m7)[[2]][,1], x = yhat(df_m7)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m8)[[2]][,1], x = yhat(df_m8)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+#
+  segments(x0 = df_m$gs, y0 = yhat(df_m1)[[2]][,1], x1 = df_m$gs, y1 = 0)#
+  segments(x0 = df_m$gs, y0 = yhat(df_m2)[[2]][,1], x1 = df_m$gs, y1 = 0)#
+  segments(x0 = df_m$gs, y0 = yhat(df_m3)[[2]][,1], x1 = df_m$gs, y1 = 0)#
+  segments(x0 = df_m$gs, y0 = yhat(df_m4)[[2]][,1], x1 = df_m$gs, y1 = 0)#
+  segments(x0 = df_m$gs, y0 = yhat(df_m5)[[2]][,1], x1 = df_m$gs, y1 = 0)#
+  segments(x0 = df_m$gs, y0 = yhat(df_m6)[[2]][,1], x1 = df_m$gs, y1 = 0)#
+  segments(x0 = df_m$gs, y0 = yhat(df_m7)[[2]][,1], x1 = df_m$gs, y1 = 0)#
+  segments(x0 = df_m$gs, y0 = yhat(df_m8)[[2]][,1], x1 = df_m$gs, y1 = 0)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+#
+  lines(y = yhat(df_m3)[[2]][,1], x = yhat(df_m3)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m4)[[2]][,1], x = yhat(df_m4)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m5)[[2]][,1], x = yhat(df_m5)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m6)[[2]][,1], x = yhat(df_m6)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m7)[[2]][,1], x = yhat(df_m7)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m8)[[2]][,1], x = yhat(df_m8)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+#
+  segments(x0 = df_m$gs, y0 = yhat(df_m3)[[2]][,1], x1 = df_m$gs, y1 = 0)#
+  segments(x0 = df_m$gs, y0 = yhat(df_m4)[[2]][,1], x1 = df_m$gs, y1 = 0)#
+  segments(x0 = df_m$gs, y0 = yhat(df_m5)[[2]][,1], x1 = df_m$gs, y1 = 0)#
+  segments(x0 = df_m$gs, y0 = yhat(df_m6)[[2]][,1], x1 = df_m$gs, y1 = 0)#
+  segments(x0 = df_m$gs, y0 = yhat(df_m7)[[2]][,1], x1 = df_m$gs, y1 = 0)#
+  segments(x0 = df_m$gs, y0 = yhat(df_m8)[[2]][,1], x1 = df_m$gs, y1 = 0)
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+#
+  lines(y = yhat(df_m3)[[2]][,1], x = yhat(df_m3)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m4)[[2]][,1], x = yhat(df_m4)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m5)[[2]][,1], x = yhat(df_m5)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m6)[[2]][,1], x = yhat(df_m6)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m7)[[2]][,1], x = yhat(df_m7)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m8)[[2]][,1], x = yhat(df_m8)[[1]][,2], lty = 1, lwd = 2, col = "grey40")
+yhat(df_m3)[[1]][,1]
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+#
+  lines(y = yhat(df_m3)[[1]][,1], x = yhat(df_m3)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m4)[[1]][,1], x = yhat(df_m4)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m5)[[1]][,1], x = yhat(df_m5)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m6)[[1]][,1], x = yhat(df_m6)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m7)[[1]][,1], x = yhat(df_m7)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m8)[[1]][,1], x = yhat(df_m8)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+#
+  points(y = df_m$y[fa], x = df_m$gs[fa], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = df_m$y[wi], x = df_m$gs[wi], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = df_m$y[sp], x = df_m$gs[sp], pch = 16, col = rainbow_hcl(3)[3])
+setwd("/Users/tmatta/Dropbox/ap_design/resources")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+#
+  abline(v = 3:9, lty = 3, col = "grey75")
+points(y = yhat(df_m3)[[2]][1,1], x = df_m$gs[1], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m4)[[2]][1,1], x = df_m$gs[1], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m5)[[2]][1,1], x = df_m$gs[1], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m6)[[2]][1,1], x = df_m$gs[1], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m7)[[2]][1,1], x = df_m$gs[1], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m8)[[2]][1,1], x = df_m$gs[1], pch = 16, col = rainbow_hcl(3)[1])
+points(y = yhat(df_m3)[[2]][1,1], x = df_m$gs[fa[1]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m4)[[2]][1,1], x = df_m$gs[fa[2]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m5)[[2]][1,1], x = df_m$gs[fa[3]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m6)[[2]][1,1], x = df_m$gs[fa[4]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m7)[[2]][1,1], x = df_m$gs[fa[5]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m8)[[2]][1,1], x = df_m$gs[fa[6]], pch = 16, col = rainbow_hcl(3)[1])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  abline(h = 0, lty = 1, col = "grey50")
+points(y = yhat(df_m3)[[2]][1,1], x = df_m$gs[fa[1]], pch = 16, col = rainbow_hcl(3)[1])
+points(y = yhat(df_m4)[[2]][1,1], x = df_m$gs[fa[2]], pch = 16, col = rainbow_hcl(3)[1])
+points(y = yhat(df_m5)[[2]][1,1], x = df_m$gs[fa[3]], pch = 16, col = rainbow_hcl(3)[1])
+points(y = yhat(df_m6)[[2]][1,1], x = df_m$gs[fa[4]], pch = 16, col = rainbow_hcl(3)[1])
+points(y = yhat(df_m7)[[2]][1,1], x = df_m$gs[fa[5]], pch = 16, col = rainbow_hcl(3)[1])
+points(y = yhat(df_m8)[[2]][1,1], x = df_m$gs[fa[6]], pch = 16, col = rainbow_hcl(3)[1])
+#--- spring#
+  points(y = yhat(df_m3)[[2]][2,1], x = df_m$gs[wi[1]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m4)[[2]][2,1], x = df_m$gs[wi[2]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m5)[[2]][2,1], x = df_m$gs[wi[3]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m6)[[2]][2,1], x = df_m$gs[wi[4]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m7)[[2]][2,1], x = df_m$gs[wi[5]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m8)[[2]][2,1], x = df_m$gs[wi[6]], pch = 16, col = rainbow_hcl(3)[1])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  abline(h = 0, lty = 1, col = "grey50")
+#--- fall#
+  points(y = yhat(df_m3)[[2]][1,1], x = df_m$gs[fa[1]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m4)[[2]][1,1], x = df_m$gs[fa[2]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m5)[[2]][1,1], x = df_m$gs[fa[3]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m6)[[2]][1,1], x = df_m$gs[fa[4]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m7)[[2]][1,1], x = df_m$gs[fa[5]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m8)[[2]][1,1], x = df_m$gs[fa[6]], pch = 16, col = rainbow_hcl(3)[1])#
+  #--- spring#
+  points(y = yhat(df_m3)[[2]][2,1], x = df_m$gs[wi[1]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m4)[[2]][2,1], x = df_m$gs[wi[2]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m5)[[2]][2,1], x = df_m$gs[wi[3]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m6)[[2]][2,1], x = df_m$gs[wi[4]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m7)[[2]][2,1], x = df_m$gs[wi[5]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m8)[[2]][2,1], x = df_m$gs[wi[6]], pch = 16, col = rainbow_hcl(3)[1])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  abline(h = 0, lty = 1, col = "grey50")
+#--- fall#
+  points(y = yhat(df_m3)[[2]][1,1], x = df_m$gs[fa[1]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m4)[[2]][1,1], x = df_m$gs[fa[2]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m5)[[2]][1,1], x = df_m$gs[fa[3]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m6)[[2]][1,1], x = df_m$gs[fa[4]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m7)[[2]][1,1], x = df_m$gs[fa[5]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m8)[[2]][1,1], x = df_m$gs[fa[6]], pch = 16, col = rainbow_hcl(3)[1])#
+  #--- spring#
+  points(y = yhat(df_m3)[[2]][2,1], x = df_m$gs[wi[1]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m4)[[2]][2,1], x = df_m$gs[wi[2]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m5)[[2]][2,1], x = df_m$gs[wi[3]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m6)[[2]][2,1], x = df_m$gs[wi[4]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m7)[[2]][2,1], x = df_m$gs[wi[5]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m8)[[2]][2,1], x = df_m$gs[wi[6]], pch = 16, col = rainbow_hcl(3)[2])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  abline(h = 0, lty = 1, col = "grey50")#
+  #--- fall#
+  points(y = yhat(df_m3)[[2]][1,1], x = df_m$gs[fa[1]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m4)[[2]][1,1], x = df_m$gs[fa[2]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m5)[[2]][1,1], x = df_m$gs[fa[3]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m6)[[2]][1,1], x = df_m$gs[fa[4]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m7)[[2]][1,1], x = df_m$gs[fa[5]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m8)[[2]][1,1], x = df_m$gs[fa[6]], pch = 16, col = rainbow_hcl(3)[1])#
+  segments(x0 = df_m$gs, y0 = yhat(df_m3)[[2]][1,1], x1 = df_m$gs, y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs, y0 = yhat(df_m4)[[2]][1,1], x1 = df_m$gs, y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs, y0 = yhat(df_m5)[[2]][1,1], x1 = df_m$gs, y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs, y0 = yhat(df_m6)[[2]][1,1], x1 = df_m$gs, y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs, y0 = yhat(df_m7)[[2]][1,1], x1 = df_m$gs, y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs, y0 = yhat(df_m8)[[2]][1,1], x1 = df_m$gs, y1 = 0, col = "grey40")#
+#
+  #--- winter#
+  points(y = yhat(df_m3)[[2]][2,1], x = df_m$gs[wi[1]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m4)[[2]][2,1], x = df_m$gs[wi[2]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m5)[[2]][2,1], x = df_m$gs[wi[3]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m6)[[2]][2,1], x = df_m$gs[wi[4]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m7)[[2]][2,1], x = df_m$gs[wi[5]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m8)[[2]][2,1], x = df_m$gs[wi[6]], pch = 16, col = rainbow_hcl(3)[2])#
+  #--- spring#
+  points(y = yhat(df_m3)[[2]][3,1], x = df_m$gs[sp[1]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m4)[[2]][3,1], x = df_m$gs[sp[2]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m5)[[2]][3,1], x = df_m$gs[sp[3]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m6)[[2]][3,1], x = df_m$gs[sp[4]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m7)[[2]][3,1], x = df_m$gs[sp[5]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m8)[[2]][3,1], x = df_m$gs[sp[6]], pch = 16, col = rainbow_hcl(3)[3])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  abline(h = 0, lty = 1, col = "grey50")#
+  #--- fall#
+  points(y = yhat(df_m3)[[2]][1,1], x = df_m$gs[fa[1]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m4)[[2]][1,1], x = df_m$gs[fa[2]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m5)[[2]][1,1], x = df_m$gs[fa[3]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m6)[[2]][1,1], x = df_m$gs[fa[4]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m7)[[2]][1,1], x = df_m$gs[fa[5]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m8)[[2]][1,1], x = df_m$gs[fa[6]], pch = 16, col = rainbow_hcl(3)[1])#
+  segments(x0 = df_m$gs[fa[1]], y0 = yhat(df_m3)[[2]][1,1], x1 = df_m$gs[fa[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[2]], y0 = yhat(df_m4)[[2]][1,1], x1 = df_m$gs[fa[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[3]], y0 = yhat(df_m5)[[2]][1,1], x1 = df_m$gs[fa[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[4]], y0 = yhat(df_m6)[[2]][1,1], x1 = df_m$gs[fa[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[5]], y0 = yhat(df_m7)[[2]][1,1], x1 = df_m$gs[fa[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[6]], y0 = yhat(df_m8)[[2]][1,1], x1 = df_m$gs[fa[6]], y1 = 0, col = "grey40")
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  abline(h = 0, lty = 1, col = "grey50")#
+  #--- fall#
+  segments(x0 = df_m$gs[fa[1]], y0 = yhat(df_m3)[[2]][1,1], x1 = df_m$gs[fa[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[2]], y0 = yhat(df_m4)[[2]][1,1], x1 = df_m$gs[fa[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[3]], y0 = yhat(df_m5)[[2]][1,1], x1 = df_m$gs[fa[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[4]], y0 = yhat(df_m6)[[2]][1,1], x1 = df_m$gs[fa[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[5]], y0 = yhat(df_m7)[[2]][1,1], x1 = df_m$gs[fa[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[6]], y0 = yhat(df_m8)[[2]][1,1], x1 = df_m$gs[fa[6]], y1 = 0, col = "grey40")#
+  points(y = yhat(df_m3)[[2]][1,1], x = df_m$gs[fa[1]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m4)[[2]][1,1], x = df_m$gs[fa[2]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m5)[[2]][1,1], x = df_m$gs[fa[3]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m6)[[2]][1,1], x = df_m$gs[fa[4]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m7)[[2]][1,1], x = df_m$gs[fa[5]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m8)[[2]][1,1], x = df_m$gs[fa[6]], pch = 16, col = rainbow_hcl(3)[1])#
+#
+  #--- winter#
+  segments(x0 = df_m$gs[fa[1]], y0 = yhat(df_m3)[[2]][2,1], x1 = df_m$gs[fa[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[2]], y0 = yhat(df_m4)[[2]][2,1], x1 = df_m$gs[fa[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[3]], y0 = yhat(df_m5)[[2]][2,1], x1 = df_m$gs[fa[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[4]], y0 = yhat(df_m6)[[2]][2,1], x1 = df_m$gs[fa[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[5]], y0 = yhat(df_m7)[[2]][2,1], x1 = df_m$gs[fa[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[6]], y0 = yhat(df_m8)[[2]][2,1], x1 = df_m$gs[fa[6]], y1 = 0, col = "grey40")  #
+  points(y = yhat(df_m3)[[2]][2,1], x = df_m$gs[wi[1]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m4)[[2]][2,1], x = df_m$gs[wi[2]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m5)[[2]][2,1], x = df_m$gs[wi[3]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m6)[[2]][2,1], x = df_m$gs[wi[4]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m7)[[2]][2,1], x = df_m$gs[wi[5]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m8)[[2]][2,1], x = df_m$gs[wi[6]], pch = 16, col = rainbow_hcl(3)[2])
+plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  abline(h = 0, lty = 1, col = "grey50")#
+  #--- fall#
+  segments(x0 = df_m$gs[fa[1]], y0 = yhat(df_m3)[[2]][1,1], x1 = df_m$gs[fa[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[2]], y0 = yhat(df_m4)[[2]][1,1], x1 = df_m$gs[fa[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[3]], y0 = yhat(df_m5)[[2]][1,1], x1 = df_m$gs[fa[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[4]], y0 = yhat(df_m6)[[2]][1,1], x1 = df_m$gs[fa[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[5]], y0 = yhat(df_m7)[[2]][1,1], x1 = df_m$gs[fa[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[6]], y0 = yhat(df_m8)[[2]][1,1], x1 = df_m$gs[fa[6]], y1 = 0, col = "grey40")#
+  points(y = yhat(df_m3)[[2]][1,1], x = df_m$gs[fa[1]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m4)[[2]][1,1], x = df_m$gs[fa[2]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m5)[[2]][1,1], x = df_m$gs[fa[3]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m6)[[2]][1,1], x = df_m$gs[fa[4]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m7)[[2]][1,1], x = df_m$gs[fa[5]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m8)[[2]][1,1], x = df_m$gs[fa[6]], pch = 16, col = rainbow_hcl(3)[1])#
+#
+  #--- winter#
+  segments(x0 = df_m$gs[wi[1]], y0 = yhat(df_m3)[[2]][2,1], x1 = df_m$gs[wi[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[2]], y0 = yhat(df_m4)[[2]][2,1], x1 = df_m$gs[wi[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[3]], y0 = yhat(df_m5)[[2]][2,1], x1 = df_m$gs[wi[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[4]], y0 = yhat(df_m6)[[2]][2,1], x1 = df_m$gs[wi[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[5]], y0 = yhat(df_m7)[[2]][2,1], x1 = df_m$gs[wi[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[6]], y0 = yhat(df_m8)[[2]][2,1], x1 = df_m$gs[wi[6]], y1 = 0, col = "grey40")  #
+  points(y = yhat(df_m3)[[2]][2,1], x = df_m$gs[wi[1]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m4)[[2]][2,1], x = df_m$gs[wi[2]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m5)[[2]][2,1], x = df_m$gs[wi[3]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m6)[[2]][2,1], x = df_m$gs[wi[4]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m7)[[2]][2,1], x = df_m$gs[wi[5]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m8)[[2]][2,1], x = df_m$gs[wi[6]], pch = 16, col = rainbow_hcl(3)[2])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  abline(h = 0, lty = 1, col = "grey50")#
+  #--- fall#
+  segments(x0 = df_m$gs[fa[1]], y0 = yhat(df_m3)[[2]][1,1], x1 = df_m$gs[fa[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[2]], y0 = yhat(df_m4)[[2]][1,1], x1 = df_m$gs[fa[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[3]], y0 = yhat(df_m5)[[2]][1,1], x1 = df_m$gs[fa[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[4]], y0 = yhat(df_m6)[[2]][1,1], x1 = df_m$gs[fa[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[5]], y0 = yhat(df_m7)[[2]][1,1], x1 = df_m$gs[fa[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[6]], y0 = yhat(df_m8)[[2]][1,1], x1 = df_m$gs[fa[6]], y1 = 0, col = "grey40")#
+  points(y = yhat(df_m3)[[2]][1,1], x = df_m$gs[fa[1]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m4)[[2]][1,1], x = df_m$gs[fa[2]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m5)[[2]][1,1], x = df_m$gs[fa[3]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m6)[[2]][1,1], x = df_m$gs[fa[4]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m7)[[2]][1,1], x = df_m$gs[fa[5]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m8)[[2]][1,1], x = df_m$gs[fa[6]], pch = 16, col = rainbow_hcl(3)[1])#
+#
+  #--- winter#
+  segments(x0 = df_m$gs[wi[1]], y0 = yhat(df_m3)[[2]][2,1], x1 = df_m$gs[wi[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[2]], y0 = yhat(df_m4)[[2]][2,1], x1 = df_m$gs[wi[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[3]], y0 = yhat(df_m5)[[2]][2,1], x1 = df_m$gs[wi[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[4]], y0 = yhat(df_m6)[[2]][2,1], x1 = df_m$gs[wi[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[5]], y0 = yhat(df_m7)[[2]][2,1], x1 = df_m$gs[wi[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[6]], y0 = yhat(df_m8)[[2]][2,1], x1 = df_m$gs[wi[6]], y1 = 0, col = "grey40")  #
+  points(y = yhat(df_m3)[[2]][2,1], x = df_m$gs[wi[1]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m4)[[2]][2,1], x = df_m$gs[wi[2]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m5)[[2]][2,1], x = df_m$gs[wi[3]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m6)[[2]][2,1], x = df_m$gs[wi[4]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m7)[[2]][2,1], x = df_m$gs[wi[5]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m8)[[2]][2,1], x = df_m$gs[wi[6]], pch = 16, col = rainbow_hcl(3)[2])#
+#
+  #--- spring#
+  segments(x0 = df_m$gs[sp[1]], y0 = yhat(df_m3)[[2]][3,1], x1 = df_m$gs[sp[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[2]], y0 = yhat(df_m4)[[2]][3,1], x1 = df_m$gs[sp[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[3]], y0 = yhat(df_m5)[[2]][3,1], x1 = df_m$gs[sp[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[4]], y0 = yhat(df_m6)[[2]][3,1], x1 = df_m$gs[sp[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[5]], y0 = yhat(df_m7)[[2]][3,1], x1 = df_m$gs[sp[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[6]], y0 = yhat(df_m8)[[2]][3,1], x1 = df_m$gs[sp[6]], y1 = 0, col = "grey40")    #
+  points(y = yhat(df_m3)[[2]][3,1], x = df_m$gs[sp[1]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m4)[[2]][3,1], x = df_m$gs[sp[2]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m5)[[2]][3,1], x = df_m$gs[sp[3]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m6)[[2]][3,1], x = df_m$gs[sp[4]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m7)[[2]][3,1], x = df_m$gs[sp[5]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m8)[[2]][3,1], x = df_m$gs[sp[6]], pch = 16, col = rainbow_hcl(3)[3])
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  abline(h = 0, lty = 1, col = "grey50")#
+  #--- fall#
+  segments(x0 = df_m$gs[fa[1]], y0 = yhat(df_m3)[[2]][1,1], x1 = df_m$gs[fa[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[2]], y0 = yhat(df_m4)[[2]][1,1], x1 = df_m$gs[fa[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[3]], y0 = yhat(df_m5)[[2]][1,1], x1 = df_m$gs[fa[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[4]], y0 = yhat(df_m6)[[2]][1,1], x1 = df_m$gs[fa[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[5]], y0 = yhat(df_m7)[[2]][1,1], x1 = df_m$gs[fa[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[6]], y0 = yhat(df_m8)[[2]][1,1], x1 = df_m$gs[fa[6]], y1 = 0, col = "grey40")#
+  points(y = yhat(df_m3)[[2]][1,1], x = df_m$gs[fa[1]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m4)[[2]][1,1], x = df_m$gs[fa[2]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m5)[[2]][1,1], x = df_m$gs[fa[3]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m6)[[2]][1,1], x = df_m$gs[fa[4]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m7)[[2]][1,1], x = df_m$gs[fa[5]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m8)[[2]][1,1], x = df_m$gs[fa[6]], pch = 16, col = rainbow_hcl(3)[1])#
+#
+  #--- winter#
+  segments(x0 = df_m$gs[wi[1]], y0 = yhat(df_m3)[[2]][2,1], x1 = df_m$gs[wi[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[2]], y0 = yhat(df_m4)[[2]][2,1], x1 = df_m$gs[wi[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[3]], y0 = yhat(df_m5)[[2]][2,1], x1 = df_m$gs[wi[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[4]], y0 = yhat(df_m6)[[2]][2,1], x1 = df_m$gs[wi[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[5]], y0 = yhat(df_m7)[[2]][2,1], x1 = df_m$gs[wi[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[6]], y0 = yhat(df_m8)[[2]][2,1], x1 = df_m$gs[wi[6]], y1 = 0, col = "grey40")  #
+  points(y = yhat(df_m3)[[2]][2,1], x = df_m$gs[wi[1]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m4)[[2]][2,1], x = df_m$gs[wi[2]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m5)[[2]][2,1], x = df_m$gs[wi[3]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m6)[[2]][2,1], x = df_m$gs[wi[4]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m7)[[2]][2,1], x = df_m$gs[wi[5]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m8)[[2]][2,1], x = df_m$gs[wi[6]], pch = 16, col = rainbow_hcl(3)[2])#
+#
+  #--- spring#
+  segments(x0 = df_m$gs[sp[1]], y0 = yhat(df_m3)[[2]][3,1], x1 = df_m$gs[sp[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[2]], y0 = yhat(df_m4)[[2]][3,1], x1 = df_m$gs[sp[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[3]], y0 = yhat(df_m5)[[2]][3,1], x1 = df_m$gs[sp[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[4]], y0 = yhat(df_m6)[[2]][3,1], x1 = df_m$gs[sp[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[5]], y0 = yhat(df_m7)[[2]][3,1], x1 = df_m$gs[sp[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[6]], y0 = yhat(df_m8)[[2]][3,1], x1 = df_m$gs[sp[6]], y1 = 0, col = "grey40")    #
+  points(y = yhat(df_m3)[[2]][3,1], x = df_m$gs[sp[1]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m4)[[2]][3,1], x = df_m$gs[sp[2]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m5)[[2]][3,1], x = df_m$gs[sp[3]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m6)[[2]][3,1], x = df_m$gs[sp[4]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m7)[[2]][3,1], x = df_m$gs[sp[5]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m8)[[2]][3,1], x = df_m$gs[sp[6]], pch = 16, col = rainbow_hcl(3)[3])#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")  #
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  axis(4, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  mtext(seq(from = -6, to = 6, by = 2), side = 2, #
+        at = seq(from = -6, to = 6, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 1.5, las = 0, cex = 1, col = "grey20")
+pdf(paste0(proj_dir, "sep_resid.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  abline(h = 0, lty = 1, col = "grey50")#
+  #--- fall#
+  segments(x0 = df_m$gs[fa[1]], y0 = yhat(df_m3)[[2]][1,1], x1 = df_m$gs[fa[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[2]], y0 = yhat(df_m4)[[2]][1,1], x1 = df_m$gs[fa[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[3]], y0 = yhat(df_m5)[[2]][1,1], x1 = df_m$gs[fa[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[4]], y0 = yhat(df_m6)[[2]][1,1], x1 = df_m$gs[fa[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[5]], y0 = yhat(df_m7)[[2]][1,1], x1 = df_m$gs[fa[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[6]], y0 = yhat(df_m8)[[2]][1,1], x1 = df_m$gs[fa[6]], y1 = 0, col = "grey40")#
+  points(y = yhat(df_m3)[[2]][1,1], x = df_m$gs[fa[1]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m4)[[2]][1,1], x = df_m$gs[fa[2]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m5)[[2]][1,1], x = df_m$gs[fa[3]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m6)[[2]][1,1], x = df_m$gs[fa[4]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m7)[[2]][1,1], x = df_m$gs[fa[5]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m8)[[2]][1,1], x = df_m$gs[fa[6]], pch = 16, col = rainbow_hcl(3)[1])#
+#
+  #--- winter#
+  segments(x0 = df_m$gs[wi[1]], y0 = yhat(df_m3)[[2]][2,1], x1 = df_m$gs[wi[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[2]], y0 = yhat(df_m4)[[2]][2,1], x1 = df_m$gs[wi[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[3]], y0 = yhat(df_m5)[[2]][2,1], x1 = df_m$gs[wi[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[4]], y0 = yhat(df_m6)[[2]][2,1], x1 = df_m$gs[wi[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[5]], y0 = yhat(df_m7)[[2]][2,1], x1 = df_m$gs[wi[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[6]], y0 = yhat(df_m8)[[2]][2,1], x1 = df_m$gs[wi[6]], y1 = 0, col = "grey40")  #
+  points(y = yhat(df_m3)[[2]][2,1], x = df_m$gs[wi[1]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m4)[[2]][2,1], x = df_m$gs[wi[2]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m5)[[2]][2,1], x = df_m$gs[wi[3]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m6)[[2]][2,1], x = df_m$gs[wi[4]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m7)[[2]][2,1], x = df_m$gs[wi[5]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m8)[[2]][2,1], x = df_m$gs[wi[6]], pch = 16, col = rainbow_hcl(3)[2])#
+#
+  #--- spring#
+  segments(x0 = df_m$gs[sp[1]], y0 = yhat(df_m3)[[2]][3,1], x1 = df_m$gs[sp[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[2]], y0 = yhat(df_m4)[[2]][3,1], x1 = df_m$gs[sp[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[3]], y0 = yhat(df_m5)[[2]][3,1], x1 = df_m$gs[sp[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[4]], y0 = yhat(df_m6)[[2]][3,1], x1 = df_m$gs[sp[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[5]], y0 = yhat(df_m7)[[2]][3,1], x1 = df_m$gs[sp[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[6]], y0 = yhat(df_m8)[[2]][3,1], x1 = df_m$gs[sp[6]], y1 = 0, col = "grey40")    #
+  points(y = yhat(df_m3)[[2]][3,1], x = df_m$gs[sp[1]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m4)[[2]][3,1], x = df_m$gs[sp[2]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m5)[[2]][3,1], x = df_m$gs[sp[3]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m6)[[2]][3,1], x = df_m$gs[sp[4]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m7)[[2]][3,1], x = df_m$gs[sp[5]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m8)[[2]][3,1], x = df_m$gs[sp[6]], pch = 16, col = rainbow_hcl(3)[3])#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")  #
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  axis(4, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  mtext(seq(from = -6, to = 6, by = 2), side = 2, #
+        at = seq(from = -6, to = 6, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 1.5, las = 0, cex = 1, col = "grey20") #
+dev.off()
+paste0(proj_dir, "sep_resid.pdf")
+proj_dir <- "Dropbox/AP_design/resources/beamer/"
+pdf(paste0(proj_dir, "sep_resid.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  abline(h = 0, lty = 1, col = "grey50")#
+  #--- fall#
+  segments(x0 = df_m$gs[fa[1]], y0 = yhat(df_m3)[[2]][1,1], x1 = df_m$gs[fa[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[2]], y0 = yhat(df_m4)[[2]][1,1], x1 = df_m$gs[fa[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[3]], y0 = yhat(df_m5)[[2]][1,1], x1 = df_m$gs[fa[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[4]], y0 = yhat(df_m6)[[2]][1,1], x1 = df_m$gs[fa[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[5]], y0 = yhat(df_m7)[[2]][1,1], x1 = df_m$gs[fa[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[6]], y0 = yhat(df_m8)[[2]][1,1], x1 = df_m$gs[fa[6]], y1 = 0, col = "grey40")#
+  points(y = yhat(df_m3)[[2]][1,1], x = df_m$gs[fa[1]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m4)[[2]][1,1], x = df_m$gs[fa[2]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m5)[[2]][1,1], x = df_m$gs[fa[3]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m6)[[2]][1,1], x = df_m$gs[fa[4]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m7)[[2]][1,1], x = df_m$gs[fa[5]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m8)[[2]][1,1], x = df_m$gs[fa[6]], pch = 16, col = rainbow_hcl(3)[1])#
+#
+  #--- winter#
+  segments(x0 = df_m$gs[wi[1]], y0 = yhat(df_m3)[[2]][2,1], x1 = df_m$gs[wi[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[2]], y0 = yhat(df_m4)[[2]][2,1], x1 = df_m$gs[wi[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[3]], y0 = yhat(df_m5)[[2]][2,1], x1 = df_m$gs[wi[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[4]], y0 = yhat(df_m6)[[2]][2,1], x1 = df_m$gs[wi[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[5]], y0 = yhat(df_m7)[[2]][2,1], x1 = df_m$gs[wi[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[6]], y0 = yhat(df_m8)[[2]][2,1], x1 = df_m$gs[wi[6]], y1 = 0, col = "grey40")  #
+  points(y = yhat(df_m3)[[2]][2,1], x = df_m$gs[wi[1]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m4)[[2]][2,1], x = df_m$gs[wi[2]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m5)[[2]][2,1], x = df_m$gs[wi[3]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m6)[[2]][2,1], x = df_m$gs[wi[4]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m7)[[2]][2,1], x = df_m$gs[wi[5]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m8)[[2]][2,1], x = df_m$gs[wi[6]], pch = 16, col = rainbow_hcl(3)[2])#
+#
+  #--- spring#
+  segments(x0 = df_m$gs[sp[1]], y0 = yhat(df_m3)[[2]][3,1], x1 = df_m$gs[sp[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[2]], y0 = yhat(df_m4)[[2]][3,1], x1 = df_m$gs[sp[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[3]], y0 = yhat(df_m5)[[2]][3,1], x1 = df_m$gs[sp[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[4]], y0 = yhat(df_m6)[[2]][3,1], x1 = df_m$gs[sp[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[5]], y0 = yhat(df_m7)[[2]][3,1], x1 = df_m$gs[sp[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[6]], y0 = yhat(df_m8)[[2]][3,1], x1 = df_m$gs[sp[6]], y1 = 0, col = "grey40")    #
+  points(y = yhat(df_m3)[[2]][3,1], x = df_m$gs[sp[1]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m4)[[2]][3,1], x = df_m$gs[sp[2]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m5)[[2]][3,1], x = df_m$gs[sp[3]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m6)[[2]][3,1], x = df_m$gs[sp[4]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m7)[[2]][3,1], x = df_m$gs[sp[5]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m8)[[2]][3,1], x = df_m$gs[sp[6]], pch = 16, col = rainbow_hcl(3)[3])#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")  #
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  axis(4, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  mtext(seq(from = -6, to = 6, by = 2), side = 2, #
+        at = seq(from = -6, to = 6, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 1.5, las = 0, cex = 1, col = "grey20") #
+dev.off()
+getwd()
+setwd("~")
+getwd()
+pdf(paste0(proj_dir, "sep_resid.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(-6, 6), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+  abline(h = 0, lty = 1, col = "grey50")#
+  #--- fall#
+  segments(x0 = df_m$gs[fa[1]], y0 = yhat(df_m3)[[2]][1,1], x1 = df_m$gs[fa[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[2]], y0 = yhat(df_m4)[[2]][1,1], x1 = df_m$gs[fa[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[3]], y0 = yhat(df_m5)[[2]][1,1], x1 = df_m$gs[fa[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[4]], y0 = yhat(df_m6)[[2]][1,1], x1 = df_m$gs[fa[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[5]], y0 = yhat(df_m7)[[2]][1,1], x1 = df_m$gs[fa[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[fa[6]], y0 = yhat(df_m8)[[2]][1,1], x1 = df_m$gs[fa[6]], y1 = 0, col = "grey40")#
+  points(y = yhat(df_m3)[[2]][1,1], x = df_m$gs[fa[1]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m4)[[2]][1,1], x = df_m$gs[fa[2]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m5)[[2]][1,1], x = df_m$gs[fa[3]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m6)[[2]][1,1], x = df_m$gs[fa[4]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m7)[[2]][1,1], x = df_m$gs[fa[5]], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = yhat(df_m8)[[2]][1,1], x = df_m$gs[fa[6]], pch = 16, col = rainbow_hcl(3)[1])#
+#
+  #--- winter#
+  segments(x0 = df_m$gs[wi[1]], y0 = yhat(df_m3)[[2]][2,1], x1 = df_m$gs[wi[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[2]], y0 = yhat(df_m4)[[2]][2,1], x1 = df_m$gs[wi[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[3]], y0 = yhat(df_m5)[[2]][2,1], x1 = df_m$gs[wi[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[4]], y0 = yhat(df_m6)[[2]][2,1], x1 = df_m$gs[wi[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[5]], y0 = yhat(df_m7)[[2]][2,1], x1 = df_m$gs[wi[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[wi[6]], y0 = yhat(df_m8)[[2]][2,1], x1 = df_m$gs[wi[6]], y1 = 0, col = "grey40")  #
+  points(y = yhat(df_m3)[[2]][2,1], x = df_m$gs[wi[1]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m4)[[2]][2,1], x = df_m$gs[wi[2]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m5)[[2]][2,1], x = df_m$gs[wi[3]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m6)[[2]][2,1], x = df_m$gs[wi[4]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m7)[[2]][2,1], x = df_m$gs[wi[5]], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = yhat(df_m8)[[2]][2,1], x = df_m$gs[wi[6]], pch = 16, col = rainbow_hcl(3)[2])#
+#
+  #--- spring#
+  segments(x0 = df_m$gs[sp[1]], y0 = yhat(df_m3)[[2]][3,1], x1 = df_m$gs[sp[1]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[2]], y0 = yhat(df_m4)[[2]][3,1], x1 = df_m$gs[sp[2]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[3]], y0 = yhat(df_m5)[[2]][3,1], x1 = df_m$gs[sp[3]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[4]], y0 = yhat(df_m6)[[2]][3,1], x1 = df_m$gs[sp[4]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[5]], y0 = yhat(df_m7)[[2]][3,1], x1 = df_m$gs[sp[5]], y1 = 0, col = "grey40")#
+  segments(x0 = df_m$gs[sp[6]], y0 = yhat(df_m8)[[2]][3,1], x1 = df_m$gs[sp[6]], y1 = 0, col = "grey40")    #
+  points(y = yhat(df_m3)[[2]][3,1], x = df_m$gs[sp[1]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m4)[[2]][3,1], x = df_m$gs[sp[2]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m5)[[2]][3,1], x = df_m$gs[sp[3]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m6)[[2]][3,1], x = df_m$gs[sp[4]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m7)[[2]][3,1], x = df_m$gs[sp[5]], pch = 16, col = rainbow_hcl(3)[3])#
+  points(y = yhat(df_m8)[[2]][3,1], x = df_m$gs[sp[6]], pch = 16, col = rainbow_hcl(3)[3])#
+#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")  #
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck= .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(2, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  axis(4, at = seq(from = -6, to = 6, by = 2), labels = NA, tck= .01, col = "grey50")#
+  mtext(seq(from = -6, to = 6, by = 2), side = 2, #
+        at = seq(from = -6, to = 6, by = 2), las = 2, line=.5, cex = .8, col = "grey20") #
+  mtext("RESIDUAL", side=2, at = 0, line = 1.5, las = 0, cex = 1, col = "grey20") #
+dev.off()
+par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+#
+  lines(y = yhat(df_m3)[[1]][,1], x = yhat(df_m3)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m4)[[1]][,1], x = yhat(df_m4)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m5)[[1]][,1], x = yhat(df_m5)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m6)[[1]][,1], x = yhat(df_m6)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m7)[[1]][,1], x = yhat(df_m7)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m8)[[1]][,1], x = yhat(df_m8)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+#
+  points(y = df_m$y[fa], x = df_m$gs[fa], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = df_m$y[wi], x = df_m$gs[wi], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = df_m$y[sp], x = df_m$gs[sp], pch = 16, col = rainbow_hcl(3)[3])#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  #mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(4, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20")
+pdf(paste0(proj_dir, "sep_yhat.pdf"), width = 9, height = 3)#
+  par(mar = c(2.5, 2.5, 1.5, 1))#
+  plot(NULL, xlim = c(3, 9), ylim = c(190, 230), xaxt = "n", yaxt = "n", bty="n", xlab = "", ylab = "")#
+  box(col="grey50")#
+#
+  abline(v = 3:9, lty = 3, col = "grey75")#
+#
+  lines(y = yhat(df_m3)[[1]][,1], x = yhat(df_m3)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m4)[[1]][,1], x = yhat(df_m4)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m5)[[1]][,1], x = yhat(df_m5)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m6)[[1]][,1], x = yhat(df_m6)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m7)[[1]][,1], x = yhat(df_m7)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+  lines(y = yhat(df_m8)[[1]][,1], x = yhat(df_m8)[[1]][,2], lty = 1, lwd = 2, col = "grey40")#
+#
+  points(y = df_m$y[fa], x = df_m$gs[fa], pch = 16, col = rainbow_hcl(3)[1])#
+  points(y = df_m$y[wi], x = df_m$gs[wi], pch = 16, col = rainbow_hcl(3)[2])#
+  points(y = df_m$y[sp], x = df_m$gs[sp], pch = 16, col = rainbow_hcl(3)[3])#
+  #--- x-axis#
+  axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  axis(3, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck = .01, col = "grey50")#
+  mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
+  #mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
+#
+  #--- y-axis#
+  axis(4, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck = .01, col = "grey50")#
+  mtext(seq(from = 190, to = 230, by = 10), side=2, #
+        at = seq(from = 190, to = 230, by = 10), las = 2, line = .25, cex = .8, col = "grey20") #
+  mtext("MATH", side = 2, at = 210, line = 1.5, las = 0, cex = 1, col = "grey20") #
+dev.off()
+matrix(#
+ c(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, #
+   2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4, #
+   1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 6, 1,#
+   3, 1, 0, 0, 0, 0, 0, 0, 0, 1, 7, 1, 4, 1, 1, 0, 0, 0, 0, 0, 0, 1, 8, 1, 5, #
+   1, 2, 0, 0, 0, 0, 0, 0, 1, 9, 1, 6, 1, 3, 1, 0, 0, 0, 0, 0, 1, 10, 1, 7, 1, #
+   4, 1, 1, 0, 0, 0, 0, 1, 11, 1, 8, 1, 5, 1, 2, 0, 0, 0, 0, 1, 12, 1, 9, 1, 6, #
+   1, 3, 1, 0, 0, 0, 1, 13, 1, 10, 1, 7, 1, 4, 1, 1, 0, 0, 1, 14, 1, 11, 1, 8, #
+   1, 5, 1, 2, 0, 0, 1, 15, 1, 12, 1, 9, 1, 6, 1, 3, 1, 0, 1, 16, 1, 13, 1, 10, #
+   1, 7, 1, 4, 1, 1, 1, 17, 1, 14, 1, 11, 1, 8, 1, 5, 1, 2), nrow = 18, byrow = T)
+p_design <- matrix(#
+ c(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, #
+   2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4, #
+   1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 6, 1,#
+   3, 1, 0, 0, 0, 0, 0, 0, 0, 1, 7, 1, 4, 1, 1, 0, 0, 0, 0, 0, 0, 1, 8, 1, 5, #
+   1, 2, 0, 0, 0, 0, 0, 0, 1, 9, 1, 6, 1, 3, 1, 0, 0, 0, 0, 0, 1, 10, 1, 7, 1, #
+   4, 1, 1, 0, 0, 0, 0, 1, 11, 1, 8, 1, 5, 1, 2, 0, 0, 0, 0, 1, 12, 1, 9, 1, 6, #
+   1, 3, 1, 0, 0, 0, 1, 13, 1, 10, 1, 7, 1, 4, 1, 1, 0, 0, 1, 14, 1, 11, 1, 8, #
+   1, 5, 1, 2, 0, 0, 1, 15, 1, 12, 1, 9, 1, 6, 1, 3, 1, 0, 1, 16, 1, 13, 1, 10, #
+   1, 7, 1, 4, 1, 1, 1, 17, 1, 14, 1, 11, 1, 8, 1, 5, 1, 2), nrow = 18, byrow = T)
+lm(df_m$y ~ model.matrix(p_design))
+require(sas7bdat)
+require(colorspace)
+set.seed(754632)
+col <- rainbow_hcl(3)
+load("Dropbox/AP_design/resources/math_means.Rdata")#
+source("Dropbox/AP_design/apdesign/R/fun_apdesign.R")#
+source("Dropbox/AP_design/apdesign/R/fun_apdesign_i.R")
+grd_lab <- c(expression(3[F]),expression(3[W]),expression(3[S]),#
+             expression(4[F]),expression(4[W]),expression(4[S]),#
+             expression(5[F]),expression(5[W]),expression(5[S]),#
+             expression(6[F]),expression(6[W]),expression(6[S]),#
+             expression(7[F]),expression(7[W]),expression(7[S]),#
+             expression(8[F]),expression(8[W]),expression(8[S]))#
+#
+fa <- seq(from = 1, to = 18, by = 3)#
+wi <- seq(from = 2, to = 18, by = 3) #
+sp <- seq(from = 3, to = 18, by = 3)
+df_m$gs_cycle <- df_m$gs %% 1
+df_m$grd_cnt <- df_m$grd -3
+apdesign_i(data = df_m, #
+           time_var     = "gs_cycle", #
+           cycle_var    = "grd_cnt",#
+           center_cycle = 0,#
+           center_time  = 0, #
+           max_degree   = c(2,1),#
+           matricies = TRUE)
+mat <- apdesign_i(data = df_m, #
+           time_var     = "gs_cycle", #
+           cycle_var    = "grd_cnt",#
+           center_cycle = 0,#
+           center_time  = 0, #
+           max_degree   = c(2,1),#
+           matricies = TRUE)
+mat$D1
+mat$AP
+t(mat$AP)
+?book_gen
+??book_gen
+setwd("Dropbox/Research/ilsasim")
+source("R\\population_pars.R")     # generate population parameter for questionnaire_gen
+source("R\\questionnaire_gen.R")   # generate questionnaire data, including theta
+source("R/population_pars.R")     # generate population parameter for questionnaire_gen
+source("R/questionnaire_gen.R")   # generate questionnaire data, including theta
+source("R/item_gen.R")            # generate item parameters (if you don't have your own!)
+source("R/irt_gen.R")             # generate responses based on theta and item parameters
+source("R/book_gen.R")            # generate booklet design (can provide your own boo)
+source("R/response_gen.R")        # generate response data
+source("R/test_assembly.R")       # generate response data
+?book_gen
+library(devtools)
+library(roxygen2)
+library(testthat)
+library(knitr)
+devtools::document()
+install.packages("devtools")
+library(devtools)
+devtools::document()
+?book_gen
