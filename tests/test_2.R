@@ -4,11 +4,6 @@
 #==============================================================================#
 
 #--- Set directory ------------------------------------------------------------#
-
-#--- Windows
-setwd("Dropbox/Research/ilsasim")
-
-#--- OSX
 setwd("Dropbox/Research/ilsasim")
 
 #--- Source function ----------------------------------------------------------#
@@ -36,7 +31,8 @@ test2 <- test_assembly(n_subj = n_subj, n_forms = n_forms, form_length = form_le
 
 #--- Rasch --------------------------------------------------------------------#
 #--- Generate item parameters  
-gen1PL <- item_gen(n_items  = n_items, 
+n <- 10
+gen1PL <- item_gen(n_items  = n, 
                    b_bounds = c(-2, 2))
 
 #--- Generate item responses 
@@ -48,11 +44,11 @@ dat1PL <- response_gen(subject = test2$item_assign$subject,
 
 
 #--- Rasch partial credit -----------------------------------------------------#
-#--- Generate item parameters  
-genRPCM <- item_gen(n_items       = n_items, 
+#--- Generate item parameters 
+n <- c(5, 5, 5)
+genRPCM <- item_gen(n_items       = n, 
                     b_bounds      = c(-2, 2),
-                    k_options     = 1:3, 
-                    k_proportions = c(.5, .3, .2))
+                    k_options     = 1:3)
 
 #--- Generate item responses 
 datRPCM <- response_gen(subject = test2$item_assign$subj, 
@@ -64,9 +60,10 @@ datRPCM <- response_gen(subject = test2$item_assign$subj,
 
 #--- 2PL ----------------------------------------------------------------------#
 #--- Generate item parameters  
-gen2PL <- item_gen(n_items  = n_items, 
+n <- 10
+gen2PL <- item_gen(n_items  = n, 
                    b_bounds = c(-2, 2),
-                   a_bounds = c(-.5, 1.75))
+                   a_bounds = c(.75, 1.75))
 
 #--- Generate item responses 
 dat2PL <- response_gen(subject = test2$item_assign$subj, 
@@ -78,10 +75,11 @@ dat2PL <- response_gen(subject = test2$item_assign$subj,
 
 #--- 3PL ----------------------------------------------------------------------#
 #--- Generate item parameters  
-gen3PL <- item_gen(n_items  = n_items, 
+n <- 10
+gen3PL <- item_gen(n_items  = n, 
                    b_bounds = c(-2, 2),
-                   a_bounds = c(-.5, 1.75),
-                   c_bounds = c(0, 2))
+                   a_bounds = c(.75, 1.75),
+                   c_bounds = c(0, .2))
 
 #--- Generate item responses 
 dat3PL <- response_gen(subject = test2$item_assign$subj, 
@@ -93,12 +91,11 @@ dat3PL <- response_gen(subject = test2$item_assign$subj,
 
 #--- General partial credit ---------------------------------------------------#
 #--- Generate item parameters  
-genGPCM <- item_gen(n_items   = n_items, 
+n <- c(5, 5, 5)
+genGPCM <- item_gen(n_items   = n, 
                     b_bounds  = c(-2, 2),
-                    a_bounds  = c(-.5, 1.75),
-                    c_bounds  = c(0, 2), 
-                    k_options = 1:3, 
-                    k_proportions = c(.5, .3, .2))
+                    a_bounds  = c(.75, 1.75), 
+                    k_options = 1:3)
 
 #--- Generate item responses 
 datGPCM <- response_gen(subject = test2$item_assign$subj, 
@@ -109,13 +106,13 @@ datGPCM <- response_gen(subject = test2$item_assign$subj,
 
 
 #--- Generalized partial credit / 3PL -----------------------------------------#
-#--- Generate item parameters  
-genGPCM <- item_gen(n_items   = n_items, 
+#--- Generate item parameters 
+n <- c(5, 5, 5)
+genGPCM <- item_gen(n_items   = n, 
                     b_bounds  = c(-2, 2),
-                    a_bounds  = c(-.5, 1.75),
-                    c_bounds  = c(0, 1), 
-                    k_options = 1:3, 
-                    k_proportions = c(.5, .3, .2))
+                    a_bounds  = c(.75, 1.75),
+                    c_bounds  = c(0, .2), 
+                    k_options = 1:3)
 
 #--- Generate item responses 
 datGPCM <- response_gen(subject = test2$item_assign$subject, 
@@ -129,3 +126,32 @@ datGPCM <- response_gen(subject = test2$item_assign$subject,
 #=== END Test_2.R =============================================================#
 
 
+
+# example. 12 books each with 2 blocks, 1 block is multi-choice, 1 block is gpc
+# multi-choice block is 10 items
+# gpc bloc is 2 items
+# 
+
+
+form_l <- c(3, 3, 4, 4, 3, 3)
+n_forms <- length(form_l)
+n_items <- sum(form_l)
+
+items <- seq(1, n_items)
+#this works but doesn't distribute the item types 
+form_item <- rep(1:n_forms, times = form_l)
+
+
+seq(1, length(items), length.out = form_l[1])
+
+form_item <- rep(1:length(form_l), each = form_l)
+
+item_matrix <- matrix(NA, nrow = max(form_l), ncol = length(form_l))
+
+
+  for (k in 1:n_forms){
+    # items in forms x
+    form <- seq(k, form_l[k] + , f_length[i])
+    item_matrix[form, k] <-  form
+    item_matrix[, k] <- ifelse(is.na(item_matrix[, k]), 0, item_matrix[, k])
+  }

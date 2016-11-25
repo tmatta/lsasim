@@ -30,8 +30,7 @@ n_items  <- n_forms * form_len  # number of total items
 #=== Survey data ==============================================================#
 
 #--- Generate marginal probabilities 
-cat_pr1 <- gen_proportions(cat_options = resp_typs, 
-                           n_cat_options = n_typs)
+cat_pr1 <- gen_proportions(cat_options = resp_typs, n_cat_options = n_typs)
 
 #--- Generate correlation matrix 
 q1 <- rand_pd_corr(n_var = n_vars)
@@ -49,7 +48,6 @@ surv1 <- questionnaire(n = n_subj, cat_prop = cat_pr1, cor_matrix = q1, theta = 
 test1 <- test_assembly(n_subj = n_subj, n_forms = n_forms, form_length = form_len, e =.05, iter = 100)
 
 #--- Generate item parameters (generalized partial credit / 3PL)
-# hard code number of items per option
 genGPCM <- item_gen(n_items   = n_items, 
                     b_bounds  = c(-2, 2),
                     a_bounds  = c(-.75, 1.25),

@@ -4,7 +4,8 @@
 \alias{questionnaire}
 \title{Generation of discrete and continuous variables}
 \usage{
-questionnaire(n_obs, cat_prop, cor_matrix, theta = FALSE)
+questionnaire(n_obs, cat_prop, cor_matrix, c_mean = NULL, c_sd = NULL,
+  theta = FALSE)
 }
 \arguments{
 \item{n_obs}{number of observations to generate}
@@ -13,11 +14,18 @@ questionnaire(n_obs, cat_prop, cor_matrix, theta = FALSE)
 
 \item{cor_matrix}{latent correlation matrix}
 
+\item{c_mean}{is a vector of population means for each continuous variable}
+
+\item{c_sd}{is a vector of population standard deviations for each continuous variable}
+
 \item{theta}{if \code{TRUE} will labeled the first continuous variable 'theta'}
+}
+\value{
+A \code{n_obs} by \code{length(cat_prop)} \code{data.frame}
 }
 \description{
 Creates a \code{data.frame} of discrete and continuous variables based on 
-an latent correlation matrix and marginal proportions.
+a latent correlation matrix and marginal proportions.
 }
 \details{
 \itemize{
@@ -28,6 +36,9 @@ an latent correlation matrix and marginal proportions.
   \item \code{cor_matrix} is correlation matrix that is the same size as 
         \code{length(cat_prop)}.  The correlations related to the correlation 
         between variables on the latent scale. 
+  \item \code{c_mean and c_sd} are each vectors whose length is equal to the number of 
+        continuous variables as specified by \code{cat_prop}.  The default is to 
+        keep the continuous variables with mean zero and standard deviation of one.  
   \item \code{theta} is a logical indicator that determines if the first continuous 
         item should be labeled \emph{theta}. If \code{theta = TRUE} but there are no
         continuous variables generated, an error will be returned.    
@@ -38,7 +49,8 @@ generic names will be provided to the variables.
 }
 \examples{
 questionnaire(n = 10, cat_prop = list(c(1), c(.25, .6, 1)), 
-             cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2), theta = TRUE)
+             cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2), 
+             c_mean = 2, c_sd = 1.5, theta = TRUE)
 
 }
 

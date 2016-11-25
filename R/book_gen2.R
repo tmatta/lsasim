@@ -1,16 +1,3 @@
-#'
-#' Generate the matrix sampling design
-#' 
-#' An internal function used in \code{test_assembly} that assigns item numbers to booklets
-#' 
-#' If \code{n_forms} is greater than 2 and \code{is.null(book_design)} is true, booklets are built
-#' using a spiraling design. If \code{n_forms} is less than or equal to 2 then \code{book_design} 
-#' must be specified,  
-#' 
-#' @inheritParams test_assembly
-#' 
-#' @return A list of vectors containing the item numbers.  Each vector in the list is a booklet. 
-
 
 #==============================================================================#
 # Function to create booklet design
@@ -24,7 +11,17 @@
 book_gen <- function(n_forms, form_length, book_design = NULL){
 
   if (n_forms <= 2 & is.null(book_design)) stop("Default booklet assembly requires more than 2 forms", call. = FALSE)
+  if (length(form_length) < n_forms & length(form_length) != 1) stop("Must specify a length for each form", call. = FALSE)
 
+  if (length(form_length) == 1){
+    f_length <- rep(form_length, n_forms)
+  } else {
+    f_length <- form_length.
+  }
+
+  n_items <- sum(f_length)
+  items <- seq(1, n_items)
+   
   # Default book_design matrix
   if (is.null(book_design)){
     book_design <- matrix(NA, nrow = n_forms, ncol = 2)
@@ -34,18 +31,18 @@ book_gen <- function(n_forms, form_length, book_design = NULL){
       book_design[i, ] <- spiral[i:(i + 1)]
     }
   } 
+  
 
   # Number of items are determined my form length and number of forms
-  n_items <- n_forms*form_length
 
   #--- Can add an extra row of 1s to link all forms.
   #--- empty matrix
-  item_matrix <- matrix(NA, nrow = n_items, ncol = n_forms)
+  item_matrix <- matrix(NA, nrow = max_length, ncol = n_forms)
 
   #--- Balanced incomplete design 
   for (k in 1:n_forms){
     # items in forms x
-    form <- seq(k, n_items, n_forms)
+    form <- seq(k, f_length, f_length[i])
     item_matrix[form, k] <-  form
     item_matrix[, k] <- ifelse(is.na(item_matrix[, k]), 0, item_matrix[, k])
   }
@@ -61,3 +58,5 @@ book_gen <- function(n_forms, form_length, book_design = NULL){
   return(booklet)
 
 }
+
+

@@ -11,7 +11,6 @@ Overall aim: to simulate data that mimics large-scale assessments, including bac
 
 * For item_gen and book_gen
   - Enable users to input data frame with a b c d1 ... dk parameters
-  - Specify specific number of items for each item type
 
 * Create a booklet difficulty function
 
