@@ -12,22 +12,20 @@ setwd("Dropbox/Research/ilsasim")
 #--- Source function ----------------------------------------------------------#
 source("R/population_pars.R")     # generate population parameter for questionnaire_gen 
 source("R/questionnaire_gen.R")   # generate questionnaire data, including theta
-source("R/item_gen.R")            # generate item parameters (if you don't have your own!)
-source("R/irt_gen.R")             # generate responses based on theta and item parameters
-source("R/book_gen.R")            # generate booklet design (can provide your own boo)
-source("R/response_gen.R")        # generate response data
-source("R/test_assembly.R")       # generate response data
+source("R/item_gen.R")  
+source("R/block_design.R")  
+source("R/booklet_design.R")  
+source("R/booklet_sample.R")  
+source("R/response_gen.R")  
+source("R/irt_gen.R")  
 
 #=== Parameters ===============================================================#
-n_subj   <- 10                  # number of students
+nn   <- 25                  # number of students
+
+#=== Background Questionnaire data ============================================#
 resp_typs <- c(1, 3, 5)
 n_typs <- c(1, 5, 5)
-n_vars   <- length(rep(resp_typs, n_typs))  # number of questionnaire variables
-n_forms  <- 5                   # number of test forms
-form_len <- 10                  # number of items per form
-n_items  <- n_forms * form_len  # number of total items
-
-#=== Survey data ==============================================================#
+n_vars   <- length(rep(resp_typs, n_typs))  
 
 #--- Generate marginal probabilities 
 cat_pr1 <- gen_proportions(cat_options = resp_typs, n_cat_options = n_typs)
@@ -36,36 +34,40 @@ cat_pr1 <- gen_proportions(cat_options = resp_typs, n_cat_options = n_typs)
 q1 <- rand_pd_corr(n_var = n_vars)
 
 #--- Generate questionnaire data 
-surv1 <- questionnaire(n = n_subj, cat_prop = cat_pr1, cor_matrix = q1, theta = TRUE)
+backgroud_q <- questionnaire(n = nn, cat_prop = cat_pr1, cor_matrix = q1, theta = TRUE)
 
 
 #=== Cognitive data ===========================================================#
 
-#--- Generate test assembly
-#-- change form to blocks of items 
-# unbalanced blocks
-# balanced difficulty check.
-test1 <- test_assembly(n_subj = n_subj, n_forms = n_forms, form_length = form_len, e =.05, iter = 100)
+#--- Generate item pool
+item_pool <- item_gen(n_2pl = 10,
+                       n_3pl = 20, 
+                       thresholds = 2, 
+                       b_bounds = c(-2, 2),
+                       a_bounds = c(.75, 1.25),
+                       c_bounds = c(0, .25))
 
-#--- Generate item parameters (generalized partial credit / 3PL)
-genGPCM <- item_gen(n_items   = n_items, 
-                    b_bounds  = c(-2, 2),
-                    a_bounds  = c(-.75, 1.25),
-                    c_bounds  = c(0, .25), 
-                    k_options = 1:3, 
-                    k_proportions = c(.5, .3, .2))
+#--- Assign items to blocks
+blocks <- block_design(n_blocks = 5, item_parameters = item_pool)
+
+#--- Assign blocks to booklets
+booklets <- booklet_design(item_block_assignment = blocks$block_assignment)
+
+#--- Assign booklets to subjects 
+subj_booklets <- booklet_sample(n_subj = nn, book_item_design = booklets)
 
 #--- Generate item responses 
-datGPCM <- response_gen(subject = test1$item_assign$subject, 
-                        item    = test1$item_assign$item, 
-                        theta   = surv1$theta, 
-                        b_par   = genGPCM$b_par,
-                        a_par   = genGPCM$a_par,
-                        c_par   = genGPCM$c_par)
+item_responses <- response_gen(subject = subj_booklets$subject, 
+                               item    = subj_booklets$item, 
+                               theta   = backgroud_q$theta, 
+                               b_par   = item_pool$b,
+                               a_par   = item_pool$a,
+                               c_par   = item_pool$c,
+                               d_par   = list(item_pool$d1, item_pool$d2))
 
-# book number in final output
+
 #=== Combine Survey data and Cognitive data ===================================#
-final_data <- merge(surv1, datGPCM, by = "subject")
+final_data <- merge(backgroud_q, item_responses, by = "subject")
 
 str(final_data)
 

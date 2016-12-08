@@ -1,133 +1,3 @@
-proj_dir <- "Dropbox/AP_design/resources/beamer/"
-pdf(paste0(proj_dir, "yhat1.pdf"), width = 8, height = 2)#
-#--- Predicted means#
-par(mar = c(2.5, 2.5, 1.5, 1))#
-plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
-box(col="grey50")#
-abline(v = 4:8, lty = 2, col = "grey50")#
-lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
-#
-#--- x-axis#
-axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
-mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
-mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
-#
-#--- y-axis#
-axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
-mtext(seq(from = 190, to = 230, by = 10), side=2, #
-      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
-mtext("MATH", side=2, at = 232, line = -.7, las = 2, cex = 1, col = "grey20") #
-dev.off()
-pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
-#--- Predicted means#
-par(mar = c(2.5, 2.5, 1.5, 1))#
-plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
-box(col="grey50")#
-abline(v = 4:8, lty = 2, col = "grey50")#
-lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
-#
-#--- x-axis#
-axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
-mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
-mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
-#
-#--- y-axis#
-axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
-mtext(seq(from = 190, to = 230, by = 10), side=2, #
-      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
-mtext("MATH", side=2, at = 232, line = -.7, las = 2, cex = 1, col = "grey20") #
-dev.off()
-?pos
-??pos
-par(mar = c(2.5, 2.5, 1.5, 1))#
-plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
-box(col="grey50")#
-abline(v = 4:8, lty = 2, col = "grey50")#
-lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
-#
-#--- x-axis#
-axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
-mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
-mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
-#
-#--- y-axis#
-axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
-mtext(seq(from = 190, to = 230, by = 10), side=2, #
-      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
-mtext("MATH", side=2, at = 232, line = 0, las = 2, cex = 1, col = "grey20", pos = 2)
-pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
-#--- Predicted means#
-par(mar = c(2.5, 2.5, 1.5, 1))#
-plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
-box(col="grey50")#
-abline(v = 4:8, lty = 2, col = "grey50")#
-lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
-#
-#--- x-axis#
-axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
-mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
-mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
-#
-#--- y-axis#
-axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
-mtext(seq(from = 190, to = 230, by = 10), side=2, #
-      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
-mtext("MATH", side=2, at = 232, line = 0, las = 2, cex = 1, col = "grey20", pos = 2) #
-dev.off()
-pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
-#--- Predicted means#
-par(mar = c(2.5, 2.5, 1.5, 1))#
-plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
-box(col="grey50")#
-abline(v = 4:8, lty = 2, col = "grey50")#
-lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
-#
-#--- x-axis#
-axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
-mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
-mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
-#
-#--- y-axis#
-axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
-mtext(seq(from = 190, to = 230, by = 10), side=2, #
-      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
-mtext("MATH", side=2, at = 2325, line = 0, las = 2, cex = 1, col = "grey20", pos = 2) #
-dev.off()
-pdf(paste0(proj_dir, "yhat1.pdf"), width = 9, height = 3)#
-#--- Predicted means#
-par(mar = c(2.5, 2.5, 1.5, 1))#
-plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
-box(col="grey50")#
-abline(v = 4:8, lty = 2, col = "grey50")#
-lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
-#
-#--- x-axis#
-axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
-mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
-mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
-#
-#--- y-axis#
-axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
-mtext(seq(from = 190, to = 230, by = 10), side=2, #
-      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
-mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", pos = 2) #
-dev.off()
-par(mar = c(2.5, 2.5, 1.5, 1))#
-plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
-box(col="grey50")#
-abline(v = 4:8, lty = 2, col = "grey50")#
-lines(y = m2_yhat, x = df_m$gs, col = "grey20", lwd = 2, lty = 2)#
-#
-#--- x-axis#
-axis(1, at = df_m$gs, labels = NA, length(unique(df_m$grd)), tck=-.01, col = "grey50")#
-mtext(grd_lab, side=1, at = df_m$gs, line = .2, cex = .8, col = "grey20") #
-mtext(expression(GRADE[TERM]), side=1, at = mean(df_m$gs), line =  1.5, cex = 1, col = "grey20") #
-#
-#--- y-axis#
-axis(2, at = seq(from = 180, to = 240, by = 10), labels = NA, tck=-.01, col = "grey50")#
-mtext(seq(from = 190, to = 230, by = 10), side=2, axes = FALSE, #
-      at = seq(from = 190, to = 230, by = 10), las = 2, line=.5, cex = .8, col = "grey20") #
-mtext("MATH", side=2, at = 235, line = 0, las = 2, cex = 1, col = "grey20", pos = 2)
 par(mar = c(2.5, 2.5, 1.5, 1))#
 plot(y = df_m$y, x = as.numeric(df_m$gs), bty="n", xaxt="n", yaxt = "n", xlab = "", ylab = "", pch = 16, col = "grey70")#
 box(col="grey50")#
@@ -2355,25 +2225,75 @@ mat <- apdesign_i(data = df_m, #
 mat$D1
 mat$AP
 t(mat$AP)
-?book_gen
-??book_gen
 setwd("Dropbox/Research/ilsasim")
-source("R\\population_pars.R")     # generate population parameter for questionnaire_gen
-source("R\\questionnaire_gen.R")   # generate questionnaire data, including theta
-source("R/population_pars.R")     # generate population parameter for questionnaire_gen
-source("R/questionnaire_gen.R")   # generate questionnaire data, including theta
-source("R/item_gen.R")            # generate item parameters (if you don't have your own!)
-source("R/irt_gen.R")             # generate responses based on theta and item parameters
-source("R/book_gen.R")            # generate booklet design (can provide your own boo)
-source("R/response_gen.R")        # generate response data
-source("R/test_assembly.R")       # generate response data
-?book_gen
-library(devtools)
-library(roxygen2)
-library(testthat)
-library(knitr)
-devtools::document()
-install.packages("devtools")
-library(devtools)
-devtools::document()
-?book_gen
+source("R/item_gen.R")
+gen1PL <- item_gen(n_1pl = 10, #
+                   b_bounds = c(-2, 2))
+gen1PL
+f1 <- function(theta, a_par, b_par, c_par) {#
+   exp_ <- exp(a_par * (theta - b_par)) #
+   2pl <- exp_ / (1 + exp_)#
+   3pl <- (c_par + (1 - c_par)) * 2pl #
+  return(3pl)#
+}
+f1 <- function(theta, a_par, b_par, c_par) {#
+   exp_ <- exp(a * (theta - b)) #
+   2pl <- exp_ / (1 + exp_)#
+   3pl <- (c + (1 - c)) * 2pl #
+  return(3pl)#
+}
+f1 <- function(theta, a, b, c){#
+  exp_ <- exp(a * (theta - b)) #
+  2pl <- exp_ / (1 + exp_)#
+  3pl <- (c + (1 - c)) * 2pl #
+  return(3pl)#
+}
+exp_ <- exp(a * (theta - b))
+a <- .75
+b <- 1.25
+c <- .1
+theta <- 1
+exp_ <- exp(a * (theta - b))
+2pl <- exp_ / (1 + exp_)
+(1 + exp_)
+2pl <- exp_ / (1 + exp_)
+f1 <- function(theta, a, b, c){#
+  exp_ <- exp(a * (theta - b)) #
+  m2pl <- exp_ / (1 + exp_)#
+  m3pl <- (c + (1 - c)) * 2pl #
+  return(
+}
+f1 <- function(theta, a, b, c){#
+  exp_ <- exp(a * (theta - b)) #
+  m2pl <- exp_ / (1 + exp_)#
+  m3pl <- (c + (1 - c)) * 2pl #
+  return(m3pl)#
+}
+m2pl <- exp_ / (1 + exp_)
+m3pl <- (c + (1 - c)) * 2pl
+m3pl <- (c + (1 - c)) * m2pl
+f1 <- function(theta, a, b, c){#
+  exp_ <- exp(a * (theta - b)) #
+  m2pl <- exp_ / (1 + exp_)#
+  m3pl <- (c + (1 - c)) * m2pl #
+  return(m3pl)#
+}
+exp_ <- exp(-(a * (theta - b)))
+m2pl <- 1 / (1 + exp_)
+m3pl <- (c + (1 - c)) * m2pl
+f2 <- function(theta, a, b, c){#
+  exp_ <- exp(-(a * (theta - b)))#
+  m2pl <- 1 / (1 + exp_)#
+  m3pl <- (c + (1 - c)) * m2pl #
+  return(m3pl)#
+}
+f2(theta = 1, b = 1.25, a = .75, c = .2)
+f1(theta = 1, b = 1.25, a = .75, c = .2)
+f2 <- function(theta, a, b, c){#
+  exp_ <- exp(-(a * (theta - b)))#
+  m2pl <- 1 / (1 + exp_)#
+  m3pl <- c + (1 - c) * m2pl #
+  return(m3pl)#
+}
+f1(theta = 1, b = 1.25, a = .75, c = .2)
+f2(theta = 1, b = 1.25, a = .75, c = .2)

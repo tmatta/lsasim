@@ -5,7 +5,7 @@
 *.dropbox
 *.pptx
 *.Rhistory
-
+/raw_data
 
 # tex stuff
 *.aux
