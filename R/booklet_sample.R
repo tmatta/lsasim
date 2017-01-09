@@ -7,9 +7,16 @@ booklet_sample <- function(n_subj, book_item_design, e = .1, iter = 20){
   subj_book_start <- sample(1:ncol(book_item_design), size = n_subj, replace = T)
   book_dist_start <- prop.table(table(subj_book_start))
   pr_dist <- pr_dist_start <- max(book_dist_start) - min(book_dist_start)
+  
+  #--- If initial sampling meets stopping criteria
+  if (pr_dist <= e) {
+    subj_book <- subj_book_start
+    book_dist <- book_dist_start
+    message("Initial difference in booklet distribution ", round(pr_dist, 2))     
+  }
 
-  #--- make sure books are distributed equally
-  while (pr_dist > e) { 
+  #--- Else, make sure books are distributed equally
+  while (pr_dist >= e) { 
     x <- x + 1
     subj_book_2 <- sample(1:ncol(book_item_design), size = n_subj, replace = T)
     book_dist_2 <- prop.table(table(subj_book_2))

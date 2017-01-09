@@ -20,7 +20,7 @@ source("R/response_gen.R")
 source("R/irt_gen.R")  
 
 #=== Parameters ===============================================================#
-nn   <- 25                  # number of students
+nn   <- 86                 # number of students
 
 #=== Background Questionnaire data ============================================#
 resp_typs <- c(1, 3, 5)
@@ -41,8 +41,8 @@ backgroud_q <- questionnaire(n = nn, cat_prop = cat_pr1, cor_matrix = q1, theta 
 
 #--- Generate item pool
 item_pool <- item_gen(n_2pl = 10,
-                       n_3pl = 20, 
-                       thresholds = 2, 
+                      n_3pl = 20, 
+                      thresholds = 2, 
                        b_bounds = c(-2, 2),
                        a_bounds = c(.75, 1.25),
                        c_bounds = c(0, .25))

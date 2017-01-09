@@ -71,9 +71,9 @@ gen2PL_3PL <- item_gen(n_2pl = 5,
                        c_bounds = c(0, .25))
 
 #--- 1PL/ PCM / GPCM ----------------------------------------------------------#
-gen1PL_PCM_GPCM <- item_gen(n_1pl = c(5, 5),
-                            n_2pl = c(0, 5), 
-                            thresholds = c(2, 3), 
+gen1PL_PCM_GPCM <- item_gen(n_1pl = c(5, 5, 5),
+                            n_2pl = c(0, 0, 5),
+                            thresholds = c(1, 2, 3), 
                             b_bounds = c(-2, 2),
                             a_bounds = c(.75, 1.25))
 

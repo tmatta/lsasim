@@ -29,7 +29,6 @@ block_1 <- block_design(n_blocks = 5, item_parameters = gen3PL_GPCM)
 
 book_1 <- booklet_design(item_block_assignment = block_1$block_assignment)
 
-
 #------------------------------------------------------------------------------#
 #--- Example with user-specified item_block_matrix
 #------------------------------------------------------------------------------#
@@ -70,9 +69,9 @@ pisa2012_math_book_mat <- as.matrix(pisa2012_math_booklet[, -1])
 
 pisa_books <- booklet_design(item_block_assignment = pisa_blocks$block_assignment,
                              book_design = pisa2012_math_book_mat)
- 
 
 
+head(pisa_books)
 
 
 
