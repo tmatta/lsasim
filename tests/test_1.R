@@ -20,7 +20,7 @@ source("R/response_gen.R")
 source("R/irt_gen.R")  
 
 #=== Parameters ===============================================================#
-nn   <- 86                 # number of students
+nn   <- 1000                 # number of students
 
 #=== Background Questionnaire data ============================================#
 resp_typs <- c(1, 3, 5)
@@ -54,7 +54,7 @@ blocks <- block_design(n_blocks = 5, item_parameters = item_pool)
 booklets <- booklet_design(item_block_assignment = blocks$block_assignment)
 
 #--- Assign booklets to subjects 
-subj_booklets <- booklet_sample(n_subj = nn, book_item_design = booklets)
+subj_booklets <- booklet_sample(n_subj = nn, book_item_design = booklets, e = .025)
 
 #--- Generate item responses 
 item_responses <- response_gen(subject = subj_booklets$subject, 

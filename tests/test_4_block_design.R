@@ -1,6 +1,3 @@
-
-
-
 #==============================================================================#
 # test_5.R
 # This syntax test the block_assembly() function
@@ -72,6 +69,7 @@ pisa_books <- booklet_design(item_block_assignment = pisa_blocks$block_assignmen
 
 
 head(pisa_books)
+
 
 
 
