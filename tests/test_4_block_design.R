@@ -5,7 +5,7 @@
 rm(list = ls())
 
 #--- Set directory ------------------------------------------------------------#
-setwd("Dropbox/Research/ilsasim")
+setwd("Dropbox/Research/lsasim")
 
 source("R/item_gen.R")  
 source("R/block_design.R")  
@@ -23,9 +23,12 @@ gen3PL_GPCM <- item_gen(n_2pl = 10,
                         c_bounds = c(0, .25))
 
 block_1 <- block_design(n_blocks = 5, item_parameters = gen3PL_GPCM)
-
 book_1 <- booklet_design(item_block_assignment = block_1$block_assignment)
+class(book_1)
 
+matrix(seq(1:40), ncol = 5, byrow = TRUE)
+matrix(c(1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1,
+         0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0), ncol = 5, brow = TRUE)
 #------------------------------------------------------------------------------#
 #--- Example with user-specified item_block_matrix
 #------------------------------------------------------------------------------#

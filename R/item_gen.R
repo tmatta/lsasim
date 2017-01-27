@@ -1,18 +1,26 @@
-#==============================================================================#
-# Generates item parameters from uniform distribution
-# User specified the bounds of the parameters 
-# Currently, b parameter is constrained to keep partial credit items in range
-#==============================================================================#
-
-# b_bounds: bounds of the difficulty parameter
-# a_bounds: bounds of the discrimination parameters 
-# c_bounds: bounds of the guessing parameter
-# thresholds: vector: number of thresholds
-# n_1pl, 
-# n_2pl, if number, number of 2-parameter dichotomous items, 
-#        if vector, each element is the number of GPC items corresponding to thresholds number 
-# n_3pl: numeric, number of 3-parameter items
-# proportion of each k (should sum to 1)
+#' Generation of item parameters from uniform distributions
+#'
+#' Creates a \code{data.frame} of item parameters.  
+#'
+#' @param b_bounds vector containing the bounds of the difficulty parameter
+#' @param a_bounds vector containing the bounds of the discrimination parameters 
+#' @param c_bounds vector containing the bounds of the guessing parameter
+#' @param thershold if numeric, number of thresholds for 1- and/or 2- parameter dichotomous items, if vector, 
+#'        each element is the number of thresholds coresponding to the vector of n_1pl and/or n_2pl. 
+#' @param n_1pl if integer, number of 1-parameter dichotomous items, if vector, 
+#'        each element is the number of GPC items corresponding to thresholds number 
+#' @param n_2pl, if integer, number of 2-parameter dichotomous items, if vector, 
+#'        each element is the number of GPC items corresponding to thresholds number 
+#' @param n_3pl integer, number of 3-parameter items
+#' @param seed integer for reproducible item parameters
+#' 
+#' @return A \code{data.frame} of item parameters
+#' 
+#' @examples
+#' item_gen(b_bounds = c(-2, 2), a_bounds = c(.75, 1.25), 
+#'   thresholds = c(1, 2, 3), n_1pl = c(5, 5, 5), n_2pl = c(0, 0, 5))
+#' item_gen(b_bounds = c(-2, 2), a_bounds = c(.75, 1.25), c_bounds = c(0, .25), 
+#'   n_2pl = 5, n_3pl = 5)
 
 item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL, 
                      thresholds = 1,

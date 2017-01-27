@@ -1,10 +1,30 @@
+#' Assignment of item blocks to test booklets.
+#'
+#' \code{block_design} creates a data.frame that identifies which item corresponds to which booklets.
+#' 
+#' @param item_block_assignment a matrix that identifies which items correspond to which block 
+#' @param book_design a matrix of indicators to assign blocks to booklets 
+#' 
+#' If using \code{booklet_design} in tandem with \code{block_design}, \code{item_block_assignment}
+#' is the the first element of the returned list of \code{block_design}.
+#' 
+#' @return A data.frame
+#' 
+#' @examples
+#' i_blk_mat <- matrix(seq(1:40), ncol = 5) 
+#' blk_book <- matrix(c(1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1,
+#'                      0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0), 
+#'                      ncol = 5, brow = TRUE)
+#' booklet_design(item_block_assignment = i_blk_mat, book_design = blk_book)
+#' booklet_design(item_block_assignment = i_blk_mat)
+#' 
 booklet_design <- function(item_block_assignment, book_design = NULL){
 
   n_block <- ncol(item_block_assignment)
   max_items <- nrow(item_block_assignment)
 
   if (n_block <= 2 & is.null(book_design)){
-    stop("Default booklet assembly requires more than 2 forms", call. = FALSE)
+    stop("Default booklet assembly requires more than 2 blocks", call. = FALSE)
   }
 
   #--- Default book_design matrix

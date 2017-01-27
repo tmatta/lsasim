@@ -45,8 +45,11 @@ item_responses <- response_gen(subject = assign_booklets$subject,
 
 #--- Writing data for parscale
 test_dat <- cbind(theta = theta_vec, item_responses)
+library(gdata)
+install.packages("gdata")
 
-write.parscal(dat = test_dat, id_var = "subject", theta_var = "theta", file = "test1.txt", sep = "   ")
+write.irt(dat = test_dat,  id_var = "subject", 
+              theta_var = "theta", file = "test1.txt", sep = "  ")
 
 
 
@@ -76,4 +79,7 @@ item_responses <- response_gen(subject = assign_booklets$subject,
 
 test_dat2 <- cbind(item_responses, theta = theta_vec)
 
-write.parscal(dat = test_dat2, id_var = "subject", theta_var = "theta", file = "test1.txt", sep = "  ")
+write.parscal(dat = test_dat2, 
+              id_var = "subject", 
+              theta_var = "theta", 
+              file = "test1.txt", sep = "  ")
