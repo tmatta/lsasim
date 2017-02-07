@@ -1,6 +1,6 @@
 #' Assignment of test booklets to test takers.
 #'
-#' \code{booklet_sample} randomly assigns test booklets across the n_subj test takers
+#' \code{booklet_sample} randomly assigns test booklets across the n_subj test takers.
 #' 
 #' @param n_subj integer, the number of subjects (test takers).
 #' @param book_item_design a data.frame containing the items that belong to each 
@@ -8,16 +8,16 @@
 #' @param e stopping criteria, the difference between the most sample and least sampled booklets.
 #' @param iter number if iterations to reach e.
 #' 
+#' @section Details:
 #' If using \code{booklet_sample} in tandem with \code{booklet_design}, \code{book_item_design}
 #' is the the first element of the returned list of \code{block_design}.
-#' 
-#' @return A data.frame
 #' 
 #' @examples
 #' it_bk <- matrix(c(1, 2, 1, 4, 5, 4, 7, 8, 7, 10, 3, 10, 2, 6, 3, 5, 9, 6, 8, 0, 9), 
 #'            ncol = 3, byrow = TRUE)
 #' booklet_samplen_subj = 10, book_item_design = it_bk)
 #' 
+#' @export
 booklet_sample <- function(n_subj, book_item_design, e = .1, iter = 20){
 
   subject <- 1 : n_subj

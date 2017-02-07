@@ -2,13 +2,12 @@
 #'
 #' Creates a random correlation matrix.  
 #'
-#' @param n_var dimension of matrix
-#' 
-#' @return A \code{n_var} by \code{n_var} \code{matrix} 
+#' @param n_var integer number of variables.
 #' 
 #' @examples
 #' cor_gen(nvar = 10)
 #' 
+#' @export
 cor_gen <- function(n_var){ 
   r <- matrix(runif(n_var * n_var, -1, 1), ncol = n_var) 
   rxr <- r %*% t(r) 

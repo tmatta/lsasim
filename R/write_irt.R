@@ -1,12 +1,10 @@
 #' Write item response data to a fixed width file.
 #' 
-#' @param dat \code{data.frame} of item responses
-#' @param id_var \code{character} name of the id variable in \code{dat}
-#' @param group_var \code{character} (or vector of) name(s) of grouping variable in \code{dat}
-#' @param na integer to replace NA
-#' @param ... takes arguement from \code{write.fwf}
-#'  
-#' @return A \code{data.frame} of item responses.
+#' @param dat data.frame of item responses.
+#' @param id_var character name of the id variable in \code{dat}.
+#' @param group_var character (or vector of) name(s) of grouping variable in \code{dat}.
+#' @param na integer to replace NA.
+#' @param ... takes arguement from \code{write.fwf}.
 #' 
 #' @examples
 #' df <- rbind.data.frame(c(1, NA, 1, 0, NA, 0, 0, NA, 1, 0, 1),
@@ -34,6 +32,7 @@
 #' \dontrun{
 #'   write.irt(df, id_var = "id", na = 8, sep = "  ", file = "my_irt_data.txt")
 #' }
+#' @export
 write.irt <- function(dat, id_var = NULL, theta_var = NULL, group_var = NULL, na = 9, ...){
   #... should include file=" ", sep = " ")
   dat[is.na(dat)] <- na
@@ -50,6 +49,6 @@ write.irt <- function(dat, id_var = NULL, theta_var = NULL, group_var = NULL, na
     ir_dat$responses <- do.call(paste0, dat[, i_names])
   }
 
-  info_test <- write.fwf(ir_dat, formatInfo = T, rownames = F, colnames = F, ...)
+  info_test <- gdata::write.fwf(ir_dat, formatInfo = T, rownames = F, colnames = F, ...)
   return(info_test)
 }

@@ -1,16 +1,13 @@
-#' Generation of item response data using a roated block design
+#' Generation of item response data using a rotated block design.
 #'
-#' Creates a \code{data.frame} of discrete item responses based on.
+#' Creates a data.frame of discrete item responses based on.
 #' 
-#' @param subject \code{integer} subjet id
-#' @param item \code{integer} item id
-#' @param theta \code{numeric} latent subject ability 
-#' @param b_par \code{numeric} item b parameter 
-#' @param a_par \code{numeric} item a parameter 
-#' @param c_par \code{numeric} item c parameter
-#' @param d_par \code{list} of item threshold parameters
-#'  
-#' @return A \code{data.frame} of item responses.
+#' @param subject integer test taker ID.
+#' @param theta numeric latent test taker ability.
+#' @param b_par numeric item b parameter.
+#' @param a_par numeric item a parameter. 
+#' @param c_par numeric item c parameter.
+#' @param d_par list of item threshold parameters.
 #' 
 #' @examples
 #' set.seed(1234)
@@ -35,6 +32,7 @@
 #' response_gen(subject = s_id, item = i_id, theta = rnorm(20, 0, 1), 
 #'              b_par = bb, a_par = aa, c_par = cc, d_par = dd)
 #' 
+#' @export
 response_gen <- function(subject, item, theta, a_par = NULL, b_par, c_par = NULL, d_par = NULL){
 
   if (is.null(a_par)) a_par <- rep(1, length(item))

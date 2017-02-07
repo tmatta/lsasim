@@ -1,21 +1,19 @@
 #' Assignment of test items to blocks.
 #'
-#' \code{block_design} creates a length-2 \code{list} containing: 
+#' \code{block_design} creates a length-2 list containing: 
 #' \itemize{
 #'   \item a matrix that identifies which items correspond to which block and
-#'   \item a table of average b-parameter for each block.   
+#'   \item a table of block descriptive statisics.    
 #'}
 #' 
 #' @param n_blocks an integer indicating how many blocks to create.
-#' @param item_parameters a data.frame of item parameters 
-#' @param item_block_matrix a matrix of indicators to assign items to blocks 
-#' 
-#' The default item_block_matrix spirals the items across the n_blocks.
+#' @param item_parameters a data.frame of item parameters.
+#' @param item_block_matrix a matrix of indicators to assign items to blocks.
 #' 
 #' @section Warning:
+#' The default item_block_matrix spirals the items across the n_blocks.
+#' The defualt item_block_matrix requires at least 3 blocks. 
 #' If n_blocks is less than 3, item_block_matrix must be specified.
-#' 
-#' @return A \code{list}
 #' 
 #' @examples
 #' item_param <- data.frame(item = seq(1:25), b = runif(25, -2, 2))
@@ -28,6 +26,7 @@
 #' block_design(n_blocks = 5, item_parameters = item_pool, item_block_matrix = ib_matrix)
 #' block_design(n_blocks = 5, item_parameters = item_pool)
 #' 
+#' @export
 block_design <- function(n_blocks = NULL, item_parameters, item_block_matrix = NULL){
 
   if (is.null(n_blocks)) n_blocks <- ncol(item_block_matrix)

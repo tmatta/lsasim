@@ -1,14 +1,13 @@
 #' Assignment of item blocks to test booklets.
 #'
-#' \code{block_design} creates a data.frame that identifies which item corresponds to which booklets.
+#' \code{block_design} creates a data.frame that identifies which item corresponds to which booklet.
 #' 
-#' @param item_block_assignment a matrix that identifies which items correspond to which block 
-#' @param book_design a matrix of indicators to assign blocks to booklets 
+#' @param item_block_assignment a matrix that identifies which items correspond to which block. 
+#' @param book_design a matrix of indicators to assign blocks to booklets. 
 #' 
+#' @section Details:
 #' If using \code{booklet_design} in tandem with \code{block_design}, \code{item_block_assignment}
 #' is the the first element of the returned list of \code{block_design}.
-#' 
-#' @return A data.frame
 #' 
 #' @examples
 #' i_blk_mat <- matrix(seq(1:40), ncol = 5) 
@@ -18,6 +17,7 @@
 #' booklet_design(item_block_assignment = i_blk_mat, book_design = blk_book)
 #' booklet_design(item_block_assignment = i_blk_mat)
 #' 
+#' @export
 booklet_design <- function(item_block_assignment, book_design = NULL){
 
   n_block <- ncol(item_block_assignment)

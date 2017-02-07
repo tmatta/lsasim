@@ -1,13 +1,11 @@
-#' Simulate item responses from an IRT framework 
+#' Simulate item responses from an IRT model. 
 #'
-#' Creates a \code{data.frame} of item parameters.  
+#' Creates a data.frame of item parameters.  
 #'
-#' @param theta numeric ability estimate
-#' @param b_par numeric or vector of numerics difficulty parameter(s)
-#' @param a_par numeric discrimination parameter
-#' @param c_par numeric guessing parameter
-#' 
-#' @return estimated probability of correct response.
+#' @param theta numeric ability estimate.
+#' @param b_par numeric or vector of numerics difficulty parameter(s).
+#' @param a_par numeric discrimination parameter.
+#' @param c_par numeric guessing parameter.
 #' 
 #' @examples
 #' irt_gen(theta = 0.2, b_par = 0.6)
