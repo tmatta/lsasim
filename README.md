@@ -4,11 +4,11 @@ Overall aim: to simulate data that mimics large-scale assessments, including bac
 
 
 ## Development Team
-  Tyler Matta
-  Yuan-Ling Linda Liaw
-  Leslie Rutkowski
-  David Rutkowski
-  Kondwani Kajera Mughogho
+  * Tyler Matta
+  * Yuan-Ling Linda Liaw
+  * Leslie Rutkowski
+  * David Rutkowski
+  * Kondwani Kajera Mughogho
 
 ## License
   GPL-3
