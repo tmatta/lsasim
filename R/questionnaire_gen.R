@@ -33,9 +33,9 @@
 #' variables if \code{cat_prop} is not named.
 #'   
 #' @examples
-#' questionnaire(n = 10, cat_prop = list(c(1), c(.25, .6, 1)), 
-#'              cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2), 
-#'              c_mean = 2, c_sd = 1.5, theta = TRUE)
+#' questionnaire_gen(n = 10, cat_prop = list(c(1), c(.25, .6, 1)), 
+#'                   cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2), 
+#'                   c_mean = 2, c_sd = 1.5, theta = TRUE)
 #' 
 #' @export
 questionnaire_gen <- function(n_obs, cat_prop, cor_matrix, c_mean = NULL, c_sd = NULL, theta = FALSE){
@@ -98,14 +98,24 @@ questionnaire_gen <- function(n_obs, cat_prop, cor_matrix, c_mean = NULL, c_sd =
         discrete_dat[which(cor_dat[, discrete_var[i]] <= var_thresholds[[i]][j]), discrete_var[i]] <- j
       }
     }  
+  } else {
+    discrete_dat <- cor_dat
   }
 
   discrete_df <- data.frame(discrete_dat)
 
   #--- Create factor variables for all discrete variables.
-  fac_var_list <- lapply(discrete_df[, discrete_var], factor)
-  fac_var_mat <- do.call(cbind.data.frame, fac_var_list)
-  discrete_df[, discrete_var] <- fac_var_mat
+  if (length(which(n_cats > 1)) > 1){
+    fac_var_list <- lapply(discrete_df[, discrete_var], factor)
+    fac_var_mat <- do.call(cbind.data.frame, fac_var_list)
+    discrete_df[, discrete_var] <- fac_var_mat
+  }
+
+  if (length(which(n_cats > 1)) == 1){
+    discrete_df[, discrete_var] <- as.factor(discrete_df[, discrete_var])
+  }
+  
+
   #--- Name variables ---------------------------------------------------------#
 
   #--- If the list cat_prop is not labeled, give it labels q1, ..., qX
@@ -118,7 +128,7 @@ questionnaire_gen <- function(n_obs, cat_prop, cor_matrix, c_mean = NULL, c_sd =
     if (theta == TRUE){
 
       #  Call first non-integer variable theta. 
-      colnames(discrete_df)[which(!(vapply(dat, is.factor, c(is.factor = FALSE))))[1]] <- "theta"
+      colnames(discrete_df)[which(!(vapply(discrete_df, is.factor, c(is.factor = FALSE))))[1]] <- "theta"
       xtra_cols <- paste0("q", 1:(ncol(discrete_df)-1) )
       colnames(discrete_df)[which(colnames(discrete_df) != "theta")] <- xtra_cols
       discrete_df$subject <- 1:nrow(discrete_df)

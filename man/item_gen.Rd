@@ -14,6 +14,9 @@ item_gen(b_bounds, a_bounds = NULL, c_bounds = NULL, thresholds = 1,
 
 \item{c_bounds}{vector containing the bounds of the guessing parameter.}
 
+\item{thresholds}{if numeric, number of thresholds for 1- and/or 2- parameter dichotomous items, if vector, 
+each element is the number of thresholds corresponding to the vector of n_1pl and/or n_2pl.}
+
 \item{n_1pl}{if integer, number of 1-parameter dichotomous items, if vector, 
 each element is the number of GPC items corresponding to thresholds number.}
 
@@ -23,9 +26,6 @@ each element is the number of GPC items corresponding to thresholds number.}
 \item{n_3pl}{integer, number of 3-parameter items.}
 
 \item{seed}{integer for reproducible item parameters.}
-
-\item{threshold}{if numeric, number of thresholds for 1- and/or 2- parameter dichotomous items, if vector, 
-each element is the number of thresholds corresponding to the vector of n_1pl and/or n_2pl.}
 }
 \description{
 Creates a \code{data.frame} of item parameters.

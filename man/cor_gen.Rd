@@ -13,7 +13,7 @@ cor_gen(n_var)
 Creates a random correlation matrix.
 }
 \examples{
-cor_gen(nvar = 10)
+cor_gen(n_var = 10)
 
 }
 

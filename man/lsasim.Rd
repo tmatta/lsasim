@@ -18,7 +18,6 @@ lsasim: A package for simulating large scale assessment data
   \item \code{proportion_gen} Generation of random cumulative proportions. 
   \item \code{questionnaire_gen} Generation of ordinal and continuous variables. 
   \item \code{response_gen} Generation of item response data using a rotated block design.
-  \item \code{write.irt} Write item response data to a fixed width file.
 }
 }
 

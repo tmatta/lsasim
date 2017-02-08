@@ -12,6 +12,7 @@
 #' irt_gen(theta = 0.2, a_par = 1.15, b_par = 0.6)
 #' irt_gen(theta = 0.2, a_par = 1.15, b_par = 0.6, c_par = 0.2)
 #' 
+#' @export
 irt_gen <- function(theta, a_par = 1, b_par, c_par = 0) {
   unsummed <- c(0, a_par * (theta - b_par))
   num <- exp(cumsum(unsummed))

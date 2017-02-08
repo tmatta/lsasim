@@ -10,6 +10,8 @@ response_gen(subject, item, theta, a_par = NULL, b_par, c_par = NULL,
 \arguments{
 \item{subject}{integer test taker ID.}
 
+\item{item}{integer test taker ID.}
+
 \item{theta}{numeric latent test taker ability.}
 
 \item{a_par}{numeric item a parameter.}

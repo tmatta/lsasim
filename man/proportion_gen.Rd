@@ -22,8 +22,8 @@ proportions of a discrete variable.
 \code{cat_options = 1} is a continuous variable.
 }
 \examples{
-gen_proportions(cat_options = c(1, 2, 3), n_cat_options = c(2, 2, 2))
-gen_proportions(cat_options = c(1, 3), n_cat_options = c(4, 5))
+proportion_gen(cat_options = c(1, 2, 3), n_cat_options = c(2, 2, 2))
+proportion_gen(cat_options = c(1, 3), n_cat_options = c(4, 5))
 
 }
 

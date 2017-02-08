@@ -1,23 +1,17 @@
 # README
 
-Overall aim: to simulate data that mimics large-scale assessments, including background variables and cognitive item responses that adhere to a multiple-matrix sampled design. 
+Overall aim: to simulate data that mimics large-scale assessments, including background questionnaire data and cognitive item responses that adhere to a multiple-matrix sampled design. 
 
-## To Do 
 
-* For book_gen.R and test_assembly.R
-  - Default is balanced
-  - Enable user to specify varying block\cluster lengths. 
-  - Enable user to specify varying blocks\clusters per booklet. 
-
-* For item_gen and book_gen
-  - Enable users to input data frame with a b c d1 ... dk parameters
-
-* Create a booklet difficulty function
-
-## Authors
+## Development Team
+  Tyler Matta
+  Yuan-Ling Linda Liaw
+  Leslie Rutkowski
+  David Rutkowski
+  Kondwani Kajera Mughogho
 
 ## License
-
+  GPL-3
 
 
 

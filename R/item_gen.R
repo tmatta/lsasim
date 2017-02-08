@@ -5,7 +5,7 @@
 #' @param b_bounds vector containing the bounds of the difficulty parameter.
 #' @param a_bounds vector containing the bounds of the discrimination parameters. 
 #' @param c_bounds vector containing the bounds of the guessing parameter.
-#' @param threshold if numeric, number of thresholds for 1- and/or 2- parameter dichotomous items, if vector, 
+#' @param thresholds if numeric, number of thresholds for 1- and/or 2- parameter dichotomous items, if vector, 
 #'        each element is the number of thresholds corresponding to the vector of n_1pl and/or n_2pl. 
 #' @param n_1pl if integer, number of 1-parameter dichotomous items, if vector, 
 #'        each element is the number of GPC items corresponding to thresholds number. 

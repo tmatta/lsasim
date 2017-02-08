@@ -3,6 +3,7 @@
 #' Creates a data.frame of discrete item responses based on.
 #' 
 #' @param subject integer test taker ID.
+#' @param item integer test taker ID.
 #' @param theta numeric latent test taker ability.
 #' @param b_par numeric item b parameter.
 #' @param a_par numeric item a parameter. 

@@ -5,7 +5,7 @@
 #' @param n_var integer number of variables.
 #' 
 #' @examples
-#' cor_gen(nvar = 10)
+#' cor_gen(n_var = 10)
 #' 
 #' @export
 cor_gen <- function(n_var){ 
