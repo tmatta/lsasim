@@ -2,22 +2,30 @@
 % Please edit documentation in R/booklet_sample.R
 \name{booklet_sample}
 \alias{booklet_sample}
-\title{Assignment of test booklets to test takers.}
+\title{Assignment of test booklets to test takers}
 \usage{
-booklet_sample(n_subj, book_item_design, e = 0.1, iter = 20)
+booklet_sample(n_subj, book_item_design, book_prob = NULL, resample = FALSE,
+  e = 0.1, iter = 20)
 }
 \arguments{
-\item{n_subj}{integer, the number of subjects (test takers).}
+\item{n_subj}{an integer, the number of subjects (test takers).}
 
-\item{book_item_design}{a data.frame containing the items that belong to each 
-booklet with booklets as columns and booklet item numers as rows.}
+\item{book_item_design}{a data frame containing the items that belong to each 
+booklet with booklets as columns and booklet item numbers as rows.  See 'Details'}
 
-\item{e}{stopping criteria, the difference between the most sample and least sampled booklets.}
+\item{book_prob}{a vector of probability weights for obtaining the booklets being sampled.
+The default equally weights all books.}
 
-\item{iter}{number if iterations to reach e.}
+\item{resample}{logical indicating if booklets should be re-sampled to minimize differences.
+Can only be used when \code{book_prob = NULL}.}
+
+\item{e}{a number between 0 and 1 exclusive, re-sampling stopping criteria, 
+the difference between the most sampled and least sampled booklets.}
+
+\item{iter}{an integer, the number of iterations to reach e.}
 }
 \description{
-\code{booklet_sample} randomly assigns test booklets across the n_subj test takers.
+\code{booklet_sample} randomly assigns test booklets to test takers.
 }
 \section{Details}{
 
@@ -27,7 +35,7 @@ is the the first element of the returned list of \code{block_design}.
 \examples{
 it_bk <- matrix(c(1, 2, 1, 4, 5, 4, 7, 8, 7, 10, 3, 10, 2, 6, 3, 5, 9, 6, 8, 0, 9), 
            ncol = 3, byrow = TRUE)
-booklet_sample(n_subj = 10, book_item_design = it_bk)
+booklet_sample(n_subj = 10, book_item_design = it_bk, book_prob = c(.2, .5, .3))
 
 }
 
