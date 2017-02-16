@@ -11,7 +11,7 @@ booklet_sample(n_subj, book_item_design, book_prob = NULL, resample = FALSE,
 \item{n_subj}{an integer, the number of subjects (test takers).}
 
 \item{book_item_design}{a data frame containing the items that belong to each 
-booklet with booklets as columns and booklet item numbers as rows.  See 'Details'}
+booklet with booklets as columns and booklet item numbers as rows.  See 'Details'.}
 
 \item{book_prob}{a vector of probability weights for obtaining the booklets being sampled.
 The default equally weights all books.}
@@ -22,7 +22,7 @@ Can only be used when \code{book_prob = NULL}.}
 \item{e}{a number between 0 and 1 exclusive, re-sampling stopping criteria, 
 the difference between the most sampled and least sampled booklets.}
 
-\item{iter}{an integer, the number of iterations to reach e.}
+\item{iter}{an integer defining the number of iterations to reach e.}
 }
 \description{
 \code{booklet_sample} randomly assigns test booklets to test takers.

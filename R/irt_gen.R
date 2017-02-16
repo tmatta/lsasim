@@ -1,6 +1,6 @@
-#' Simulate item responses from an IRT model. 
+#' Simulate item responses from an item response model
 #'
-#' Creates a data.frame of item parameters.  
+#' Creates a data frame of item parameters.  
 #'
 #' @param theta numeric ability estimate.
 #' @param b_par numeric or vector of numerics difficulty parameter(s).

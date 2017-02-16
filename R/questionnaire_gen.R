@@ -1,6 +1,6 @@
-#' Generation of ordinal and continuous variables. 
+#' Generation of ordinal and continuous variables 
 #'
-#' Creates a \code{data.frame} of discrete and continuous variables based on 
+#' Creates a data frame of discrete and continuous variables based on 
 #' a latent correlation matrix and marginal proportions.  
 #'
 #' @param n_obs number of observations to generate.

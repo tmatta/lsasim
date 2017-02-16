@@ -4,14 +4,14 @@
 #' 
 #' @param n_subj an integer, the number of subjects (test takers).
 #' @param book_item_design a data frame containing the items that belong to each 
-#'        booklet with booklets as columns and booklet item numbers as rows.  See 'Details'
+#'        booklet with booklets as columns and booklet item numbers as rows.  See 'Details'.
 #' @param book_prob a vector of probability weights for obtaining the booklets being sampled.
 #'        The default equally weights all books.
 #' @param resample logical indicating if booklets should be re-sampled to minimize differences.  
 #'        Can only be used when \code{book_prob = NULL}.
 #' @param e a number between 0 and 1 exclusive, re-sampling stopping criteria, 
 #'        the difference between the most sampled and least sampled booklets.
-#' @param iter an integer, the number of iterations to reach e.
+#' @param iter an integer defining the number of iterations to reach e.
 #' 
 #' @section Details:
 #' If using \code{booklet_sample} in tandem with \code{booklet_design}, \code{book_item_design}

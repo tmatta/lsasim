@@ -2,7 +2,7 @@
 % Please edit documentation in R/cor_gen.R
 \name{cor_gen}
 \alias{cor_gen}
-\title{Generation of random correlation matrix.}
+\title{Generation of random correlation matrix}
 \usage{
 cor_gen(n_var)
 }

@@ -1,6 +1,6 @@
-#' Correlation matrix for the backgroun questionnaire
+#' Correlation matrix from the PISA 2012 background questionnaire
 #'
-#' A correlation matrix for the selected background questionnairs and 
+#' A correlation matrix for the selected background questionnaires and 
 #' mathematics plausible value.
 #'
 #' @format An 19 by 19 matrix.

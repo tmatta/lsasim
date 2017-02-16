@@ -1,4 +1,4 @@
-#' Generation of random correlation matrix. 
+#' Generation of random correlation matrix 
 #'
 #' Creates a random correlation matrix.  
 #'

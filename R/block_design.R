@@ -1,19 +1,18 @@
-#' Assignment of test items to blocks.
+#' Assignment of test items to blocks
 #'
 #' \code{block_design} creates a length-2 list containing: 
 #' \itemize{
-#'   \item a matrix that identifies which items correspond to which block and
+#'   \item a matrix that identifies which items correspond to which blocks and
 #'   \item a table of block descriptive statisics.    
 #'}
 #' 
 #' @param n_blocks an integer indicating how many blocks to create.
-#' @param item_parameters a data.frame of item parameters.
+#' @param item_parameters a data frame of item parameters.
 #' @param item_block_matrix a matrix of indicators to assign items to blocks.
 #' 
 #' @section Warning:
-#' The default item_block_matrix spirals the items across the n_blocks.
-#' The defualt item_block_matrix requires at least 3 blocks. 
-#' If n_blocks is less than 3, item_block_matrix must be specified.
+#' The default \code{item_block_matrix} spirals the items across the \code{n_blocks} and requires \code{n_blocks} >= 3. 
+#' If \code{n_blocks} < 3, \code{item_block_matrix} must be specified.
 #' 
 #' @examples
 #' item_param <- data.frame(item = seq(1:25), b = runif(25, -2, 2))

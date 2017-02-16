@@ -3,7 +3,7 @@
 \docType{data}
 \name{pisa2012_q_cormat}
 \alias{pisa2012_q_cormat}
-\title{Correlation matrix for the backgroun questionnaire}
+\title{Correlation matrix from the PISA 2012 background questionnaire}
 \format{An 19 by 19 matrix.}
 \source{
 Raw data can be found at \url{https://www.oecd.org/pisa/pisaproducts/pisa2012database-downloadabledata.htm}
@@ -13,7 +13,7 @@ Codebook can be found at \url{https://www.oecd.org/pisa/pisaproducts/PISA12_stu_
 pisa2012_q_cormat
 }
 \description{
-A correlation matrix for the selected background questionnairs and 
+A correlation matrix for the selected background questionnaires and 
 mathematics plausible value.
 }
 \section{Details}{

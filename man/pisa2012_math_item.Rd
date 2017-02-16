@@ -13,9 +13,9 @@
   \item{d2}{d2 parameter estimate (for partial credit items).}
 }}
 \source{
-PISA 2012 Technical Report, ANNEX A
-        Table A.1 PISA 2012 Main Survey mathematics item classification 
-        Pages 406 - 409
+PISA 2012 Technical Report, ANNEX A.
+        Table A.1: PISA 2012 Main Survey mathematics item classification. 
+        Pages 406 - 409.
         \url{https://www.oecd.org/pisa/pisaproducts/PISA-2012-technical-report-final.pdf}
 }
 \usage{

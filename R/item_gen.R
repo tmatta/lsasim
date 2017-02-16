@@ -1,16 +1,16 @@
-#' Generation of item parameters from uniform distributions.
+#' Generation of item parameters from uniform distributions
 #'
-#' Creates a \code{data.frame} of item parameters.  
+#' Creates a data frame of item parameters.  
 #'
-#' @param b_bounds vector containing the bounds of the difficulty parameter.
-#' @param a_bounds vector containing the bounds of the discrimination parameters. 
-#' @param c_bounds vector containing the bounds of the guessing parameter.
+#' @param b_bounds a vector containing the bounds of the difficulty parameter.
+#' @param a_bounds a vector containing the bounds of the discrimination parameters. 
+#' @param c_bounds a vector containing the bounds of the guessing parameter.
 #' @param thresholds if numeric, number of thresholds for 1- and/or 2- parameter dichotomous items, if vector, 
 #'        each element is the number of thresholds corresponding to the vector of n_1pl and/or n_2pl. 
 #' @param n_1pl if integer, number of 1-parameter dichotomous items, if vector, 
-#'        each element is the number of GPC items corresponding to thresholds number. 
+#'        each element is the number of partial credit items corresponding to thresholds number. 
 #' @param n_2pl, if integer, number of 2-parameter dichotomous items, if vector, 
-#'        each element is the number of GPC items corresponding to thresholds number.
+#'        each element is the number of generalized partial credit items corresponding to thresholds number.
 #' @param n_3pl integer, number of 3-parameter items.
 #' @param seed integer for reproducible item parameters.
 #' 

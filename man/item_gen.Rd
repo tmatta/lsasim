@@ -2,33 +2,33 @@
 % Please edit documentation in R/item_gen.R
 \name{item_gen}
 \alias{item_gen}
-\title{Generation of item parameters from uniform distributions.}
+\title{Generation of item parameters from uniform distributions}
 \usage{
 item_gen(b_bounds, a_bounds = NULL, c_bounds = NULL, thresholds = 1,
   n_1pl = NULL, n_2pl = NULL, n_3pl = NULL, seed = NULL)
 }
 \arguments{
-\item{b_bounds}{vector containing the bounds of the difficulty parameter.}
+\item{b_bounds}{a vector containing the bounds of the difficulty parameter.}
 
-\item{a_bounds}{vector containing the bounds of the discrimination parameters.}
+\item{a_bounds}{a vector containing the bounds of the discrimination parameters.}
 
-\item{c_bounds}{vector containing the bounds of the guessing parameter.}
+\item{c_bounds}{a vector containing the bounds of the guessing parameter.}
 
 \item{thresholds}{if numeric, number of thresholds for 1- and/or 2- parameter dichotomous items, if vector, 
 each element is the number of thresholds corresponding to the vector of n_1pl and/or n_2pl.}
 
 \item{n_1pl}{if integer, number of 1-parameter dichotomous items, if vector, 
-each element is the number of GPC items corresponding to thresholds number.}
+each element is the number of partial credit items corresponding to thresholds number.}
 
 \item{n_2pl, }{if integer, number of 2-parameter dichotomous items, if vector, 
-each element is the number of GPC items corresponding to thresholds number.}
+each element is the number of generalized partial credit items corresponding to thresholds number.}
 
 \item{n_3pl}{integer, number of 3-parameter items.}
 
 \item{seed}{integer for reproducible item parameters.}
 }
 \description{
-Creates a \code{data.frame} of item parameters.
+Creates a data frame of item parameters.
 }
 \examples{
 item_gen(b_bounds = c(-2, 2), a_bounds = c(.75, 1.25), 

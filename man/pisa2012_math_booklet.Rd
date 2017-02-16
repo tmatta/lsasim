@@ -18,9 +18,9 @@
   \item{b9}{Indicator specifying those test booklets that use item block 9.}
 }}
 \source{
-PISA 2012 Technical Report, Chapter 2: Test Design and Test Development
-        Figure 2.1 Cluster rotation design used to form standard test booklets for PISA 2012 
-        Page 31 
+PISA 2012 Technical Report, Chapter 2: Test Design and Test Development.
+        Figure 2.1: Cluster rotation design used to form standard test booklets for PISA 2012. 
+        Page 31. 
         \url{https://www.oecd.org/pisa/pisaproducts/PISA-2012-technical-report-final.pdf}
 }
 \usage{

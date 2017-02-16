@@ -1,6 +1,6 @@
-#' Assignment of item blocks to test booklets.
+#' Assignment of item blocks to test booklets
 #'
-#' \code{block_design} creates a data.frame that identifies which item corresponds to which booklet.
+#' \code{block_design} creates a data frame that identifies which items corresponds to which booklets.
 #' 
 #' @param item_block_assignment a matrix that identifies which items correspond to which block. 
 #' @param book_design a matrix of indicators to assign blocks to booklets. 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/questionnaire_gen.R
 \name{questionnaire_gen}
 \alias{questionnaire_gen}
-\title{Generation of ordinal and continuous variables.}
+\title{Generation of ordinal and continuous variables}
 \usage{
 questionnaire_gen(n_obs, cat_prop, cor_matrix, c_mean = NULL, c_sd = NULL,
   theta = FALSE)
@@ -21,7 +21,7 @@ questionnaire_gen(n_obs, cat_prop, cor_matrix, c_mean = NULL, c_sd = NULL,
 \item{theta}{if \code{TRUE} will labeled the first continuous variable 'theta'.}
 }
 \description{
-Creates a \code{data.frame} of discrete and continuous variables based on 
+Creates a data frame of discrete and continuous variables based on 
 a latent correlation matrix and marginal proportions.
 }
 \section{Details}{

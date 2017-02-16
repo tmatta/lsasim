@@ -2,7 +2,7 @@
 % Please edit documentation in R/irt_gen.R
 \name{irt_gen}
 \alias{irt_gen}
-\title{Simulate item responses from an IRT model.}
+\title{Simulate item responses from an item response model}
 \usage{
 irt_gen(theta, a_par = 1, b_par, c_par = 0)
 }
@@ -16,7 +16,7 @@ irt_gen(theta, a_par = 1, b_par, c_par = 0)
 \item{c_par}{numeric guessing parameter.}
 }
 \description{
-Creates a data.frame of item parameters.
+Creates a data frame of item parameters.
 }
 \examples{
 irt_gen(theta = 0.2, b_par = 0.6)

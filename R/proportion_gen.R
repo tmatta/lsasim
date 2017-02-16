@@ -1,4 +1,4 @@
-#' Generation of random cumulative proportions. 
+#' Generation of random cumulative proportions 
 #'
 #' Creates a list of vectors, each containing the randomly generated cumulative 
 #' proportions of a discrete variable.  

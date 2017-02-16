@@ -2,7 +2,7 @@
 % Please edit documentation in R/booklet_design.R
 \name{booklet_design}
 \alias{booklet_design}
-\title{Assignment of item blocks to test booklets.}
+\title{Assignment of item blocks to test booklets}
 \usage{
 booklet_design(item_block_assignment, book_design = NULL)
 }
@@ -12,7 +12,7 @@ booklet_design(item_block_assignment, book_design = NULL)
 \item{book_design}{a matrix of indicators to assign blocks to booklets.}
 }
 \description{
-\code{block_design} creates a data.frame that identifies which item corresponds to which booklet.
+\code{block_design} creates a data frame that identifies which items corresponds to which booklets.
 }
 \section{Details}{
 

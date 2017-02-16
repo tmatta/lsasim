@@ -2,7 +2,7 @@
 % Please edit documentation in R/proportion_gen.R
 \name{proportion_gen}
 \alias{proportion_gen}
-\title{Generation of random cumulative proportions.}
+\title{Generation of random cumulative proportions}
 \usage{
 proportion_gen(cat_options, n_cat_options)
 }
