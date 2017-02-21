@@ -5,7 +5,7 @@
 \title{Generation of item parameters from uniform distributions}
 \usage{
 item_gen(b_bounds, a_bounds = NULL, c_bounds = NULL, thresholds = 1,
-  n_1pl = NULL, n_2pl = NULL, n_3pl = NULL, seed = NULL)
+  n_1pl = NULL, n_2pl = NULL, n_3pl = NULL)
 }
 \arguments{
 \item{b_bounds}{a vector containing the bounds of the difficulty parameter.}
@@ -24,11 +24,14 @@ each element is the number of partial credit items corresponding to thresholds n
 each element is the number of generalized partial credit items corresponding to thresholds number.}
 
 \item{n_3pl}{integer, number of 3-parameter items.}
-
-\item{seed}{integer for reproducible item parameters.}
 }
 \description{
 Creates a data frame of item parameters.
+}
+\section{Details}{
+
+The data frame includes two variables \code{p} and \code{k} which indicate the 
+number of parameters and the number of thresholds, respectively
 }
 \examples{
 item_gen(b_bounds = c(-2, 2), a_bounds = c(.75, 1.25), 

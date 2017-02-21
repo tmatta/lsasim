@@ -4,7 +4,7 @@
 \alias{irt_gen}
 \title{Simulate item responses from an item response model}
 \usage{
-irt_gen(theta, a_par = 1, b_par, c_par = 0)
+irt_gen(theta, a_par = 1, b_par, c_par = 0, D = 1)
 }
 \arguments{
 \item{theta}{numeric ability estimate.}
@@ -14,6 +14,8 @@ irt_gen(theta, a_par = 1, b_par, c_par = 0)
 \item{b_par}{numeric or vector of numerics difficulty parameter(s).}
 
 \item{c_par}{numeric guessing parameter.}
+
+\item{D}{numeric parameter to specify logisitic (1) or normal (1.7).}
 }
 \description{
 Creates a data frame of item parameters.

@@ -2,28 +2,36 @@
 % Please edit documentation in R/response_gen.R
 \name{response_gen}
 \alias{response_gen}
-\title{Generation of item response data using a rotated block design.}
+\title{Generation of item response data using a rotated block design}
 \usage{
 response_gen(subject, item, theta, a_par = NULL, b_par, c_par = NULL,
-  d_par = NULL)
+  d_par = NULL, ogive = "Logistic")
 }
 \arguments{
-\item{subject}{integer test taker ID.}
+\item{subject}{integer vector of test taker IDs.}
 
-\item{item}{integer test taker ID.}
+\item{item}{integer vector of item IDs.}
 
-\item{theta}{numeric latent test taker ability.}
+\item{theta}{numeric vector of latent test taker abilities.}
 
-\item{a_par}{numeric item a parameter.}
+\item{a_par}{numeric vector of item a parameters for each item.}
 
-\item{b_par}{numeric item b parameter.}
+\item{b_par}{numeric vector of item b parameters for each item.}
 
-\item{c_par}{numeric item c parameter.}
+\item{c_par}{numeric vector of item c parameters for each item.}
 
-\item{d_par}{list of item threshold parameters.}
+\item{d_par}{list of numeric vectors of item threshold parameters for each item.}
+
+\item{ogive}{can be "Normal" or "Logistic".}
 }
 \description{
-Creates a data.frame of discrete item responses based on.
+Creates a data frame of discrete item responses based on.
+}
+\section{Details}{
+
+\code{subject} and \code{item} must be equal lengths.  
+
+Generalized partial credit models (\code{!is.null(d_par)}) uses threshold parameterization.
 }
 \examples{
 set.seed(1234)

@@ -1,14 +1,20 @@
-#' Generation of item response data using a rotated block design.
+#' Generation of item response data using a rotated block design
 #'
-#' Creates a data.frame of discrete item responses based on.
+#' Creates a data frame of discrete item responses based on.
 #' 
-#' @param subject integer test taker ID.
-#' @param item integer test taker ID.
-#' @param theta numeric latent test taker ability.
-#' @param b_par numeric item b parameter.
-#' @param a_par numeric item a parameter. 
-#' @param c_par numeric item c parameter.
-#' @param d_par list of item threshold parameters.
+#' @param subject integer vector of test taker IDs.
+#' @param item integer vector of item IDs.
+#' @param theta numeric vector of latent test taker abilities.
+#' @param b_par numeric vector of item b parameters for each item.
+#' @param a_par numeric vector of item a parameters for each item. 
+#' @param c_par numeric vector of item c parameters for each item.
+#' @param d_par list of numeric vectors of item threshold parameters for each item.
+#' @param ogive can be "Normal" or "Logistic".
+#' 
+#' @section Details:
+#' \code{subject} and \code{item} must be equal lengths.  
+#' 
+#' Generalized partial credit models (\code{!is.null(d_par)}) uses threshold parameterization.  
 #' 
 #' @examples
 #' set.seed(1234)
@@ -34,15 +40,25 @@
 #'              b_par = bb, a_par = aa, c_par = cc, d_par = dd)
 #' 
 #' @export
-response_gen <- function(subject, item, theta, a_par = NULL, b_par, c_par = NULL, d_par = NULL){
+response_gen <- function(subject, item, theta, a_par = NULL, b_par, c_par = NULL, d_par = NULL, ogive = "Logistic"){
 
-  if (is.null(a_par)) a_par <- rep(1, length(item))
-  if (is.null(c_par)) c_par <- rep(0, length(item))
+  if (length(subject) != length(item)) stop("subject and item vectors must be equal length.", call. = FALSE)
+  if (length(unique(item)) != length(b_par)) stop("Must include b_par for each item.", call. = FALSE)
+  if (!is.null(a_par) & length(unique(item)) != length(a_par)) stop("Must include a parameter for each item.", call. = FALSE)
+  if (!is.null(c_par) & length(unique(item)) != length(c_par)) stop("Must include c parameter for each item.", call. = FALSE)
+  #if (ogive != "Normal" | ogive != "Logistic") stop("ogive must be Normal or Logistic.", call. = FALSE)
+  
+  if (is.null(a_par)) a_par <- rep(1, length(unique(item)))
+  if (is.null(c_par)) c_par <- rep(0, length(unique(item)))
 
+  if (ogive == "Logistic") DD <- 1
+  if (ogive == "Normal") DD <- 1.7
 
   #--- construct b_pars list to be used in irt_gen() --------------------------# 
   if (is.null(d_par)) b_pars <- split(b_par, seq(length(b_par)))
   
+
+
   if (!is.null(d_par)) { 
     d_mat <- do.call("cbind", d_par)
     b_pars <- list()
@@ -67,7 +83,8 @@ response_gen <- function(subject, item, theta, a_par = NULL, b_par, c_par = NULL
     y[n] <- irt_gen(theta = theta[subject[n]], 
                      a_par = a_par[item[n]], 
                      b_par = b_pars[[item[n]]],
-                     c_par = c_par[item[n]])
+                     c_par = c_par[item[n]],
+                     D     = DD)
   }
 
   df_l <- data.frame(item = item, subject = subject, response = y)

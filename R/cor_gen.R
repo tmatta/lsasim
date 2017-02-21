@@ -4,6 +4,10 @@
 #'
 #' @param n_var integer number of variables.
 #' 
+#' @section Details:
+#' The result from \code{cor_gen} can be used directly with the \code{cor_matrix}
+#' argument of \code{questionnaire_gen}.
+#' 
 #' @examples
 #' cor_gen(n_var = 10)
 #' 

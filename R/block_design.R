@@ -14,6 +14,11 @@
 #' The default \code{item_block_matrix} spirals the items across the \code{n_blocks} and requires \code{n_blocks} >= 3. 
 #' If \code{n_blocks} < 3, \code{item_block_matrix} must be specified.
 #' 
+#' The columns of \code{item_block_matrix} represent each block while the rows
+#' represent the total number of items. \code{item_block_matrix[1, 1] = 1} indicates
+#' that block 1 contains item 1 while \code{item_block_matrix[1, 2] = 0} indicates that
+#' block 2 does not contain item 1.
+#' 
 #' @examples
 #' item_param <- data.frame(item = seq(1:25), b = runif(25, -2, 2))
 #' ib_matrix <- matrix(nrow = 25, ncol = 5, byrow = FALSE, 

@@ -12,7 +12,10 @@
 #' @param n_2pl, if integer, number of 2-parameter dichotomous items, if vector, 
 #'        each element is the number of generalized partial credit items corresponding to thresholds number.
 #' @param n_3pl integer, number of 3-parameter items.
-#' @param seed integer for reproducible item parameters.
+#' 
+#' @section Details:
+#' The data frame includes two variables \code{p} and \code{k} which indicate the 
+#' number of parameters and the number of thresholds, respectively 
 #' 
 #' @examples
 #' item_gen(b_bounds = c(-2, 2), a_bounds = c(.75, 1.25), 
@@ -24,8 +27,7 @@
 
 item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL, 
                      thresholds = 1,
-                     n_1pl = NULL, n_2pl = NULL, n_3pl = NULL, 
-                     seed = NULL){
+                     n_1pl = NULL, n_2pl = NULL, n_3pl = NULL){
 
   #--- ERRORS -----------------------------------------------------------------#
   if (!is.null(n_1pl) & length(n_1pl) < length(thresholds)) stop("Must specify the number of 1PL items for each threshold.", call. = FALSE)
@@ -41,8 +43,6 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
   if (is.null(a_bounds) & !is.null(n_2pl)) warning("Generated 2PL items without setting bounds for the a parameter. All a parameters will be 1.", call. = FALSE)
   if (is.null(a_bounds) & !is.null(n_3pl)) warning("Generated 3PL items without setting bounds for the a parameter. All a parameters will be 1.", call. = FALSE)
 
-
-  if(!is.null(seed)) set.seed(seed)
 
   #--- Number of items
   i <- sum(n_1pl, n_2pl, n_3pl)

@@ -6,6 +6,7 @@
 #' @param b_par numeric or vector of numerics difficulty parameter(s).
 #' @param a_par numeric discrimination parameter.
 #' @param c_par numeric guessing parameter.
+#' @param D numeric parameter to specify logisitic (1) or normal (1.7).
 #' 
 #' @examples
 #' irt_gen(theta = 0.2, b_par = 0.6)
@@ -13,8 +14,8 @@
 #' irt_gen(theta = 0.2, a_par = 1.15, b_par = 0.6, c_par = 0.2)
 #' 
 #' @export
-irt_gen <- function(theta, a_par = 1, b_par, c_par = 0) {
-  unsummed <- c(0, a_par * (theta - b_par))
+irt_gen <- function(theta, a_par = 1, b_par, c_par = 0, D = 1) {
+  unsummed <- c(0, D * a_par * (theta - b_par))
   num <- exp(cumsum(unsummed))
   den <- sum(num)
   response_pr <- c_par + (1 - c_par) * (num / den)

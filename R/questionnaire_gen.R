@@ -31,6 +31,7 @@
 #' If \code{cat_prop} is a named list, those names will be used as variable names 
 #' for the returned \code{data.frame}.  Generic names will be provided to the 
 #' variables if \code{cat_prop} is not named.
+#' 
 #'   
 #' @examples
 #' questionnaire_gen(n = 10, cat_prop = list(c(1), c(.25, .6, 1)), 
