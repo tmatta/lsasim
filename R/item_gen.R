@@ -2,9 +2,9 @@
 #'
 #' Creates a data frame of item parameters.  
 #'
-#' @param b_bounds a vector containing the bounds of the difficulty parameter.
-#' @param a_bounds a vector containing the bounds of the discrimination parameters. 
-#' @param c_bounds a vector containing the bounds of the guessing parameter.
+#' @param b_bounds a vector containing the bounds of the the uniform distribution for sampling the difficulty parameters.
+#' @param a_bounds a vector containing the bounds of the the uniform distribution for sampling the discrimination parameters. 
+#' @param c_bounds a vector containing the bounds of the the uniform distribution for sampling the guessing parameters.
 #' @param thresholds if numeric, number of thresholds for 1- and/or 2- parameter dichotomous items, if vector, 
 #'        each element is the number of thresholds corresponding to the vector of n_1pl and/or n_2pl. 
 #' @param n_1pl if integer, number of 1-parameter dichotomous items, if vector, 

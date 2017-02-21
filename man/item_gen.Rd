@@ -8,11 +8,11 @@ item_gen(b_bounds, a_bounds = NULL, c_bounds = NULL, thresholds = 1,
   n_1pl = NULL, n_2pl = NULL, n_3pl = NULL)
 }
 \arguments{
-\item{b_bounds}{a vector containing the bounds of the difficulty parameter.}
+\item{b_bounds}{a vector containing the bounds of the the uniform distribution for sampling the difficulty parameters.}
 
-\item{a_bounds}{a vector containing the bounds of the discrimination parameters.}
+\item{a_bounds}{a vector containing the bounds of the the uniform distribution for sampling the discrimination parameters.}
 
-\item{c_bounds}{a vector containing the bounds of the guessing parameter.}
+\item{c_bounds}{a vector containing the bounds of the the uniform distribution for sampling the guessing parameters.}
 
 \item{thresholds}{if numeric, number of thresholds for 1- and/or 2- parameter dichotomous items, if vector, 
 each element is the number of thresholds corresponding to the vector of n_1pl and/or n_2pl.}
