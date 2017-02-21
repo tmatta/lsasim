@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tmatta/lsasim.svg?branch=master)](https://travis-ci.org/tmatta/lsasim)
+
 # README
 
 Overall aim: to simulate data that mimics large-scale assessments, including background questionnaire data and cognitive item responses that adhere to a multiple-matrix sampled design. 
