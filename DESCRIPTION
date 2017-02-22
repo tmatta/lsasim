@@ -1,6 +1,6 @@
 Package: lsasim
 Title: Simulate Large Scale Assessment Data
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: c(
   person("Tyler", "Matta", email = "tyler.matta@gmail.com", role = c("aut", "cre")),
   person("Yuan-Ling Linda", "Liaw", email = "linda08@uw.edu", role = "ctb"),

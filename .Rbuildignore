@@ -4,3 +4,4 @@
 ^README\.md$
 ^dev\.R$
 ^\.travis\.yml$
+^cran-comments\.md$
