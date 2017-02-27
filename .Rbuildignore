@@ -5,3 +5,4 @@
 ^dev\.R$
 ^\.travis\.yml$
 ^cran-comments\.md$
+^desktop\.ini$

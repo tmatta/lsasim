@@ -5,7 +5,7 @@
 \title{Generation of item response data using a rotated block design}
 \usage{
 response_gen(subject, item, theta, a_par = NULL, b_par, c_par = NULL,
-  d_par = NULL, ogive = "Logistic")
+  d_par = NULL, item_no = NULL, ogive = "Logistic")
 }
 \arguments{
 \item{subject}{integer vector of test taker IDs.}
@@ -21,6 +21,8 @@ response_gen(subject, item, theta, a_par = NULL, b_par, c_par = NULL,
 \item{c_par}{numeric vector of item c parameters for each item.}
 
 \item{d_par}{list of numeric vectors of item threshold parameters for each item.}
+
+\item{item_no}{vector of item numbers the correspond the item parameters}
 
 \item{ogive}{can be "Normal" or "Logistic".}
 }
