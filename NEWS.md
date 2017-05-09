@@ -1,3 +1,11 @@
+lsasim 1.0.2.9000
+-------------
+
+### API changes
+* Added `cov_bounds` to `cor_gen`.
+* Removed `d1` from the returned data frame of `item_gen` when `thresholds = 1`.
+
+
 lsasim 1.0.1.9000
 -------------
 

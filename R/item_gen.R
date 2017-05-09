@@ -161,8 +161,15 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
   
   dlabs <- paste0("d", 1:ncol(d_par))
 
-  item_parameters <- data.frame(item = item_no, b = b_par, d = d_par, a = a_par, c = c_par, k = k, p = item_type)
-  colnames(item_parameters) <- c("item", "b", dlabs, "a", "c", "k", "p")
+  if (thresholds > 1){
+    item_parameters <- data.frame(item = item_no, b = b_par, d = d_par, a = a_par, c = c_par, k = k, p = item_type)
+    colnames(item_parameters) <- c("item", "b", dlabs, "a", "c", "k", "p")
+  }
+  if (thresholds == 1){
+    item_parameters <- data.frame(item = item_no, b = b_par, a = a_par, c = c_par, k = k, p = item_type)
+    colnames(item_parameters) <- c("item", "b", "a", "c", "k", "p")
+  }
+
 
   #----------------------------------------------------------------------------#
   #return(list(b_par = b_center, a_par = a_par, c_par = c_par))
