@@ -35,6 +35,7 @@ Creates a data frame of discrete item responses based on.
 
 Generalized partial credit models (\code{!is.null(d_par)}) uses threshold parameterization.
 }
+
 \examples{
 set.seed(1234)
 s_id <- c(1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 
@@ -59,4 +60,3 @@ response_gen(subject = s_id, item = i_id, theta = rnorm(20, 0, 1),
              b_par = bb, a_par = aa, c_par = cc, d_par = dd)
 
 }
-

@@ -32,6 +32,7 @@ The default \code{book_design} assigns two blocks to every booklet in a spiral d
 The number of default booklets is equal to the number of blocks and must be >= 3. 
 If \code{ncol(item_block_assignment)} < 3, \code{book_design} must be specified.
 }
+
 \examples{
 i_blk_mat <- matrix(seq(1:40), ncol = 5) 
 blk_book <- matrix(c(1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1,
@@ -41,4 +42,3 @@ booklet_design(item_block_assignment = i_blk_mat, book_design = blk_book)
 booklet_design(item_block_assignment = i_blk_mat)
 
 }
-

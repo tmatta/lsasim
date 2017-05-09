@@ -30,6 +30,7 @@ represent the total number of items. \code{item_block_matrix[1, 1] = 1} indicate
 that block 1 contains item 1 while \code{item_block_matrix[1, 2] = 0} indicates that
 block 2 does not contain item 1.
 }
+
 \examples{
 item_param <- data.frame(item = seq(1:25), b = runif(25, -2, 2))
 ib_matrix <- matrix(nrow = 25, ncol = 5, byrow = FALSE, 
@@ -42,4 +43,3 @@ block_design(n_blocks = 5, item_parameters = item_param, item_block_matrix = ib_
 block_design(n_blocks = 5, item_parameters = item_param)
 
 }
-

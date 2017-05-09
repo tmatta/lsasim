@@ -1,11 +1,11 @@
 Package: lsasim
-Title: Simulate Large Scale Assessment Data
-Version: 1.0.1.9000
+Title: Functions to Facilitate the Simulation of Large Scale Assessment Data
+Version: 1.0.1
 Authors@R: c(
   person("Tyler", "Matta", email = "tyler.matta@gmail.com", role = c("aut", "cre")),
-  person("Yuan-Ling Linda", "Liaw", email = "linda08@uw.edu", role = "ctb"),
-  person("Leslie", "Rutkowski", email = "leslie.rutkowski@cemo.uio.no", role = "ctb"),
-  person("David", "Rutkowski", email = "david.rutkowski@cemo.uio.no", role = "ctb"),
+  person("Leslie", "Rutkowski", email = "leslie.rutkowski@cemo.uio.no", role = "aut"),
+  person("David", "Rutkowski", email = "david.rutkowski@cemo.uio.no", role = "aut"),
+  person("Yuan-Ling Linda", "Liaw", email = "linda08@uw.edu", role = "aut"),
   person("Kondwani Kajera", "Mughogho", email = "k.k.mughogho@cemo.uio.no", role = "ctb")
   )
 BugReports: https://github.com/tmatta/lsasim/issues
@@ -17,4 +17,4 @@ Depends:
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

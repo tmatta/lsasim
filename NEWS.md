@@ -1,4 +1,4 @@
-lsasim 1.0.2.9000
+lsasim 1.0.1
 -------------
 
 ### API changes

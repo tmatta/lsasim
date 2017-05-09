@@ -52,5 +52,5 @@ ordinal variables.
 
 These data are for illustration purposes only.  Handling of missing data may not be suitable for valid inferences.
 }
-\keyword{datasets}
 
+\keyword{datasets}

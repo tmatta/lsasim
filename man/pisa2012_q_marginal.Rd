@@ -51,5 +51,5 @@ Element 19 is the marginal proportion for the selected mathematics plausible val
 
 These data are for illustration purposes only.  Handling of missing data may not be suitable for valid inferences.
 }
-\keyword{datasets}
 
+\keyword{datasets}

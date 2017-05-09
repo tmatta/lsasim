@@ -33,6 +33,7 @@ Creates a data frame of item parameters.
 The data frame includes two variables \code{p} and \code{k} which indicate the 
 number of parameters and the number of thresholds, respectively
 }
+
 \examples{
 item_gen(b_bounds = c(-2, 2), a_bounds = c(.75, 1.25), 
   thresholds = c(1, 2, 3), n_1pl = c(5, 5, 5), n_2pl = c(0, 0, 5))
@@ -40,4 +41,3 @@ item_gen(b_bounds = c(-2, 2), a_bounds = c(.75, 1.25), c_bounds = c(0, .25),
   n_2pl = 5, n_3pl = 5)
 
 }
-

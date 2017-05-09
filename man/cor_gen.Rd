@@ -4,10 +4,12 @@
 \alias{cor_gen}
 \title{Generation of random correlation matrix}
 \usage{
-cor_gen(n_var)
+cor_gen(n_var, cov_bounds = c(-1, 1))
 }
 \arguments{
 \item{n_var}{integer number of variables.}
+
+\item{cov_bounds}{a vector containing the bounds of the covariance matrix.}
 }
 \description{
 Creates a random correlation matrix.
@@ -17,8 +19,8 @@ Creates a random correlation matrix.
 The result from \code{cor_gen} can be used directly with the \code{cor_matrix}
 argument of \code{questionnaire_gen}.
 }
+
 \examples{
 cor_gen(n_var = 10)
 
 }
-
