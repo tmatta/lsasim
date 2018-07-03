@@ -9,8 +9,16 @@ questionnaire_gen_2(seed = 674634)
 \arguments{
 \item{seed}{sample seed number for the Random Number Generator}
 }
+\value{
+A list containing three covariance matrices: vcov_yxw, vcov_yxz and
+  vcov_xfz
+}
 \description{
 Second version of the questionnaire_gen function, developed independently to
 maintain functionality of the original function. This function could
 eventually be integrated into questionnaire_gen
+}
+\examples{
+ vcov <- questionnaire_gen_2()
+ str(vcov)
 }

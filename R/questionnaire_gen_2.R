@@ -5,7 +5,12 @@
 #' eventually be integrated into questionnaire_gen
 #'
 #' @param seed sample seed number for the Random Number Generator
+#' @return A list containing three covariance matrices: vcov_yxw, vcov_yxz and
+#'   vcov_xfz
 #' @export
+#' @examples
+#'  vcov <- questionnaire_gen_2()
+#'  str(vcov)
 questionnaire_gen_2 <- function(seed = 674634) {
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
   # Construct covariance matricies for simulation
@@ -107,8 +112,6 @@ questionnaire_gen_2 <- function(seed = 674634) {
 
   det(vcov_yxw) > 0
 
-  saveRDS(vcov_yxw, file = "vcov_yxw.rds")
-
   #------------------------------------------------------------------------------#
   # Analytical covariance matrix
   # using var(z) = pq and point biserial correlations
@@ -136,9 +139,6 @@ questionnaire_gen_2 <- function(seed = 674634) {
 
   det(vcov_yxz) > 0
 
-  saveRDS(vcov_yxz,  file = "vcov_yxz.rds")
-
-
   #------------------------------------------------------------------------------#
   # latent regression covariance matrix
   #------------------------------------------------------------------------------#
@@ -148,7 +148,6 @@ questionnaire_gen_2 <- function(seed = 674634) {
 
   vcov_xfz <- diag(sd_vec) %*% Phi_pb %*% diag(sd_vec)
 
-  saveRDS(vcov_xfz, file = "vcov_xfz.rds")
 
   #------------------------------------------------------------------------------#
   # Analytical parameters
@@ -164,7 +163,7 @@ questionnaire_gen_2 <- function(seed = 674634) {
   beta_z <- solve(vcov_xfz[11, 11], vcov_xfz[1, 11])
   beta_c <- as.numeric(0 - (beta_z %*% 1 - pr_grp_1))
   round(cbind(Z0 = beta_c, Z1 = beta_z), 3)
-  #        Z0   Z1
-  # [1,] 0.14 0.52
 
+  out <- list(vcov_yxw = vcov_yxw, vcov_yxz = vcov_yxz, vcov_xfz = vcov_xfz)
+  return(out) #TODO: what is the desired output?
 }
