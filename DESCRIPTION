@@ -13,7 +13,7 @@ Description: Provides functions to simulate data from large-scale educational
   assessments, including background questionnaire data and cognitive item 
   responses that adhere to a multiple-matrix sampled design.
 Depends:
-    R (>= 3.3.1)
+    R (>= 3.3.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
