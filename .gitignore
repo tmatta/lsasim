@@ -15,6 +15,7 @@ dev.R
 raw_data/
 archive/
 jss/
+.Rproj.user/
 
 #-----------------#
 #--- TeX stuff ---#
