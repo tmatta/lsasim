@@ -3,6 +3,8 @@
 #' Second version of the questionnaire_gen function, developed independently to
 #' maintain functionality of the original function. This function could
 #' eventually be integrated into questionnaire_gen
+#'
+#' @param seed sample seed number for the Random Number Generator
 #' @export
 questionnaire_gen_2 <- function(seed = 674634) {
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -10,21 +12,8 @@ questionnaire_gen_2 <- function(seed = 674634) {
   # yxz is the covariance between y, x1, ..., x36; z
   # yxw is the covariance between y, x1, ..., x36; w, w~ N(0, 1)
   # yfz is the covariance between y, f1, ..., f9, z; where f is a factor
-
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
   set.seed(seed)
-
-  #------------------------------------------------------------------------------#
-  # analytical point-biserial conversion
-  #------------------------------------------------------------------------------#
-  ptBisConversion <- function(bis_cor, pr_group1){
-    yord      <- dnorm(qnorm(pr_group1))
-    pr_group2 <- 1 - pr_group1
-    bis_adj   <- sqrt(pr_group1 * pr_group2) / yord
-    pt_bis    <- bis_cor / bis_adj
-    return(pt_bis)
-  }
-
 
   #------------------------------------------------------------------------------#
   # Population parameters
@@ -134,7 +123,7 @@ questionnaire_gen_2 <- function(seed = 674634) {
   cor_ptbis <- list()
 
   for(i in 1:(length(n_ind) + 1))
-    cor_ptbis[[i]]  <- ptBisConversion(bis_cor = Phi[11, i], pr_group1 = pr_grp_1)
+    cor_ptbis[[i]]  <- pt_bis_conversion(bis_cor = Phi[11, i], pr_group1 = pr_grp_1)
 
   cor_ptbis <- unlist(cor_ptbis)
 
