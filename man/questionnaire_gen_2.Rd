@@ -4,9 +4,19 @@
 \alias{questionnaire_gen_2}
 \title{Generation of ordinal and continuous variables (temp)}
 \usage{
-questionnaire_gen_2(seed = 674634)
+questionnaire_gen_2(pr_grp_1 = 0.66, n_fac = 9, n_ind = 4,
+  Lambda_lims = c(0.6, 0.9), seed = 674634)
 }
 \arguments{
+\item{pr_grp_1}{proportion of observations in group 1}
+
+\item{n_fac}{number of factors}
+
+\item{n_ind}{number of indicators per factor}
+
+\item{Lambda_lims}{vector of lower and upper limits for the factor-loading
+matrix}
+
 \item{seed}{sample seed number for the Random Number Generator}
 }
 \value{
@@ -16,7 +26,7 @@ A list containing three covariance matrices: vcov_yxw, vcov_yxz and
 \description{
 Second version of the questionnaire_gen function, developed independently to
 maintain functionality of the original function. This function could
-eventually be integrated into questionnaire_gen
+eventually be integrated into questionnaire_gen.
 }
 \examples{
  vcov <- questionnaire_gen_2()
