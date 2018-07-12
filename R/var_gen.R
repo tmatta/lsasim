@@ -1,4 +1,4 @@
-#' Generation of ordinal and continuous variables (temp)
+#' Generation of covariance matrices
 #'
 #' Second version of the questionnaire_gen function, developed independently to
 #' maintain functionality of the original function. This function could
@@ -16,8 +16,8 @@
 #' @examples
 #'  vcov <- questionnaire_gen_2()
 #'  str(vcov)
-questionnaire_gen_2 <- function(pr_grp_1 = .66, n_fac = 9, n_ind = 4,
-                                Lambda_lims = c(.6, .9), seed = 674634) {
+var_gen <- function(pr_grp_1 = .66, n_fac = 9, n_ind = 4,
+                    Lambda_lims = c(.6, .9), seed = 674634) {
   # Construct covariance matrices for simulation --------------------------
   # yfz is the covariance between y, f1, ..., f9, z; where f is a factor
   set.seed(seed)
