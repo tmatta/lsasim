@@ -17,7 +17,7 @@
 #'  vcov <- questionnaire_gen_2()
 #'  str(vcov)
 var_gen <- function(pr_grp_1 = .66, n_fac = 9, n_ind = 4,
-                    Lambda_lims = c(.6, .9), seed = 674634) {
+                    Lambda_lims = c(.6, .9), seed = runif(n = 1, max = 1e8)) {
   # Construct covariance matrices for simulation --------------------------
   # yfz is the covariance between y, f1, ..., f9, z; where f is a factor
   set.seed(seed)
