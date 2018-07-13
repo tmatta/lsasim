@@ -11,7 +11,7 @@
 #'   matrix
 #' @param seed sample seed number for the Random Number Generator
 #' @return A list containing three covariance matrices: vcov_yxw, vcov_yxz and
-#'   vcov_xfz
+#'   vcov_yfz
 #' @export
 #' @examples
 #'  vcov <- questionnaire_gen_2()
@@ -19,7 +19,6 @@
 cov_gen <- function(pr_grp_1 = .66, n_fac = 9, n_ind = 4,
                     Lambda_lims = c(.6, .9), seed = runif(n = 1, max = 1e8)) {
   # Construct covariance matrices for simulation --------------------------
-  # yfz is the covariance between y, f1, ..., f9, z; where f is a factor
   set.seed(seed)
 
   # Population parameters
@@ -32,7 +31,7 @@ cov_gen <- function(pr_grp_1 = .66, n_fac = 9, n_ind = 4,
 
   # Location markers for the lambda matrix
   n_ind_minus1 <- n_ind - 1
-  l_start <- cumsum(n_ind) - n_ind_minus1
+  l_start <- cumsum(n_ind) - n_ind_mifznus1
   l_end <- l_start + n_ind - 1
 
   # Factor loading matrix (loadings generated randomly) -------------------
@@ -126,23 +125,24 @@ cov_gen <- function(pr_grp_1 = .66, n_fac = 9, n_ind = 4,
   }
 
   # Latent regression covariance matrix -----------------------------------
+  # yfz is the covariance between y, f1, ..., f9, z; where f is a factor
   sd_vec <- c(rep(1, ncol_Phi - 1), sd_z)
   Phi_pb <- Phi
   Phi_pb[ncol_Phi, seq(ncol_Phi - 1)] <- cor_ptbis
   Phi_pb[seq(ncol_Phi - 1), ncol_Phi] <- cor_ptbis
 
-  vcov_xfz <- diag(sd_vec) %*% Phi_pb %*% diag(sd_vec)
+  vcov_yfz <- diag(sd_vec) %*% Phi_pb %*% diag(sd_vec)  #TODO: should be yfz!
 
   # Analytical parameters -------------------------------------------------
 
   # Latent regression parameters
-  beta_hat <- solve(vcov_xfz[2:ncol_Phi, 2:ncol_Phi], vcov_xfz[1, 2:ncol_Phi])
+  beta_hat <- solve(vcov_yfz[2:ncol_Phi, 2:ncol_Phi], vcov_yfz[1, 2:ncol_Phi])
 
   # Group differences for Z
-  beta_z <- solve(vcov_xfz[ncol_Phi, ncol_Phi], vcov_xfz[1, ncol_Phi])
+  beta_z <- solve(vcov_yfz[ncol_Phi, ncol_Phi], vcov_yfz[1, ncol_Phi])
   beta_c <- as.numeric(0 - (beta_z %*% 1 - pr_grp_1))
 
-  out <- list(vcov_yxw = vcov_yxw, vcov_yxz = vcov_yxz, vcov_xfz = vcov_xfz,
+  out <- list(vcov_yxw = vcov_yxw, vcov_yxz = vcov_yxz, vcov_yfz = vcov_yfz,
               beta_hat = beta_hat, Z0 = beta_c, Z1 = beta_z)
   return(out) #TODO: what is the desired output?
 }
