@@ -21,7 +21,7 @@ matrix}
 }
 \value{
 A list containing three covariance matrices: vcov_yxw, vcov_yxz and
-  vcov_xfz
+  vcov_yfz
 }
 \description{
 Second version of the questionnaire_gen function, developed independently to
