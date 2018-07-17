@@ -55,6 +55,15 @@ questionnaire_gen_2 <- function(n_obs, cat_prop, cor_matrix, c_mean = NULL,
     return(uncor_mat)
   }
   #------------------------------------------------------------------------------#
+  #TODO: add check for existence of cat_prop or cor_matrix
+  #TODO: if those are NULL and family is set, use the following:
+  #--- Generate background data:
+  # bg_dat_full <- data.frame(mvtnorm::rmvnorm(n, mean = rep(0, 38), sigma = vcov_yxw))
+  # colnames(bg_dat_full) <- gen_var_names
+  # bg_dat_full$z <- cut(bg_dat_full[, "w"], c(-Inf, qnorm(pr_grp_1), Inf), labels = c("0", "1"))
+  # bg_dat_full$z <- as.numeric(bg_dat_full$z) - 1
+  # bg_dat_full$w <- NULL
+
   #--- Generate uncorrelated standard normals
   n_vars <- length(cat_prop)
   uncor_dat <- mvsn(n = n_obs, num_x = n_vars)
