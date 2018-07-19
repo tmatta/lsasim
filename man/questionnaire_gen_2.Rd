@@ -4,8 +4,9 @@
 \alias{questionnaire_gen_2}
 \title{Generation of ordinal and continuous variables}
 \usage{
-questionnaire_gen_2(n_obs, cat_prop, cor_matrix, c_mean = NULL, c_sd = NULL,
-  theta = FALSE)
+questionnaire_gen_2(n_obs, cat_prop = NULL, cor_matrix = NULL,
+  c_mean = NULL, c_sd = NULL, theta = FALSE, family = "gaussian",
+  cov_matrix = NULL)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}
@@ -19,6 +20,10 @@ questionnaire_gen_2(n_obs, cat_prop, cor_matrix, c_mean = NULL, c_sd = NULL,
 \item{c_sd}{is a vector of population standard deviations for each continuous variable.}
 
 \item{theta}{if \code{TRUE} will labeled the first continuous variable 'theta'.}
+
+\item{family}{distribution family, can be NULL, 'multinomial' or 'binomial'.}
+
+\item{vcov_yxw}{covariance matrix of the latent trait (Y), X and W.}
 }
 \description{
 Creates a data frame of discrete and continuous variables based on
@@ -54,8 +59,13 @@ variables if \code{cat_prop} is not named.
 }
 
 \examples{
-questionnaire_gen(n = 10, cat_prop = list(c(1), c(.25, .6, 1)),
+# Using polychoric correlations
+questionnaire_gen_2(n = 10, cat_prop = list(c(1), c(.25, .6, 1)),
                   cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
                   c_mean = 2, c_sd = 1.5, theta = TRUE)
+
+# Using the multinomial distribution
+cov_matrix <- cov_gen(n_fac = 2, n_ind = 3)$vcov_yxw
+questionnaire_gen_2(n = 10, cov_matrix = cov_matrix)
 
 }
