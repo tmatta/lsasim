@@ -14,7 +14,7 @@
 #'   vcov_yfz
 #' @export
 #' @examples
-#'  vcov <- questionnaire_gen_2()
+#'  vcov <- cov_gen()
 #'  str(vcov)
 cov_gen <- function(pr_grp_1 = .66, n_fac = 9, n_ind = 4,
                     Lambda_lims = c(.6, .9), seed = runif(n = 1, max = 1e8)) {
@@ -31,7 +31,7 @@ cov_gen <- function(pr_grp_1 = .66, n_fac = 9, n_ind = 4,
 
   # Location markers for the lambda matrix
   n_ind_minus1 <- n_ind - 1
-  l_start <- cumsum(n_ind) - n_ind_mifznus1
+  l_start <- cumsum(n_ind) - n_ind_minus1
   l_end <- l_start + n_ind - 1
 
   # Factor loading matrix (loadings generated randomly) -------------------
@@ -131,7 +131,7 @@ cov_gen <- function(pr_grp_1 = .66, n_fac = 9, n_ind = 4,
   Phi_pb[ncol_Phi, seq(ncol_Phi - 1)] <- cor_ptbis
   Phi_pb[seq(ncol_Phi - 1), ncol_Phi] <- cor_ptbis
 
-  vcov_yfz <- diag(sd_vec) %*% Phi_pb %*% diag(sd_vec)  #TODO: should be yfz!
+  vcov_yfz <- diag(sd_vec) %*% Phi_pb %*% diag(sd_vec)
 
   # Analytical parameters -------------------------------------------------
 

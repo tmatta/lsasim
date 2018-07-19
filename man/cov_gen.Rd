@@ -29,6 +29,6 @@ maintain functionality of the original function. This function could
 eventually be integrated into questionnaire_gen.
 }
 \examples{
- vcov <- questionnaire_gen_2()
+ vcov <- cov_gen()
  str(vcov)
 }
