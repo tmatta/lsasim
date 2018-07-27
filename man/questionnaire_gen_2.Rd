@@ -72,7 +72,7 @@ questionnaire_gen_2(n_obs = 10, cat_prop = cum_prop,
 # Using the multinomial distribution
 # two categorical variables W: one has 2 categories, the other has 3
 cum_prop <- list(c(.25, 1), c(.2, .8, 1))
-yw_mean <- c(0, 0, 0)
+yw_mean <- c(0, 0, 0)  # includes one mean of Y and two means for the Ws
 yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
 questionnaire_gen_2(n_obs = 10, cat_prop = cum_prop, family = "gaussian",
                     mean_yw = yw_mean, cov_yw = yw_cov)

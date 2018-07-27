@@ -1,4 +1,4 @@
-context("Code replication")
+context("Replication of results from script 1")
 
 test_that("Function ouput identical to script", {
   vcov_yxw <- readRDS("vcov_yxw.rds")

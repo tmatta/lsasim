@@ -52,7 +52,7 @@
 #' # Using the multinomial distribution
 #' # two categorical variables W: one has 2 categories, the other has 3
 #' cum_prop <- list(c(.25, 1), c(.2, .8, 1))
-#' yw_mean <- c(0, 0, 0)
+#' yw_mean <- c(0, 0, 0)  # includes one mean of Y and two means for the Ws
 #' yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
 #' questionnaire_gen_2(n_obs = 10, cat_prop = cum_prop, family = "gaussian",
 #'                     mean_yw = yw_mean, cov_yw = yw_cov)
@@ -60,8 +60,8 @@
 questionnaire_gen_2 <- function(n_obs, cat_prop, cor_matrix = NULL,
                                 c_mean = NULL, c_sd = NULL, theta = FALSE,
                                 family = NULL, mean_yw = NULL, cov_yw = NULL){
-
   # TODO: currently assuming all r.v. have sd = 1 so cor = cov. OK for now?
+  # TODO: Eliminate parameter redundancy between cov_yw, cor_matrix
   if (!is.null(family)) {
     # Generating raw data according to distribution
     if (family == "gaussian") {

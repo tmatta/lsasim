@@ -24,9 +24,7 @@ A list containing three covariance matrices: vcov_yxw, vcov_yxz and
   vcov_yfz
 }
 \description{
-Second version of the questionnaire_gen function, developed independently to
-maintain functionality of the original function. This function could
-eventually be integrated into questionnaire_gen.
+Generation of covariance matrices
 }
 \examples{
  vcov <- cov_gen()
