@@ -16,7 +16,7 @@
 #' @param pr_grp_1 proportion of subjects in group 1.
 #' @param family distribution family, can be NULL, 'multinomial' or 'binomial'.
 #' @param n_fac number of factors
-#' @param n_inf number of indicators per factor
+#' @param n_ind number of indicators per factor
 #' @param mean_yxw mean vector of the latent trait (Y), X and W.
 #' @param cov_yxw covariance matrix of the latent trait (Y), X and W.
 #'
@@ -45,13 +45,12 @@
 #'
 #' @examples
 #' # Using polychoric correlations
-#' questionnaire_gen_2(n = 10, cat_prop = list(c(1), c(.25, .6, 1)),
+#' questionnaire_gen_2(n_obs = 10, cat_prop = list(c(1), c(.25, .6, 1)),
 #'                   cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
 #'                   c_mean = 2, c_sd = 1.5, theta = TRUE)
 #'
 #' # Using the multinomial distribution
-#' cov_yxw <- cov_gen(n_fac = 2, n_ind = 3)$vcov_yxw
-#' questionnaire_gen_2(n = 10, cov_yxw = cov_yxw)
+#' questionnaire_gen_2(n = 10, n_fac = 2, n_ind = 3)
 #'
 #' @export
 questionnaire_gen_2 <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
@@ -59,11 +58,11 @@ questionnaire_gen_2 <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                                 pr_grp_1 = .66, family = "gaussian",
                                 n_fac = 2, n_ind = 3, mean_yxw = NULL,
                                 cov_yxw = NULL){
-  #------------------------------------------------------------------------------#
+
   if (is.null(cat_prop) | is.null(cor_matrix)) {
     if (family == "gaussian") {
       if (is.null(cov_yxw)) cov_yxw <- cov_gen(pr_grp_1, n_fac, n_ind)$vcov_yxw
-      if (is.null(mean_yxw)) mean_yxw <- rep(0, nrow(cov_yxw))
+      if (is.null(mean_yxw)) mean_yxw <- rep(0, ncol(cov_yxw))
       raw_data <- mvtnorm::rmvnorm(n = n_obs, mean = mean_yxw, sigma = cov_yxw)
     } else if (family == "binomial") {
       stop("Binomial family not yet implemented. Exiting.")
@@ -74,14 +73,25 @@ questionnaire_gen_2 <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
            "Choose 'gaussian', 'binomial' or 'poisson'.")
     }
     message("Using ", family, " distribution")
+    # Formatting raw data
     bg_dat_full <- data.frame(subject = 1:nrow(raw_data), raw_data)
-    gen_var_names <- c("subject", "y", paste0("x", seq(nrow(cov_matrix) - 2)), "w")
-    gen_var_names <- c("subject", "theta", paste0("q", seq(nrow(cov_matrix) - 2)), "w")  # TODO: correct?
+    gen_var_names <- c("subject", "theta", paste0("x", seq(nrow(cov_yxw) - 2)),
+                       "w")
     colnames(bg_dat_full) <- gen_var_names
-    pr_grp_1 <- .66 # TODO: best way to get this?
-    bg_dat_full$z <- cut(bg_dat_full$w, c(-Inf, qnorm(pr_grp_1), Inf), labels = 0:1)
+    # Creating Q as a discrete version of X
+    x_cols <- names(bg_dat_full)[1:(n_fac * n_ind) + 2]
+    x_discrete <- apply(bg_dat_full[x_cols], 2,
+                        function(x) cut(x, c(-Inf, qnorm(pr_grp_1), Inf), 0:1))
+    bg_dat_full <- data.frame(bg_dat_full, x_discrete)
+    # Recoding W as Z
+    # TODO: do we need this as output?
+    bg_dat_full$z <- cut(x      = bg_dat_full$w,
+                         breaks = c(-Inf, qnorm(pr_grp_1), Inf),
+                         labels = 0:1)
     bg_dat_full$z <- as.numeric(bg_dat_full$z) - 1
     bg_dat_full$w <- NULL
+    #TODO: discretize q. Add parm: number of categories per q
+    # Renaming output object
     discrete_df <- bg_dat_full
   } else {
     #--- Load functions -----------------------------------------------------------#

@@ -5,8 +5,9 @@
 \title{Generation of ordinal and continuous variables}
 \usage{
 questionnaire_gen_2(n_obs, cat_prop = NULL, cor_matrix = NULL,
-  c_mean = NULL, c_sd = NULL, theta = FALSE, family = "gaussian",
-  cov_matrix = NULL)
+  c_mean = NULL, c_sd = NULL, theta = FALSE, pr_grp_1 = 0.66,
+  family = "gaussian", n_fac = 2, n_ind = 3, mean_yxw = NULL,
+  cov_yxw = NULL)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}
@@ -21,9 +22,17 @@ questionnaire_gen_2(n_obs, cat_prop = NULL, cor_matrix = NULL,
 
 \item{theta}{if \code{TRUE} will labeled the first continuous variable 'theta'.}
 
+\item{pr_grp_1}{proportion of subjects in group 1.}
+
 \item{family}{distribution family, can be NULL, 'multinomial' or 'binomial'.}
 
-\item{vcov_yxw}{covariance matrix of the latent trait (Y), X and W.}
+\item{n_fac}{number of factors}
+
+\item{n_ind}{number of indicators per factor}
+
+\item{mean_yxw}{mean vector of the latent trait (Y), X and W.}
+
+\item{cov_yxw}{covariance matrix of the latent trait (Y), X and W.}
 }
 \description{
 Creates a data frame of discrete and continuous variables based on
@@ -60,12 +69,11 @@ variables if \code{cat_prop} is not named.
 
 \examples{
 # Using polychoric correlations
-questionnaire_gen_2(n = 10, cat_prop = list(c(1), c(.25, .6, 1)),
+questionnaire_gen_2(n_obs = 10, cat_prop = list(c(1), c(.25, .6, 1)),
                   cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
                   c_mean = 2, c_sd = 1.5, theta = TRUE)
 
 # Using the multinomial distribution
-cov_matrix <- cov_gen(n_fac = 2, n_ind = 3)$vcov_yxw
-questionnaire_gen_2(n = 10, cov_matrix = cov_matrix)
+questionnaire_gen_2(n = 10, n_fac = 2, n_ind = 3)
 
 }
