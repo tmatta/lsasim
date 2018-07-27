@@ -5,8 +5,7 @@
 \title{Generation of ordinal and continuous variables}
 \usage{
 questionnaire_gen(n_obs, cat_prop, cor_matrix = NULL, c_mean = NULL,
-  c_sd = NULL, theta = FALSE, family = NULL, mean_yw = NULL,
-  cov_yw = NULL)
+  c_sd = NULL, theta = FALSE, family = NULL, mean_yw = NULL)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}
@@ -26,8 +25,6 @@ variable.}
 \item{family}{distribution family, can be NULL, 'multinomial' or 'binomial'.}
 
 \item{mean_yw}{vector with the means of the latent trait (Y) and W.}
-
-\item{cov_yw}{matrix with covariances between the latent trait (Y) and W.}
 }
 \description{
 Creates a data frame of discrete and continuous variables based on
@@ -58,8 +55,8 @@ a latent correlation matrix and marginal proportions.
 }
 
 \examples{
-cum_prop <- list(c(1), c(.25, .6, 1))  # one continuous, one with 3 categories
 # Using polychoric correlations
+cum_prop <- list(c(1), c(.25, .6, 1))  # one continuous, one with 3 categories
 questionnaire_gen(n_obs = 10, cat_prop = cum_prop,
                   cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
                   c_mean = 2, c_sd = 1.5, theta = TRUE)
@@ -67,7 +64,7 @@ questionnaire_gen(n_obs = 10, cat_prop = cum_prop,
 # Using the multinomial distribution
 # two categorical variables W: one has 2 categories, the other has 3
 cum_prop <- list(c(.25, 1), c(.2, .8, 1))
-yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
-questionnaire_gen(n_obs = 10, cat_prop = cum_prop, family = "gaussian",
-                  cov_yw = yw_cov)
+yw_cor <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
+questionnaire_gen(n_obs = 10, cat_prop = cum_prop, cor_matrix = yw_cor,
+                  family = "gaussian")
 }

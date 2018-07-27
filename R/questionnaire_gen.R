@@ -1,7 +1,7 @@
 #' Generation of ordinal and continuous variables
 #'
-#' Creates a data frame of discrete and continuous variables based on
-#' a latent correlation matrix and marginal proportions.
+#' Creates a data frame of discrete and continuous variables based on a latent
+#' correlation matrix and marginal proportions.
 #'
 #' @param n_obs number of observations to generate.
 #' @param cat_prop list of cumulative proportions for each item.
@@ -9,11 +9,11 @@
 #' @param c_mean is a vector of population means for each continuous variable.
 #' @param c_sd is a vector of population standard deviations for each continuous
 #'   variable.
-#' @param theta if \code{TRUE} will labeled the first continuous variable
-#'   'theta'.
-#' @param family distribution family, can be NULL, 'multinomial' or 'binomial'.
-#' @param mean_yw vector with the means of the latent trait (Y) and W.
-#' @param cov_yw matrix with covariances between the latent trait (Y) and W.
+#' @param theta if \code{TRUE} will label the first continuous variable 'theta'.
+#' @param family distribution of the background variables. Can be NULL or
+#'   'gaussian'.
+#' @param mean_yw vector with the means of the latent trait (Y) and the
+#'   background variables (W).
 #'
 #' @section Details: \code{cat_prop} is a list where \code{length(cat_prop)} is
 #'   the number of items to be generated.  Each element of the list is a vector
@@ -39,8 +39,8 @@
 #'
 #'
 #' @examples
-#' cum_prop <- list(c(1), c(.25, .6, 1))  # one continuous, one with 3 categories
 #' # Using polychoric correlations
+#' cum_prop <- list(c(1), c(.25, .6, 1))  # one continuous, one with 3 categories
 #' questionnaire_gen(n_obs = 10, cat_prop = cum_prop,
 #'                   cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
 #'                   c_mean = 2, c_sd = 1.5, theta = TRUE)
@@ -48,18 +48,19 @@
 #' # Using the multinomial distribution
 #' # two categorical variables W: one has 2 categories, the other has 3
 #' cum_prop <- list(c(.25, 1), c(.2, .8, 1))
-#' yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
-#' questionnaire_gen(n_obs = 10, cat_prop = cum_prop, family = "gaussian",
-#'                   cov_yw = yw_cov)
+#' yw_cor <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
+#' questionnaire_gen(n_obs = 10, cat_prop = cum_prop, cor_matrix = yw_cor,
+#'                   family = "gaussian")
 #' @export
 questionnaire_gen <- function(n_obs, cat_prop, cor_matrix = NULL,
                               c_mean = NULL, c_sd = NULL, theta = FALSE,
-                              family = NULL, mean_yw = NULL, cov_yw = NULL){
+                              family = NULL, mean_yw = NULL){
   if (!is.null(family)) {
     # Generating raw data according to distribution
     if (family == "gaussian") {
-      if (is.null(mean_yw)) mean_yw <- rep(0, ncol(cov_yw))
-      raw_data <- mvtnorm::rmvnorm(n = n_obs, mean = mean_yw, sigma = cov_yw)
+      if (is.null(mean_yw)) mean_yw <- rep(0, ncol(cor_matrix))
+      cov_mx <- cor_matrix  # TODO: allow sd != 1 so cov != cor
+      raw_data <- mvtnorm::rmvnorm(n = n_obs, mean = mean_yw, sigma = cov_mx)
     } else if (family == "binomial") {
       stop("Binomial family not yet implemented.")
     } else if (family == "poisson") {
