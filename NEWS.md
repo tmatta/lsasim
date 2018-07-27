@@ -1,11 +1,8 @@
-%lsasim 2.0.1
-%-------------
-%
-%### Compatibility-breaking changes
-%* `questionnaire_gen()` now contains multiple parameters starting with `n`.
-%  Therefore, calls to the function of the type `questionnaire_gen(n = 10)`
-%  will no longer work because `n` no longer obviously refers to the parameter
-%  `n_obs`.
+lsasim 1.0.1.9003
+-------------
+
+### API changes
+* 
 
 lsasim 1.0.1
 -------------

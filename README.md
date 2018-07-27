@@ -11,6 +11,7 @@ Overall aim: to simulate data that mimics large-scale assessments, including bac
   * Leslie Rutkowski
   * David Rutkowski
   * Kondwani Kajera Mughogho
+  * Waldir Leoncio
 
 ## License
   GPL-3
