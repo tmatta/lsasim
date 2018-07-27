@@ -4,10 +4,9 @@
 \alias{questionnaire_gen_2}
 \title{Generation of ordinal and continuous variables}
 \usage{
-questionnaire_gen_2(n_obs, cat_prop = NULL, cor_matrix = NULL,
-  c_mean = NULL, c_sd = NULL, theta = FALSE, pr_grp_1 = 0.66,
-  family = "gaussian", n_fac = 2, n_ind = 3, mean_yxw = NULL,
-  cov_yxw = NULL)
+questionnaire_gen_2(n_obs, cat_prop, cor_matrix = NULL, c_mean = NULL,
+  c_sd = NULL, theta = FALSE, family = NULL, mean_yw = NULL,
+  cov_yw = NULL)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}
@@ -18,21 +17,17 @@ questionnaire_gen_2(n_obs, cat_prop = NULL, cor_matrix = NULL,
 
 \item{c_mean}{is a vector of population means for each continuous variable.}
 
-\item{c_sd}{is a vector of population standard deviations for each continuous variable.}
+\item{c_sd}{is a vector of population standard deviations for each continuous
+variable.}
 
-\item{theta}{if \code{TRUE} will labeled the first continuous variable 'theta'.}
-
-\item{pr_grp_1}{proportion of subjects in group 1.}
+\item{theta}{if \code{TRUE} will labeled the first continuous variable
+'theta'.}
 
 \item{family}{distribution family, can be NULL, 'multinomial' or 'binomial'.}
 
-\item{n_fac}{number of factors}
+\item{mean_yw}{vector with the means of the latent trait (Y) and W.}
 
-\item{n_ind}{number of indicators per factor}
-
-\item{mean_yxw}{mean vector of the latent trait (Y), X and W.}
-
-\item{cov_yxw}{covariance matrix of the latent trait (Y), X and W.}
+\item{cov_yw}{matrix with covariances between the latent trait (Y) and W.}
 }
 \description{
 Creates a data frame of discrete and continuous variables based on
@@ -44,36 +39,41 @@ maintain functionality of the original function. This function could
 eventually be integrated into questionnaire_gen.
 }
 \section{Details}{
+ \code{cat_prop} is a list where \code{length(cat_prop)} is
+  the number of items to be generated.  Each element of the list is a vector
+  containing the marginal cumulative proportions for each category, summing
+  to 1.  For continuous items, the associated element in the list should be
+  1.
 
-\code{cat_prop} is a list where \code{length(cat_prop)} is the number of
-items to be generated.  Each element of the list is a vector containing
-the marginal cumulative proportions for each category, summing to 1.  For
-continuous items, the associated element in the list should be 1.
+  \code{cor_matrix} is correlation matrix that is the same size as
+  \code{length(cat_prop)}.  The correlations related to the correlation
+  between variables on the latent scale.
 
-\code{cor_matrix} is correlation matrix that is the same size as
-\code{length(cat_prop)}.  The correlations related to the correlation
-between variables on the latent scale.
+  \code{c_mean and c_sd} are each vectors whose length is equal to the number
+  of continuous variables as specified by \code{cat_prop}.  The default is to
+  keep the continuous variables with mean zero and standard deviation of one.
 
-\code{c_mean and c_sd} are each vectors whose length is equal to the number of
-continuous variables as specified by \code{cat_prop}.  The default is to
-keep the continuous variables with mean zero and standard deviation of one.
+  \code{theta} is a logical indicator that determines if the first continuous
+  item should be labeled \emph{theta}. If \code{theta = TRUE} but there are
+  no continuous variables generated, an error will be returned.
 
-\code{theta} is a logical indicator that determines if the first continuous
-item should be labeled \emph{theta}. If \code{theta = TRUE} but there are no
-continuous variables generated, an error will be returned.
-
-If \code{cat_prop} is a named list, those names will be used as variable names
-for the returned \code{data.frame}.  Generic names will be provided to the
-variables if \code{cat_prop} is not named.
+  If \code{cat_prop} is a named list, those names will be used as variable
+  names for the returned \code{data.frame}.  Generic names will be provided
+  to the variables if \code{cat_prop} is not named.
 }
 
 \examples{
+cum_prop <- list(c(1), c(.25, .6, 1))  # one continuous, one with 3 categories
 # Using polychoric correlations
-questionnaire_gen_2(n_obs = 10, cat_prop = list(c(1), c(.25, .6, 1)),
+questionnaire_gen_2(n_obs = 10, cat_prop = cum_prop,
                   cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
                   c_mean = 2, c_sd = 1.5, theta = TRUE)
 
 # Using the multinomial distribution
-questionnaire_gen_2(n = 10, n_fac = 2, n_ind = 3)
-
+# two categorical variables W: one has 2 categories, the other has 3
+cum_prop <- list(c(.25, 1), c(.2, .8, 1))
+yw_mean <- c(0, 0, 0)
+yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
+questionnaire_gen_2(n_obs = 10, cat_prop = cum_prop, family = "gaussian",
+                    mean_yw = yw_mean, cov_yw = yw_cov)
 }

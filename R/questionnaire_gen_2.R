@@ -11,88 +11,94 @@
 #' @param cat_prop list of cumulative proportions for each item.
 #' @param cor_matrix latent correlation matrix.
 #' @param c_mean is a vector of population means for each continuous variable.
-#' @param c_sd is a vector of population standard deviations for each continuous variable.
-#' @param theta if \code{TRUE} will labeled the first continuous variable 'theta'.
-#' @param pr_grp_1 proportion of subjects in group 1.
+#' @param c_sd is a vector of population standard deviations for each continuous
+#'   variable.
+#' @param theta if \code{TRUE} will labeled the first continuous variable
+#'   'theta'.
 #' @param family distribution family, can be NULL, 'multinomial' or 'binomial'.
-#' @param n_fac number of factors
-#' @param n_ind number of indicators per factor
-#' @param mean_yxw mean vector of the latent trait (Y), X and W.
-#' @param cov_yxw covariance matrix of the latent trait (Y), X and W.
+#' @param mean_yw vector with the means of the latent trait (Y) and W.
+#' @param cov_yw matrix with covariances between the latent trait (Y) and W.
 #'
-#' @section Details:
-#' \code{cat_prop} is a list where \code{length(cat_prop)} is the number of
-#' items to be generated.  Each element of the list is a vector containing
-#' the marginal cumulative proportions for each category, summing to 1.  For
-#' continuous items, the associated element in the list should be 1.
+#' @section Details: \code{cat_prop} is a list where \code{length(cat_prop)} is
+#'   the number of items to be generated.  Each element of the list is a vector
+#'   containing the marginal cumulative proportions for each category, summing
+#'   to 1.  For continuous items, the associated element in the list should be
+#'   1.
 #'
-#' \code{cor_matrix} is correlation matrix that is the same size as
-#' \code{length(cat_prop)}.  The correlations related to the correlation
-#' between variables on the latent scale.
+#'   \code{cor_matrix} is correlation matrix that is the same size as
+#'   \code{length(cat_prop)}.  The correlations related to the correlation
+#'   between variables on the latent scale.
 #'
-#' \code{c_mean and c_sd} are each vectors whose length is equal to the number of
-#' continuous variables as specified by \code{cat_prop}.  The default is to
-#' keep the continuous variables with mean zero and standard deviation of one.
+#'   \code{c_mean and c_sd} are each vectors whose length is equal to the number
+#'   of continuous variables as specified by \code{cat_prop}.  The default is to
+#'   keep the continuous variables with mean zero and standard deviation of one.
 #'
-#' \code{theta} is a logical indicator that determines if the first continuous
-#' item should be labeled \emph{theta}. If \code{theta = TRUE} but there are no
-#' continuous variables generated, an error will be returned.
+#'   \code{theta} is a logical indicator that determines if the first continuous
+#'   item should be labeled \emph{theta}. If \code{theta = TRUE} but there are
+#'   no continuous variables generated, an error will be returned.
 #'
-#' If \code{cat_prop} is a named list, those names will be used as variable names
-#' for the returned \code{data.frame}.  Generic names will be provided to the
-#' variables if \code{cat_prop} is not named.
+#'   If \code{cat_prop} is a named list, those names will be used as variable
+#'   names for the returned \code{data.frame}.  Generic names will be provided
+#'   to the variables if \code{cat_prop} is not named.
 #'
 #'
 #' @examples
+#' cum_prop <- list(c(1), c(.25, .6, 1))  # one continuous, one with 3 categories
 #' # Using polychoric correlations
-#' questionnaire_gen_2(n_obs = 10, cat_prop = list(c(1), c(.25, .6, 1)),
+#' questionnaire_gen_2(n_obs = 10, cat_prop = cum_prop,
 #'                   cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
 #'                   c_mean = 2, c_sd = 1.5, theta = TRUE)
 #'
 #' # Using the multinomial distribution
-#' questionnaire_gen_2(n = 10, n_fac = 2, n_ind = 3)
-#'
+#' # two categorical variables W: one has 2 categories, the other has 3
+#' cum_prop <- list(c(.25, 1), c(.2, .8, 1))
+#' yw_mean <- c(0, 0, 0)
+#' yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
+#' questionnaire_gen_2(n_obs = 10, cat_prop = cum_prop, family = "gaussian",
+#'                     mean_yw = yw_mean, cov_yw = yw_cov)
 #' @export
-questionnaire_gen_2 <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
+questionnaire_gen_2 <- function(n_obs, cat_prop, cor_matrix = NULL,
                                 c_mean = NULL, c_sd = NULL, theta = FALSE,
-                                pr_grp_1 = .66, family = "gaussian",
-                                n_fac = 2, n_ind = 3, mean_yxw = NULL,
-                                cov_yxw = NULL){
+                                family = NULL, mean_yw = NULL, cov_yw = NULL){
 
-  if (is.null(cat_prop) | is.null(cor_matrix)) {
+  # TODO: currently assuming all r.v. have sd = 1 so cor = cov. OK for now?
+  if (!is.null(family)) {
+    # Generating raw data according to distribution
     if (family == "gaussian") {
-      if (is.null(cov_yxw)) cov_yxw <- cov_gen(pr_grp_1, n_fac, n_ind)$vcov_yxw
-      if (is.null(mean_yxw)) mean_yxw <- rep(0, ncol(cov_yxw))
-      raw_data <- mvtnorm::rmvnorm(n = n_obs, mean = mean_yxw, sigma = cov_yxw)
+      if (is.null(mean_yw)) mean_yw <- rep(0, ncol(cov_yw))
+      raw_data <- mvtnorm::rmvnorm(n = n_obs, mean = mean_yw, sigma = cov_yw)
     } else if (family == "binomial") {
-      stop("Binomial family not yet implemented. Exiting.")
+      stop("Binomial family not yet implemented.")
     } else if (family == "poisson") {
-      stop("Poisson family not yet implemented. Exiting.")
+      stop("Poisson family not yet implemented.")
     } else {
-      stop("Invalid distributional family. ",
-           "Choose 'gaussian', 'binomial' or 'poisson'.")
+      stop("Invalid distribution family.")
     }
     message("Using ", family, " distribution")
+
     # Formatting raw data
-    bg_dat_full <- data.frame(subject = 1:nrow(raw_data), raw_data)
-    gen_var_names <- c("subject", "theta", paste0("x", seq(nrow(cov_yxw) - 2)),
-                       "w")
-    colnames(bg_dat_full) <- gen_var_names
-    # Creating Q as a discrete version of X
-    x_cols <- names(bg_dat_full)[1:(n_fac * n_ind) + 2]
-    x_discrete <- apply(bg_dat_full[x_cols], 2,
-                        function(x) cut(x, c(-Inf, qnorm(pr_grp_1), Inf), 0:1))
-    bg_dat_full <- data.frame(bg_dat_full, x_discrete)
-    # Recoding W as Z
-    # TODO: do we need this as output?
-    bg_dat_full$z <- cut(x      = bg_dat_full$w,
-                         breaks = c(-Inf, qnorm(pr_grp_1), Inf),
-                         labels = 0:1)
-    bg_dat_full$z <- as.numeric(bg_dat_full$z) - 1
-    bg_dat_full$w <- NULL
-    #TODO: discretize q. Add parm: number of categories per q
-    # Renaming output object
-    discrete_df <- bg_dat_full
+    bg_data <- data.frame(raw_data)
+    y_name <- ifelse(theta, "theta", "y")
+    gen_var_names <- c(y_name, paste0("w", seq(length(cat_prop))))
+    colnames(bg_data) <- gen_var_names
+
+    # Categorizing W as Q
+    w_cols <- names(bg_data)[-1]
+    names(cat_prop) <- w_cols
+    for (w in w_cols) {
+      cut_points <- c(-Inf, qnorm(cat_prop[[w]][-length(cat_prop[[w]])]), Inf)
+      # if W is dichotomous, labels are 0:1; else, labels start at 1.
+      if (length(cat_prop[[w]]) == 2) {
+        labels <- 0:1
+      } else {
+        labels <- seq(cat_prop[[w]])
+      }
+      q_name <- gsub("w", "q", w)
+      bg_data[substitute(q_name)] <- cut(bg_data[, w], cut_points, labels)
+      bg_data[w] <- NULL
+    }
+    # Adding subject numbers to final dataset
+    discrete_df <- data.frame(subject = 1:nrow(raw_data), bg_data)
   } else {
     #--- Load functions -----------------------------------------------------------#
     #--- generates data from num_x independent standard normals
