@@ -12,6 +12,7 @@ BugReports: https://github.com/tmatta/lsasim/issues
 Description: Provides functions to simulate data from large-scale educational 
   assessments, including background questionnaire data and cognitive item 
   responses that adhere to a multiple-matrix sampled design.
+Imports: mvtnorm
 Depends:
     R (>= 3.3.0)
 License: GPL-3

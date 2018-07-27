@@ -15,7 +15,8 @@
 #' @param theta if \code{TRUE} will labeled the first continuous variable 'theta'.
 #' @param pr_grp_1 proportion of subjects in group 1.
 #' @param family distribution family, can be NULL, 'multinomial' or 'binomial'.
-#' @param vcov_yxw covariance matrix of the latent trait (Y), X and W.
+#' @param mean_yxw mean vector of the latent trait (Y), X and W.
+#' @param cov_yxw covariance matrix of the latent trait (Y), X and W.
 #'
 #' @section Details:
 #' \code{cat_prop} is a list where \code{length(cat_prop)} is the number of
@@ -47,8 +48,8 @@
 #'                   c_mean = 2, c_sd = 1.5, theta = TRUE)
 #'
 #' # Using the multinomial distribution
-#' cov_matrix <- cov_gen(n_fac = 2, n_ind = 3)$vcov_yxw
-#' questionnaire_gen_2(n = 10, cov_matrix = cov_matrix)
+#' cov_yxw <- cov_gen(n_fac = 2, n_ind = 3)$vcov_yxw
+#' questionnaire_gen_2(n = 10, cov_yxw = cov_yxw)
 #'
 #' @export
 questionnaire_gen_2 <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
@@ -63,13 +64,22 @@ questionnaire_gen_2 <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     return(uncor_mat)
   }
                                 pr_grp_1 = .66,
+                                family = "gaussian",
+                                mean_yxw = rep(0, nrow(cov_yxw)),
+                                cov_yxw = NULL){
   #------------------------------------------------------------------------------#
   if (is.null(cat_prop) | is.null(cor_matrix)) {
-    message("Using ", family, " distribution")
-    #TODO: if those are NULL and family is set, use the following:
     if (family == "gaussian") {
-      raw_data <- mvtnorm::rmvnorm(n_obs, mean = rep(0, nrow(cov_matrix)), sigma = cov_matrix)
+      raw_data <- mvtnorm::rmvnorm(n = n_obs, mean = mean_yxw, sigma = cov_yxw)
+    } else if (family == "binomial") {
+      stop("Binomial family not yet implemented. Exiting.")
+    } else if (family == "poisson") {
+      stop("Poisson family not yet implemented. Exiting.")
+    } else {
+      stop("Invalid distributional family. ",
+           "Choose 'gaussian', 'binomial' or 'poisson'.")
     }
+    message("Using ", family, " distribution")
     bg_dat_full <- data.frame(subject = 1:nrow(raw_data), raw_data)
     gen_var_names <- c("subject", "y", paste0("x", seq(nrow(cov_matrix) - 2)), "w")
     gen_var_names <- c("subject", "theta", paste0("q", seq(nrow(cov_matrix) - 2)), "w")  # TODO: correct?
