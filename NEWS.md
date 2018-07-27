@@ -2,7 +2,8 @@ lsasim 1.0.1.9003
 -------------
 
 ### API changes
-* 
+* `questionnaire_gen` can generate background data given `n_obs`, `cat_prop`,
+  `cor_matrix` and `family = 'gaussian'`.
 
 lsasim 1.0.1
 -------------
