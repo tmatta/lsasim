@@ -54,15 +54,6 @@
 #' @export
 questionnaire_gen_2 <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                                 c_mean = NULL, c_sd = NULL, theta = FALSE,
-                                family = "gaussian", cov_matrix = NULL){
-
-  #--- Load functions -----------------------------------------------------------#
-  #--- generates data from num_x independent standard normals
-  mvsn <- function(n, num_x){
-    uncor_mat <- matrix(NA, nrow = n, ncol = num_x)
-    for (i in 1:num_x) uncor_mat[, i] <- rnorm(n, 0, 1)
-    return(uncor_mat)
-  }
                                 pr_grp_1 = .66,
                                 family = "gaussian",
                                 mean_yxw = rep(0, nrow(cov_yxw)),
@@ -90,6 +81,13 @@ questionnaire_gen_2 <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     bg_dat_full$w <- NULL
     discrete_df <- bg_dat_full
   } else {
+    #--- Load functions -----------------------------------------------------------#
+    #--- generates data from num_x independent standard normals
+    mvsn <- function(n, num_x){
+      uncor_mat <- matrix(NA, nrow = n, ncol = num_x)
+      for (i in 1:num_x) uncor_mat[, i] <- rnorm(n, 0, 1)
+      return(uncor_mat)
+    }
     message("Using cumulative proportions and correlation matrix")
     #--- Generate uncorrelated standard normals
     n_vars <- length(cat_prop)
