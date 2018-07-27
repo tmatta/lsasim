@@ -1,9 +1,5 @@
 #' Generation of covariance matrices
 #'
-#' Second version of the questionnaire_gen function, developed independently to
-#' maintain functionality of the original function. This function could
-#' eventually be integrated into questionnaire_gen.
-#'
 #' @param pr_grp_1 proportion of observations in group 1
 #' @param n_fac number of factors
 #' @param n_ind number of indicators per factor
@@ -18,6 +14,8 @@
 #'  str(vcov)
 cov_gen <- function(pr_grp_1 = .66, n_fac = 9, n_ind = 4,
                     Lambda_lims = c(.6, .9), seed = runif(n = 1, max = 1e8)) {
+  # TODO: cov_gen() generates only one W. Generate multiple?
+
   # Construct covariance matrices for simulation --------------------------
   set.seed(seed)
 
@@ -144,5 +142,5 @@ cov_gen <- function(pr_grp_1 = .66, n_fac = 9, n_ind = 4,
 
   out <- list(vcov_yxw = vcov_yxw, vcov_yxz = vcov_yxz, vcov_yfz = vcov_yfz,
               beta_hat = beta_hat, Z0 = beta_c, Z1 = beta_z)
-  return(out) #TODO: what is the desired output?
+  return(out)
 }
