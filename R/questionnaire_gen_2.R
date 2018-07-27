@@ -15,6 +15,8 @@
 #' @param theta if \code{TRUE} will labeled the first continuous variable 'theta'.
 #' @param pr_grp_1 proportion of subjects in group 1.
 #' @param family distribution family, can be NULL, 'multinomial' or 'binomial'.
+#' @param n_fac number of factors
+#' @param n_inf number of indicators per factor
 #' @param mean_yxw mean vector of the latent trait (Y), X and W.
 #' @param cov_yxw covariance matrix of the latent trait (Y), X and W.
 #'
@@ -54,13 +56,14 @@
 #' @export
 questionnaire_gen_2 <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                                 c_mean = NULL, c_sd = NULL, theta = FALSE,
-                                pr_grp_1 = .66,
-                                family = "gaussian",
-                                mean_yxw = rep(0, nrow(cov_yxw)),
+                                pr_grp_1 = .66, family = "gaussian",
+                                n_fac = 2, n_ind = 3, mean_yxw = NULL,
                                 cov_yxw = NULL){
   #------------------------------------------------------------------------------#
   if (is.null(cat_prop) | is.null(cor_matrix)) {
     if (family == "gaussian") {
+      if (is.null(cov_yxw)) cov_yxw <- cov_gen(pr_grp_1, n_fac, n_ind)$vcov_yxw
+      if (is.null(mean_yxw)) mean_yxw <- rep(0, nrow(cov_yxw))
       raw_data <- mvtnorm::rmvnorm(n = n_obs, mean = mean_yxw, sigma = cov_yxw)
     } else if (family == "binomial") {
       stop("Binomial family not yet implemented. Exiting.")
