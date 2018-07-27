@@ -3,10 +3,6 @@
 #' Creates a data frame of discrete and continuous variables based on
 #' a latent correlation matrix and marginal proportions.
 #'
-#' Second version of the questionnaire_gen function, developed independently to
-#' maintain functionality of the original function. This function could
-#' eventually be integrated into questionnaire_gen.
-
 #' @param n_obs number of observations to generate.
 #' @param cat_prop list of cumulative proportions for each item.
 #' @param cor_matrix latent correlation matrix.
