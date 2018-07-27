@@ -46,22 +46,19 @@
 #' cum_prop <- list(c(1), c(.25, .6, 1))  # one continuous, one with 3 categories
 #' # Using polychoric correlations
 #' questionnaire_gen_2(n_obs = 10, cat_prop = cum_prop,
-#'                   cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
-#'                   c_mean = 2, c_sd = 1.5, theta = TRUE)
+#'                     cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
+#'                     c_mean = 2, c_sd = 1.5, theta = TRUE)
 #'
 #' # Using the multinomial distribution
 #' # two categorical variables W: one has 2 categories, the other has 3
 #' cum_prop <- list(c(.25, 1), c(.2, .8, 1))
-#' yw_mean <- c(0, 0, 0)  # includes one mean of Y and two means for the Ws
 #' yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
 #' questionnaire_gen_2(n_obs = 10, cat_prop = cum_prop, family = "gaussian",
-#'                     mean_yw = yw_mean, cov_yw = yw_cov)
+#'                     cov_yw = yw_cov)
 #' @export
 questionnaire_gen_2 <- function(n_obs, cat_prop, cor_matrix = NULL,
                                 c_mean = NULL, c_sd = NULL, theta = FALSE,
                                 family = NULL, mean_yw = NULL, cov_yw = NULL){
-  # TODO: currently assuming all r.v. have sd = 1 so cor = cov. OK for now?
-  # TODO: Eliminate parameter redundancy between cov_yw, cor_matrix
   if (!is.null(family)) {
     # Generating raw data according to distribution
     if (family == "gaussian") {
@@ -79,8 +76,7 @@ questionnaire_gen_2 <- function(n_obs, cat_prop, cor_matrix = NULL,
     # Formatting raw data
     bg_data <- data.frame(raw_data)
     y_name <- ifelse(theta, "theta", "y")
-    gen_var_names <- c(y_name, paste0("w", seq(length(cat_prop))))
-    colnames(bg_data) <- gen_var_names
+    colnames(bg_data) <- c(y_name, paste0("w", seq(length(cat_prop))))
 
     # Categorizing W as Q
     w_cols <- names(bg_data)[-1]
@@ -97,6 +93,7 @@ questionnaire_gen_2 <- function(n_obs, cat_prop, cor_matrix = NULL,
       bg_data[substitute(q_name)] <- cut(bg_data[, w], cut_points, labels)
       bg_data[w] <- NULL
     }
+
     # Adding subject numbers to final dataset
     discrete_df <- data.frame(subject = 1:nrow(raw_data), bg_data)
   } else {
