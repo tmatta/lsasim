@@ -19,16 +19,17 @@ questionnaire_gen(n_obs, cat_prop, cor_matrix = NULL, c_mean = NULL,
 \item{c_sd}{is a vector of population standard deviations for each continuous
 variable.}
 
-\item{theta}{if \code{TRUE} will labeled the first continuous variable
-'theta'.}
+\item{theta}{if \code{TRUE} will label the first continuous variable 'theta'.}
 
-\item{family}{distribution family, can be NULL, 'multinomial' or 'binomial'.}
+\item{family}{distribution of the background variables. Can be NULL or
+'gaussian'.}
 
-\item{mean_yw}{vector with the means of the latent trait (Y) and W.}
+\item{mean_yw}{vector with the means of the latent trait (Y) and the
+background variables (W).}
 }
 \description{
-Creates a data frame of discrete and continuous variables based on
-a latent correlation matrix and marginal proportions.
+Creates a data frame of discrete and continuous variables based on a latent
+correlation matrix and marginal proportions.
 }
 \section{Details}{
  \code{cat_prop} is a list where \code{length(cat_prop)} is
