@@ -13,6 +13,7 @@
 #' @param c_mean is a vector of population means for each continuous variable.
 #' @param c_sd is a vector of population standard deviations for each continuous variable.
 #' @param theta if \code{TRUE} will labeled the first continuous variable 'theta'.
+#' @param pr_grp_1 proportion of subjects in group 1.
 #' @param family distribution family, can be NULL, 'multinomial' or 'binomial'.
 #' @param vcov_yxw covariance matrix of the latent trait (Y), X and W.
 #'
@@ -61,6 +62,7 @@ questionnaire_gen_2 <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     for (i in 1:num_x) uncor_mat[, i] <- rnorm(n, 0, 1)
     return(uncor_mat)
   }
+                                pr_grp_1 = .66,
   #------------------------------------------------------------------------------#
   if (is.null(cat_prop) | is.null(cor_matrix)) {
     message("Using ", family, " distribution")
