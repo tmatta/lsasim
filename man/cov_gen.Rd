@@ -4,11 +4,11 @@
 \alias{cov_gen}
 \title{Generation of covariance matrices}
 \usage{
-cov_gen(pr_grp_1 = 0.66, n_fac = 9, n_ind = 4, Lambda_lims = c(0.6,
-  0.9), seed = runif(n = 1, max = 1e+08))
+cov_gen(pr_grp_1, n_fac, n_ind, Lambda_lims = 0:1)
 }
 \arguments{
-\item{pr_grp_1}{proportion of observations in group 1}
+\item{pr_grp_1}{proportion of observations in group 1. Can be a scalar or a
+vector}
 
 \item{n_fac}{number of factors}
 
@@ -16,17 +16,15 @@ cov_gen(pr_grp_1 = 0.66, n_fac = 9, n_ind = 4, Lambda_lims = c(0.6,
 
 \item{Lambda_lims}{vector of lower and upper limits for the factor-loading
 matrix}
-
-\item{seed}{sample seed number for the Random Number Generator}
 }
 \value{
 A list containing three covariance matrices: vcov_yxw, vcov_yxz and
   vcov_yfz
 }
 \description{
-Generation of covariance matrices
+Construct covariance matrices for the generation of simulated test data.
 }
 \examples{
- vcov <- cov_gen()
+ vcov <- cov_gen(pr_grp_1 = .5, n_fac = 3, n_ind = 2)
  str(vcov)
 }
