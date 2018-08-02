@@ -6,6 +6,7 @@
 #' @param n_obs number of observations to generate.
 #' @param cat_prop list of cumulative proportions for each item.
 #' @param cor_matrix latent correlation matrix.
+#' @param cov_matrix latent covariance matrix.
 #' @param c_mean is a vector of population means for each continuous variable.
 #' @param c_sd is a vector of population standard deviations for each continuous
 #'   variable.
@@ -53,14 +54,15 @@
 #'                   family = "gaussian")
 #' @export
 questionnaire_gen <- function(n_obs, cat_prop, cor_matrix = NULL,
+                              cov_matrix = NULL,
                               c_mean = NULL, c_sd = NULL, theta = FALSE,
                               family = NULL, mean_yw = NULL){
-  if (!is.null(family)) {
-    bg <- questionnaire_gen_family(n_obs, cat_prop,
-                                   mean_yw, cor_matrix, family, theta)
-  } else {
+  if (is.null(family)) {
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop,
                                        cor_matrix, c_mean, c_sd, theta)
+  } else {
+    bg <- questionnaire_gen_family(n_obs, cat_prop,
+                                   mean_yw, cov_matrix, family, theta)
   }
   return(bg)
 }

@@ -7,16 +7,17 @@
 #' @param cat_prop list of cumulative proportions for each item.
 #' @param mean_yw vector with the means of the latent trait (Y) and the
 #'   background variables (W).
-#' @param cor_matrix latent correlation matrix.
+#' @param cov_matrix covariance matrix. between the latent trait (Y) and the
+#'   background variables (W).
 #' @param family distribution of the background variables. Can be NULL or
 #'   'gaussian'.
 #' @param theta if \code{TRUE} will label the first continuous variable 'theta'.
-questionnaire_gen_family <- function(n_obs, cat_prop, mean_yw, cor_matrix,
+questionnaire_gen_family <- function(n_obs, cat_prop, mean_yw, cov_matrix,
                                      family, theta) {
   # Generating raw data according to distribution
   if (family == "gaussian") {
-    if (is.null(mean_yw)) mean_yw <- rep(0, ncol(cor_matrix))
-    cov_mx <- cor_matrix  # TODO: allow sd != 1 so cov != cor
+    if (is.null(mean_yw)) mean_yw <- rep(0, ncol(cov_matrix))
+    cov_mx <- cov_matrix  # TODO: allow sd != 1 so cov != cor
     raw_data <- mvtnorm::rmvnorm(n = n_obs, mean = mean_yw, sigma = cov_mx)
   } else if (family == "binomial") {
     stop("Binomial family not yet implemented.")
