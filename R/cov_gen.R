@@ -16,15 +16,12 @@
 #'  str(vcov)
 cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda_lims = 0:1) {
 
-  # TODO: cov_gen() generates only one W. Generate multiple?
   # TODO: implement cat_prop to define number of Ws and Xs.
-  # TODO: does it make sense to have more than 2 groups?
-  # TODO: does it make sense to have multiple group 1s (one for each W)?
-  # TODO: does it make sense to generate only Ws, no Xs?
   # TODO: split cov_gen? vcov_yxw_gen, vcov_yxz_gen, vcov_yfz_gen, beta_gen.
 
   # General parameters ----------------------------------------------------
   pr_grp_2 <- 1 - pr_grp_1  # proportion of observations in group 2
+  # TODO: generalize as list with any number of categories
   var_z <- pr_grp_1 * pr_grp_2  # variance of dichotomous variable z
   sd_z  <- sqrt(var_z)
   n_z   <- length(sd_z)  # number of background variables
@@ -39,6 +36,7 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda_lims = 0:1) {
   l_end <- l_start + n_ind - 1
 
   # Factor loading matrix (loadings generated randomly) -------------------
+  # TODO: should be an input of some function, not necessarily random.
   Lambda <- matrix(0, ncol = length(n_ind), nrow = sum(n_ind))
   for (i in seq(n_ind)) {
     Lambda[l_start[i]:l_end[i], i] <- runif(n_ind[i],
@@ -49,7 +47,7 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda_lims = 0:1) {
 
   # Generation covariance matrix between y, x1, ..., x36, w ---------------
   # w ~ N(0, 1) is the latent representation of dicotomous z
-  # TODO: are W and Z switched from paper?
+  # TODO: are W and Z switched from paper!
   # converts pt. biserial correlations to biserial correlations
   n_yfw <- 1 + n_fac + n_z  # 1 for y
   Phi <- cor_gen(n_yfw)  # latent regression correlation matrix
@@ -80,7 +78,6 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda_lims = 0:1) {
   vcov_yxw[x_indices, x_indices] <- cov_x
 
   # Compute covariance between Y and factor indicators (X)
-  # TODO: check nomenclature: F = factors; X = factor indicators?
   vcov_yxw[1, 1] <- 1  # covariance between Y and itself
   for (i in seq(n_ind)) {
     l_seq <- l_start[i]:l_end[i]
