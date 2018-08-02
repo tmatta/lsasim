@@ -29,7 +29,7 @@ background variables (W).}
 }
 \description{
 Creates a data frame of discrete and continuous variables based on a latent
-correlation matrix and marginal proportions.
+correlation matrix and marginal proportions. This function is, in effect, a wrapper for
 }
 \section{Details}{
  \code{cat_prop} is a list where \code{length(cat_prop)} is
