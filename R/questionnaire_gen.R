@@ -74,18 +74,18 @@ questionnaire_gen <- function(n_obs, cat_prop, cor_matrix = NULL,
   # (lsasim 1.1.0 vs. lsasim 2.0.0).
 
   if (is.null(family)) {
-    message("Generating background data from cumulative proportions and",
+    message("Generating background data from cumulative proportions and ",
             "correlation matrix")
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop,
                                        cor_matrix, c_mean, c_sd, theta)
   } else {
-    message("Generating", family, "-distributed background data")
+    message("Generating ", family, "-distributed background data")
     if (!is.null(n_fac) & !is.null(n_ind)) {
       message("Generating covariance matrix")
       if (any(sapply(cat_prop, length) > 2)) {
         # This is a WORKAROUND until the generalization of cov_gen
         # TODO: generalize cov_gen to accept larger cat_ptop.
-        stop("Implementation for polytomous variables not yet implemented.")
+        stop("Implementation for polytomous variables pending")
       }
       covs <- cov_gen(cat_prop, n_fac, n_ind, Lambda)
       index_x <- 2:(n_fac * n_ind + 1)

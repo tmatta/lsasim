@@ -18,7 +18,6 @@
 cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
 
   # TODO: implement cat_prop to define number of Ws and Xs.
-  # TODO: split cov_gen? vcov_yxw_gen, vcov_yxz_gen, vcov_yfz_gen, beta_gen.
 
   # General parameters ----------------------------------------------------
   pr_grp_1 <- sapply(pr_grp_1, function(x) x[1])  # TODO: workaround. REMOVE
@@ -37,12 +36,12 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
   l_start <- cumsum(n_ind) - n_ind_minus1
   l_end <- l_start + n_ind - 1
 
-  # Factor loading matrix (loadings generated randomly) -------------------
-  if (class(Lambda) %in%  c("numeric", "integer")) {
+  # Factor loading matrix -------------------------------------------------
+  if (class(Lambda) %in% c("numeric", "integer")) {
     Lambda_mx <- matrix(0, ncol = length(n_ind), nrow = sum(n_ind))
     for (i in seq(n_ind)) {
-      Lambda_mx[l_start[i]:l_end[i], i] <- runif(n_ind[i], Lambda[1],
-                                                 Lambda[2])
+      loadings <- runif(n_ind[i], Lambda[1], Lambda[2])
+      Lambda_mx[l_start[i]:l_end[i], i] <- loadings
     }
     Lambda <- Lambda_mx
   }
@@ -55,7 +54,6 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
   # converts pt. biserial correlations to biserial correlations
   n_yfw <- 1 + n_fac + n_z  # 1 for y
   Phi <- cor_gen(n_yfw)  # latent regression correlation matrix
-  # TODO: check if names below are correct
   rownames(Phi) <- colnames(Phi) <- c("y", f_names, w_names)
 
   # Setup full YXW covariance matrix --------------------------------------
