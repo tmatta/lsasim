@@ -15,6 +15,12 @@
 #'   'gaussian'.
 #' @param mean_yw vector with the means of the latent trait (Y) and the
 #'   background variables (W).
+#' @param pr_grp_1 proportion of observations in group 1. Can be a scalar or a
+#'   vector
+#' @param n_fac number of factors
+#' @param n_ind number of indicators per factor
+#' @param Lambda_lims vector of lower and upper limits for the factor-loading
+#'   matrix
 #'
 #' @section Details: \code{cat_prop} is a list where \code{length(cat_prop)} is
 #'   the number of items to be generated.  Each element of the list is a vector
@@ -49,14 +55,34 @@
 #' # Using the multinomial distribution
 #' # two categorical variables W: one has 2 categories, the other has 3
 #' cum_prop <- list(c(.25, 1), c(.2, .8, 1))
-#' yw_cor <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
-#' questionnaire_gen(n_obs = 10, cat_prop = cum_prop, cor_matrix = yw_cor,
+#' yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
+#' questionnaire_gen(n_obs = 10, cat_prop = cum_prop, cov_matrix = yw_cov,
 #'                   family = "gaussian")
+#'
+#' # Not providing covariance matrix (temp)
+#' questionnaire_gen(n_obs = 10,
+#'                   cat_prop = list(c(.25, 1), c(.6, 1)),
+#'                   family = "gaussian",
+#'                   pr_grp_1 = c(.25, .6), n_fac = 4, n_ind = 2)
+
 #' @export
 questionnaire_gen <- function(n_obs, cat_prop, cor_matrix = NULL,
-                              cov_matrix = NULL,
                               c_mean = NULL, c_sd = NULL, theta = FALSE,
-                              family = NULL, mean_yw = NULL){
+                              family = NULL, mean_yw = NULL,
+                              cov_matrix = NULL,
+                              pr_grp_1 = NULL, n_fac = NULL, n_ind = NULL,
+                              Lambda_lims = 0:1){
+  # TODO: keep original order of parameters (keeps retrocompatibility) or change
+  # to something more sensible (breaks compatibility)? Influences version number
+  # (lsasim 1.1.0 vs. lsasim 2.0.0).
+
+  # TODO: merge pr_grp_1 into cat_prop (pr_grp_1 must be generalized for several
+  # groups first).
+  if (!is.null(pr_grp_1) & !is.null(n_fac) & !is.null(n_ind)) {
+    covs <- cov_gen(pr_grp_1, n_fac, n_ind, Lambda_lims = 0:1)
+    index_x <- 2:(n_fac * n_ind + 1)
+    cov_matrix <- covs$vcov_yxw[-index_x, -index_x]
+  }
   if (is.null(family)) {
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop,
                                        cor_matrix, c_mean, c_sd, theta)

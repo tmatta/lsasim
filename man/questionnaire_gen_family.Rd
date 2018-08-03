@@ -4,7 +4,7 @@
 \alias{questionnaire_gen_family}
 \title{Generation of ordinal and continuous variables}
 \usage{
-questionnaire_gen_family(n_obs, cat_prop, mean_yw, cor_matrix, family, theta)
+questionnaire_gen_family(n_obs, cat_prop, mean_yw, cov_matrix, family, theta)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}
@@ -14,7 +14,8 @@ questionnaire_gen_family(n_obs, cat_prop, mean_yw, cor_matrix, family, theta)
 \item{mean_yw}{vector with the means of the latent trait (Y) and the
 background variables (W).}
 
-\item{cor_matrix}{latent correlation matrix.}
+\item{cov_matrix}{covariance matrix. between the latent trait (Y) and the
+background variables (W).}
 
 \item{family}{distribution of the background variables. Can be NULL or
 'gaussian'.}
