@@ -12,13 +12,13 @@
 #' @param family distribution of the background variables. Can be NULL or
 #'   'gaussian'.
 #' @param theta if \code{TRUE} will label the first continuous variable 'theta'.
-questionnaire_gen_family <- function(n_obs, cat_prop, mean_yw, cov_matrix,
-                                     family, theta) {
+questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
+                                     family = "gaussian", theta = FALSE,
+                                     mean_yw = NULL) {
   # Generating raw data according to distribution
   if (family == "gaussian") {
     if (is.null(mean_yw)) mean_yw <- rep(0, ncol(cov_matrix))
-    cov_mx <- cov_matrix  # TODO: allow sd != 1 so cov != cor
-    raw_data <- mvtnorm::rmvnorm(n = n_obs, mean = mean_yw, sigma = cov_mx)
+    raw_data <- mvtnorm::rmvnorm(n = n_obs, mean = mean_yw, sigma = cov_matrix)
   } else if (family == "binomial") {
     stop("Binomial family not yet implemented.")
   } else if (family == "poisson") {

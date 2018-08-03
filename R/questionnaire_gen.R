@@ -87,8 +87,8 @@ questionnaire_gen <- function(n_obs, cat_prop, cor_matrix = NULL,
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop,
                                        cor_matrix, c_mean, c_sd, theta)
   } else {
-    bg <- questionnaire_gen_family(n_obs, cat_prop,
-                                   mean_yw, cov_matrix, family, theta)
+    bg <- questionnaire_gen_family(n_obs, cat_prop, cov_matrix, family, theta,
+                                   mean_yw)
   }
   return(bg)
 }
