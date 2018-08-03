@@ -58,11 +58,10 @@
 #' questionnaire_gen(n_obs = 10, cat_prop = cum_prop, cov_matrix = yw_cov,
 #'                   family = "gaussian")
 #'
-#' # Not providing covariance matrix (temp)
+#' # Not providing covariance matrix
 #' questionnaire_gen(n_obs = 10,
-#'                   cat_prop = list(c(.25, 1), c(.6, 1)),
-#'                   family = "gaussian",
-#'                   pr_grp_1 = c(.25, .6), n_fac = 4, n_ind = 2)
+#'                   cat_prop = list(c(.25, 1), c(.6, 1), c(.2, 1)),
+#'                   family = "gaussian", n_fac = 4, n_ind = 3)
 
 #' @export
 questionnaire_gen <- function(n_obs, cat_prop, cor_matrix = NULL,

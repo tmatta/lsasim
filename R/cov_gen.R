@@ -21,6 +21,7 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
   # TODO: split cov_gen? vcov_yxw_gen, vcov_yxz_gen, vcov_yfz_gen, beta_gen.
 
   # General parameters ----------------------------------------------------
+  pr_grp_1 <- sapply(pr_grp_1, function(x) x[1])  # TODO: workaround. REMOVE
   pr_grp_2 <- 1 - pr_grp_1  # proportion of observations in group 2
   # TODO: generalize as list with any number of categories
   var_z <- pr_grp_1 * pr_grp_2  # variance of dichotomous variable z

@@ -83,6 +83,5 @@ questionnaire_gen(n_obs = 10, cat_prop = cum_prop, cov_matrix = yw_cov,
 # Not providing covariance matrix (temp)
 questionnaire_gen(n_obs = 10,
                   cat_prop = list(c(.25, 1), c(.6, 1)),
-                  family = "gaussian",
-                  pr_grp_1 = c(.25, .6), n_fac = 4, n_ind = 2)
+                  family = "gaussian", n_fac = 4, n_ind = 2)
 }
