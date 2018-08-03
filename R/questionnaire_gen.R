@@ -74,13 +74,6 @@ questionnaire_gen <- function(n_obs, cat_prop, cor_matrix = NULL,
   # to something more sensible (breaks compatibility)? Influences version number
   # (lsasim 1.1.0 vs. lsasim 2.0.0).
 
-  # TODO: merge pr_grp_1 into cat_prop (pr_grp_1 must be generalized for several
-  # groups first).
-  if (!is.null(pr_grp_1) & !is.null(n_fac) & !is.null(n_ind)) {
-    covs <- cov_gen(pr_grp_1, n_fac, n_ind, Lambda_lims = 0:1)
-    index_x <- 2:(n_fac * n_ind + 1)
-    cov_matrix <- covs$vcov_yxw[-index_x, -index_x]
-  }
   if (is.null(family)) {
     message("Generating background data from cumulative proportions and",
             "correlation matrix")
@@ -88,6 +81,17 @@ questionnaire_gen <- function(n_obs, cat_prop, cor_matrix = NULL,
                                        cor_matrix, c_mean, c_sd, theta)
   } else {
     message("Generating", family, "-distributed background data")
+    if (!is.null(n_fac) & !is.null(n_ind)) {
+      message("Generating covariance matrix")
+      if (any(sapply(cat_prop, length) > 2)) {
+        # This is a WORKAROUND until the generalization of cov_gen
+        # TODO: generalize cov_gen to accept larger cat_ptop.
+        stop("Implementation for polytomous variables not yet implemented.")
+      }
+      covs <- cov_gen(cat_prop, n_fac, n_ind, Lambda)
+      index_x <- 2:(n_fac * n_ind + 1)
+      cov_matrix <- covs$vcov_yxw[-index_x, -index_x]
+    }
     bg <- questionnaire_gen_family(n_obs, cat_prop, cov_matrix, family, theta,
                                    mean_yw)
   }
