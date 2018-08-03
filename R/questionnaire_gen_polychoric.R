@@ -19,7 +19,6 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
     for (i in 1:num_x) uncor_mat[, i] <- rnorm(n, 0, 1)
     return(uncor_mat)
   }
-  message("Using cumulative proportions and correlation matrix")
   #--- Generate uncorrelated standard normals
   n_vars <- length(cat_prop)
   uncor_dat <- mvsn(n = n_obs, num_x = n_vars)

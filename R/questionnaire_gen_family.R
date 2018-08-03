@@ -26,7 +26,6 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   } else {
     stop("Invalid distribution family.")
   }
-  message("Using ", family, " distribution")
 
   # Formatting raw data
   bg_data <- data.frame(raw_data)
