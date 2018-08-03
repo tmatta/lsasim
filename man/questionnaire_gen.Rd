@@ -6,8 +6,7 @@
 \usage{
 questionnaire_gen(n_obs, cat_prop, cor_matrix = NULL, c_mean = NULL,
   c_sd = NULL, theta = FALSE, family = NULL, mean_yw = NULL,
-  cov_matrix = NULL, pr_grp_1 = NULL, n_fac = NULL, n_ind = NULL,
-  Lambda_lims = 0:1)
+  cov_matrix = NULL, n_fac = NULL, n_ind = NULL, Lambda = 0:1)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}
@@ -31,14 +30,12 @@ background variables (W).}
 
 \item{cov_matrix}{latent covariance matrix.}
 
-\item{pr_grp_1}{proportion of observations in group 1. Can be a scalar or a
-vector}
-
 \item{n_fac}{number of factors}
 
 \item{n_ind}{number of indicators per factor}
 
-\item{Lambda_lims}{vector of lower and upper limits for the factor-loading
+\item{Lambda}{either a matrix containing the factor loadings or a vector
+containing the lower and upper limits for a randomly-generated Lambda
 matrix}
 }
 \description{

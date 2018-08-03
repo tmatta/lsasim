@@ -6,7 +6,8 @@
 #'   vector
 #' @param n_fac number of factors
 #' @param n_ind number of indicators per factor
-#' @param Lambda_lims vector of lower and upper limits for the factor-loading
+#' @param Lambda either a matrix containing the factor loadings or a vector
+#'   containing the lower and upper limits for a randomly-generated Lambda
 #'   matrix
 #' @return A list containing three covariance matrices: vcov_yxw, vcov_yxz and
 #'   vcov_yfz
@@ -14,7 +15,7 @@
 #' @examples
 #'  vcov <- cov_gen(pr_grp_1 = .5, n_fac = 3, n_ind = 2)
 #'  str(vcov)
-cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda_lims = 0:1) {
+cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
 
   # TODO: implement cat_prop to define number of Ws and Xs.
   # TODO: split cov_gen? vcov_yxw_gen, vcov_yxz_gen, vcov_yfz_gen, beta_gen.
@@ -36,11 +37,13 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda_lims = 0:1) {
   l_end <- l_start + n_ind - 1
 
   # Factor loading matrix (loadings generated randomly) -------------------
-  # TODO: should be an input of some function, not necessarily random.
-  Lambda <- matrix(0, ncol = length(n_ind), nrow = sum(n_ind))
-  for (i in seq(n_ind)) {
-    Lambda[l_start[i]:l_end[i], i] <- runif(n_ind[i],
-                                            Lambda_lims[1], Lambda_lims[2])
+  if (class(Lambda) %in%  c("numeric", "integer")) {
+    Lambda_mx <- matrix(0, ncol = length(n_ind), nrow = sum(n_ind))
+    for (i in seq(n_ind)) {
+      Lambda_mx[l_start[i]:l_end[i], i] <- runif(n_ind[i], Lambda[1],
+                                                 Lambda[2])
+    }
+    Lambda <- Lambda_mx
   }
   colnames(Lambda) <- f_names
   rownames(Lambda) <- x_names

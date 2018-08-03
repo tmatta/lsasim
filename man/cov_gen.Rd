@@ -4,7 +4,7 @@
 \alias{cov_gen}
 \title{Generation of covariance matrices}
 \usage{
-cov_gen(pr_grp_1, n_fac, n_ind, Lambda_lims = 0:1)
+cov_gen(pr_grp_1, n_fac, n_ind, Lambda = 0:1)
 }
 \arguments{
 \item{pr_grp_1}{proportion of observations in group 1. Can be a scalar or a
@@ -14,7 +14,8 @@ vector}
 
 \item{n_ind}{number of indicators per factor}
 
-\item{Lambda_lims}{vector of lower and upper limits for the factor-loading
+\item{Lambda}{either a matrix containing the factor loadings or a vector
+containing the lower and upper limits for a randomly-generated Lambda
 matrix}
 }
 \value{
