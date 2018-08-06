@@ -133,16 +133,6 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
   vcov_yfz <- diag(sd_vec) %*% Phi_pb %*% diag(sd_vec)
 
   # Analytical parameters -------------------------------------------------
-
-  # Latent regression parameters
-  ncol_Phi <- ncol(Phi)
-  beta_hat <- solve(vcov_yfz[2:ncol_Phi, 2:ncol_Phi], vcov_yfz[1, 2:ncol_Phi])
-
-  # Group differences for Z
-  beta_z <- solve(vcov_yfz[wcol_Phi, wcol_Phi], vcov_yfz[1, wcol_Phi])
-  beta_c <- as.numeric(0 - (beta_z %*% t(1 - pr_grp_1)))
-
-  out <- list(vcov_yxw = vcov_yxw, vcov_yxz = vcov_yxz, vcov_yfz = vcov_yfz,
-              beta_hat = beta_hat, Z0 = beta_c, Z1 = beta_z)
+  out <- list(vcov_yxw = vcov_yxw, vcov_yxz = vcov_yxz, vcov_yfz = vcov_yfz)
   return(out)
 }
