@@ -78,16 +78,26 @@ questionnaire_gen <- function(n_obs, cat_prop, cor_matrix = NULL,
                                        cor_matrix, c_mean, c_sd, theta)
   } else {
     message("Generating ", family, "-distributed background data")
-    if (!is.null(n_fac) & !is.null(n_ind)) {
+    if (is.null(cov_matrix)) {
       message("Generating covariance matrix")
       if (any(sapply(cat_prop, length) > 2)) {
         # This is a WORKAROUND until the generalization of cov_gen
         # TODO: generalize cov_gen to accept larger cat_ptop.
         stop("Implementation for polytomous variables pending")
       }
-      covs <- cov_gen(cat_prop, n_fac, n_ind, Lambda)
+      # TODO: review verifications below
+      ## should there be a lower limit for F?
+      ## is it sensible force X to have the same length as W?
+      if (is.null(n_fac)) n_fac <- 2
+      if (is.null(n_ind)) n_ind <- length(cat_prop)
+
+      n_w <- length(cat_prop)
+      Phi <- cor_gen(1 + n_fac + n_w)
+
+      cov_yxw <- cov_yxw_gen(n_ind, n_w, Phi, n_fac, Lambda)
       index_x <- 2:(n_fac * n_ind + 1)
-      cov_matrix <- covs$vcov_yxw[-index_x, -index_x]
+
+      cov_matrix <- cov_yxw[-index_x, -index_x]
     }
     bg <- questionnaire_gen_family(n_obs, cat_prop, cov_matrix, family, theta,
                                    mean_yw)
