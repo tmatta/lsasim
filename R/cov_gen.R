@@ -31,22 +31,16 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
   x_names <- paste0("x", 1:sum(n_ind))
   w_names <- paste0("w", 1:n_z)
 
-  # Location markers for the lambda matrix
-  n_ind_minus1 <- n_ind - 1
-  l_start <- cumsum(n_ind) - n_ind_minus1
+  # Generating or formatting factor-loading matrix (Lambda) ---------------
+  l_start <- cumsum(n_ind) - n_ind - 1
   l_end <- l_start + n_ind - 1
-
-  # Factor loading matrix -------------------------------------------------
   if (class(Lambda) %in% c("numeric", "integer")) {
-    Lambda_mx <- matrix(0, ncol = length(n_ind), nrow = sum(n_ind))
-    for (i in seq(n_ind)) {
-      loadings <- runif(n_ind[i], Lambda[1], Lambda[2])
-      Lambda_mx[l_start[i]:l_end[i], i] <- loadings
-    }
-    Lambda <- Lambda_mx
+    # "Lambda" parameter was provided as limits for random genration
+    Lambda <- lambda_gen(n_ind, l_start, l_end, Lambda, x_names, f_names)
+  } else {
+    # "Lambda" parameter was provided as the actual matrix.
+    dimnames(Lambda) <- list(x_names, f_names)
   }
-  colnames(Lambda) <- f_names
-  rownames(Lambda) <- x_names
 
   # Generation covariance matrix between y, x1, ..., x36, w ---------------
   # w ~ N(0, 1) is the latent representation of dicotomous z
