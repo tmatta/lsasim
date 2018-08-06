@@ -62,7 +62,6 @@
 #' questionnaire_gen(n_obs = 10,
 #'                   cat_prop = list(c(.25, 1), c(.6, 1), c(.2, 1)),
 #'                   family = "gaussian", n_fac = 4, n_ind = 3)
-
 #' @export
 questionnaire_gen <- function(n_obs, cat_prop, cor_matrix = NULL,
                               c_mean = NULL, c_sd = NULL, theta = FALSE,
@@ -70,8 +69,7 @@ questionnaire_gen <- function(n_obs, cat_prop, cor_matrix = NULL,
                               cov_matrix = NULL, n_fac = NULL, n_ind = NULL,
                               Lambda = 0:1){
   # TODO: keep original order of parameters (keeps retrocompatibility) or change
-  # to something more sensible (breaks compatibility)? Influences version number
-  # (lsasim 1.1.0 vs. lsasim 2.0.0).
+  # to something more sensible (breaks compatibility)?
 
   if (is.null(family)) {
     message("Generating background data from cumulative proportions and ",
