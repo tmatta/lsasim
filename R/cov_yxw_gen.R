@@ -33,14 +33,14 @@ cov_yxw_gen <- function(n_ind, n_z, Phi, n_fac, Lambda) {
 
   # Compute covariance matrix for factor indicators (X)
   # TODO: why are these called _x and not _f?
-  Phi_x <- Phi[2:(n_fac + 1), 2:(n_fac + 1)]
-  cov_x <- Lambda %*% Phi_x %*% t(Lambda)
-  var_x <- Lambda ^ 2 %*% Phi_x + (1 - Lambda ^ 2)
+  Phi_f <- Phi[2:(n_fac + 1), 2:(n_fac + 1)]
+  cov_x <- Lambda %*% Phi_f %*% t(Lambda)
+  var_xf <- Lambda ^ 2 %*% Phi_f + (1 - Lambda ^ 2)
 
   # Compute variances for factor indicators
   indicator_vars <- list()
   for (i in seq(n_ind_rep)) {
-    indicator_vars[[i]] <- var_x[l_start[i]:l_end[i], i]
+    indicator_vars[[i]] <- var_xf[l_start[i]:l_end[i], i]
   }
   diag(cov_x) <- unlist(indicator_vars)
 
