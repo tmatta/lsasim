@@ -4,9 +4,11 @@
 \alias{cov_yfz_gen}
 \title{Generate latent regression covariance matrix}
 \usage{
-cov_yfz_gen(Phi, n_z, sd_z, wcol_Phi, w_names, cor_ptbis)
+cov_yfz_gen(n_ind, Phi, n_z, sd_z, wcol_Phi, w_names, pr_grp_1)
 }
 \arguments{
+\item{n_ind}{number of indicator variables}
+
 \item{Phi}{latent regression correlation matrix}
 
 \item{n_z}{number of background variables}
@@ -17,7 +19,7 @@ cov_yfz_gen(Phi, n_z, sd_z, wcol_Phi, w_names, cor_ptbis)
 
 \item{w_names}{names of W variables}
 
-\item{cor_ptbis}{vector of point-bisserial correlations between Y and F or W}
+\item{pr_grp_1}{scalar or list of proportions of the first group}
 }
 \description{
 Generates covariance matrix between Y, F and Z
