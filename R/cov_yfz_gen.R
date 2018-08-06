@@ -6,11 +6,11 @@
 #' @param Phi latent regression correlation matrix
 #' @param n_z number of background variables
 #' @param sd_z standard deviation of background variables
-#' @param wcol_Phi vector with column numbers of the W variables in Phi
 #' @param w_names names of W variables
 #' @param pr_grp_1 scalar or list of proportions of the first group
 #'
-cov_yfz_gen <- function(n_ind, Phi, n_z, sd_z, wcol_Phi, w_names, pr_grp_1) {
+cov_yfz_gen <- function(n_ind, Phi, n_z, sd_z, w_names, pr_grp_1) {
+  wcol_Phi <- match(w_names, colnames(Phi))
   sd_vec <- c(rep(1, max(wcol_Phi) - n_z), sd_z)
   yfcol_yfz <- colnames(Phi)[-match(w_names, colnames(Phi))]
   Phi_pb <- Phi

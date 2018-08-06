@@ -4,7 +4,7 @@
 \alias{cov_yfz_gen}
 \title{Generate latent regression covariance matrix}
 \usage{
-cov_yfz_gen(n_ind, Phi, n_z, sd_z, wcol_Phi, w_names, pr_grp_1)
+cov_yfz_gen(n_ind, Phi, n_z, sd_z, w_names, pr_grp_1)
 }
 \arguments{
 \item{n_ind}{number of indicator variables}
@@ -14,8 +14,6 @@ cov_yfz_gen(n_ind, Phi, n_z, sd_z, wcol_Phi, w_names, pr_grp_1)
 \item{n_z}{number of background variables}
 
 \item{sd_z}{standard deviation of background variables}
-
-\item{wcol_Phi}{vector with column numbers of the W variables in Phi}
 
 \item{w_names}{names of W variables}
 
