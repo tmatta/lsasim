@@ -123,14 +123,7 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
   }
 
   # Latent regression covariance matrix -----------------------------------
-  # yfz is the covariance between y, f1, ..., f9, z; where f is a factor
-  sd_vec <- c(rep(1, max(wcol_Phi) - n_z), sd_z)
-  yfcol_yfz <- colnames(Phi)[-match(w_names, colnames(Phi))]
-  Phi_pb <- Phi
-  Phi_pb[wcol_Phi, yfcol_yfz] <- cor_ptbis  # Y and Fs vs. Ws
-  Phi_pb[yfcol_yfz, wcol_Phi] <- t(Phi_pb[wcol_Phi, yfcol_yfz])
-
-  vcov_yfz <- diag(sd_vec) %*% Phi_pb %*% diag(sd_vec)
+  vcov_yfz <- cov_yfz_gen(Phi, n_z, sd_z, wcol_Phi, w_names, cor_ptbis)
 
   # Analytical parameters -------------------------------------------------
   out <- list(vcov_yxw = vcov_yxw, vcov_yxz = vcov_yxz, vcov_yfz = vcov_yfz)
