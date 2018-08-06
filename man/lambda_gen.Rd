@@ -4,10 +4,12 @@
 \alias{lambda_gen}
 \title{Randomly generate a matrix of factor loadings}
 \usage{
-lambda_gen(n_ind, limits, row_names, col_names)
+lambda_gen(n_ind, n_fac, limits, row_names, col_names)
 }
 \arguments{
 \item{n_ind}{number of indicators per factor}
+
+\item{n_fac}{number of factors}
 
 \item{limits}{vector with lower and upper limits for the uniformly-generated
 Lambdas}

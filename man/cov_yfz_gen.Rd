@@ -4,10 +4,12 @@
 \alias{cov_yfz_gen}
 \title{Generate latent regression covariance matrix}
 \usage{
-cov_yfz_gen(n_ind, Phi, n_z, sd_z, w_names, pr_grp_1)
+cov_yfz_gen(n_ind, n_fac, Phi, n_z, sd_z, w_names, pr_grp_1)
 }
 \arguments{
 \item{n_ind}{number of indicator variables}
+
+\item{n_fac}{number of factors}
 
 \item{Phi}{latent regression correlation matrix}
 

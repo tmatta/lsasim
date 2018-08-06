@@ -4,7 +4,7 @@
 \alias{cov_yxz_gen}
 \title{Generate analytical covariance matrix}
 \usage{
-cov_yxz_gen(vcov_yxw, w_names, Phi, pr_grp_1, n_ind, Lambda, var_z)
+cov_yxz_gen(vcov_yxw, w_names, Phi, pr_grp_1, n_ind, n_fac, Lambda, var_z)
 }
 \arguments{
 \item{vcov_yxw}{covariance matrix between Y, X and W}
@@ -16,6 +16,8 @@ cov_yxz_gen(vcov_yxw, w_names, Phi, pr_grp_1, n_ind, Lambda, var_z)
 \item{pr_grp_1}{scalar or list of proportions of the first group}
 
 \item{n_ind}{number of indicator variables}
+
+\item{n_fac}{number of factors}
 
 \item{Lambda}{matrix containing the factor loadings}
 

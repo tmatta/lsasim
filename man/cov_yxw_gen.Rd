@@ -4,26 +4,18 @@
 \alias{cov_yxw_gen}
 \title{Setup full YXW covariance matrix}
 \usage{
-cov_yxw_gen(n_ind, n_z, x_names, w_names, Phi, n_fac, Lambda)
+cov_yxw_gen(n_ind, n_z, Phi, n_fac, Lambda)
 }
 \arguments{
 \item{n_ind}{number of indicator variables}
 
 \item{n_z}{number of background variables}
 
-\item{x_names}{names of X variables}
-
-\item{w_names}{names of W variables}
-
 \item{Phi}{latent regression correlation matrix}
 
 \item{n_fac}{number of factor variables}
 
 \item{Lambda}{matrix containing the factor loadings}
-
-\item{sd_z}{standard deviation of background variables}
-
-\item{pr_grp_1}{scalar or list of proportions of the first group}
 }
 \description{
 Setup full YXW covariance matrix
