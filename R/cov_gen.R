@@ -52,78 +52,15 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
 
   # Setup full YXW covariance matrix --------------------------------------
   # yxw is the covariance between y, x1, ..., x36; w, W ~ N(0, 1)
-  n_yxw <- 1 + sum(n_ind) + n_z
-  vcov_yxw <- matrix(NA, nrow = n_yxw, ncol = n_yxw)
-  rownames(vcov_yxw) <- colnames(vcov_yxw) <- c("y", x_names, w_names)
-
-  # Compute covariance matrix for factor indicators
-  # TODO: why are these called _x and not _f?
-  Phi_x <- Phi[2:(n_fac + 1), 2:(n_fac + 1)]
-  cov_x <- Lambda %*% Phi_x %*% t(Lambda)
-  var_x <- Lambda ^ 2 %*% Phi_x + (1 - Lambda ^ 2)
-
-  # Compute variances for factor indicators
-  indicator_vars <- list()
-  for (i in seq(n_ind)) {
-    indicator_vars[[i]] <- var_x[l_start[i]:l_end[i], i]
-  }
-  diag(cov_x) <- unlist(indicator_vars)
-
-  # Inserting the covariance matrix into vcov_yxw (Y and W cols remain NA)
-  x_indices <- 2:(length(diag(cov_x)) + 1)
-  vcov_yxw[x_indices, x_indices] <- cov_x
-
-  # Compute covariance between Y and factor indicators (X)
-  vcov_yxw[1, 1] <- 1  # covariance between Y and itself
-  for (i in seq(n_ind)) {
-    l_seq <- l_start[i]:l_end[i]
-    vcov_yxw[1, l_seq + 1] <- Lambda[l_seq, i] * Phi[1, (i + 1)]
-    vcov_yxw[l_seq + 1, 1] <- t(vcov_yxw[1, l_seq + 1])
-  }
-
-  # Compute covariance between W and factor indicators (X)
-  wcol_yxw <- match(w_names, colnames(vcov_yxw))
-  wcol_Phi <- match(w_names, colnames(Phi))
-  vcov_yxw[wcol_yxw, wcol_yxw] <- 1
-  for (i in seq(n_ind)) {
-    l_seq <- l_start[i]:l_end[i]
-    vcov_yxw[wcol_yxw, l_seq + 1] <- Lambda[l_seq, i] * Phi[wcol_Phi, (i + 1)]
-    vcov_yxw[l_seq + 1, wcol_yxw] <- t(vcov_yxw[wcol_yxw, l_seq + 1])
-  }
-
-  # Compute covariance between y and w
-  vcov_yxw[1, wcol_yxw] <- vcov_yxw[wcol_yxw, 1] <- Phi[1, wcol_Phi]
+  vcov_yxw <- cov_yxw_gen(n_ind, n_z, x_names, w_names, Phi, n_fac, Lambda)
 
   # Analytical covariance matrix ------------------------------------------
   # yxz is the covariance between y, x1, ..., x36; z
   # using var(z) = pq and point biserial correlations
-  vcov_yxz <- matrix(NA, nrow = n_yxw, ncol = n_yxw)
-  wcol_yxz <- wcol_yxw
-  yfcol_yxz <- colnames(vcov_yxw)[-match(w_names, colnames(vcov_yxw))]
-
-  # Filling vcov_yxz with values from vcov_yxw for Y and F
-  dimnames(vcov_yxz) <- dimnames(vcov_yxw)
-  vcov_yxz[yfcol_yxz, yfcol_yxz] <- vcov_yxw[yfcol_yxz, yfcol_yxz]
-
-  # Adding Z to the covariance matrix
-  ## Between Zs
-  vcov_yxz[wcol_yxz, wcol_yxz] <- var_z
-  ## Between Zs and Y
-  cor_ptbis <- list()
-  for (i in seq(length(n_ind) + 1)) {
-    cor_ptbis[[i]] <- pt_bis_conversion(Phi[wcol_Phi, i], pr_grp_1)
-  }
-  cor_ptbis <- unlist(cor_ptbis)
-  vcov_yxz[1, wcol_yxz] <- vcov_yxz[wcol_yxz, 1] <- cor_ptbis[1] * sd_z
-  ## Between Zs and Xs
-  for (i in seq(n_ind)) {
-    l_seq <- l_start[i]:l_end[i]
-    vcov_yxz[wcol_yxz, l_seq + 1] <- Lambda[l_seq, i] * cor_ptbis[(i + 1)] * sd_z
-    vcov_yxz[l_seq + 1, wcol_yxz] <- Lambda[l_seq, i] * cor_ptbis[(i + 1)] * sd_z
-  }
+  vcov_yxz <- cov_yxz_gen(vcov_yxw, w_names, Phi, pr_grp_1, n_ind, Lambda, var_z)
 
   # Latent regression covariance matrix -----------------------------------
-  vcov_yfz <- cov_yfz_gen(n_ind, Phi, n_z, sd_z, wcol_Phi, w_names, pr_grp_1)
+  vcov_yfz <- cov_yfz_gen(n_ind, Phi, n_z, sd_z, w_names, pr_grp_1)
 
   # Analytical parameters -------------------------------------------------
   out <- list(vcov_yxw = vcov_yxw, vcov_yxz = vcov_yxz, vcov_yfz = vcov_yfz)
