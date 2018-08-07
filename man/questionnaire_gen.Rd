@@ -6,7 +6,7 @@
 \usage{
 questionnaire_gen(n_obs, cat_prop, cor_matrix = NULL, c_mean = NULL,
   c_sd = NULL, theta = FALSE, family = NULL, mean_yw = NULL,
-  cov_matrix = NULL, n_fac = NULL, n_ind = NULL, Lambda = 0:1)
+  cov_matrix = NULL, n_fac = NULL, n_ind = NULL, Lambda = NULL)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}

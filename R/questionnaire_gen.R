@@ -67,17 +67,27 @@ questionnaire_gen <- function(n_obs, cat_prop, cor_matrix = NULL,
                               c_mean = NULL, c_sd = NULL, theta = FALSE,
                               family = NULL, mean_yw = NULL,
                               cov_matrix = NULL, n_fac = NULL, n_ind = NULL,
-                              Lambda = 0:1){
+                              Lambda = NULL){
   # TODO: keep original order of parameters (keeps retrocompatibility) or change
   # to something more sensible (breaks compatibility)?
 
+  # Checking provided parameters ------------------------------------------
+  null_parameters <- sapply(mget(ls()), is.null)
+  provided_parameters <- names(null_parameters[null_parameters == FALSE])
   if (is.null(family)) {
-    message("Generating background data from cumulative proportions and ",
-            "correlation matrix")
-    bg <- questionnaire_gen_polychoric(n_obs, cat_prop,
-                                       cor_matrix, c_mean, c_sd, theta)
+    message("Generating background data from polychoric correlations")
+    ignored_parameters <- c("mean_yw", "n_fac", "n_ind", "Lambda")
+    check_ignored_parameters(provided_parameters, ignored_parameters)
+    if (is.null(cor_matrix) & !is.null(cov_matrix)) {
+      cor_matrix <- cov2cor(cov_matrix)
+    }
+    bg <- questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix,
+                                       c_mean, c_sd, theta)
   } else {
     message("Generating ", family, "-distributed background data")
+    ignored_parameters <- c("cor_matrix", "c_mean", "c_sd")
+    check_ignored_parameters(provided_parameters, ignored_parameters)
+    if (is.null(Lambda)) Lambda <- 0:1
     if (is.null(cov_matrix)) {
       message("Generating covariance matrix")
       if (any(sapply(cat_prop, length) > 2)) {
@@ -99,8 +109,8 @@ questionnaire_gen <- function(n_obs, cat_prop, cor_matrix = NULL,
 
       cov_matrix <- cov_yxw[-index_x, -index_x]
     }
-    bg <- questionnaire_gen_family(n_obs, cat_prop, cov_matrix, family, theta,
-                                   mean_yw)
+    bg <- questionnaire_gen_family(n_obs, cat_prop,
+                                   cov_matrix, family, theta, mean_yw)
   }
   return(bg)
 }
