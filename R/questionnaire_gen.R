@@ -101,8 +101,8 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
       } else {
         n_vars <- ncol(cor_matrix) - 1
         if (is.null(n_X) & is.null(n_W)) {
-          n_X <- rpois(n = 1, lambda = 2)
-          n_W <- rpois(n = 1, lambda = 2)
+          n_X <- rbinom(n = 1, size = n_vars, prob = .2)
+          n_W <- n_vars - n_X
         } else {
           if (is.null(n_X)) n_X <- n_vars - n_W
           if (is.null(n_W)) n_W <- n_vars - n_X
