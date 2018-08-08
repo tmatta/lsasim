@@ -21,8 +21,6 @@
 #' @param n_W number of categorical background variables
 #' @param family distribution of the background variables. Can be NULL or
 #'   'gaussian'.
-#' @param mean_yw vector with the means of the latent trait (Y) and the
-#'   background variables (W).
 #' @param n_fac number of factors
 #' @param n_ind number of indicators per factor
 #' @param Lambda either a matrix containing the factor loadings or a vector
@@ -75,7 +73,7 @@
 questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                               c_mean = NULL, c_sd = NULL, theta = FALSE,
                               n_vars = NULL, n_X = NULL, n_W = NULL,
-                              family = NULL, mean_yw = NULL,
+                              family = NULL,
                               cov_matrix = NULL, n_fac = NULL, n_ind = NULL,
                               Lambda = 0:1){
   # TODO: keep original order of parameters (keeps retrocompatibility) or change
@@ -162,7 +160,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   } else {
     message("Generating ", family, "-distributed background data")
     bg <- questionnaire_gen_family(n_obs, cat_prop, cov_matrix,
-                                   family, theta, mean_yw)
+                                   family, theta, c_mean)
   }
   return(bg)
 }

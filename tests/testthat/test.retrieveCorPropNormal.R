@@ -1,10 +1,10 @@
 context("Retrieval of original proportions and correlations")
 
 cum_prop <- list(c(.25, 1), c(.2, .8, 1))
-yw_mean <- c(0, 0, 0)
+yw_mean <- NULL
 yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
 bg <- questionnaire_gen(n_obs = 1e4, cat_prop = cum_prop, family = "gaussian",
-                        mean_yw = yw_mean, cov_matrix = yw_cov)
+                        c_mean = yw_mean, cov_matrix = yw_cov, theta = TRUE)
 
 test_that("Observed correlations are similar to input for family='gaussian'", {
   obs_cor <- polycor::hetcor(bg)$correlations[-1, -1]
