@@ -77,7 +77,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                               n_vars = NULL, n_X = NULL, n_W = NULL,
                               family = NULL, mean_yw = NULL,
                               cov_matrix = NULL, n_fac = NULL, n_ind = NULL,
-                              Lambda = NULL){
+                              Lambda = 0:1){
   # TODO: keep original order of parameters (keeps retrocompatibility) or change
   # to something more sensible (breaks compatibility)?
 
@@ -86,19 +86,29 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     if (is.null(cat_prop)) {
       if (is.null(cor_matrix)) {
         if (is.null(cov_matrix)) {
-          if (is.null(n_X) & is.null(n_W)) {
-            n_X <- rbinom(n = 1, size = n_vars, prob = .2)
-            n_W <- rbinom(n = 1, size = n_vars, prob = .8)
-          } else {
-            if (is.null(n_X)) n_X <- rpois(n = 1, lambda = 2)
-            if (is.null(n_W)) n_W <- rpois(n = 1, lambda = 2)
-          }
+          if (is.null(n_X)) n_X <- rpois(n = 1, lambda = 2)
+          if (is.null(n_W)) n_W <- rpois(n = 1, lambda = 2)
         } else {
           n_vars <- ncol(cov_matrix) - 1
+          if (is.null(n_X) & is.null(n_W)) {
+            n_X <- rpois(n = 1, lambda = 2)
+            n_W <- rpois(n = 1, lambda = 2)
+          } else {
+            if (is.null(n_X)) n_X <- n_vars - n_W
+            if (is.null(n_W)) n_W <- n_vars - n_X
+          }
         }
       } else {
         n_vars <- ncol(cor_matrix) - 1
+        if (is.null(n_X) & is.null(n_W)) {
+          n_X <- rpois(n = 1, lambda = 2)
+          n_W <- rpois(n = 1, lambda = 2)
+        } else {
+          if (is.null(n_X)) n_X <- n_vars - n_W
+          if (is.null(n_W)) n_W <- n_vars - n_X
+        }
       }
+      # TODO: move code below into function (replicated below)
       n_cat_X <- rep(1, n_X)
       n_cat_W <- sample(c(2, 3, 4, 5) - 1, size = n_W, replace = TRUE)
       cat_prop <- c(lapply(n_cat_X, function(x) x),
@@ -123,10 +133,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                     lapply(n_cat_W, function(x) c(sort(sample(seq(.1, .9, .1), x)), 1)))
     }
   }
-
   if (is.null(n_fac)) n_fac <- 1
-  if (is.null(Lambda)) Lambda <- 0:1
-
   if (is.null(cor_matrix)) {
     if (is.null(cov_matrix)) {
       # neither matrix is provided
