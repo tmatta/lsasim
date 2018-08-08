@@ -63,52 +63,81 @@
 #'                   cat_prop = list(c(.25, 1), c(.6, 1), c(.2, 1)),
 #'                   family = "gaussian", n_fac = 4, n_ind = 3)
 #' @export
-questionnaire_gen <- function(n_obs, cat_prop, cor_matrix = NULL,
+questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                               c_mean = NULL, c_sd = NULL, theta = FALSE,
+                              n_vars = NULL,
                               family = NULL, mean_yw = NULL,
                               cov_matrix = NULL, n_fac = NULL, n_ind = NULL,
                               Lambda = NULL){
   # TODO: keep original order of parameters (keeps retrocompatibility) or change
   # to something more sensible (breaks compatibility)?
 
-  # Checking provided parameters ------------------------------------------
-  null_parameters <- sapply(mget(ls()), is.null)
-  provided_parameters <- names(null_parameters[null_parameters == FALSE])
-  if (is.null(family)) {
-    message("Generating background data from polychoric correlations")
-    ignored_parameters <- c("mean_yw", "n_fac", "n_ind", "Lambda")
-    check_ignored_parameters(provided_parameters, ignored_parameters)
-    if (is.null(cor_matrix) & !is.null(cov_matrix)) {
+  # Generating random numbers for unprovided parameters -------------------
+  if (is.null(n_vars)) {
+    if (is.null(cat_prop)) {
+      if (is.null(cor_matrix)) {
+        if (is.null(cov_matrix)) {
+          n_vars <- rpois(n = 1, lambda = 4)  # number of background variables
+        } else {
+          n_vars <- ncol(cov_matrix) - 1
+        }
+      } else {
+        n_vars <- ncol(cor_matrix) - 1
+      }
+      n_X <- rbinom(n = 1, size = n_vars, prob = .2)  # number of continuous var
+      n_W <- n_vars - n_X  # number of discrete vars
+      n_cat_X <- rep(1, n_X)
+      n_cat_W <- sample(c(2, 3, 4, 5) - 1, size = n_W, replace = TRUE)
+      cat_prop <- c(lapply(n_cat_X, function(x) x),
+                    lapply(n_cat_W, function(x) c(sort(sample(seq(.1, .9, .1), x)), 1)))
+    } else {
+      n_vars <- length(cat_prop)
+    }
+  } else {
+    if (is.null(cat_prop)) {
+      n_X <- rbinom(n = 1, size = n_vars, prob = .2)  # number of continuous var
+      n_W <- n_vars - n_X  # number of discrete vars
+      n_cat_X <- rep(1, n_X)
+      n_cat_W <- sample(c(2, 3, 4, 5) - 1, size = n_W, replace = TRUE)
+      cat_prop <- c(lapply(n_cat_X, function(x) x),
+                    lapply(n_cat_W, function(x) c(sort(sample(seq(.1, .9, .1), x)), 1)))
+    }
+  }
+
+  # cat_prop_x_index <- sapply(cat_prop, function(x) length(x) == 1)
+  # cat_prop_w_index <- sapply(cat_prop, function(x) length(x) > 1)
+  # n_x <- sum(cat_prop_x_index)
+  # n_w <- sum(cat_prop_w_index)
+
+  if (is.null(n_fac)) n_fac <- 1
+  if (is.null(Lambda)) Lambda <- 0:1
+
+  if (is.null(cor_matrix)) {
+    if (is.null(cov_matrix)) {
+      # neither matrix is provided
+      correlations <- rbeta(n = sum(1:n_vars), shape1 = 4, shape2 = 1)
+      cor_matrix <- matrix(NA, nrow = 1 + n_vars, ncol = 1 + n_vars)
+      cor_matrix[upper.tri(cor_matrix)] <- correlations
+      cor_matrix[lower.tri(cor_matrix)] <- t(cor_matrix)[lower.tri(cor_matrix)]
+      diag(cor_matrix) <- 1
+      sd_YXW <- rgamma(n = 1 + n_vars, shape = 2.5, scale = 1)
+      cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
+    } else {
+      # cor_matrix == NULL; cov_matrix provided
       cor_matrix <- cov2cor(cov_matrix)
     }
+  } else if (is.null(cov_matrix)) {
+    sd_YXW <- rgamma(n = 1 + n_vars, shape = 2.5, scale = 1)
+    cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
+  }
+
+  # Generating background data --------------------------------------------
+  if (is.null(family)) {
+    message("Generating background data from polychoric correlations")
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix,
                                        c_mean, c_sd, theta)
   } else {
     message("Generating ", family, "-distributed background data")
-    ignored_parameters <- c("cor_matrix", "c_mean", "c_sd")
-    check_ignored_parameters(provided_parameters, ignored_parameters)
-    if (is.null(Lambda)) Lambda <- 0:1
-    if (is.null(cov_matrix)) {
-      message("Generating covariance matrix")
-      if (any(sapply(cat_prop, length) > 2)) {
-        # This is a WORKAROUND until the generalization of cov_gen
-        # TODO: generalize cov_gen to accept larger cat_ptop.
-        stop("Implementation for polytomous variables pending")
-      }
-      # TODO: review verifications below
-      ## should there be a lower limit for F?
-      ## is it sensible force X to have the same length as W?
-      if (is.null(n_fac)) n_fac <- 2
-      if (is.null(n_ind)) n_ind <- length(cat_prop)
-
-      n_w <- length(cat_prop)
-      Phi <- cor_gen(1 + n_fac + n_w)
-
-      cov_yxw <- cov_yxw_gen(n_ind, n_w, Phi, n_fac, Lambda)
-      index_x <- 2:(n_fac * n_ind + 1)
-
-      cov_matrix <- cov_yxw[-index_x, -index_x]
-    }
     bg <- questionnaire_gen_family(n_obs, cat_prop,
                                    cov_matrix, family, theta, mean_yw)
   }
