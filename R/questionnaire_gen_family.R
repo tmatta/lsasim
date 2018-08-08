@@ -30,12 +30,24 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   # Formatting raw data
   bg_data <- data.frame(raw_data)
   y_name <- ifelse(theta, "theta", "y")
-  colnames(bg_data) <- c(y_name, paste0("w", seq(length(cat_prop))))
+  num_categories <- sapply(cat_prop, length)
+  if (any(num_categories == 1)) {
+    x_name <- paste0("x", 1:length(cat_prop[num_categories == 1]))
+  } else {
+    x_name <- NULL
+  }
+  if (any(num_categories > 1)) {
+    w_name <- paste0("w", 1:length(cat_prop[num_categories > 1]))
+  } else {
+    w_name <- NULL
+  }
+  q_name <- paste0("q", 1:(length(x_name) + length(w_name)))
+  colnames(bg_data) <- c(y_name, x_name, w_name)
 
-  # Categorizing W as Q
-  w_cols <- names(bg_data)[-1]
-  names(cat_prop) <- w_cols
-  for (w in w_cols) {
+  # Categorizing W as Z
+  # w_cols <- match(w_name, names(bg_data))
+  names(cat_prop) <- c(x_name, w_name)
+  for (w in w_name) {
     cut_points <- c(-Inf, qnorm(cat_prop[[w]][-length(cat_prop[[w]])]), Inf)
     # if W is dichotomous, labels are 0:1; else, labels start at 1.
     if (length(cat_prop[[w]]) == 2) {
@@ -43,12 +55,13 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
     } else {
       labels <- seq(cat_prop[[w]])
     }
-    q_name <- gsub("w", "q", w)
-    bg_data[substitute(q_name)] <- cut(bg_data[, w], cut_points, labels)
+    z_name <- gsub("w", "z", w)
+    bg_data[substitute(z_name)] <- cut(bg_data[, w], cut_points, labels)
     bg_data[w] <- NULL
   }
 
   # Adding subject numbers to final dataset
+  names(bg_data) <- c(y_name, q_name)
   discrete_df <- data.frame(subject = 1:nrow(raw_data), bg_data)
 
   return(discrete_df)

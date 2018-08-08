@@ -111,11 +111,6 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     }
   }
 
-  # cat_prop_x_index <- sapply(cat_prop, function(x) length(x) == 1)
-  # cat_prop_w_index <- sapply(cat_prop, function(x) length(x) > 1)
-  # n_x <- sum(cat_prop_x_index)
-  # n_w <- sum(cat_prop_w_index)
-
   if (is.null(n_fac)) n_fac <- 1
   if (is.null(Lambda)) Lambda <- 0:1
 
@@ -134,14 +129,17 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
       cor_matrix <- cov2cor(cov_matrix)
     }
   } else if (is.null(cov_matrix)) {
-    sd_YXW <- rgamma(n = 1 + n_vars, shape = 2.5, scale = 1)
+    sd_YXW <- rgamma(n = ncol(cor_matrix), shape = 2.5, scale = 1)
     cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
   }
 
   # Generating background data --------------------------------------------
   if (is.null(family)) {
     message("Generating background data from polychoric correlations")
-    cor_matrix <- cor_matrix[seq(n_vars) + 1, seq(n_vars) + 1]  # remove Y
+    if (nrow(cor_matrix) > length(cat_prop)) {
+      # Dropping Y
+      cor_matrix <- cor_matrix[seq(n_vars) + 1, seq(n_vars) + 1]
+    }
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix,
                                        c_mean, c_sd, theta)
   } else {
