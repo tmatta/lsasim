@@ -6,8 +6,8 @@
 \usage{
 questionnaire_gen(n_obs, cat_prop = NULL, cor_matrix = NULL,
   c_mean = NULL, c_sd = NULL, theta = FALSE, n_vars = NULL,
-  family = NULL, mean_yw = NULL, cov_matrix = NULL, n_fac = NULL,
-  n_ind = NULL, Lambda = NULL)
+  n_X = NULL, n_W = NULL, family = NULL, mean_yw = NULL,
+  cov_matrix = NULL, n_fac = NULL, n_ind = NULL, Lambda = NULL)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}
@@ -27,6 +27,10 @@ variable.}
 \item{theta}{if \code{TRUE} will label the first continuous variable 'theta'.}
 
 \item{n_vars}{number of background variables, continuous (X) and discrete (W)}
+
+\item{n_X}{number of continuous background variables}
+
+\item{n_W}{number of categorical background variables}
 
 \item{family}{distribution of the background variables. Can be NULL or
 'gaussian'.}

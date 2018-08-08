@@ -17,6 +17,8 @@
 #' @param theta if \code{TRUE} will label the first continuous variable 'theta'.
 #'
 #' @param n_vars number of background variables, continuous (X) and discrete (W)
+#' @param n_X number of continuous background variables
+#' @param n_W number of categorical background variables
 #' @param family distribution of the background variables. Can be NULL or
 #'   'gaussian'.
 #' @param mean_yw vector with the means of the latent trait (Y) and the
@@ -72,38 +74,49 @@
 #' @export
 questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                               c_mean = NULL, c_sd = NULL, theta = FALSE,
-                              n_vars = NULL,
+                              n_vars = NULL, n_X = NULL, n_W = NULL,
                               family = NULL, mean_yw = NULL,
                               cov_matrix = NULL, n_fac = NULL, n_ind = NULL,
                               Lambda = NULL){
   # TODO: keep original order of parameters (keeps retrocompatibility) or change
   # to something more sensible (breaks compatibility)?
 
-  # Generating random numbers for unprovided parameters -------------------
+  # Random generation of unprovided parameters ----------------------------
   if (is.null(n_vars)) {
     if (is.null(cat_prop)) {
       if (is.null(cor_matrix)) {
         if (is.null(cov_matrix)) {
-          n_vars <- rpois(n = 1, lambda = 4)  # number of background variables
+          if (is.null(n_X) & is.null(n_W)) {
+            n_X <- rbinom(n = 1, size = n_vars, prob = .2)
+            n_W <- rbinom(n = 1, size = n_vars, prob = .8)
+          } else {
+            if (is.null(n_X)) n_X <- rpois(n = 1, lambda = 2)
+            if (is.null(n_W)) n_W <- rpois(n = 1, lambda = 2)
+          }
         } else {
           n_vars <- ncol(cov_matrix) - 1
         }
       } else {
         n_vars <- ncol(cor_matrix) - 1
       }
-      n_X <- rbinom(n = 1, size = n_vars, prob = .2)  # number of continuous var
-      n_W <- n_vars - n_X  # number of discrete vars
       n_cat_X <- rep(1, n_X)
       n_cat_W <- sample(c(2, 3, 4, 5) - 1, size = n_W, replace = TRUE)
       cat_prop <- c(lapply(n_cat_X, function(x) x),
                     lapply(n_cat_W, function(x) c(sort(sample(seq(.1, .9, .1), x)), 1)))
+      n_vars <- n_X + n_W
     } else {
       n_vars <- length(cat_prop)
     }
   } else {
     if (is.null(cat_prop)) {
-      n_X <- rbinom(n = 1, size = n_vars, prob = .2)  # number of continuous var
-      n_W <- n_vars - n_X  # number of discrete vars
+      if (is.null(n_X)) {
+        if (is.null(n_W)) {
+          n_X <- rbinom(n = 1, size = n_vars, prob = .2)
+        } else {
+          n_X <- n_vars - n_W
+        }
+      }
+      if (is.null(n_W)) n_W <- n_vars - n_X
       n_cat_X <- rep(1, n_X)
       n_cat_W <- sample(c(2, 3, 4, 5) - 1, size = n_W, replace = TRUE)
       cat_prop <- c(lapply(n_cat_X, function(x) x),
