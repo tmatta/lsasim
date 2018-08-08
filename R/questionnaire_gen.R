@@ -130,18 +130,15 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   if (is.null(cor_matrix)) {
     if (is.null(cov_matrix)) {
       # neither matrix is provided
-      correlations <- runif(n = sum(1:n_vars), min = -.5, max = .5)
-      cor_matrix <- matrix(NA, nrow = 1 + n_vars, ncol = 1 + n_vars)
-      cor_matrix[upper.tri(cor_matrix)] <- correlations
-      cor_matrix[lower.tri(cor_matrix)] <- t(cor_matrix)[lower.tri(cor_matrix)]
-      diag(cor_matrix) <- 1
+      cor_matrix <- cor_gen(1 + n_vars)
       sd_YXW <- rgamma(n = 1 + n_vars, shape = 2, scale = 1)
       cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
     } else {
-      # cor_matrix == NULL; cov_matrix provided
+      # only cov_matrix is provided
       cor_matrix <- cov2cor(cov_matrix)
     }
   } else if (is.null(cov_matrix)) {
+    # only cor_matrix is provided
     sd_YXW <- rgamma(n = ncol(cor_matrix), shape = 2.5, scale = 1)
     cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
   }
@@ -157,8 +154,8 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                                        c_mean, c_sd, theta)
   } else {
     message("Generating ", family, "-distributed background data")
-    bg <- questionnaire_gen_family(n_obs, cat_prop,
-                                   cov_matrix, family, theta, mean_yw)
+    bg <- questionnaire_gen_family(n_obs, cat_prop, cov_matrix,
+                                   family, theta, mean_yw)
   }
   return(bg)
 }
