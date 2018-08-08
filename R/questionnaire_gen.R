@@ -122,12 +122,12 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   if (is.null(cor_matrix)) {
     if (is.null(cov_matrix)) {
       # neither matrix is provided
-      correlations <- rbeta(n = sum(1:n_vars), shape1 = 4, shape2 = 1)
+      correlations <- runif(n = sum(1:n_vars), min = -.5, max = .5)
       cor_matrix <- matrix(NA, nrow = 1 + n_vars, ncol = 1 + n_vars)
       cor_matrix[upper.tri(cor_matrix)] <- correlations
       cor_matrix[lower.tri(cor_matrix)] <- t(cor_matrix)[lower.tri(cor_matrix)]
       diag(cor_matrix) <- 1
-      sd_YXW <- rgamma(n = 1 + n_vars, shape = 2.5, scale = 1)
+      sd_YXW <- rgamma(n = 1 + n_vars, shape = 2, scale = 1)
       cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
     } else {
       # cor_matrix == NULL; cov_matrix provided
@@ -141,6 +141,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   # Generating background data --------------------------------------------
   if (is.null(family)) {
     message("Generating background data from polychoric correlations")
+    cor_matrix <- cor_matrix[seq(n_vars) + 1, seq(n_vars) + 1]  # remove Y
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix,
                                        c_mean, c_sd, theta)
   } else {
