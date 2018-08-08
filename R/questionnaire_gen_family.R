@@ -29,7 +29,6 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
 
   # Formatting raw data
   bg_data <- data.frame(raw_data)
-  y_name <- ifelse(theta, "theta", "y")
   num_categories <- sapply(cat_prop, length)
   if (any(num_categories == 1)) {
     x_name <- paste0("x", 1:length(cat_prop[num_categories == 1]))
@@ -41,8 +40,11 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   } else {
     w_name <- NULL
   }
-  q_name <- paste0("q", 1:(length(x_name) + length(w_name)))
-  colnames(bg_data) <- c(y_name, x_name, w_name)
+  if (theta) {
+    colnames(bg_data) <- c("theta", x_name, w_name)
+  } else {
+    colnames(bg_data) <- c("y", x_name, w_name)
+  }
 
   # Categorizing W as Z
   # w_cols <- match(w_name, names(bg_data))
@@ -61,7 +63,8 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   }
 
   # Adding subject numbers to final dataset
-  names(bg_data) <- c(y_name, q_name)
+  if (!theta) bg_data[, "y"] <- NULL
+  colnames(bg_data) <- paste0("q", seq(bg_data))
   discrete_df <- data.frame(subject = 1:nrow(raw_data), bg_data)
 
   return(discrete_df)
