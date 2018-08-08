@@ -4,16 +4,20 @@
 \alias{questionnaire_gen}
 \title{Generation of ordinal and continuous variables}
 \usage{
-questionnaire_gen(n_obs, cat_prop, cor_matrix = NULL, c_mean = NULL,
-  c_sd = NULL, theta = FALSE, family = NULL, mean_yw = NULL,
-  cov_matrix = NULL, n_fac = NULL, n_ind = NULL, Lambda = NULL)
+questionnaire_gen(n_obs, cat_prop = NULL, cor_matrix = NULL,
+  c_mean = NULL, c_sd = NULL, theta = FALSE, n_vars = NULL,
+  family = NULL, mean_yw = NULL, cov_matrix = NULL, n_fac = NULL,
+  n_ind = NULL, Lambda = NULL)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}
 
 \item{cat_prop}{list of cumulative proportions for each item.}
 
-\item{cor_matrix}{latent correlation matrix.}
+\item{cor_matrix}{latent correlation matrix. The first row/column corresponds
+to the latent trait (Y). The other rows/columns correspond to the
+continuous (X) and discrete (W) background variables, in the same order as
+\code{cat_prop}.}
 
 \item{c_mean}{is a vector of population means for each continuous variable.}
 
@@ -22,13 +26,15 @@ variable.}
 
 \item{theta}{if \code{TRUE} will label the first continuous variable 'theta'.}
 
+\item{n_vars}{number of background variables, continuous (X) and discrete (W)}
+
 \item{family}{distribution of the background variables. Can be NULL or
 'gaussian'.}
 
 \item{mean_yw}{vector with the means of the latent trait (Y) and the
 background variables (W).}
 
-\item{cov_matrix}{latent covariance matrix.}
+\item{cov_matrix}{latent covariance matrix, formatted as \code{cor_matrix}.}
 
 \item{n_fac}{number of factors}
 
@@ -40,7 +46,8 @@ matrix}
 }
 \description{
 Creates a data frame of discrete and continuous variables based on a latent
-correlation matrix and marginal proportions. This function is, in effect, a wrapper for
+correlation matrix and marginal proportions. This function is, in effect, a
+wrapper for
 }
 \section{Details}{
  \code{cat_prop} is a list where \code{length(cat_prop)} is

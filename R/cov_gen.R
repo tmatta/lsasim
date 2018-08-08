@@ -37,8 +37,8 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
     dimnames(Lambda) <- list(x_names, f_names)
   }
 
-  # Generation covariance matrix between y, x1, ..., x36, w ---------------
-  # w ~ N(0, 1) is the latent representation of dicotomous z
+  # Generating covariance matrix between Y, X and Z -----------------------
+  # Z ~ N(0, 1) is the latent representation of discrete W
   # TODO: are W and Z switched from paper!
   # converts pt. biserial correlations to biserial correlations
   n_yfw <- 1 + n_fac + n_z  # 1 for y

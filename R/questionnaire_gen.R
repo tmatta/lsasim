@@ -1,16 +1,22 @@
 #' Generation of ordinal and continuous variables
 #'
 #' Creates a data frame of discrete and continuous variables based on a latent
-#' correlation matrix and marginal proportions. This function is, in effect, a wrapper for
+#' correlation matrix and marginal proportions. This function is, in effect, a
+#' wrapper for
 #'
 #' @param n_obs number of observations to generate.
 #' @param cat_prop list of cumulative proportions for each item.
-#' @param cor_matrix latent correlation matrix.
-#' @param cov_matrix latent covariance matrix.
+#' @param cor_matrix latent correlation matrix. The first row/column corresponds
+#'   to the latent trait (Y). The other rows/columns correspond to the
+#'   continuous (X) and discrete (W) background variables, in the same order as
+#'   \code{cat_prop}.
+#' @param cov_matrix latent covariance matrix, formatted as \code{cor_matrix}.
 #' @param c_mean is a vector of population means for each continuous variable.
 #' @param c_sd is a vector of population standard deviations for each continuous
 #'   variable.
 #' @param theta if \code{TRUE} will label the first continuous variable 'theta'.
+#'
+#' @param n_vars number of background variables, continuous (X) and discrete (W)
 #' @param family distribution of the background variables. Can be NULL or
 #'   'gaussian'.
 #' @param mean_yw vector with the means of the latent trait (Y) and the
@@ -20,6 +26,7 @@
 #' @param Lambda either a matrix containing the factor loadings or a vector
 #'   containing the lower and upper limits for a randomly-generated Lambda
 #'   matrix
+#' @importFrom stats rbinom rpois rbeta rgamma
 #'
 #' @section Details: \code{cat_prop} is a list where \code{length(cat_prop)} is
 #'   the number of items to be generated.  Each element of the list is a vector
