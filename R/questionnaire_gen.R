@@ -26,6 +26,8 @@
 #' @param Lambda either a matrix containing the factor loadings or a vector
 #'   containing the lower and upper limits for a randomly-generated Lambda
 #'   matrix (currently out of use)
+#' @param full_output if \code{TRUE}, output will be a list containing all
+#'   function parameters.
 #' @importFrom stats rbinom rpois rbeta rgamma
 #'
 #' @section Details: \code{cat_prop} is a list where \code{length(cat_prop)} is
@@ -75,7 +77,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                               n_vars = NULL, n_X = NULL, n_W = NULL,
                               family = NULL,
                               cov_matrix = NULL, n_fac = NULL, n_ind = NULL,
-                              Lambda = 0:1){
+                              Lambda = 0:1, full_output = FALSE){
   # TODO: keep original order of parameters (keeps retrocompatibility) or change
   # to something more sensible (breaks compatibility)?
 
@@ -169,5 +171,10 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     bg <- questionnaire_gen_family(n_obs, cat_prop, cov_matrix,
                                    family, theta, c_mean)
   }
-  return(bg)
+  if (full_output) {
+    out <- mget(ls())
+  } else {
+    out <- bg
+  }
+  return(out)
 }

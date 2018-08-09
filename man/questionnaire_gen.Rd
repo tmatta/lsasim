@@ -5,9 +5,9 @@
 \title{Generation of ordinal and continuous variables}
 \usage{
 questionnaire_gen(n_obs, cat_prop = NULL, cor_matrix = NULL,
-  c_mean = NULL, c_sd = NULL, theta = FALSE, n_vars = NULL,
+  c_mean = NULL, c_sd = NULL, theta = TRUE, n_vars = NULL,
   n_X = NULL, n_W = NULL, family = NULL, cov_matrix = NULL,
-  n_fac = NULL, n_ind = NULL, Lambda = 0:1)
+  n_fac = NULL, n_ind = NULL, Lambda = 0:1, full_output = FALSE)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}
@@ -44,6 +44,9 @@ variable.}
 \item{Lambda}{either a matrix containing the factor loadings or a vector
 containing the lower and upper limits for a randomly-generated Lambda
 matrix (currently out of use)}
+
+\item{full_output}{if \code{TRUE}, output will be a list containing all
+function parameters.}
 }
 \description{
 Creates a data frame of discrete and continuous variables based on a latent
