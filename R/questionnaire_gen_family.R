@@ -17,7 +17,7 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
                                      mean_yw = NULL) {
   # Generating raw data according to distribution
   if (family == "gaussian") {
-    if (is.null(mean_yw)) mean_yw <- rep(0, ncol(cov_matrix))
+    if (is.null(mean_yw)) mean_yw <- rep(0, length(cat_prop))
     raw_data <- mvtnorm::rmvnorm(n = n_obs, mean = mean_yw, sigma = cov_matrix)
   } else if (family == "binomial") {
     stop("Binomial family not yet implemented.")
@@ -29,14 +29,14 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
 
   # Formatting raw data
   bg_data <- data.frame(raw_data)
-  num_categories <- sapply(cat_prop, length)
+  num_categories <- sapply(cat_prop[2:length(cat_prop)], length)
   if (any(num_categories == 1)) {
-    x_name <- paste0("x", 1:length(cat_prop[num_categories == 1]))
+    x_name <- paste0("x", 1:(sum(num_categories == 1)))
   } else {
     x_name <- NULL
   }
   if (any(num_categories > 1)) {
-    w_name <- paste0("w", 1:length(cat_prop[num_categories > 1]))
+    w_name <- paste0("w", 1:sum(num_categories > 1))
   } else {
     w_name <- NULL
   }
@@ -47,7 +47,8 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   }
 
   # Categorizing W as Z
-  names(cat_prop) <- c(x_name, w_name)
+  # names(cat_prop) <- c(x_name, w_name)
+  names(cat_prop) <- colnames(bg_data)
   for (w in w_name) {
     cut_points <- c(-Inf, qnorm(cat_prop[[w]][-length(cat_prop[[w]])]), Inf)
     # if W is dichotomous, labels are 0:1; else, labels start at 1.
@@ -62,8 +63,11 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   }
 
   # Adding subject numbers to final dataset
-  if (!theta) bg_data[, "y"] <- NULL
-  colnames(bg_data) <- paste0("q", seq(bg_data))
+  if (theta) {
+    colnames(bg_data) <- c("theta", paste0("q", 1:(ncol(bg_data) - 1)))
+  } else {
+    colnames(bg_data) <- paste0("q", seq(bg_data))
+  }
   discrete_df <- data.frame(subject = 1:nrow(raw_data), bg_data)
 
   return(discrete_df)

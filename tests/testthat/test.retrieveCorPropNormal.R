@@ -7,7 +7,7 @@ bg <- questionnaire_gen(n_obs = 1e4, cat_prop = cum_prop, family = "gaussian",
                         c_mean = yw_mean, cov_matrix = yw_cov, theta = TRUE)
 
 test_that("Observed correlations are similar to input for family='gaussian'", {
-  obs_cor <- polycor::hetcor(bg)$correlations[-1, -1]
+  obs_cor <- polycor::hetcor(bg[, -1])$correlations
   expect_equivalent(obs_cor, yw_cov, tolerance = 0.05)
 })
 

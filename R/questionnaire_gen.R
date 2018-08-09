@@ -153,15 +153,15 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     sd_YXW <- rgamma(n = ncol(cor_matrix), shape = 2.5, scale = 1)
     cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
   }
+  # Adding Y if necessary
+  if (length(cat_prop) != ncol(cor_matrix)) {
+    cat_prop <- c(1, cat_prop)
+  }
 
   # Generating background data --------------------------------------------
   # TODO: use Lambda as input to the functions below
   if (is.null(family)) {
     message("Generating background data from polychoric correlations")
-    if (nrow(cor_matrix) > length(cat_prop)) {
-      # Dropping Y
-      cor_matrix <- cor_matrix[seq(n_vars) + 1, seq(n_vars) + 1]
-    }
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix,
                                        c_mean, c_sd, theta)
   } else {
