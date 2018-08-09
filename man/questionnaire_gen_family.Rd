@@ -4,8 +4,8 @@
 \alias{questionnaire_gen_family}
 \title{Generation of ordinal and continuous variables}
 \usage{
-questionnaire_gen_family(n_obs, cat_prop, cov_matrix, family = "gaussian",
-  theta = FALSE, mean_yw = NULL)
+questionnaire_gen_family(n_obs, cat_prop, cov_matrix,
+  family = "gaussian", theta = FALSE, mean_yw = NULL)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}

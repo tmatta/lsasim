@@ -6,6 +6,7 @@
 #' @param pr_grp_1 scalar or list of proportions of the first group
 #'
 beta_gen <- function(vcov_yfz, Phi, wcol_Phi, pr_grp_1) {
+  # TODO: change inputs so that background data can be provided
   ncol_Phi <- ncol(Phi)
 
   # Latent regression parameters

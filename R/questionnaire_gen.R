@@ -21,11 +21,11 @@
 #' @param n_W number of categorical background variables
 #' @param family distribution of the background variables. Can be NULL or
 #'   'gaussian'.
-#' @param n_fac number of factors
-#' @param n_ind number of indicators per factor
+#' @param n_fac number of factors (currently out of use)
+#' @param n_ind number of indicators per factor (currently out of use)
 #' @param Lambda either a matrix containing the factor loadings or a vector
 #'   containing the lower and upper limits for a randomly-generated Lambda
-#'   matrix
+#'   matrix (currently out of use)
 #' @importFrom stats rbinom rpois rbeta rgamma
 #'
 #' @section Details: \code{cat_prop} is a list where \code{length(cat_prop)} is
@@ -79,11 +79,15 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   # TODO: keep original order of parameters (keeps retrocompatibility) or change
   # to something more sensible (breaks compatibility)?
 
+  # TODO: improve recognition of whether the matrix provided contains Y or not.
   # Random generation of unprovided parameters ----------------------------
+  # TODO: change conditional structure: use vector of non-null objects and check
+  # which of the missing parameters can be calculated from the input provided.
   if (is.null(n_vars)) {
     if (is.null(cat_prop)) {
       if (is.null(cor_matrix)) {
         if (is.null(cov_matrix)) {
+          # TODO: move calculation of n_X and n_W into one function?
           if (is.null(n_X)) n_X <- rpois(n = 1, lambda = 2)
           if (is.null(n_W)) n_W <- rpois(n = 1, lambda = 2)
         } else {
@@ -131,11 +135,12 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                     lapply(n_cat_W, function(x) c(sort(sample(seq(.1, .9, .1), x)), 1)))
     }
   }
-  if (is.null(n_fac)) n_fac <- 1
+  if (is.null(n_fac)) n_fac <- 1  # TODO: use it as input for cov_gen
   if (is.null(cor_matrix)) {
     if (is.null(cov_matrix)) {
       # neither matrix is provided
       cor_matrix <- cor_gen(1 + n_vars)
+      # TODO: reimplement cov_gen here
       sd_YXW <- rgamma(n = 1 + n_vars, shape = 2, scale = 1)
       cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
     } else {
@@ -144,11 +149,13 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     }
   } else if (is.null(cov_matrix)) {
     # only cor_matrix is provided
+    # TODO: reimplement cov_gen here
     sd_YXW <- rgamma(n = ncol(cor_matrix), shape = 2.5, scale = 1)
     cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
   }
 
   # Generating background data --------------------------------------------
+  # TODO: use Lambda as input to the functions below
   if (is.null(family)) {
     message("Generating background data from polychoric correlations")
     if (nrow(cor_matrix) > length(cat_prop)) {

@@ -37,13 +37,13 @@ variable.}
 
 \item{cov_matrix}{latent covariance matrix, formatted as \code{cor_matrix}.}
 
-\item{n_fac}{number of factors}
+\item{n_fac}{number of factors (currently out of use)}
 
-\item{n_ind}{number of indicators per factor}
+\item{n_ind}{number of indicators per factor (currently out of use)}
 
 \item{Lambda}{either a matrix containing the factor loadings or a vector
 containing the lower and upper limits for a randomly-generated Lambda
-matrix}
+matrix (currently out of use)}
 }
 \description{
 Creates a data frame of discrete and continuous variables based on a latent

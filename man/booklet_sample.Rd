@@ -4,8 +4,8 @@
 \alias{booklet_sample}
 \title{Assignment of test booklets to test takers}
 \usage{
-booklet_sample(n_subj, book_item_design, book_prob = NULL, resample = FALSE,
-  e = 0.1, iter = 20)
+booklet_sample(n_subj, book_item_design, book_prob = NULL,
+  resample = FALSE, e = 0.1, iter = 20)
 }
 \arguments{
 \item{n_subj}{an integer, the number of subjects (test takers).}

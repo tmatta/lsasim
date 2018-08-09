@@ -47,7 +47,6 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   }
 
   # Categorizing W as Z
-  # w_cols <- match(w_name, names(bg_data))
   names(cat_prop) <- c(x_name, w_name)
   for (w in w_name) {
     cut_points <- c(-Inf, qnorm(cat_prop[[w]][-length(cat_prop[[w]])]), Inf)
