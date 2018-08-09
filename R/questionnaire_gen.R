@@ -73,7 +73,7 @@
 #'                   family = "gaussian", n_fac = 4, n_ind = 3)
 #' @export
 questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
-                              c_mean = NULL, c_sd = NULL, theta = TRUE,
+                              c_mean = NULL, c_sd = NULL, theta = FALSE,
                               n_vars = NULL, n_X = NULL, n_W = NULL,
                               family = NULL,
                               cov_matrix = NULL, n_fac = NULL, n_ind = NULL,
