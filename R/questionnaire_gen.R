@@ -71,7 +71,7 @@
 #'                   family = "gaussian", n_fac = 4, n_ind = 3)
 #' @export
 questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
-                              c_mean = NULL, c_sd = NULL, theta = FALSE,
+                              c_mean = NULL, c_sd = NULL, theta = TRUE,
                               n_vars = NULL, n_X = NULL, n_W = NULL,
                               family = NULL,
                               cov_matrix = NULL, n_fac = NULL, n_ind = NULL,
@@ -139,9 +139,9 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   if (is.null(cor_matrix)) {
     if (is.null(cov_matrix)) {
       # neither matrix is provided
-      cor_matrix <- cor_gen(1 + n_vars)
+      cor_matrix <- cor_gen(theta + n_vars)
       # TODO: reimplement cov_gen here
-      sd_YXW <- rgamma(n = 1 + n_vars, shape = 2, scale = 1)
+      sd_YXW <- rgamma(n = theta + n_vars, shape = 2, scale = 1)
       cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
     } else {
       # only cov_matrix is provided
@@ -153,13 +153,13 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     sd_YXW <- rgamma(n = ncol(cor_matrix), shape = 2.5, scale = 1)
     cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
   }
+
   # Adding Y if necessary
   if (length(cat_prop) != ncol(cor_matrix)) {
     cat_prop <- c(1, cat_prop)
   }
 
   # Generating background data --------------------------------------------
-  # TODO: use Lambda as input to the functions below
   if (is.null(family)) {
     message("Generating background data from polychoric correlations")
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix,

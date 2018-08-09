@@ -29,7 +29,7 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
 
   # Formatting raw data
   bg_data <- data.frame(raw_data)
-  num_categories <- sapply(cat_prop[2:length(cat_prop)], length)
+  num_categories <- sapply(cat_prop[seq(cat_prop) + theta], length)
   if (any(num_categories == 1)) {
     x_name <- paste0("x", 1:(sum(num_categories == 1)))
   } else {
@@ -43,11 +43,10 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   if (theta) {
     colnames(bg_data) <- c("theta", x_name, w_name)
   } else {
-    colnames(bg_data) <- c("y", x_name, w_name)
+    colnames(bg_data) <- c(x_name, w_name)
   }
 
   # Categorizing W as Z
-  # names(cat_prop) <- c(x_name, w_name)
   names(cat_prop) <- colnames(bg_data)
   for (w in w_name) {
     cut_points <- c(-Inf, qnorm(cat_prop[[w]][-length(cat_prop[[w]])]), Inf)
