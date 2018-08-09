@@ -20,11 +20,9 @@ Overall aim: to simulate data that mimics large-scale assessments, including bac
 
 ### `questionnaire_gen()`:
 
-* Currently assuming all r.v. (_Y_ and _W_) have `sd = 1`, so correlations and
-covariances are interchangeable. Lift that assumption by letting user provide
-a covariance matrix.
+* Improve handling of `NULL` parameters
 
-* Allow `family = "binomial"` or `"poisson"`
+* Support `family = "binomial"` or `"poisson"`
 
 
 
