@@ -161,6 +161,15 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     cat_prop <- c(1, cat_prop)
   }
 
+  # Streching c_mean and c_sd if necessary
+  n_X <- length(cat_prop[lapply(cat_prop, length) == 1])
+  n_W <- length(cat_prop[lapply(cat_prop, length) > 1])
+  n_vars <- n_X + n_W
+  # TODO: add check to see if these final values above are different from the
+  # ones provided by the user
+  if (n_X > length(c_mean)) c_mean <- rep(c_mean, n_X)
+  if (n_X > length(c_sd))   c_sd   <- rep(c_sd, n_X)
+
   # Generating background data --------------------------------------------
   if (is.null(family)) {
     message("Generating background data from polychoric correlations")
