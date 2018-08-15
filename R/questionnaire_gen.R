@@ -82,6 +82,21 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   # to something more sensible (breaks compatibility)?
 
   # TODO: improve recognition of whether the matrix provided contains Y or not.
+
+
+  # Initial checks for consistency ----------------------------------------
+  check_condition(n_vars < n_X + n_W,
+                  "n_X + n_W must not exceed n_vars")
+  check_condition(length(cat_prop) != ncol(cor_matrix),
+                  "cor_matrix order must match length of cat_prop")
+  check_condition(length(cat_prop) != ncol(cov_matrix),
+                  "cov_matrix order must match length of cat_prop")
+  check_condition(!is.null(cat_prop) & (!is.null(n_X) | !is.null(n_W)),
+                  "cat_prop was provided, n_X and n_W are ignored", FALSE)
+  check_condition(!is.null(cat_prop) & !is.null(n_vars) &
+                    length(cat_prop) != n_vars,
+                  "n_vars must be NULL or equal to length(cat_prop)")
+
   # Random generation of unprovided parameters ----------------------------
   # TODO: change conditional structure: use vector of non-null objects and check
   # which of the missing parameters can be calculated from the input provided.
