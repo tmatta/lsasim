@@ -96,6 +96,12 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   check_condition(!is.null(cat_prop) & !is.null(n_vars) &
                     length(cat_prop) != n_vars,
                   "n_vars must be NULL or equal to length(cat_prop)")
+  check_condition(any(cor_matrix > 1),
+                  "Improper correlation matrix")
+  check_condition(any(sapply(lapply(cat_prop, diff), function(x) any(x < 0))),
+                  "The elements of cat_prop must be non-decreasing")
+  check_condition(any(sapply(cat_prop, function(x) any(x > 1))),
+                  "cat_prop must not contain values above 1")
 
   # Random generation of unprovided parameters ----------------------------
   # TODO: change conditional structure: use vector of non-null objects and check
@@ -187,7 +193,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
 
   # Generating background data --------------------------------------------
   if (is.null(family)) {
-    message("Generating background data from polychoric correlations")
+    message("Generating background data from correlation matrix")
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix,
                                        c_mean, c_sd, theta)
   } else {
