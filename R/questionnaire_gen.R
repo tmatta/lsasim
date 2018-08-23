@@ -102,6 +102,10 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                   "The elements of cat_prop must be non-decreasing")
   check_condition(any(sapply(cat_prop, function(x) any(x > 1))),
                   "cat_prop must not contain values above 1")
+  if (!is.null(cor_matrix)) check_condition(!isSymmetric(cor_matrix),
+                                            "cor_matrix is not symmetric")
+  if (!is.null(cov_matrix)) check_condition(!isSymmetric(cov_matrix),
+                                            "cov_matrix is not symmetric")
 
   # Random generation of unprovided parameters ----------------------------
   # TODO: change conditional structure: use vector of non-null objects and check
