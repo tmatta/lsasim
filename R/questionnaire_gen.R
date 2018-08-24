@@ -129,7 +129,6 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     if (is.null(cat_prop)) {
       if (is.null(cor_matrix)) {
         if (is.null(cov_matrix)) {
-          # TODO: move calculation of n_X and n_W into one function?
           if (is.null(n_X)) n_X <- rpois(n = 1, lambda = 2)
           if (is.null(n_W)) n_W <- rpois(n = 1, lambda = 2)
         } else {
@@ -153,10 +152,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
         }
       }
       # TODO: move code below into function (replicated below)
-      n_cat_X <- rep(1, n_X)
-      n_cat_W <- sample(c(2, 3, 4, 5) - 1, size = n_W, replace = TRUE)
-      cat_prop <- c(lapply(n_cat_X, function(x) x),
-                    lapply(n_cat_W, function(x) c(sort(sample(seq(.1, .9, .1), x)), 1)))
+      cat_prop <- gen_cat_prop(n_X, n_W, n_cats)
       n_vars <- n_X + n_W
     } else {
       n_vars <- length(cat_prop)
@@ -171,10 +167,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
         }
       }
       if (is.null(n_W)) n_W <- n_vars - n_X
-      n_cat_X <- rep(1, n_X)
-      n_cat_W <- sample(c(2, 3, 4, 5) - 1, size = n_W, replace = TRUE)
-      cat_prop <- c(lapply(n_cat_X, function(x) x),
-                    lapply(n_cat_W, function(x) c(sort(sample(seq(.1, .9, .1), x)), 1)))
+      cat_prop <- gen_cat_prop(n_X, n_W, n_cats)
     }
   }
   if (is.null(n_fac)) n_fac <- 1  # TODO: use it as input for cov_gen
@@ -194,6 +187,11 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     # TODO: reimplement cov_gen here
     sd_YXW <- rgamma(n = ncol(cor_matrix), shape = 2.5, scale = 1)
     cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
+  }
+
+  # Adding Y if necessary
+  if (length(cat_prop) != ncol(cor_matrix)) {
+    cat_prop <- c(1, cat_prop)
   }
 
   # Streching c_mean and c_sd if necessary
