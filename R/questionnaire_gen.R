@@ -20,7 +20,9 @@
 #'
 #' @param n_vars number of background variables, continuous (X) and discrete (W)
 #' @param n_X number of continuous background variables
-#' @param n_W number of categorical background variables
+#' @param n_W either a scalar corresponding to the number of categorical
+#'   background variables or a vector with the number of categories for each
+#'   categorical variable
 #' @param family distribution of the background variables. Can be NULL or
 #'   'gaussian'.
 #' @param n_fac number of factors (currently out of use)
@@ -83,7 +85,16 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   # TODO: keep original order of parameters (keeps retrocompatibility) or change
   # to something more sensible (breaks compatibility)?
 
+  # Changes n_W to a scalar, if necessary ---------------------------------
+  n_cats <- NULL  # number of categories per categorical variable W
+  if (length(n_W) > 1) {
+    n_cats <- n_W
+    n_W <- length(n_W)
+  }
+
   # Initial checks for consistency ----------------------------------------
+  check_condition(any(n_cats == 1),
+                  "the number of categories in n_W must all be greater than 1")
   check_condition(n_vars < n_X + n_W,
                   "n_X + n_W must not exceed n_vars")
   check_condition(length(cat_prop) != ncol(cor_matrix),

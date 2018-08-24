@@ -32,7 +32,9 @@ variable.}
 
 \item{n_X}{number of continuous background variables}
 
-\item{n_W}{number of categorical background variables}
+\item{n_W}{either a scalar corresponding to the number of categorical
+background variables or a vector with the number of categories for each
+categorical variable}
 
 \item{family}{distribution of the background variables. Can be NULL or
 'gaussian'.}
