@@ -5,7 +5,9 @@
 #' wrapper for
 #'
 #' @param n_obs number of observations to generate.
-#' @param cat_prop list of cumulative proportions for each item.
+#' @param cat_prop list of cumulative proportions for each item. If \code{theta
+#'   = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
+#'   corresponds to the \code{theta}.
 #' @param cor_matrix latent correlation matrix. The first row/column corresponds
 #'   to the latent trait (Y). The other rows/columns correspond to the
 #'   continuous (X) and discrete (W) background variables, in the same order as
@@ -62,7 +64,7 @@
 #'
 #' # Using the multinomial distribution
 #' # two categorical variables W: one has 2 categories, the other has 3
-#' cum_prop <- list(c(.25, 1), c(.2, .8, 1))
+#' cum_prop <- list(1, c(.25, 1), c(.2, .8, 1))
 #' yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
 #' questionnaire_gen(n_obs = 10, cat_prop = cum_prop, cov_matrix = yw_cov,
 #'                   family = "gaussian")
@@ -81,18 +83,15 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   # TODO: keep original order of parameters (keeps retrocompatibility) or change
   # to something more sensible (breaks compatibility)?
 
-  # TODO: improve recognition of whether the matrix provided contains Y or not.
-
-
   # Initial checks for consistency ----------------------------------------
   check_condition(n_vars < n_X + n_W,
                   "n_X + n_W must not exceed n_vars")
-  check_condition(length(cat_prop) > ncol(cor_matrix),
-                  "length(cat_prop) cannot be larger than ncol(cor_matrix)")
-  check_condition(length(cat_prop) > ncol(cov_matrix),
-                  "length(cat_prop) cannot be larger than ncol(cor_matrix)")
+  check_condition(length(cat_prop) != ncol(cor_matrix),
+                  "length(cat_prop) cannot be different from ncol(cor_matrix)")
+  check_condition(length(cat_prop) != ncol(cov_matrix),
+                  "length(cat_prop) cannot be different from ncol(cor_matrix)")
   check_condition(!is.null(cat_prop) & (!is.null(n_X) | !is.null(n_W)),
-                  "cat_prop was provided, n_X and n_W are ignored", FALSE)
+                  "cat_prop was provided, so n_X and n_W were ignored", FALSE)
   check_condition(!is.null(cat_prop) & !is.null(n_vars) &
                     length(cat_prop) != n_vars,
                   "n_vars must be NULL or equal to length(cat_prop)")
@@ -102,10 +101,15 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                   "The elements of cat_prop must be non-decreasing")
   check_condition(any(sapply(cat_prop, function(x) any(x > 1))),
                   "cat_prop must not contain values above 1")
-  if (!is.null(cor_matrix)) check_condition(!isSymmetric(cor_matrix),
-                                            "cor_matrix is not symmetric")
-  if (!is.null(cov_matrix)) check_condition(!isSymmetric(cov_matrix),
-                                            "cov_matrix is not symmetric")
+  check_condition(any(sapply(cat_prop, max) != 1),
+                  "last value of each element of cat_prop must be 1")
+  if (!is.null(cor_matrix))
+    check_condition(!isSymmetric(cor_matrix), "cor_matrix is not symmetric")
+  if (!is.null(cov_matrix))
+    check_condition(!isSymmetric(cov_matrix), "cov_matrix is not symmetric")
+  if (!is.null(cat_prop))
+    check_condition(theta & (cat_prop[[1]][1] != 1),
+                    "theta == TRUE, so the first element of cat_prop must be 1")
 
   # Random generation of unprovided parameters ----------------------------
   # TODO: change conditional structure: use vector of non-null objects and check
@@ -179,11 +183,6 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     # TODO: reimplement cov_gen here
     sd_YXW <- rgamma(n = ncol(cor_matrix), shape = 2.5, scale = 1)
     cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
-  }
-
-  # Adding Y if necessary
-  if (length(cat_prop) != ncol(cor_matrix)) {
-    cat_prop <- c(1, cat_prop)
   }
 
   # Streching c_mean and c_sd if necessary

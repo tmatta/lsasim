@@ -12,7 +12,9 @@ questionnaire_gen(n_obs, cat_prop = NULL, cor_matrix = NULL,
 \arguments{
 \item{n_obs}{number of observations to generate.}
 
-\item{cat_prop}{list of cumulative proportions for each item.}
+\item{cat_prop}{list of cumulative proportions for each item. If \code{theta
+= TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
+corresponds to the \code{theta}.}
 
 \item{cor_matrix}{latent correlation matrix. The first row/column corresponds
 to the latent trait (Y). The other rows/columns correspond to the
@@ -86,7 +88,7 @@ questionnaire_gen(n_obs = 10, cat_prop = cum_prop,
 
 # Using the multinomial distribution
 # two categorical variables W: one has 2 categories, the other has 3
-cum_prop <- list(c(.25, 1), c(.2, .8, 1))
+cum_prop <- list(1, c(.25, 1), c(.2, .8, 1))
 yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
 questionnaire_gen(n_obs = 10, cat_prop = cum_prop, cov_matrix = yw_cov,
                   family = "gaussian")
