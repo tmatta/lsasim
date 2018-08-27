@@ -114,6 +114,10 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                   "cat_prop must not contain values above 1")
   check_condition(any(sapply(cat_prop, max) != 1),
                   "last value of each element of cat_prop must be 1")
+  check_condition(length(c_mean) > n_X,
+                  "length(c_mean) cannot be larger than n_X")
+  check_condition(any(c_sd < 0),
+                  "c_sd may not contain negative elements")
   if (!is.null(cor_matrix))
     check_condition(!isSymmetric(cor_matrix), "cor_matrix is not symmetric")
   if (!is.null(cov_matrix))
