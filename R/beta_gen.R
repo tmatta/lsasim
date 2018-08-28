@@ -4,7 +4,7 @@
 #' @param Phi latent regression correlation matrix
 #' @param wcol_Phi vector with column numbers of the W variables in Phi
 #' @param pr_grp_1 scalar or list of proportions of the first group
-#'
+#' @export
 beta_gen <- function(vcov_yfz, Phi, wcol_Phi, pr_grp_1) {
   # TODO: change inputs so that background data can be provided
   ncol_Phi <- ncol(Phi)
