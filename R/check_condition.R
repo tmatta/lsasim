@@ -10,7 +10,7 @@ check_condition <- function(condition, message, fatal = TRUE) {
   if (length(condition) > 0) {
     if (condition) {
       if (fatal) stop(message, call. = FALSE)
-      else message(message)
+      else warning(message, call. = FALSE)
     }
   }
 }
