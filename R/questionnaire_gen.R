@@ -95,8 +95,8 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   # Initial checks for consistency ----------------------------------------
   check_condition(any(n_cats == 1),
                   "the number of categories in n_W must all be greater than 1")
-  check_condition(n_vars < n_X + n_W,
-                  "n_X + n_W must not exceed n_vars")
+  check_condition(n_vars != n_X + n_W,
+                  "n_X + n_W must equal n_vars")
   check_condition(length(cat_prop) != ncol(cor_matrix),
                   "length(cat_prop) cannot be different from ncol(cor_matrix)")
   check_condition(length(cat_prop) != ncol(cov_matrix),
@@ -169,8 +169,10 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
         } else {
           n_X <- n_vars - n_W
         }
+      } else {
+        # n_vars and n_X are present
+        if (is.null(n_W)) n_W <- n_vars - n_X
       }
-      if (is.null(n_W)) n_W <- n_vars - n_X
       cat_prop <- gen_cat_prop(n_X, n_W, n_cats)
     }
   }
