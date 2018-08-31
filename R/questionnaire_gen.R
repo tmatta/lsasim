@@ -114,8 +114,14 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                   "cat_prop must not contain values above 1")
   check_condition(any(sapply(cat_prop, max) != 1),
                   "last value of each element of cat_prop must be 1")
-  check_condition(length(c_mean) > n_X,
-                  "length(c_mean) cannot be larger than n_X")
+  check_condition(length(c_mean) > n_X + theta,
+                  "length(c_mean) cannot be larger than n_X + theta")
+  check_condition(length(c_mean) > 1 & length(c_mean) != n_X + theta,
+                  "c_mean recycled to fit all continuous variables", FALSE)
+  check_condition(length(c_sd) > n_X + theta,
+                  "length(c_sd) cannot be larger than n_X + theta")
+  check_condition(length(c_sd) > 1 & length(c_sd) != n_X + theta,
+                  "c_sd  recycled to fit all continuous variables", FALSE)
   check_condition(any(c_sd < 0),
                   "c_sd may not contain negative elements")
   if (!is.null(cor_matrix))
