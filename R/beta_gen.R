@@ -15,5 +15,5 @@ beta_gen <- function(vcov_yfz, Phi, wcol_Phi, pr_grp_1) {
   # Group differences for Z
   beta_z <- solve(vcov_yfz[wcol_Phi, wcol_Phi], vcov_yfz[1, wcol_Phi])
   beta_c <- as.numeric(0 - (beta_z %*% t(1 - pr_grp_1)))
-  return(list(beta_hat, Z0 = beta_c, Z1 = beta_z))
+  return(list(beta_hat = beta_hat, Z0 = beta_c, Z1 = beta_z))
 }
