@@ -18,3 +18,11 @@ beta_gen(vcov_yfz, Phi, wcol_Phi, pr_grp_1)
 \description{
 Generate analytical parameters
 }
+\examples{
+bg <- questionnaire_gen(100, n_X = 2, n_W = c(2, 2), theta = TRUE,
+                        full_output = TRUE)
+fit.obs <- lm(theta ~ q1 + q2 + q3 + q4, data = test$bg)
+prop.gr.1 <- apply(test$bg[c("q3", "q4")], 2, function(x) prop.table(table(x)))[1, ]
+beta_gen(vcov_yfz = test$cov_matrix, Phi = test$cor_matrix, wcol_Phi = 4:5,
+         pr_grp_1 = prop.gr.1)
+}
