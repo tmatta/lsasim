@@ -28,13 +28,16 @@ variable.}
 
 \item{theta}{if \code{TRUE} will label the first continuous variable 'theta'.}
 
-\item{n_vars}{number of background variables, continuous (X) and discrete (W)}
+\item{n_vars}{number of total variables, continuous (X), discrete (W) and
+theta (Y).}
 
-\item{n_X}{number of continuous background variables}
+\item{n_X}{number of continuous background variables. If not provided, a
+random number of continuous variables will be generated.}
 
 \item{n_W}{either a scalar corresponding to the number of categorical
 background variables or a vector with the number of categories for each
-categorical variable}
+categorical variable. If not provided, a random number of categorical
+variables will be generated.}
 
 \item{family}{distribution of the background variables. Can be NULL or
 'gaussian'.}

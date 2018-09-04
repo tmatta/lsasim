@@ -18,11 +18,14 @@
 #'   variable.
 #' @param theta if \code{TRUE} will label the first continuous variable 'theta'.
 #'
-#' @param n_vars number of background variables, continuous (X) and discrete (W)
-#' @param n_X number of continuous background variables
+#' @param n_vars number of total variables, continuous (X), discrete (W) and
+#'   theta (Y).
+#' @param n_X number of continuous background variables. If not provided, a
+#'   random number of continuous variables will be generated.
 #' @param n_W either a scalar corresponding to the number of categorical
 #'   background variables or a vector with the number of categories for each
-#'   categorical variable
+#'   categorical variable. If not provided, a random number of categorical
+#'   variables will be generated.
 #' @param family distribution of the background variables. Can be NULL or
 #'   'gaussian'.
 #' @param n_fac number of factors (currently out of use)
