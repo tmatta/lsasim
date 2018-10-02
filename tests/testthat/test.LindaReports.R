@@ -107,49 +107,49 @@ test_that("Case 2: errors are thrown", {
 
 test_that("Case 3: data is generated", {
   data1 <- questionnaire_gen(n_obs = 5, n_vars = 4, n_X = 1, n_W = 2, theta = T)
-  data2 <- questionnaire_gen(n_obs = 5, n_vars = 4, n_X = 1, n_W = c(2, 2), theta = T)
+  data2 <- questionnaire_gen(n_obs = 5, n_vars = 4, n_X = 1, n_W = list(2, 2), theta = T)
   expect_output(str(data1), "5 obs")
   expect_output(str(data2), "5 obs")
 })
 
 test_that("Case 4: playing around more with n_X, n_W and theta", {
-  expect_error(questionnaire_gen(n_obs = 5, n_X = 1, n_W = c(2, 3, 2),
+  expect_error(questionnaire_gen(n_obs = 5, n_X = 1, n_W = list(2, 3, 2),
                                  c_mean = c(1, 2), theta = F))
-  data1 <- questionnaire_gen(n_obs = 5, n_X = 1, n_W = c(2, 3, 2),
+  data1 <- questionnaire_gen(n_obs = 5, n_X = 1, n_W = list(2, 3, 2),
                              c_mean = c(1, 2), theta = T)
-  data2 <- questionnaire_gen(n_obs = 5, n_X = 3, n_W = c(2, 3, 2),
+  data2 <- questionnaire_gen(n_obs = 5, n_X = 3, n_W = list(2, 3, 2),
                              c_mean = 500, theta = F)
   expect_output(str(data1), "5 obs")
   expect_output(str(data2), "5 obs")
-  expect_warning(questionnaire_gen(n_obs = 5, n_X = 3, n_W = c(2, 3, 2),
+  expect_warning(questionnaire_gen(n_obs = 5, n_X = 3, n_W = list(2, 3, 2),
                                    c_mean = c(100, 500), theta = F))
-  expect_warning(questionnaire_gen(n_obs = 5, n_X = 3, n_W = c(2, 3, 2),
+  expect_warning(questionnaire_gen(n_obs = 5, n_X = 3, n_W = list(2, 3, 2),
                                    c_mean = c(100, 500), c_sd = 0, theta = F))
-  expect_warning(questionnaire_gen(n_obs = 5, n_X = 3, n_W = c(2, 3, 2),
+  expect_warning(questionnaire_gen(n_obs = 5, n_X = 3, n_W = list(2, 3, 2),
                                    c_mean = c(100, 500), c_sd = 0, theta = T))
-  expect_warning(questionnaire_gen(n_obs = 5, n_X = 2, n_W = c(2, 3, 2),
+  expect_warning(questionnaire_gen(n_obs = 5, n_X = 2, n_W = list(2, 3, 2),
                                    c_mean = c(500, 100), theta = T))
 })
 
 test_that("Case 5: error if c_sd is negative", {
-  expect_error(questionnaire_gen(n_obs = 5, n_X = 1, n_W = c(2, 3, 2),
+  expect_error(questionnaire_gen(n_obs = 5, n_X = 1, n_W = list(2, 3, 2),
                                  c_mean = 100, c_sd = -1, theta = F))
 })
 
 test_that("Case 6: if n_X = NULL, a random number of n_X is generated", {
   set.seed(1234)
-  data1 <- questionnaire_gen(n_obs = 5, n_W = c(2, 3, 2), theta = F)
+  data1 <- questionnaire_gen(n_obs = 5, n_W = list(2, 3, 2), theta = F)
   set.seed(5678)
-  data2 <- questionnaire_gen(n_obs = 5, n_W = c(2, 3, 2), theta = F)
+  data2 <- questionnaire_gen(n_obs = 5, n_W = list(2, 3, 2), theta = F)
   set.seed(91011)
-  data3 <- questionnaire_gen(n_obs = 5, n_W = c(2, 3, 2), theta = T)
+  data3 <- questionnaire_gen(n_obs = 5, n_W = list(2, 3, 2), theta = T)
   expect_output(str(data1), "4 variables")
   expect_output(str(data2), "5 variables")
   expect_output(str(data3), "8 variables")
 })
 
 test_that("Case 7: generating 1 binary and 1 3-cat W", {
-  data <- questionnaire_gen(n_obs = 5, n_X = 0, n_W = c(2, 3),
+  data <- questionnaire_gen(n_obs = 5, n_X = 0, n_W = list(2, 3),
                             cor_matrix = matrix(c(1, .6,
                                                   .6, 1), nrow = 2, byrow = T),
                              theta = F)
@@ -161,7 +161,7 @@ test_that("Case 7: generating 1 binary and 1 3-cat W", {
 
 test_that("Case 8: generating only one binary n_W", {
   set.seed(87326)
-  data <- questionnaire_gen(n_obs = 100, n_X = 0, n_W = 2, theta = F)
+  data <- questionnaire_gen(n_obs = 100, n_X = 0, n_W = list(2), theta = F)
   expect_identical(names(data), c("subject", "q1"))
   expect_output(str(data$q1), "Factor w/ 2 levels")
 })

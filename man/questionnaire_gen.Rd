@@ -35,9 +35,9 @@ theta (Y).}
 random number of continuous variables will be generated.}
 
 \item{n_W}{either a scalar corresponding to the number of categorical
-background variables or a vector with the number of categories for each
-categorical variable. If not provided, a random number of categorical
-variables will be generated.}
+background variables or a list of scalars representing the number of
+categories for each categorical variable. If not provided, a random number
+of categorical variables will be generated.}
 
 \item{family}{distribution of the background variables. Can be NULL or
 'gaussian'.}

@@ -23,9 +23,9 @@
 #' @param n_X number of continuous background variables. If not provided, a
 #'   random number of continuous variables will be generated.
 #' @param n_W either a scalar corresponding to the number of categorical
-#'   background variables or a vector with the number of categories for each
-#'   categorical variable. If not provided, a random number of categorical
-#'   variables will be generated.
+#'   background variables or a list of scalars representing the number of
+#'   categories for each categorical variable. If not provided, a random number
+#'   of categorical variables will be generated.
 #' @param family distribution of the background variables. Can be NULL or
 #'   'gaussian'.
 #' @param n_fac number of factors (currently out of use)
@@ -90,8 +90,8 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
 
   # Changes n_W to a scalar, if necessary ---------------------------------
   n_cats <- NULL  # number of categories per categorical variable W
-  if (length(n_W) > 1) {
-    n_cats <- n_W
+  if (class(n_W) == "list") {
+    n_cats <- unlist(n_W)
     n_W <- length(n_W)
   }
 
@@ -100,10 +100,10 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                   "the number of categories in n_W must all be greater than 1")
   check_condition(n_vars != n_X + n_W + theta,
                   "n_vars must equal n_X + n_W + theta")
-  check_condition(length(cat_prop) != ncol(cor_matrix),
+  check_condition(!is.null(cat_prop) & length(cat_prop) != ncol(cor_matrix),
                   "length(cat_prop) cannot be different from ncol(cor_matrix)")
-  check_condition(length(cat_prop) != ncol(cov_matrix),
-                  "length(cat_prop) cannot be different from ncol(cor_matrix)")
+  check_condition(!is.null(cat_prop) & length(cat_prop) != ncol(cov_matrix),
+                  "length(cat_prop) cannot be different from ncol(cov_matrix)")
   check_condition(!is.null(cat_prop) & (!is.null(n_X) | !is.null(n_W)),
                   "cat_prop was provided, so n_X and n_W were ignored", FALSE)
   check_condition(!is.null(cat_prop) & !is.null(n_vars) &
