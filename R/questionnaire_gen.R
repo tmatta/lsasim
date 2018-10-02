@@ -98,8 +98,8 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   # Initial checks for consistency ----------------------------------------
   check_condition(any(n_cats == 1),
                   "the number of categories in n_W must all be greater than 1")
-  check_condition(n_vars != n_X + n_W,
-                  "n_X + n_W must equal n_vars")
+  check_condition(n_vars != n_X + n_W + theta,
+                  "n_vars must equal n_X + n_W + theta")
   check_condition(length(cat_prop) != ncol(cor_matrix),
                   "length(cat_prop) cannot be different from ncol(cor_matrix)")
   check_condition(length(cat_prop) != ncol(cov_matrix),
@@ -158,15 +158,14 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
         n_vars <- ncol(cor_matrix) - 1
         if (is.null(n_X) & is.null(n_W)) {
           n_X <- rbinom(n = 1, size = n_vars, prob = .2)
-          n_W <- n_vars - n_X
+          n_W <- n_vars - n_X - theta
         } else {
           if (is.null(n_X)) n_X <- n_vars - n_W
           if (is.null(n_W)) n_W <- n_vars - n_X
         }
       }
-      # TODO: move code below into function (replicated below)
       cat_prop <- gen_cat_prop(n_X, n_W, n_cats)
-      n_vars <- n_X + n_W
+      n_vars <- n_X + n_W + theta
     } else {
       n_vars <- length(cat_prop)
     }
@@ -175,12 +174,13 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
       if (is.null(n_X)) {
         if (is.null(n_W)) {
           n_X <- rbinom(n = 1, size = n_vars, prob = .2)
+          n_W <- n_vars - n_X - theta
         } else {
-          n_X <- n_vars - n_W
+          n_X <- n_vars - n_W - theta
         }
       } else {
         # n_vars and n_X are present
-        if (is.null(n_W)) n_W <- n_vars - n_X
+        if (is.null(n_W)) n_W <- n_vars - n_X - theta
       }
       cat_prop <- gen_cat_prop(n_X, n_W, n_cats)
     }
@@ -189,9 +189,9 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   if (is.null(cor_matrix)) {
     if (is.null(cov_matrix)) {
       # neither matrix is provided
-      cor_matrix <- cor_gen(theta + n_vars)
+      cor_matrix <- cor_gen(n_vars)
       # TODO: reimplement cov_gen here
-      sd_YXW <- rgamma(n = theta + n_vars, shape = 2, scale = 1)
+      sd_YXW <- rgamma(n = n_vars, shape = 2, scale = 1)
       cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
     } else {
       # only cov_matrix is provided
@@ -212,7 +212,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   # Streching c_mean and c_sd if necessary
   n_X <- length(cat_prop[lapply(cat_prop, length) == 1])
   n_W <- length(cat_prop[lapply(cat_prop, length) > 1])
-  n_vars <- n_X + n_W
+  n_vars <- n_X + n_W + theta
   # TODO: add check to see if these final values above are different from the
   # ones provided by the user
   if (n_X > length(c_mean)) c_mean <- rep(c_mean, n_X)
