@@ -1,6 +1,6 @@
-context("Replications of Linda's reports")
+context("Linda's report on lsasim 1.0.1.9007")
 
-test_that("Linda's report on lsasim 1.0.1.9007", {
+test_that("Number of variables generated is consistent", {
   expect_error(questionnaire_gen(n_obs = 5, cat_prop = list(1, c(.25, .6, 1)),
                                  cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
                                  n_vars = 3,
