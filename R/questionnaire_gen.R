@@ -106,6 +106,16 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                   "length(cat_prop) cannot be different from ncol(cov_matrix)")
   check_condition(!is.null(cat_prop) & (!is.null(n_X) | !is.null(n_W)),
                   "cat_prop was provided, so n_X and n_W were ignored", FALSE)
+  check_condition(ncol(cov_matrix) > 0 & ncol(cor_matrix) > 0,
+                  "Only one matrix (cov_matrix or cor_matrix) can be provided")
+  check_condition(n_X + n_W + theta > ncol(cov_matrix),
+                  "n_X + n_W + theta must not exceed ncol(cov_matrix)")
+  check_condition(n_X + n_W + theta > ncol(cor_matrix),
+                  "n_X + n_W + theta must not exceed ncol(cor_matrix)")
+  check_condition(n_vars > ncol(cov_matrix),
+                  "n_vars must not exceed ncol(cov_matrix)")
+  check_condition(n_vars > ncol(cor_matrix),
+                  "n_vars must not exceed ncol(cor_matrix)")
   check_condition(!is.null(cat_prop) & !is.null(n_vars) &
                     length(cat_prop) != n_vars,
                   "n_vars must be NULL or equal to length(cat_prop)")
@@ -145,7 +155,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
           if (is.null(n_X)) n_X <- rpois(n = 1, lambda = 2)
           if (is.null(n_W)) n_W <- rpois(n = 1, lambda = 2)
         } else {
-          n_vars <- ncol(cov_matrix) - 1
+          n_vars <- ncol(cov_matrix) - theta
           if (is.null(n_X) & is.null(n_W)) {
             n_X <- rpois(n = 1, lambda = 2)
             n_W <- rpois(n = 1, lambda = 2)
@@ -155,7 +165,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
           }
         }
       } else {
-        n_vars <- ncol(cor_matrix) - 1
+        n_vars <- ncol(cor_matrix) - theta
         if (is.null(n_X) & is.null(n_W)) {
           n_X <- rbinom(n = 1, size = n_vars, prob = .2)
           n_W <- n_vars - n_X - theta
