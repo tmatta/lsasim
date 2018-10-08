@@ -153,9 +153,6 @@ test_that("Case 7: generating 1 binary and 1 3-cat W", {
                             cor_matrix = matrix(c(1, .6,
                                                   .6, 1), nrow = 2, byrow = T),
                              theta = F)
-  # Case 7: Got Error here. However, can I just tell the program that I want 1
-  # binary and 1 three-category variables without telling cat_prop, but only
-  # cor_matrix? It’s possible to happen in the real setting. (Linda)
   expect_output(str(data), "5 obs")
 })
 
