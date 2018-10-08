@@ -4,9 +4,12 @@
 \alias{beta_gen}
 \title{Generate analytical parameters}
 \usage{
-beta_gen(vcov_yfz, Phi, wcol_Phi, pr_grp_1)
+beta_gen(data, vcov_yfz, Phi, wcol_Phi)
 }
 \arguments{
+\item{data}{output from the \code{questionnaire_gen} function for
+\code{full.output = TRUE}.}
+
 \item{vcov_yfz}{covariance matrix between Y, F and Z}
 
 \item{Phi}{latent regression correlation matrix}
@@ -22,10 +25,8 @@ Generate analytical parameters
 bg <- questionnaire_gen(100, n_X = 2, n_W = list(2, 2), theta = TRUE,
                         full_output = TRUE)
 fit.obs <- lm(theta ~ q1 + q2 + q3 + q4, data = bg$bg)
-prop.gr.1 <- apply(bg$bg[c("q3", "q4")], 2,
-                  function(x) prop.table(table(x)))[1, ]
-fit.exp <- beta_gen(vcov_yfz = bg$cov_matrix, Phi = bg$cor_matrix,
-                    wcol_Phi = 4:5, pr_grp_1 = prop.gr.1)
+fit.exp <- beta_gen(bg)
 summary(fit.obs)
-cbind(obs = fit.obs$coefficients[2:5], exp = fit.exp$beta_hat)
+cbind(obs = fit.obs$coefficients[2:5], exp = fit.exp$beta_hat,
+      diff = fit.obs$coefficients[2:5] - fit.exp$beta_hat)
 }
