@@ -210,7 +210,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   }
 
   # Streching c_mean and c_sd if necessary
-  n_X <- length(cat_prop[lapply(cat_prop, length) == 1])
+  n_X <- length(cat_prop[lapply(cat_prop, length) == 1]) - theta
   n_W <- length(cat_prop[lapply(cat_prop, length) > 1])
   n_vars <- n_X + n_W + theta
   # TODO: add check to see if these final values above are different from the
