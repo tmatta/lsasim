@@ -165,13 +165,16 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
           }
         }
       } else {
+        # n_vars and cat_prop are absent; cor_matrix is provided
         n_vars <- ncol(cor_matrix) - theta
         if (is.null(n_X) & is.null(n_W)) {
+          # Both n_X and n_W are missing
           n_X <- rbinom(n = 1, size = n_vars, prob = .2)
           n_W <- n_vars - n_X - theta
         } else {
-          if (is.null(n_X)) n_X <- n_vars - n_W
-          if (is.null(n_W)) n_W <- n_vars - n_X
+          # Either n_X or n_W are missing
+          if (is.null(n_X)) n_X <- min(rpois(n = 1, lambda = 2), n_vars - n_W)
+          if (is.null(n_W)) n_W <- min(rpois(n = 1, lambda = 2), n_vars - n_X)
         }
       }
       cat_prop <- gen_cat_prop(n_X, n_W, n_cats)
