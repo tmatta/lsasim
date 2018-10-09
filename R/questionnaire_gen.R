@@ -151,20 +151,25 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     if (is.null(cat_prop)) {
       if (is.null(cor_matrix)) {
         if (is.null(cov_matrix)) {
+          # n_X and n_W are generated from a Poisson here because there are no
+          # variables limiting the number of variables
           if (is.null(n_X)) n_X <- rpois(n = 1, lambda = 2)
           if (is.null(n_W)) n_W <- rpois(n = 1, lambda = 2)
         } else {
+          # n_vars, cat_prop and cor_matrix are absent; cov_matrix is present
+          # From here on, n_X and n_W are generated from a Binomial because
+          # there are variables limiting their size.
           n_vars <- ncol(cov_matrix) - theta
           if (is.null(n_X) & is.null(n_W)) {
-            n_X <- rpois(n = 1, lambda = 2)
-            n_W <- rpois(n = 1, lambda = 2)
+            n_X <- rbinom(n = 1, size = n_vars, prob = .2)
+            n_W <- n_vars - n_X
           } else {
             if (is.null(n_X)) n_X <- n_vars - n_W
             if (is.null(n_W)) n_W <- n_vars - n_X
           }
         }
       } else {
-        # n_vars and cat_prop are absent; cor_matrix is provided
+        # n_vars and cat_prop are absent; cor_matrix is present
         n_vars <- ncol(cor_matrix) - theta
         if (is.null(n_X) & is.null(n_W)) {
           # Both n_X and n_W are missing
@@ -172,8 +177,8 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
           n_W <- n_vars - n_X - theta
         } else {
           # Either n_X or n_W are missing
-          if (is.null(n_X)) n_X <- min(rpois(n = 1, lambda = 2), n_vars - n_W)
-          if (is.null(n_W)) n_W <- min(rpois(n = 1, lambda = 2), n_vars - n_X)
+          if (is.null(n_X)) n_X <- rbinom(n = 1, prob = .2, size = n_vars - n_W)
+          if (is.null(n_W)) n_W <- rbinom(n = 1, prob = .8, size = n_vars - n_X)
         }
       }
       cat_prop <- gen_cat_prop(n_X, n_W, n_cats)
