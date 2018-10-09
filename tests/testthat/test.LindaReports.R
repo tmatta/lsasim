@@ -9,11 +9,13 @@ test_that("Number of variables generated is consistent", {
                                    cor_matrix = matrix(c(1, .6, .6, 1), 2),
                                    n_W = 2, #categorical
                                    c_mean = 2, c_sd = 1.5, theta = TRUE))
-  expect_warning(questionnaire_gen(n_obs = 5, cat_prop = list(1, c(.25, .6, 1)) ,
-                                   cor_matrix = matrix(c(1, .6, .6, 1), 2),
-                                   n_W = 2, #categorical
-                                   n_X = 2, #continuous
-                                   c_mean = 2, c_sd = 1.5, theta = TRUE))
+  expect_warning(expect_error(questionnaire_gen(n_obs = 5,
+                                                cat_prop = list(1, c(.25, .6, 1)),
+                                                cor_matrix = matrix(c(1, .6, .6, 1), 2),
+                                                n_W = 2, #categorical
+                                                n_X = 2, #continuous
+                                                c_mean = 2, c_sd = 1.5,
+                                                theta = TRUE)))
   expect_error(questionnaire_gen(n_obs = 5,
                                  cat_prop = list(1, c(.5, 1), c(.5, 1),
                                                  c(0.25, 0.60, 1.00)),
