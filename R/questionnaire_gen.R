@@ -14,8 +14,7 @@
 #'   \code{cat_prop}.
 #' @param cov_matrix latent covariance matrix, formatted as \code{cor_matrix}.
 #' @param c_mean is a vector of population means for each continuous variable.
-#' @param c_sd is a vector of population standard deviations for each continuous
-#'   variable.
+#' @param c_sd is a vector of population standard deviations for each variable.
 #' @param theta if \code{TRUE} will label the first continuous variable 'theta'.
 #'
 #' @param n_vars number of total variables, continuous (X), discrete (W) and
@@ -210,11 +209,13 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
       # only cov_matrix is provided
       cor_matrix <- cov2cor(cov_matrix)
     }
-  } else if (is.null(cov_matrix)) {
+  } else if (is.null(cov_matrix) & !is.null(family)) {
     # only cor_matrix is provided
     # TODO: reimplement cov_gen here
-    sd_YXW <- rgamma(n = ncol(cor_matrix), shape = 2.5, scale = 1)
-    cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
+    if (is.null(c_sd)) {
+      c_sd <- rgamma(n = ncol(cor_matrix), shape = 2.5, scale = 1)
+    }
+    cov_matrix <- sweep(sweep(cor_matrix, 1L, c_sd, "*"), 2, c_sd, "*")
   }
 
   # Adding Y if necessary
