@@ -5,9 +5,9 @@
 #' @param vcov_yfz covariance matrix between Y, F and Z
 #' @param Phi latent regression correlation matrix
 #' @param wcol_Phi vector with column numbers of the W variables in Phi
-#' @param pr_grp_1 scalar or list of proportions of the first group
 #' @param MC if \code{TRUE}, perform Monte Carlo simulation to estimate
 #'   regression coefficients
+#' @importFrom stats lm
 #' @export
 #' @examples
 #' bg <- questionnaire_gen(1000, n_X = 2, n_W = list(2, 2), theta = TRUE,

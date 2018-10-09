@@ -4,11 +4,11 @@
 \alias{beta_gen}
 \title{Generate analytical parameters}
 \usage{
-beta_gen(data, vcov_yfz, Phi, wcol_Phi)
+beta_gen(data, vcov_yfz, Phi, wcol_Phi, MC = FALSE)
 }
 \arguments{
 \item{data}{output from the \code{questionnaire_gen} function for
-\code{full.output = TRUE}.}
+\code{full.output = TRUE}}
 
 \item{vcov_yfz}{covariance matrix between Y, F and Z}
 
@@ -16,17 +16,18 @@ beta_gen(data, vcov_yfz, Phi, wcol_Phi)
 
 \item{wcol_Phi}{vector with column numbers of the W variables in Phi}
 
-\item{pr_grp_1}{scalar or list of proportions of the first group}
+\item{MC}{if \code{TRUE}, perform Monte Carlo simulation to estimate
+regression coefficients}
 }
 \description{
 Generate analytical parameters
 }
 \examples{
-bg <- questionnaire_gen(100, n_X = 2, n_W = list(2, 2), theta = TRUE,
+bg <- questionnaire_gen(1000, n_X = 2, n_W = list(2, 2), theta = TRUE,
                         full_output = TRUE)
 fit.obs <- lm(theta ~ q1 + q2 + q3 + q4, data = bg$bg)
 fit.exp <- beta_gen(bg)
 summary(fit.obs)
-cbind(obs = fit.obs$coefficients[2:5], exp = fit.exp$beta_hat,
-      diff = fit.obs$coefficients[2:5] - fit.exp$beta_hat)
+cbind(obs = fit.obs$coefficients[2:5], beta_hat = fit.exp$beta_hat,
+      beta_c = fit.exp$Z0)
 }
