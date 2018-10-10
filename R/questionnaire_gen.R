@@ -153,8 +153,18 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
         if (is.null(cov_matrix)) {
           # n_X and n_W are generated from a Poisson here because there are no
           # variables limiting the number of variables
-          if (is.null(n_X)) n_X <- rpois(n = 1, lambda = 2)
-          if (is.null(n_W)) n_W <- rpois(n = 1, lambda = 2)
+          n_vars <- rpois(n = 1, lambda = 3) + ifelse(is.null(n_W), 0, n_W) +
+            ifelse(is.null(n_X), 0, n_X) + theta + 1
+          # TODO: move calculation of n_vars, n_X and n_W into own function
+          if (is.null(n_X) & is.null(n_W)) {
+            # Both n_X and n_W are missing
+            n_X <- rbinom(n = 1, size = n_vars, prob = .2)
+            n_W <- n_vars - n_X - theta
+          } else {
+            # Either n_X or n_W are missing
+            if (is.null(n_X)) n_X <- rbinom(n = 1, prob = .2, size = n_vars - n_W)
+            if (is.null(n_W)) n_W <- rbinom(n = 1, prob = .8, size = n_vars - n_X)
+          }
         } else {
           # n_vars, cat_prop and cor_matrix are absent; cov_matrix is present
           # From here on, n_X and n_W are generated from a Binomial because

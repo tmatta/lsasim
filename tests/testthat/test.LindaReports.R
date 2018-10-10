@@ -146,8 +146,8 @@ test_that("Case 6: if n_X = NULL, a random number of n_X is generated", {
   set.seed(91011)
   data3 <- questionnaire_gen(n_obs = 5, n_W = list(2, 3, 2), theta = T)
   expect_output(str(data1), "4 variables")
-  expect_output(str(data2), "5 variables")
-  expect_output(str(data3), "8 variables")
+  expect_output(str(data2), "4 variables")
+  expect_output(str(data3), "7 variables")
 })
 
 test_that("Case 7: generating 1 binary and 1 3-cat W", {
