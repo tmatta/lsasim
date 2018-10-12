@@ -169,8 +169,8 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   n_vars <- n_X + n_W + theta
   # TODO: add check to see if these final values above are different from the
   # ones provided by the user
-  if (n_X > length(c_mean)) c_mean <- rep(c_mean, n_X)
-  if (n_X > length(c_sd))   c_sd   <- rep(c_sd, n_X)
+  if (n_X + theta > length(c_mean)) c_mean <- rep(c_mean, n_X + theta)
+  if (n_X + theta > length(c_sd))   c_sd   <- rep(c_sd, n_X + theta)
 
   # Generating background data --------------------------------------------
   if (is.null(family)) {
