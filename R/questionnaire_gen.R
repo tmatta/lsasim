@@ -92,6 +92,9 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   if (class(n_W) == "list") {
     n_cats <- unlist(n_W)
     n_W <- length(n_W)
+  } else if (length(n_W) > 1) {
+    # traps n_W defined as vector
+    stop("n_W must be either a scalar or a list", call. = FALSE)
   }
 
   # Initial checks for consistency ----------------------------------------
