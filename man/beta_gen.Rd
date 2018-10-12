@@ -23,11 +23,19 @@ regression coefficients}
 Generate analytical parameters
 }
 \examples{
-bg <- questionnaire_gen(1000, n_X = 2, n_W = list(2, 2), theta = TRUE,
-                        full_output = TRUE)
-fit.obs <- lm(theta ~ q1 + q2 + q3 + q4, data = bg$bg)
-fit.exp <- beta_gen(bg)
-summary(fit.obs)
-cbind(obs = fit.obs$coefficients[2:5], beta_hat = fit.exp$beta_hat,
-      beta_c = fit.exp$Z0)
+
+# Data containing only continuous variables
+data1 <- questionnaire_gen(100, family="gaussian", theta = TRUE,
+                           full_output = TRUE, n_X = 3, n_W = 0)
+beta_gen(data1, MC = TRUE)
+
+# Data containing only dichotomous variables
+data2 <- questionnaire_gen(100, family="gaussian", theta = TRUE,
+                           full_output = TRUE, n_X = 0, n_W = list(2, 2))
+beta_gen(data2, MC = TRUE)
+
+# Data containing polychotomous variables
+data3 <- questionnaire_gen(100, family="gaussian", theta = TRUE,
+                           full_output = TRUE, n_X = 0, n_W = list(2, 3))
+#beta_gen(data3, MC = TRUE)
 }

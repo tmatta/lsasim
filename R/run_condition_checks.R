@@ -1,13 +1,17 @@
 #' Wrapper-function for check_condition
 #'
-#' @param n_cats
-#' @param n_vars
-#' @param n_X
-#' @param n_W
-#' @param theta
-#' @param cat_prop
-#' @param cor_matrix
-#' @param cov_matrix
+#' @param n_cats vector with number of categories for each categorical variable
+#'   (W)
+#' @param n_vars number of variables (Y, X and W)
+#' @param n_X number of continuous background variables (X)
+#' @param n_W number of categorical variables (W)
+#' @param theta is there a latent variable (Y)?
+#' @param cat_prop list of vectors with the cumulative proportions of the
+#'   background variables
+#' @param cor_matrix correlation matrix of YXW
+#' @param cov_matrix covariance matrix of YXW
+#' @param c_mean vector of means of all variables (YXW)
+#' @param c_sd vector of standard deviations of all variables (YXW)
 #'
 run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
                                  cor_matrix, cov_matrix, c_mean, c_sd) {

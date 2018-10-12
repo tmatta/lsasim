@@ -7,8 +7,6 @@
 #'
 #' @return vector with n_vars, n_X and n_W
 #' @export
-#'
-#' @examples
 gen_variable_n <- function(n_vars, n_X, n_W, theta = FALSE) {
   n_vars <- rpois(n = 1, lambda = 3) + ifelse(is.null(n_W), 0, n_W) +
     ifelse(is.null(n_X), 0, n_X) + theta + 1
