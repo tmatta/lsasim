@@ -165,7 +165,6 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   if (length(cat_prop) != ncol(cor_matrix)) {
     cat_prop <- c(1, cat_prop)
   }
-
   # Streching c_mean and c_sd if necessary
   n_X <- length(cat_prop[lapply(cat_prop, length) == 1]) - theta
   n_W <- length(cat_prop[lapply(cat_prop, length) > 1])
@@ -174,6 +173,14 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   # ones provided by the user
   if (n_X + theta > length(c_mean)) c_mean <- rep(c_mean, n_X + theta)
   if (n_X + theta > length(c_sd))   c_sd   <- rep(c_sd, n_X + theta)
+
+  # Labeling the matrices
+  if (!theta)   label_Y <- NULL else label_Y <- "Y"
+  if (n_X == 0) label_X <- NULL else label_X <- paste0("X", seq(n_X))
+  if (n_W == 0) label_W <- NULL else label_W <- paste0("W", seq(n_W))
+  label_YXW <- c(label_Y, label_X, label_W)
+  if (!is.null(cor_matrix)) dimnames(cor_matrix) <- list(label_YXW, label_YXW)
+  if (!is.null(cov_matrix)) dimnames(cov_matrix) <- list(label_YXW, label_YXW)
 
   # Generating background data --------------------------------------------
   if (is.null(family)) {
