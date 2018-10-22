@@ -32,17 +32,17 @@ The covariance matrix provided must have Y in the first row/column.
 \examples{
 
 # Data containing only continuous variables
-data1 <- questionnaire_gen(100, family="gaussian", theta = TRUE,
+data1 <- questionnaire_gen(1000, family="gaussian", theta = TRUE,
                            full_output = TRUE, n_X = 3, n_W = 0)
 beta_gen(data1, MC = TRUE)
 
 # Data containing only dichotomous variables
-data2 <- questionnaire_gen(100, family="gaussian", theta = TRUE,
+data2 <- questionnaire_gen(1000, family="gaussian", theta = TRUE,
                            full_output = TRUE, n_X = 0, n_W = list(2))
 beta_gen(data2, MC = TRUE)
 
 # Data containing polychotomous variables
-data3 <- questionnaire_gen(100, family="gaussian", theta = TRUE,
+data3 <- questionnaire_gen(1000, family="gaussian", theta = TRUE,
                            full_output = TRUE, n_X = 0, n_W = list(2, 3))
 #beta_gen(data3, MC = TRUE)
 }
