@@ -7,7 +7,10 @@
 #' @param wcol_Phi vector with column numbers of the W variables in Phi
 #' @param MC if \code{TRUE}, perform Monte Carlo simulation to estimate
 #'   regression coefficients
+#' @param replications for \code{MC = TRUE}, this represents the number of
+#'   Monte Carlo subsamples calculated.
 #' @importFrom stats lm model.matrix quantile
+#' @details The covariance matrix provided must have Y in the first row/column.
 #' @export
 #' @examples
 #'
@@ -18,7 +21,7 @@
 #'
 #' # Data containing only dichotomous variables
 #' data2 <- questionnaire_gen(100, family="gaussian", theta = TRUE,
-#'                            full_output = TRUE, n_X = 0, n_W = list(2, 2))
+#'                            full_output = TRUE, n_X = 0, n_W = list(2))
 #' beta_gen(data2, MC = TRUE)
 #'
 #' # Data containing polychotomous variables
@@ -46,16 +49,19 @@ beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, MC = FALSE) {
 
   if (MC) {
     message("Generating Monte Carlo coefficient estimates. Please wait...")
-    reps <- 1e3
-    subsample_obs <- replicate(reps, sample(rownames(data$bg), replace = TRUE))
-    subsample_data <- list()
-    for (r in seq(reps)) {
-      subsample_data[[r]] <- data$bg[subsample_obs[, r], ]
-    }
-    subsample_coef <- sapply(subsample_data,
-                             function(x) lm(data = x[-1], formula = theta ~ .)$coefficients)
-    subsample_avg_coef <- apply(subsample_coef, 1, mean)
-    output <- c(output, MC_coef = list(subsample_avg_coef))
+    reps <- replications
+    boot_obs <- replicate(reps, sample(rownames(data$bg), replace = TRUE))
+    boot_data <- list()
+    for (r in seq(reps)) boot_data[[r]] <- YXW[boot_obs[, r], ]
+    boot_coef <- sapply(boot_data, function(x) lm(theta ~ .- 1, x)$coefficients)
+    boot_avg_coef <- apply(boot_coef, 1, mean)
+    boot_CI <- apply(boot_coef, 1, function(x) quantile(x, c(.025, .975)))
+
+    # Checking if cov_matrix estimates is contained in MC confidence interval
+    cov_in_CI <- output > boot_CI[1, ] & output < boot_CI[2, ]
+
+    output <- rbind(cov_matrix = output, MC = boot_avg_coef, boot_CI,
+                    cov_in_CI = as.logical(cov_in_CI))
   }
-  return(output)
+  return(t(output))
 }
