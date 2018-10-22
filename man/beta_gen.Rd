@@ -4,7 +4,8 @@
 \alias{beta_gen}
 \title{Generate analytical parameters}
 \usage{
-beta_gen(data, vcov_yfz, Phi, wcol_Phi, MC = FALSE)
+beta_gen(data, vcov_yfz, Phi, wcol_Phi, MC = FALSE,
+  replications = 1000)
 }
 \arguments{
 \item{data}{output from the \code{questionnaire_gen} function for
@@ -18,9 +19,15 @@ beta_gen(data, vcov_yfz, Phi, wcol_Phi, MC = FALSE)
 
 \item{MC}{if \code{TRUE}, perform Monte Carlo simulation to estimate
 regression coefficients}
+
+\item{replications}{for \code{MC = TRUE}, this represents the number of
+Monte Carlo subsamples calculated.}
 }
 \description{
 Generate analytical parameters
+}
+\details{
+The covariance matrix provided must have Y in the first row/column.
 }
 \examples{
 
@@ -31,7 +38,7 @@ beta_gen(data1, MC = TRUE)
 
 # Data containing only dichotomous variables
 data2 <- questionnaire_gen(100, family="gaussian", theta = TRUE,
-                           full_output = TRUE, n_X = 0, n_W = list(2, 2))
+                           full_output = TRUE, n_X = 0, n_W = list(2))
 beta_gen(data2, MC = TRUE)
 
 # Data containing polychotomous variables
