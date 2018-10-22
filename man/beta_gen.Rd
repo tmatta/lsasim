@@ -4,8 +4,7 @@
 \alias{beta_gen}
 \title{Generate analytical parameters}
 \usage{
-beta_gen(data, vcov_yfz, Phi, wcol_Phi, MC = FALSE,
-  replications = 1000)
+beta_gen(data, vcov_yfz, Phi, wcol_Phi, MC = FALSE, replications = 100)
 }
 \arguments{
 \item{data}{output from the \code{questionnaire_gen} function for
@@ -44,5 +43,5 @@ beta_gen(data2, MC = TRUE)
 # Data containing polychotomous variables
 data3 <- questionnaire_gen(1000, family="gaussian", theta = TRUE,
                            full_output = TRUE, n_X = 0, n_W = list(2, 3))
-#beta_gen(data3, MC = TRUE)
+beta_gen(data3, MC = TRUE)
 }

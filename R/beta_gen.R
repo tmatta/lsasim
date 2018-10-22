@@ -29,7 +29,7 @@
 #'                            full_output = TRUE, n_X = 0, n_W = list(2, 3))
 #' beta_gen(data3, MC = TRUE)
 beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, MC = FALSE,
-                     replications = 1000) {
+                     replications = 100) {
   if (!data$theta) stop("Data must include theta")
 
   YXW <- data$bg[-1]  # remove "subject"
@@ -45,78 +45,22 @@ beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, MC = FALSE,
   if (data$n_W == 0) {
     # This is the easy case: all BG variables are continuous
     vcov <- data$cov_matrix
-    calc_intercept <- function(Y_mu, XW_mu, beta_hat) return(NULL)
+    calc_intercept <- function(Y, X, b) return(NULL)
   } else if (all(data$n_cats == 2)) {
     # This is the not so easy case: n_W > 0, but all Ws are binary. The W
-    # variables will be dummy-coded
-
-    # XW_split <- lapply(XW, function(x) model.matrix(~ x, XW))
-    # XW_mu_split <- lapply(XW_split, function(x) colMeans(x)[-1])  # no intercept
-    # XW_mu <- unlist(XW_mu_split)
-    # In this case, vcov doesn't change because the base categories will be
-    # dropped anyway, and the covariances of the second category are the same as
+    # variables will be dummy-coded. In this case, vcov doesn't change because
+    # the base categories will be dropped anyway, and the covariances of the
+    # second category are the same as
     vcov <- data$cov_matrix
-
-    # Group differences
-    # cols_W <- which(substr(rownames(vcov), 1, 1) == "W")
-    # # beta_z <- solve(vcov[cols_W, cols_W], vcov[1, cols_W])  # identical to beta_hat
-    # # prop_cat_1 <- sapply(data$cat_prop[cols_W], function(x) x[1])
-    # # # beta_c <- as.numeric(0 - (beta_z %*% 1 - prop_cat_1))
-    # # beta_c <- as.numeric(0 - (1 %*% beta_z - prop_cat_1))
-    # # #TODO: check if beta_c is equal to -boot_avg_coef
-    # # extra_parms <- c(Z0 = beta_c, Z1 = beta_z)
-    # vcov_XW <- vcov[-1, -1]
-    # cov_YXW <- vcov[1, -1]
-    # beta_hat <- solve(vcov_XW, cov_YXW) # no intercept
-    # prop_cat_1 <- sapply(data$cat_prop[cols_W], function(x) x[1])
-    # beta_c <- -(1 %*% beta_hat - prop_cat_1)  # adjusts beta for cat_prop
-    # #TODO: check if beta_c is equal to -boot_avg_coef
-    # beta_hat <- beta_c
-    calc_intercept <- function(Y_mu, XW_mu, beta_hat) {
-      return(Y_mu - crossprod(beta_hat, XW_mu))
-    }
+    calc_intercept <- function(Y, X, b, pr1) return(Y - b %*% (1 - pr1))  # TODO: adapt to script
   } else {
     # Most complex case: n_W > 0 and n_W is polytomous
     stop("beta_gen for polytomous variables not yet implemented")
-    # cols_W_expanded <- seq(unlist(sapply(data$n_cats, seq))) + cols_W - 1
-    # cols_vcov_expanded <- cols_W_expanded[length(cols_W_expanded)]
-    # # expanding the covariance matrix
-    # # Duplicate rows/cols -> singular matrix
-    # # TODO: use cat_prop as weight to adjust covariances?
-    # # TODO: Drop base level of W.
-    # # TODO: generalize for any(n_cats != 2)
-    # vcov <- data$cov_matrix
-    # vcov_expanded <- matrix(nrow = cols_vcov_expanded, ncol = cols_vcov_expanded)
-    # rownames(vcov) <- c("Y", paste0("X", seq(data$n_X)), paste0("W", seq(data$n_W)))
-    # colnames(vcov) <- rownames(vcov)
-    # rownames(vcov_expanded) <- c("Y", paste0("X", seq(data$n_X)),
-    #                              paste0("W", seq(data$n_W), seq(cols_W_expanded)))
-    # colnames(vcov_expanded) <- rownames(vcov_expanded)
-    #
-    # # diagonal elements of the variance-covariance matrix
-    # vars_X <- diag(data$cov_matrix)[cols_X]
-    # vars_W_expanded <- unlist(sapply(data$n_cats, function(x) rep(diag(data$cov_matrix)[cols_W], x)))
-    # vcov_expanded[1, 1] <- data$cov_matrix[1, 1]
-    # diag(vcov_expanded[-1, -1]) <- c(vars_X, vars_W_expanded)
-    #
-    # # Off-diagonal elements involving Y and X
-    # cols_YX <- c(col_Y, cols_X)
-    # vcov_expanded[cols_YX, cols_YX] <- vcov[cols_YX, cols_YX]
-    #
-    # # Off-diagonal elements involving W
-    # vcov_W_NA <- is.na(vcov_expanded[cols_W_expanded, cols_W_expanded])
-    # vcov_expanded[cols_W_expanded, cols_W_expanded][vcov_W_NA] <- -vcov_expanded[cols_W_expanded, cols_W_expanded][!vcov_W_NA]
-    # vcov[c(cols_X, cols_W), c(cols_X, cols_W)]
-    #
-    # vcov_expanded[-1, 1] <- vcov_expanded[1, -1]  # TODO: generalize for n_W > 1
-    # vcov_expanded[2, 3] <- -vcov_expanded[2, 2]  # TODO: generalize for n_W > 1
-    # vcov_expanded[3, 2] <- vcov_expanded[2, 3]  # TODO: generalize for n_W > 1
-    # vcov_expanded <- vcov_expanded[c(1, 3), c(1, 3)]  # TODO: generalize for n_W > 1
   }
   vcov_XW <- vcov[-1, -1]
   cov_YXW <- vcov[-1, 1, drop = FALSE]  # drop = FALSE keeps class as "matrix"
   beta_hat <- solve(vcov_XW, cov_YXW) # no intercept
-  intercept <- calc_intercept(Y_mu, XW_mu, beta_hat)
+  intercept <- calc_intercept(Y_mu, XW_mu, beta_hat, data$cat_prop[[2]][1])
 
   output <- c(intercept, beta_hat)
 
