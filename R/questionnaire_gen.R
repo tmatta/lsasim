@@ -145,11 +145,16 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     if (is.null(cov_matrix)) {
       # neither matrix is provided
       cor_matrix <- cor_gen(n_vars)
-      # TODO: reimplement cov_gen here
-      sd_YXW <- rgamma(n = n_vars, shape = 2, scale = 1)
+      # TODO: reimplement cov_gen here?
+      if (all(sapply(cat_prop, length) == 2)) {
+        sd_W <- sqrt(sapply(cat_prop, function(x) x[[1]][1] * (1 - x[[1]][1])))
+        sd_YXW <- c(rep(1, theta), sd_W)
+      } else {
+        sd_YXW <- rgamma(n = n_vars, shape = 2, scale = 1)
+      }
       cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
     } else {
-      # only cov_matrix is provided
+      # only cov_matrix is provided. Conversion is straightforward
       cor_matrix <- cov2cor(cov_matrix)
     }
   } else if (is.null(cov_matrix) & !is.null(family)) {
