@@ -5,10 +5,12 @@
 #' @param vcov_yfz covariance matrix between Y, F and Z
 #' @param Phi latent regression correlation matrix
 #' @param wcol_Phi vector with column numbers of the W variables in Phi
+#' @param prop_groups_1 vector with the proportions of the first (base) category
+#'   of each categorical variable
 #' @param MC if \code{TRUE}, perform Monte Carlo simulation to estimate
 #'   regression coefficients
-#' @param replications for \code{MC = TRUE}, this represents the number of
-#'   Monte Carlo subsamples calculated.
+#' @param replications for \code{MC = TRUE}, this represents the number of Monte
+#'   Carlo subsamples calculated.
 #' @importFrom stats lm model.matrix quantile
 #' @details The covariance matrix provided must have Y in the first row/column.
 #' @export
@@ -27,8 +29,8 @@
 #' # Data containing polychotomous variables
 #' data3 <- questionnaire_gen(1000, family="gaussian", theta = TRUE,
 #'                            full_output = TRUE, n_X = 0, n_W = list(2, 3))
-#' beta_gen(data3, MC = TRUE)
-beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, MC = FALSE,
+#' \donttest{beta_gen(data3, MC = TRUE)}
+beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
                      replications = 100) {
   if (!data$theta) stop("Data must include theta")
 
