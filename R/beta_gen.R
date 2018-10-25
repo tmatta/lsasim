@@ -79,7 +79,7 @@ beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
     }
     boot_coef <- sapply(boot_data, function(x) lm(theta ~ ., x)$coefficients)
     boot_avg_coef <- apply(boot_coef, 1, mean)
-    boot_CI <- apply(boot_coef, 1, function(x) quantile(x, c(.025, .975)))
+    boot_CI <- apply(boot_coef, 1, function(x) quantile(x, c(.005, .995)))
 
     # Checking if cov_matrix estimates is contained in MC confidence interval
     cov_in_CI <- output > boot_CI[1, ] & output < boot_CI[2, ]
