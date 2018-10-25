@@ -32,38 +32,43 @@
 #' \donttest{beta_gen(data3, MC = TRUE)}
 beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
                      replications = 100) {
-  if (!data$theta) stop("Data must include theta")
-
-  YXW <- data$bg[-1]  # remove "subject"
-  XW <- YXW[-1]  # remove "theta" (and "subject", from before)
-  if (is.null(data$c_mean)) {
-    Y_mu <- 0
-    XW_mu <- rep(0, length(XW))
+  if (!missing(vcov_yfz)) {
+    vcov <- vcov_yfz
+    calc_intercept <- function(Y, X, b, pr1) return(Y - (b %*% 1 - pr1))  # TODO: from script. Parenthesis OK?
+    Y_mu <- XW_mu <- 0
   } else {
-    Y_mu <- data$c_mean[1]
-    XW_mu <- data$c_mean[-1]
-  }
+    if (!data$theta) stop("Data must include theta")
 
-  if (data$n_W == 0) {
-    # This is the easy case: all BG variables are continuous
-    vcov <- data$cov_matrix
-    calc_intercept <- function(Y, X, b) return(NULL)
-  } else if (all(data$n_cats == 2)) {
-    # This is the not so easy case: n_W > 0, but all Ws are binary. The W
-    # variables will be dummy-coded. In this case, vcov doesn't change because
-    # the base categories will be dropped anyway, and the covariances of the
-    # second category are the same as
-    vcov <- data$cov_matrix
-    calc_intercept <- function(Y, X, b, pr1) return(Y - b %*% (1 - pr1))  # TODO: adapt to script
-  } else {
-    # Most complex case: n_W > 0 and n_W is polytomous
-    stop("beta_gen for polytomous variables not yet implemented")
+    YXW <- data$bg[-1]  # remove "subject"
+    XW <- YXW[-1]  # remove "theta" (and "subject", from before)
+    if (is.null(data$c_mean)) {
+      Y_mu <- 0
+      XW_mu <- rep(0, length(XW))
+    } else {
+      Y_mu <- data$c_mean[1]
+      XW_mu <- data$c_mean[-1]
+    }
+    if (data$n_W == 0) {
+      # This is the easy case: all BG variables are continuous
+      vcov <- data$cov_matrix
+      calc_intercept <- function(Y, X, b, pr1) return(Y - crossprod(b, X))
+    } else if (all(data$n_cats == 2)) {
+      # This is the not so easy case: n_W > 0, but all Ws are binary. The W
+      # variables will be dummy-coded. In this case, vcov doesn't change because
+      # the base categories will be dropped anyway, and the covariances of the
+      # second category are the same as
+      vcov <- data$cov_matrix
+      calc_intercept <- function(Y, X, b, pr1) return(Y - crossprod(1 - pr1, b))
+    } else {
+      # Most complex case: n_W > 0 and n_W is polytomous
+      stop("beta_gen for polytomous variables not yet implemented")
+    }
+    prop_groups_1 <- sapply(data$cat_prop, function(x) x[1])[-1]
   }
   vcov_XW <- vcov[-1, -1]
   cov_YXW <- vcov[-1, 1, drop = FALSE]  # drop = FALSE keeps class as "matrix"
   beta_hat <- solve(vcov_XW, cov_YXW) # no intercept
-  intercept <- calc_intercept(Y_mu, XW_mu, beta_hat, data$cat_prop[[2]][1])
-
+  intercept <- calc_intercept(Y_mu, XW_mu, beta_hat, prop_groups_1)
   output <- c(intercept, beta_hat)
 
   if (MC) {
