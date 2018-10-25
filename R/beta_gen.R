@@ -68,11 +68,16 @@ beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
 
   if (MC) {
     message("Generating Monte Carlo coefficient estimates. Please wait...")
-    reps <- replications
-    boot_obs <- replicate(reps, sample(rownames(data$bg), replace = TRUE))
     boot_data <- list()
-    for (r in seq(reps)) boot_data[[r]] <- YXW[boot_obs[, r], ]
-    boot_coef <- sapply(boot_data, function(x) lm(theta ~ .- 1, x)$coefficients)
+    for (r in seq(replications)) {
+      unique_lvl <- TRUE
+      while (unique_lvl) {
+        boot_obs <- sample(rownames(data$bg), replace = TRUE)
+        boot_data[[r]] <- YXW[boot_obs, ]
+        unique_lvl <- any(sapply(boot_data[[r]], function(x) all(duplicated(x)[-1L])))
+      }
+    }
+    boot_coef <- sapply(boot_data, function(x) lm(theta ~ ., x)$coefficients)
     boot_avg_coef <- apply(boot_coef, 1, mean)
     boot_CI <- apply(boot_coef, 1, function(x) quantile(x, c(.025, .975)))
 
