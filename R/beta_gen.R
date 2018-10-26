@@ -26,9 +26,9 @@
 #'                            full_output = TRUE, n_X = 0, n_W = list(2))
 #' beta_gen(data2, MC = TRUE)
 #'
-#' # Data containing polychotomous variables
+#' # Data containing only polychotomous variables
 #' data3 <- questionnaire_gen(1000, family="gaussian", theta = TRUE,
-#'                            full_output = TRUE, n_X = 0, n_W = list(2, 3))
+#'                            full_output = TRUE, n_X = 0, n_W = list(3, 5))
 #' \donttest{beta_gen(data3, MC = TRUE)}
 beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
                      replications = 100) {
@@ -49,14 +49,12 @@ beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
       XW_mu <- data$c_mean[-1]
     }
     if (data$n_W == 0) {
-      # This is the easy case: all BG variables are continuous
+      # All BG variables are continuous
       vcov <- data$cov_matrix
       calc_intercept <- function(Y, X, b, pr1) return(Y - crossprod(b, X))
     } else if (all(data$n_cats == 2)) {
-      # This is the not so easy case: n_W > 0, but all Ws are binary. The W
-      # variables will be dummy-coded. In this case, vcov doesn't change because
-      # the base categories will be dropped anyway, and the covariances of the
-      # second category are the same as
+      # n_W > 0, but all Ws are binary. The W variables will be dummy-coded.
+      # vcov doesn't change because the base categories will be dropped anyway.
       vcov <- data$cov_matrix
       calc_intercept <- function(Y, X, b, pr1) return(Y - crossprod(1 - pr1, b))
     } else {

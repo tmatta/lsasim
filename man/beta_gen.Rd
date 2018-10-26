@@ -44,8 +44,8 @@ data2 <- questionnaire_gen(1000, family="gaussian", theta = TRUE,
                            full_output = TRUE, n_X = 0, n_W = list(2))
 beta_gen(data2, MC = TRUE)
 
-# Data containing polychotomous variables
+# Data containing only polychotomous variables
 data3 <- questionnaire_gen(1000, family="gaussian", theta = TRUE,
-                           full_output = TRUE, n_X = 0, n_W = list(2, 3))
+                           full_output = TRUE, n_X = 0, n_W = list(3, 5))
 \donttest{beta_gen(data3, MC = TRUE)}
 }
