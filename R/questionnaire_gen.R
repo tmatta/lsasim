@@ -110,22 +110,18 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
         if (is.null(cov_matrix)) {
           n_tot <- gen_variable_n(n_vars, n_X, n_W, theta)
           n_vars <- n_tot["n_vars"]
-          n_X <- n_tot["n_X"]
-          n_W <- n_tot["n_W"]
         } else {
           # n_vars, cat_prop and cor_matrix are absent; cov_matrix is present
           n_vars <- ncol(cov_matrix) - theta
           n_tot <- gen_variable_n(n_vars, n_X, n_W, theta)
-          n_X <- n_tot["n_X"]
-          n_W <- n_tot["n_W"]
         }
       } else {
         # n_vars and cat_prop are absent; cor_matrix is present
         n_vars <- ncol(cor_matrix) - theta
         n_tot <- gen_variable_n(n_vars, n_X, n_W, theta)
-        n_X <- n_tot["n_X"]
-        n_W <- n_tot["n_W"]
       }
+      n_X <- n_tot["n_X"]
+      n_W <- n_tot["n_W"]
       cat_prop <- gen_cat_prop(n_X, n_W, n_cats)
       n_vars <- n_X + n_W + theta
     } else {
@@ -133,6 +129,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
       n_vars <- length(cat_prop)
     }
   } else {
+    # n_vars is provided
     if (is.null(cat_prop)) {
       n_tot <- gen_variable_n(n_vars, n_X, n_W, theta)
       n_X <- n_tot["n_X"]
@@ -173,7 +170,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   # Streching c_mean and c_sd if necessary
   n_X <- length(cat_prop[lapply(cat_prop, length) == 1]) - theta
   n_W <- length(cat_prop[lapply(cat_prop, length) > 1])
-  n_vars <- n_X + n_W + theta
+
   # TODO: add check to see if these final values above are different from the
   # ones provided by the user
   if (n_X + theta > length(c_mean)) c_mean <- rep(c_mean, n_X + theta)
