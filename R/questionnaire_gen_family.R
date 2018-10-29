@@ -29,7 +29,12 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
 
   # Formatting raw data
   bg_data <- data.frame(raw_data)
-  num_categories <- sapply(cat_prop[seq(cat_prop) + theta], length)
+  if (theta) {
+    cat_prop_minus_theta <- cat_prop[-1]
+  } else {
+    cat_prop_minus_theta <- cat_prop
+  }
+  num_categories <- sapply(cat_prop_minus_theta, length)
   if (any(num_categories == 1)) {
     x_name <- paste0("x", 1:(sum(num_categories == 1)))
   } else {
@@ -49,7 +54,10 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   # Categorizing W as Z
   names(cat_prop) <- colnames(bg_data)
   for (w in w_name) {
-    cut_points <- c(-Inf, qnorm(cat_prop[[w]][-length(cat_prop[[w]])]), Inf)
+    mean_w <- mean_yw[match(w, w_name) + theta]
+    cut_points <- c(-Inf,
+                    qnorm(cat_prop[[w]][-length(cat_prop[[w]])], mean = mean_w),
+                    Inf)
     # if W is dichotomous, labels are 0:1; else, labels start at 1.
     if (length(cat_prop[[w]]) == 2) {
       labels <- 0:1
