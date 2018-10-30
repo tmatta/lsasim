@@ -41,6 +41,7 @@ beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
 
     YXW <- data$bg[-1]  # remove "subject"
     XW <- YXW[-1]  # remove "theta" (and "subject", from before)
+
     if (is.null(data$c_mean)) {
       Y_mu <- 0
       XW_mu <- rep(0, length(XW))
@@ -61,7 +62,7 @@ beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
       # Most complex case: n_W > 0 and n_W is polytomous
       stop("beta_gen for polytomous variables not yet implemented")
     }
-    prop_groups_1 <- sapply(data$cat_prop, function(x) x[1])[-1]
+    prop_groups_1 <- sapply(data$cat_prop, function(x) 1 - x[1])[-1]  # -theta
   }
   vcov_XW <- vcov[-1, -1]
   cov_YXW <- vcov[-1, 1, drop = FALSE]  # drop = FALSE keeps class as "matrix"
