@@ -158,7 +158,8 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     # only cor_matrix is provided
     # TODO: reimplement cov_gen here
     if (is.null(c_sd)) {
-      c_sd <- rgamma(n = ncol(cor_matrix), shape = 2.5, scale = 1)
+      sd_W <- sqrt(sapply(cat_prop, function(x) x[[1]][1] * (1 - x[[1]][1])))
+      c_sd <- c(rep(1, theta), sd_W)
     }
     cov_matrix <- sweep(sweep(cor_matrix, 1L, c_sd, "*"), 2, c_sd, "*")
   }
@@ -175,6 +176,8 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   # ones provided by the user
   if (n_X + theta > length(c_mean)) c_mean <- rep(c_mean, n_X + theta)
   if (n_X + theta > length(c_sd))   c_sd   <- rep(c_sd, n_X + theta)
+
+  c_mean <- sapply(cat_prop, function(x) ifelse(length(x) == 1, 0, x[1]))
 
   # Generating background data --------------------------------------------
   if (is.null(family)) {
