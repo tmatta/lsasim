@@ -14,7 +14,8 @@
 #'   \code{cat_prop}.
 #' @param cov_matrix latent covariance matrix, formatted as \code{cor_matrix}.
 #' @param c_mean is a vector of population means for each continuous variable.
-#' @param c_sd is a vector of population standard deviations for each variable.
+#' @param c_sd is a vector of population standard deviations for each continuous
+#'   variable.
 #' @param theta if \code{TRUE} will label the first continuous variable 'theta'.
 #'
 #' @param n_vars number of total variables, continuous (X), discrete (W) and

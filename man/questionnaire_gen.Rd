@@ -23,7 +23,8 @@ continuous (X) and discrete (W) background variables, in the same order as
 
 \item{c_mean}{is a vector of population means for each continuous variable.}
 
-\item{c_sd}{is a vector of population standard deviations for each variable.}
+\item{c_sd}{is a vector of population standard deviations for each continuous
+variable.}
 
 \item{theta}{if \code{TRUE} will label the first continuous variable 'theta'.}
 
