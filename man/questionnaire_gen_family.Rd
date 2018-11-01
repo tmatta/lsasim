@@ -5,7 +5,7 @@
 \title{Generation of ordinal and continuous variables}
 \usage{
 questionnaire_gen_family(n_obs, cat_prop, cov_matrix,
-  family = "gaussian", theta = FALSE, mean_yw = NULL)
+  family = "gaussian", theta = FALSE, mean_yx = NULL)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}
@@ -13,15 +13,15 @@ questionnaire_gen_family(n_obs, cat_prop, cov_matrix,
 \item{cat_prop}{list of cumulative proportions for each item.}
 
 \item{cov_matrix}{covariance matrix. between the latent trait (Y) and the
-background variables (W).}
+background variables (X and W).}
 
 \item{family}{distribution of the background variables. Can be NULL or
 'gaussian'.}
 
 \item{theta}{if \code{TRUE} will label the first continuous variable 'theta'.}
 
-\item{mean_yw}{vector with the means of the latent trait (Y) and the
-background variables (W).}
+\item{mean_yx}{vector with the means of the latent trait (Y) and the
+continuous background variables (W).}
 }
 \description{
 Creates a data frame of discrete and continuous variables based on a latent

@@ -169,16 +169,26 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   if (length(cat_prop) != ncol(cor_matrix)) {
     cat_prop <- c(1, cat_prop)
   }
-  # Streching c_mean and c_sd if necessary
+
+  # Recalculating n_X and n_W (is this still necessary?)
   n_X <- length(cat_prop[lapply(cat_prop, length) == 1]) - theta
   n_W <- length(cat_prop[lapply(cat_prop, length) > 1])
 
-  # TODO: add check to see if these final values above are different from the
-  # ones provided by the user
-  if (n_X + theta > length(c_mean)) c_mean <- rep(c_mean, n_X + theta)
-  if (n_X + theta > length(c_sd))   c_sd   <- rep(c_sd, n_X + theta)
-
-  c_mean <- sapply(cat_prop, function(x) ifelse(length(x) == 1, 0, x[1]))
+  # Streching c_mean and c_sd if necessary
+  if (n_X + theta > length(c_mean)) {
+    if (is.null(c_mean)) {
+      c_mean <- rep(0, n_X + theta)
+    } else {
+      c_mean <- rep(c_mean, n_X + theta)
+    }
+  }
+  if (n_X + theta > length(c_sd)) {
+    if (is.null(c_sd)) {
+      c_sd <- rep(1, n_X + theta)
+    } else {
+      c_sd <- rep(c_sd, n_X + theta)
+    }
+  }
 
   # Generating background data --------------------------------------------
   if (is.null(family)) {
