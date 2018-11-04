@@ -143,13 +143,23 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     if (is.null(cov_matrix)) {
       # neither matrix is provided
       cor_matrix <- cor_gen(n_vars)
-      # TODO: reimplement cov_gen here?
-      if (all(sapply(cat_prop, length) == 2)) {
-        sd_W <- sqrt(sapply(cat_prop, function(x) x[[1]][1] * (1 - x[[1]][1])))
-        sd_YXW <- c(rep(1, theta), sd_W)
+      # TODO: generalize for poly W
+      cat_prop_YX <- cat_prop[lapply(cat_prop, length) == 1]
+      cat_prop_W <- cat_prop[lapply(cat_prop, length) > 1]
+      cat_prop_W_p <- lapply(cat_prop_W, function(x) c(x[1], diff(x)))
+      var_W <- lapply(seq(cat_prop_W_p),
+                      function(x) cat_prop_W_p[[x]] * (1 - cat_prop_W_p[[x]]))
+      if (is.null(c_sd) & length(cat_prop_YX)) {
+        var_YX <- ifelse(is.null(c_sd), rep(0, length(cat_prop_YX)), c_sd ^ 2)
       } else {
-        sd_YXW <- rgamma(n = n_vars, shape = 2, scale = 1)
+        var_YX <- NULL
       }
+      if (all(n_cats == 2)) {
+        var_W <- lapply(var_W, unique)
+      } else {
+        stop("poly W under construction")
+      }
+      sd_YXW <- sqrt(c(var_YX, unlist(var_W)))
       cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
     } else {
       # only cov_matrix is provided. Conversion is straightforward

@@ -15,17 +15,23 @@
 questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
                                      family = "gaussian", theta = FALSE,
                                      mean_yx = NULL) {
-  # Generating raw data according to distribution
+  # Generating raw data according to distribution -------------------------
   if (family == "gaussian") {
-    if (is.null(mean_yx)) {
-      mean_yxw <- rep(0, length(cat_prop))
+    cat_prop_YX <- cat_prop[lapply(cat_prop, length) == 1]
+    cat_prop_W <- cat_prop[lapply(cat_prop, length) > 1]
+    abs_prop_W <- lapply(cat_prop_W, function(x) c(x[1], diff(x)))
+    if (length(cat_prop_W) > 0) {
+      mean_w <- sapply(cat_prop_W, function(x) x[1])  # TODO: generalize for poly W
+      var_w <- lapply(abs_prop_W, prod)
+      # mean_w <- rep(0, length(cat_prop_W))
     } else {
-      # Means of W forced to zero because they only matter for the
-      # posterior categorization (see qnorm call below)
-      cat_prop_W <- cat_prop[lapply(cat_prop, length) > 1]
-      mean_w <- rep(0, length(cat_prop_W))
-      mean_yxw <- c(mean_yx, mean_w)
+      mean_w <- NULL
     }
+    if (is.null(mean_yx) & length(cat_prop_YX)) {
+      mean_yx <- rep(0, cat_prop_YX)
+    }
+    mean_yxw <- c(mean_yx, mean_w)
+
     raw_data <- mvtnorm::rmvnorm(n = n_obs, mean = mean_yxw, sigma = cov_matrix)
   } else if (family == "binomial") {
     stop("Binomial family not yet implemented.")
@@ -35,7 +41,7 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
     stop("Invalid distribution family.")
   }
 
-  # Formatting raw data
+  # Formatting raw data ---------------------------------------------------
   bg_data <- data.frame(raw_data)
   if (theta) {
     cat_prop_minus_theta <- cat_prop[-1]
@@ -59,13 +65,13 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
     colnames(bg_data) <- c(x_name, w_name)
   }
 
-  # Categorizing W as Z
+  # Categorizing W as Z ---------------------------------------------------
   names(cat_prop) <- colnames(bg_data)
   for (w in w_name) {
-    # mean_w <- mean_yx[match(w, w_name) + theta]
-    cut_points <- c(-Inf,
-                    qnorm(cat_prop[[w]][-length(cat_prop[[w]])]),
-                    Inf)
+    w_num <- match(w, w_name)
+    cut_points <- c(-Inf, qnorm(p    = cat_prop_W[[w_num]],
+                                mean = mean_w[w_num],
+                                sd   = sqrt(var_w[[w_num]])))
     # if W is dichotomous, labels are 0:1; else, labels start at 1.
     if (length(cat_prop[[w]]) == 2) {
       labels <- 0:1
@@ -77,7 +83,7 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
     bg_data[w] <- NULL
   }
 
-  # Adding subject numbers to final dataset
+  # Adding subject numbers to final dataset -------------------------------
   if (theta) {
     colnames(bg_data) <- c("theta", paste0("q", 1:(ncol(bg_data) - 1)))
   } else {
