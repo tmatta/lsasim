@@ -139,45 +139,37 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     }
   }
   if (is.null(n_fac)) n_fac <- 1  # TODO: use it as input for cov_gen
-  if (is.null(cor_matrix)) {
-    if (is.null(cov_matrix)) {
-      # neither matrix is provided
-      cor_matrix <- cor_gen(n_vars)
-      # TODO: generalize for poly W
-      cat_prop_YX <- cat_prop[lapply(cat_prop, length) == 1]
-      cat_prop_W <- cat_prop[lapply(cat_prop, length) > 1]
-      cat_prop_W_p <- lapply(cat_prop_W, function(x) c(x[1], diff(x)))
-      var_W <- lapply(seq(cat_prop_W_p),
-                      function(x) cat_prop_W_p[[x]] * (1 - cat_prop_W_p[[x]]))
-      if (is.null(c_sd) & length(cat_prop_YX)) {
-        var_YX <- ifelse(is.null(c_sd), rep(0, length(cat_prop_YX)), c_sd ^ 2)
-      } else {
-        var_YX <- NULL
-      }
-      if (all(n_cats == 2)) {
-        var_W <- lapply(var_W, unique)
-      } else {
-        stop("poly W under construction")
-      }
-      sd_YXW <- sqrt(c(var_YX, unlist(var_W)))
-      cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
-    } else {
-      # only cov_matrix is provided. Conversion is straightforward
-      cor_matrix <- cov2cor(cov_matrix)
-    }
-  } else if (is.null(cov_matrix) & !is.null(family)) {
-    # only cor_matrix is provided
-    # TODO: reimplement cov_gen here
-    if (is.null(c_sd)) {
-      sd_W <- sqrt(sapply(cat_prop, function(x) x[[1]][1] * (1 - x[[1]][1])))
-      c_sd <- c(rep(1, theta), sd_W)
-    }
-    cov_matrix <- sweep(sweep(cor_matrix, 1L, c_sd, "*"), 2, c_sd, "*")
-  }
 
   # Adding Y if necessary
-  if (length(cat_prop) != ncol(cor_matrix)) {
+  if (length(cat_prop) != n_vars) {
     cat_prop <- c(1, cat_prop)
+  }
+
+  if (is.null(cov_matrix)) {
+    if (is.null(cor_matrix)) cor_matrix <- cor_gen(n_vars)
+    # TODO: generalize for poly W
+    cat_prop_YX <- cat_prop[lapply(cat_prop, length) == 1]
+    cat_prop_W <- cat_prop[lapply(cat_prop, length) > 1]
+    cat_prop_W_p <- lapply(cat_prop_W, function(x) c(x[1], diff(x)))
+    var_W <- lapply(seq(cat_prop_W_p),
+                    function(x) cat_prop_W_p[[x]] * (1 - cat_prop_W_p[[x]]))
+    if (is.null(c_sd) & length(cat_prop_YX)) {
+      var_YX <- ifelse(is.null(c_sd), 1, c_sd ^ 2)
+      var_YX <- rep(var_YX, length(cat_prop_YX))
+    } else {
+      var_YX <- NULL
+    }
+    if (all(sapply(cat_prop_W, length) == 2)) {
+      var_W <- lapply(seq(var_W), function(x) var_W[[x]][1])
+    } else {
+      #TODO: placeholder solution
+      var_W <- lapply(seq(var_W), function(x) var_W[[x]][1])
+    }
+    sd_YXW <- sqrt(c(var_YX, unlist(var_W)))
+    cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
+  }
+  if (is.null(cor_matrix)) {
+    cor_matrix <- cov2cor(cov_matrix)
   }
 
   # Recalculating n_X and n_W (is this still necessary?)
