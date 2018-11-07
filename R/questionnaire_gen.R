@@ -162,7 +162,8 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     if (all(sapply(cat_prop_W, length) == 2)) {
       var_W <- lapply(seq(var_W), function(x) var_W[[x]][1])
     } else {
-      #TODO: placeholder solution
+      #TODO: figure out how to calculate one variance for W given many variances
+      #for Z. Create several Ws (i.e., expand cov_matrix)?
       var_W <- lapply(seq(var_W), function(x) var_W[[x]][1])
     }
     sd_YXW <- sqrt(c(var_YX, unlist(var_W)))
@@ -193,8 +194,12 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   }
 
   # Generating background data --------------------------------------------
-  if (is.null(family)) {
+  if (is.null(family) | any(n_cats > 2)) {
     message("Generating background data from correlation matrix")
+    if (!is.null(family)) {
+      message(family, "-distributed data currently not available",
+              "for polytomous categorical variables")
+    }
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix,
                                        c_mean, c_sd, theta)
   } else {

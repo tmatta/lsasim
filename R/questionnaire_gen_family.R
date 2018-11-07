@@ -21,9 +21,9 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
     cat_prop_W <- cat_prop[lapply(cat_prop, length) > 1]
     abs_prop_W <- lapply(cat_prop_W, function(x) c(x[1], diff(x)))
     if (length(cat_prop_W) > 0) {
-      mean_w <- sapply(cat_prop_W, function(x) x[1])  # TODO: generalize for poly W
+      # TODO: generalize for poly W
+      mean_w <- sapply(cat_prop_W, function(x) x[1])
       var_w <- lapply(abs_prop_W, prod)
-      # mean_w <- rep(0, length(cat_prop_W))
     } else {
       mean_w <- NULL
     }
