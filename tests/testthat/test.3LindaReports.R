@@ -89,11 +89,9 @@ test_that("Case 1: consistent changing cor_matrix, n_vars and cat_prop", {
                              cor_matrix = matrix(c(1, .5, .5,
                                                    .5, 1, .5,
                                                    .5, .5, 1), nrow = 3),
-                             n_vars = 3,
-                             theta = T)
+                             n_vars = 3, theta = T)
   data2 <- questionnaire_gen(n_obs = 5, cat_prop = list(1, c(.2, 1), c(.5, 1)),
-                             n_vars = 3,
-                             theta = T)
+                             n_vars = 3, theta = T)
   data3 <- questionnaire_gen(n_obs = 5, cat_prop = list(1, c(.2, 1), c(.5, 1)),
                             theta = T)
   classes <- c("theta" = "numeric", "q1" = "factor", "q2" = "factor")
