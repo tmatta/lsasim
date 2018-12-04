@@ -69,6 +69,7 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   names(cat_prop) <- colnames(bg_data)
   for (w in w_name) {
     w_num <- match(w, w_name)
+    #TODO: probable source of unmatching cat_prop and observed propotions in output
     cut_points <- c(-Inf, qnorm(p    = cat_prop_W[[w_num]],
                                 mean = mean_w[w_num],
                                 sd   = sqrt(var_w[[w_num]])))
