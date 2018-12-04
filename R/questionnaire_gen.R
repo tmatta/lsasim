@@ -197,7 +197,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   }
 
   # Generating background data --------------------------------------------
-  if (is.null(family) | any(n_cats > 2)) {
+  if (is.null(family)) {
     message("Generating background data from correlation matrix")
     if (!is.null(family)) {
       message(family, "-distributed data currently not available",
