@@ -47,12 +47,12 @@ calcPctIn <- function(data) {
   return(avg_coverage)
 }
 pct_df_1X <- calcPctIn(df_1X)
-# pct_df_2X <- calcPctIn(df_2X)
-# print(pct_df_1W <- calcPctIn(df_1W))
-# print(pct_df_2W <- calcPctIn(df_2W))
+pct_df_2X <- calcPctIn(df_2X)
+pct_df_1W <- calcPctIn(df_1W)
+pct_df_2W <- calcPctIn(df_2W)
 
 # Testing for near-equality -----------------------------------------------
 test_that("n_X = 1", expect_gte(min(pct_df_1X), 0.5))
-# test_that("n_X = 2", expect_gte(min(pct_df_2X), 0.5))
-# test_that("n_W = 1", expect_gte(min(pct_df_1W), 0.5))
+test_that("n_X = 2", expect_gte(min(pct_df_2X), 0.5))
+test_that("n_W = 1", expect_gte(min(pct_df_1W), 0.5))
 # test_that("n_W = 2", expect_gte(min(pct_df_2W), 0.5))
