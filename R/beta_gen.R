@@ -58,6 +58,8 @@ beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
       # vcov doesn't change because the base categories will be dropped anyway.
       vcov <- data$cov_matrix
       calc_intercept <- function(Y, X, b, pr1) return(Y - crossprod(1 - pr1, b))
+      # TODO: switch to crossprod(b, 1 - pr1)
+      # TODO: integrate both definitions of the function
     } else {
       # Most complex case: n_W > 0 and n_W is polytomous
       stop("beta_gen for polytomous variables not yet implemented")
