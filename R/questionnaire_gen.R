@@ -157,7 +157,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
       var_YX <- ifelse(is.null(c_sd), 1, c_sd ^ 2)
       var_YX <- rep(var_YX, length(cat_prop_YX))
     } else {
-      var_YX <- NULL
+      var_YX <- rep(c_sd, abs(length(c_sd) - length(cat_prop_YX)) + 1)
     }
     if (all(sapply(cat_prop_W, length) == 2)) {
       var_W <- lapply(seq(var_W), function(x) var_W[[x]][1])
