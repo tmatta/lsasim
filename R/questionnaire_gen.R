@@ -90,6 +90,9 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
 
   # Changes n_W to a scalar, if necessary ---------------------------------
   n_cats <- NULL  # number of categories per categorical variable W
+  if (!is.null(cat_prop)) {
+    n_cats <- sapply(cat_prop, length)[sapply(cat_prop, length) > 1]
+  }
   if (class(n_W) == "list") {
     n_cats <- unlist(n_W)
     n_W <- length(n_W)
@@ -198,7 +201,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     message("Generating background data from correlation matrix")
     if (!is.null(family)) {
       message(family, "-distributed data currently not available",
-              "for polytomous categorical variables")
+              " for polytomous categorical variables")
     }
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix,
                                        c_mean, c_sd, theta)
