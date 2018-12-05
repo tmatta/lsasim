@@ -5,7 +5,8 @@ cum_prop_3 <- list(1, c(.25, .5, .75, 1), c(.2, .4, .6, .8, 1))
 yw_cor <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
 bg2 <- questionnaire_gen(1e4, cat_prop = cum_prop_2, theta = TRUE,
                          family = "gaussian", cor_matrix = yw_cor)
-bg3 <- questionnaire_gen(1e4, cat_prop = cum_prop_3, family = "gaussian")
+bg3 <- questionnaire_gen(1e4, cat_prop = cum_prop_3, theta = TRUE,
+                         family = "gaussian")
 obsCor_bg2 <- polycor::hetcor(bg2[, -1])$correlations
 
 test_that("Correlations are preserved", {
