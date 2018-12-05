@@ -19,6 +19,10 @@ run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
                   "the number of categories in n_W must all be greater than 1")
   check_condition(n_vars != n_X + n_W + theta,
                   "n_vars must equal n_X + n_W + theta")
+  check_condition(n_X == 0 & n_W == 0,
+                  "At least one background variable must be generated")
+  check_condition(!is.null(cat_prop) & (identical(cat_prop, list(1)) & theta),
+                  "At least one background variable must be generated")
   check_condition(!is.null(cat_prop) & length(cat_prop) != ncol(cor_matrix),
                   "length(cat_prop) cannot be different from ncol(cor_matrix)")
   check_condition(!is.null(cat_prop) & length(cat_prop) != ncol(cov_matrix),
