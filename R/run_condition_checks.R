@@ -21,14 +21,6 @@ run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
                   "n_vars must equal n_X + n_W + theta")
   check_condition(n_X == 0 & n_W == 0,
                   "At least one background variable must be generated")
-  check_condition(!is.null(cat_prop) & (identical(cat_prop, list(1)) & theta),
-                  "At least one background variable must be generated")
-  check_condition(!is.null(cat_prop) & length(cat_prop) != ncol(cor_matrix),
-                  "length(cat_prop) cannot be different from ncol(cor_matrix)")
-  check_condition(!is.null(cat_prop) & length(cat_prop) != ncol(cov_matrix),
-                  "length(cat_prop) cannot be different from ncol(cov_matrix)")
-  check_condition(!is.null(cat_prop) & (!is.null(n_X) | !is.null(n_W)),
-                  "cat_prop was provided, so n_X and n_W were ignored", FALSE)
   check_condition(ncol(cov_matrix) > 0 & ncol(cor_matrix) > 0,
                   "Only one matrix (cov_matrix or cor_matrix) can be provided")
   check_condition(n_X + n_W + theta > ncol(cov_matrix),
@@ -52,19 +44,36 @@ run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
                   "last value of each element of cat_prop must be 1")
   check_condition(length(c_mean) > n_X + theta,
                   "length(c_mean) cannot be larger than n_X + theta")
-  check_condition(length(c_mean) > 1 & length(c_mean) != n_X + theta,
-                  "c_mean recycled to fit all continuous variables", FALSE)
   check_condition(length(c_sd) > n_X + theta,
                   "length(c_sd) cannot be larger than n_X + theta")
+  check_condition(length(c_mean) > 1 & length(c_mean) != n_X + theta,
+                  "c_mean recycled to fit all continuous variables", FALSE)
   check_condition(length(c_sd) > 1 & length(c_sd) != n_X + theta,
-                  "c_sd  recycled to fit all continuous variables", FALSE)
-  check_condition(any(c_sd < 0),
-                  "c_sd may not contain negative elements")
+                  "c_sd recycled to fit all continuous variables", FALSE)
+  check_condition(any(c_sd < 0), "c_sd may not contain negative elements")
   if (!is.null(cor_matrix))
     check_condition(!isSymmetric(cor_matrix), "cor_matrix is not symmetric")
   if (!is.null(cov_matrix))
     check_condition(!isSymmetric(cov_matrix), "cov_matrix is not symmetric")
-  if (!is.null(cat_prop))
+  if (!is.null(cat_prop)) {
     check_condition(theta & (cat_prop[[1]][1] != 1),
                     "theta == TRUE, so the first element of cat_prop must be 1")
+    check_condition(identical(cat_prop, list(1)) & theta,
+                    "At least one background variable must be generated")
+    check_condition(length(cat_prop) != ncol(cor_matrix),
+                    "length(cat_prop) cannot be different from ncol(cor_matrix)")
+    check_condition(length(cat_prop) != ncol(cov_matrix),
+                    "length(cat_prop) cannot be different from ncol(cov_matrix)")
+    check_condition(!is.null(n_X) | !is.null(n_W),
+                    "cat_prop was provided, so n_X and n_W were ignored", FALSE)
+    numYX <- sum(sapply(cat_prop, function(x) x[1] == 1))
+    check_condition(length(c_mean) > numYX,
+                    "length(c_mean) cannot be larger than the number of continuous variables")
+    check_condition(length(c_sd) > numYX,
+                    "length(c_sd) cannot be larger than the number of continuous variables")
+    check_condition(length(c_mean) > numYX,
+                    "c_mean recycled to fit all continuous variables", FALSE)
+    check_condition(length(c_sd) > numYX,
+                    "c_sd recycled to fit all continuous variables", FALSE)
+  }
 }
