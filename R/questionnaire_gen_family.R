@@ -87,8 +87,9 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   # Adding subject numbers to final dataset -------------------------------
   if (any(n_cats > 2)) {
     cols_W <- which(substr(colnames(bg_data), 1, 1) == "z")
-    names_W <- paste0("q", rep(seq(n_cats), length(n_cats)) + cols_W[1] - 1, ".",
-                      unlist(sapply(n_cats, seq)))
+    if (length(n_cats) > 1) cats_reps <- n_cats else cats_reps <- length(n_cats)
+    names_W <- paste0("q", rep(seq(n_cats), cats_reps) + cols_W[1] - theta - 1,
+                      ".", unlist(sapply(n_cats, seq)))
     if (theta) {
       colnames(bg_data) <- c("theta", paste0("q", 1:(ncol(bg_data) - 1)))
     }
