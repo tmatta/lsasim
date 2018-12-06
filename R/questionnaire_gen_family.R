@@ -14,7 +14,7 @@
 #' @param theta if \code{TRUE} will label the first continuous variable 'theta'.
 questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
                                      family = "gaussian", theta = FALSE,
-                                     mean_yx = NULL) {
+                                     mean_yx = NULL, n_cats) {
   # Generating raw data according to distribution -------------------------
   if (family == "gaussian") {
     cat_prop_YX <- cat_prop[lapply(cat_prop, length) == 1]
@@ -85,10 +85,17 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   }
 
   # Adding subject numbers to final dataset -------------------------------
-  if (theta) {
-    colnames(bg_data) <- c("theta", paste0("q", 1:(ncol(bg_data) - 1)))
-  } else {
-    colnames(bg_data) <- paste0("q", seq(bg_data))
+  if (any(n_cats > 2)) {
+    cols_W <- which(substr(colnames(bg_data), 1, 1) == "z")
+    names_W <- paste0("q", rep(seq(n_cats), length(n_cats)) + cols_W[1] - 1, ".",
+                      unlist(sapply(n_cats, seq)))
+    if (theta) {
+      colnames(bg_data) <- c("theta", paste0("q", 1:(ncol(bg_data) - 1)))
+    }
+    else {
+      colnames(bg_data) <- paste0("q", seq(bg_data))
+    }
+    colnames(bg_data)[cols_W] <- names_W
   }
   discrete_df <- data.frame(subject = 1:nrow(raw_data), bg_data)
 

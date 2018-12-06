@@ -223,7 +223,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   } else {
     message("Generating ", family, "-distributed background data")
     bg <- questionnaire_gen_family(n_obs, cat_prop, cov_matrix,
-                                   family, theta, c_mean)
+                                   family, theta, c_mean, n_cats)
   }
 
   # Labeling the matrices

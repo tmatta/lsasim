@@ -5,7 +5,7 @@
 \title{Generation of ordinal and continuous variables}
 \usage{
 questionnaire_gen_family(n_obs, cat_prop, cov_matrix,
-  family = "gaussian", theta = FALSE, mean_yx = NULL)
+  family = "gaussian", theta = FALSE, mean_yx = NULL, n_cats)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}
