@@ -55,10 +55,13 @@ dfXWnorm  <- questionnaire_gen(100, propXW, full_output = TRUE,
 dfYXWnorm <- questionnaire_gen(100, propYXW, full_output = TRUE, theta = TRUE,
                                family = "gaussian")
 
-#TODO: check/fix. Only works for the first category. What about the others?
+propW_abs <- unlist(lapply(propW, function(x) c(x[1], diff(x))))
 varCatPropW   <- sapply(propW, function(x) x[1] * (1 - x[1]))
 varCatPropXW  <- sapply(propXW, function(x) x[1] * (1 - x[1]))[-1]
 varCatPropYXW <- sapply(propYXW, function(x) x[1] * (1 - x[1]))[-1:-2]
+varCatPropWnorm   <- propW_abs * (1 - propW_abs)
+varCatPropXWnorm  <- varCatPropWnorm
+varCatPropYXWnorm <- varCatPropWnorm
 
 varCovMatrixW   <- diag(dfW$cov_matrix)
 varCovMatrixXW  <- diag(dfXW$cov_matrix)[-1]
@@ -71,9 +74,9 @@ test_that("Works for polynomial W", {
   expect_equivalent(varCatPropW, varCovMatrixW)
   expect_equivalent(varCatPropXW, varCovMatrixXW)
   expect_equivalent(varCatPropYXW, varCovMatrixYXW)
-  expect_equivalent(varCatPropW, varCovMatrixWnorm)
-  expect_equivalent(varCatPropXW, varCovMatrixXWnorm)
-  expect_equivalent(varCatPropYXW, varCovMatrixYXWnorm)
+  expect_equivalent(varCatPropWnorm, varCovMatrixWnorm)
+  expect_equivalent(varCatPropXWnorm, varCovMatrixXWnorm)
+  expect_equivalent(varCatPropYXWnorm, varCovMatrixYXWnorm)
 })
 
 # Mixed W -----------------------------------------------------------------
