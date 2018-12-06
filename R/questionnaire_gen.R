@@ -104,12 +104,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   # Break up polytomous W -------------------------------------------------
   if (any(n_cats > 2) & !is.null(family)) {
     if (!is.null(cat_prop)) {
-      cat_prop_YX <- cat_prop[lapply(cat_prop, length) == 1]
-      cat_prop_W <- cat_prop[lapply(cat_prop, length) > 1]
-      cat_prop_W_p <- lapply(cat_prop_W, function(x) c(x[1], diff(x)))
-      cat_prop_W_p_matrix <- cbind(unlist(cat_prop_W_p), 1)
-      cat_prop_W <- split(cat_prop_W_p_matrix, seq(nrow(cat_prop_W_p_matrix)))
-      cat_prop <- c(cat_prop_YX, cat_prop_W)
+      cat_prop <- split_cat_prop(cat_prop)
     }
     if (!is.null(cor_matrix)) {
 
