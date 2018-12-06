@@ -137,6 +137,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
       n_X <- n_tot["n_X"]
       n_W <- n_tot["n_W"]
       cat_prop <- gen_cat_prop(n_X, n_W, n_cats)
+      if (any(n_cats > 2) & !is.null(family)) cat_prop <- split_cat_prop(cat_prop)
       n_vars <- n_X + n_W + theta
     } else {
       # n_vars is absent, cat_prop is present
@@ -159,7 +160,14 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   }
 
   if (is.null(cov_matrix)) {
-    if (is.null(cor_matrix)) cor_matrix <- cor_gen(n_vars)
+    # TODO: check if this could always be cor_gen(length(cat_prop))
+    if (is.null(cor_matrix)) {
+      if (is.null(family)) {
+        cor_matrix <- cor_gen(n_vars)
+      } else {
+        cor_matrix <- cor_gen(length(cat_prop))
+      }
+    }
     # TODO: generalize for poly W
     cat_prop_YX <- cat_prop[lapply(cat_prop, length) == 1]
     cat_prop_W <- cat_prop[lapply(cat_prop, length) > 1]
