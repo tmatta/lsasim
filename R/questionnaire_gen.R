@@ -101,16 +101,6 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     stop("n_W must be either a scalar or a list", call. = FALSE)
   }
 
-  # Break up polytomous W -------------------------------------------------
-  if (any(n_cats > 2) & !is.null(family)) {
-    if (!is.null(cat_prop)) {
-      cat_prop <- split_cat_prop(cat_prop)
-    }
-    if (!is.null(cor_matrix)) {
-
-    }
-  }
-
   # Initial checks for consistency ----------------------------------------
   run_condition_checks(n_cats, n_vars, n_X, n_W, theta, cat_prop, cor_matrix,
                        cov_matrix, c_mean, c_sd)

@@ -74,9 +74,9 @@ test_that("Works for polynomial W", {
   expect_equivalent(varCatPropW, varCovMatrixW)
   expect_equivalent(varCatPropXW, varCovMatrixXW)
   expect_equivalent(varCatPropYXW, varCovMatrixYXW)
-  expect_equivalent(varCatPropWnorm, varCovMatrixWnorm)
-  expect_equivalent(varCatPropXWnorm, varCovMatrixXWnorm)
-  expect_equivalent(varCatPropYXWnorm, varCovMatrixYXWnorm)
+  expect_equivalent(varCatPropW, varCovMatrixWnorm)
+  expect_equivalent(varCatPropXW, varCovMatrixXWnorm)
+  expect_equivalent(varCatPropYXW, varCovMatrixYXWnorm)
 })
 
 # Mixed W -----------------------------------------------------------------
