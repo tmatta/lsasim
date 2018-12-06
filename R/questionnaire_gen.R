@@ -230,10 +230,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   }
 
   # Labeling the matrices
-  if (!theta)   label_Y <- NULL else label_Y <- "Y"
-  if (n_X == 0) label_X <- NULL else label_X <- paste0("X", seq(n_X))
-  if (n_W == 0) label_W <- NULL else label_W <- paste0("W", seq(n_W))
-  label_YXW <- c(label_Y, label_X, label_W)
+  label_YXW <- names(bg)[-1]
   if (!is.null(cor_matrix)) dimnames(cor_matrix) <- list(label_YXW, label_YXW)
   if (!is.null(cov_matrix)) dimnames(cov_matrix) <- list(label_YXW, label_YXW)
 
