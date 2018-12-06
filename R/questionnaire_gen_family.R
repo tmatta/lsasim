@@ -23,7 +23,7 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
     if (length(cat_prop_W) > 0) {
       # TODO: generalize for poly W
       mean_w <- sapply(cat_prop_W, function(x) x[1])
-      var_w <- lapply(abs_prop_W, prod)
+      var_w <- lapply(abs_prop_W, function(x) x * (1 - x))
     } else {
       mean_w <- NULL
     }
@@ -72,7 +72,7 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
     #TODO: probable source of unmatching cat_prop and observed propotions in output
     cut_points <- c(-Inf, qnorm(p    = cat_prop_W[[w_num]],
                                 mean = mean_w[w_num],
-                                sd   = sqrt(var_w[[w_num]])))
+                                sd   = sqrt(var_w[[w_num]][1])))
     # if W is dichotomous, labels are 0:1; else, labels start at 1.
     if (length(cat_prop[[w]]) == 2) {
       labels <- 0:1
