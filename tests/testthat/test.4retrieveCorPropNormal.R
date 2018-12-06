@@ -1,14 +1,27 @@
 context("Retrieval of original proportions and correlations")
 
+# Defining auxiliary objects ----------------------------------------------
 cum_prop_2 <- list(1, c(.25, 1), c(.2, 1))
 cum_prop_3 <- list(1, c(.25, .5, .75, 1), c(.2, .4, .6, .8, 1))
+cum_prop_4 <- list(c(.1, .3, .6, 1))
+
 yw_cor <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
+
+# Generating datasets -----------------------------------------------------
 bg2 <- questionnaire_gen(1e4, cat_prop = cum_prop_2, theta = TRUE,
                          family = "gaussian", cor_matrix = yw_cor)
 bg3 <- questionnaire_gen(1e4, cat_prop = cum_prop_3, theta = TRUE,
                          family = "gaussian")
+bg4 <- questionnaire_gen(1e4, cat_prop = cum_prop_4, family = "gaussian")
+
 obsCor_bg2 <- polycor::hetcor(bg2[, -1])$correlations
 
+#TODO: move as expect_equivalent before merging w/ stable
+summary(bg2)
+summary(bg3)
+summary(bg4)
+
+# Performing tests --------------------------------------------------------
 test_that("Correlations are preserved", {
   expect_equivalent(obsCor_bg2, yw_cor, tolerance = 0.05)
 })
