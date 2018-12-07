@@ -5,13 +5,15 @@
 #'
 #' @param n_obs number of observations to generate.
 #' @param cat_prop list of cumulative proportions for each item.
-#' @param mean_yx vector with the means of the latent trait (Y) and the
-#'   continuous background variables (W).
 #' @param cov_matrix covariance matrix. between the latent trait (Y) and the
 #'   background variables (X and W).
 #' @param family distribution of the background variables. Can be NULL or
 #'   'gaussian'.
 #' @param theta if \code{TRUE} will label the first continuous variable 'theta'.
+#' @param mean_yx vector with the means of the latent trait (Y) and the
+#'   continuous background variables (X).
+#' @param n_cats vector with number of categories for each W.
+#'
 questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
                                      family = "gaussian", theta = FALSE,
                                      mean_yx = NULL, n_cats) {

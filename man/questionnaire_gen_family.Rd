@@ -21,7 +21,9 @@ background variables (X and W).}
 \item{theta}{if \code{TRUE} will label the first continuous variable 'theta'.}
 
 \item{mean_yx}{vector with the means of the latent trait (Y) and the
-continuous background variables (W).}
+continuous background variables (X).}
+
+\item{n_cats}{vector with number of categories for each W.}
 }
 \description{
 Creates a data frame of discrete and continuous variables based on a latent
