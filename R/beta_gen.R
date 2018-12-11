@@ -28,12 +28,8 @@
 #' data3 <- questionnaire_gen(1000, family="gaussian", theta = TRUE,
 #'                            full_output = TRUE, n_X = 0, n_W = list(3, 5))
 #' \donttest{beta_gen(data3, MC = TRUE)}
-<<<<<<< Updated upstream
 beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
                      replications = 100, analytical = TRUE) {
-=======
-beta_gen <- function(data, vcov_yfz, MC = FALSE, replications = 100) {
->>>>>>> Stashed changes
   if (!missing(vcov_yfz)) {
     vcov <- vcov_yfz
     calc_intercept <- function(Y, X, b, pr1) return(Y - (b %*% 1 - pr1))  # TODO: from script. Parenthesis OK?
@@ -67,7 +63,6 @@ beta_gen <- function(data, vcov_yfz, MC = FALSE, replications = 100) {
       message("Analytical solution for polytomous variables not yet implemented")
     }
     prop_groups_1 <- sapply(data$cat_prop, function(x) x[1])[-1]  # -theta
-<<<<<<< Updated upstream
   }
   if (analytical) {
     vcov_XW <- vcov[-1, -1]
@@ -77,8 +72,6 @@ beta_gen <- function(data, vcov_yfz, MC = FALSE, replications = 100) {
     output <- c(intercept, beta_hat)
   } else {
     output <- NA
-=======
->>>>>>> Stashed changes
   }
   if (MC) {
     message("Generating Monte Carlo coefficient estimates. Please wait...")
