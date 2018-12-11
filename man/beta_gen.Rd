@@ -5,11 +5,11 @@
 \title{Generate analytical parameters}
 \usage{
 beta_gen(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
-  replications = 100)
+  replications = 100, analytical = TRUE)
 }
 \arguments{
 \item{data}{output from the \code{questionnaire_gen} function for
-\code{full.output = TRUE}}
+\code{full_output = TRUE}}
 
 \item{vcov_yfz}{covariance matrix between Y, F and Z}
 
@@ -25,6 +25,9 @@ regression coefficients}
 
 \item{replications}{for \code{MC = TRUE}, this represents the number of Monte
 Carlo subsamples calculated.}
+
+\item{analytical}{if \code{TRUE}, an analytical solution using the covariance
+matrix will be calculated.}
 }
 \description{
 Generate analytical parameters

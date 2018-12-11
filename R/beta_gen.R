@@ -11,6 +11,8 @@
 #'   regression coefficients
 #' @param replications for \code{MC = TRUE}, this represents the number of Monte
 #'   Carlo subsamples calculated.
+#' @param analytical if \code{TRUE}, an analytical solution using the covariance
+#'   matrix will be calculated.
 #' @importFrom stats lm model.matrix quantile
 #' @details The covariance matrix provided must have Y in the first row/column.
 #' @export
@@ -31,7 +33,7 @@
 #'                            full_output = TRUE, n_X = 0, n_W = list(3, 5))
 #' \donttest{beta_gen(data3, MC = TRUE)}
 beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
-                     replications = 100) {
+                     replications = 100, analytical = TRUE) {
   if (!missing(vcov_yfz)) {
     vcov <- vcov_yfz
     calc_intercept <- function(Y, X, b, pr1) return(Y - (b %*% 1 - pr1))  # TODO: from script. Parenthesis OK?
@@ -62,16 +64,19 @@ beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
       # TODO: integrate both definitions of the function
     } else {
       # Most complex case: n_W > 0 and n_W is polytomous
-      stop("beta_gen for polytomous variables not yet implemented")
+      message("Analytical solution for polytomous variables not yet implemented")
     }
     prop_groups_1 <- sapply(data$cat_prop, function(x) 1 - x[1])[-1]  # -theta
   }
-  vcov_XW <- vcov[-1, -1]
-  cov_YXW <- vcov[-1, 1, drop = FALSE]  # drop = FALSE keeps class as "matrix"
-  beta_hat <- solve(vcov_XW, cov_YXW) # no intercept
-  intercept <- calc_intercept(Y_mu, XW_mu, beta_hat, prop_groups_1)
-  output <- c(intercept, beta_hat)
-
+  if (analytical) {
+    vcov_XW <- vcov[-1, -1]
+    cov_YXW <- vcov[-1, 1, drop = FALSE]  # drop = FALSE keeps class as "matrix"
+    beta_hat <- solve(vcov_XW, cov_YXW) # no intercept
+    intercept <- calc_intercept(Y_mu, XW_mu, beta_hat, prop_groups_1)
+    output <- c(intercept, beta_hat)
+  } else {
+    output <- NA
+  }
   if (MC) {
     message("Generating Monte Carlo coefficient estimates. Please wait...")
     boot_data <- list()
