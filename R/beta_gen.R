@@ -3,10 +3,6 @@
 #' @param data output from the \code{questionnaire_gen} function for
 #'   \code{full_output = TRUE}
 #' @param vcov_yfz covariance matrix between Y, F and Z
-#' @param Phi latent regression correlation matrix
-#' @param wcol_Phi vector with column numbers of the W variables in Phi
-#' @param prop_groups_1 vector with the proportions of the first (base) category
-#'   of each categorical variable
 #' @param MC if \code{TRUE}, perform Monte Carlo simulation to estimate
 #'   regression coefficients
 #' @param replications for \code{MC = TRUE}, this represents the number of Monte
@@ -59,14 +55,14 @@ beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
       # n_W > 0, but all Ws are binary. The W variables will be dummy-coded.
       # vcov doesn't change because the base categories will be dropped anyway.
       vcov <- data$cov_matrix
-      calc_intercept <- function(Y, X, b, pr1) return(Y - crossprod(1 - pr1, b))
-      # TODO: switch to crossprod(b, 1 - pr1)
+      # calc_intercept <- function(Y, X, b, pr1) return(Y - crossprod(b, pr1))
+      calc_intercept <- function(Y, X, b, pr1) return(Y - (b %*% (1 - pr1)))
       # TODO: integrate both definitions of the function
     } else {
       # Most complex case: n_W > 0 and n_W is polytomous
       message("Analytical solution for polytomous variables not yet implemented")
     }
-    prop_groups_1 <- sapply(data$cat_prop, function(x) 1 - x[1])[-1]  # -theta
+    prop_groups_1 <- sapply(data$cat_prop, function(x) x[1])[-1]  # -theta
   }
   if (analytical) {
     vcov_XW <- vcov[-1, -1]

@@ -13,13 +13,6 @@ beta_gen(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
 
 \item{vcov_yfz}{covariance matrix between Y, F and Z}
 
-\item{Phi}{latent regression correlation matrix}
-
-\item{wcol_Phi}{vector with column numbers of the W variables in Phi}
-
-\item{prop_groups_1}{vector with the proportions of the first (base) category
-of each categorical variable}
-
 \item{MC}{if \code{TRUE}, perform Monte Carlo simulation to estimate
 regression coefficients}
 
