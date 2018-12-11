@@ -22,6 +22,7 @@ pct_df_1X <- calcPctIn(df_1X)
 pct_df_2X <- calcPctIn(df_2X)
 pct_df_1W <- calcPctIn(df_1W)
 pct_df_2W <- calcPctIn(df_2W)
+# TODO: test W2W2, XW2, XXW2, XW2W2, XXW2W2, W3, W4...
 
 test_that("Beta hat from covariance inside MC CI", {
   expect_equivalent(betaX[, "cov_in_CI"], c(1, 1))
