@@ -13,7 +13,8 @@ df_2W <- q_gen_wrap(0, list(2, 2))
 # Generating replications -------------------------------------------------
 calcPctIn <- function(data) {
   estimates <- replicate(100, suppressMessages(beta_gen(data, MC = TRUE,
-                                                       replications = 100)))
+                                                        replications = 100,
+                                                        analytical = FALSE)))
   pct_coverage <- estimates[, "cov_in_CI", ]
   avg_coverage <- apply(pct_coverage, 1, mean)
   return(avg_coverage)
