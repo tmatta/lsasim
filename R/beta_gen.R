@@ -1,7 +1,7 @@
 #' Generate analytical parameters
 #'
 #' @param data output from the \code{questionnaire_gen} function for
-#'   \code{full.output = TRUE}
+#'   \code{full_output = TRUE}
 #' @param vcov_yfz covariance matrix between Y, F and Z
 #' @param Phi latent regression correlation matrix
 #' @param wcol_Phi vector with column numbers of the W variables in Phi
