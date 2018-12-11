@@ -4,8 +4,12 @@
 \alias{beta_gen}
 \title{Generate analytical parameters}
 \usage{
+<<<<<<< Updated upstream
 beta_gen(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
   replications = 100, analytical = TRUE)
+=======
+beta_gen(data, vcov_yfz, MC = FALSE, replications = 100)
+>>>>>>> Stashed changes
 }
 \arguments{
 \item{data}{output from the \code{questionnaire_gen} function for
