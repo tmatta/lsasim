@@ -1,4 +1,4 @@
-context("Proper correspondence between cat_prop and cov_matrix")
+context("Proper correspondence between variances in cat_prop and cov_matrix")
 
 # Binomial W --------------------------------------------------------------
 cat1prop <- runif(2)
@@ -28,7 +28,7 @@ varCovMatrixWnorm   <- diag(dfWnorm$cov_matrix)
 varCovMatrixXWnorm  <- diag(dfXWnorm$cov_matrix)[-1]
 varCovMatrixYXWnorm <- diag(dfYXWnorm$cov_matrix)[-1:-2]
 
-test_that("Works for binomial W", {
+test_that("Proportions preserved for binomial W", {
   expect_equivalent(varCatPropW, varCovMatrixW)
   expect_equivalent(varCatPropXW, varCovMatrixXW)
   expect_equivalent(varCatPropYXW, varCovMatrixYXW)
@@ -70,7 +70,7 @@ varCovMatrixWnorm   <- diag(dfWnorm$cov_matrix)
 varCovMatrixXWnorm  <- diag(dfXWnorm$cov_matrix)[-1]
 varCovMatrixYXWnorm <- diag(dfYXWnorm$cov_matrix)[-1:-2]
 
-test_that("Works for polynomial W", {
+test_that("Proportions preserved for polynomial W", {
   expect_equivalent(varCatPropW, varCovMatrixW)
   expect_equivalent(varCatPropXW, varCovMatrixXW)
   expect_equivalent(varCatPropYXW, varCovMatrixYXW)
