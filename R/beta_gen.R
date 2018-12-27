@@ -45,7 +45,8 @@ beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
       XW_mu <- rep(0, length(XW))
     } else {
       Y_mu <- data$c_mean[1]
-      XW_mu <- data$c_mean[-1]
+      X_mu <- data$c_mean[-1]
+      XW_mu <- unlist(X_mu, W_mu)
     }
     if (data$n_W == 0) {
       # All BG variables are continuous
