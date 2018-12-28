@@ -40,7 +40,7 @@ beta_gen <- function(data, MC = FALSE, replications = 100, analytical = TRUE) {
   } else {
     Y_mu <- data$c_mean[1]
     X_mu <- data$c_mean[-1]
-    W_mu <- sapply(data$cat_prop_W_p, function(x) 1 - x[1])
+    W_mu <- sapply(data$cat_prop_W_p, function(x) x[-1])
     XW_mu <- unlist(c(X_mu, W_mu))
   }
   if (analytical) {
