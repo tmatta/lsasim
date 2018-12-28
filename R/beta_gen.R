@@ -52,7 +52,7 @@ beta_gen <- function(data, MC = FALSE, replications = 100, analytical = TRUE) {
     # Calculating regression parameters -----------------------------------
     beta_hat <- solve(vcov_XW, cov_YXW) # no intercept
     intercept <- Y_mu - crossprod(beta_hat, XW_mu)
-    output <- c(intercept, beta_hat)
+    output <- c("(Intercept)" = intercept, beta_hat)
   } else {
     output <- NA
   }
