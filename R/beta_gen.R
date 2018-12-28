@@ -48,25 +48,17 @@ beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
     } else {
       Y_mu <- data$c_mean[1]
       X_mu <- data$c_mean[-1]
-      W_mu <- sapply(data$cat_prop_W_p, function(x) x[1])
+      W_mu <- sapply(data$cat_prop_W_p, function(x) 1 - x[1])
       XW_mu <- unlist(c(X_mu, W_mu))
     }
 
     # Retrieving covariance matrix ----------------------------------------
-    if (data$n_W == 0) {
-      # All BG variables are continuous (all X, no W)
-      vcov <- data$cov_matrix
-      vcov_XW <- vcov[-1, -1]
-      cov_YXW <- vcov[-1, 1, drop = FALSE]  # !drop keeps class as "matrix"
-    } else {
-      model_mx <- model.matrix(theta ~ ., data = YXW)
-      cov_YXW <- cov(model_mx, YXW$theta)[-1]
-      vcov_XW <- cov(model_mx)[-1, -1]
-    }
+    model_mx <- model.matrix(theta ~ ., data = YXW)
+    cov_YXW <- cov(model_mx, YXW$theta)[-1]
+    vcov_XW <- cov(model_mx)[-1, -1]
   }
   if (analytical) {
     beta_hat <- solve(vcov_XW, cov_YXW) # no intercept
-    calc_intercept <- function(Y, X, b, pr1) return(Y - crossprod(b, X))
     intercept <- Y_mu - crossprod(beta_hat, XW_mu)
     output <- c(intercept, beta_hat)
   } else {
