@@ -224,6 +224,14 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   if (!is.null(cor_matrix)) dimnames(cor_matrix) <- list(label_YXW, label_YXW)
   if (!is.null(cov_matrix)) dimnames(cov_matrix) <- list(label_YXW, label_YXW)
 
+
+  # Calculating regression coefficients -----------------------------------
+  if (theta) {
+    betas <- beta_gen(list(bg = bg, c_mean = c_mean,
+                           cat_prop_W_p = cat_prop_W_p, theta = theta))
+  }
+
+
   if (full_output) {
     out <- mget(ls())
   } else {
