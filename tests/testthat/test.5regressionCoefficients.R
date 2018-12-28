@@ -17,7 +17,7 @@ df_2X2W2Z <- q_gen_wrap(2, list(2, 2, 3, 4))
 calcPctIn <- function(data) {
   estimates <- replicate(n    = 10,
                          expr = suppressMessages(beta_gen(data, MC = TRUE,
-                                                          replications = 100,
+                                                          replications = 30,
                                                           analytical = TRUE)))
   pct_coverage <- estimates[, "cov_in_CI", ]
   avg_coverage <- apply(pct_coverage, 1, mean)
