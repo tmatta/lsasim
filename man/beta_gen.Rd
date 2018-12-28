@@ -4,14 +4,11 @@
 \alias{beta_gen}
 \title{Generate analytical parameters}
 \usage{
-beta_gen(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
-  replications = 100, analytical = TRUE)
+beta_gen(data, MC = FALSE, replications = 100, analytical = TRUE)
 }
 \arguments{
 \item{data}{output from the \code{questionnaire_gen} function for
 \code{full_output = TRUE}}
-
-\item{vcov_yfz}{covariance matrix between Y, F and Z}
 
 \item{MC}{if \code{TRUE}, perform Monte Carlo simulation to estimate
 regression coefficients}
