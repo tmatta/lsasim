@@ -40,36 +40,34 @@ beta_gen <- function(data, vcov_yfz, Phi, wcol_Phi, prop_groups_1, MC = FALSE,
     YXW <- data$bg[-1]  # remove "subject"
     XW <- YXW[-1]  # remove "theta" (and "subject", from before)
 
+
+    # Checking for means --------------------------------------------------
     if (is.null(data$c_mean)) {
       Y_mu <- 0
       XW_mu <- rep(0, length(XW))
     } else {
       Y_mu <- data$c_mean[1]
       X_mu <- data$c_mean[-1]
-      XW_mu <- unlist(X_mu, W_mu)
+      W_mu <- sapply(data$cat_prop_W_p, function(x) x[1])
+      XW_mu <- unlist(c(X_mu, W_mu))
     }
+
+    # Retrieving covariance matrix ----------------------------------------
     if (data$n_W == 0) {
-      # All BG variables are continuous
+      # All BG variables are continuous (all X, no W)
       vcov <- data$cov_matrix
-      calc_intercept <- function(Y, X, b, pr1) return(Y - crossprod(b, X))
-    } else if (all(data$n_cats == 2)) {
-      # n_W > 0, but all Ws are binary. The W variables will be dummy-coded.
-      # vcov doesn't change because the base categories will be dropped anyway.
-      vcov <- data$cov_matrix
-      # calc_intercept <- function(Y, X, b, pr1) return(Y - crossprod(b, pr1))
-      calc_intercept <- function(Y, X, b, pr1) return(Y - (b %*% (1 - pr1)))
-      # TODO: integrate both definitions of the function
+      vcov_XW <- vcov[-1, -1]
+      cov_YXW <- vcov[-1, 1, drop = FALSE]  # !drop keeps class as "matrix"
     } else {
-      # Most complex case: n_W > 0 and n_W is polytomous
-      message("Analytical solution for polytomous variables not yet implemented")
+      model_mx <- model.matrix(theta ~ ., data = YXW)
+      cov_YXW <- cov(model_mx, YXW$theta)[-1]
+      vcov_XW <- cov(model_mx)[-1, -1]
     }
-    prop_groups_1 <- sapply(data$cat_prop, function(x) x[1])[-1]  # -theta
   }
   if (analytical) {
-    vcov_XW <- vcov[-1, -1]
-    cov_YXW <- vcov[-1, 1, drop = FALSE]  # drop = FALSE keeps class as "matrix"
     beta_hat <- solve(vcov_XW, cov_YXW) # no intercept
-    intercept <- calc_intercept(Y_mu, XW_mu, beta_hat, prop_groups_1)
+    calc_intercept <- function(Y, X, b, pr1) return(Y - crossprod(b, X))
+    intercept <- Y_mu - crossprod(beta_hat, XW_mu)
     output <- c(intercept, beta_hat)
   } else {
     output <- NA
