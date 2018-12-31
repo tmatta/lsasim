@@ -222,10 +222,9 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
 
 
   # Calculating regression coefficients -----------------------------------
-  if (theta) {
-    # TODO: first, fix 1-category W due to small sample
-    # betas <- beta_gen(list(bg = bg, c_mean = c_mean,
-    #                        cat_prop_W_p = cat_prop_W_p, theta = theta))
+  if (theta & !is.null(family)) {
+    betas <- beta_gen(list(bg = bg, c_mean = c_mean,
+                           cat_prop_W_p = cat_prop_W_p, theta = theta))
   }
 
 
