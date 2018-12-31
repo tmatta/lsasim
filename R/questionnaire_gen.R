@@ -207,10 +207,6 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   # Generating background data --------------------------------------------
   if (is.null(family)) {
     message("Generating background data from correlation matrix")
-    if (!is.null(family)) {
-      message(family, "-distributed data currently not available",
-              " for polytomous categorical variables")
-    }
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix,
                                        c_mean, c_sd, theta)
   } else {
