@@ -209,6 +209,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     message("Generating background data from correlation matrix")
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix,
                                        c_mean, c_sd, theta)
+    # TODO: fix bug where unique obs for W -> "Factor w/ 1 level"
   } else {
     message("Generating ", family, "-distributed background data")
     bg <- questionnaire_gen_family(n_obs, cat_prop, cov_matrix,
