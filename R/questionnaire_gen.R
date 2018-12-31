@@ -188,7 +188,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   n_X <- length(cat_prop[lapply(cat_prop, length) == 1]) - theta
   n_W <- length(cat_prop[lapply(cat_prop, length) > 1])
 
-  # Streching c_mean and c_sd if necessary
+  # Creating or, if necessary, stretching c_mean and c_sd
   if (n_X + theta > length(c_mean)) {
     if (is.null(c_mean)) {
       c_mean <- rep(0, n_X + theta)
