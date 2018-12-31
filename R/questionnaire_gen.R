@@ -178,7 +178,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
       var_W <- lapply(seq(var_W), function(x) var_W[[x]][1])
     }
     sd_YXW <- sqrt(c(var_YX, unlist(var_W)))
-    cov_matrix <- sweep(sweep(cor_matrix, 1L, sd_YXW, "*"), 2, sd_YXW, "*")
+    cov_matrix <- cor_matrix * (sd_YXW %*% t(sd_YXW))
   }
   if (is.null(cor_matrix)) {
     cor_matrix <- cov2cor(cov_matrix)
