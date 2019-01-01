@@ -231,7 +231,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
 
   if (full_output) {
     # suppressed objects from output
-    rm(cat_prop_W, cat_prop_YX, full_output, label_YXW, n_tot)
+    rm(cat_prop_W, cat_prop_YX, full_output, label_YXW)
     out <- mget(ls())  # TODO: reorder output?
   } else {
     out <- bg
