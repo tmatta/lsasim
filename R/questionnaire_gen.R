@@ -148,6 +148,10 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     cat_prop <- c(1, cat_prop)
   }
 
+  cat_prop_YX <- cat_prop[lapply(cat_prop, length) == 1]
+  cat_prop_W <- cat_prop[lapply(cat_prop, length) > 1]
+  cat_prop_W_p <- lapply(cat_prop_W, function(x) c(x[1], diff(x)))
+
   if (is.null(cov_matrix)) {
     # TODO: check if this could always be cor_gen(length(cat_prop))
     if (is.null(cor_matrix)) {
@@ -157,10 +161,6 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
         cor_matrix <- cor_gen(length(cat_prop))
       }
     }
-    # TODO: generalize for poly W
-    cat_prop_YX <- cat_prop[lapply(cat_prop, length) == 1]
-    cat_prop_W <- cat_prop[lapply(cat_prop, length) > 1]
-    cat_prop_W_p <- lapply(cat_prop_W, function(x) c(x[1], diff(x)))
     var_W <- lapply(seq(cat_prop_W_p),
                     function(x) cat_prop_W_p[[x]] * (1 - cat_prop_W_p[[x]]))
     if (is.null(c_sd) & length(cat_prop_YX)) {
