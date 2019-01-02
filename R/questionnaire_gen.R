@@ -127,7 +127,6 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
       n_X <- n_tot["n_X"]
       n_W <- n_tot["n_W"]
       cat_prop <- gen_cat_prop(n_X, n_W, n_cats)
-      if (any(n_cats > 2) & !is.null(family)) cat_prop <- split_cat_prop(cat_prop)
       n_vars <- n_X + n_W + theta
     } else {
       # n_vars is absent, cat_prop is present
