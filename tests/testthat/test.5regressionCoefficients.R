@@ -40,6 +40,7 @@ test_that("1 polynomial Z", expect_gte(min(pct_df_1W), 0.9))
 test_that("1 X and 1 W", expect_gte(min(pct_df_2W), 0.9))
 test_that("2 X, 2 W, 2 Z", expect_gte(min(pct_df_2W), 0.9))
 
+# Testing for correspondence between correlation and family-gen data ------
 context("Betas behave equally for correlation and gaussian data")
 cov_mx <- matrix(c(1, .5, .25, .5, 1, .25, .25, .25, .25), 3)
 

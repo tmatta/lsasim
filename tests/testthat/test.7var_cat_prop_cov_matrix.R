@@ -1,4 +1,4 @@
-context("Proper correspondence between variances in cat_prop and cov_matrix")
+context("Proper correspondence between cat_prop and cov_matrix")
 
 # Binomial W --------------------------------------------------------------
 cat1prop <- runif(2)
