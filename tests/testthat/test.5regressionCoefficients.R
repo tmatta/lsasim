@@ -39,3 +39,16 @@ test_that("2 binomial W", expect_gte(min(pct_df_2W), 0.9))
 test_that("1 polynomial Z", expect_gte(min(pct_df_1W), 0.9))
 test_that("1 X and 1 W", expect_gte(min(pct_df_2W), 0.9))
 test_that("2 X, 2 W, 2 Z", expect_gte(min(pct_df_2W), 0.9))
+
+context("Betas behave equally for correlation and gaussian data")
+cov_mx <- matrix(c(1, .5, .25, .5, 1, .25, .25, .25, .25), 3)
+
+df_cor <- questionnaire_gen(1e5, theta = TRUE, cat_prop = list(1, 1, c(.5, 1)),
+                            full_output = TRUE, cov_matrix = cov_mx)
+df_fam <- questionnaire_gen(1e5, theta = TRUE, cat_prop = list(1, 1, c(.5, 1)),
+                            full_output = TRUE, cov_matrix = cov_mx,
+                            family = "gaussian")
+beta_cor <- beta_gen(df_cor)
+beta_fam <- beta_gen(df_fam)
+
+test_that("Equivalent betas", expect_lte(max(abs(beta_cor - beta_fam)), 0.1))
