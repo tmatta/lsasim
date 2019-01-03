@@ -4,7 +4,7 @@ context("True regression coefficients are sensible")
 # Setup -------------------------------------------------------------------
 rm(list = ls())
 set.seed(2)
-n <- 1e4
+n <- 1e5
 
 mu_x <- 0
 var_x <- 1
@@ -18,7 +18,7 @@ cum_prob <- c(.2, 1)
 mu_z <- diff(cum_prob)
 var_z <- sapply(mu_z, function(x) x * (1 - x))
 
-cov_xy <- 0.4
+cov_xy <- 0.3
 
 # Generating data ---------------------------------------------------------
 vcov_xy <- matrix(c(var_x, cov_xy, cov_xy, var_y), 2)
@@ -27,8 +27,8 @@ xy <- setNames(data.frame(mvtnorm::rmvnorm(n, mean = c(mu_x, mu_y), sigma = vcov
 q_y_cum <- c(-Inf, qnorm(p = cum_prob, mean = mu_y, sd = sd_y))
 q_y_abs <- qnorm(p = mu_z, mean = mu_y, sd = sd_y)
 xyz <- data.frame(xy, z = cut(xy$y, q_y_cum, labels = 0:1))
-print(summary(xyz))
-reg_xyz <- lm(x ~ y + z, xyz)
+
+reg_xz <- lm(x ~ z, xyz)
 
 # Calculating vcov_xyz -----------------------------------------------------
 
@@ -54,18 +54,20 @@ cov_xz <- mu_x_given_y * mu_z - mu_x * mu_z
 vcov_xyz <- matrix(c(var_x, cov_xy, cov_xz,
                      cov_xy, var_y, cov_yz,
                      cov_xz, cov_yz, var_z), 3)
+vcov_xz <- vcov_xyz[-2, -2]
+
 cat("\nTrue covariance Matrix\n")
 print(vcov_xyz)
 
 # Checking regression coefficients ----------------------------------------
-beta_xyz <- solve(vcov_xyz[-1, -1]) %*% vcov_xyz[1, -1]
-alpha_xyz <- mu_x - crossprod(beta_xyz, c(mu_y, mu_z))
+beta_xz <- solve(vcov_xz[-1, -1], vcov_xz[1, -1])
+alpha_xz <- mu_x - crossprod(beta_xz, mu_z)
 
 cat("\nObserved and expected regression coefficients\n")
-print(rbind(obs = coef(reg_xyz), exp = c(alpha_xyz, beta_xyz)))
+print(rbind(obs = coef(reg_xz), exp = c(alpha_xz, beta_xz)))
 
 cat("\nDifferences:\n")
-diff <- coef(reg_xyz) - c(alpha_xyz, beta_xyz)
+diff <- coef(reg_xz) - c(alpha_xz, beta_xz)
 print(diff)
 
 test_that("Numerical and analytical solutions are close: binary W", {
