@@ -40,18 +40,51 @@ beta_gen <- function(data, MC = FALSE, replications = 100, analytical = TRUE) {
   } else {
     Y_mu <- data$c_mean[1]
     X_mu <- data$c_mean[-1]
-    W_mu <- sapply(data$cat_prop_W_p, function(x) x[-1])
+    # Z_mu <- W_mu <- sapply(data$cat_prop_W_p, function(x) x[-1])
+    Z_mu <- W_mu <- data$cat_prop_W_p
     XW_mu <- unlist(c(X_mu, W_mu))
+
+    Y_var <- data$c_sd[1] ^ 2
+    W_var <- sapply(W_mu, function(p) p * (1 - p))
+    Z_sd <- W_sd <- sqrt(W_var)
+    cov_YZ <- data$cov_matrix[1, 2]
   }
   if (analytical) {
-    # Retrieving covariance matrix ----------------------------------------
-    model_mx <- model.matrix(theta ~ ., data = YXW)
-    cov_YXW <- cov(model_mx, YXW$theta)[-1]
-    vcov_XW <- cov(model_mx)[-1, -1]
+    # Assembling covariance matrix YXW (provided was XYZ, actually) -------
+    # REMEMBER CONVERSION: (test code -> production):
+    # X -> Y
+    # Y -> Z (normal version of W)
+    # Z -> W (categorical version of Z)
+    q_Z <- qnorm(c(0, data$cat_prop_W[[1]]), W_mu[[1]][1], W_sd[1])
+    exp_Y_Z <- function(a, b, muY, muZ, sdZ, covYZ) {
+      # Calculates E(YZ | a < Z < b)
+      z_a <- (a - muZ) / sdZ
+      z_b <- (b - muZ) / sdZ
+      ratio <- (dnorm(z_a) - dnorm(z_b)) / (pnorm(z_b) - pnorm(z_a))
+      return(muY + (covYZ / sdZ) * ratio)
+    }
+    exp_YW <- 0
+    for (i in seq_along(W_mu[[1]])) {
+      # TODO: generalize from [[1]] to as many W as there are
+      exp_YW[i] <- W_mu[[1]][i] * exp_Y_Z(q_Z[i], q_Z[i + 1],
+                                          Y_mu, Z_mu[[1]][1], Z_sd[1], cov_YZ)
+    }
+    cov_YW <- exp_YW - Y_mu * W_mu[[1]]
+
+    # Covariance matrix of the categories of Z
+    vcov_W <- tcrossprod(W_mu[[1]], -W_mu[[1]])
+    diag(vcov_W) <- W_var
+
+    # Final assembly of true covariance matrix
+    vcov_YW <- matrix(nrow = length(W_mu[[1]]) + 1, ncol = length(W_mu[[1]]) + 1)
+    vcov_YW[1, ] <- vcov_YW[, 1] <- c(Y_var, cov_YW)
+    vcov_YW[-1, -1] <- vcov_W
+    vcov_YW <- vcov_YW[-2, -2]  # remove category one to avoid collinearity
+    #TODO: expand 1 line above to multiple W
 
     # Calculating regression parameters -----------------------------------
-    beta_hat <- solve(vcov_XW, cov_YXW) # no intercept
-    intercept <- Y_mu - crossprod(beta_hat, XW_mu)
+    beta_hat <- solve(vcov_YW[-1, -1], vcov_YW[1, -1])
+    intercept <- Y_mu - crossprod(beta_hat, W_mu[[1]][-1])
     output <- c("(Intercept)" = intercept, beta_hat)
   } else {
     output <- NA
