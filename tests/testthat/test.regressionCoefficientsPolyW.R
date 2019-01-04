@@ -45,7 +45,6 @@ exp_xz <- 0
 for (i in seq_along(mu_z)) {
   exp_xz[i] <- mu_z[i] * exp_x_y_grls(q_y_cum[i], q_y_cum[i + 1], mu_x, mu_y, sd_y, cov_xy)
 }
-# exp_xz <- sum(exp_xz)
 
 cov_xz <- exp_xz - mu_x * mu_z
 
@@ -63,12 +62,7 @@ vcov_xz <- vcov_xz[-2, -2]  # remove category one to avoid collinearity
 beta_xz <- solve(vcov_xz[-1, -1], vcov_xz[1, -1])
 alpha_xz <- mu_x - crossprod(beta_xz, mu_z[-1])
 
-cat("\nObserved and expected regression coefficients\n")
-print(rbind(obs = coef(reg_xz), exp = c(alpha_xz, beta_xz)))
-
-cat("\nDifferences:\n")
 diff <- coef(reg_xz) - c(alpha_xz, beta_xz)
-print(diff)
 
 test_that("Numerical and analytical solutions are close: polynomial W", {
   expect_lte(max(diff), 0.02)

@@ -59,12 +59,7 @@ vcov_xz <- vcov_xyz[-2, -2]
 beta_xz <- solve(vcov_xz[-1, -1], vcov_xz[1, -1])
 alpha_xz <- mu_x - crossprod(beta_xz, mu_z)
 
-cat("\nObserved and expected regression coefficients\n")
-print(rbind(obs = coef(reg_xz), exp = c(alpha_xz, beta_xz)))
-
-cat("\nDifferences:\n")
 diff <- coef(reg_xz) - c(alpha_xz, beta_xz)
-print(diff)
 
 test_that("Numerical and analytical solutions are close: binary W", {
   expect_lte(max(diff), 0.02)
