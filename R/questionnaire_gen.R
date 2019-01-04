@@ -221,20 +221,18 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   if (!is.null(cov_matrix)) dimnames(cov_matrix) <- list(label_YXW, label_YXW)
 
 
-  # Calculating regression coefficients -----------------------------------
-  if (theta & !is.null(family)) {
-    betas <- beta_gen(list(bg = bg, c_mean = c_mean,
-                           cat_prop_W_p = cat_prop_W_p, theta = theta))
-  }
-
-
   if (full_output) {
     # suppressed objects from output
-    rm(cat_prop_W, cat_prop_YX, full_output, label_YXW)
+    rm(cat_prop_YX, full_output, label_YXW)
     out <- mget(ls())  # TODO: reorder output?
   } else {
     out <- bg
   }
 
-  return(out)
+  # Calculating regression coefficients -----------------------------------
+  if (theta & !is.null(family)) {
+    betas <- beta_gen(out)
+  }
+
+  return(c(out, reg_coef = list(betas)))
 }
