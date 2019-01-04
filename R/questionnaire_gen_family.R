@@ -75,7 +75,12 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
     cut_points <- c(-Inf, qnorm(p    = cat_prop_W[[w_num]],
                                 mean = mean_w[w_num],
                                 sd   = sqrt(var_w[[w_num]][1])))
-    labels <- seq(cat_prop[[w]])
+    # if W is dichotomous, labels are 0:1; else, labels start at 1.
+    if (length(cat_prop[[w]]) == 2) {
+      labels <- 0:1
+    } else {
+      labels <- seq(cat_prop[[w]])
+    }
     z_name <- gsub("w", "z", w)
     bg_data[substitute(z_name)] <- cut(bg_data[, w], cut_points, labels)
     bg_data[w] <- NULL
