@@ -3,7 +3,6 @@ context("True regression coefficients are sensible")
 
 # Setup -------------------------------------------------------------------
 rm(list = ls())
-set.seed(2)
 n <- 1e5
 
 mu_x <- 0
@@ -50,14 +49,11 @@ mu_x_given_y <- mu_x + (cov_xy / sd_y) * inv_mills_ratio # multivariate normal
 cov_yz <- mu_y_given_y * mu_z - mu_y * mu_z
 cov_xz <- mu_x_given_y * mu_z - mu_x * mu_z
 
-# Final assembly
+# Final assembly of true covariance matrix
 vcov_xyz <- matrix(c(var_x, cov_xy, cov_xz,
                      cov_xy, var_y, cov_yz,
                      cov_xz, cov_yz, var_z), 3)
 vcov_xz <- vcov_xyz[-2, -2]
-
-cat("\nTrue covariance Matrix\n")
-print(vcov_xyz)
 
 # Checking regression coefficients ----------------------------------------
 beta_xz <- solve(vcov_xz[-1, -1], vcov_xz[1, -1])
@@ -71,5 +67,5 @@ diff <- coef(reg_xz) - c(alpha_xz, beta_xz)
 print(diff)
 
 test_that("Numerical and analytical solutions are close: binary W", {
-  expect_lte(max(diff), 0.01)
+  expect_lte(max(diff), 0.02)
 })
