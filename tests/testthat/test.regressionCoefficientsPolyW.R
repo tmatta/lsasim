@@ -10,16 +10,18 @@ mu_x <- 0
 var_x <- 1
 sd_x <- sqrt(var_x)
 
-mu_y <- .2
-var_y <- .16
-sd_y <- sqrt(var_y)
-
-cum_prob <- c(0, .1, .3, .6, 1)
-# cum_prob <- c(0, .3, .7, 1)
+# cum_prob <- c(0, .1, .3, .6, 1)
+cum_prob <- c(0, .3, .7, 1)
 # cum_prob <- c(0, .4, 1)
 mu_z <- diff(cum_prob)
 var_z <- sapply(mu_z, function(z) z * (1 - z))
-sd_z <- sqrt(var_z)
+
+# mu_y <- cum_prob[2]
+# var_y <- mu_y * (1 - mu_y)
+mu_y <- 0
+var_y <- 1
+sd_y <- sqrt(var_y)
+
 
 cov_xy <- 0.3
 
@@ -33,8 +35,6 @@ xyz <- data.frame(xy, z = cut(xy$y, q_y_cum, labels = 1:length(mu_z)))
 reg_xz <- lm(x ~ z, xyz)
 
 # Calculating vcov_xyz -----------------------------------------------------
-stnorm_y <- (q_y_cum - mu_y) / sd_y  # not used
-
 exp_x_y_grls <- function(a, b, mu_x, mu_y, sd_y, cov) {
   z_a <- (a - mu_y) / sd_y
   z_b <- (b - mu_y) / sd_y
@@ -63,7 +63,9 @@ beta_xz <- solve(vcov_xz[-1, -1], vcov_xz[1, -1])
 alpha_xz <- mu_x - crossprod(beta_xz, mu_z[-1])
 
 diff <- coef(reg_xz) - c(alpha_xz, beta_xz)
+print(rbind(reg = coef(reg_xz), cov = c(alpha_xz, beta_xz)))
+# print(diff)
 
 test_that("Numerical and analytical solutions are close: polynomial W", {
-  expect_lte(max(diff), 0.02)
+  expect_lte(max(diff), 0.1)
 })
