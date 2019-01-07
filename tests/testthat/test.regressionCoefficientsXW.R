@@ -131,14 +131,19 @@ cov_reg_yw <- calcRegCoeff(vcov_yw, mu_yxz$y, mu_w_minus_1)
 
 
 # Benchmarking regression coefficients ------------------------------------
-print(rbind(reg = coef(reg_yxw1), cov = cov_reg_yxw1))
-print(rbind(reg = coef(reg_yw), cov = cov_reg_yw))
-print(rbind(reg = coef(reg_yx1w), cov = cov_reg_yx1w))
-print(rbind(reg = coef(reg_yxw), cov = cov_reg_yxw))
+# print(rbind(reg = coef(reg_yxw1), cov = cov_reg_yxw1))
+# print(rbind(reg = coef(reg_yw), cov = cov_reg_yw))
+# print(rbind(reg = coef(reg_yx1w), cov = cov_reg_yx1w))
+# print(rbind(reg = coef(reg_yxw), cov = cov_reg_yxw))
 
-# diff <- coef(reg_yxw) - c(alpha_yxw, beta_yxw)
-# print(diff)
+diff_yxw1 <- coef(reg_yxw1) - cov_reg_yxw1
+diff_yw   <- coef(reg_yw) - cov_reg_yw
+diff_yx1w <- coef(reg_yx1w) - cov_reg_yx1w
+diff_yxw  <- coef(reg_yxw) - cov_reg_yxw
 
-# test_that("Numerical and analytical solutions are close: complete case", {
-#   expect_lte(max(diff), 0.1)
-# })
+test_that("Numerical and analytical solutions are close", {
+  expect_lte(max(diff_yxw1), 0.1)
+  expect_lte(max(diff_yw), 0.1)
+  expect_lte(max(diff_yx1w), 0.1)
+  expect_lte(max(diff_yxw), 0.1)
+})

@@ -63,8 +63,6 @@ beta_xz <- solve(vcov_xz[-1, -1], vcov_xz[1, -1])
 alpha_xz <- mu_x - crossprod(beta_xz, mu_z[-1])
 
 diff <- coef(reg_xz) - c(alpha_xz, beta_xz)
-print(rbind(reg = coef(reg_xz), cov = c(alpha_xz, beta_xz)))
-# print(diff)
 
 test_that("Numerical and analytical solutions are close: polynomial W", {
   expect_lte(max(diff), 0.1)
