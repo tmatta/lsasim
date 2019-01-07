@@ -6,7 +6,7 @@ library(mvtnorm)
 rm(list = ls())
 n <- 1e5
 
-mu_yxz  <- list(y = 0, x1 = 0, x2 = 0, z1 = 0, z2 = 0)
+mu_yxz  <- list(y = 0, x1 = 1, x2 = 1, z1 = 0, z2 = 0)
 var_yxz <- list(y = 1, x1 = 1, x2 = 1, z1 = 1, z2 = 1)
 sd_yxz  <- lapply(var_yxz, sqrt)
 num_yx <- 3
@@ -50,12 +50,13 @@ exp_X_given_Y <- function(lo_lim, up_lim, mu_X = 0, cov_XY = .5, mu_Y = 0, sd_Y 
   return(mu_X + (cov_XY / sd_Y) * (dnorm(a) - dnorm(b)) / (pnorm(b) - pnorm(a)))
 }
 
+# Calculates E(XW) or E(YW) for covariance later on
 exp_yw <- list()
 for (w in names_w) {
   exp_yw[[w]] <- vector()
   for (i in seq_along(mu_w[[w]])) {
-    exp_yw[[w]][i] <- mu_w[[w]][i] * exp_X_given_Y(q_z[[w]][i], q_z[[w]][i + 1],
-                                                   mu_yxz$y, cov_zz)
+    exp_yw[[w]][i] <- mu_w[[w]][i] *
+      exp_X_given_Y(q_z[[w]][i], q_z[[w]][i + 1], mu_yxz$y, cov_yz)
   }
 }
 
@@ -63,14 +64,15 @@ exp_xw <- list()
 for (w in names_w) {
   exp_xw[[w]] <- vector()
   for (i in seq_along(mu_w[[w]])) {
-    exp_xw[[w]][i] <- mu_w[[w]][i] * exp_X_given_Y(q_z[[w]][i], q_z[[w]][i + 1],
-                                                   mu_yxz$x1, cov_zz)
+    exp_xw[[w]][i] <- mu_w[[w]][i] *
+      exp_X_given_Y(q_z[[w]][i], q_z[[w]][i + 1], mu_yxz$x1, cov_xz)
   }
 }
 
 # [-1] below removes first category
-cov_xw <- sapply(names_w, function(w) (exp_yw[[w]] - mu_yxz$y * mu_w[[w]])[-1])
-cov_yw <- sapply(names_w, function(w) (exp_xw[[w]] - mu_yxz$x1 * mu_w[[w]])[-1])
+# From Cov(X, W) = E(XW) - E(X)E(W)
+cov_yw <- sapply(names_w, function(w) (exp_yw[[w]] - mu_yxz$y * mu_w[[w]])[-1])
+cov_xw <- sapply(names_w, function(w) (exp_xw[[w]] - mu_yxz$x1 * mu_w[[w]])[-1])
 
 # Covariance matrix of the categories of W
 create_vcov_w <- function(mu, var, remove_ref_cat = TRUE) {
@@ -94,30 +96,20 @@ vcov_yxw[1, ] <- vcov_yxw[, 1] <- c(var_yxz$y, cov_yx, cov_yx, unlist(cov_yw))
 vcov_yxw[1:num_yx, 1:num_yx] <- vcov_yxz[-cols_z, -cols_z]
 
 # Adding Cov(X, W)
-vcov_yxw[c("x1", "x2"), c("w1", "w21", "w22")] <-
-  vcov_yxw[c("w1", "w21", "w22"), c("x1", "x2")] <- unlist(cov_xw)
+vcov_yxw["x1", c("w1", "w21", "w22")] <- vcov_yxw[c("w1", "w21", "w22"), "x1"] <- unlist(cov_xw)
+vcov_yxw["x2", c("w1", "w21", "w22")] <- vcov_yxw[c("w1", "w21", "w22"), "x2"] <- unlist(cov_xw)
 
 # Adding Cov(W, W) for the same Z
 vcov_yxw[4, 4] <- vcov_w$w1 #TODO: generalize for any number and size of W
 vcov_yxw[5:6, 5:6] <- vcov_w$w2 #TODO: generalize for any number and size of W
 
 # Adding Cov(W, W) for different Zs
-
-# temp_table_w <- table(yxzw$w1, yxzw$w2)
-# temp_exp_w <- prop.table(temp_table_w)
-# dimnames(temp_exp_w) <- list(c("w10", "w11"), c("w20", "w21", "w22"))
-# temp_exp_w <- temp_exp_w[-1, -1, drop = FALSE]  # removing first categories
-# temp_cov_w <- vector()
-# temp_cov_w[1] <- temp_exp_w[1] - prod(mu_w_minus_1[c(1, 2)])
-# temp_cov_w[2] <- temp_exp_w[2] - prod(mu_w_minus_1[c(1, 3)])
-#
-# vcov_yxw["w1", c("w21", "w22")] <- vcov_yxw[c("w21", "w22"), "w1"] <- temp_cov_w
 calc_p_mvn_trunc <- function(lo, up, sig, mu = c(0, 0)) {
   pmvnorm(lo, up, mu, sig)[1] / (pnorm(up[2]) - pnorm(lo[2]))
 }
 vcov_yxw["w1", c("w21", "w22")] <- vcov_yxw[c("w21", "w22"), "w1"] <-
-  c(calc_p_mvn_trunc(c(q_z$w1[2], q_z$w2[2]), c(q_z$w1[3], q_z$w2[3]), sig = matrix(c(1, .5, .5, 1), 2)) * .5 - .9 * .5,
-    calc_p_mvn_trunc(c(q_z$w1[2], q_z$w2[3]), c(q_z$w1[3], q_z$w2[4]), sig = matrix(c(1, .5, .5, 1), 2)) * .2 - .9 * .2)
+  c(calc_p_mvn_trunc(c(q_z$w1[2], q_z$w2[2]), c(q_z$w1[3], q_z$w2[3]), sig = matrix(c(1, cov_zz, cov_zz, 1), 2)) * .5 - .9 * .5,
+    calc_p_mvn_trunc(c(q_z$w1[2], q_z$w2[3]), c(q_z$w1[3], q_z$w2[4]), sig = matrix(c(1, cov_zz, cov_zz, 1), 2)) * .2 - .9 * .2)
 
 # Creating submatrices
 vcov_yw1 <- vcov_yxw[c("y", "w1"), c("y", "w1")]
