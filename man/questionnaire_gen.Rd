@@ -18,8 +18,8 @@ corresponds to the \code{theta}.}
 
 \item{cor_matrix}{latent correlation matrix. The first row/column corresponds
 to the latent trait (Y). The other rows/columns correspond to the
-continuous (X) and discrete (W) background variables, in the same order as
-\code{cat_prop}.}
+continuous (X or Z) or the discrete (W) background variables, in the same
+order as \code{cat_prop}.}
 
 \item{c_mean}{is a vector of population means for each continuous variable.}
 
@@ -39,8 +39,8 @@ background variables or a list of scalars representing the number of
 categories for each categorical variable. If not provided, a random number
 of categorical variables will be generated.}
 
-\item{family}{distribution of the background variables. Can be NULL or
-'gaussian'.}
+\item{family}{distribution of the background variables. Can be NULL (default)
+or 'gaussian'.}
 
 \item{cov_matrix}{latent covariance matrix, formatted as \code{cor_matrix}.}
 

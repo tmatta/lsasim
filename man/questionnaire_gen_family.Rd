@@ -13,7 +13,7 @@ questionnaire_gen_family(n_obs, cat_prop, cov_matrix,
 \item{cat_prop}{list of cumulative proportions for each item.}
 
 \item{cov_matrix}{covariance matrix. between the latent trait (Y) and the
-background variables (X and W).}
+background variables (X and Z).}
 
 \item{family}{distribution of the background variables. Can be NULL or
 'gaussian'.}
@@ -21,7 +21,7 @@ background variables (X and W).}
 \item{theta}{if \code{TRUE} will label the first continuous variable 'theta'.}
 
 \item{mean_yx}{vector with the means of the latent trait (Y) and the
-continuous background variables (X).}
+continuous background variables with flexible variance (X).}
 
 \item{n_cats}{vector with number of categories for each W.}
 }
