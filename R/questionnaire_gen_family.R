@@ -6,12 +6,12 @@
 #' @param n_obs number of observations to generate.
 #' @param cat_prop list of cumulative proportions for each item.
 #' @param cov_matrix covariance matrix. between the latent trait (Y) and the
-#'   background variables (X and W).
+#'   background variables (X and Z).
 #' @param family distribution of the background variables. Can be NULL or
 #'   'gaussian'.
 #' @param theta if \code{TRUE} will label the first continuous variable 'theta'.
 #' @param mean_yx vector with the means of the latent trait (Y) and the
-#'   continuous background variables (X).
+#'   continuous background variables with flexible variance (X).
 #' @param n_cats vector with number of categories for each W.
 #'
 questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
@@ -24,17 +24,17 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
     abs_prop_W <- lapply(cat_prop_W, function(x) c(x[1], diff(x)))
     if (length(cat_prop_W) > 0) {
       # TODO: generalize for poly W
-      mean_w <- sapply(cat_prop_W, function(x) x[1])
-      var_w <- lapply(abs_prop_W, function(x) x * (1 - x))
+      mean_z <- sapply(cat_prop_W, function(x) 0)
+      var_z <- lapply(abs_prop_W, function(x) 1)
     } else {
-      mean_w <- NULL
+      mean_z <- NULL
     }
     if (is.null(mean_yx) & length(cat_prop_YX)) {
       mean_yx <- rep(0, cat_prop_YX)
     }
-    mean_yxw <- c(mean_yx, mean_w)
+    mean_yxz <- c(mean_yx, mean_z)
 
-    raw_data <- mvtnorm::rmvnorm(n = n_obs, mean = mean_yxw, sigma = cov_matrix)
+    data_yxz <- mvtnorm::rmvnorm(n = n_obs, mean = mean_yxz, sigma = cov_matrix)
   } else if (family == "binomial") {
     stop("Binomial family not yet implemented.")
   } else if (family == "poisson") {
@@ -44,7 +44,7 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   }
 
   # Formatting raw data ---------------------------------------------------
-  bg_data <- data.frame(raw_data)
+  data_yxw <- data.frame(data_yxz)
   if (theta) {
     cat_prop_minus_theta <- cat_prop[-1]
   } else {
@@ -57,42 +57,41 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
     x_name <- NULL
   }
   if (any(num_categories > 1)) {
-    w_name <- paste0("w", 1:sum(num_categories > 1))
+    z_name <- paste0("z", 1:sum(num_categories > 1))
   } else {
-    w_name <- NULL
+    z_name <- NULL
   }
   if (theta) {
-    colnames(bg_data) <- c("theta", x_name, w_name)
+    colnames(data_yxw) <- c("theta", x_name, z_name)
   } else {
-    colnames(bg_data) <- c(x_name, w_name)
+    colnames(data_yxw) <- c(x_name, z_name)
   }
 
   # Categorizing W as Z ---------------------------------------------------
-  names(cat_prop) <- colnames(bg_data)
-  for (w in w_name) {
-    w_num <- match(w, w_name)
-    #TODO: probable source of unmatching cat_prop and observed propotions in output
-    cut_points <- c(-Inf, qnorm(p    = cat_prop_W[[w_num]],
-                                mean = mean_w[w_num],
-                                sd   = sqrt(var_w[[w_num]][1])))
+  names(cat_prop) <- colnames(data_yxw)
+  for (z in z_name) {
+    z_num <- match(z, z_name)
+    cut_points <- c(-Inf, qnorm(p    = cat_prop_W[[z_num]],
+                                mean = mean_z[z_num],
+                                sd   = sqrt(var_z[[z_num]][1])))
     # if W is dichotomous, labels are 0:1; else, labels start at 1.
-    if (length(cat_prop[[w]]) == 2) {
+    if (length(cat_prop[[z]]) == 2) {
       labels <- 0:1
     } else {
-      labels <- seq(cat_prop[[w]])
+      labels <- seq(cat_prop[[z]])
     }
-    z_name <- gsub("w", "z", w)
-    bg_data[substitute(z_name)] <- cut(bg_data[, w], cut_points, labels)
-    bg_data[w] <- NULL
+    w_name <- gsub("z", "w", z)
+    data_yxw[substitute(w_name)] <- cut(data_yxw[, z], cut_points, labels)
+    data_yxw[z] <- NULL
   }
 
   # Adding subject numbers to final dataset -------------------------------
   if (theta) {
-    colnames(bg_data) <- c("theta", paste0("q", 1:(ncol(bg_data) - 1)))
+    colnames(data_yxw) <- c("theta", paste0("q", 1:(ncol(data_yxw) - 1)))
   } else {
-    colnames(bg_data) <- paste0("q", seq(bg_data))
+    colnames(data_yxw) <- paste0("q", seq(data_yxw))
   }
-  discrete_df <- data.frame(subject = 1:nrow(raw_data), bg_data)
+  out <- data.frame(subject = 1:nrow(data_yxz), data_yxw)
 
-  return(discrete_df)
+  return(out)
 }

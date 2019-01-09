@@ -12,7 +12,7 @@ covYX_obs <- cov(dfX$bg$theta, dfX$bg$q1)
 corYX_exp <- dfX$cor_matrix[1, 2]
 covYX_exp <- dfX$cov_matrix[1, 2]
 
-corYW_obs <- polycor::polyserial(dfW$bg$theta, dfW$bg$q1)
+corYW_obs <- suppressWarnings(polycor::polyserial(dfW$bg$theta, dfW$bg$q1))
 covYW_obs <- corYW_obs * sqrt(dfW$var_W[[1]]) * sqrt(dfW$var_YX)
 corYW_exp <- dfW$cor_matrix[1, 2]
 covYW_exp <- dfW$cov_matrix[1, 2]
