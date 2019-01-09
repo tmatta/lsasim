@@ -10,8 +10,8 @@
 #'   corresponds to the \code{theta}.
 #' @param cor_matrix latent correlation matrix. The first row/column corresponds
 #'   to the latent trait (Y). The other rows/columns correspond to the
-#'   continuous (X) and discrete (W) background variables, in the same order as
-#'   \code{cat_prop}.
+#'   continuous (X or Z) or the discrete (W) background variables, in the same
+#'   order as \code{cat_prop}.
 #' @param cov_matrix latent covariance matrix, formatted as \code{cor_matrix}.
 #' @param c_mean is a vector of population means for each continuous variable.
 #' @param c_sd is a vector of population standard deviations for each continuous
@@ -26,8 +26,8 @@
 #'   background variables or a list of scalars representing the number of
 #'   categories for each categorical variable. If not provided, a random number
 #'   of categorical variables will be generated.
-#' @param family distribution of the background variables. Can be NULL or
-#'   'gaussian'.
+#' @param family distribution of the background variables. Can be NULL (default)
+#'   or 'gaussian'.
 #' @param n_fac number of factors (currently out of use)
 #' @param n_ind number of indicators per factor (currently out of use)
 #' @param Lambda either a matrix containing the factor loadings or a vector
@@ -153,7 +153,6 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   cat_prop_W_p <- lapply(cat_prop_W, function(x) c(x[1], diff(x)))
 
   if (is.null(cov_matrix)) {
-    # TODO: check if this could always be cor_gen(length(cat_prop))
     if (is.null(cor_matrix)) {
       if (is.null(family)) {
         cor_matrix <- cor_gen(n_vars)
@@ -169,15 +168,9 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     } else {
       var_YX <- rep(c_sd, abs(length(c_sd) - length(cat_prop_YX)) + 1)
     }
-    if (all(sapply(cat_prop_W, length) == 2)) {
-      var_W <- lapply(seq(var_W), function(x) var_W[[x]][1])
-    } else {
-      #TODO: figure out how to calculate one variance for W given many variances
-      #for Z. Create several Ws (i.e., expand cov_matrix)?
-      var_W <- lapply(seq(var_W), function(x) var_W[[x]][1])
-    }
-    sd_YXW <- sqrt(c(var_YX, unlist(var_W)))
-    cov_matrix <- cor_matrix * (sd_YXW %*% t(sd_YXW))
+    var_Z <- lapply(seq(var_W), function(x) 1)
+    sd_YXZ <- sqrt(c(var_YX, unlist(var_Z)))
+    cov_matrix <- cor_matrix * (sd_YXZ %*% t(sd_YXZ))
   }
   if (is.null(cor_matrix)) {
     cor_matrix <- cov2cor(cov_matrix)
@@ -208,31 +201,30 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     message("Generating background data from correlation matrix")
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix,
                                        c_mean, c_sd, theta)
-    # TODO: fix bug where unique obs for W -> "Factor w/ 1 level"
   } else {
     message("Generating ", family, "-distributed background data")
     bg <- questionnaire_gen_family(n_obs, cat_prop, cov_matrix,
                                    family, theta, c_mean, n_cats)
   }
-
   # Labeling the matrices
-  label_YXW <- names(bg)[-1]
-  if (!is.null(cor_matrix)) dimnames(cor_matrix) <- list(label_YXW, label_YXW)
-  if (!is.null(cov_matrix)) dimnames(cov_matrix) <- list(label_YXW, label_YXW)
+  label_YXZ <- names(bg)[-1]
+  if (!is.null(cor_matrix)) dimnames(cor_matrix) <- list(label_YXZ, label_YXZ)
+  if (!is.null(cov_matrix)) dimnames(cov_matrix) <- list(label_YXZ, label_YXZ)
 
 
   if (full_output) {
-    # suppressed objects from output
-    rm(cat_prop_YX, full_output, label_YXW)
-    out <- mget(ls())  # TODO: reorder output?
+    out <- mget(ls())
   } else {
     out <- bg
   }
 
   # Calculating regression coefficients -----------------------------------
-  if (theta & !is.null(family)) {
-    betas <- beta_gen(out)
-  }
+  # if (theta & full_output & !is.null(family)) {
+  #   betas <- beta_gen(out)
+  #   out <- c(out, reg_coef = list(betas))
+  #   # suppressed objects from output
+  #   rm(cat_prop_YX, full_output, label_YXW)
+  # }
 
-  return(c(out, reg_coef = list(betas)))
+  return(out)
 }
