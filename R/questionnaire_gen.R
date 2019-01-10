@@ -162,6 +162,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     }
     var_W <- lapply(seq(cat_prop_W_p),
                     function(x) cat_prop_W_p[[x]] * (1 - cat_prop_W_p[[x]]))
+    var_W <- lapply(seq(var_W), function(x) var_W[[x]][1])  # reduce to 1st cat
     if (is.null(c_sd) & length(cat_prop_YX)) {
       var_YX <- ifelse(is.null(c_sd), 1, c_sd ^ 2)
       var_YX <- rep(var_YX, length(cat_prop_YX))
@@ -169,8 +170,13 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
       var_YX <- rep(c_sd, abs(length(c_sd) - length(cat_prop_YX)) + 1)
     }
     var_Z <- lapply(seq(var_W), function(x) 1)
+    sd_YXW <- sqrt(c(var_YX, unlist(var_W)))
     sd_YXZ <- sqrt(c(var_YX, unlist(var_Z)))
-    cov_matrix <- cor_matrix * (sd_YXZ %*% t(sd_YXZ))
+    if (is.null(family)) {
+      cov_matrix <- cor_matrix * (sd_YXW %*% t(sd_YXW))
+    } else {
+      cov_matrix <- cor_matrix * (sd_YXZ %*% t(sd_YXZ))
+    }
   }
   if (is.null(cor_matrix)) {
     cor_matrix <- cov2cor(cov_matrix)
