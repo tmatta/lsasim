@@ -4,7 +4,7 @@ library(mvtnorm)
 
 # Setup -------------------------------------------------------------------
 rm(list = ls())
-n <- 1e5
+n <- 1e4
 
 mu_yxz  <- list(y = 0, x1 = 1, x2 = 1, z1 = 0, z2 = 0)
 var_yxz <- list(y = 1, x1 = 1, x2 = 1, z1 = 1, z2 = 1)
@@ -20,8 +20,8 @@ mu_w_minus_1 <- unlist(sapply(mu_w, function(w) w[-1]))
 var_w <- lapply(mu_w, function(p) p * (1 - p))
 sd_w <- lapply(var_w, sqrt)
 
-cov_yz <- cov_xz <- cov_yx <- cov_xx <- .5
-cov_zz <- 0.5
+cov_yz <- cov_xz <- cov_yx <- cov_xx <- .7
+cov_zz <- 0.3
 vcov_yxz <- matrix(c(1, cov_yx, cov_yx, cov_yz, cov_yz,
                      cov_yx, 1, cov_xx, cov_xz, cov_xz,
                      cov_yx, cov_xx, 1, cov_xz, cov_xz,
@@ -132,7 +132,7 @@ cov_reg_yw <- calcRegCoeff(vcov_yw, mu_yxz$y, mu_w_minus_1)
 
 # Benchmarking regression coefficients ------------------------------------
 # print(rbind(reg = coef(reg_yxw1), cov = cov_reg_yxw1))
-# print(rbind(reg = coef(reg_yw), cov = cov_reg_yw))
+print(rbind(reg = coef(reg_yw), cov = cov_reg_yw))
 # print(rbind(reg = coef(reg_yx1w), cov = cov_reg_yx1w))
 # print(rbind(reg = coef(reg_yxw), cov = cov_reg_yxw))
 
