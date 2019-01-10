@@ -27,6 +27,9 @@
 #' \donttest{beta_gen(data3, MC = TRUE)}
 beta_gen <- function(data, MC = FALSE, replications = 100, analytical = TRUE) {
   if (!data$theta) stop("Data must include theta")
+  if (class(data) != "list") {
+    stop("Data must be generated with full_output = TRUE")
+  }
 
   YXW <- data$bg[-1]  # remove "subject"
   XW <- YXW[-1]  # remove "theta" (and "subject", from before)
