@@ -15,9 +15,6 @@ regression coefficients}
 
 \item{replications}{for \code{MC = TRUE}, this represents the number of Monte
 Carlo subsamples calculated.}
-
-\item{analytical}{if \code{TRUE}, an analytical solution using the covariance
-matrix will be calculated.}
 }
 \description{
 Generate analytical parameters
