@@ -6,8 +6,6 @@
 #'   regression coefficients
 #' @param replications for \code{MC = TRUE}, this represents the number of Monte
 #'   Carlo subsamples calculated.
-#' @param analytical if \code{TRUE}, an analytical solution using the covariance
-#'   matrix will be calculated.
 #' @importFrom stats lm model.matrix quantile cov
 #' @details The covariance matrix provided must have Y in the first row/column.
 #' @export
@@ -52,47 +50,36 @@ beta_gen <- function(data, MC = FALSE, replications = 100, analytical = TRUE) {
       cov_YZ <- data$cov_matrix[1, 2]
     }
   }
-  if (analytical) {
-    if (data$n_W > 0) {
-      # Assembling covariance matrix YXW (provided was XYZ) ---------------
-      # REMEMBER CONVERSION: (test code -> production):
-      # X -> Y
-      # Y -> Z
-      # Z -> W
-      q_Z <- qnorm(c(0, data$cat_prop_W[[1]]), Z_mu[[1]][1], Z_sd[1])
-      exp_Y_Z <- function(a, b, muY, muZ, sdZ, covYZ) {
-        # Calculates E(YZ | a < Z < b)
-        z_a <- (a - muZ) / sdZ
-        z_b <- (b - muZ) / sdZ
-        ratio <- (dnorm(z_a) - dnorm(z_b)) / (pnorm(z_b) - pnorm(z_a))
-        return(muY + (covYZ / sdZ) * ratio)
-      }
-      exp_YW <- 0
-      for (i in seq_along(W_mu[[1]])) {
-        # TODO: generalize from [[1]] to as many W as there are
-        exp_YW[i] <- W_mu[[1]][i] * exp_Y_Z(q_Z[i], q_Z[i + 1],
-                                            Y_mu, Z_mu[[1]][1], Z_sd[1], cov_YZ)
-      }
-      cov_YW <- exp_YW - Y_mu * W_mu[[1]]
-
-      # Covariance matrix of the categories of Z
-      vcov_W <- tcrossprod(W_mu[[1]], -W_mu[[1]])
-      diag(vcov_W) <- W_var
+  if (data$n_W > 0) {
+    # Assembling covariance matrix YXW (provided was XYZ) ---------------
+    # REMEMBER CONVERSION: (test code -> production):
+    # X -> Y
+    # Y -> Z
+    # Z -> W
+    q_Z <- lapply(data$cat_prop_W, function(w) qnorm(c(0, w), 0, 1))
+    exp_YW <- 0
+    for (i in seq_along(W_mu[[1]])) {
+      # TODO: generalize from [[1]] to as many W as there are
+      exp_YW[i] <- W_mu[[1]][i] * exp_A_given_B(q_Z[i], q_Z[i + 1],
+                                                Y_mu, 0, 1, cov_YZ)
     }
+    cov_YW <- exp_YW - Y_mu * W_mu[[1]]
 
-    # Final assembly of true covariance matrix
-    vcov_YW <- matrix(nrow = length(W_mu[[1]]) + 1, ncol = length(W_mu[[1]]) + 1)
-    vcov_YW[1, ] <- vcov_YW[, 1] <- c(Y_var, cov_YW)
-    vcov_YW[-1, -1] <- vcov_W
-    vcov_YW <- vcov_YW[-2, -2]  # remove category one to avoid collinearity
-
-    # Calculating regression parameters -----------------------------------
-    beta_hat <- solve(vcov_YW[-1, -1], vcov_YW[1, -1])
-    intercept <- Y_mu - crossprod(beta_hat, W_mu[[1]][-1])
-    output <- c("(Intercept)" = intercept, beta_hat)
-  } else {
-    output <- NA
+    # Covariance matrix of the categories of Z
+    vcov_W <- tcrossprod(W_mu[[1]], -W_mu[[1]])
+    diag(vcov_W) <- W_var
   }
+
+  # Final assembly of true covariance matrix
+  vcov_YW <- matrix(nrow = length(W_mu[[1]]) + 1, ncol = length(W_mu[[1]]) + 1)
+  vcov_YW[1, ] <- vcov_YW[, 1] <- c(Y_var, cov_YW)
+  vcov_YW[-1, -1] <- vcov_W
+  vcov_YW <- vcov_YW[-2, -2]  # remove category one to avoid collinearity
+
+  # Calculating regression parameters -----------------------------------
+  beta_hat <- solve(vcov_YW[-1, -1], vcov_YW[1, -1])
+  intercept <- Y_mu - crossprod(beta_hat, W_mu[[1]][-1])
+  output <- c("(Intercept)" = intercept, beta_hat)
   if (MC) {
     message("Generating Monte Carlo coefficient estimates. Please wait...")
     boot_data <- list()
