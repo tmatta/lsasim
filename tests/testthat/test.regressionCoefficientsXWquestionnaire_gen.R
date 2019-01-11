@@ -9,6 +9,7 @@ cum_prob_yx1   <- list(1, 1)
 cum_prob_yx    <- list(1, 1, 1)
 cum_prob_yw1   <- list(1, c(.4, 1))
 cum_prob_yw2   <- list(1, c(.3, .8, 1))
+cum_prob_yw    <- list(1, c(.4, 1), c(.3, .8, 1))
 cum_prob_yx1w1 <- list(1, 1, c(.4, 1))
 cum_prob_yx1w2 <- list(1, 1, c(.3, .8, 1))
 cum_prob_yx1w  <- list(1, 1, c(.4, 1), c(.3, .8, 1))
@@ -24,6 +25,7 @@ cov_mx_yx1   <- cov_mx_yxw[c(1, 2), c(1, 2)]
 cov_mx_yx    <- cov_mx_yxw[c(1, 2, 3), c(1, 2, 3)]
 cov_mx_yw1   <- cov_mx_yxw[c(1, 4), c(1, 4)]
 cov_mx_yw2   <- cov_mx_yxw[c(1, 5), c(1, 5)]
+cov_mx_yw    <- cov_mx_yxw[c(1, 4, 5), c(1, 4, 5)]
 cov_mx_yx1w1 <- cov_mx_yxw[c(1, 2, 4), c(1, 2, 4)]
 cov_mx_yx1w2 <- cov_mx_yxw[c(1, 2, 5), c(1, 2, 5)]
 cov_mx_yx1w  <- cov_mx_yxw[c(1, 2, 4, 5), c(1, 2, 4, 5)]
@@ -43,6 +45,7 @@ df_yx1   <- q_gen(cum_prob_yx1, cov_mx_yx1, mu_yx[c(1, 2)], sd_yx[c(1, 2)])
 df_yx    <- q_gen(cum_prob_yx, cov_mx_yx, mu_yx[c(1, 2, 3)], sd_yx[c(1, 2, 3)])
 df_yw1   <- q_gen(cum_prob_yw1, cov_mx_yw1, mu_yx[c(1)], sd_yx[c(1)])
 df_yw2   <- q_gen(cum_prob_yw2, cov_mx_yw2, mu_yx[c(1)], sd_yx[c(1)])
+df_yw    <- q_gen(cum_prob_yw, cov_mx_yw, mu_yx[c(1)], sd_yx[c(1)])
 df_yx1w1 <- q_gen(cum_prob_yx1w1, cov_mx_yx1w1, mu_yx[c(1, 2)], sd_yx[c(1, 2)])
 df_yx1w2 <- q_gen(cum_prob_yx1w2, cov_mx_yx1w2, mu_yx[c(1, 2)], sd_yx[c(1, 2)])
 df_yx1w  <- q_gen(cum_prob_yx1w, cov_mx_yx1w, mu_yx[c(1:2)], sd_yx[c(1:2)])
@@ -54,6 +57,7 @@ yx1   <- setNames(df_yx1$bg, c("subject", "y", "x1"))
 yx    <- setNames(df_yx$bg, c("subject", "y", "x1", "x2"))
 yw1   <- setNames(df_yw1$bg, c("subject", "y", "w1"))
 yw2   <- setNames(df_yw2$bg, c("subject", "y", "w2"))
+yw    <- setNames(df_yw$bg, c("subject", "y", "w1", "w2"))
 yx1w1 <- setNames(df_yx1w1$bg, c("subject", "y", "x1", "w1"))
 yx1w2 <- setNames(df_yx1w2$bg, c("subject", "y", "x1","w2"))
 yx1w  <- setNames(df_yx1w$bg, c("subject", "y", "x1", "w1", "w2"))
@@ -90,6 +94,7 @@ reg_yx1   <- lm(y ~ x1               , yx1)
 reg_yx    <- lm(y ~ x1 + x2          , yx)
 reg_yw1   <- lm(y ~           w1     , yw1)
 reg_yw2   <- lm(y ~                w2, yw2)
+reg_yw    <- lm(y ~           w1 + w2, yw)
 reg_yx1w1 <- lm(y ~ x1 +      w1     , yx1w1)
 reg_yx1w2 <- lm(y ~ x1 +           w2, yx1w2)
 reg_yx1w  <- lm(y ~ x1 +      w1 + w2, yx1w)
@@ -179,6 +184,7 @@ vcov_yw1   <- vcov_yxw[c("y", "w1"), c("y", "w1")]
 vcov_yw2   <- vcov_yxw[c("y", "w21", "w22"), c("y", "w21", "w22")]
 vcov_yx1w1 <- vcov_yxw[c("y", "x1", "w1"), c("y", "x1", "w1")]
 vcov_yx1w2 <- vcov_yxw[c("y", "x1", "w21", "w22"), c("y", "x1", "w21", "w22")]
+vcov_yw    <- vcov_yxw[c("y", "w1", "w21", "w22"), c("y", "w1", "w21", "w22")]
 vcov_yx1w  <- vcov_yxw[c("y", "x1", "w1", "w21", "w22"), c("y", "x1", "w1", "w21", "w22")]
 vcov_yxw1  <- vcov_yxw[c("y", "x1", "x2", "w1"), c("y", "x1", "x2", "w1")]
 vcov_yxw2  <- vcov_yxw[c("y", "x1", "x2", "w21", "w22"), c("y", "x1", "x2", "w21", "w22")]
@@ -200,6 +206,7 @@ cov_reg_yw1   <- calcRegCoeff(vcov_yw1, mu_yxz$y, mu_xw[c(3)])
 cov_reg_yw2   <- calcRegCoeff(vcov_yw2, mu_yxz$y, mu_xw[c(4, 5)])
 cov_reg_yx1w1 <- calcRegCoeff(vcov_yx1w1, mu_yxz$y, mu_xw[c(1, 3)])
 cov_reg_yx1w2 <- calcRegCoeff(vcov_yx1w2, mu_yxz$y, mu_xw[c(1, 4, 5)])
+cov_reg_yw    <- calcRegCoeff(vcov_yw, mu_yxz$y, mu_xw[c(3, 4, 5)])
 cov_reg_yx1w  <- calcRegCoeff(vcov_yx1w, mu_yxz$y, mu_xw[c(1, 3, 4, 5)])
 cov_reg_yxw1  <- calcRegCoeff(vcov_yxw1, mu_yxz$y, mu_xw[c(1, 2, 3)])
 cov_reg_yxw2  <- calcRegCoeff(vcov_yxw2, mu_yxz$y, mu_xw[c(1, 2, 4, 5)])
@@ -212,6 +219,7 @@ beta_reg_yw1   <- beta_gen(df_yw1)
 beta_reg_yw2   <- beta_gen(df_yw2)
 beta_reg_yx1w1 <- beta_gen(df_yx1w1)
 beta_reg_yx1w2 <- beta_gen(df_yx1w2)
+beta_reg_yw    <- beta_gen(df_yw)
 beta_reg_yxw1  <- beta_gen(df_yxw1)
 beta_reg_yxw2  <- beta_gen(df_yxw2)
 beta_reg_yx1w  <- beta_gen(df_yx1w)
@@ -229,16 +237,16 @@ compareRegScrBeta <- function(reg_data, cov_data, beta_gen_data, print = FALSE) 
   return(list(tab = tab, diffs = diffs))
 }
 comp_yx1 <- compareRegScrBeta(reg_yx1, cov_reg_yx1, beta_reg_yx1)
-comp_yx <- compareRegScrBeta(reg_yx, cov_reg_yx, beta_reg_yx)
+comp_yx  <- compareRegScrBeta(reg_yx, cov_reg_yx, beta_reg_yx)
 comp_yw1 <- compareRegScrBeta(reg_yw1, cov_reg_yw1, beta_reg_yw1)
 comp_yw2 <- compareRegScrBeta(reg_yw2, cov_reg_yw2, beta_reg_yw2)
-comp_yx1w1 <- compareRegScrBeta(reg_yx1w1, cov_reg_yx1w1, beta_reg_yx1w1, TRUE)
-comp_yx1w2 <- compareRegScrBeta(reg_yx1w2, cov_reg_yx1w2, beta_reg_yx1w2, TRUE)
-comp_yxw1 <- compareRegScrBeta(reg_yxw1, cov_reg_yxw1, beta_reg_yxw1, TRUE)
-comp_yxw2 <- compareRegScrBeta(reg_yxw2, cov_reg_yxw2, beta_reg_yxw2, TRUE)
-comp_yx1w <- compareRegScrBeta(reg_yx1w, cov_reg_yx1w, beta_reg_yx1w, TRUE)
-comp_yxw <- compareRegScrBeta(reg_yxw, cov_reg_yxw, beta_reg_yxw, TRUE)
-
+comp_yw  <- compareRegScrBeta(reg_yw, cov_reg_yw, beta_reg_yw)
+comp_yx1w1 <- compareRegScrBeta(reg_yx1w1, cov_reg_yx1w1, beta_reg_yx1w1)
+comp_yx1w2 <- compareRegScrBeta(reg_yx1w2, cov_reg_yx1w2, beta_reg_yx1w2)
+comp_yxw1 <- compareRegScrBeta(reg_yxw1, cov_reg_yxw1, beta_reg_yxw1)
+comp_yxw2 <- compareRegScrBeta(reg_yxw2, cov_reg_yxw2, beta_reg_yxw2)
+comp_yx1w <- compareRegScrBeta(reg_yx1w, cov_reg_yx1w, beta_reg_yx1w)
+comp_yxw <- compareRegScrBeta(reg_yxw, cov_reg_yxw, beta_reg_yxw)
 
 test_that("Script and beta_gen solutions are equivalent", {
   expect_equal(comp_yx1$tab["script", ], comp_yx1$tab["beta_gen", ])
@@ -247,6 +255,7 @@ test_that("Script and beta_gen solutions are equivalent", {
   expect_equal(comp_yw2$tab["script", ], comp_yw2$tab["beta_gen", ])
   expect_equal(comp_yx1w1$tab["script", ], comp_yx1w1$tab["beta_gen", ])
   expect_equal(comp_yx1w2$tab["script", ], comp_yx1w2$tab["beta_gen", ])
+  expect_equal(comp_yw$tab["script", ], comp_yw$tab["beta_gen", ])
   expect_equal(comp_yxw1$tab["script", ], comp_yxw1$tab["beta_gen", ])
   expect_equal(comp_yxw2$tab["script", ], comp_yxw2$tab["beta_gen", ])
   expect_equal(comp_yx1w$tab["script", ], comp_yx1w$tab["beta_gen", ])
@@ -260,6 +269,7 @@ test_that("Numerical and analytical solutions are close", {
   expect_lt(max(comp_yw2$tab["reg", ]   - comp_yw2$tab["beta_gen", ]), 0.1)
   expect_lt(max(comp_yx1w1$tab["reg", ] - comp_yx1w1$tab["beta_gen", ]), 0.1)
   expect_lt(max(comp_yx1w2$tab["reg", ] - comp_yx1w2$tab["beta_gen", ]), 0.1)
+  expect_lt(max(comp_yw$tab["reg", ]    - comp_yw$tab["beta_gen", ]), 0.1)
   expect_lt(max(comp_yxw1$tab["reg", ]  - comp_yxw1$tab["beta_gen", ]), 0.1)
   expect_lt(max(comp_yxw2$tab["reg", ]  - comp_yxw2$tab["beta_gen", ]), 0.1)
   expect_lt(max(comp_yx1w$tab["reg", ]  -  comp_yx1w$tab["beta_gen", ]), 0.1)
