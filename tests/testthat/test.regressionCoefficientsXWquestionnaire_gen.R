@@ -1,34 +1,75 @@
 # Setup -------------------------------------------------------------------
+library(testthat)
+context("Comparing script and beta_gen-calculated regression coeffificents")
 rm(list = ls())
-set.seed(2390487)
+# set.seed(2390487)
 n <- 1e4
-# cum_prob <- list(1, 1, 1, c(.4, 1), c(.3, .8, 1))
-# cov_mx <- matrix(c(1, .1, .1, .2, .2,
-#                    .1, 1, .3, .4, .4,
-#                    .1, .3, 1, .4, .4,
-#                    .2, .4, .4, 1, .5,
-#                    .2, .4, .4, .5, 1), 5)
-cum_prob <- list(1, 1, 1, c(.4, 1))
-cov_mx <- matrix(c(1, .1, .1, .2,
-                   .1, 4, .3, .4,
-                   .1, .3, 9, .4,
-                   .2, .4, .4, 1), 4)
+cum_prob_xw    <- list(1, 1, 1, c(.4, 1), c(.3, .8, 1))
+cum_prob_yx1   <- list(1, 1)
+cum_prob_yx    <- list(1, 1, 1)
+cum_prob_yw1   <- list(1, c(.4, 1))
+cum_prob_yw2   <- list(1, c(.3, .8, 1))
+cum_prob_yx1w1 <- list(1, 1, c(.4, 1))
+cum_prob_yx1w2 <- list(1, 1, c(.3, .8, 1))
+cum_prob_yx1w  <- list(1, 1, c(.4, 1), c(.3, .8, 1))
+cum_prob_yxw1  <- list(1, 1, 1, c(.4, 1))
+cum_prob_yxw2  <- list(1, 1, 1, c(.3, .8, 1))
+cum_prob_yxw   <- list(1, 1, 1, c(.4, 1), c(.3, .8, 1))
+cov_mx_yxw <- matrix(c(1, .1, .1, .2, .2,
+                      .1, 1, .3, .4, .4,
+                      .1, .3, 1, .4, .4,
+                      .2, .4, .4, 1, .5,
+                      .2, .4, .4, .5, 1), 5)
+cov_mx_yx1   <- cov_mx_yxw[c(1, 2), c(1, 2)]
+cov_mx_yx    <- cov_mx_yxw[c(1, 2, 3), c(1, 2, 3)]
+cov_mx_yw1   <- cov_mx_yxw[c(1, 4), c(1, 4)]
+cov_mx_yw2   <- cov_mx_yxw[c(1, 5), c(1, 5)]
+cov_mx_yx1w1 <- cov_mx_yxw[c(1, 2, 4), c(1, 2, 4)]
+cov_mx_yx1w2 <- cov_mx_yxw[c(1, 2, 5), c(1, 2, 5)]
+cov_mx_yx1w  <- cov_mx_yxw[c(1, 2, 4, 5), c(1, 2, 4, 5)]
+cov_mx_yxw1  <- cov_mx_yxw[c(1, 2, 3, 4), c(1, 2, 3, 4)]
+cov_mx_yxw2  <- cov_mx_yxw[c(1, 2, 3, 5), c(1, 2, 3, 5)]
 mu_yx <- 0:2
 sd_yx <- 1:3
-# Generate data -----------------------------------------------------------
-df <- questionnaire_gen(n, cum_prob, cov_matrix = cov_mx, theta = TRUE,
-                        full_output = TRUE, c_mean = mu_yx, c_sd = sd_yx,
-                        family = "gaussian")
 
-# Test data (to be incorporated) ------------------------------------------
-mu_yxz  <- list(y = 0, x1 = 1, x2 = 2, z1 = 0, z2 = 0)
-var_yxz <- list(y = 1, x1 = 4, x2 = 9, z1 = 1, z2 = 1)
+# Generate data -----------------------------------------------------------
+q_gen <- function(data, cov_mx, mean, sd) {
+  suppressMessages(questionnaire_gen(n, data, cov_matrix = cov_mx, theta = TRUE,
+                                     family = "gaussian", full_output = TRUE,
+                                     c_mean = mean, c_sd = sd))
+}
+
+df_yx1   <- q_gen(cum_prob_yx1, cov_mx_yx1, mu_yx[c(1, 2)], sd_yx[c(1, 2)])
+df_yx    <- q_gen(cum_prob_yx, cov_mx_yx, mu_yx[c(1, 2, 3)], sd_yx[c(1, 2, 3)])
+df_yw1   <- q_gen(cum_prob_yw1, cov_mx_yw1, mu_yx[c(1)], sd_yx[c(1)])
+df_yw2   <- q_gen(cum_prob_yw2, cov_mx_yw2, mu_yx[c(1)], sd_yx[c(1)])
+df_yx1w1 <- q_gen(cum_prob_yx1w1, cov_mx_yx1w1, mu_yx[c(1, 2)], sd_yx[c(1, 2)])
+df_yx1w2 <- q_gen(cum_prob_yx1w2, cov_mx_yx1w2, mu_yx[c(1, 2)], sd_yx[c(1, 2)])
+df_yx1w  <- q_gen(cum_prob_yx1w, cov_mx_yx1w, mu_yx[c(1:2)], sd_yx[c(1:2)])
+df_yxw1  <- q_gen(cum_prob_yxw1, cov_mx_yxw1, mu_yx[c(1:3)], sd_yx[c(1:3)])
+df_yxw2  <- q_gen(cum_prob_yxw2, cov_mx_yxw2, mu_yx[c(1:3)], sd_yx[c(1:3)])
+df_yxw   <- q_gen(cum_prob_yxw, cov_mx_yxw, mu_yx[c(1:3)], sd_yx[c(1:3)])
+
+yx1   <- setNames(df_yx1$bg, c("subject", "y", "x1"))
+yx    <- setNames(df_yx$bg, c("subject", "y", "x1", "x2"))
+yw1   <- setNames(df_yw1$bg, c("subject", "y", "w1"))
+yw2   <- setNames(df_yw2$bg, c("subject", "y", "w2"))
+yx1w1 <- setNames(df_yx1w1$bg, c("subject", "y", "x1", "w1"))
+yx1w2 <- setNames(df_yx1w2$bg, c("subject", "y", "x1","w2"))
+yx1w  <- setNames(df_yx1w$bg, c("subject", "y", "x1", "w1", "w2"))
+yxw1  <- setNames(df_yxw1$bg, c("subject", "y", "x1", "x2", "w1"))
+yxw2  <- setNames(df_yxw2$bg, c("subject", "y", "x1", "x2", "w2"))
+yxw   <- setNames(df_yxw$bg, c("subject", "y", "x1", "x2", "w1", "w2"))
+
+# Test data (to be removed) ------------------------------------------
+mu_yxz  <- list(y = mu_yx[1], x1 = mu_yx[2], x2 = mu_yx[3], z1 = 0, z2 = 0)
+var_yxz <- list(y = sd_yx[1] ^ 2, x1 = sd_yx[2] ^ 2, x2 = sd_yx[3] ^ 2, z1 = 1, z2 = 1)
 sd_yxz  <- lapply(var_yxz, sqrt)
 num_yx <- 3
 cols_z <- 4:5
 
 # Discrete variables generated from Z
-cum_prob <- list(w1 = c(0, .4, 1), w2 = c(0, .3, .8, 1))  # different format from q_gen
+cum_prob <- list(w1 = c(0, .4, 1), w2 = c(0, .3, .8, 1))  # != format from q_gen
 names_w <- names(cum_prob)
 mu_w <- lapply(cum_prob, diff)
 mu_w_minus_1 <- unlist(sapply(mu_w, function(w) w[-1]))
@@ -40,16 +81,21 @@ cov_yz <- .2
 cov_xx <- .3
 cov_xz <- .4
 cov_zz <- .5
-vcov_yxz <- matrix(c(1, .1, cov_yx, cov_yz, cov_yz,
-                     cov_yx, 4, cov_xx, cov_xz, cov_xz,
-                     cov_yx, cov_xx, 9, cov_xz, cov_xz,
-                     cov_yz, cov_xz, cov_xz, 1, cov_zz,
-                     cov_yz, cov_xz, cov_xz, cov_zz, 1), 5)
+vcov_yxz <- cov_mx_yxw
 dimnames(vcov_yxz) <- list(names(mu_yxz), names(mu_yxz))
-yxzw <- df$bg
-names(yxzw) <- c("subject", "y", "x1", "x2", "w1")
 q_z <- lapply(cum_prob, function(x) qnorm(x, mean = 0, sd = 1))  # Z ~ N(0, 1)
-reg_yxw1 <- lm(y ~ x1 + x2 + w1, yxzw)
+
+# Regressions -------------------------------------------------------------
+reg_yx1   <- lm(y ~ x1               , yx1)
+reg_yx    <- lm(y ~ x1 + x2          , yx)
+reg_yw1   <- lm(y ~           w1     , yw1)
+reg_yw2   <- lm(y ~                w2, yw2)
+reg_yx1w1 <- lm(y ~ x1 +      w1     , yx1w1)
+reg_yx1w2 <- lm(y ~ x1 +           w2, yx1w2)
+reg_yx1w  <- lm(y ~ x1 +      w1 + w2, yx1w)
+reg_yxw1  <- lm(y ~ x1 + x2 + w1     , yxw1)
+reg_yxw2  <- lm(y ~ x1 + x2 +      w2, yxw2)
+reg_yxw   <- lm(y ~ x1 + x2 + w1 + w2, yxw)
 
 # Calculating elements of vcov_yxw ----------------------------------------
 # Missing pieces: all covariances involving W, i.e., Cov(Y, W), Cov(X, W) and
@@ -74,13 +120,14 @@ exp_AB2 <- function(names_b, mu_a, mu_b, cov_ab, q, ...) {
 }
 
 exp_yw <- exp_AB2(names_w, mu_yxz$y, mu_w, cov_yz, q_z)
-exp_x1w <- exp_AB2(names_w, mu_yxz$x1, mu_w, cov_xz, q_z, sd_Y = sd_yxz$x1)
-exp_x2w <- exp_AB2(names_w, mu_yxz$x2, mu_w, cov_xz, q_z, sd_Y = sd_yxz$x2)
+exp_x1w <- exp_AB2(names_w, mu_yxz$x1, mu_w, cov_xz, q_z, sd_Y = sd_yxz$y)
+exp_x2w <- exp_AB2(names_w, mu_yxz$x2, mu_w, cov_xz, q_z, sd_Y = sd_yxz$y)
 
 cov_AB <- function(names_b, exp_ab, mu_a, mu_b) {
   covar <- sapply(names_b, function(b) (exp_ab[[b]] - mu_a * mu_b[[b]])[-1])
   return(covar)
 }
+
 # [-1] below removes first category
 # From Cov(X, W) = E(XW) - E(X)E(W)
 cov_yw <- cov_AB(names_w, exp_yw, mu_yxz$y, mu_w)
@@ -113,52 +160,108 @@ vcov_yxw["x1", c("w1", "w21", "w22")] <- vcov_yxw[c("w1", "w21", "w22"), "x1"] <
 vcov_yxw["x2", c("w1", "w21", "w22")] <- vcov_yxw[c("w1", "w21", "w22"), "x2"] <- unlist(cov_x2w)
 
 # Adding Cov(W, W) for the same Z
-vcov_yxw[4, 4] <- vcov_w$w1 #TODO: generalize for any number and size of W
-vcov_yxw[5:6, 5:6] <- vcov_w$w2 #TODO: generalize for any number and size of W
+vcov_yxw[4, 4] <- vcov_w$w1
+vcov_yxw[5:6, 5:6] <- vcov_w$w2
 
 # Adding Cov(W, W) for different Zs
 calc_p_mvn_trunc <- function(lo, up, sig, mu = c(0, 0)) {
   mvtnorm::pmvnorm(lo, up, mu, sig)[1] / (pnorm(up[2]) - pnorm(lo[2]))
 }
 
-# TODO: flexibilize according to mu_w
 vcov_yxw["w1", c("w21", "w22")] <- vcov_yxw[c("w21", "w22"), "w1"] <-
   c(calc_p_mvn_trunc(c(q_z$w1[2], q_z$w2[2]), c(q_z$w1[3], q_z$w2[3]), sig = matrix(c(1, cov_zz, cov_zz, 1), 2)) * .5 - .6 * .5,
     calc_p_mvn_trunc(c(q_z$w1[2], q_z$w2[3]), c(q_z$w1[3], q_z$w2[4]), sig = matrix(c(1, cov_zz, cov_zz, 1), 2)) * .2 - .6 * .2)
 
 # Creating submatrices
-# vcov_yw1 <- vcov_yxw[c("y", "w1"), c("y", "w1")]
-vcov_yxw1 <- vcov_yxw[c("y", "x1", "x2", "w1"), c("y", "x1", "x2", "w1")]
-# vcov_yw <- vcov_yxw[c("y", "w1", "w21", "w22"), c("y", "w1", "w21", "w22")]
-# vcov_yx1w <- vcov_yxw[c("y", "x1", "w1", "w21", "w22"), c("y", "x1", "w1", "w21", "w22")]
+vcov_yx1   <- vcov_yxw[c("y", "x1"), c("y", "x1")]
+vcov_yx    <- vcov_yxw[c("y", "x1", "x2"), c("y", "x1", "x2")]
+vcov_yw1   <- vcov_yxw[c("y", "w1"), c("y", "w1")]
+vcov_yw2   <- vcov_yxw[c("y", "w21", "w22"), c("y", "w21", "w22")]
+vcov_yx1w1 <- vcov_yxw[c("y", "x1", "w1"), c("y", "x1", "w1")]
+vcov_yx1w2 <- vcov_yxw[c("y", "x1", "w21", "w22"), c("y", "x1", "w21", "w22")]
+vcov_yx1w  <- vcov_yxw[c("y", "x1", "w1", "w21", "w22"), c("y", "x1", "w1", "w21", "w22")]
+vcov_yxw1  <- vcov_yxw[c("y", "x1", "x2", "w1"), c("y", "x1", "x2", "w1")]
+vcov_yxw2  <- vcov_yxw[c("y", "x1", "x2", "w21", "w22"), c("y", "x1", "x2", "w21", "w22")]
 
 # Calculating regression coefficients -------------------------------------
+mu_xw <- c("x1" = mu_yxz$x1, "x2" = mu_yxz$x2, mu_w_minus_1)
+
 calcRegCoeff <- function(cov, mu_y, mu_x) {
   beta <- solve(cov[-1, -1], cov[1, -1])
   alpha <- mu_y - crossprod(beta, mu_x)
-  return(unlist(list(alpha, beta)))
+  names_coeff <- c("theta", names(mu_x))
+  out <- setNames(unlist(list(alpha, beta)), names_coeff)
+  return(out)
 }
-# cov_reg_yxw <- calcRegCoeff(vcov_yxw, mu_yxz$y, c(mu_yxz$x1, mu_yxz$x2, mu_w_minus_1))
-# cov_reg_yw1 <- calcRegCoeff(vcov_yw1, mu_yxz$y, mu_w$w1[-1])
-cov_reg_yxw1 <- calcRegCoeff(vcov_yxw1, mu_yxz$y, c(mu_yxz$x1, mu_yxz$x2, mu_w$w1[-1]))
-# cov_reg_yx1w <- calcRegCoeff(vcov_yx1w, mu_yxz$y, c(mu_yxz$x1, mu_w_minus_1))
-# cov_reg_yw <- calcRegCoeff(vcov_yw, mu_yxz$y, mu_w_minus_1)
 
+cov_reg_yx1   <- calcRegCoeff(vcov_yx1, mu_yxz$y, mu_xw[c(1)])
+cov_reg_yx    <- calcRegCoeff(vcov_yx, mu_yxz$y, mu_xw[c(1, 2)])
+cov_reg_yw1   <- calcRegCoeff(vcov_yw1, mu_yxz$y, mu_xw[c(3)])
+cov_reg_yw2   <- calcRegCoeff(vcov_yw2, mu_yxz$y, mu_xw[c(4, 5)])
+cov_reg_yx1w1 <- calcRegCoeff(vcov_yx1w1, mu_yxz$y, mu_xw[c(1, 3)])
+cov_reg_yx1w2 <- calcRegCoeff(vcov_yx1w2, mu_yxz$y, mu_xw[c(1, 4, 5)])
+cov_reg_yx1w  <- calcRegCoeff(vcov_yx1w, mu_yxz$y, mu_xw[c(1, 3, 4, 5)])
+cov_reg_yxw1  <- calcRegCoeff(vcov_yxw1, mu_yxz$y, mu_xw[c(1, 2, 3)])
+cov_reg_yxw2  <- calcRegCoeff(vcov_yxw2, mu_yxz$y, mu_xw[c(1, 2, 4, 5)])
+cov_reg_yxw   <- calcRegCoeff(vcov_yxw, mu_yxz$y, mu_xw)
+
+# Using beta_gen
+beta_reg_yx1   <- beta_gen(df_yx1)
+beta_reg_yx    <- beta_gen(df_yx)
+beta_reg_yw1   <- beta_gen(df_yw1)
+beta_reg_yw2   <- beta_gen(df_yw2)
+beta_reg_yx1w1 <- beta_gen(df_yx1w1)
+beta_reg_yx1w2 <- beta_gen(df_yx1w2)
+beta_reg_yxw1  <- beta_gen(df_yxw1)
+beta_reg_yxw2  <- beta_gen(df_yxw2)
+beta_reg_yx1w  <- beta_gen(df_yx1w)
+beta_reg_yxw   <- beta_gen(df_yxw)
 
 # Benchmarking regression coefficients ------------------------------------
-print(rbind(reg = coef(reg_yxw1), cov = cov_reg_yxw1))
-# print(rbind(reg = coef(reg_yw), cov = cov_reg_yw))
-# print(rbind(reg = coef(reg_yx1w), cov = cov_reg_yx1w))
-# print(rbind(reg = coef(reg_yxw), cov = cov_reg_yxw))
+compareRegScrBeta <- function(reg_data, cov_data, beta_gen_data, print = FALSE) {
+  tab <- rbind("reg" = coef(reg_data),
+               "script" = cov_data,
+               "beta_gen" = beta_gen_data)
+  if (print) print(tab)
+  diffs <- apply(tab, 2, function(x) max(c(x[2] - x[1],
+                                           x[3] - x[1],
+                                           x[3] - x[2])))
+  return(list(tab = tab, diffs = diffs))
+}
+comp_yx1 <- compareRegScrBeta(reg_yx1, cov_reg_yx1, beta_reg_yx1)
+comp_yx <- compareRegScrBeta(reg_yx, cov_reg_yx, beta_reg_yx)
+comp_yw1 <- compareRegScrBeta(reg_yw1, cov_reg_yw1, beta_reg_yw1)
+comp_yw2 <- compareRegScrBeta(reg_yw2, cov_reg_yw2, beta_reg_yw2)
+comp_yx1w1 <- compareRegScrBeta(reg_yx1w1, cov_reg_yx1w1, beta_reg_yx1w1, TRUE)
+comp_yx1w2 <- compareRegScrBeta(reg_yx1w2, cov_reg_yx1w2, beta_reg_yx1w2, TRUE)
+comp_yxw1 <- compareRegScrBeta(reg_yxw1, cov_reg_yxw1, beta_reg_yxw1, TRUE)
+comp_yxw2 <- compareRegScrBeta(reg_yxw2, cov_reg_yxw2, beta_reg_yxw2, TRUE)
+comp_yx1w <- compareRegScrBeta(reg_yx1w, cov_reg_yx1w, beta_reg_yx1w, TRUE)
+comp_yxw <- compareRegScrBeta(reg_yxw, cov_reg_yxw, beta_reg_yxw, TRUE)
 
-diff_yxw1 <- coef(reg_yxw1) - cov_reg_yxw1
-# diff_yw   <- coef(reg_yw) - cov_reg_yw
-# diff_yx1w <- coef(reg_yx1w) - cov_reg_yx1w
-# diff_yxw  <- coef(reg_yxw) - cov_reg_yxw
+
+test_that("Script and beta_gen solutions are equivalent", {
+  expect_equal(comp_yx1$tab["script", ], comp_yx1$tab["beta_gen", ])
+  expect_equal(comp_yx$tab["script", ], comp_yx$tab["beta_gen", ])
+  expect_equal(comp_yw1$tab["script", ], comp_yw1$tab["beta_gen", ])
+  expect_equal(comp_yw2$tab["script", ], comp_yw2$tab["beta_gen", ])
+  expect_equal(comp_yx1w1$tab["script", ], comp_yx1w1$tab["beta_gen", ])
+  expect_equal(comp_yx1w2$tab["script", ], comp_yx1w2$tab["beta_gen", ])
+  expect_equal(comp_yxw1$tab["script", ], comp_yxw1$tab["beta_gen", ])
+  expect_equal(comp_yxw2$tab["script", ], comp_yxw2$tab["beta_gen", ])
+  expect_equal(comp_yx1w$tab["script", ], comp_yx1w$tab["beta_gen", ])
+  expect_equal(comp_yxw$tab["script", ], comp_yxw$tab["beta_gen", ])
+})
 
 test_that("Numerical and analytical solutions are close", {
-  expect_lte(max(diff_yxw1), 0.1)
-  # expect_lte(max(diff_yw), 0.1)
-  # expect_lte(max(diff_yx1w), 0.1)
-  # expect_lte(max(diff_yxw), 0.1)
+  expect_lt(max(comp_yx1$tab["reg", ]   - comp_yx1$tab["beta_gen", ]), 0.1)
+  expect_lt(max(comp_yx$tab["reg", ]    - comp_yx$tab["beta_gen", ]), 0.1)
+  expect_lt(max(comp_yw1$tab["reg", ]   - comp_yw1$tab["beta_gen", ]), 0.1)
+  expect_lt(max(comp_yw2$tab["reg", ]   - comp_yw2$tab["beta_gen", ]), 0.1)
+  expect_lt(max(comp_yx1w1$tab["reg", ] - comp_yx1w1$tab["beta_gen", ]), 0.1)
+  expect_lt(max(comp_yx1w2$tab["reg", ] - comp_yx1w2$tab["beta_gen", ]), 0.1)
+  expect_lt(max(comp_yxw1$tab["reg", ]  - comp_yxw1$tab["beta_gen", ]), 0.1)
+  expect_lt(max(comp_yxw2$tab["reg", ]  - comp_yxw2$tab["beta_gen", ]), 0.1)
+  expect_lt(max(comp_yx1w$tab["reg", ]  -  comp_yx1w$tab["beta_gen", ]), 0.1)
+  expect_lt(max(comp_yxw$tab["reg", ]   - comp_yxw$tab["beta_gen", ]), 0.1)
 })
