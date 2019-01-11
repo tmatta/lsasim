@@ -1,8 +1,6 @@
 # Setup -------------------------------------------------------------------
-library(testthat)
 context("Script vs. beta_gen-calculated regression coefficients")
-rm(list = ls())
-# set.seed(2390487)
+
 n <- 1e4
 cum_prob_xw    <- list(1, 1, 1, c(.4, 1), c(.3, .8, 1))
 cum_prob_yx1   <- list(1, 1)
