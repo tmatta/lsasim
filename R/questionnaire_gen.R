@@ -226,8 +226,8 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
 
   # Calculating regression coefficients -----------------------------------
   if (theta & full_output & !is.null(family)) {
-    betas <- beta_gen(out)
-    out <- c(out, reg_coef = list(betas))
+    betas <- beta_gen(out, output_cov = TRUE)
+    out <- c(out, linear_regression = list(betas))
     # suppressed objects from output
     rm(cat_prop_YX, full_output)
   }

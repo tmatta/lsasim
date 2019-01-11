@@ -4,7 +4,7 @@
 \alias{beta_gen}
 \title{Generate analytical parameters}
 \usage{
-beta_gen(data, MC = FALSE, replications = 100)
+beta_gen(data, MC = FALSE, replications = 100, output_cov = FALSE)
 }
 \arguments{
 \item{data}{output from the \code{questionnaire_gen} function for
@@ -15,6 +15,9 @@ regression coefficients}
 
 \item{replications}{for \code{MC = TRUE}, this represents the number of Monte
 Carlo subsamples calculated.}
+
+\item{output_cov}{if \code{TRUE}, will also output the covariance matrix of
+YXW.}
 }
 \description{
 Generate analytical parameters

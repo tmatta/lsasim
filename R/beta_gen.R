@@ -6,6 +6,8 @@
 #'   regression coefficients
 #' @param replications for \code{MC = TRUE}, this represents the number of Monte
 #'   Carlo subsamples calculated.
+#' @param output_cov if \code{TRUE}, will also output the covariance matrix of
+#'   YXW.
 #' @importFrom stats lm model.matrix quantile cov pnorm setNames
 #' @details The covariance matrix provided must have Y in the first row/column.
 #' @export
@@ -15,7 +17,7 @@
 #'                            full_output = TRUE, n_X = 2, n_W = list(2, 2, 4))
 #' beta_gen(data, MC = TRUE)
 #'
-beta_gen <- function(data, MC = FALSE, replications = 100) {
+beta_gen <- function(data, MC = FALSE, replications = 100, output_cov = FALSE) {
 
   # Basic validation checks -----------------------------------------------
   if (!data$theta) stop("Data must include theta")
@@ -161,5 +163,6 @@ beta_gen <- function(data, MC = FALSE, replications = 100) {
     output <- t(rbind(cov_matrix = output, MC = boot_avg_coef, boot_CI,
                     cov_in_CI = as.logical(cov_in_CI)))
   }
+  if (output_cov) output <- list(betas = output, vcov_YXW = vcov_YXW)
   return(output)
 }
