@@ -4,7 +4,7 @@
 \alias{beta_gen}
 \title{Generate analytical parameters}
 \usage{
-beta_gen(data, MC = FALSE, replications = 100, analytical = TRUE)
+beta_gen(data, MC = FALSE, replications = 100)
 }
 \arguments{
 \item{data}{output from the \code{questionnaire_gen} function for
@@ -24,18 +24,8 @@ The covariance matrix provided must have Y in the first row/column.
 }
 \examples{
 
-# Data containing only continuous variables
-data1 <- questionnaire_gen(1000, family="gaussian", theta = TRUE,
-                           full_output = TRUE, n_X = 3, n_W = 0)
-beta_gen(data1, MC = TRUE)
+data <- questionnaire_gen(100, family="gaussian", theta = TRUE,
+                           full_output = TRUE, n_X = 2, n_W = list(2, 2, 4))
+beta_gen(data, MC = TRUE)
 
-# Data containing only dichotomous variables
-data2 <- questionnaire_gen(1000, family="gaussian", theta = TRUE,
-                           full_output = TRUE, n_X = 0, n_W = list(2))
-beta_gen(data2, MC = TRUE)
-
-# Data containing only polychotomous variables
-data3 <- questionnaire_gen(1000, family="gaussian", theta = TRUE,
-                           full_output = TRUE, n_X = 0, n_W = list(3, 5))
-\donttest{beta_gen(data3, MC = TRUE)}
 }

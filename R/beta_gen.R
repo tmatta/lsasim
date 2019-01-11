@@ -6,26 +6,16 @@
 #'   regression coefficients
 #' @param replications for \code{MC = TRUE}, this represents the number of Monte
 #'   Carlo subsamples calculated.
-#' @importFrom stats lm model.matrix quantile cov
+#' @importFrom stats lm model.matrix quantile cov pnorm setNames
 #' @details The covariance matrix provided must have Y in the first row/column.
 #' @export
 #' @examples
 #'
-#' # Data containing only continuous variables
-#' data1 <- questionnaire_gen(1000, family="gaussian", theta = TRUE,
-#'                            full_output = TRUE, n_X = 3, n_W = 0)
-#' beta_gen(data1, MC = TRUE)
+#' data <- questionnaire_gen(100, family="gaussian", theta = TRUE,
+#'                            full_output = TRUE, n_X = 2, n_W = list(2, 2, 4))
+#' beta_gen(data, MC = TRUE)
 #'
-#' # Data containing only dichotomous variables
-#' data2 <- questionnaire_gen(1000, family="gaussian", theta = TRUE,
-#'                            full_output = TRUE, n_X = 0, n_W = list(2))
-#' beta_gen(data2, MC = TRUE)
-#'
-#' # Data containing only polychotomous variables
-#' data3 <- questionnaire_gen(1000, family="gaussian", theta = TRUE,
-#'                            full_output = TRUE, n_X = 0, n_W = list(3, 5))
-#' \donttest{beta_gen(data3, MC = TRUE)}
-beta_gen <- function(data, MC = FALSE, replications = 100, analytical = TRUE) {
+beta_gen <- function(data, MC = FALSE, replications = 100) {
 
   # Basic validation checks -----------------------------------------------
   if (!data$theta) stop("Data must include theta")
@@ -69,16 +59,13 @@ beta_gen <- function(data, MC = FALSE, replications = 100, analytical = TRUE) {
 
   Y_var <- data$c_sd[1] ^ 2
   Y_sd <- sqrt(Y_var)
-  # X_sd <- data$c_sd[-1]
 
   if (data$n_W > 0) {
     W_var <- lapply(W_mu, function(p) p * (1 - p))
-    # W_sd <- sapply(W_var, function(x) sqrt(x)[1])  # not used!?
     Z_mu <- 0
     Z_sd <- 1
     cov_YZ <- data$cov_matrix["theta", names_Z, drop = FALSE]
   }
-  # cov_YX <- data$cov_matrix["theta", names_X, drop = FALSE]
   cov_XZ <- data$cov_matrix[names_X, names_Z, drop = FALSE]
 
   # Calculating elements for YXW covariance matrix (provided was XYZ) -----
