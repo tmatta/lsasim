@@ -229,7 +229,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     betas <- beta_gen(out, output_cov = TRUE)
     out <- c(out, linear_regression = list(betas))
     # suppressed objects from output
-    rm(cat_prop_YX, full_output)
+    rm(cat_prop_YX, full_output, n_vars, label_YXZ)
   }
 
   return(out)
