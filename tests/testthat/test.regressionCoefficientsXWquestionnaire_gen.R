@@ -1,6 +1,6 @@
 # Setup -------------------------------------------------------------------
 library(testthat)
-context("Comparing script and beta_gen-calculated regression coeffificents")
+context("Script vs. beta_gen-calculated regression coefficients")
 rm(list = ls())
 # set.seed(2390487)
 n <- 1e4
