@@ -26,9 +26,11 @@
 #'                            full_output = TRUE, n_X = 0, n_W = list(3, 5))
 #' \donttest{beta_gen(data3, MC = TRUE)}
 beta_gen <- function(data, MC = FALSE, replications = 100, analytical = TRUE) {
+
+  # Basic validation checks -----------------------------------------------
   if (!data$theta) stop("Data must include theta")
   if (class(data) != "list") {
-    stop("Data must be generated with full_output = TRUE")
+    stop("Generate data with questionnaire_gen(full_output = TRUE)")
   }
 
   # Basic data subsetting -------------------------------------------------
@@ -42,7 +44,8 @@ beta_gen <- function(data, MC = FALSE, replications = 100, analytical = TRUE) {
     names_W <- paste0("w", 1:data$n_W)
     names_Z <- paste0("z", 1:data$n_W)
   }
-  names_YXZ <- c("theta", names_X, names_Z)
+  names_YX <- c("theta", names_X)
+  names_YXZ <- c(names_YX, names_Z)
   dimnames(data$cov_matrix) <- list(names_YXZ, names_YXZ)
   names(data$cat_prop_W_p) <- names(data$cat_prop_W) <- names_W
   names(data$c_sd) <- names(data$c_mean) <- names(data$cat_prop_YX) <- c("theta", names_X)
@@ -56,19 +59,22 @@ beta_gen <- function(data, MC = FALSE, replications = 100, analytical = TRUE) {
     Y_mu <- data$c_mean[1]
     X_mu <- data$c_mean[-1]
     W_mu <- data$cat_prop_W_p
-    W_mu_minus_1 <- unlist(sapply(W_mu, function(w) w[-1]))
+    W_cat_names <- names(unlist(W_mu))
+    W_cat_names_minus_1st <- W_cat_names[!grepl("1$", W_cat_names)]
+    W_mu_minus_1st <- unlist(sapply(W_mu, function(w) w[-1, drop = FALSE]))
+    names(W_mu_minus_1st) <- W_cat_names_minus_1st
     XW_mu <- unlist(c(X_mu, W_mu))
-    XW_mu_minus_1 <- unlist(c(X_mu, W_mu_minus_1))
+    XW_mu_minus_1st <- unlist(c(X_mu, W_mu_minus_1st))
   }
 
-  Z_mu <- 0
-  # Y_var <- data$c_sd[1] ^ 2
-  # Y_sd <- sqrt(Y_var)
-  X_sd <- data$c_sd[-1]
+  Y_var <- data$c_sd[1] ^ 2
+  Y_sd <- sqrt(Y_var)
+  # X_sd <- data$c_sd[-1]
 
   if (data$n_W > 0) {
     W_var <- lapply(W_mu, function(p) p * (1 - p))
     # W_sd <- sapply(W_var, function(x) sqrt(x)[1])  # not used!?
+    Z_mu <- 0
     Z_sd <- 1
     cov_YZ <- data$cov_matrix["theta", names_Z, drop = FALSE]
   }
@@ -76,6 +82,7 @@ beta_gen <- function(data, MC = FALSE, replications = 100, analytical = TRUE) {
   cov_XZ <- data$cov_matrix[names_X, names_Z, drop = FALSE]
 
   # Calculating elements for YXW covariance matrix (provided was XYZ) -----
+  cov_YW <- cov_XW <- vcov_W <- NULL
   if (data$n_W > 0) {
     q_Z <- lapply(data$cat_prop_W, function(w) qnorm(c(0, w), Z_mu, Z_sd))
 
@@ -84,39 +91,68 @@ beta_gen <- function(data, MC = FALSE, replications = 100, analytical = TRUE) {
 
     cov_XW <- exp_XW <- list()
     for (x in names_X) {
-      exp_XW[[x]] <- exp_AB(names_W, Z_mu, W_mu, cov_XZ[x, ], q_Z, X_mu[[x]], X_sd[x])
+      exp_XW[[x]] <- exp_AB(names_W, Z_mu, W_mu, cov_XZ[x, ], q_Z, X_mu[[x]], Y_sd)
       cov_XW[[x]] <- cov_AB(names_W, exp_XW[[x]], X_mu[[x]], W_mu)
     }
 
     # Covariance matrix of the categories of Z
-    vcov_W <- sapply(names_W, function(w) create_vcov_w(W_mu[[w]], W_var[[w]]))
+    vcov_W <- lapply(names_W, function(w) create_vcov_w(W_mu[[w]], W_var[[w]]))
+    names(vcov_W) <- names_W
   }
 
   # Final assembly of YXW covariance matrix -------------------------------
-  vcov_order <- length(data$c_mean) + sum(sapply(W_mu, function(w) length(w) - 1))
+  vcov_order <- length(data$c_mean) + length(W_cat_names_minus_1st)
   vcov_YXW <- matrix(nrow = vcov_order, ncol = vcov_order)
-  names_W_extended <- names_W  #TODO: expand with category numbers
-  names_YXW_extended <- c("theta", names_X, names_W_extended)
+  names_YXW_extended <- c("theta", names_X, W_cat_names_minus_1st)
   dimnames(vcov_YXW) <- list(names_YXW_extended, names_YXW_extended)
 
   # Everything that doesn't involve W
-  z_cols <- match(names_Z, rownames(data$cov_matrix))
-  vcov_YXW[c("theta", names_X), c("theta", names_X)] <- data$cov_matrix[-z_cols, -z_cols]
+  vcov_YXW[names_YX, names_YX] <- data$cov_matrix[names_YX, names_YX]
 
   # Cov(Y, W)
-  vcov_YXW["theta", names_W_extended] <- vcov_YXW[names_W_extended, "theta"] <- cov_YW
+  vcov_YXW["theta", W_cat_names_minus_1st] <-
+    vcov_YXW[W_cat_names_minus_1st, "theta"] <- unlist(cov_YW)
 
   # Cov(X, W)
-  vcov_YXW[names_X, names_W_extended] <- vcov_YXW[names_W_extended, names_X] <- unlist(cov_XW)
-  # Cov (Wi, Wi)
-  vcov_YXW[names_W_extended, names_W_extended] <- vcov_W  # Cov(Wi, Wi)
-  # vcov_YXW <- vcov_YXW[-2, -2]  # remove category one to avoid collinearity
+  for (x in names_X) {
+    vcov_YXW[x, W_cat_names_minus_1st] <-
+      vcov_YXW[W_cat_names_minus_1st, x] <- unlist(cov_XW[[x]])
+  }
+
+  # Cov(W, W)
+  # Covariances between categories within the same W
+  for (w in names_W) {
+    w_cols <- colnames(vcov_YXW)[grepl(w, colnames(vcov_YXW))]
+    vcov_YXW[w_cols, w_cols] <- vcov_W[[w]]
+  }
+  # Covariances between categories from different Ws
+  for (catA in W_cat_names_minus_1st) {
+    for (catB in W_cat_names_minus_1st) {
+      muA <- W_mu_minus_1st[catA]
+      muB <- W_mu_minus_1st[catB]
+      wA <- gsub("\\d$", "", catA)
+      wB <- gsub("\\d$", "", catB)
+      zA <- gsub("w", "z", wA)
+      zB <- gsub("w", "z", wB)
+      cond1 <- match(catA, W_cat_names_minus_1st) < match(catB, W_cat_names_minus_1st)
+      cond2 <- zA != zB
+      if (cond1 & cond2) {
+        numA <- as.numeric(substring(catA, nchar(catA)))
+        numB <- as.numeric(substring(catB, nchar(catB)))
+        cov_zA_zB <- data$cov_matrix[c(zA, zB), c(zA, zB)]
+        lo_lim <- c(q_Z[[wA]][numA], q_Z[[wB]][numB])
+        up_lim <- c(q_Z[[wA]][numA + 1], q_Z[[wB]][numB + 1])
+        covAB <- calc_p_mvn_trunc(lo_lim, up_lim, cov_zA_zB) * muB - muA * muB
+        vcov_YXW[catA, catB] <- vcov_YXW[catB, catA] <-  covAB
+      }
+    }
+  }
 
   # Calculating regression parameters -----------------------------------
   beta_hat <- solve(vcov_YXW[-1, -1], vcov_YXW[1, -1])
 
-  intercept <- Y_mu - crossprod(beta_hat, XW_mu_minus_1)
-  output <- c("(Intercept)" = intercept, beta_hat)
+  intercept <- Y_mu - crossprod(beta_hat, XW_mu_minus_1st)
+  output <- setNames(as.vector(c(intercept, beta_hat)), colnames(vcov_YXW))
   if (MC) {
     message("Generating Monte Carlo coefficient estimates. Please wait...")
     boot_data <- list()
@@ -135,8 +171,8 @@ beta_gen <- function(data, MC = FALSE, replications = 100, analytical = TRUE) {
     # Checking if cov_matrix estimates is contained in MC confidence interval
     cov_in_CI <- output > boot_CI[1, ] & output < boot_CI[2, ]
 
-    output <- rbind(cov_matrix = output, MC = boot_avg_coef, boot_CI,
-                    cov_in_CI = as.logical(cov_in_CI))
+    output <- t(rbind(cov_matrix = output, MC = boot_avg_coef, boot_CI,
+                    cov_in_CI = as.logical(cov_in_CI)))
   }
-  return(t(output))
+  return(output)
 }
