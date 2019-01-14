@@ -4,7 +4,8 @@
 \alias{beta_gen}
 \title{Generate analytical parameters}
 \usage{
-beta_gen(data, MC = FALSE, replications = 100, output_cov = FALSE)
+beta_gen(data, MC = FALSE, replications = 100, output_cov = FALSE,
+  rename_to_q = FALSE)
 }
 \arguments{
 \item{data}{output from the \code{questionnaire_gen} function for
@@ -18,6 +19,9 @@ Carlo subsamples calculated.}
 
 \item{output_cov}{if \code{TRUE}, will also output the covariance matrix of
 YXW.}
+
+\item{rename_to_q}{if \code{TRUE}, renames the variables from "x" and "w" to
+"q".}
 }
 \description{
 Generate analytical parameters
