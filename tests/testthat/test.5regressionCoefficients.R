@@ -1,4 +1,4 @@
-context("Regression coefficients are calculated correctly")
+ context("Regression coefficients are calculated correctly")
 set.seed(240)
 
 # Generating data ---------------------------------------------------------

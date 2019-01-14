@@ -174,14 +174,17 @@ beta_gen <- function(data, MC = FALSE, replications = 100, output_cov = FALSE,
   }
   if (output_cov) output <- list(betas = output, vcov_YXW = vcov_YXW)
   if (rename_to_q) {
-    X_numbers <- 1:data$n_tot["n_X"]
-    W_numbers <- 1:data$n_tot["n_W"] + length(X_numbers)
-    W_categories <- sapply(data$cat_prop_W, length)
-    W_categories_expanded <- lapply(W_categories, function(x) 2:max(x))
-    W_numbers_expanded <- rep(W_numbers,
-                              sapply(data$cat_prop_W, function(x) length(x) - 1))
-    W_numbers_expanded_cats <- paste0(W_numbers_expanded, ".",
-                                      unlist(W_categories_expanded))
+    X_numbers <- W_numbers <- W_numbers_expanded_cats <- NULL
+    if (data$n_X > 0) X_numbers <- 1:data$n_X
+    if (data$n_W > 0) {
+      W_numbers <- 1:data$n_W + length(X_numbers)
+      W_categories <- sapply(data$cat_prop_W, length)
+      W_categories_expanded <- lapply(W_categories, function(x) 2:max(x))
+      W_numbers_expanded <- rep(W_numbers,
+                                sapply(data$cat_prop_W, function(x) length(x) - 1))
+      W_numbers_expanded_cats <- paste0(W_numbers_expanded, ".",
+                                        unlist(W_categories_expanded))
+    }
     new_variable_numbers <- c(X_numbers, W_numbers_expanded_cats)
     new_variable_names <- c("theta", paste0("q", new_variable_numbers))
     names(output$betas) <- new_variable_names

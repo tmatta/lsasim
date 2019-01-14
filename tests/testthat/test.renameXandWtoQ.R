@@ -1,5 +1,4 @@
 context("X and W variables are renamed correctly after beta_gen")
-rm(list = ls())
 
 gen_questionnaire_var_names <- function(nW = NULL, nX = NULL, n = 10) {
   data <- questionnaire_gen(n, n_W = nW, n_X = nX, theta = TRUE,
@@ -20,6 +19,11 @@ gen_questionnaire_var_names <- function(nW = NULL, nX = NULL, n = 10) {
     expanded_levels_reg <- as.vector(expanded_levels_reg + 1)
   }
 
+  # Workaround for unmatching classes in expanded_levels_reg and W_levels_cov
+  if (length(expanded_levels_reg) == 0 & length(W_levels_cov) == 0) {
+    expanded_levels_reg <- W_levels_cov <- NULL
+  }
+
   # Putting everything together
   output <- list(data = data$bg,
                  reg_var_numbers = unique(expanded_numbers),
@@ -30,8 +34,8 @@ gen_questionnaire_var_names <- function(nW = NULL, nX = NULL, n = 10) {
 }
 
 d_random <- gen_questionnaire_var_names()
-d_20W <- gen_questionnaire_var_names(nW = 20)
-d_20X <- gen_questionnaire_var_names(nX = 20)
+d_20W <- gen_questionnaire_var_names(nW = 20, nX = 0)
+d_20X <- gen_questionnaire_var_names(nX = 20, nW = 0)
 d_20X_20W <- gen_questionnaire_var_names(nX = 20, nW = 20)
 
 test_that("Names in regression match those in the covariance matrix", {
