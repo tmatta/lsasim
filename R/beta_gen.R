@@ -8,6 +8,8 @@
 #'   Carlo subsamples calculated.
 #' @param output_cov if \code{TRUE}, will also output the covariance matrix of
 #'   YXW.
+#' @param rename_to_q if \code{TRUE}, renames the variables from "x" and "w" to
+#'   "q".
 #' @importFrom stats lm model.matrix quantile cov pnorm setNames
 #' @details The covariance matrix provided must have Y in the first row/column.
 #' @export
@@ -17,7 +19,8 @@
 #'                            full_output = TRUE, n_X = 2, n_W = list(2, 2, 4))
 #' beta_gen(data, MC = TRUE)
 #'
-beta_gen <- function(data, MC = FALSE, replications = 100, output_cov = FALSE) {
+beta_gen <- function(data, MC = FALSE, replications = 100, output_cov = FALSE,
+                     rename_to_q = FALSE) {
 
   # Basic validation checks -----------------------------------------------
   if (!data$theta) stop("Data must include theta")
@@ -164,5 +167,19 @@ beta_gen <- function(data, MC = FALSE, replications = 100, output_cov = FALSE) {
                     cov_in_CI = as.logical(cov_in_CI)))
   }
   if (output_cov) output <- list(betas = output, vcov_YXW = vcov_YXW)
+  if (rename_to_q) {
+    X_numbers <- 1:data$n_tot["n_X"]
+    W_numbers <- 1:data$n_tot["n_W"] + length(X_numbers)
+    W_categories <- sapply(data$cat_prop_W, length)
+    W_categories_expanded <- lapply(W_categories, function(x) 2:max(x))
+    W_numbers_expanded <- rep(W_numbers,
+                              sapply(data$cat_prop_W, function(x) length(x) - 1))
+    W_numbers_expanded_cats <- paste0(W_numbers_expanded, ".",
+                                      unlist(W_categories_expanded))
+    new_variable_numbers <- c(X_numbers, W_numbers_expanded_cats)
+    new_variable_names <- c("theta", paste0("q", new_variable_numbers))
+    names(output$betas) <- new_variable_names
+    dimnames(output$vcov_YXW) <- list(new_variable_names, new_variable_names)
+  }
   return(output)
 }
