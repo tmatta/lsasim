@@ -114,7 +114,13 @@ beta_gen <- function(data, MC = FALSE, replications = 100, output_cov = FALSE,
   # Cov(W, W)
   # Covariances between categories within the same W
   for (w in names_W) {
-    w_cols <- colnames(vcov_YXW)[grepl(w, colnames(vcov_YXW))]
+    w_cols <- vector()
+    ref_names <- colnames(vcov_YXW)
+    for (c in seq_along(ref_names)) {
+      if (w %in% substr(ref_names[c], 1, nchar(ref_names[c]) - 1))
+        w_cols <- c(w_cols, c)
+    }
+    # w_cols <- colnames(vcov_YXW)[grepl(w, colnames(vcov_YXW))]
     vcov_YXW[w_cols, w_cols] <- vcov_W[[w]]
   }
   # Covariances between categories from different Ws
