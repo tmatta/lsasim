@@ -23,6 +23,18 @@ YXW.}
 \item{rename_to_q}{if \code{TRUE}, renames the variables from "x" and "w" to
 "q".}
 }
+\value{
+By default, this function will output a vector with the regression
+  coefficients, including intercept. If \code{MC == TRUE}, the output will
+  instead be a matrix comparing the true regression coefficients obtained
+  from the covariance matrix with expected values obtained from a Monte Carlo
+  procedure, complete with 99% confidence interval.
+
+  If \code{output_cov = TRUE}, the output will be a list with two elements.
+  the first one, \code{betas}, will contain the same output described in the
+  previous paragraph. The second element, called \code{vcov_YXW}, contains
+  the covariance matrix of the regression coefficients.
+}
 \description{
 Generate analytical parameters
 }
