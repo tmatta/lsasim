@@ -59,6 +59,91 @@
 #'   names for the returned \code{data.frame}.  Generic names will be provided
 #'   to the variables if \code{cat_prop} is not named.
 #'
+#' @return By default, the function returns a \code{data.frame} object where the
+#'   first column ("subject") is a \eqn{1,\ldots,n} ordered list for the \eqn{n}
+#'   observations and the other columns correspond to the questionnaire answers.
+#'   If \code{theta = TRUE}, the first column after "subject" will be the latent
+#'   variable \eqn{\theta}; in any case, the continuous variables always come
+#'   before the categorical ones.
+#'
+#'   If \code{full_output = TRUE}, the output will be a list containing the
+#'   following 27 objects:
+#'
+#'   \item{bg}{a data frame containing the background questionnaire answers
+#'   (i.e., the same object as described above).}
+#'
+#'   \item{c_mean}{identical to the input argument of the same name. Read the
+#'   Details section for more information.}
+#'
+#'   \item{c_sd}{identical to the input argument of the same name. Read the
+#'   Details section for more information.}
+#'
+#'   \item{cat_prop}{identical to the input argument of the same name. Read the
+#'   Details section for more information.}
+#'
+#'   \item{cat_prop_W}{a subset of cat_prop containing only the elements
+#'   corresponding to the categorical variables.}
+#'
+#'   \item{cat_prop_W_p}{a list containing the probabilities for each category
+#'   of the categorical variables (cat_prop_W contains the cumulative
+#'   probabilities).}
+#'
+#'   \item{cat_prop_YX}{a subset of cat_prop containing only the elements
+#'   corresponding to the continuous variables.}
+#'
+#'   \item{cor_matrix}{identical to the input argument of the same name. Read
+#'   the Details section for more information.}
+#'
+#'   \item{cov_matrix}{identical to the input argument of the same name. Read
+#'   the Details section for more information.}
+#'
+#'   \item{family}{identical to the input argument of the same name.}
+#'
+#'   \item{full_output}{identical to the input argument of the same name.}
+#'
+#'   \item{label_YXZ}{vector containing the labels of the background
+#'   questionnaire variables.}
+#'
+#'   \item{Lambda}{identical to the input argument of the same name.}
+#'
+#'   \item{n_cats}{vector containing the number of categories for each
+#'   categorical variable.}
+#'
+#'   \item{n_fac}{identical to the input argument of the same name.}
+#'
+#'   \item{n_ind}{identical to the input argument of the same name.}
+#'
+#'   \item{n_obs}{identical to the input argument of the same name.}
+#'
+#'   \item{n_tot}{named vector containing the number of total variables, the
+#'   number of continuous background variables (i.e., the total number of
+#'   background variables except \eqn{\theta}) and the number of categorical
+#'   variables.}
+#'
+#'   \item{n_vars}{subset of \code{n_tot}, containing only the number of
+#'   background continuous and categorical variables.}
+#'
+#'   \item{n_W}{vector containing the number of categorical variables.}
+#'
+#'   \item{n_X}{vector containing the number of continuous variables (except
+#'   \eqn{\theta}).}
+#'
+#'   \item{sd_YXW}{vector with the standard deviations of all the variables}
+#'
+#'   \item{sd_YXZ}{vector containing the standard deviations of \eqn{\theta},
+#'   the background continuous variables (\eqn{X}) and the Normally-distributed
+#'   variables \eqn{Z} which will generate the background categorical variables
+#'   (\eqn{W}).}
+#'
+#'   \item{theta}{identical to the input argument of the same name.}
+#'
+#'   \item{var_W}{list containing the variances of the categorical variables.}
+#'
+#'   \item{var_YX}{list containing the variances of the continuous variables
+#'   (including \eqn{\theta}).}
+#'
+#'   \item{var_Z}{list containing the variances of the continuous variables
+#'   \eqn{Z} that will generate the categorical variables \eqn{W}.}
 #'
 #' @examples
 #' # Using polychoric correlations
