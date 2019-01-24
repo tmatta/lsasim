@@ -221,7 +221,9 @@ beta_gen <- function(data, MC = FALSE, replications = 100, output_cov = FALSE,
     new_variable_numbers <- c(X_numbers, W_numbers_expanded_cats)
     new_variable_names <- c("theta", paste0("q", new_variable_numbers))
     names(output$betas) <- new_variable_names
-    dimnames(output$vcov_YXW) <- list(new_variable_names, new_variable_names)
+    if (output_cov) {
+      dimnames(output$vcov_YXW) <- list(new_variable_names, new_variable_names)
+    }
   }
   return(output)
 }
