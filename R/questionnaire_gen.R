@@ -37,7 +37,7 @@
 #'   function parameters.
 #' @importFrom stats rbinom rpois rbeta rgamma
 #'
-#' @section Details: \code{cat_prop} is a list where \code{length(cat_prop)} is
+#' @details \code{cat_prop} is a list where \code{length(cat_prop)} is
 #'   the number of items to be generated.  Each element of the list is a vector
 #'   containing the marginal cumulative proportions for each category, summing
 #'   to 1.  For continuous items, the associated element in the list should be
