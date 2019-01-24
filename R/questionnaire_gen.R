@@ -37,15 +37,16 @@
 #'   function parameters.
 #' @importFrom stats rbinom rpois rbeta rgamma
 #'
-#' @details \code{cat_prop} is a list where \code{length(cat_prop)} is
-#'   the number of items to be generated.  Each element of the list is a vector
+#' @details \code{cat_prop} is a list where \code{length(cat_prop)} is the
+#'   number of items to be generated.  Each element of the list is a vector
 #'   containing the marginal cumulative proportions for each category, summing
 #'   to 1.  For continuous items, the associated element in the list should be
 #'   1.
 #'
-#'   \code{cor_matrix} is correlation matrix that is the same size as
-#'   \code{length(cat_prop)}.  The correlations related to the correlation
-#'   between variables on the latent scale.
+#'   \code{cor_matrix} and \code{cov_matrix} are the correlation and covariance
+#'   matrices that are the same size as \code{length(cat_prop)}.  The
+#'   correlations related to the correlation between variables on the latent
+#'   scale.
 #'
 #'   \code{c_mean and c_sd} are each vectors whose length is equal to the number
 #'   of continuous variables as specified by \code{cat_prop}.  The default is to
@@ -58,6 +59,33 @@
 #'   If \code{cat_prop} is a named list, those names will be used as variable
 #'   names for the returned \code{data.frame}.  Generic names will be provided
 #'   to the variables if \code{cat_prop} is not named.
+#'
+#'   As an alternative to providing \code{cat_prop}, the user can call this
+#'   function by specifying the total number of variables using \code{n_vars} or
+#'   the specific number of continuous and categorical variables through
+#'   \code{n_X} and \code{n_W}. All three arguments should be provided as
+#'   scalars; \code{n_W} may also be provided as a list, where each element
+#'   contains the number of categories for one background variable.
+#'
+#'   If \code{family == "gaussian"}, the questionnaire will be generated
+#'   assuming that all the variables are jointly-distributed as a multivariate
+#'   normal. The default behavior is \code{family = NULL}, where the data is
+#'   generated using the polychoric correlation matrix, with no distributional
+#'   assumptions.
+#'
+#'   \code{n_fac}, \code{n_ind} and \code{Lambda} are currently not in use, and
+#'   currently serve as placeholders for future versions of the package.
+#'
+#'   In essence, this function will check for the validity of the arguments
+#'   provided, and randomly generates those that are not. Then, it will either
+#'   call one of two internal functions, \code{questionnaire_gen_polychoric} or
+#'   \code{questionnaire_gen_family}. The former corresponds to the exact
+#'   functionality of questionnaire_gen on lsasim 1.0.1, where the polychoric
+#'   correlations are used to generate the background questionnaire data. If
+#'   \code{family != NULL}, however, \code{questionnaire_gen_family} is called.
+#'   Additionally, if \code{full_output = TRUE}, the external function
+#'   \code{beta_gen} is called to generate the correlation coefficients based on
+#'   the true covariance matrix.
 #'
 #' @return By default, the function returns a \code{data.frame} object where the
 #'   first column ("subject") is a \eqn{1,\ldots,n} ordered list for the \eqn{n}
