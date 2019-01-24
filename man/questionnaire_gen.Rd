@@ -144,8 +144,7 @@ By default, the function returns a \code{data.frame} object where the
 }
 \description{
 Creates a data frame of discrete and continuous variables based on a latent
-correlation matrix and marginal proportions. This function is, in effect, a
-wrapper for
+correlation matrix and marginal proportions.
 }
 \details{
 \code{cat_prop} is a list where \code{length(cat_prop)} is the

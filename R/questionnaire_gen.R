@@ -1,8 +1,7 @@
 #' Generation of ordinal and continuous variables
 #'
 #' Creates a data frame of discrete and continuous variables based on a latent
-#' correlation matrix and marginal proportions. This function is, in effect, a
-#' wrapper for
+#' correlation matrix and marginal proportions.
 #'
 #' @param n_obs number of observations to generate.
 #' @param cat_prop list of cumulative proportions for each item. If \code{theta
