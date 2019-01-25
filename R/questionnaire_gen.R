@@ -314,7 +314,16 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
   }
 
   # Labeling the matrices (and, if necessary, the data) -------------------
-  label_YXZ <- names(bg)[-1]
+  if (!is.null(rownames(cov_matrix))) {
+    label_YXZ <- rownames(cov_matrix)
+    names(bg)[-1] <- label_YXZ
+  } else if (!is.null(rownames(cor_matrix))) {
+    label_YXZ <- rownames(cor_matrix)
+    names(bg)[-1] <- label_YXZ
+  } else {
+    label_YXZ <- names(bg)[-1]
+  }
+
   if (!is.null(cor_matrix)) dimnames(cor_matrix) <- list(label_YXZ, label_YXZ)
   if (!is.null(cov_matrix)) dimnames(cov_matrix) <- list(label_YXZ, label_YXZ)
 
@@ -329,8 +338,12 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
   if (theta & full_output & !is.null(family)) {
     betas <- beta_gen(out, output_cov = TRUE, rename_to_q = TRUE)
     out <- c(out, linear_regression = list(betas))
-    # suppressed objects from output
-    rm(cat_prop_YX, full_output, n_vars, label_YXZ)
+  }
+
+  # Suppressing objects from output ---------------------------------------
+  if (full_output) {
+    out <- within(out, rm(full_output, n_vars, n_cats, label_YXZ, var_Z,
+                          cat_prop_YX, cat_prop_W))
   }
 
   return(out)

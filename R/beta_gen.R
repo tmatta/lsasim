@@ -79,8 +79,9 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100, output_cov = FALSE
   names_YX <- c("theta", names_X)
   names_YXZ <- c(names_YX, names_Z)
   dimnames(data$cov_matrix) <- list(names_YXZ, names_YXZ)
+  data$cat_prop_W <- data$cat_prop[lapply(data$cat_prop, length) > 1]
   names(data$cat_prop_W_p) <- names(data$cat_prop_W) <- names_W
-  names(data$c_sd) <- names(data$c_mean) <- names(data$cat_prop_YX) <- c("theta", names_X)
+  names(data$c_sd) <- names(data$c_mean) <- c("theta", names_X)
 
 
   # Defining parameters for Y, X, Z and W ---------------------------------

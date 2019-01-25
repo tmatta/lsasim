@@ -5,8 +5,8 @@ gen_questionnaire_var_names <- function(nW = NULL, nX = NULL, n = 10) {
                             full_output = TRUE, family = "gaussian")
   # Data from covariance matrix and cat_prop
   short_names <- rownames(data$cor_matrix)
-  W_levels_cov <- sapply(data$cat_prop_W, length)
-  X_length <- sapply(data$cat_prop_YX, length)[-1]
+  W_levels_cov <- sapply(data$cat_prop[lapply(data$cat_prop, length) > 1], length)
+  X_length <- sapply(data$cat_prop[lapply(data$cat_prop, length) == 1], length)[-1]
   cov_numbers <- as.numeric(substring(short_names[-1], 2))
 
   # Data from the regression
