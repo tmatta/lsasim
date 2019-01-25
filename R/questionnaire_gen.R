@@ -113,15 +113,9 @@
 #'   \item{cat_prop}{identical to the input argument of the same name. Read the
 #'   Details section for more information.}
 #'
-#'   \item{cat_prop_W}{a subset of cat_prop containing only the elements
-#'   corresponding to the categorical variables.}
-#'
 #'   \item{cat_prop_W_p}{a list containing the probabilities for each category
 #'   of the categorical variables (cat_prop_W contains the cumulative
 #'   probabilities).}
-#'
-#'   \item{cat_prop_YX}{a subset of cat_prop containing only the elements
-#'   corresponding to the continuous variables.}
 #'
 #'   \item{cor_matrix}{identical to the input argument of the same name. Read
 #'   the Details section for more information.}
@@ -131,23 +125,12 @@
 #'
 #'   \item{family}{identical to the input argument of the same name.}
 #'
-#'   \item{full_output}{identical to the input argument of the same name.}
-#'
-#'   \item{label_YXZ}{vector containing the labels of the background
-#'   questionnaire variables.}
-#'
-#'   \item{n_cats}{vector containing the number of categories for each
-#'   categorical variable.}
-#'
 #'   \item{n_obs}{identical to the input argument of the same name.}
 #'
 #'   \item{n_tot}{named vector containing the number of total variables, the
 #'   number of continuous background variables (i.e., the total number of
 #'   background variables except \eqn{\theta}) and the number of categorical
 #'   variables.}
-#'
-#'   \item{n_vars}{subset of \code{n_tot}, containing only the number of
-#'   background continuous and categorical variables.}
 #'
 #'   \item{n_W}{vector containing the number of categorical variables.}
 #'
@@ -168,8 +151,6 @@
 #'   \item{var_YX}{list containing the variances of the continuous variables
 #'   (including \eqn{\theta}).}
 #'
-#'   \item{var_Z}{list containing the variances of the continuous variables
-#'   \eqn{Z} that will generate the categorical variables \eqn{W}.}
 #' @references Matta, T. H., Rutkowski, L., Rutkowski, D., & Liaw, Y. L. (2018).
 #'   lsasim: an R package for simulating large-scale assessment data.
 #'   Large-scale Assessments in Education, 6(1), 15.
