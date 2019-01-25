@@ -158,7 +158,9 @@
 #'
 #'   \item{var_Z}{list containing the variances of the continuous variables
 #'   \eqn{Z} that will generate the categorical variables \eqn{W}.}
-#'
+#' @references Matta, T. H., Rutkowski, L., Rutkowski, D., & Liaw, Y. L. (2018).
+#'   lsasim: an R package for simulating large-scale assessment data.
+#'   Large-scale Assessments in Education, 6(1), 15.
 #' @examples
 #' # Using polychoric correlations
 #' cum_prop <- list(c(1), c(.25, .6, 1))  # one continuous, one with 3 categories
@@ -184,7 +186,8 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                               family = NULL,
                               cov_matrix = NULL, full_output = FALSE) {
   # TODO: keep original order of parameters (keeps retrocompatibility) or change
-  # to something more sensible (breaks compatibility)?
+  # to something more sensible (breaks compatibility). Group matrices and
+  # cat_prop with n_X n_W.
 
   # Changes n_W to a scalar, if necessary ---------------------------------
   n_cats <- NULL  # number of categories per categorical variable W
@@ -203,9 +206,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
   run_condition_checks(n_cats, n_vars, n_X, n_W, theta, cat_prop, cor_matrix,
                        cov_matrix, c_mean, c_sd)
 
-  # Random generation of unprovided parameters ----------------------------
-  # TODO: change conditional structure: use vector of non-null objects and check
-  # which of the missing parameters can be calculated from the input provided.
+  # Generation of number and characteristic of variables, if necessary ----
   if (is.null(n_vars)) {
     if (is.null(cat_prop)) {
       if (is.null(cor_matrix)) {
@@ -312,12 +313,13 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
     bg <- questionnaire_gen_family(n_obs, cat_prop, cov_matrix,
                                    family, theta, c_mean, n_cats)
   }
-  # Labeling the matrices
+
+  # Labeling the matrices (and, if necessary, the data) -------------------
   label_YXZ <- names(bg)[-1]
   if (!is.null(cor_matrix)) dimnames(cor_matrix) <- list(label_YXZ, label_YXZ)
   if (!is.null(cov_matrix)) dimnames(cov_matrix) <- list(label_YXZ, label_YXZ)
 
-
+  # Pre-assembling output object ------------------------------------------
   if (full_output) {
     out <- mget(ls())
   } else {

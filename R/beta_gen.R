@@ -25,7 +25,7 @@
 #'   TRUE}, which will generate a numeric estimate; the \code{MC_replications}
 #'   argument can be then increased to improve the estimates at a
 #'   often-noticeable cost in processing time. If \code{MC = FALSE}, the
-#'   \code{MC_replications} will have no effect
+#'   \code{MC_replications} will have no effect on the results.
 #'
 #'   If the background questionnaire contains categorical variables (\eqn{W}),
 #'   the original covariance matrix cannot be used. The case where \eqn{W} is
@@ -40,7 +40,7 @@
 #'   coefficients, including intercept. If \code{MC == TRUE}, the output will
 #'   instead be a matrix comparing the true regression coefficients obtained
 #'   from the covariance matrix with expected values obtained from a Monte Carlo
-#'   procedure, complete with 99% confidence interval.
+#'   procedure, complete with 99\% confidence interval.
 #'
 #'   If \code{output_cov = TRUE}, the output will be a list with two elements.
 #'   the first one, \code{betas}, will contain the same output described in the
