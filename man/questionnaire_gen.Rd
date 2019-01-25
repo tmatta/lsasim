@@ -69,15 +69,9 @@ By default, the function returns a \code{data.frame} object where the
   \item{cat_prop}{identical to the input argument of the same name. Read the
   Details section for more information.}
 
-  \item{cat_prop_W}{a subset of cat_prop containing only the elements
-  corresponding to the categorical variables.}
-
   \item{cat_prop_W_p}{a list containing the probabilities for each category
   of the categorical variables (cat_prop_W contains the cumulative
   probabilities).}
-
-  \item{cat_prop_YX}{a subset of cat_prop containing only the elements
-  corresponding to the continuous variables.}
 
   \item{cor_matrix}{identical to the input argument of the same name. Read
   the Details section for more information.}
@@ -87,23 +81,12 @@ By default, the function returns a \code{data.frame} object where the
 
   \item{family}{identical to the input argument of the same name.}
 
-  \item{full_output}{identical to the input argument of the same name.}
-
-  \item{label_YXZ}{vector containing the labels of the background
-  questionnaire variables.}
-
-  \item{n_cats}{vector containing the number of categories for each
-  categorical variable.}
-
   \item{n_obs}{identical to the input argument of the same name.}
 
   \item{n_tot}{named vector containing the number of total variables, the
   number of continuous background variables (i.e., the total number of
   background variables except \eqn{\theta}) and the number of categorical
   variables.}
-
-  \item{n_vars}{subset of \code{n_tot}, containing only the number of
-  background continuous and categorical variables.}
 
   \item{n_W}{vector containing the number of categorical variables.}
 
@@ -123,9 +106,6 @@ By default, the function returns a \code{data.frame} object where the
 
   \item{var_YX}{list containing the variances of the continuous variables
   (including \eqn{\theta}).}
-
-  \item{var_Z}{list containing the variances of the continuous variables
-  \eqn{Z} that will generate the categorical variables \eqn{W}.}
 }
 \description{
 Creates a data frame of discrete and continuous variables based on a latent
@@ -148,7 +128,7 @@ correlation matrix and marginal proportions.
   keep the continuous variables with mean zero and standard deviation of one.
 
   \code{theta} is a logical indicator that determines if the first continuous
-  item should be labeled \emph{theta}. If \code{theta = TRUE} but there are
+  item should be labeled \emph{theta}. If \code{theta == TRUE} but there are
   no continuous variables generated, a random number of background variables
   will be generated.
 
@@ -162,10 +142,13 @@ correlation matrix and marginal proportions.
   \code{n_X} and \code{n_W}. All three arguments should be provided as
   scalars; \code{n_W} may also be provided as a list, where each element
   contains the number of categories for one background variable.
+  Alternatively, \code{n_W} may be provided as a one-element list, in which
+  case it will be interpreted as all the categorical variables having the
+  same number of categories.
 
   If \code{family == "gaussian"}, the questionnaire will be generated
   assuming that all the variables are jointly-distributed as a multivariate
-  normal. The default behavior is \code{family = NULL}, where the data is
+  normal. The default behavior is \code{family == NULL}, where the data is
   generated using the polychoric correlation matrix, with no distributional
   assumptions.
 
@@ -176,9 +159,19 @@ correlation matrix and marginal proportions.
   functionality of questionnaire_gen on lsasim 1.0.1, where the polychoric
   correlations are used to generate the background questionnaire data. If
   \code{family != NULL}, however, \code{questionnaire_gen_family} is called.
-  Additionally, if \code{full_output = TRUE}, the external function
+  Additionally, if \code{full_output == TRUE}, the external function
   \code{beta_gen} is called to generate the correlation coefficients based on
   the true covariance matrix.
+}
+\note{
+If \code{family == NULL}, the number of levels for each categorical
+  variables will be determined by the number of categories observed in the
+  generated data. This means it might be smaller than the number of
+  categories determined by \code{cat_prop}, which is more likely to happen
+  with small values of \code{n_obs}. If \code{family == "gaussian"}, however,
+  the number of levels for the categorical variables will always be
+  equivalent to the number of possible categories, even if they are not
+  observed in the data.
 }
 \examples{
 # Using polychoric correlations
