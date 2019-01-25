@@ -53,7 +53,8 @@
 #'
 #'   \code{theta} is a logical indicator that determines if the first continuous
 #'   item should be labeled \emph{theta}. If \code{theta = TRUE} but there are
-#'   no continuous variables generated, an error will be returned.
+#'   no continuous variables generated, a random number of background variables
+#'   will be generated.
 #'
 #'   If \code{cat_prop} is a named list, those names will be used as variable
 #'   names for the returned \code{data.frame}.  Generic names will be provided
