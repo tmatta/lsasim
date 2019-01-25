@@ -32,58 +32,63 @@
 #' @importFrom stats rbinom rpois rbeta rgamma
 #'
 #' @details In essence, this function will check for the validity of the
-#' arguments provided, and randomly generates those that are not. Then, it will
-#' either call one of two internal functions,
-#' \code{questionnaire_gen_polychoric} or \code{questionnaire_gen_family}. The
-#' former corresponds to the exact functionality of questionnaire_gen on lsasim
-#' 1.0.1, where the polychoric correlations are used to generate the background
-#' questionnaire data. If \code{family != NULL}, however,
-#' \code{questionnaire_gen_family} is called. Additionally, if \code{full_output
-#' == TRUE}, the external function \code{beta_gen} is called to generate the
-#' correlation coefficients based on the true covariance matrix.
+#'   arguments provided, and randomly generates those that are not. Then, it
+#'   will either call one of two internal functions,
+#'   \code{questionnaire_gen_polychoric} or \code{questionnaire_gen_family}. The
+#'   former corresponds to the exact functionality of questionnaire_gen on
+#'   lsasim 1.0.1, where the polychoric correlations are used to generate the
+#'   background questionnaire data. If \code{family != NULL}, however,
+#'   \code{questionnaire_gen_family} is called. Additionally, if
+#'   \code{full_output == TRUE}, the external function \code{beta_gen} is called
+#'   to generate the correlation coefficients based on the true covariance
+#'   matrix.
 #'
-#' \code{cat_prop} is a list where \code{length(cat_prop)} is the number of
-#' items to be generated.  Each element of the list is a vector containing the
-#' marginal cumulative proportions for each category, summing to 1.  For
-#' continuous items, the associated element in the list should be 1.
+#'   \code{cat_prop} is a list where \code{length(cat_prop)} is the number of
+#'   items to be generated.  Each element of the list is a vector containing the
+#'   marginal cumulative proportions for each category, summing to 1.  For
+#'   continuous items, the associated element in the list should be 1.
 #'
-#' \code{cor_matrix} and \code{cov_matrix} are the correlation and covariance
-#' matrices that are the same size as \code{length(cat_prop)}.  The correlations
-#' related to the correlation between variables on the latent scale.
+#'   \code{cor_matrix} and \code{cov_matrix} are the correlation and covariance
+#'   matrices that are the same size as \code{length(cat_prop)}.  The
+#'   correlations related to the correlation between variables on the latent
+#'   scale.
 #'
-#' \code{c_mean and c_sd} are each vectors whose length is equal to the number
-#' of continuous variables as specified by \code{cat_prop}.  The default is to
-#' keep the continuous variables with mean zero and standard deviation of one.
+#'   \code{c_mean and c_sd} are each vectors whose length is equal to the number
+#'   of continuous variables as specified by \code{cat_prop}.  The default is to
+#'   keep the continuous variables with mean zero and standard deviation of one.
 #'
-#' \code{theta} is a logical indicator that determines if the first continuous
-#' item should be labeled \emph{theta}. If \code{theta == TRUE} but there are no
-#' continuous variables generated, a random number of background variables will
-#' be generated.
+#'   \code{theta} is a logical indicator that determines if the first continuous
+#'   item should be labeled \emph{theta}. If \code{theta == TRUE} but there are
+#'   no continuous variables generated, a random number of background variables
+#'   will be generated.
 #'
-#' If \code{cat_prop} is a named list, those names will be used as variable
-#' names for the returned \code{data.frame}.  Generic names will be provided to
-#' the variables if \code{cat_prop} is not named.
+#'   If \code{cat_prop} is a named list, those names will be used as variable
+#'   names for the returned \code{data.frame}.  Generic names will be provided
+#'   to the variables if \code{cat_prop} is not named.
 #'
-#' As an alternative to providing \code{cat_prop}, the user can call this
-#' function by specifying the total number of variables using \code{n_vars} or
-#' the specific number of continuous and categorical variables through
-#' \code{n_X} and \code{n_W}. All three arguments should be provided as scalars;
-#' \code{n_W} may also be provided as a list, where each element contains the
-#' number of categories for one background variable. Alternatively, \code{n_W}
-#' may be provided as a one-element list, in which case it will be interpreted
-#' as all the categorical variables having the same number of categories.
+#'   As an alternative to providing \code{cat_prop}, the user can call this
+#'   function by specifying the total number of variables using \code{n_vars} or
+#'   the specific number of continuous and categorical variables through
+#'   \code{n_X} and \code{n_W}. All three arguments should be provided as
+#'   scalars; \code{n_W} may also be provided as a list, where each element
+#'   contains the number of categories for one background variable.
+#'   Alternatively, \code{n_W} may be provided as a one-element list, in which
+#'   case it will be interpreted as all the categorical variables having the
+#'   same number of categories.
 #'
-#' If \code{family == "gaussian"}, the questionnaire will be generated assuming
-#' that all the variables are jointly-distributed as a multivariate normal. The
-#' default behavior is \code{family == NULL}, where the data is generated using
-#' the polychoric correlation matrix, with no distributional assumptions.
+#'   If \code{family == "gaussian"}, the questionnaire will be generated
+#'   assuming that all the variables are jointly-distributed as a multivariate
+#'   normal. The default behavior is \code{family == NULL}, where the data is
+#'   generated using the polychoric correlation matrix, with no distributional
+#'   assumptions.
 #'
-#' When data is generated using the Gaussian distribution, the matrices provided
-#' correspond to the relations between the latent variable \eqn{\theta}, the
-#' continuous covariates \eqn{X} and the continuous covariates---\eqn{Z ~
-#' N(0, 1)}---that will later be discretized into categorical covariates
-#' \eqn{W}. For more information, check the references cited later in this
-#' document.
+#'   When data is generated using the Gaussian distribution, the matrices
+#'   provided correspond to the relations between the latent variable
+#'   \eqn{\theta}, the continuous covariates \eqn{X} and the continuous
+#'   covariates---\eqn{Z ~ N(0, 1)}---that will later be discretized into
+#'   categorical covariates \eqn{W}. That is why there will be a difference
+#'   between labels and lengths between \code{cov_matrix} and \code{} For more information, check the references
+#'   cited later in this document.
 #'
 #' @note If \code{family == NULL}, the number of levels for each categorical
 #'   variables will be determined by the number of categories observed in the
