@@ -180,11 +180,10 @@
 #'                   cat_prop = list(c(.25, 1), c(.6, 1), c(.2, 1)),
 #'                   family = "gaussian")
 #' @export
-questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
+questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
+                              n_W = NULL, cor_matrix = NULL, cov_matrix = NULL,
                               c_mean = NULL, c_sd = NULL, theta = FALSE,
-                              n_vars = NULL, n_X = NULL, n_W = NULL,
-                              family = NULL,
-                              cov_matrix = NULL, full_output = FALSE) {
+                              family = NULL, full_output = FALSE) {
   # TODO: keep original order of parameters (keeps retrocompatibility) or change
   # to something more sensible (breaks compatibility). Group matrices and
   # cat_prop with n_X n_W.

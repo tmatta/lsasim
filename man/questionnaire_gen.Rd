@@ -4,10 +4,9 @@
 \alias{questionnaire_gen}
 \title{Generation of ordinal and continuous variables}
 \usage{
-questionnaire_gen(n_obs, cat_prop = NULL, cor_matrix = NULL,
-  c_mean = NULL, c_sd = NULL, theta = FALSE, n_vars = NULL,
-  n_X = NULL, n_W = NULL, family = NULL, cov_matrix = NULL,
-  full_output = FALSE)
+questionnaire_gen(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
+  n_W = NULL, cor_matrix = NULL, cov_matrix = NULL, c_mean = NULL,
+  c_sd = NULL, theta = FALSE, family = NULL, full_output = FALSE)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}
@@ -15,18 +14,6 @@ questionnaire_gen(n_obs, cat_prop = NULL, cor_matrix = NULL,
 \item{cat_prop}{list of cumulative proportions for each item. If \code{theta
 = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
 corresponds to the \code{theta}.}
-
-\item{cor_matrix}{latent correlation matrix. The first row/column corresponds
-to the latent trait (Y). The other rows/columns correspond to the
-continuous (X or Z) or the discrete (W) background variables, in the same
-order as \code{cat_prop}.}
-
-\item{c_mean}{is a vector of population means for each continuous variable.}
-
-\item{c_sd}{is a vector of population standard deviations for each continuous
-variable.}
-
-\item{theta}{if \code{TRUE} will label the first continuous variable 'theta'.}
 
 \item{n_vars}{number of total variables, continuous (X), discrete (W) and
 theta (Y).}
@@ -39,10 +26,22 @@ background variables or a list of scalars representing the number of
 categories for each categorical variable. If not provided, a random number
 of categorical variables will be generated.}
 
-\item{family}{distribution of the background variables. Can be NULL (default)
-or 'gaussian'.}
+\item{cor_matrix}{latent correlation matrix. The first row/column corresponds
+to the latent trait (Y). The other rows/columns correspond to the
+continuous (X or Z) or the discrete (W) background variables, in the same
+order as \code{cat_prop}.}
 
 \item{cov_matrix}{latent covariance matrix, formatted as \code{cor_matrix}.}
+
+\item{c_mean}{is a vector of population means for each continuous variable.}
+
+\item{c_sd}{is a vector of population standard deviations for each continuous
+variable.}
+
+\item{theta}{if \code{TRUE} will label the first continuous variable 'theta'.}
+
+\item{family}{distribution of the background variables. Can be NULL (default)
+or 'gaussian'.}
 
 \item{full_output}{if \code{TRUE}, output will be a list containing all
 function parameters.}
