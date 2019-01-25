@@ -282,7 +282,6 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
   }
 
   # Recalculating n_X and n_W ---------------------------------------------
-  # TODO: check if this is this still necessary
   n_X <- length(cat_prop[lapply(cat_prop, length) == 1]) - theta
   n_W <- length(cat_prop[lapply(cat_prop, length) > 1])
 

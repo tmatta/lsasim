@@ -1,5 +1,5 @@
- context("Regression coefficients are calculated correctly")
- set.seed(38141)
+context("Regression coefficients are calculated correctly")
+set.seed(38141)
 
 # Generating data ---------------------------------------------------------
 q_gen_wrap <- function(x = 0, w = 0) {

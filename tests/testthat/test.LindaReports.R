@@ -182,9 +182,9 @@ data1 <- questionnaire_gen(1000, family = "gaussian",
 sd2 <- c(4, 9)
 set.seed(1234)
 data2 <- questionnaire_gen(1000,
-                          cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
-                          c_sd = sd2, theta = TRUE,
-                          full_output = TRUE, n_X = 1, n_W = 0)
+                           cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
+                           c_sd = sd2, theta = TRUE,
+                           full_output = TRUE, n_X = 1, n_W = 0)
 
 test_that("Issue 1: SDs and variances are treated correctly", {
   expect_identical(data1$sd_YXW, sd1)
@@ -193,9 +193,9 @@ test_that("Issue 1: SDs and variances are treated correctly", {
 
 set.seed(1234)
 data3 <- questionnaire_gen(1000, family = "gaussian",
-                          cov_matrix = matrix(c(9, .6, .6, 1), nrow = 2),
-                          theta = TRUE,
-                          full_output = TRUE, n_X = 1, n_W = 0)
+                           cov_matrix = matrix(c(9, .6, .6, 1), nrow = 2),
+                           theta = TRUE,
+                           full_output = TRUE, n_X = 1, n_W = 0)
 
 test_that("Issue 2: sd_YXW and var_YX are provided if cov_matrix is given", {
   expect_false(is.null(data3$sd_YXW))
@@ -204,15 +204,15 @@ test_that("Issue 2: sd_YXW and var_YX are provided if cov_matrix is given", {
 
 test_that("Issue 3: c_sd is not ignored if cov_matrix is provided", {
   expect_warning(questionnaire_gen(1000, family = "gaussian",
-                                 cov_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
-                                 c_sd = c(9, 1),
-                                 theta = TRUE,
-                                 full_output = TRUE, n_X = 1, n_W = 0))
+                                   cov_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
+                                   c_sd = c(9, 1),
+                                   theta = TRUE,
+                                   full_output = TRUE, n_X = 1, n_W = 0))
   expect_warning(questionnaire_gen(1000, family = "gaussian",
-                                 cov_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
-                                 c_sd = c(-9, 1),
-                                 theta = TRUE,
-                                 full_output = TRUE, n_X = 1, n_W = 0))
+                                   cov_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
+                                   c_sd = c(-9, 1),
+                                   theta = TRUE,
+                                   full_output = TRUE, n_X = 1, n_W = 0))
 })
 
 set.seed(1234)

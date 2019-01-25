@@ -23,8 +23,6 @@ run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
                   "n_vars must equal n_X + n_W + theta")
   check_condition(n_X == 0 & n_W == 0,
                   "At least one background variable must be generated")
-  check_condition(ncol(cov_matrix) > 0 & ncol(cor_matrix) > 0,
-                  "Only one matrix (cov_matrix or cor_matrix) can be provided")
   check_condition(n_X + n_W + theta > ncol(cov_matrix),
                   "n_X + n_W + theta must not exceed ncol(cov_matrix)")
   check_condition(n_X + n_W + theta > ncol(cor_matrix),
@@ -52,6 +50,8 @@ run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
                   "c_sd recycled to fit all continuous variables", FALSE)
 
   # Conditions involving the covariance or correlation matrices -----------
+  check_condition(ncol(cov_matrix) > 0 & ncol(cor_matrix) > 0,
+                  "Only one matrix (cov_matrix or cor_matrix) may be provided")
   check_condition(any(cor_matrix > 1), "Improper correlation matrix")
   if (!is.null(cor_matrix)) {
     check_condition(!isSymmetric(cor_matrix), "cor_matrix is not symmetric")
