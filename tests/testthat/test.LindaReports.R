@@ -1,3 +1,5 @@
+# lsasim 1.0.1.9007 -------------------------------------------------------
+
 context("Linda's report on lsasim 1.0.1.9007")
 
 test_that("Number of variables generated is consistent", {
@@ -51,6 +53,8 @@ test_that("Improper cumulative proportions yield errors", {
                                  c_mean = 2, c_sd = 1.5, theta = TRUE))
 })
 
+# lsasim 1.0.1.9008 -------------------------------------------------------
+
 context("Linda's report on lsasim 1.0.1.9008")
 
 test_that("Sizes of cat_prop, cor_matrix and n_vars don't conflict", {
@@ -81,6 +85,8 @@ test_that("Sizes of cat_prop, cor_matrix and n_vars don't conflict", {
                                  n_vars = 3,
                                  theta = T))
 })
+
+# lsasim 1.0.1.9009 -------------------------------------------------------
 
 context("Linda's report on lsasim 1.0.1.9009")
 
@@ -161,4 +167,76 @@ test_that("Case 8: generating only one binary n_W", {
   data <- questionnaire_gen(n_obs = 100, n_X = 0, n_W = list(2), theta = F)
   expect_identical(names(data), c("subject", "q1"))
   expect_output(str(data$q1), "Factor w/ 2 levels")
+})
+
+# lsasim 1.0.1.9039 -------------------------------------------------------
+
+context("Linda's report on lsasim 1.0.1.9039")
+
+sd1 <- c(.5, 1.5)
+set.seed(1234)
+data1 <- questionnaire_gen(1000, family = "gaussian",
+                          cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
+                          c_sd = sd1, theta = TRUE,
+                          full_output = TRUE, n_X = 1, n_W = 0)
+sd2 <- c(4, 9)
+set.seed(1234)
+data2 <- questionnaire_gen(1000,
+                          cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
+                          c_sd = sd2, theta = TRUE,
+                          full_output = TRUE, n_X = 1, n_W = 0)
+
+test_that("Issue 1: SDs and variances are treated correctly", {
+  expect_identical(data1$sd_YXW, sd1)
+  expect_identical(data2$sd_YXW, sd2)
+})
+
+set.seed(1234)
+data3 <- questionnaire_gen(1000, family = "gaussian",
+                          cov_matrix = matrix(c(9, .6, .6, 1), nrow = 2),
+                          theta = TRUE,
+                          full_output = TRUE, n_X = 1, n_W = 0)
+
+test_that("Issue 2: sd_YXW and var_YX are provided if cov_matrix is given", {
+  expect_false(is.null(data3$sd_YXW))
+  expect_false(is.null(data3$var_YX))
+})
+
+test_that("Issue 3: c_sd is not ignored if cov_matrix is provided", {
+  expect_warning(questionnaire_gen(1000, family = "gaussian",
+                                 cov_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
+                                 c_sd = c(9, 1),
+                                 theta = TRUE,
+                                 full_output = TRUE, n_X = 1, n_W = 0))
+  expect_warning(questionnaire_gen(1000, family = "gaussian",
+                                 cov_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
+                                 c_sd = c(-9, 1),
+                                 theta = TRUE,
+                                 full_output = TRUE, n_X = 1, n_W = 0))
+})
+
+set.seed(1234)
+data4 <- questionnaire_gen(1000, family = "gaussian", theta = TRUE,
+                           full_output = TRUE, n_X = 2, n_W = list(2, 3))
+beta4  <- beta_gen(data4, MC = TRUE)
+beta4q <- beta_gen(data4, MC = TRUE, rename_to_q = TRUE)
+test_that("Issue 4: variable renaming is consistent", {
+  expect_identical(names(data4$linear_regression$betas), rownames(beta4q))
+})
+
+set.seed(1234)
+data5 <- questionnaire_gen(1000, family = "gaussian", theta = TRUE,
+                          full_output = TRUE, n_X = 2, n_W = list(2, 3))
+
+test_that("Issue 5: replications has no effect in result if MC = FALSE", {
+  expect_identical(beta_gen(data5, MC = FALSE),
+                   beta_gen(data5, MC = FALSE, MC_replications = 1000))
+})
+
+set.seed(1234)
+data6 <- questionnaire_gen(100, theta = TRUE, n_X = 2, n_W = list(2, 3, 8))
+test_that("Issue 6: factors always start at 1", {
+  expect_equal(names(table(data6$q3))[1], "1")
+  expect_equal(names(table(data6$q4))[1], "1")
+  expect_equal(names(table(data6$q5))[1], "1")
 })
