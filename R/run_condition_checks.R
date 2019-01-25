@@ -15,6 +15,8 @@
 #'
 run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
                                  cor_matrix, cov_matrix, c_mean, c_sd) {
+
+  # Conditions involving number and quality of covariates -----------------
   check_condition(any(n_cats == 1),
                   "the number of categories in n_W must all be greater than 1")
   check_condition(n_vars != n_X + n_W + theta,
@@ -34,8 +36,6 @@ run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
   check_condition(!is.null(cat_prop) & !is.null(n_vars) &
                     length(cat_prop) != n_vars,
                   "n_vars must be NULL or equal to length(cat_prop)")
-  check_condition(any(cor_matrix > 1),
-                  "Improper correlation matrix")
   check_condition(any(sapply(lapply(cat_prop, diff), function(x) any(x < 0))),
                   "The elements of cat_prop must be non-decreasing")
   check_condition(any(sapply(cat_prop, function(x) any(x > 1))),
@@ -50,11 +50,23 @@ run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
                   "c_mean recycled to fit all continuous variables", FALSE)
   check_condition(length(c_sd) > 1 & length(c_sd) != n_X + theta,
                   "c_sd recycled to fit all continuous variables", FALSE)
-  check_condition(any(c_sd < 0), "c_sd may not contain negative elements")
-  if (!is.null(cor_matrix))
+
+  # Conditions involving the covariance or correlation matrices -----------
+  check_condition(any(cor_matrix > 1), "Improper correlation matrix")
+  if (!is.null(cor_matrix)) {
     check_condition(!isSymmetric(cor_matrix), "cor_matrix is not symmetric")
-  if (!is.null(cov_matrix))
+  }
+  if (!is.null(cov_matrix)) {
     check_condition(!isSymmetric(cov_matrix), "cov_matrix is not symmetric")
+    check_condition(min(diag(cov_matrix)) < 0,
+                    "cov_matrix cannot contain negative values in its diagonal.")
+    check_condition(abs(max(cov2cor(cov_matrix))) > 1,
+                    "cov_matrix is possibly invalid, because it generates correlations above 1", FALSE)
+    check_condition(!is.null(c_sd),
+                    "cov_matrix was provided, so c_sd was ignored", FALSE)
+  } else {
+    check_condition(any(c_sd < 0), "c_sd may not contain negative elements")
+  }
   if (!is.null(cat_prop)) {
     check_condition(theta & (cat_prop[[1]][1] != 1),
                     "theta == TRUE, so the first element of cat_prop must be 1")

@@ -33,23 +33,23 @@ mu_yx <- 0:2
 sd_yx <- 1:3
 
 # Generate data -----------------------------------------------------------
-q_gen <- function(data, cov_mx, mean, sd) {
+q_gen <- function(data, cov_mx, mean) {
   suppressMessages(questionnaire_gen(n, data, cov_matrix = cov_mx, theta = TRUE,
                                      family = "gaussian", full_output = TRUE,
-                                     c_mean = mean, c_sd = sd))
+                                     c_mean = mean))
 }
 
-df_yx1   <- q_gen(cum_prob_yx1, cov_mx_yx1, mu_yx[c(1, 2)], sd_yx[c(1, 2)])
-df_yx    <- q_gen(cum_prob_yx, cov_mx_yx, mu_yx[c(1, 2, 3)], sd_yx[c(1, 2, 3)])
-df_yw1   <- q_gen(cum_prob_yw1, cov_mx_yw1, mu_yx[c(1)], sd_yx[c(1)])
-df_yw2   <- q_gen(cum_prob_yw2, cov_mx_yw2, mu_yx[c(1)], sd_yx[c(1)])
-df_yw    <- q_gen(cum_prob_yw, cov_mx_yw, mu_yx[c(1)], sd_yx[c(1)])
-df_yx1w1 <- q_gen(cum_prob_yx1w1, cov_mx_yx1w1, mu_yx[c(1, 2)], sd_yx[c(1, 2)])
-df_yx1w2 <- q_gen(cum_prob_yx1w2, cov_mx_yx1w2, mu_yx[c(1, 2)], sd_yx[c(1, 2)])
-df_yx1w  <- q_gen(cum_prob_yx1w, cov_mx_yx1w, mu_yx[c(1:2)], sd_yx[c(1:2)])
-df_yxw1  <- q_gen(cum_prob_yxw1, cov_mx_yxw1, mu_yx[c(1:3)], sd_yx[c(1:3)])
-df_yxw2  <- q_gen(cum_prob_yxw2, cov_mx_yxw2, mu_yx[c(1:3)], sd_yx[c(1:3)])
-df_yxw   <- q_gen(cum_prob_yxw, cov_mx_yxw, mu_yx[c(1:3)], sd_yx[c(1:3)])
+df_yx1   <- q_gen(cum_prob_yx1, cov_mx_yx1, mu_yx[c(1, 2)])
+df_yx    <- q_gen(cum_prob_yx, cov_mx_yx, mu_yx[c(1, 2, 3)])
+df_yw1   <- q_gen(cum_prob_yw1, cov_mx_yw1, mu_yx[c(1)])
+df_yw2   <- q_gen(cum_prob_yw2, cov_mx_yw2, mu_yx[c(1)])
+df_yw    <- q_gen(cum_prob_yw, cov_mx_yw, mu_yx[c(1)])
+df_yx1w1 <- q_gen(cum_prob_yx1w1, cov_mx_yx1w1, mu_yx[c(1, 2)])
+df_yx1w2 <- q_gen(cum_prob_yx1w2, cov_mx_yx1w2, mu_yx[c(1, 2)])
+df_yx1w  <- q_gen(cum_prob_yx1w, cov_mx_yx1w, mu_yx[c(1:2)])
+df_yxw1  <- q_gen(cum_prob_yxw1, cov_mx_yxw1, mu_yx[c(1:3)])
+df_yxw2  <- q_gen(cum_prob_yxw2, cov_mx_yxw2, mu_yx[c(1:3)])
+df_yxw   <- q_gen(cum_prob_yxw, cov_mx_yxw, mu_yx[c(1:3)])
 
 yx1   <- setNames(df_yx1$bg, c("subject", "y", "x1"))
 yx    <- setNames(df_yx$bg, c("subject", "y", "x1", "x2"))
