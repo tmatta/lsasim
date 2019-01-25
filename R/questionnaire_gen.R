@@ -82,6 +82,15 @@
 #'   \code{beta_gen} is called to generate the correlation coefficients based on
 #'   the true covariance matrix.
 #'
+#' @note If \code{family == NULL}, the number of levels for each categorical
+#'   variables will be determined by the number of categories observed in the
+#'   generated data. This means it might be smaller than the number of
+#'   categories determined by \code{cat_prop}, which is more likely to happen
+#'   with small values of \code{n_obs}. If \code{family == "gaussian"}, however,
+#'   the number of levels for the categorical variables will always be
+#'   equivalent to the number of possible categories, even if they are not
+#'   observed in the data.
+#'
 #' @return By default, the function returns a \code{data.frame} object where the
 #'   first column ("subject") is a \eqn{1,\ldots,n} ordered list for the \eqn{n}
 #'   observations and the other columns correspond to the questionnaire answers.
