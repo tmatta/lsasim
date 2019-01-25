@@ -38,5 +38,5 @@ gen_variable_n <- function(n_vars, n_X, n_W, theta = FALSE) {
     if (is.null(n_X)) n_X <- rbinom(n = 1, prob = .2, size = n_vars - n_W)
     if (is.null(n_W)) n_W <- rbinom(n = 1, prob = .8, size = n_vars - n_X)
   }
-  return(c(n_vars = n_vars, n_X = n_X, n_W = n_W))
+  return(c(n_vars = n_vars, n_X = n_X, n_W = n_W, theta = theta))
 }
