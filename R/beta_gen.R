@@ -4,8 +4,8 @@
 #'   \code{full_output = TRUE}
 #' @param MC if \code{TRUE}, perform Monte Carlo simulation to estimate
 #'   regression coefficients
-#' @param replications for \code{MC = TRUE}, this represents the number of Monte
-#'   Carlo subsamples calculated.
+#' @param MC_replications for \code{MC = TRUE}, this represents the number of
+#'   Monte Carlo subsamples calculated.
 #' @param output_cov if \code{TRUE}, will also output the covariance matrix of
 #'   YXW.
 #' @param rename_to_q if \code{TRUE}, renames the variables from "x" and "w" to
@@ -22,9 +22,10 @@
 #'   matrix is not sample-dependent, though it should be similar to the observed
 #'   in the generated data (especially for larger samples). One convenient way
 #'   to check for this similarity is by running the function with \code{MC =
-#'   TRUE}, which will generate a numeric estimate; the \code{replications}
+#'   TRUE}, which will generate a numeric estimate; the \code{MC_replications}
 #'   argument can be then increased to improve the estimates at a
-#'   often-noticeable cost in processing time.
+#'   often-noticeable cost in processing time. If \code{MC = FALSE}, the
+#'   \code{MC_replications} will have no effect
 #'
 #'   If the background questionnaire contains categorical variables (\eqn{W}),
 #'   the original covariance matrix cannot be used. The case where \eqn{W} is
@@ -52,13 +53,16 @@
 #'                            full_output = TRUE, n_X = 2, n_W = list(2, 2, 4))
 #' beta_gen(data, MC = TRUE)
 #'
-beta_gen <- function(data, MC = FALSE, replications = 100, output_cov = FALSE,
+beta_gen <- function(data, MC = FALSE, MC_replications = 100, output_cov = FALSE,
                      rename_to_q = FALSE) {
 
   # Basic validation checks -----------------------------------------------
   if (!data$theta) stop("Data must include theta")
   if (class(data) != "list") {
     stop("Generate data with questionnaire_gen(full_output = TRUE)")
+  }
+  if (!MC & MC_replications != 100) {
+    message("Changing the number of Monte Carlo replications has no effect unless MC = TRUE.")
   }
 
   # Basic data subsetting -------------------------------------------------
@@ -187,7 +191,7 @@ beta_gen <- function(data, MC = FALSE, replications = 100, output_cov = FALSE,
   if (MC) {
     message("Generating Monte Carlo coefficient estimates. Please wait...")
     boot_data <- list()
-    for (r in seq(replications)) {
+    for (r in seq(MC_replications)) {
       unique_lvl <- TRUE
       while (unique_lvl) {
         boot_obs <- sample(rownames(data$bg), replace = TRUE)
@@ -220,9 +224,19 @@ beta_gen <- function(data, MC = FALSE, replications = 100, output_cov = FALSE,
     }
     new_variable_numbers <- c(X_numbers, W_numbers_expanded_cats)
     new_variable_names <- c("theta", paste0("q", new_variable_numbers))
-    names(output$betas) <- new_variable_names
     if (output_cov) {
+      if (MC) {
+        rownames(output$betas) <- new_variable_names
+      } else {
+        names(output$betas) <- new_variable_names
+      }
       dimnames(output$vcov_YXW) <- list(new_variable_names, new_variable_names)
+    } else {
+      if (MC) {
+        rownames(output) <- new_variable_names
+      } else {
+        names(output) <- new_variable_names
+      }
     }
   }
   return(output)

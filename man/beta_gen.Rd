@@ -4,7 +4,7 @@
 \alias{beta_gen}
 \title{Generate analytical parameters}
 \usage{
-beta_gen(data, MC = FALSE, replications = 100, output_cov = FALSE,
+beta_gen(data, MC = FALSE, MC_replications = 100, output_cov = FALSE,
   rename_to_q = FALSE)
 }
 \arguments{
@@ -14,8 +14,8 @@ beta_gen(data, MC = FALSE, replications = 100, output_cov = FALSE,
 \item{MC}{if \code{TRUE}, perform Monte Carlo simulation to estimate
 regression coefficients}
 
-\item{replications}{for \code{MC = TRUE}, this represents the number of Monte
-Carlo subsamples calculated.}
+\item{MC_replications}{for \code{MC = TRUE}, this represents the number of
+Monte Carlo subsamples calculated.}
 
 \item{output_cov}{if \code{TRUE}, will also output the covariance matrix of
 YXW.}
@@ -50,9 +50,10 @@ This function was primarily conceived as a subfunction of
   matrix is not sample-dependent, though it should be similar to the observed
   in the generated data (especially for larger samples). One convenient way
   to check for this similarity is by running the function with \code{MC =
-  TRUE}, which will generate a numeric estimate; the \code{replications}
+  TRUE}, which will generate a numeric estimate; the \code{MC_replications}
   argument can be then increased to improve the estimates at a
-  often-noticeable cost in processing time.
+  often-noticeable cost in processing time. If \code{MC = FALSE}, the
+  \code{MC_replications} will have no effect
 
   If the background questionnaire contains categorical variables (\eqn{W}),
   the original covariance matrix cannot be used. The case where \eqn{W} is
