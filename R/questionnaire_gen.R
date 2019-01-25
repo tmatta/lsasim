@@ -47,7 +47,7 @@
 #'   keep the continuous variables with mean zero and standard deviation of one.
 #'
 #'   \code{theta} is a logical indicator that determines if the first continuous
-#'   item should be labeled \emph{theta}. If \code{theta = TRUE} but there are
+#'   item should be labeled \emph{theta}. If \code{theta == TRUE} but there are
 #'   no continuous variables generated, a random number of background variables
 #'   will be generated.
 #'
@@ -67,7 +67,7 @@
 #'
 #'   If \code{family == "gaussian"}, the questionnaire will be generated
 #'   assuming that all the variables are jointly-distributed as a multivariate
-#'   normal. The default behavior is \code{family = NULL}, where the data is
+#'   normal. The default behavior is \code{family == NULL}, where the data is
 #'   generated using the polychoric correlation matrix, with no distributional
 #'   assumptions.
 #'
@@ -78,7 +78,7 @@
 #'   functionality of questionnaire_gen on lsasim 1.0.1, where the polychoric
 #'   correlations are used to generate the background questionnaire data. If
 #'   \code{family != NULL}, however, \code{questionnaire_gen_family} is called.
-#'   Additionally, if \code{full_output = TRUE}, the external function
+#'   Additionally, if \code{full_output == TRUE}, the external function
 #'   \code{beta_gen} is called to generate the correlation coefficients based on
 #'   the true covariance matrix.
 #'
