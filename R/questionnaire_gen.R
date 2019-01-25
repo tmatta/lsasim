@@ -61,6 +61,9 @@
 #'   \code{n_X} and \code{n_W}. All three arguments should be provided as
 #'   scalars; \code{n_W} may also be provided as a list, where each element
 #'   contains the number of categories for one background variable.
+#'   Alternatively, \code{n_W} may be provided as a one-element list, in which
+#'   case it will be interpreted as all the categorical variables having the
+#'   same number of categories.
 #'
 #'   If \code{family == "gaussian"}, the questionnaire will be generated
 #'   assuming that all the variables are jointly-distributed as a multivariate
@@ -184,9 +187,6 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
                               n_W = NULL, cor_matrix = NULL, cov_matrix = NULL,
                               c_mean = NULL, c_sd = NULL, theta = FALSE,
                               family = NULL, full_output = FALSE) {
-  # TODO: keep original order of parameters (keeps retrocompatibility) or change
-  # to something more sensible (breaks compatibility). Group matrices and
-  # cat_prop with n_X n_W.
 
   # Changes n_W to a scalar, if necessary ---------------------------------
   n_cats <- NULL  # number of categories per categorical variable W
@@ -223,6 +223,12 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
         n_tot <- gen_variable_n(n_vars, n_X, n_W, theta)
       }
       n_X <- n_tot["n_X"]
+      # Expanding n_W if it was provided as a 1-length list for all Ws
+      if (length(n_cats) == 1 &
+          n_tot["n_vars"] != n_tot["n_X"] + n_tot["n_W"] + n_tot["theta"]) {
+        n_tot["n_W"] <- n_tot["n_vars"] - n_tot["n_X"] - n_tot["theta"]
+        n_cats <- rep(n_cats, n_tot["n_W"])
+      }
       n_W <- n_tot["n_W"]
       cat_prop <- gen_cat_prop(n_X, n_W, n_cats)
       n_vars <- n_X + n_W + theta
