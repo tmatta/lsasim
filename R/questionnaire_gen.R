@@ -27,11 +27,6 @@
 #'   of categorical variables will be generated.
 #' @param family distribution of the background variables. Can be NULL (default)
 #'   or 'gaussian'.
-#' @param n_fac number of factors (currently out of use)
-#' @param n_ind number of indicators per factor (currently out of use)
-#' @param Lambda either a matrix containing the factor loadings or a vector
-#'   containing the lower and upper limits for a randomly-generated Lambda
-#'   matrix (currently out of use)
 #' @param full_output if \code{TRUE}, output will be a list containing all
 #'   function parameters.
 #' @importFrom stats rbinom rpois rbeta rgamma
@@ -72,9 +67,6 @@
 #'   normal. The default behavior is \code{family = NULL}, where the data is
 #'   generated using the polychoric correlation matrix, with no distributional
 #'   assumptions.
-#'
-#'   \code{n_fac}, \code{n_ind} and \code{Lambda} are currently not in use, and
-#'   currently serve as placeholders for future versions of the package.
 #'
 #'   In essence, this function will check for the validity of the arguments
 #'   provided, and randomly generates those that are not. Then, it will either
@@ -132,14 +124,8 @@
 #'   \item{label_YXZ}{vector containing the labels of the background
 #'   questionnaire variables.}
 #'
-#'   \item{Lambda}{identical to the input argument of the same name.}
-#'
 #'   \item{n_cats}{vector containing the number of categories for each
 #'   categorical variable.}
-#'
-#'   \item{n_fac}{identical to the input argument of the same name.}
-#'
-#'   \item{n_ind}{identical to the input argument of the same name.}
 #'
 #'   \item{n_obs}{identical to the input argument of the same name.}
 #'
@@ -190,14 +176,13 @@
 #' # Not providing covariance matrix
 #' questionnaire_gen(n_obs = 10,
 #'                   cat_prop = list(c(.25, 1), c(.6, 1), c(.2, 1)),
-#'                   family = "gaussian", n_fac = 4, n_ind = 3)
+#'                   family = "gaussian")
 #' @export
 questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
                               c_mean = NULL, c_sd = NULL, theta = FALSE,
                               n_vars = NULL, n_X = NULL, n_W = NULL,
                               family = NULL,
-                              cov_matrix = NULL, n_fac = NULL, n_ind = NULL,
-                              Lambda = 0:1, full_output = FALSE){
+                              cov_matrix = NULL, full_output = FALSE) {
   # TODO: keep original order of parameters (keeps retrocompatibility) or change
   # to something more sensible (breaks compatibility)?
 
@@ -254,7 +239,6 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, cor_matrix = NULL,
       cat_prop <- gen_cat_prop(n_X, n_W, n_cats)
     }
   }
-  if (is.null(n_fac)) n_fac <- 1  # TODO: use it as input for cov_gen
 
   # Adding Y if necessary
   if (length(cat_prop) != n_vars) {

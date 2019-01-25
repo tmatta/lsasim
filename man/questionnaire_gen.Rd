@@ -7,7 +7,7 @@
 questionnaire_gen(n_obs, cat_prop = NULL, cor_matrix = NULL,
   c_mean = NULL, c_sd = NULL, theta = FALSE, n_vars = NULL,
   n_X = NULL, n_W = NULL, family = NULL, cov_matrix = NULL,
-  n_fac = NULL, n_ind = NULL, Lambda = 0:1, full_output = FALSE)
+  full_output = FALSE)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}
@@ -43,14 +43,6 @@ of categorical variables will be generated.}
 or 'gaussian'.}
 
 \item{cov_matrix}{latent covariance matrix, formatted as \code{cor_matrix}.}
-
-\item{n_fac}{number of factors (currently out of use)}
-
-\item{n_ind}{number of indicators per factor (currently out of use)}
-
-\item{Lambda}{either a matrix containing the factor loadings or a vector
-containing the lower and upper limits for a randomly-generated Lambda
-matrix (currently out of use)}
 
 \item{full_output}{if \code{TRUE}, output will be a list containing all
 function parameters.}
@@ -101,14 +93,8 @@ By default, the function returns a \code{data.frame} object where the
   \item{label_YXZ}{vector containing the labels of the background
   questionnaire variables.}
 
-  \item{Lambda}{identical to the input argument of the same name.}
-
   \item{n_cats}{vector containing the number of categories for each
   categorical variable.}
-
-  \item{n_fac}{identical to the input argument of the same name.}
-
-  \item{n_ind}{identical to the input argument of the same name.}
 
   \item{n_obs}{identical to the input argument of the same name.}
 
@@ -184,9 +170,6 @@ correlation matrix and marginal proportions.
   generated using the polychoric correlation matrix, with no distributional
   assumptions.
 
-  \code{n_fac}, \code{n_ind} and \code{Lambda} are currently not in use, and
-  currently serve as placeholders for future versions of the package.
-
   In essence, this function will check for the validity of the arguments
   provided, and randomly generates those that are not. Then, it will either
   call one of two internal functions, \code{questionnaire_gen_polychoric} or
@@ -215,5 +198,5 @@ questionnaire_gen(n_obs = 10, cat_prop = cum_prop, cov_matrix = yw_cov,
 # Not providing covariance matrix
 questionnaire_gen(n_obs = 10,
                   cat_prop = list(c(.25, 1), c(.6, 1), c(.2, 1)),
-                  family = "gaussian", n_fac = 4, n_ind = 3)
+                  family = "gaussian")
 }
