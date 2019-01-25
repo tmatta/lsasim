@@ -76,7 +76,7 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
                                 sd   = sqrt(var_z[[z_num]][1])))
     # if W is dichotomous, labels are 0:1; else, labels start at 1.
     if (length(cat_prop[[z]]) == 2) {
-      labels <- 0:1
+      labels <- 1:2
     } else {
       labels <- seq(cat_prop[[z]])
     }
