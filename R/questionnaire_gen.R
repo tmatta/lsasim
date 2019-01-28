@@ -233,6 +233,9 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
     } else {
       # n_vars is absent, cat_prop is present
       n_vars <- length(cat_prop)
+      n_X <- length(cat_prop[lapply(cat_prop, length) == 1]) - theta
+      n_W <- length(cat_prop[lapply(cat_prop, length) > 1])
+      n_tot <- gen_variable_n(n_vars, n_X, n_W, theta)
     }
   } else {
     # n_vars is provided
