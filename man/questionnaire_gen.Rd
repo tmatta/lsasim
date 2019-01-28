@@ -15,8 +15,9 @@ questionnaire_gen(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
 = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
 corresponds to the \code{theta}.}
 
-\item{n_vars}{number of total variables, continuous (X), discrete (W) and
-theta (Y).}
+\item{n_vars}{total number of variables in the questionnaire, including the
+continuous and the discrete covariates (\eqn{X} and \eqn{W}, respectively),
+as well as the latent trait (\eqn{Y}, which is equivalent to \eqn{\theta}).}
 
 \item{n_X}{number of continuous background variables. If not provided, a
 random number of continuous variables will be generated.}
@@ -27,28 +28,31 @@ categories for each categorical variable. If not provided, a random number
 of categorical variables will be generated.}
 
 \item{cor_matrix}{latent correlation matrix. The first row/column corresponds
-to the latent trait (Y). The other rows/columns correspond to the
-continuous (X or Z) or the discrete (W) background variables, in the same
-order as \code{cat_prop}.}
+to the latent trait (\eqn{Y}). The other rows/columns correspond to the
+continuous (\eqn{X} or \eqn{Z}) or the discrete (\eqn{W}) background
+variables, in the same order as \code{cat_prop}.}
 
 \item{cov_matrix}{latent covariance matrix, formatted as \code{cor_matrix}.}
 
-\item{c_mean}{is a vector of population means for each continuous variable.}
+\item{c_mean}{is a vector of population means for each continuous variable
+(\eqn{Y} and \eqn{X}).}
 
 \item{c_sd}{is a vector of population standard deviations for each continuous
-variable.}
+variable  (\eqn{Y} and \eqn{X}).}
 
-\item{theta}{if \code{TRUE} will label the first continuous variable 'theta'.}
+\item{theta}{if \code{TRUE}, the first continuous variable will be labeled
+'theta'. Otherwise, it will be labeled 'q1'.}
 
 \item{family}{distribution of the background variables. Can be NULL (default)
 or 'gaussian'.}
 
-\item{full_output}{if \code{TRUE}, output will be a list containing all
-function parameters.}
+\item{full_output}{if \code{TRUE}, output will be a list containing the
+questionnaire data as well as several objects that might be of interest for
+further analysis of the data.}
 }
 \value{
 By default, the function returns a \code{data.frame} object where the
-  first column ("subject") is a \eqn{1,\ldots,n} ordered list for the \eqn{n}
+  first column ("subject") is a \eqn{1,\ldots,n} ordered list of the \eqn{n}
   observations and the other columns correspond to the questionnaire answers.
   If \code{theta = TRUE}, the first column after "subject" will be the latent
   variable \eqn{\theta}; in any case, the continuous variables always come
@@ -108,21 +112,24 @@ By default, the function returns a \code{data.frame} object where the
   (including \eqn{\theta}).}
 }
 \description{
-Creates a data frame of discrete and continuous variables based on a latent
-correlation matrix and marginal proportions.
+Creates a data frame of discrete and continuous variables based on several
+arguments.
 }
 \details{
-In essence, this function will check for the validity of the
-  arguments provided, and randomly generates those that are not. Then, it
-  will either call one of two internal functions,
+In essence, this function begins by checking the validity of the
+  arguments provided and randomly generating those that are not. Then, it
+  will call one of two internal functions,
   \code{questionnaire_gen_polychoric} or \code{questionnaire_gen_family}. The
   former corresponds to the exact functionality of questionnaire_gen on
   lsasim 1.0.1, where the polychoric correlations are used to generate the
   background questionnaire data. If \code{family != NULL}, however,
-  \code{questionnaire_gen_family} is called. Additionally, if
-  \code{full_output == TRUE}, the external function \code{beta_gen} is called
-  to generate the correlation coefficients based on the true covariance
-  matrix.
+  \code{questionnaire_gen_family} is called to generate data based on a joint
+  probability distribution. Additionally, if \code{full_output == TRUE}, the
+  external function \code{beta_gen} is called to generate the correlation
+  coefficients based on the true covariance matrix. The latter argument also
+  changes the class of the output of this function.
+
+  What follows are some notes on the input parameters.
 
   \code{cat_prop} is a list where \code{length(cat_prop)} is the number of
   items to be generated.  Each element of the list is a vector containing the
@@ -168,8 +175,8 @@ In essence, this function will check for the validity of the
   \eqn{\theta}, the continuous covariates \eqn{X} and the continuous
   covariates---\eqn{Z ~ N(0, 1)}---that will later be discretized into
   categorical covariates \eqn{W}. That is why there will be a difference
-  between labels and lengths between \code{cov_matrix} and \code{} For more information, check the references
-  cited later in this document.
+  between labels and lengths between \code{cov_matrix} and \code{vcov_YXW}.
+  For more information, check the references cited later in this document.
 }
 \note{
 If \code{family == NULL}, the number of levels for each categorical
@@ -183,16 +190,16 @@ If \code{family == NULL}, the number of levels for each categorical
 }
 \examples{
 # Using polychoric correlations
-cum_prop <- list(c(1), c(.25, .6, 1))  # one continuous, one with 3 categories
-questionnaire_gen(n_obs = 10, cat_prop = cum_prop,
+props <- list(c(1), c(.25, .6, 1))  # one continuous, one with 3 categories
+questionnaire_gen(n_obs = 10, cat_prop = props,
                   cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
                   c_mean = 2, c_sd = 1.5, theta = TRUE)
 
 # Using the multinomial distribution
 # two categorical variables W: one has 2 categories, the other has 3
-cum_prop <- list(1, c(.25, 1), c(.2, .8, 1))
+props <- list(1, c(.25, 1), c(.2, .8, 1))
 yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
-questionnaire_gen(n_obs = 10, cat_prop = cum_prop, cov_matrix = yw_cov,
+questionnaire_gen(n_obs = 10, cat_prop = props, cov_matrix = yw_cov,
                   family = "gaussian")
 
 # Not providing covariance matrix
