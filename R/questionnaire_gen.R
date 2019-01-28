@@ -314,6 +314,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
     message("Generating ", family, "-distributed background data")
     bg <- questionnaire_gen_family(n_obs, cat_prop, cov_matrix,
                                    family, theta, c_mean, n_cats)
+    if (!is.null(names(cat_prop))) names(bg)[-1] <- names(cat_prop)
   }
 
   # Labeling the matrices (and, if necessary, the data) -------------------
