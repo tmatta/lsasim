@@ -1,9 +1,18 @@
-lsasim 1.0.1.9003
--------------
+lsasim 2.0.0
+------------
 
 ### API changes
-* `questionnaire_gen` can generate background data given `n_obs`, `cat_prop`,
-  `cor_matrix` and `family = 'gaussian'`.
+
+This release adds several features to the `questionnaire_gen` function, such as:
+
+* Generation of questionnaires given a much wider range of arguments.
+* Reduction of the number of mandatory arguments to 1 (number of observations).
+* Generation of answers which are jointly-distributed as a multivariate normal distribution.
+* Generation of regression coefficients of $\theta$ as a linear function of the background questionnaire items.
+
+Please read the function's help file for more details on how to access these new features.
+
+*Note*: any R code written for the `questionnaire_gen` function from previous versions of lsasim may not work properly on this version due to the rearrangement of the function's arguments and slight changes in its default behavior. Please review your code before executing old scripts.
 
 lsasim 1.0.1
 -------------

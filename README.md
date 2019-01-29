@@ -18,11 +18,15 @@ Overall aim: to simulate data that mimics large-scale assessments, including bac
 
 ## To-do
 
-### `questionnaire_gen()`:
+Consider the implementation of the features below:
 
-* Improve handling of `NULL` parameters
+### `questionnaire_gen`:
 
-* Support `family = "binomial"` or `"poisson"`
+1. Improve handling of `NULL` parameters
+2. Support `family = "binomial"` and `"poisson"`
+3. Include indicator grouping by factor
+4. Include factor loadings
 
+### `beta_gen`:
 
-
+1. Support more complex functions, e.g. including interactions between the covariates.
