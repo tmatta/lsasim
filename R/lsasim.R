@@ -6,19 +6,23 @@
 #'   \item \code{booklet_design} Assignment of item blocks to test booklets.
 #'   \item \code{booklet_sample} Assignment of test booklets to test takers.
 #'   \item \code{item_gen} Generation of random correlation matrix.
-#'   \item \code{proportion_gen} Generation of random cumulative proportions. 
-#'   \item \code{questionnaire_gen} Generation of ordinal and continuous variables. 
+#'   \item \code{proportion_gen} Generation of random cumulative proportions.
+#'   \item \code{questionnaire_gen} Generation of ordinal and continuous variables.
 #'   \item \code{response_gen} Generation of item response data using a rotated block design.
 #' }
-#' 
+#'
 #' @section Ancillary functions:
 #' \itemize{
-#'   \item \code{irt_gen} Generate item responses from an IRT model.  Used by \code{response_gen}.
+#'   \item \code{irt_gen} Generate item responses from an IRT model.  Used by
+#'   \code{response_gen}.
+#'   \item \code{beta_gen} Calculates analytical and numeric regression
+#'   coefficients for the background questionnaire responses as functions of the
+#'   latent variable. Used by \code{questionnaire_gen}
 #' }
-#' 
+#'
 #' @importFrom stats cov2cor qnorm reshape rnorm runif
-#' 
+#'
 #' @docType package
 #' @name lsasim
-#' 
+#'
 NULL
