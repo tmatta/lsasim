@@ -1,11 +1,11 @@
 Package: lsasim
 Title: Functions to Facilitate the Simulation of Large Scale Assessment Data
-Version: 2.0.0.9002
+Version: 2.0.0.9003
 Authors@R: c(
   person("Tyler", "Matta", email = "tyler.matta@gmail.com", role = c("aut", "cre")),
   person("Leslie", "Rutkowski", email = "leslie.rutkowski@cemo.uio.no", role = "aut"),
   person("David", "Rutkowski", email = "david.rutkowski@cemo.uio.no", role = "aut"),
-  person("Yuan-Ling Linda", "Liaw", email = "linda08@uw.edu", role = "aut"),
+  person("Yuan-Ling Linda", "Liaw", email = "y.l.liaw@cemo.uio.no", role = "aut"),
   person("Kondwani Kajera", "Mughogho", email = "k.k.mughogho@cemo.uio.no", role = "ctb"),
   person("Waldir", "Leoncio", email = "waldir.leoncionetto@phd.unipd.it", role = "aut")
   )
