@@ -169,7 +169,6 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100, output_cov = FALSE
       if (w %in% substr(ref_names[c], 1, nchar(ref_names[c]) - 1))
         w_cols <- c(w_cols, c)
     }
-    # w_cols <- colnames(vcov_YXW)[grepl(w, colnames(vcov_YXW))]
     vcov_YXW[w_cols, w_cols] <- vcov_W[[w]]
   }
   # Covariances between categories from different Ws
