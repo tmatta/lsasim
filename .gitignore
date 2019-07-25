@@ -62,3 +62,6 @@ Thumbs.db
 *.dropbox
 .Rproj.user
 desktop.ini
+
+# Test files
+gendat3*
