@@ -72,9 +72,6 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100, output_cov = FALSE
   if (!MC & MC_replications != 100) {
     message("Changing the number of Monte Carlo replications has no effect unless MC = TRUE")
   }
-  if (data$family != "gaussian") {
-    stop("Data must be explicitly generated from a multivariate normal distribution")
-  }
 
   # Basic data subsetting -------------------------------------------------
   YXW <- data$bg[-1]  # remove "subject"
