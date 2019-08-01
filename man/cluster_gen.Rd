@@ -4,22 +4,18 @@
 \alias{cluster_gen}
 \title{Generate cluster sample}
 \usage{
-cluster_gen(clusters, n_obs = 5, labels = c("country", "school",
-  "class"), collapse = FALSE, c_mean = 0,
-  separate_questionnaires = TRUE, ...)
+cluster_gen(levels, n_obs = 10, labels = c("class", "school",
+  "neighborhood", "city", "region", "country"), collapse = TRUE,
+  c_mean = 0, ...)
 }
 \arguments{
-\item{clusters}{numeric vector with the number of clusters on each level}
+\item{levels}{numeric vector with the number of clusters on each level}
 
 \item{n_obs}{numeric vector with the number of observations in each cluster}
 
 \item{labels}{character vector with the names of each level}
 
 \item{collapse}{if `TRUE`,}
-
-\item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level}
-
-\item{separate_questionnaires}{if `TRUE`, each level will have its own questionnaire}
 
 \item{...}{Additional parameters to be passed to `questionnaire_gen()`}
 }
@@ -32,6 +28,4 @@ Generate cluster sample
 }
 \examples{
 cluster_gen(c(1, 2), collapse = FALSE)
-cluster_gen(c(4, 2), n_X = 1, n_W = list(2, 3), theta = TRUE,
-            c_mean = list(0, c(0, 10)))
 }

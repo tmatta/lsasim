@@ -13,12 +13,15 @@
 #' cluster_gen(c(4, 2), n_X = 1, n_W = list(2, 3), theta = TRUE,
 #'             c_mean = list(0, c(0, 10)))
 #' @export
-cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
-                        n_obs = 5,
-                        labels = c("country", "school", "class"),
-                        collapse = FALSE,
-                        n_X = 2,
-                        n_W = list(5, 5, 5),
+cluster_gen <- function(levels,
+                        n_obs = 10,
+                        labels = c("class",
+                                   "school",
+                                   "neighborhood",
+                                   "city",
+                                   "region",
+                                   "country"),
+                        collapse = TRUE,
                         c_mean = 0,
                         separate_questionnaires = TRUE,
                         # TODO: add weights
@@ -26,18 +29,25 @@ cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
   n_levels <- length(clusters)
   sample <- list()  # will store all BG questionnaires
 
-  # TODO: add combined questionnaires (id. of student in class, school, etc.)?
-  # TODO: with combined IDs?
-
   # Adapting additional parameters to questionnaire_gen format
   if (length(n_obs) == 1) n_obs <- rep(n_obs, n_levels)
   c_mean_list <- c_mean
 
-  if (separate_questionnaires) {  # questionnaires administered at all levels
-    for (l in seq(n_levels)) {
-      # TODO: if n_X, n_W are not provided, use consistent values for each level?
-      # TODO: allow custom c_mean for each cluster or only levels (implemented)?
-      #   Idea for this: lists of lists (ideally, something simpler, though)
+  for (level in seq(n_levels)) {
+    # TODO: if n_X, n_W are not provided, use consistent values for each level?
+    # TODO: allow custom c_mean for each cluster or only levels (implemented)?
+    #   Idea for this: lists of lists (ideally, something simpler, though)
+
+    # Adapting additional parameters to questionnaire_gen format
+    if (class(c_mean_list) == "list") {
+      c_mean <- c_mean_list[[level]]
+    }
+
+    level_label <- labels[level]
+    for (cluster in 1:levels[level]) {
+      # Generating data
+      cluster_bg <- suppressMessages(questionnaire_gen(n_obs[level],
+                                                       c_mean = c_mean, ...))
 
       # Adapting additional parameters to questionnaire_gen format
       if (class(c_mean_list) == "list") {
