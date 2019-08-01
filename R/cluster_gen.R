@@ -7,7 +7,10 @@
 #' @details `n_obs` can have unitary length, in which case all clusters will have the same size.
 #'   Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
 #' @examples
-#' cluster_gen(levels = c(1, 2))
+#' cluster_gen(c(1, 2), collapse = FALSE)
+#' cluster_gen(c(4, 2), n_X = 1, n_W = list(2, 3), theta = TRUE,
+#'             c_mean = list(0, c(0, 10)))
+#' @export
 cluster_gen <- function(levels,
                         n_obs = 10,
                         labels = c("class",
@@ -22,15 +25,20 @@ cluster_gen <- function(levels,
   n_levels <- length(levels)
   sample <- list()  # will store all BG questionnaires
 
+  # Adapting additional parameters to questionnaire_gen format
   if (length(n_obs) == 1) n_obs <- rep(n_obs, n_levels)
   c_mean_list <- c_mean
+
   for (level in seq(n_levels)) {
     # TODO: if n_X, n_W are not provided, use consistent values for each level?
+    # TODO: allow custom c_mean for each cluster or only levels (implemented)?
+    #   Idea for this: lists of lists (ideally, something simpler, though)
 
     # Adapting additional parameters to questionnaire_gen format
     if (class(c_mean_list) == "list") {
       c_mean <- c_mean_list[[level]]
     }
+
     level_label <- labels[level]
     for (cluster in 1:levels[level]) {
       # Generating data
