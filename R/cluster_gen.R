@@ -3,7 +3,6 @@
 #' @param labels character vector with the names of each level
 #' @param n_obs numeric vector with the number of observations in each cluster
 #' @param collapse if `TRUE`,
-#' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @param separate_questionnaires if `TRUE`, each level will have its own questionnaire
 #' @details `n_obs` can have unitary length, in which case all clusters will have the same size.
@@ -17,13 +16,11 @@ cluster_gen <- function(levels,
                         n_obs = 10,
                         labels = c("class",
                                    "school",
-                                   "neighborhood",
                                    "city",
                                    "region",
                                    "country"),
                         collapse = TRUE,
                         c_mean = 0,
-                        separate_questionnaires = TRUE,
                         # TODO: add weights
                         ...) {
   n_levels <- length(clusters)
