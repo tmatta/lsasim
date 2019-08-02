@@ -5,7 +5,7 @@
 \title{Generate regression coefficients}
 \usage{
 beta_gen(data, MC = FALSE, MC_replications = 100, output_cov = FALSE,
-  rename_to_q = FALSE)
+  rename_to_q = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{data}{output from the \code{questionnaire_gen} function with
@@ -22,6 +22,8 @@ YXW}
 
 \item{rename_to_q}{if \code{TRUE}, renames the variables from "x" and "w" to
 "q"}
+
+\item{verbose}{if `FALSE`, output messages will be suppressed (useful for simulations). Defaults to `TRUE`}
 }
 \value{
 By default, this function will output a vector of the regression

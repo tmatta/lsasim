@@ -6,7 +6,8 @@
 \usage{
 questionnaire_gen(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
   n_W = NULL, cor_matrix = NULL, cov_matrix = NULL, c_mean = NULL,
-  c_sd = NULL, theta = FALSE, family = NULL, full_output = FALSE)
+  c_sd = NULL, theta = FALSE, family = NULL, full_output = FALSE,
+  verbose = TRUE)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}
@@ -49,6 +50,8 @@ or 'gaussian'.}
 \item{full_output}{if \code{TRUE}, output will be a list containing the
 questionnaire data as well as several objects that might be of interest for
 further analysis of the data.}
+
+\item{verbose}{if `FALSE`, output messages will be suppressed (useful for simulations). Defaults to `TRUE`}
 }
 \value{
 By default, the function returns a \code{data.frame} object where the

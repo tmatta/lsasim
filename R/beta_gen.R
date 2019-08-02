@@ -13,6 +13,7 @@
 #'   YXW
 #' @param rename_to_q if \code{TRUE}, renames the variables from "x" and "w" to
 #'   "q"
+#' @param verbose if `FALSE`, output messages will be suppressed (useful for simulations). Defaults to `TRUE`
 #' @importFrom stats lm model.matrix quantile cov pnorm setNames
 #' @details This function was primarily conceived as a subfunction of
 #'   \code{questionnaire_gen}, when \code{family = "gaussian"}, \code{theta =
@@ -62,7 +63,7 @@
 #' beta_gen(data, MC = TRUE)
 #'
 beta_gen <- function(data, MC = FALSE, MC_replications = 100, output_cov = FALSE,
-                     rename_to_q = FALSE) {
+                     rename_to_q = FALSE, verbose = TRUE) {
 
   # Basic validation checks -----------------------------------------------
   if (!data$theta) stop("Data must include theta")
@@ -70,7 +71,7 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100, output_cov = FALSE
     stop("Generate data with questionnaire_gen(full_output = TRUE)")
   }
   if (!MC & MC_replications != 100) {
-    message("Changing the number of Monte Carlo replications has no effect unless MC = TRUE")
+    if (verbose) message("Changing the number of Monte Carlo replications has no effect unless MC = TRUE")
   }
 
   # Basic data subsetting -------------------------------------------------
@@ -197,7 +198,7 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100, output_cov = FALSE
   intercept <- Y_mu - crossprod(beta_hat, XW_mu_minus_1st)
   output <- setNames(as.vector(c(intercept, beta_hat)), colnames(vcov_YXW))
   if (MC) {
-    message("Generating Monte Carlo coefficient estimates. Please wait...")
+    if (verbose) message("Generating Monte Carlo coefficient estimates. Please wait...")
     boot_data <- list()
     for (r in seq(MC_replications)) {
       unique_lvl <- TRUE
