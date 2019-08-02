@@ -1,6 +1,6 @@
 Package: lsasim
 Title: Functions to Facilitate the Simulation of Large Scale Assessment Data
-Version: 2.0.0.9006
+Version: 2.0.0.9007
 Authors@R: c(
   person("Tyler", "Matta", email = "tyler.matta@gmail.com", role = c("aut", "cre")),
   person("Leslie", "Rutkowski", email = "leslie.rutkowski@cemo.uio.no", role = "aut"),
@@ -10,8 +10,8 @@ Authors@R: c(
   person("Waldir", "Leoncio", email = "waldir.leoncio@gmail.com", role = "aut")
   )
 BugReports: https://github.com/tmatta/lsasim/issues
-Description: Provides functions to simulate data from large-scale educational 
-  assessments, including background questionnaire data and cognitive item 
+Description: Provides functions to simulate data from large-scale educational
+  assessments, including background questionnaire data and cognitive item
   responses that adhere to a multiple-matrix sampled design.
 Imports: mvtnorm
 Depends:

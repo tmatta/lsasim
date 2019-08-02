@@ -32,6 +32,7 @@
 #' @param full_output if \code{TRUE}, output will be a list containing the
 #'   questionnaire data as well as several objects that might be of interest for
 #'   further analysis of the data.
+#' @param verbose if `FALSE`, output messages will be suppressed (useful for simulations). Defaults to `TRUE`
 #' @importFrom stats rbinom rpois rbeta rgamma
 #'
 #' @details In essence, this function begins by checking the validity of the
@@ -190,7 +191,7 @@
 questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
                               n_W = NULL, cor_matrix = NULL, cov_matrix = NULL,
                               c_mean = NULL, c_sd = NULL, theta = FALSE,
-                              family = NULL, full_output = FALSE) {
+                              family = NULL, full_output = FALSE, verbose = TRUE) {
 
   # Changes n_W to a scalar, if necessary ---------------------------------
   n_cats <- NULL  # number of categories per categorical variable W
@@ -316,11 +317,11 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
 
   # Generating background data --------------------------------------------
   if (is.null(family)) {
-    message("Generating background data from correlation matrix")
+    if (verbose) message("Generating background data from correlation matrix")
     bg <- questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix,
                                        c_mean, c_sd, theta)
   } else {
-    message("Generating ", family, "-distributed background data")
+    if (verbose) message("Generating ", family, "-distributed background data")
     bg <- questionnaire_gen_family(n_obs, cat_prop, cov_matrix,
                                    family, theta, c_mean, n_cats)
     if (!is.null(names(cat_prop))) names(bg)[-1] <- names(cat_prop)
@@ -349,7 +350,10 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
 
   # Calculating regression coefficients -----------------------------------
   if (theta & full_output & !is.null(family)) {
-    betas <- beta_gen(out, output_cov = TRUE, rename_to_q = TRUE)
+    betas <- beta_gen(data        = out,
+                      output_cov  = TRUE,
+                      rename_to_q = TRUE,
+                      verbose     = verbose)
     out <- c(out, linear_regression = list(betas))
   }
 

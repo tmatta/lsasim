@@ -19,5 +19,3 @@ cor_gen <- function(n_var, cov_bounds = c(-1, 1)){
   q <- cov2cor(rxr)
   return(q)
 }
-
-
