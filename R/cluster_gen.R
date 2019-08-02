@@ -2,7 +2,7 @@
 #' @param levels numeric vector with the number of clusters on each level
 #' @param labels character vector with the names of each level
 #' @param n_obs numeric vector with the number of observations in each cluster
-#' @param collapse if `TRUE`, 
+#' @param collapse if `TRUE`,
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @details `n_obs` can have unitary length, in which case all clusters will have the same size.
 #'   Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
@@ -15,12 +15,12 @@ cluster_gen <- function(levels,
                         n_obs = 10,
                         labels = c("class",
                                    "school",
-                                   "neighborhood",
                                    "city",
                                    "region",
                                    "country"),
                         collapse = TRUE,
                         c_mean = 0,
+                        # TODO: add weights
                         ...) {
   n_levels <- length(levels)
   sample <- list()  # will store all BG questionnaires
