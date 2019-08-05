@@ -62,8 +62,8 @@
 #'                            full_output = TRUE, n_X = 2, n_W = list(2, 2, 4))
 #' beta_gen(data, MC = TRUE)
 #'
-beta_gen <- function(data, MC = FALSE, MC_replications = 100, output_cov = FALSE,
-                     rename_to_q = FALSE, verbose = TRUE) {
+beta_gen <- function(data, MC = FALSE, MC_replications = 100,
+                     output_cov = FALSE, rename_to_q = FALSE, verbose = TRUE) {
 
   # Basic validation checks -----------------------------------------------
   if (!data$theta) stop("Data must include theta")
@@ -130,7 +130,8 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100, output_cov = FALSE
 
     cov_XW <- exp_XW <- list()
     for (x in names_X) {
-      exp_XW[[x]] <- exp_AB(names_W, Z_mu, W_mu, cov_XZ[x, ], q_Z, X_mu[[x]], Y_sd)
+      exp_XW[[x]] <- exp_AB(names_W, Z_mu, W_mu, cov_XZ[x, ], q_Z,
+                            X_mu[[x]], Y_sd)
       cov_XW[[x]] <- cov_AB(names_W, exp_XW[[x]], X_mu[[x]], W_mu)
     }
 
@@ -149,13 +150,13 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100, output_cov = FALSE
   vcov_YXW[names_YX, names_YX] <- data$cov_matrix[names_YX, names_YX]
 
   # Cov(Y, W)
-  vcov_YXW["theta", W_cat_names_minus_1st] <-
-    vcov_YXW[W_cat_names_minus_1st, "theta"] <- unlist(cov_YW)
+  vcov_YXW["theta", W_cat_names_minus_1st] <- unlist(cov_YW)
+  vcov_YXW[W_cat_names_minus_1st, "theta"] <- unlist(cov_YW)
 
   # Cov(X, W)
   for (x in names_X) {
-    vcov_YXW[x, W_cat_names_minus_1st] <-
-      vcov_YXW[W_cat_names_minus_1st, x] <- unlist(cov_XW[[x]])
+    vcov_YXW[x, W_cat_names_minus_1st] <- unlist(cov_XW[[x]])
+    vcov_YXW[W_cat_names_minus_1st, x] <- unlist(cov_XW[[x]])
   }
 
   # Cov(W, W)
@@ -178,7 +179,8 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100, output_cov = FALSE
       wB <- gsub("\\d$", "", catB)
       zA <- gsub("w", "z", wA)
       zB <- gsub("w", "z", wB)
-      cond1 <- match(catA, W_cat_names_minus_1st) < match(catB, W_cat_names_minus_1st)
+      cond1 <- match(catA, W_cat_names_minus_1st) <
+        match(catB, W_cat_names_minus_1st)
       cond2 <- zA != zB
       if (cond1 & cond2) {
         numA <- as.numeric(substring(catA, nchar(catA)))
