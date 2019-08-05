@@ -4,8 +4,8 @@
 \alias{beta_gen}
 \title{Generate regression coefficients}
 \usage{
-beta_gen(data, MC = FALSE, MC_replications = 100, output_cov = FALSE,
-  rename_to_q = FALSE, verbose = TRUE)
+beta_gen(data, MC = FALSE, MC_replications = 100, CI = c(0.005,
+  0.995), output_cov = FALSE, rename_to_q = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{data}{output from the \code{questionnaire_gen} function with
@@ -16,6 +16,8 @@ regression coefficients}
 
 \item{MC_replications}{for \code{MC = TRUE}, this represents the number of
 Monte Carlo subsamples calculated}
+
+\item{CI}{confidence interval for Monte Carlo simulations}
 
 \item{output_cov}{if \code{TRUE}, will also output the covariance matrix of
 YXW}
