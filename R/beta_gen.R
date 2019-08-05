@@ -125,7 +125,7 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100, output_cov = FALSE
   if (data$n_W > 0) {
     q_Z <- lapply(data$cat_prop_W, function(w) qnorm(c(0, w), Z_mu, Z_sd))
 
-    exp_YW <- exp_AB(names_W, Y_mu, W_mu, cov_YZ, q_Z)
+    exp_YW <- exp_AB(names_W, Z_mu, W_mu, cov_YZ, q_Z, Y_mu, Y_sd)
     cov_YW <- cov_AB(names_W, exp_YW, Y_mu, W_mu)
 
     cov_XW <- exp_XW <- list()
