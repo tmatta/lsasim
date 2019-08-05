@@ -3,6 +3,7 @@
 #' @param labels character vector with the names of each level
 #' @param n_obs numeric vector with the number of observations in each cluster
 #' @param collapse if `TRUE`,
+#' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @param separate_questionnaires if `TRUE`, each level will have its own questionnaire
 #' @details `n_obs` can have unitary length, in which case all clusters will have the same size.
@@ -19,12 +20,15 @@ cluster_gen <- function(levels,
                                    "city",
                                    "region",
                                    "country"),
-                        collapse = TRUE,
+                        collapse = FALSE,
                         c_mean = 0,
                         # TODO: add weights
                         ...) {
   n_levels <- length(clusters)
   sample <- list()  # will store all BG questionnaires
+
+  # TODO: add combined questionnaires (id. of student in class, school, etc.)?
+  # TODO: with combined IDs?
 
   # Adapting additional parameters to questionnaire_gen format
   if (length(n_obs) == 1) n_obs <- rep(n_obs, n_levels)
