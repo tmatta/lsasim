@@ -9,6 +9,7 @@
 #'   regression coefficients
 #' @param MC_replications for \code{MC = TRUE}, this represents the number of
 #'   Monte Carlo subsamples calculated
+#' @param CI confidence interval for Monte Carlo simulations
 #' @param output_cov if \code{TRUE}, will also output the covariance matrix of
 #'   YXW
 #' @param rename_to_q if \code{TRUE}, renames the variables from "x" and "w" to
@@ -63,7 +64,8 @@
 #' beta_gen(data, MC = TRUE)
 #'
 beta_gen <- function(data, MC = FALSE, MC_replications = 100,
-                     output_cov = FALSE, rename_to_q = FALSE, verbose = TRUE) {
+                     CI = c(0.005, 0.995), output_cov = FALSE,
+                     rename_to_q = FALSE, verbose = TRUE) {
 
   # Basic validation checks -----------------------------------------------
   if (!data$theta) stop("Data must include theta")
@@ -212,7 +214,7 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
     }
     boot_coef <- sapply(boot_data, function(x) lm(theta ~ ., x)$coefficients)
     boot_avg_coef <- apply(boot_coef, 1, mean)
-    boot_CI <- apply(boot_coef, 1, function(x) quantile(x, c(.005, .995)))
+    boot_CI <- apply(boot_coef, 1, function(x) quantile(x, CI))
 
     # Checking if cov_matrix estimates is contained in MC confidence interval
     cov_in_CI <- output > boot_CI[1, ] & output < boot_CI[2, ]

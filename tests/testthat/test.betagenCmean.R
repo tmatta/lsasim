@@ -20,7 +20,7 @@ qGenWrap <- function(nX, nW, mu = NULL, n = 10e3) {
     cols_continuous <- c("theta")
   }
   means <- apply(data$bg[cols_continuous], 2, mean)
-  betas <- beta_gen(data, MC = TRUE, verbose = FALSE, MC_replications = 100)
+  betas <- beta_gen(data, MC = TRUE, verbose = FALSE, CI = c(.0001, .9999))
   return(list(data = data, means = means, betas = betas))
 }
 
