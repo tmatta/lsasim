@@ -25,6 +25,7 @@ cov_AB <- function(names_b, exp_ab, mu_a, mu_b) {
   covar <- sapply(names_b, function(b) (exp_ab[[b]] - mu_a * mu_b[[b]])[-1])
   return(covar)
 }
+
 calc_p_mvn_trunc <- function(low, upp, sig, mu = c(0, 0)) {
   mvtnorm::pmvnorm(low, upp, mu, sig)[1] / (pnorm(upp[2]) - pnorm(low[2]))
 }
