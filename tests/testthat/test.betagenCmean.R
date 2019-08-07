@@ -1,4 +1,3 @@
-# Actual test -----------------------------------------------------------------
 context("beta_gen() behavior with n_W > 0 and c_means != 0")
 
 # Generating data -------------------------------------------------------------
@@ -47,15 +46,15 @@ df_111mb <- qGenWrap(1, list(2), c(20, -30))
 # Checking means -------------------------------------------------------------
 test_that("Observed means equal expectations", {
   expect_equivalent(df_110b$means, c(0, 0), tolerance = 0.2)
-  expect_equivalent(df_111b$means, c(1, 1),  tolerance = 0.2)
-  expect_equivalent(df_111nb$means, c(-1, -1), tolerance = 0.2)
+  expect_equivalent(df_229m$means, rep(9, 3),  tolerance = 0.2)
+  expect_equivalent(df_229nm$means, rep(-9, 3), tolerance = 0.2)
   expect_equivalent(df_111mb$means, c(20, -30),  tolerance = 0.2)
 })
 
 # Checking betas --------------------------------------------------------------
 test_that("Estimated true betas are equivalent to MC estimates", {
   expect_gte(min(df_110b$avg_coverage), .5)
-  expect_gte(min(df_111b$avg_coverage), .5)
-  expect_gte(min(df_111nb$avg_coverage), .5)
+  expect_gte(min(df_229m$avg_coverage), .5)
+  expect_gte(min(df_229nm$avg_coverage), .5)
   expect_gte(min(df_111mb$avg_coverage), .5)
 })
