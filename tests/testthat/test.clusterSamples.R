@@ -1,3 +1,11 @@
+# Library loading (during development)
+library(devtools)
+library(testthat)
+install("../lsasim")
+library(lsasim)
+packageVersion("lsasim")
+
+# Actual test
 context("Cluster samples")
 
 # Basic dataset
