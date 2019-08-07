@@ -13,15 +13,14 @@
 #' cluster_gen(c(4, 2), n_X = 1, n_W = list(2, 3), theta = TRUE,
 #'             c_mean = list(0, c(0, 10)))
 #' @export
-cluster_gen <- function(levels,
-                        n_obs = 10,
-                        labels = c("class",
-                                   "school",
-                                   "city",
-                                   "region",
-                                   "country"),
+cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
+                        n_obs = 5,
+                        labels = c("country", "school", "class"),
                         collapse = FALSE,
+                        n_X = 2,
+                        n_W = list(5, 5, 5),
                         c_mean = 0,
+                        separate_questionnaires = TRUE,
                         # TODO: add weights
                         ...) {
   n_levels <- length(clusters)
@@ -34,21 +33,11 @@ cluster_gen <- function(levels,
   if (length(n_obs) == 1) n_obs <- rep(n_obs, n_levels)
   c_mean_list <- c_mean
 
-  for (level in seq(n_levels)) {
-    # TODO: if n_X, n_W are not provided, use consistent values for each level?
-    # TODO: allow custom c_mean for each cluster or only levels (implemented)?
-    #   Idea for this: lists of lists (ideally, something simpler, though)
-
-    # Adapting additional parameters to questionnaire_gen format
-    if (class(c_mean_list) == "list") {
-      c_mean <- c_mean_list[[level]]
-    }
-
-    level_label <- labels[level]
-    for (cluster in 1:levels[level]) {
-      # Generating data
-      cluster_bg <- suppressMessages(questionnaire_gen(n_obs[level],
-                                                       c_mean = c_mean, ...))
+  if (separate_questionnaires) {  # questionnaires administered at all levels
+    for (l in seq(n_levels)) {
+      # TODO: if n_X, n_W are not provided, use consistent values for each level?
+      # TODO: allow custom c_mean for each cluster or only levels (implemented)?
+      #   Idea for this: lists of lists (ideally, something simpler, though)
 
       # Adapting additional parameters to questionnaire_gen format
       if (class(c_mean_list) == "list") {
@@ -80,28 +69,9 @@ cluster_gen <- function(levels,
         cluster_bg -> sample[[level_label]][[c]]
       }
     }
-    if (collapse) sample[[level_label]] <- do.call(rbind, sample[[level_label]])
   } else {  # questionnaires are administered only at the bottom level
-    level_combos <- list()  # will store ID combinations
-    for (c in 1:n_levels) {
-      level_combos[[n_levels - c + 1]] <- seq(from = 1, to = clusters[c])
-    }
-    id_combos <- expand.grid(level_combos)
-    id_combos <- id_combos[, ncol(id_combos):1]  # so first level comes first
-    colnames(id_combos) <- labels
-
-    for (c in seq(ncol(id_combos))) {
-      id_combos[, c] <- paste0(labels[c], id_combos[, c])
-    }
-
-    num_questionnaires <- nrow(id_combos)
+    num_questionnaires <- prod(clusters)
       for (c in 1:num_questionnaires) {
-        # Adapting additional parameters to questionnaire_gen format
-        # if (class(c_mean_list) == "list") {
-        #   browser()
-        #   c_mean <- c_mean_list[[l]]
-        # }
-
         # Generating data
         cluster_bg <- questionnaire_gen(sum(n_obs), n_X = n_X, n_W = n_W,
                                         c_mean = c_mean, verbose = FALSE,...)
@@ -109,7 +79,7 @@ cluster_gen <- function(levels,
         # Creating new ID variable
         # if (l == 2 & c == 4) browser()
 
-        cluster_bg$clusterID <- paste(id_combos[c, ], collapse = "_")
+        # cluster_bg$clusterID <- paste0(level_label, c)
 
         # Relabeling the subjects
         # last_subject <- n_obs[l] * c
@@ -119,7 +89,7 @@ cluster_gen <- function(levels,
         # Saving the questionnaire to the final list (sample)
         cluster_bg -> sample[[c]]
       }
-      if (collapse) sample <- do.call(rbind, sample)
   }
+  if (collapse) sample[[level_label]] <- do.call(rbind, sample[[level_label]])
   return(sample)
 }
