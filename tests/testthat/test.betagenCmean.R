@@ -1,5 +1,3 @@
-# Temporary loading of packages for manual testing ----------------------------
-
 # Actual test -----------------------------------------------------------------
 context("beta_gen() behavior with n_W > 0 and c_means != 0")
 
@@ -20,7 +18,7 @@ qGenWrap <- function(nX, nW, mu = NULL, n = 10e3) {
     cols_continuous <- c("theta")
   }
   means <- apply(data$bg[cols_continuous], 2, mean)
-  betas <- beta_gen(data, MC = TRUE, verbose = FALSE, CI = c(.0001, .9999))
+  betas <- beta_gen(data, MC = TRUE, verbose = FALSE, CI = c(.00001, .99999))
   return(list(data = data, means = means, betas = betas))
 }
 
@@ -70,10 +68,10 @@ test_that("Observed means equal expectations", {
   expect_equivalent(df_111t$means, c(1, 1),  tolerance = 0.1)
   # Negative means
   expect_equivalent(df_101n$means,  c(-1, -1), tolerance = 0.1)
-  expect_equivalent(df_011nb$means, c(-1),    tolerance = 0.1)
-  expect_equivalent(df_011nt$means, c(-1),    tolerance = 0.1)
-  expect_equivalent(df_111nb$means, c(-1, -1),  tolerance = 0.1)
-  expect_equivalent(df_111nt$means, c(-1, -1),  tolerance = 0.1)
+  expect_equivalent(df_011nb$means, c(-1),     tolerance = 0.1)
+  expect_equivalent(df_011nt$means, c(-1),     tolerance = 0.1)
+  expect_equivalent(df_111nb$means, c(-1, -1), tolerance = 0.1)
+  expect_equivalent(df_111nt$means, c(-1, -1), tolerance = 0.1)
   # Mixed means
   expect_equivalent(df_101m$means,  c(10, -20), tolerance = 0.1)
   expect_equivalent(df_111mb$means, c(20, -30),  tolerance = 0.1)

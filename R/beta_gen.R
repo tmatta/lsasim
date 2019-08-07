@@ -111,8 +111,10 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
     XW_mu_minus_1st <- unlist(c(X_mu, W_mu_minus_1st))
   }
 
-  Y_var <- data$c_sd[1] ^ 2
+  Y_var <- data$c_sd["theta"] ^ 2
+  X_var <- data$c_sd[substring(names(data$c_sd), 1, 1) == "x"] ^ 2
   Y_sd <- sqrt(Y_var)
+  X_sd <- sqrt(X_var)
 
   if (data$n_W > 0) {
     W_var <- lapply(W_mu, function(p) p * (1 - p))
@@ -127,13 +129,13 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
   if (data$n_W > 0) {
     q_Z <- lapply(data$cat_prop_W, function(w) qnorm(c(0, w), Z_mu, Z_sd))
 
-    exp_YW <- exp_AB(names_W, Z_mu, W_mu, cov_YZ, q_Z, Y_mu, Y_sd)
+    exp_YW <- exp_AB(names_W, Z_mu, W_mu, cov_YZ, q_Z, Y_mu, Z_sd)
     cov_YW <- cov_AB(names_W, exp_YW, Y_mu, W_mu)
 
     cov_XW <- exp_XW <- list()
     for (x in names_X) {
       exp_XW[[x]] <- exp_AB(names_W, Z_mu, W_mu, cov_XZ[x, ], q_Z,
-                            X_mu[[x]], Y_sd)
+                            X_mu[[x]], Z_sd)
       cov_XW[[x]] <- cov_AB(names_W, exp_XW[[x]], X_mu[[x]], W_mu)
     }
 
