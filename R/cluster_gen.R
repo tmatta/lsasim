@@ -69,9 +69,28 @@ cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
         cluster_bg -> sample[[level_label]][[c]]
       }
     }
+    if (collapse) sample[[level_label]] <- do.call(rbind, sample[[level_label]])
   } else {  # questionnaires are administered only at the bottom level
-    num_questionnaires <- prod(clusters)
+    level_combos <- list()  # will store ID combinations
+    for (c in 1:n_levels) {
+      level_combos[[n_levels - c + 1]] <- seq(from = 1, to = clusters[c])
+    }
+    id_combos <- expand.grid(level_combos)
+    id_combos <- id_combos[, ncol(id_combos):1]  # so first level comes first
+    colnames(id_combos) <- labels
+
+    for (c in seq(ncol(id_combos))) {
+      id_combos[, c] <- paste0(labels[c], id_combos[, c])
+    }
+
+    num_questionnaires <- nrow(id_combos)
       for (c in 1:num_questionnaires) {
+        # Adapting additional parameters to questionnaire_gen format
+        # if (class(c_mean_list) == "list") {
+        #   browser()
+        #   c_mean <- c_mean_list[[l]]
+        # }
+
         # Generating data
         cluster_bg <- questionnaire_gen(sum(n_obs), n_X = n_X, n_W = n_W,
                                         c_mean = c_mean, verbose = FALSE,...)
@@ -79,7 +98,7 @@ cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
         # Creating new ID variable
         # if (l == 2 & c == 4) browser()
 
-        # cluster_bg$clusterID <- paste0(level_label, c)
+        cluster_bg$clusterID <- paste(id_combos[c, ], collapse = "_")
 
         # Relabeling the subjects
         # last_subject <- n_obs[l] * c
@@ -89,7 +108,7 @@ cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
         # Saving the questionnaire to the final list (sample)
         cluster_bg -> sample[[c]]
       }
+      if (collapse) sample <- do.call(rbind, sample)
   }
-  if (collapse) sample[[level_label]] <- do.call(rbind, sample[[level_label]])
   return(sample)
 }
