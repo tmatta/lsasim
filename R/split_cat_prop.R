@@ -13,5 +13,5 @@ split_cat_prop <- function(cat_prop, keepYX = FALSE) {
   cat_prop_W <- split(cat_prop_W_p_matrix, seq(nrow(cat_prop_W_p_matrix)))
   cat_prop <- c(cat_prop_YX, cat_prop_W)
   if (keepYX) out <- list(cat_prop_YX, cat_prop_W) else out <- cat_prop
-  return(cat_prop)
+  return(out)
 }
