@@ -36,7 +36,6 @@ cov_yxz_gen <- function(vcov_yxw, w_names, Phi,
   cor_ptbis <- list()
   for (i in seq(length(n_ind_rep) + 1)) {
     cor_ptbis[[i]] <- pt_bis_conversion(Phi[wcol_Phi, i], pr_grp_1)
-    # TODO: figure out how this works with polytomous W
   }
   cor_ptbis <- unlist(cor_ptbis)
   vcov_yxz[1, wcol_yxz] <- vcov_yxz[wcol_yxz, 1] <- cor_ptbis[1] * sd_z

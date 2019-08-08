@@ -18,7 +18,6 @@
 cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
 
   # General parameters ----------------------------------------------------
-  pr_grp_1 <- sapply(pr_grp_1, function(x) x[1])  # TODO: workaround for dichotomous. REMOVE
   pr_grp_2 <- 1 - pr_grp_1  # proportion of observations in group 2
   var_z <- pr_grp_1 * pr_grp_2  # variance of dichotomous variable z
   sd_z  <- sqrt(var_z)
@@ -39,7 +38,6 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
 
   # Generating covariance matrix between Y, X and Z -----------------------
   # Z ~ N(0, 1) is the latent representation of discrete W
-  # TODO: are W and Z switched from paper!
   # converts pt. biserial correlations to biserial correlations
   n_yfw <- 1 + n_fac + n_z  # 1 for y
   Phi <- cor_gen(n_yfw)  # latent regression correlation matrix

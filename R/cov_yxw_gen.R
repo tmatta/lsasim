@@ -32,7 +32,6 @@ cov_yxw_gen <- function(n_ind, n_z, Phi, n_fac, Lambda) {
   }
 
   # Compute covariance matrix for factor indicators (X)
-  # TODO: why are these called _x and not _f?
   Phi_f <- Phi[2:(n_fac + 1), 2:(n_fac + 1)]
   cov_x <- Lambda %*% Phi_f %*% t(Lambda)
   var_xf <- Lambda ^ 2 %*% Phi_f + (1 - Lambda ^ 2)
@@ -58,7 +57,6 @@ cov_yxw_gen <- function(n_ind, n_z, Phi, n_fac, Lambda) {
   # Compute covariance between W and factor indicators (X)
   wcol_yxw <- match(w_names, colnames(vcov_yxw))
   wcol_Phi <- match(w_names, colnames(Phi))
-  vcov_yxw[wcol_yxw, wcol_yxw] <- .5  # TODO: implement correl between Ws
   for (i in seq(n_ind_rep)) {
     l_seq <- l_start[i]:l_end[i]
     vcov_yxw[wcol_yxw, l_seq + 1] <- Lambda[l_seq, i] * Phi[wcol_Phi, (i + 1)]

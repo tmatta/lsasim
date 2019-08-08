@@ -37,5 +37,3 @@ test_that("Observed proportions are similar to those from input", {
     expect_equivalent(cum_prop_3[[q]], obs_prop3, tolerance = 0.01)
   }
 })
-
-#TODO: add for bg*norm

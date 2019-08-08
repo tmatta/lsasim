@@ -21,7 +21,6 @@ cov_yfz_gen <- function(n_ind, n_fac, Phi, n_z, sd_z, w_names, pr_grp_1) {
   cor_ptbis <- list()
   for (i in seq(length(n_ind_rep) + 1)) {
     cor_ptbis[[i]] <- pt_bis_conversion(Phi[wcol_Phi, i], pr_grp_1)
-    # TODO: figure out how this works with polytomous W
   }
   cor_ptbis <- unlist(cor_ptbis)
 
