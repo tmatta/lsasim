@@ -34,6 +34,18 @@ context("Cluster samples")
 #               ---     ---     ---     ---
 # Classes       1 2     1 2     1 2     1 2
 
-print(cluster_gen(c(2, 2, 2), collapse = FALSE, c_mean = list(10, 20, 30)))
-print(cluster_gen(c(2, 2, 2), c_mean = c(10, 2),
-      separate_questionnaires = FALSE))
+cluster_gen(cluster = c(2, 2, 2), separate_questionnaires = TRUE,
+            collapse = TRUE, c_mean = list(c(10, 100), 20, 30))
+# TODO: only collapses classes
+# TODO: complete collapse to one data frame (repeating answers for teachers in students)
+# TODO: higher level (e.g. country) n_obs should match number in a lower level
+# TODO: ensure consistency of level numbering
+
+# TODO: incorporate n_obs (students) as level?
+# TODO: Control over inter-class correlation (intra-class is handled by quest_gen?)
+
+# print(cluster_gen(c(2, 2, 2), c_mean = list(c(10, 2), c(20, 4), c(40, 8)),
+#       separate_questionnaires = FALSE))
+cluster_gen(c(2, 2, 2), separate_questionnaires = FALSE, n_obs = 3,
+            collapse = TRUE)
+# TODO: add student ID to clusterID to make a unique ID
