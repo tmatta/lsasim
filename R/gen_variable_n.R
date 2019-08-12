@@ -8,19 +8,6 @@
 #' @return vector with n_vars, n_X and n_W
 #' @export
 gen_variable_n <- function(n_vars, n_X, n_W, theta = FALSE) {
-  rzeropois <- function(lambda) {
-    # Generates one number sampled from a Zero-truncated Poisson distribution
-    k <- 1
-    t <- exp(-lambda) / (1 - exp(-lambda)) * lambda
-    s <- t
-    u <- runif(1)
-    while (s < u) {
-      k <- k + 1
-      t <- t * lambda / k
-      s <- s + t
-    }
-    return(k)
-  }
   if (is.null(n_vars)) {
     if (is.null(n_W) | is.null(n_X)) {
       n_vars <- rzeropois(lambda = 4) + ifelse(is.null(n_W), 0, n_W) +
