@@ -96,9 +96,10 @@ cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
                                         c_mean = c_mean, verbose = FALSE,...)
 
         # Creating new ID variable
-        # if (l == 2 & c == 4) browser()
 
-        cluster_bg$clusterID <- paste(id_combos[c, ], collapse = "_")
+        studentID <- paste0("student", seq(nrow(cluster_bg)))
+        clusterID <- paste(id_combos[c, ], collapse = "_")
+        cluster_bg$uniqueID <- paste(studentID, clusterID, sep = "_")
 
         # Relabeling the subjects
         # last_subject <- n_obs[l] * c
