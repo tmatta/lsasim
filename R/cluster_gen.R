@@ -1,8 +1,9 @@
 #' @title Generate cluster sample
 #' @param clusters numeric vector with the number of clusters on each level
-#' @param labels character vector with the names of each level
+#' @param cluster_labels character vector with the names of each cluster level
+#' @param resp_labels character vector with the names of the respondents on each level
 #' @param n_obs numeric vector with the number of observations in each cluster
-#' @param collapse if `TRUE`,
+#' @param collapse if `TRUE`, function output contains only one data frame with all answers
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @param separate_questionnaires if `TRUE`, each level will have its own questionnaire
@@ -15,13 +16,15 @@
 #' @export
 cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
                         n_obs = 5,
-                        labels = c("country", "school", "class"),
+                        cluster_labels = c("country", "school", "class"),
+                        resp_labels = c("principal", "teacher", "student"),
                         collapse = FALSE,
                         n_X = 2,
                         n_W = list(5, 5, 5),
                         c_mean = 0,
                         separate_questionnaires = TRUE,
                         # TODO: add weights
+                        # TODO: add correlations (within, between)
                         ...) {
   n_levels <- length(clusters)
   sample <- list()  # will store all BG questionnaires
@@ -44,7 +47,7 @@ cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
         c_mean <- c_mean_list[[l]]
       }
 
-      level_label <- labels[l]
+      level_label <- cluster_labels[l]
       if (l > 1) {
         clusters[l] <- clusters[l] * clusters[l - 1]
       } else {
@@ -54,9 +57,6 @@ cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
         # Generating data
         cluster_bg <- questionnaire_gen(n_obs[l], n_X = n_X, n_W = n_W,
                                         c_mean = c_mean, verbose = FALSE,...)
-
-        # Creating new ID variable
-        # if (l == 2 & c == 4) browser()
 
         cluster_bg$clusterID <- paste0(level_label, c)
 
@@ -68,7 +68,7 @@ cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
         # Saving the questionnaire to the final list (sample)
         cluster_bg -> sample[[level_label]][[c]]
       }
-    if (collapse) sample[[level_label]] <- do.call(rbind, sample[[level_label]])
+      if (collapse) sample[[level_label]] <- do.call(rbind, sample[[level_label]])
     }
   } else {  # questionnaires are administered only at the bottom level
     level_combos <- list()  # will store ID combinations
@@ -77,10 +77,10 @@ cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
     }
     id_combos <- expand.grid(level_combos)
     id_combos <- id_combos[, ncol(id_combos):1]  # so first level comes first
-    colnames(id_combos) <- labels
+    colnames(id_combos) <- cluster_labels
 
     for (c in seq(ncol(id_combos))) {
-      id_combos[, c] <- paste0(labels[c], id_combos[, c])
+      id_combos[, c] <- paste0(cluster_labels[c], id_combos[, c])
     }
 
     num_questionnaires <- nrow(id_combos)
