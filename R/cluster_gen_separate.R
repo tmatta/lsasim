@@ -11,6 +11,7 @@ cluster_gen_separate <- function(n_levels, c_mean_list, clusters, n_obs, cluster
       }
 
       level_label <- cluster_labels[l]
+      resp_label <- resp_labels[l]
       if (l > 1) {
         clusters[l] <- clusters[l] * clusters[l - 1]
       } else {
@@ -18,10 +19,12 @@ cluster_gen_separate <- function(n_levels, c_mean_list, clusters, n_obs, cluster
       }
       for (c in 1:clusters[l]) {
         # Generating data
-        cluster_bg <- questionnaire_gen(n_obs[l], n_X = n_X, n_W = n_W,
+        cluster_bg <- questionnaire_gen(n_obs[l], n_X = n_X[[l]], n_W = n_W[[l]],
                                         c_mean = c_mean, verbose = FALSE,...)
-
-        cluster_bg$clusterID <- paste0(level_label, c)
+        # Generating unique IDs
+        respID <- paste0(resp_label, seq(nrow(cluster_bg)))
+        clusterID <- paste0(level_label, c)
+        cluster_bg$uniqueID <- paste(respID, clusterID, sep = "_")
 
         # Relabeling the subjects
         last_subject <- n_obs[l] * c
