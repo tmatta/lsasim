@@ -26,7 +26,7 @@ cluster_gen_together <- function(n_levels, c_mean_list, clusters, n_obs, cluster
 
         # Creating new ID variable
         studentID <- paste0("student", seq(nrow(cluster_bg)))
-        clusterID <- paste(id_combos[c, ], collapse = "_")
+        clusterID <- paste(rev(id_combos[c, ]), collapse = "_")
         cluster_bg$uniqueID <- paste(studentID, clusterID, sep = "_")
 
         # Relabeling the subjects
