@@ -26,13 +26,13 @@ cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
                         # TODO: add weights
                         # TODO: add correlations (within, between)
                         ...) {
-  n_levels <- length(clusters)
 
   # TODO: add combined questionnaires (id. of student in class, school, etc.)?
   # TODO: with combined IDs?
 
+  n_levels <- length(clusters)
   # Adapting additional parameters to questionnaire_gen format
-  if (length(n_obs) == 1) n_obs <- rep(n_obs, n_levels)
+  if (n_levels > 1 & length(n_obs) == 1) n_obs <- c(clusters[-1], n_obs)
   c_mean_list <- c_mean
 
   if (separate_questionnaires) {  # questionnaires administered at all levels
