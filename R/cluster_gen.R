@@ -14,7 +14,7 @@
 #' cluster_gen(c(4, 2), n_X = 1, n_W = list(2, 3), theta = TRUE,
 #'             c_mean = list(0, c(0, 10)))
 #' @export
-cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
+cluster_gen <- function(clusters,  # TODO: allow levels with different sizes
                         n_obs = 5,
                         cluster_labels = c("country", "school", "class"),
                         resp_labels = c("principal", "teacher", "student"),
@@ -27,28 +27,30 @@ cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
                         # TODO: add correlations (within, between)
                         ...) {
 
-  # TODO: add combined questionnaires (id. of student in class, school, etc.)?
-  # TODO: with combined IDs?
-
   n_levels <- length(clusters)
   # Adapting additional parameters to questionnaire_gen format
-  if (n_levels > 1 & length(n_obs) == 1) n_obs <- c(clusters[-1], n_obs)
+  if (n_levels > 1) {
+    if (length(n_obs) == 1) n_obs <- c(clusters[-1], n_obs)
+    if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
+    if (length(n_W) == 1) n_W <- rep(n_W, n_levels)
+  }
   c_mean_list <- c_mean
 
   if (separate_questionnaires) {  # questionnaires administered at all levels
-  # Generates unique questionnaires for each level
-  if (is.null(n_X)) {
-    n_X <- list()
-    for (l in seq(n_levels)) {
-      n_X[[l]] <- rzeropois(1.5)  # a positive number of Xs
+    # Generates unique questionnaires for each level
+    if (is.null(n_X)) {
+      n_X <- list()
+      for (l in seq(n_levels)) {
+        n_X[[l]] <- rzeropois(1.5)  # a positive number of Xs
+      }
     }
-  }
-  if (is.null(n_W)) {
-    n_W <- list()
-    for (l in seq(n_levels)) {
-      n_W[[l]] <- as.list(replicate(rzeropois(5), 2))  # all Ws are binary
+    if (is.null(n_W)) {
+      n_W <- list()
+      for (l in seq(n_levels)) {
+        n_W[[l]] <- as.list(replicate(rzeropois(5), 2))  # all Ws are binary
+      }
     }
-  }
+    # TODO: have these (_separate and _together) exported?
     sample <- cluster_gen_separate(n_levels, c_mean_list, clusters, n_obs,
                                    cluster_labels, resp_labels, collapse,
                                    n_X, n_W, c_mean, ...)
