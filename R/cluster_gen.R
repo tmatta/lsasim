@@ -68,8 +68,8 @@ cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
         # Saving the questionnaire to the final list (sample)
         cluster_bg -> sample[[level_label]][[c]]
       }
-    }
     if (collapse) sample[[level_label]] <- do.call(rbind, sample[[level_label]])
+    }
   } else {  # questionnaires are administered only at the bottom level
     level_combos <- list()  # will store ID combinations
     for (c in 1:n_levels) {
