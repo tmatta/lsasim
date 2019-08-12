@@ -37,6 +37,9 @@ cluster_gen_together <- function(n_levels, c_mean_list, clusters, n_obs, cluster
         # Saving the questionnaire to the final list (sample)
         cluster_bg -> sample[[c]]
       }
-      if (collapse) sample <- do.call(rbind, sample)
+      if (collapse) {
+        sample <- do.call(rbind, sample)
+        sample$subject <- seq(nrow(sample))
+      }
 	  return(sample)
 }
