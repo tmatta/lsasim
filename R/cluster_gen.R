@@ -19,8 +19,8 @@ cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
                         cluster_labels = c("country", "school", "class"),
                         resp_labels = c("principal", "teacher", "student"),
                         collapse = FALSE,
-                        n_X = 2,
-                        n_W = list(5, 5, 5),
+                        n_X = NULL,
+                        n_W = NULL,
                         c_mean = 0,
                         separate_questionnaires = TRUE,
                         # TODO: add weights
@@ -36,9 +36,28 @@ cluster_gen <- function(clusters,  # TODO: allow for levels with different sizes
   c_mean_list <- c_mean
 
   if (separate_questionnaires) {  # questionnaires administered at all levels
-    sample <- cluster_gen_separate(n_levels, c_mean_list, clusters, n_obs, cluster_labels, resp_labels, collapse, n_X, n_W, c_mean, ...)
+  # Generates unique questionnaires for each level
+  if (is.null(n_X)) {
+    n_X <- list()
+    for (l in seq(n_levels)) {
+      n_X[[l]] <- rzeropois(1.5)  # a positive number of Xs
+    }
+  }
+  if (is.null(n_W)) {
+    n_W <- list()
+    for (l in seq(n_levels)) {
+      n_W[[l]] <- as.list(replicate(rzeropois(5), 2))  # all Ws are binary
+    }
+  }
+    sample <- cluster_gen_separate(n_levels, c_mean_list, clusters, n_obs,
+                                   cluster_labels, resp_labels, collapse,
+                                   n_X, n_W, c_mean, ...)
   } else {  # questionnaires are administered only at the bottom level
-    sample <- cluster_gen_together(n_levels, c_mean_list, clusters, n_obs, cluster_labels, resp_labels, collapse, n_X, n_W, c_mean, ...)
+    if (is.null(n_X)) n_X <- rzeropois(1.5)  # a positive number of Xs
+    if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2))  # all binary
+    sample <- cluster_gen_together(n_levels, c_mean_list, clusters, n_obs,
+                                   cluster_labels, resp_labels, collapse,
+                                   n_X, n_W, c_mean, ...)
   }
   return(sample)
 }
