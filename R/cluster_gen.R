@@ -1,7 +1,6 @@
 #' @title Generate cluster sample
 #' @param clusters numeric vector with the number of clusters on each level
-#' @param cluster_labels character vector with the names of each cluster level
-#' @param resp_labels character vector with the names of the respondents on each level
+#' @param labels character vector with the names of each cluster level
 #' @param n_obs numeric vector with the number of observations in each cluster
 #' @param collapse if `TRUE`, function output contains only one data frame with all answers
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
@@ -16,8 +15,7 @@
 #' @export
 cluster_gen <- function(clusters,  # TODO: allow levels with different sizes
                         n_obs = 5,
-                        cluster_labels = c("country", "school", "class"),
-                        resp_labels = c("principal", "teacher", "student"),
+                        labels = c("country", "school", "class"),
                         collapse = FALSE,
                         n_X = NULL,
                         n_W = NULL,
@@ -52,13 +50,13 @@ cluster_gen <- function(clusters,  # TODO: allow levels with different sizes
     }
     # TODO: have these (_separate and _together) exported?
     sample <- cluster_gen_separate(n_levels, c_mean_list, clusters, n_obs,
-                                   cluster_labels, resp_labels, collapse,
+                                   labels, collapse,
                                    n_X, n_W, c_mean, ...)
   } else {  # questionnaires are administered only at the bottom level
     if (is.null(n_X)) n_X <- rzeropois(1.5)  # a positive number of Xs
     if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2))  # all binary
     sample <- cluster_gen_together(n_levels, c_mean_list, clusters, n_obs,
-                                   cluster_labels, resp_labels, collapse,
+                                   labels, collapse,
                                    n_X, n_W, c_mean, ...)
   }
   return(sample)

@@ -1,4 +1,5 @@
-cluster_gen_together <- function(n_levels, c_mean_list, clusters, n_obs, cluster_labels, resp_labels, collapse, n_X, n_W, c_mean, ...) {
+cluster_gen_together <- function(n_levels, c_mean_list, clusters, n_obs,
+                                 labels, collapse, n_X, n_W, c_mean, ...) {
 	sample <- list()  # will store all BG questionnaires
 	level_combos <- list()  # will store ID combinations
     for (c in 1:n_levels) {
@@ -6,10 +7,11 @@ cluster_gen_together <- function(n_levels, c_mean_list, clusters, n_obs, cluster
     }
     id_combos <- expand.grid(level_combos)
     id_combos <- id_combos[, ncol(id_combos):1]  # so first level comes first
-    colnames(id_combos) <- cluster_labels
+    colnames(id_combos) <- labels
 
-    for (c in seq(ncol(id_combos))) {
-      id_combos[, c] <- paste0(cluster_labels[c], id_combos[, c])
+ in seq(ncol(id_combos))) {
+
+                                     id_combos[, c] <- paste0(labels[c [, c])
     }
 
     num_questionnaires <- nrow(id_combos)
