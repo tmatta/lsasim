@@ -1,3 +1,14 @@
+#' @title Generate cluster samples with lowest-level questionnaires
+#' @description This is a subfunction of `cluster_gen` that performs cluster sampling where only the lowest-level individuals (e.g. students) fill out questionnaires.
+#' @param n_levels number of cluster levels
+#' @param c_mean_list list of `c_means` for each level
+#' @param clusters numeric vector with the number of clusters on each level
+#' @param n_obs numeric vector with the number of observations in each cluster
+#' @param labels character vector with the names of each cluster level
+#' @param collapse if `TRUE`, function output contains only one data frame with all answers
+#' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
+#' @param ... Additional parameters to be passed to `questionnaire_gen()`
+#' @export
 cluster_gen_together <- function(n_levels, c_mean_list, clusters, n_obs,
                                  labels, collapse, n_X, n_W, c_mean, ...) {
 	sample <- list()  # will store all BG questionnaires

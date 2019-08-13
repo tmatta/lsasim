@@ -6,7 +6,8 @@
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @param separate_questionnaires if `TRUE`, each level will have its own questionnaire
-#' @details `n_obs` can have unitary length, in which case all clusters will have the same size.
+#' @details This function relies heavily in two subfunctions---`cluster_gen_separate` and `cluster_gen_together`---which can be called independently. This does not make `cluster_gen` a simple wrapper function, as it performs several operations prior to calling its subfunctions, such as randomly generating `n_X` and `n_W` if they are not determined by user.
+#'   `n_obs` can have unitary length, in which case all clusters will have the same size.
 #'   Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
 #' @examples
 #' cluster_gen(c(1, 2), collapse = FALSE)
@@ -48,7 +49,6 @@ cluster_gen <- function(clusters,  # TODO: allow levels with different sizes
         n_W[[l]] <- as.list(replicate(rzeropois(5), 2))  # all Ws are binary
       }
     }
-    # TODO: have these (_separate and _together) exported?
     sample <- cluster_gen_separate(n_levels, c_mean_list, clusters, n_obs,
                                    labels, collapse,
                                    n_X, n_W, c_mean, ...)
