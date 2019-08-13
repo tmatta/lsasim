@@ -50,9 +50,29 @@ cluster_gen_separate <- function(n_levels, clusters, n_obs,
       # Saving the questionnaire to the final list (sample)
       cluster_bg -> sample[[level_label]][[c]]
     }
-    if (collapse) {
+    if (collapse != "none") {
       out[[level_label]] <- do.call(rbind, sample[[level_label]])
-      out[[level_label]]["clusterID"] <- NULL
+      if (collapse == "full") {
+        if (l == 1) names(out[[l]]) <- paste0(names(out[[l]]), ".", labels[l])
+        if (l > 1) {
+          names(out[[l]]) <- paste0(names(out[[l]]), ".", labels[l])
+          out[[l]] <- merge(x = out[[l]], y = out[[l - 1]][-1],
+                            by.x = paste0("clusterID", ".", labels[l]),
+                            by.y = paste0("uniqueID", ".", labels[l - 1]))
+          out[[l]][paste0("clusterID.", level_label)] <- NULL
+        }
+        if (l == n_levels) {
+          out <- out[[l]]
+          # Removing first and last clusterIDs
+          out[paste0("clusterID.", labels[1])] <- NULL
+          out[paste0("clusterID.", labels[l])] <- NULL
+          # Renaming subjects (variable and values)
+          names(out)[1] <- "subject"
+          out$subject <- seq(nrow(out))
+        }
+      } else {
+        out[[level_label]]["clusterID"] <- NULL
+      }
     } else {
       out <- sample
       out$clusterID <- NULL
