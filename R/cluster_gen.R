@@ -35,7 +35,6 @@ cluster_gen <- function(clusters,  # TODO: allow levels with different sizes
     if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
     if (length(n_W) == 1) n_W <- rep(n_W, n_levels)
   }
-  c_mean_list <- c_mean
 
   if (separate_questionnaires) {  # questionnaires administered at all levels
     # Generates unique questionnaires for each level
@@ -51,13 +50,13 @@ cluster_gen <- function(clusters,  # TODO: allow levels with different sizes
         n_W[[l]] <- as.list(replicate(rzeropois(5), 2))  # all Ws are binary
       }
     }
-    sample <- cluster_gen_separate(n_levels, c_mean_list, clusters, n_obs,
+    sample <- cluster_gen_separate(n_levels, clusters, n_obs,
                                    labels, collapse,
                                    n_X, n_W, c_mean, ...)
   } else {  # questionnaires administered only at the bottom level
     if (is.null(n_X)) n_X <- rzeropois(1.5)  # a positive number of Xs
     if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2))  # all binary
-    sample <- cluster_gen_together(n_levels, c_mean_list, clusters, n_obs,
+    sample <- cluster_gen_together(n_levels, clusters, n_obs,
                                    labels, collapse,
                                    n_X, n_W, c_mean, ...)
   }
