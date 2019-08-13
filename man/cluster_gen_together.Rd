@@ -4,13 +4,11 @@
 \alias{cluster_gen_together}
 \title{Generate cluster samples with lowest-level questionnaires}
 \usage{
-cluster_gen_together(n_levels, c_mean_list, clusters, n_obs, labels,
-  collapse, n_X, n_W, c_mean, ...)
+cluster_gen_together(n_levels, clusters, n_obs, labels, collapse, n_X, n_W,
+  c_mean, ...)
 }
 \arguments{
 \item{n_levels}{number of cluster levels}
-
-\item{c_mean_list}{list of `c_means` for each level}
 
 \item{clusters}{numeric vector with the number of clusters on each level}
 

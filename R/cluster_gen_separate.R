@@ -1,7 +1,6 @@
 #' @title Generate cluster samples with individual questionnaires
 #' @description This is a subfunction of `cluster_gen` that performs cluster sampling, with the twist that each cluster level has its own questionnaire.
 #' @param n_levels number of cluster levels
-#' @param c_mean_list list of `c_means` for each level
 #' @param clusters numeric vector with the number of clusters on each level
 #' @param n_obs numeric vector with the number of observations in each cluster
 #' @param labels character vector with the names of each cluster level
@@ -11,7 +10,7 @@
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @export
-cluster_gen_separate <- function(n_levels, c_mean_list, clusters, n_obs,
+cluster_gen_separate <- function(n_levels, clusters, n_obs,
                                  labels, collapse, n_X,
                                  n_W, c_mean, ...) {
   out    <- list()
@@ -20,9 +19,8 @@ cluster_gen_separate <- function(n_levels, c_mean_list, clusters, n_obs,
     # TODO: allow custom c_mean for each cluster or only levels (implemented)? Idea for this: lists of lists (ideally, something simpler, though)
 
     # Adapting additional parameters to questionnaire_gen format
-    if (class(c_mean_list) == "list") {
-      c_mean <- c_mean_list[[l]]
-    }
+    c_mean_list <- c_mean
+    if (class(c_mean_list) == "list") c_mean <- c_mean_list[[l]]
 
     level_label <- labels[l]
     next_level_label <- ifelse(test = l < n_levels,
