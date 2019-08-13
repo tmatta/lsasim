@@ -1,8 +1,10 @@
 #' @title Generate cluster sample
 #' @param clusters numeric vector with the number of clusters on each level
-#' @param labels character vector with the names of each cluster level
 #' @param n_obs numeric vector with the number of observations in each cluster
+#' @param labels character vector with the names of each cluster level
 #' @param collapse if `TRUE`, function output contains only one data frame with all answers
+#' @param n_X list of `n_X` per cluster level
+#' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @param separate_questionnaires if `TRUE`, each level will have its own questionnaire
@@ -52,7 +54,7 @@ cluster_gen <- function(clusters,  # TODO: allow levels with different sizes
     sample <- cluster_gen_separate(n_levels, c_mean_list, clusters, n_obs,
                                    labels, collapse,
                                    n_X, n_W, c_mean, ...)
-  } else {  # questionnaires are administered only at the bottom level
+  } else {  # questionnaires administered only at the bottom level
     if (is.null(n_X)) n_X <- rzeropois(1.5)  # a positive number of Xs
     if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2))  # all binary
     sample <- cluster_gen_together(n_levels, c_mean_list, clusters, n_obs,

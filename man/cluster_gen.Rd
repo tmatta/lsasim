@@ -4,9 +4,8 @@
 \alias{cluster_gen}
 \title{Generate cluster sample}
 \usage{
-cluster_gen(clusters, n_obs = 5, cluster_labels = c("country",
-  "school", "class"), resp_labels = c("principal", "teacher", "student"),
-  collapse = FALSE, n_X = NULL, n_W = NULL, c_mean = 0,
+cluster_gen(clusters, n_obs = 5, labels = c("country", "school",
+  "class"), collapse = FALSE, n_X = NULL, n_W = NULL, c_mean = 0,
   separate_questionnaires = TRUE, ...)
 }
 \arguments{
@@ -14,11 +13,13 @@ cluster_gen(clusters, n_obs = 5, cluster_labels = c("country",
 
 \item{n_obs}{numeric vector with the number of observations in each cluster}
 
-\item{cluster_labels}{character vector with the names of each cluster level}
-
-\item{resp_labels}{character vector with the names of the respondents on each level}
+\item{labels}{character vector with the names of each cluster level}
 
 \item{collapse}{if `TRUE`, function output contains only one data frame with all answers}
+
+\item{n_X}{list of `n_X` per cluster level}
+
+\item{n_W}{list of `n_W` per cluster level}
 
 \item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level}
 
@@ -30,7 +31,8 @@ cluster_gen(clusters, n_obs = 5, cluster_labels = c("country",
 Generate cluster sample
 }
 \details{
-`n_obs` can have unitary length, in which case all clusters will have the same size.
+This function relies heavily in two subfunctions---`cluster_gen_separate` and `cluster_gen_together`---which can be called independently. This does not make `cluster_gen` a simple wrapper function, as it performs several operations prior to calling its subfunctions, such as randomly generating `n_X` and `n_W` if they are not determined by user.
+  `n_obs` can have unitary length, in which case all clusters will have the same size.
   Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
 }
 \examples{
