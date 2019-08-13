@@ -22,11 +22,9 @@ cluster_gen_separate <- function(n_levels, clusters, n_obs,
     c_mean_list <- c_mean
     if (class(c_mean_list) == "list") c_mean <- c_mean_list[[l]]
 
+    # Defining labels and IDs for this cluster and the next one
     level_label <- labels[l]
-    next_level_label <- ifelse(test = l < n_levels,
-                               yes  = labels[l],
-                               no   = "subject")
-
+    next_level_label <- ifelse(l < n_levels, labels[l + 1], "subject")
     if (l > 1) {
       clusters[l] <- clusters[l] * clusters[l - 1]
       previousClusterID <- as.vector(sapply(sample[[l - 1]],
