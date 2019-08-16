@@ -16,16 +16,21 @@
 #' cluster_gen(c(4, 2), n_X = 1, n_W = list(2, 3), theta = TRUE,
 #'             c_mean = list(0, c(0, 10)))
 #' @export
-cluster_gen <- function(clusters,  # TODO: allow levels with different sizes
-                        n_obs = 5,
+cluster_gen <- function(clusters,
+                        n_obs = 5,  # TODO: allow levels with different sizes.
+                        # TODO: incorporate n_obs into clusters
+                        # TODO: set ranges for class sizes (not just fized values)
                         labels = c("country", "school", "class"),
                         collapse = FALSE,
                         n_X = NULL,
                         n_W = NULL,
                         c_mean = 0,
                         separate_questionnaires = TRUE,
-                        # TODO: add weights
-                        # TODO: add correlations (within, between)
+                        # TODO: add design weights. Have "pop_size" (N) or total clusters (N_clusters) as argument and calculate weights as a function of that. Otherwise, 1 (SRS).
+                        # TODO: SRS for schools and students? If schools differ in size, this will result in equal weights for each school and different weights for students. Alternatively, use PPS for schools. Why not offer both alternatives?
+                        # Non-response weights? (i.e., simulate non-response?) ..or would the weights be incorporated into questionnaire_gen (ex.: sample cat_prop = list(c(.4, 1)) where it should be c(.5, 1)? Leave this for later
+                        # TODO: Replicate weights
+                        # TODO: Control over inter-class correlation (intra-class is handled by quest_gen?). Add correlations (within, between)
                         ...) {
 
   n_levels <- length(clusters)
@@ -39,6 +44,7 @@ cluster_gen <- function(clusters,  # TODO: allow levels with different sizes
   if (separate_questionnaires) {  # questionnaires administered at all levels
     # Generates unique questionnaires for each level
     if (is.null(n_X)) {
+      # TODO: allow custom c_mean for each cluster or only levels (implemented)? Idea for this: lists of lists (ideally, something simpler, though)
       n_X <- list()
       for (l in seq(n_levels)) {
         n_X[[l]] <- rzeropois(1.5)  # a positive number of Xs
