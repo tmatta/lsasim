@@ -16,8 +16,6 @@ cluster_gen_separate <- function(n_levels, clusters, n_obs,
   out    <- list()
 	sample <- list()  # will store all BG questionnaires
   for (l in seq(n_levels)) {
-    # TODO: allow custom c_mean for each cluster or only levels (implemented)? Idea for this: lists of lists (ideally, something simpler, though)
-
     # Adapting additional parameters to questionnaire_gen format
     c_mean_list <- c_mean
     if (class(c_mean_list) == "list") c_mean <- c_mean_list[[l]]
