@@ -138,6 +138,7 @@ cluster_gen <- function(
 
     # Defining n_X and n_W -----------------------------------------------------
     if (is.null(n_X)) {
+      # TODO: allow custom c_mean for each cluster or only levels (implemented)? Idea for this: lists of lists (ideally, something simpler, though)
       n_X <- list()
       for (l in seq(n_levels)) {
         n_X[[l]] <- rzeropois(1.5) # a positive number of Xs
