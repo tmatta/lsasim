@@ -108,6 +108,9 @@ cluster_gen <- function(
     cluster_labels <- names(n)
     resp_labels <- c(names(n)[-1], "respondent")
   }
+  if (length(n_obs) == 1) {
+    stop("n_obs must have length larger than 1")
+  }
 
   # Treating NAs in labels =====================================================
   if (length(cluster_labels[!is.na(cluster_labels)]) < length(n)) {

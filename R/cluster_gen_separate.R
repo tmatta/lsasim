@@ -121,7 +121,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
           out[paste0("clusterID.", resp_labels[1])] <- NULL
           out[paste0("clusterID.", resp_labels[l])] <- NULL
           # Renaming subjects (variable and values)
-          names(out)[1] <- "subject"
+          names(out)[1] <- "subject"  # TODO: draw from resp_labels
           out$subject <- seq(nrow(out))
         }
       } else {
