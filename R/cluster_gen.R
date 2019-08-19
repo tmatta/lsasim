@@ -1,7 +1,6 @@
 #' @title Generate cluster sample
-#' @param clusters numeric vector with the number of clusters on each level
-#' @param n_obs numeric vector with the number of observations in each cluster
-#' @param labels character vector with the names of each cluster level
+#' @param n_obs numeric vector with the number of observations (clusters or subjects) on each level
+#' @param cluster_labels character vector with the names of each cluster level
 #' @param collapse if `TRUE`, function output contains only one data frame with all answers
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
@@ -16,11 +15,11 @@
 #' cluster_gen(c(4, 2), n_X = 1, n_W = list(2, 3), theta = TRUE,
 #'             c_mean = list(0, c(0, 10)))
 #' @export
-cluster_gen <- function(clusters,
-                        n_obs = 5,  # TODO: allow levels with different sizes.
+cluster_gen <- function(n_obs,
                         # TODO: incorporate n_obs into clusters
                         # TODO: set ranges for class sizes (not just fized values)
-                        labels = c("country", "school", "class"),
+                        cluster_labels = c("country", "school", "class"),
+                        resp_labels = c("principal", "teacher", "student"),
                         n_X = NULL,
                         n_W = NULL,
                         c_mean = NULL,
@@ -39,12 +38,14 @@ cluster_gen <- function(clusters,
     if (length(n_W) > 1)
       stop("Unique questionnaire requested. n_W must therefore be a scalar or a list.")
   }
+  if (length(n_obs) == 1) {
+    stop("n_obs must have length larger than 1")
+  }
 
-  n_levels <- length(clusters)
+  n_levels <- length(n_obs)
 
   # Adapting additional parameters to questionnaire_gen format
   if (n_levels > 1) {
-    if (length(n_obs) == 1) n_obs <- c(clusters[-1], n_obs)
     if (separate_questionnaires & length(n_X) == 1) n_X <- rep(n_X, n_levels)
     if (separate_questionnaires & length(n_W) == 1) n_W <- rep(n_W, n_levels)
   }
@@ -64,14 +65,25 @@ cluster_gen <- function(clusters,
         n_W[[l]] <- as.list(replicate(rzeropois(5), 2))  # all Ws are binary
       }
     }
-    sample <- cluster_gen_separate(n_levels, clusters, n_obs,
-                                   labels, collapse,
+
+    # Message explaining cluster scheme
+    message("Generating separate questionnaires for ",
+            n_obs[1], " ", cluster_labels[1])
+    for (l in 2:(length(n_obs) - 1)) {
+      message("each ", cluster_labels[l - 1], " sampled ", n_obs[l], " ",
+              cluster_labels[l])
+    }
+    message("each ", cluster_labels[n_levels - 1], " sampled ", n_obs[n_levels],
+             " ", resp_labels[n_levels - 1])
+
+    sample <- cluster_gen_separate(n_levels, n_obs,
+                                   cluster_labels, resp_labels, collapse,
                                    n_X, n_W, c_mean, ...)
   } else {  # questionnaires administered only at the bottom level
     if (is.null(n_X)) n_X <- rzeropois(1.5)  # a positive number of Xs
     if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2))  # all binary
-    sample <- cluster_gen_together(n_levels, clusters, n_obs,
-                                   labels, collapse,
+    sample <- cluster_gen_together(n_levels, n_obs,
+                                   cluster_labels, resp_labels, collapse,
                                    n_X, n_W, c_mean, ...)
   }
   return(sample)
