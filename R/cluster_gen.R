@@ -21,17 +21,24 @@ cluster_gen <- function(clusters,
                         # TODO: incorporate n_obs into clusters
                         # TODO: set ranges for class sizes (not just fized values)
                         labels = c("country", "school", "class"),
-                        collapse = FALSE,
                         n_X = NULL,
                         n_W = NULL,
-                        c_mean = 0,
+                        c_mean = NULL,
                         separate_questionnaires = TRUE,
+                        collapse = "none",
                         # TODO: add design weights. Have "pop_size" (N) or total clusters (N_clusters) as argument and calculate weights as a function of that. Otherwise, 1 (SRS).
                         # TODO: SRS for schools and students? If schools differ in size, this will result in equal weights for each school and different weights for students. Alternatively, use PPS for schools. Why not offer both alternatives?
                         # Non-response weights? (i.e., simulate non-response?) ..or would the weights be incorporated into questionnaire_gen (ex.: sample cat_prop = list(c(.4, 1)) where it should be c(.5, 1)? Leave this for later
                         # TODO: Replicate weights
                         # TODO: Control over inter-class correlation (intra-class is handled by quest_gen?). Add correlations (within, between)
                         ...) {
+  # Validation
+  if (!separate_questionnaires) {
+    if (length(n_X) > 1)
+      stop("Unique questionnaire requested. n_X must therefore be a scalar")
+    if (length(n_W) > 1)
+      stop("Unique questionnaire requested. n_W must therefore be a scalar or a list.")
+  }
 
   n_levels <- length(clusters)
 
