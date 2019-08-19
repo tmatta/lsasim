@@ -21,7 +21,7 @@ cluster_gen_together <- function(n_levels, n_obs,
 
   id_combos <- expand.grid(level_combos)
   id_combos <- id_combos[, ncol(id_combos):1]  # so first level comes first
-  colnames(id_combos) <- cluster_labels
+  colnames(id_combos) <- cluster_labels[-n_levels]
 
   for (c in seq(ncol(id_combos))) {
     id_combos[, c] <- paste0(cluster_labels[c], id_combos[, c])
@@ -42,7 +42,10 @@ cluster_gen_together <- function(n_levels, n_obs,
       # Saving the questionnaire to the final list (sample)
       cluster_bg -> sample[[c]]
     }
-    if (collapse != "none") {
+
+    if (collapse == "none") {
+      names(sample) <- paste0(cluster_labels[n_levels - 1], seq(length(sample)))
+    } else {
       sample <- do.call(rbind, sample)
       sample$subject <- seq(nrow(sample))
     }
