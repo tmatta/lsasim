@@ -21,7 +21,7 @@ cluster_gen_separate <- function(n_levels, n_obs,
 
     # Defining labels and IDs for this cluster and the next one
     level_label <- cluster_labels[l]
-    next_level_label <- ifelse(l < n_levels - 1, cluster_labels[l + 1], "subject")
+    next_level_label <- ifelse(l < n_levels - 1, cluster_labels[l + 1], resp_labels[l])
 
     if (l > 1) {  # Only applicable for sub-country levels
       n_obs[l] <- n_obs[l] * n_obs[l - 1]
@@ -49,8 +49,14 @@ cluster_gen_separate <- function(n_levels, n_obs,
       cluster_bg -> sample[[level_label]][[c]]
     }
 
-    # Collapsing levels -------------------------------------------------------
-    if (collapse != "none") {
+    # Collapsing levels and removing clusterIDs -------------------------------
+    if (collapse == "none") {
+      out[[l]] <- sample[[l]]
+      for (ll in seq(length(out[[l]]))) {
+        out[[l]][[ll]]["clusterID"] <- NULL
+      }
+      if (l == n_levels - 1) names(out) <- cluster_labels[-(n_levels - 1)]
+    } else {
       out[[level_label]] <- do.call(rbind, sample[[level_label]])
       if (collapse == "full") {
         if (l == 1) names(out[[l]]) <- paste0(names(out[[l]]), ".", cluster_labels[l])
@@ -67,15 +73,12 @@ cluster_gen_separate <- function(n_levels, n_obs,
           out[paste0("clusterID.", cluster_labels[1])] <- NULL
           out[paste0("clusterID.", cluster_labels[l])] <- NULL
           # Renaming subjects (variable and values)
-          names(out)[1] <- "subject"  # TODO: draw from resp_labels
+          names(out)[1] <- resp_labels[l]
           out$subject <- seq(nrow(out))
         }
       } else {
         out[[level_label]]["clusterID"] <- NULL
       }
-    } else {
-      out <- sample
-      out$clusterID <- NULL
     }
   }
   return(out)
