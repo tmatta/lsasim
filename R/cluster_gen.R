@@ -34,11 +34,12 @@ cluster_gen <- function(clusters,
                         ...) {
 
   n_levels <- length(clusters)
+
   # Adapting additional parameters to questionnaire_gen format
   if (n_levels > 1) {
     if (length(n_obs) == 1) n_obs <- c(clusters[-1], n_obs)
-    if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
-    if (length(n_W) == 1) n_W <- rep(n_W, n_levels)
+    if (separate_questionnaires & length(n_X) == 1) n_X <- rep(n_X, n_levels)
+    if (separate_questionnaires & length(n_W) == 1) n_W <- rep(n_W, n_levels)
   }
 
   if (separate_questionnaires) {  # questionnaires administered at all levels
