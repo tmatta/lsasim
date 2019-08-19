@@ -4,18 +4,17 @@
 \alias{cluster_gen}
 \title{Generate cluster sample}
 \usage{
-cluster_gen(clusters, n_obs = 5, labels = c("country", "school",
-  "class"), collapse = FALSE, n_X = NULL, n_W = NULL, c_mean = 0,
-  separate_questionnaires = TRUE, ...)
+cluster_gen(n_obs, cluster_labels = c("country", "school", "class"),
+  resp_labels = c("principal", "teacher", "student"), n_X = NULL,
+  n_W = NULL, c_mean = NULL, separate_questionnaires = TRUE,
+  collapse = "none", ...)
 }
 \arguments{
-\item{clusters}{numeric vector with the number of clusters on each level}
+\item{n_obs}{numeric vector with the number of observations (clusters or subjects) on each level}
 
-\item{n_obs}{numeric vector with the number of observations in each cluster}
+\item{cluster_labels}{character vector with the names of each cluster level}
 
-\item{labels}{character vector with the names of each cluster level}
-
-\item{collapse}{if `TRUE`, function output contains only one data frame with all answers}
+\item{resp_labels}{character vector with the names of the questionnaire respondents on each level}
 
 \item{n_X}{list of `n_X` per cluster level}
 
@@ -24,6 +23,8 @@ cluster_gen(clusters, n_obs = 5, labels = c("country", "school",
 \item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level}
 
 \item{separate_questionnaires}{if `TRUE`, each level will have its own questionnaire}
+
+\item{collapse}{if `TRUE`, function output contains only one data frame with all answers}
 
 \item{...}{Additional parameters to be passed to `questionnaire_gen()`}
 }
@@ -34,9 +35,4 @@ Generate cluster sample
 This function relies heavily in two subfunctions---`cluster_gen_separate` and `cluster_gen_together`---which can be called independently. This does not make `cluster_gen` a simple wrapper function, as it performs several operations prior to calling its subfunctions, such as randomly generating `n_X` and `n_W` if they are not determined by user.
   `n_obs` can have unitary length, in which case all clusters will have the same size.
   Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
-}
-\examples{
-cluster_gen(c(1, 2), collapse = FALSE)
-cluster_gen(c(4, 2), n_X = 1, n_W = list(2, 3), theta = TRUE,
-            c_mean = list(0, c(0, 10)))
 }

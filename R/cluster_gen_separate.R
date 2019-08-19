@@ -3,6 +3,7 @@
 #' @param n_levels number of cluster levels
 #' @param n_obs numeric vector with the number of clusters on each level
 #' @param cluster_labels character vector with the names of each cluster level
+#' @param resp_labels character vector with the names of the questionnaire respondents on each level
 #' @param collapse if `TRUE`, function output contains only one data frame with all answers
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level

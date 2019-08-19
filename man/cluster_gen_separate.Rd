@@ -4,17 +4,17 @@
 \alias{cluster_gen_separate}
 \title{Generate cluster samples with individual questionnaires}
 \usage{
-cluster_gen_separate(n_levels, clusters, n_obs, labels, collapse, n_X, n_W,
-  c_mean, ...)
+cluster_gen_separate(n_levels, n_obs, cluster_labels, resp_labels,
+  collapse, n_X, n_W, c_mean, ...)
 }
 \arguments{
 \item{n_levels}{number of cluster levels}
 
-\item{clusters}{numeric vector with the number of clusters on each level}
+\item{n_obs}{numeric vector with the number of clusters on each level}
 
-\item{n_obs}{numeric vector with the number of observations in each cluster}
+\item{cluster_labels}{character vector with the names of each cluster level}
 
-\item{labels}{character vector with the names of each cluster level}
+\item{resp_labels}{character vector with the names of the questionnaire respondents on each level}
 
 \item{collapse}{if `TRUE`, function output contains only one data frame with all answers}
 
