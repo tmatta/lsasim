@@ -1,4 +1,3 @@
-
 #--------------------------#
 #--- The usual suspects ---#
 #--------------------------#
@@ -8,14 +7,13 @@ dev.R
 *.Rproj
 *.pptx
 *.Rhistory
-
 #-------------------#
 #--- Directories ---#
 #-------------------#
 raw_data/
 archive/
 jss/
-
+.Rproj.user/
 #-----------------#
 #--- TeX stuff ---#
 #-----------------#
@@ -23,7 +21,6 @@ jss/
 *.fdb_latexmk
 *.fls
 *.log
-
 #-----------------------#
 #--- Compiled source ---#
 #-----------------------#
@@ -33,7 +30,6 @@ jss/
 *.exe
 *.o
 *.so
-
 #----------------#
 #--- Packages ---#
 #----------------#
@@ -47,14 +43,12 @@ jss/
 *.rar
 *.tar
 *.zip
-
 #--------------------#
 # Logs and databases #
 #--------------------#
 *.log
 *.sql
 *.sqlite
-
 #--------------------#
 # OS generated files #
 #--------------------#
@@ -66,3 +60,8 @@ jss/
 ehthumbs.db
 Thumbs.db
 *.dropbox
+.Rproj.user
+desktop.ini
+
+# Test files
+gendat3*

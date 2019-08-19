@@ -4,7 +4,8 @@
 \alias{block_design}
 \title{Assignment of test items to blocks}
 \usage{
-block_design(n_blocks = NULL, item_parameters, item_block_matrix = NULL)
+block_design(n_blocks = NULL, item_parameters,
+  item_block_matrix = NULL)
 }
 \arguments{
 \item{n_blocks}{an integer indicating how many blocks to create.}

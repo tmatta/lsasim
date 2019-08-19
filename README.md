@@ -11,10 +11,22 @@ Overall aim: to simulate data that mimics large-scale assessments, including bac
   * Leslie Rutkowski
   * David Rutkowski
   * Kondwani Kajera Mughogho
+  * Waldir Leoncio
 
 ## License
   GPL-3
 
+## To-do
 
+Consider the implementation of the features below:
 
+### `questionnaire_gen`:
 
+1. Improve handling of `NULL` parameters
+2. Support `family = "binomial"` and `"poisson"`
+3. Include indicator grouping by factor
+4. Include factor loadings
+
+### `beta_gen`:
+
+1. Support more complex functions, e.g. including interactions between the covariates.
