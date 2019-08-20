@@ -33,13 +33,14 @@ cluster_gen_separate <- function(n_levels, n_obs, N,
 
     for (c in seq(n_obs[l])) {
       # Generating data
-      # TODO: rename columns according to resp_labels
       cluster_bg <- questionnaire_gen(n_obs[l + 1],
                                       n_X = n_X[[l]], n_W = n_W[[l]],
                                       c_mean = c_mean, verbose = FALSE,...)
       # Adding weights
-      level_weight_name <- paste0(level_label, ".weight")
-      next_level_weight_name <- paste0(next_level_label, ".weight")
+      level_weight_name <- ifelse(collapse == "full", "weight",
+                                  paste0(level_label, ".weight"))
+      next_level_weight_name <- ifelse(collapse == "full", "weight",
+                                paste0(next_level_label, ".weight"))
       cluster_bg[next_level_weight_name] <-  N[l + 1] / n_obs[l + 1]
       if (l == 1) cluster_bg[level_weight_name] <- N[l] / n_obs[l]
 
@@ -68,19 +69,20 @@ cluster_gen_separate <- function(n_levels, n_obs, N,
     } else {
       out[[level_label]] <- do.call(rbind, sample[[level_label]])
       if (collapse == "full") {
-        if (l == 1) names(out[[l]]) <- paste0(names(out[[l]]), ".", cluster_labels[l])
+        if (l == 1) names(out[[l]]) <- paste0(names(out[[l]]), ".", resp_labels[l])
         if (l > 1) {
-          names(out[[l]]) <- paste0(names(out[[l]]), ".", cluster_labels[l])
+          names(out[[l]]) <- paste0(names(out[[l]]), ".", resp_labels[l])
           out[[l]] <- merge(x = out[[l]], y = out[[l - 1]][-1],
-                            by.x = paste0("clusterID", ".", cluster_labels[l]),
-                            by.y = paste0("uniqueID", ".", cluster_labels[l - 1]))
+                            by.x = paste0("clusterID", ".", resp_labels[l]),
+                            by.y = paste0("uniqueID", ".", resp_labels[l - 1]))
           out[[l]][paste0("clusterID.", level_label)] <- NULL
         }
         if (l == n_levels - 1) {
           out <- out[[l]]
           # Removing first and last clusterIDs
-          out[paste0("clusterID.", cluster_labels[1])] <- NULL
-          out[paste0("clusterID.", cluster_labels[l])] <- NULL
+          names(out[[l]]) <- paste0(names(out[[l]]), ".", resp_labels[l])
+          out[paste0("clusterID.", resp_labels[1])] <- NULL
+          out[paste0("clusterID.", resp_labels[l])] <- NULL
           # Renaming subjects (variable and values)
           names(out)[1] <- "subject"
           out$subject <- seq(nrow(out))
