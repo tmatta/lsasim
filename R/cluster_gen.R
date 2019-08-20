@@ -8,15 +8,14 @@
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @param separate_questionnaires if `TRUE`, each level will have its own questionnaire
+#' @param verbose if `TRUE`, prints output messages
 #' @details This function relies heavily in two subfunctions---`cluster_gen_separate` and `cluster_gen_together`---which can be called independently. This does not make `cluster_gen` a simple wrapper function, as it performs several operations prior to calling its subfunctions, such as randomly generating `n_X` and `n_W` if they are not determined by user.
 #'   `n_obs` can have unitary length, in which case all clusters will have the same size.
 #'   Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
 #' @export
-cluster_gen <- function(n_obs,
-                        # TODO: incorporate n_obs into clusters
-                        # TODO: set ranges for class sizes (not just fized values)
-                        cluster_labels = c("country", "school", "class"),
-                        resp_labels = c("principal", "teacher", "student"),
+cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
+                        cluster_labels = c("country", "school", "class")[n_obs],
+                        resp_labels = c("principal", "teacher", "student")[n_obs],
                         n_X = NULL,
                         n_W = NULL,
                         c_mean = NULL,
@@ -27,6 +26,7 @@ cluster_gen <- function(n_obs,
                         # Non-response weights? (i.e., simulate non-response?) ..or would the weights be incorporated into questionnaire_gen (ex.: sample cat_prop = list(c(.4, 1)) where it should be c(.5, 1)? Leave this for later
                         # TODO: Replicate weights
                         # TODO: Control over inter-class correlation (intra-class is handled by quest_gen?). Add correlations (within, between)
+                        verbose = TRUE,
                         ...) {
   # Validation
   if (!separate_questionnaires) {
@@ -64,6 +64,7 @@ cluster_gen <- function(n_obs,
     }
 
     # Message explaining cluster scheme
+    if (verbose) {
     message("Generating questionnaires for ",
             paste(cluster_labels, collapse = ", "))
     for (l in 1:(length(n_obs) - 2)) {
@@ -75,12 +76,14 @@ cluster_gen <- function(n_obs,
              " ", resp_labels[n_levels - 1])
     message("Total respondents: ",
             paste0(prod(n_obs), " (", paste(n_obs, collapse = " * "), ")"))
+    }
 
     sample <- cluster_gen_separate(n_levels, n_obs,
                                    cluster_labels, resp_labels, collapse,
                                    n_X, n_W, c_mean, ...)
   } else {  # questionnaires administered only at the bottom level
     # Message explaining cluster scheme
+    if (verbose) {
     message("Generating questionnaires for ", resp_labels[n_levels - 1])
     for (l in 1:(length(n_obs) - 2)) {
       if (l == 1) message("Top level: ", n_obs[l], " ", cluster_labels[l])
@@ -91,6 +94,7 @@ cluster_gen <- function(n_obs,
              " ", resp_labels[n_levels - 1])
     message("Total respondents: ",
             paste0(prod(n_obs), " (", paste(n_obs, collapse = " * "), ")"))
+    }
 
     if (is.null(n_X)) n_X <- rzeropois(1.5)  # a positive number of Xs
     if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2))  # all binary
