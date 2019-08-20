@@ -66,18 +66,16 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       }
 
       # Generating data
-      cluster_bg <- questionnaire_gen(
-        n_resp, n_X = n_X[[l]], n_W = n_W[[l]], c_mean = mu, verbose = FALSE,
-        ...
-      )
-
+      cluster_bg <- questionnaire_gen(n_obs[l + 1],
+                                      n_X = n_X[[l]], n_W = n_W[[l]],
+                                      c_mean = c_mean, verbose = FALSE,...)
       # Adding weights
-      if (calc_weights) {
-        cluster_bg <- weight_responses(
-          cluster_bg, n, N, l + 1, lvl, previous_sublvl[lvl], sampling_method,
-          cluster_labels, resp_labels, sum_pop, verbose
-        )
-      }
+      level_weight_name <- ifelse(collapse == "full", "weight",
+                                  paste0(level_label, ".weight"))
+      next_level_weight_name <- ifelse(collapse == "full", "weight",
+                                paste0(next_level_label, ".weight"))
+      cluster_bg[next_level_weight_name] <-  N[l + 1] / n_obs[l + 1]
+      if (l == 1) cluster_bg[level_weight_name] <- N[l] / n_obs[l]
 
       # Generating unique IDs
       respID <- paste0(next_level_label, seq(cluster_bg$subject))
@@ -104,9 +102,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
     } else {
       out[[level_label]] <- do.call(rbind, sample[[level_label]])
       if (collapse == "full") {
-        if (l == 1) {
-          names(out[[l]]) <- paste0(names(out[[l]]), ".", resp_labels[l])
-        }
+        if (l == 1) names(out[[l]]) <- paste0(names(out[[l]]), ".", resp_labels[l])
         if (l > 1) {
           names(out[[l]]) <- paste0(names(out[[l]]), ".", resp_labels[l])
           out[[l]] <- merge(x = out[[l]], y = out[[l - 1]][-1],
