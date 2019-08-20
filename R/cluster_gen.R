@@ -84,7 +84,7 @@ cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
               paste0(prod(n_obs), " (", paste(n_obs, collapse = " * "), ")"))
     }
 
-    sample <- cluster_gen_separate(n_levels, n_obs,
+    sample <- cluster_gen_separate(n_levels, n_obs, N,
                                    cluster_labels, resp_labels, collapse,
                                    n_X, n_W, c_mean, ...)
   } else {  # questionnaires administered only at the bottom level
@@ -104,7 +104,7 @@ cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
 
     if (is.null(n_X)) n_X <- rzeropois(1.5)  # a positive number of Xs
     if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2))  # all binary
-    sample <- cluster_gen_together(n_levels, n_obs,
+    sample <- cluster_gen_together(n_levels, n_obs, N,
                                    cluster_labels, resp_labels, collapse,
                                    n_X, n_W, c_mean, ...)
   }

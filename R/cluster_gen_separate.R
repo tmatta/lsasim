@@ -5,12 +5,13 @@
 #' @param cluster_labels character vector with the names of each cluster level
 #' @param resp_labels character vector with the names of the questionnaire respondents on each level
 #' @param collapse if `TRUE`, function output contains only one data frame with all answers
+#' @param N numeric vector with the population size of each level
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @export
-cluster_gen_separate <- function(n_levels, n_obs,
+cluster_gen_separate <- function(n_levels, n_obs, N,
                                  cluster_labels, resp_labels, collapse, n_X,
                                  n_W, c_mean, ...) {
   out    <- list()  # actual output (differs from sample if collapse)
@@ -35,6 +36,17 @@ cluster_gen_separate <- function(n_levels, n_obs,
       cluster_bg <- questionnaire_gen(n_obs[l + 1],
                                       n_X = n_X[[l]], n_W = n_W[[l]],
                                       c_mean = c_mean, verbose = FALSE,...)
+      # Adding weights
+      level_weight_name <- paste0(level_label, ".weight")
+      next_level_weight_name <- paste0(next_level_label, ".weight")
+      if (N[l] == n_obs[l]) {
+        cluster_bg[next_level_weight_name] <- 1
+        if (l == 1) cluster_bg[level_weight_name] <- 1
+      } else {
+        cluster_bg[next_level_weight_name] <-  N[l + 1] / n_obs[l + 1]
+        if (l == 1) cluster_bg[level_weight_name] <- N[l] / n_obs[l]
+      }
+
       # Generating unique IDs
       respID <- paste0(next_level_label, seq(cluster_bg$subject))
       if (l > 1) {

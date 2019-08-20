@@ -8,7 +8,7 @@ cluster_gen(n_obs, cluster_labels = c("country", "school",
   "class")[seq(length(n_obs)) - 1], resp_labels = c("principal",
   "teacher", "student")[seq(length(n_obs)) - 1], n_X = NULL,
   n_W = NULL, c_mean = NULL, separate_questionnaires = TRUE,
-  collapse = "none", verbose = TRUE, ...)
+  collapse = "none", N = n_obs, verbose = TRUE, ...)
 }
 \arguments{
 \item{n_obs}{numeric vector with the number of observations (clusters or subjects) on each level}
@@ -26,6 +26,8 @@ cluster_gen(n_obs, cluster_labels = c("country", "school",
 \item{separate_questionnaires}{if `TRUE`, each level will have its own questionnaire}
 
 \item{collapse}{if `TRUE`, function output contains only one data frame with all answers}
+
+\item{N}{numeric vector with the population size of each level}
 
 \item{verbose}{if `TRUE`, prints output messages}
 
