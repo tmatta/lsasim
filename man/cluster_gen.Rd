@@ -5,10 +5,10 @@
 \title{Generate cluster sample}
 \usage{
 cluster_gen(n_obs, cluster_labels = c("country", "school",
-  "class")[n_obs], resp_labels = c("principal", "teacher",
-  "student")[n_obs], n_X = NULL, n_W = NULL, c_mean = NULL,
-  separate_questionnaires = TRUE, collapse = "none", verbose = TRUE,
-  ...)
+  "class")[seq(length(n_obs)) - 1], resp_labels = c("principal",
+  "teacher", "student")[seq(length(n_obs)) - 1], n_X = NULL,
+  n_W = NULL, c_mean = NULL, separate_questionnaires = TRUE,
+  collapse = "none", verbose = TRUE, ...)
 }
 \arguments{
 \item{n_obs}{numeric vector with the number of observations (clusters or subjects) on each level}
