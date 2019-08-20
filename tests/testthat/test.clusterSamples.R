@@ -1,9 +1,3 @@
-# Library loading (during development)
-# library(testthat)
-# library(devkit)
-# install("../lsasim")
-# library(lsasim)
-
 # Actual test
 context("Cluster samples")
 wrap_cluster_gen <- function(...) cluster_gen(..., family = "gaussian", verbose = FALSE)
@@ -20,9 +14,15 @@ test_that("Basic argument handling generates data", {
   df07 <- wrap_cluster_gen(2:3, n_X = 1, n_W = 1)
   df08 <- wrap_cluster_gen(2:3, n_X = 2:3, n_W = 3:4)
   df09 <- wrap_cluster_gen(2:3, n_X = 0, n_W = list(5, 2))
-  # TODO: add tests for c_mean
-  # TODO: add tests for separate_questionnaires
-  # TODO: add tests for collapse
+  df10 <- wrap_cluster_gen(rep(10, 3),
+                           c_mean = list(c(1, 10), c(1e2, 1e3)), n_X = 2)
+  df11 <- wrap_cluster_gen(2:4, separate_questionnaires = FALSE,
+                           c_mean = c(1, 10), n_X = 2)
+  df12 <- wrap_cluster_gen(2:4, collapse = "partial")
+  df13 <- wrap_cluster_gen(2:4, collapse = "full")
+  df14 <- wrap_cluster_gen(2:4, collapse = "full",
+                           separate_questionnaires = FALSE)
+
   expect_output(str(df01), "List of 1")
   expect_output(str(df02), "List of 2")
   expect_equal(names(df03), LETTERS[1:2])
@@ -42,16 +42,28 @@ test_that("Basic argument handling generates data", {
   expect_output(str(df09$country[[1]]$q2), "Factor w/ 2 levels")
   expect_output(str(df09$country[[2]]$q1), "Factor w/ 5 levels")
   expect_output(str(df09$country[[2]]$q2), "Factor w/ 2 levels")
+  expect_equivalent(sapply(df10, function(x) apply(x[[1]][2:3], 2, mean))[, 1],
+                    c(1, 10), tolerance = .1)
+  expect_equivalent(sapply(df10, function(x) apply(x[[2]][2:3], 2, mean))[, 1],
+                    c(1, 10), tolerance = .1)
+  expect_equivalent(sapply(df10, function(x) apply(x[[1]][2:3], 2, mean))[, 2],
+                    c(1e2, 1e3), tolerance = .1)
+  expect_equivalent(sapply(df10, function(x) apply(x[[2]][2:3], 2, mean))[, 2],
+                    c(1e2, 1e3), tolerance = .1)
+  expect_output(str(df11), "List of 6")
+  expect_output(str(df12), "List of 2")
+  expect_output(str(df13), "24 obs.")
+  expect_output(str(df14), "24 obs.")
 })
 
-# TODO: add tests for validation errors
+test_that("Errors are caught", {
+  expect_error(cluster_gen(1))
+  expect_error(cluster_gen(2:4, separate_questionnaires = FALSE, n_X = 1:2))
+  expect_error(cluster_gen(2:4, separate_questionnaires = FALSE, n_W = 1:2))
+  expect_error(cluster_gen(2:4, separate_quest = FALSE, c_mean = list(1, 2)))
+  expect_error(cluster_gen(2:4, cluster_labels = "a"))
+  expect_error(cluster_gen(2:4, separate_quest = FALSE, collapse = "partial"))
+})
+
 # TODO: add tests for weights (compare with example on PISA Manual)
 # TODO: rename n_obs to "n"?
-
-# Sandbox (temporary)
-# cluster_gen(n_obs = c(1, 2, 4),
-#             n_X = 0,
-#             n_W = 1,
-#             N = c(5, 20, 100),
-#             separate_questionnaires = TRUE,
-#             collapse = "full")
