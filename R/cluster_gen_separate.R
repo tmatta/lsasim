@@ -56,7 +56,7 @@ cluster_gen_separate <- function(n_levels, n_obs,
       for (ll in seq(length(out[[l]]))) {
         out[[l]][[ll]]["clusterID"] <- NULL
       }
-      if (l == n_levels - 1) names(out) <- cluster_labels[-(n_levels - 1)]
+      names(out)[[l]] <- cluster_labels[l]
     } else {
       out[[level_label]] <- do.call(rbind, sample[[level_label]])
       if (collapse == "full") {
