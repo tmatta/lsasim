@@ -33,19 +33,15 @@ cluster_gen_separate <- function(n_levels, n_obs, N,
 
     for (c in seq(n_obs[l])) {
       # Generating data
+      # TODO: rename columns according to resp_labels
       cluster_bg <- questionnaire_gen(n_obs[l + 1],
                                       n_X = n_X[[l]], n_W = n_W[[l]],
                                       c_mean = c_mean, verbose = FALSE,...)
       # Adding weights
       level_weight_name <- paste0(level_label, ".weight")
       next_level_weight_name <- paste0(next_level_label, ".weight")
-      if (N[l] == n_obs[l]) {
-        cluster_bg[next_level_weight_name] <- 1
-        if (l == 1) cluster_bg[level_weight_name] <- 1
-      } else {
-        cluster_bg[next_level_weight_name] <-  N[l + 1] / n_obs[l + 1]
-        if (l == 1) cluster_bg[level_weight_name] <- N[l] / n_obs[l]
-      }
+      cluster_bg[next_level_weight_name] <-  N[l + 1] / n_obs[l + 1]
+      if (l == 1) cluster_bg[level_weight_name] <- N[l] / n_obs[l]
 
       # Generating unique IDs
       respID <- paste0(next_level_label, seq(cluster_bg$subject))
