@@ -13,11 +13,11 @@
 cluster_gen_separate <- function(n_levels, n_obs,
                                  cluster_labels, resp_labels, collapse, n_X,
                                  n_W, c_mean, ...) {
-  out    <- list()
+  out    <- list()  # actual output (differs from sample if collapse)
 	sample <- list()  # will store all BG questionnaires
+  c_mean_list <- c_mean
   for (l in seq(n_levels - 1)) {
     # Adapting additional parameters to questionnaire_gen format
-    c_mean_list <- c_mean
     if (class(c_mean_list) == "list") c_mean <- c_mean_list[[l]]
 
     # Defining labels and IDs for this cluster and the next one
