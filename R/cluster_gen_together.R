@@ -35,11 +35,7 @@ cluster_gen_together <- function(n_levels, n_obs, N,
       cluster_bg <- questionnaire_gen(n_obs[n_levels], n_X = n_X, n_W = n_W,
                                       c_mean = c_mean, verbose = FALSE,...)
       # Adding weights
-      if (N[n_levels] == n_obs[n_levels]) {
-        cluster_bg$weight <- 1
-      } else {
-        cluster_bg$weight <-  N[n_levels] / n_obs[n_levels]
-      }
+      cluster_bg$weight <-  N[n_levels] / n_obs[n_levels]
 
       # Creating new ID variable
       studentID <- paste0("student", seq(nrow(cluster_bg)))
