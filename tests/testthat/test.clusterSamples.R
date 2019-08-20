@@ -1,52 +1,48 @@
 # Library loading (during development)
-library(devtools)
-library(testthat)
-library(devkit)
-library(lsasim)
-install("../lsasim")
+# library(testthat)
+# library(devkit)
+# install("../lsasim")
+# library(lsasim)
 
 # Actual test
 context("Cluster samples")
+wrap_cluster_gen <- function(...) cluster_gen(..., family = "gaussian", verbose = FALSE)
 
-# # Basic dataset
-# clusters1 <- cluster_gen(c(3, 2), c(10, 5), n_X = 1, n_W = list(2, 3),
-#                          collapse = TRUE)
-# message("Data generated")
-# print(clusters1)
-# message("Means per cluster and variable")
-# print(lapply(clusters1, function(x) aggregate(. ~ clusterID, x[-1], mean)))
+test_that("Basic argument handling generates data", {
+  df01 <- wrap_cluster_gen(1:2)
+  df02 <- wrap_cluster_gen(2:4)
+  df03 <- wrap_cluster_gen(2:3, cluster_labels = LETTERS[1:2])
+  df04 <- wrap_cluster_gen(2:3, resp_labels = LETTERS[1:2])
+  df05 <- wrap_cluster_gen(2:4, cluster_labels = LETTERS[1:3],
+                      resp_labels = LETTERS[3:5])
+  df06 <- wrap_cluster_gen(2:3, n_X = 1)
+  df07 <- wrap_cluster_gen(2:3, n_X = 1, n_W = 1)
+  df08 <- wrap_cluster_gen(2:3, n_X = 2:3, n_W = 3:4)
+  df09 <- wrap_cluster_gen(2:3, n_X = 0, n_W = list(5, 2))
 
-# # Changing means
-# clusters2 <- cluster_gen(c(3, 2), 1000, n_X = 1, n_W = list(2, 2),
-#                          c_mean = list(1, 3), collapse = TRUE)
-# message("Different means per cluster and variable")
-# print(lapply(clusters2, function(x) aggregate(. ~ clusterID, x[-1], mean)))
+  expect_output(str(df01), "List of 1")
+  expect_output(str(df02), "List of 2")
+  expect_equal(names(df03), "B")
+  expect_equal(df04$class[[1]]$uniqueID[1], "A1_school1")
+  expect_equal(df05$C[[3]]$uniqueID[4], "D4_B3_A1")  
+  expect_equal(as.vector(sapply(df06$class, function(c) sapply(c[1:3], class))),
+               rep(c("integer", "numeric", "factor"), 2))
+  expect_equal(as.vector(sapply(df07$class, function(c) sapply(c, class))),
+               rep(c("integer", "numeric", "factor", "character"), 2))
+  expect_equal(as.vector(sapply(df08$class, function(c) sapply(c, class))),
+               rep(c("integer", "numeric", "numeric",
+                     "factor", "factor", "factor", "character"), 2))
+  expect_output(str(df09$class[[1]]$q1), "Factor w/ 5 levels")
+  expect_output(str(df09$class[[1]]$q2), "Factor w/ 2 levels")
+  expect_output(str(df09$class[[2]]$q1), "Factor w/ 5 levels")
+  expect_output(str(df09$class[[2]]$q2), "Factor w/ 2 levels")
+})
 
-# test_that("Data is correctly generated", {
-#     expect_output(str(clusters1$class), "30 obs. of  5 variables:")
-# })
 
-# Testing scenario:
-# Countries          1               2
-#                --------        ---------
-# Schools        1       2       1       2
-#               ---     ---     ---     ---
-# Classes       1 2     1 2     1 2     1 2
-
-cluster_gen(clusters = c(2, 2, 2),
-            separate_questionnaires = TRUE,
-            collapse = "full")
-
-cluster_gen(c(2, 2, 2), separate_questionnaires = FALSE, n_obs = 3,
-            collapse = "full")
-
-cluster_gen(clusters = c(2, 1, 3),
-            labels = c("country", "school", "class"),
-            # n_X = c(1, 2, 1), n_W = c(1, 2, 0),
-            # FIXME: give warning for n_W as a vector and !sep_quest
-            #n_X = 1, n_W = 1,  # FIXME: also broken
-            # FIXME: n_X = 0 breaks
-            n_obs = c(3, 4, 2),
-            # c_mean = list(10, 100, 1000),  # FIXME: vector c_mean not working
-            separate_questionnaires = FALSE,  # FIXME: numbers missing if FALSE
-            collapse = "full")
+# Sandbox (temporary)
+# cluster_gen(n_obs = c(2, 1, 3),
+#             n_X = 1,
+#             n_W = 1,
+#             # c_mean = list(10, 100, 1000),  # FIXME: vector c_mean not working
+#             separate_questionnaires = FALSE,
+#             collapse = "none")
