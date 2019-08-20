@@ -4,10 +4,11 @@
 \alias{cluster_gen}
 \title{Generate cluster sample}
 \usage{
-cluster_gen(n_obs, cluster_labels = c("country", "school", "class"),
-  resp_labels = c("principal", "teacher", "student"), n_X = NULL,
-  n_W = NULL, c_mean = NULL, separate_questionnaires = TRUE,
-  collapse = "none", ...)
+cluster_gen(n_obs, cluster_labels = c("country", "school",
+  "class")[n_obs], resp_labels = c("principal", "teacher",
+  "student")[n_obs], n_X = NULL, n_W = NULL, c_mean = NULL,
+  separate_questionnaires = TRUE, collapse = "none", verbose = TRUE,
+  ...)
 }
 \arguments{
 \item{n_obs}{numeric vector with the number of observations (clusters or subjects) on each level}
@@ -25,6 +26,8 @@ cluster_gen(n_obs, cluster_labels = c("country", "school", "class"),
 \item{separate_questionnaires}{if `TRUE`, each level will have its own questionnaire}
 
 \item{collapse}{if `TRUE`, function output contains only one data frame with all answers}
+
+\item{verbose}{if `TRUE`, prints output messages}
 
 \item{...}{Additional parameters to be passed to `questionnaire_gen()`}
 }
