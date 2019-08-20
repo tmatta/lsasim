@@ -4,13 +4,15 @@
 \alias{cluster_gen_separate}
 \title{Generate cluster samples with individual questionnaires}
 \usage{
-cluster_gen_separate(n_levels, n_obs, cluster_labels, resp_labels,
+cluster_gen_separate(n_levels, n_obs, N, cluster_labels, resp_labels,
   collapse, n_X, n_W, c_mean, ...)
 }
 \arguments{
 \item{n_levels}{number of cluster levels}
 
 \item{n_obs}{numeric vector with the number of clusters on each level}
+
+\item{N}{numeric vector with the population size of each level}
 
 \item{cluster_labels}{character vector with the names of each cluster level}
 
