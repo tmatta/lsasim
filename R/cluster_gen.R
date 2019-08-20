@@ -14,8 +14,8 @@
 #'   Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
 #' @export
 cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
-                        cluster_labels = c("country", "school", "class")[n_obs],
-                        resp_labels = c("principal", "teacher", "student")[n_obs],
+                        cluster_labels = c("country", "school", "class")[seq(length(n_obs)) - 1],
+                        resp_labels = c("principal", "teacher", "student")[seq(length(n_obs)) - 1],
                         n_X = NULL,
                         n_W = NULL,
                         c_mean = NULL,
@@ -29,19 +29,23 @@ cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
                         verbose = TRUE,
                         ...) {
   # Validation
-  if (!separate_questionnaires) {
-    if (length(n_X) > 1)
-      stop("Unique questionnaire requested. n_X must therefore be a scalar")
-    if (length(n_W) > 1)
-      stop("Unique questionnaire requested. n_W must therefore be a scalar or a list.")
-  }
-  if (length(n_obs) == 1) {
-    stop("n_obs must have length larger than 1")
-  }
+  check_condition(!separate_questionnaires & length(n_X) > 1,
+                  "Unique questionnaire requested. n_X must therefore be a scalar.")
+  check_condition(!separate_questionnaires & length(n_W) > 1,
+                  "Unique questionnaire requested. n_W must therefore be a scalar or a list.")
+  check_condition(length(n_obs) == 1, "n_obs must have length larger than 1")
+  check_condition(class(c_mean) == "list" & !separate_questionnaires,
+                  "For unique questionnaires, c_mean must not be a list.")
+  # if (length(n_obs) != length(cluster_labels) + 1| 
+  #     length(n_obs) != length(resp_labels) + 1) {
+  #   stop("The length of n_obs, cluster_labels and resp_labels must match")
+  # }
+  # TODO: validation of *_labels length
 
   n_levels <- length(n_obs)
 
   # Adapting additional parameters to questionnaire_gen format
+  ## n_X and n_W
   if (n_levels > 1 & separate_questionnaires) {
     if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
     if (length(n_W) == 1 & class(n_W) == "numeric") {
