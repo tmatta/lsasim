@@ -36,12 +36,10 @@ cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
   check_condition(length(n_obs) == 1, "n_obs must have length larger than 1")
   check_condition(class(c_mean) == "list" & !separate_questionnaires,
                   "For unique questionnaires, c_mean must not be a list.")
-  # if (length(n_obs) != length(cluster_labels) + 1| 
-  #     length(n_obs) != length(resp_labels) + 1) {
-  #   stop("The length of n_obs, cluster_labels and resp_labels must match")
-  # }
-  # TODO: validation of *_labels length
+  check_condition(length(n_obs) > length(cluster_labels) + 1,
+                  "The length of n_obs and cluster_labels must match")
 
+  # Calculating useful arguments                
   n_levels <- length(n_obs)
 
   # Adapting additional parameters to questionnaire_gen format
