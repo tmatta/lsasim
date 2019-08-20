@@ -42,9 +42,13 @@ cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
   n_levels <- length(n_obs)
 
   # Adapting additional parameters to questionnaire_gen format
-  if (n_levels > 1) {
-    if (separate_questionnaires & length(n_X) == 1) n_X <- rep(n_X, n_levels)
-    if (separate_questionnaires & length(n_W) == 1) n_W <- rep(n_W, n_levels)
+  if (n_levels > 1 & separate_questionnaires) {
+    if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
+    if (length(n_W) == 1 & class(n_W) == "numeric") {
+      n_W <- rep(n_W, n_levels)
+    } else if (length(n_W) > 1 & class(n_W) == "list") {
+      n_W <- rep(list(n_W), n_levels)
+    }
   }
 
   if (separate_questionnaires) {  # questionnaires administered at all levels
@@ -65,17 +69,17 @@ cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
 
     # Message explaining cluster scheme
     if (verbose) {
-    message("Generating questionnaires for ",
-            paste(cluster_labels, collapse = ", "))
-    for (l in 1:(length(n_obs) - 2)) {
-      if (l == 1) message("Top level: ", n_obs[l], " ", cluster_labels[l])
-      message("Each ", cluster_labels[l], " sampled ", n_obs[l + 1], " ",
-              cluster_labels[l + 1])
-    }
-    message("Each ", cluster_labels[n_levels - 1], " sampled ", n_obs[n_levels],
-             " ", resp_labels[n_levels - 1])
-    message("Total respondents: ",
-            paste0(prod(n_obs), " (", paste(n_obs, collapse = " * "), ")"))
+      message("Generating questionnaires for ",
+              paste(cluster_labels, collapse = ", "))
+      for (l in 1:(length(n_obs) - 2)) {
+        if (l == 1) message("Top level: ", n_obs[l], " ", cluster_labels[l])
+        message("Each ", cluster_labels[l], " sampled ", n_obs[l + 1], " ",
+                cluster_labels[l + 1])
+      }
+      message("Each ", cluster_labels[n_levels - 1], " sampled ", n_obs[n_levels],
+              " ", resp_labels[n_levels - 1])
+      message("Total respondents: ",
+              paste0(prod(n_obs), " (", paste(n_obs, collapse = " * "), ")"))
     }
 
     sample <- cluster_gen_separate(n_levels, n_obs,
@@ -84,16 +88,16 @@ cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
   } else {  # questionnaires administered only at the bottom level
     # Message explaining cluster scheme
     if (verbose) {
-    message("Generating questionnaires for ", resp_labels[n_levels - 1])
-    for (l in 1:(length(n_obs) - 2)) {
-      if (l == 1) message("Top level: ", n_obs[l], " ", cluster_labels[l])
-      message("Each ", cluster_labels[l], " sampled ", n_obs[l + 1], " ",
-              cluster_labels[l + 1])
-    }
-    message("Each ", cluster_labels[n_levels - 1], " sampled ", n_obs[n_levels],
-             " ", resp_labels[n_levels - 1])
-    message("Total respondents: ",
-            paste0(prod(n_obs), " (", paste(n_obs, collapse = " * "), ")"))
+      message("Generating questionnaires for ", resp_labels[n_levels - 1])
+      for (l in 1:(length(n_obs) - 2)) {
+        if (l == 1) message("Top level: ", n_obs[l], " ", cluster_labels[l])
+        message("Each ", cluster_labels[l], " sampled ", n_obs[l + 1], " ",
+                cluster_labels[l + 1])
+      }
+      message("Each ", cluster_labels[n_levels - 1], " sampled ", n_obs[n_levels],
+              " ", resp_labels[n_levels - 1])
+      message("Total respondents: ",
+              paste0(prod(n_obs), " (", paste(n_obs, collapse = " * "), ")"))
     }
 
     if (is.null(n_X)) n_X <- rzeropois(1.5)  # a positive number of Xs
