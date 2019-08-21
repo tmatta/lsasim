@@ -37,7 +37,9 @@ cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
   check_condition(class(c_mean) == "list" & !separate_questionnaires,
                   "For unique questionnaires, c_mean must not be a list.")
   check_condition(length(n_obs) > length(cluster_labels) + 1,
-                  "The length of n_obs and cluster_labels must match")
+                  "cluster_labels has insufficient length")
+  check_condition(!separate_questionnaires & collapse == "partial",
+                  "Partial collapsing unavailable for unique questionnaires")
 
   # Calculating useful arguments                
   n_levels <- length(n_obs)
