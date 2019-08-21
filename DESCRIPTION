@@ -1,6 +1,6 @@
 Package: lsasim
 Title: Functions to Facilitate the Simulation of Large Scale Assessment Data
-Version: 2.0.0.9016
+Version: 2.0.0.9017
 Authors@R: c(
   person("Tyler", "Matta",
          email = "tyler.matta@gmail.com", role = c("aut", "cre")),
@@ -16,7 +16,7 @@ Authors@R: c(
          email = "waldir.leoncio@gmail.com", role = "aut")
   )
 Maintainer: Waldir Leoncio <waldir.leoncio@gmail.com>
-BugReports: https://github.com/wleoncio/lsasim/issues
+BugReports: https://github.com/tmatta/lsasim/issues
 Description: Provides functions to simulate data from large-scale educational
   assessments, including background questionnaire data and cognitive item
   responses that adhere to a multiple-matrix sampled design.

@@ -1,6 +1,6 @@
 #' Generate regression coefficients
 #'
-#' @description Uses the output from questionnaire_data to generate linear
+#' @description Uses the output from questionnaire_gen to generate linear
 #'   regression coefficients.
 #'
 #' @param data output from the \code{questionnaire_gen} function with

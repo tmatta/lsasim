@@ -51,7 +51,8 @@ or 'gaussian'.}
 questionnaire data as well as several objects that might be of interest for
 further analysis of the data.}
 
-\item{verbose}{if `FALSE`, output messages will be suppressed (useful for simulations). Defaults to `TRUE`}
+\item{verbose}{if `FALSE`, output messages will be suppressed (useful for
+simulations). Defaults to `TRUE`}
 }
 \value{
 By default, the function returns a \code{data.frame} object where the
@@ -62,7 +63,7 @@ By default, the function returns a \code{data.frame} object where the
   before the categorical ones.
 
   If \code{full_output = TRUE}, the output will be a list containing the
-  following 27 objects:
+  following objects:
 
   \item{bg}{a data frame containing the background questionnaire answers
   (i.e., the same object as described above).}
@@ -112,7 +113,14 @@ By default, the function returns a \code{data.frame} object where the
   \item{var_W}{list containing the variances of the categorical variables.}
 
   \item{var_YX}{list containing the variances of the continuous variables
-  (including \eqn{\theta}).}
+  (including \eqn{\theta})}
+  
+  \item{linear_regression}{This list is printed only If `theta = TRUE`,
+  `family = "gaussian"` and `full_output = TRUE`. It contains one vector 
+  named `betas` and one tabled named `cov_YXW`. The former displays the true
+  linear regression coefficients of \eqn{theta} on the background  
+  questionnaire answers; the latter contains the covariance matrix between
+  all these variables.}
 }
 \description{
 Creates a data frame of discrete and continuous variables based on several
@@ -190,6 +198,13 @@ If \code{family == NULL}, the number of levels for each categorical
   the number of levels for the categorical variables will always be
   equivalent to the number of possible categories, even if they are not
   observed in the data.
+
+  It is important to note that all arguments directly related to variable 
+  parameters (e.g. `cat_prop`, `cov_matrix`, `cor_matrix`, `c_mean`, `c_sd`)
+  have the following order: Y, X, W (missing variables are skipped). This 
+  must be kept in mind when using real-life data as input to 
+  `questionnaire_gen`, as the input might need to be reordered to fit the
+  expectations of the function.
 }
 \examples{
 # Using polychoric correlations

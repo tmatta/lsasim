@@ -40,7 +40,7 @@ By default, this function will output a vector of the regression
   the covariance matrix of the regression coefficients.
 }
 \description{
-Uses the output from questionnaire_data to generate linear
+Uses the output from questionnaire_gen to generate linear
   regression coefficients.
 }
 \details{

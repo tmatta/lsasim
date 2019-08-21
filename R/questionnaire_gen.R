@@ -32,7 +32,8 @@
 #' @param full_output if \code{TRUE}, output will be a list containing the
 #'   questionnaire data as well as several objects that might be of interest for
 #'   further analysis of the data.
-#' @param verbose if `FALSE`, output messages will be suppressed (useful for simulations). Defaults to `TRUE`
+#' @param verbose if `FALSE`, output messages will be suppressed (useful for
+#'   simulations). Defaults to `TRUE`
 #' @importFrom stats rbinom rpois rbeta rgamma
 #'
 #' @details In essence, this function begins by checking the validity of the
@@ -106,6 +107,13 @@
 #'   equivalent to the number of possible categories, even if they are not
 #'   observed in the data.
 #'
+#'   It is important to note that all arguments directly related to variable 
+#'   parameters (e.g. `cat_prop`, `cov_matrix`, `cor_matrix`, `c_mean`, `c_sd`)
+#'   have the following order: Y, X, W (missing variables are skipped). This 
+#'   must be kept in mind when using real-life data as input to 
+#'   `questionnaire_gen`, as the input might need to be reordered to fit the
+#'   expectations of the function.
+#'
 #' @return By default, the function returns a \code{data.frame} object where the
 #'   first column ("subject") is a \eqn{1,\ldots,n} ordered list of the \eqn{n}
 #'   observations and the other columns correspond to the questionnaire answers.
@@ -114,7 +122,7 @@
 #'   before the categorical ones.
 #'
 #'   If \code{full_output = TRUE}, the output will be a list containing the
-#'   following 27 objects:
+#'   following objects:
 #'
 #'   \item{bg}{a data frame containing the background questionnaire answers
 #'   (i.e., the same object as described above).}
@@ -164,7 +172,14 @@
 #'   \item{var_W}{list containing the variances of the categorical variables.}
 #'
 #'   \item{var_YX}{list containing the variances of the continuous variables
-#'   (including \eqn{\theta}).}
+#'   (including \eqn{\theta})}
+#'   
+#'   \item{linear_regression}{This list is printed only If `theta = TRUE`,
+#'   `family = "gaussian"` and `full_output = TRUE`. It contains one vector 
+#'   named `betas` and one tabled named `cov_YXW`. The former displays the true
+#'   linear regression coefficients of \eqn{theta} on the background  
+#'   questionnaire answers; the latter contains the covariance matrix between
+#'   all these variables.}
 #'
 #' @references Matta, T. H., Rutkowski, L., Rutkowski, D., & Liaw, Y. L. (2018).
 #'   lsasim: an R package for simulating large-scale assessment data.
