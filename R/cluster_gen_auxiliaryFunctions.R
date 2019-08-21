@@ -31,7 +31,18 @@ clusterMessage <- function(n_obs, resp_labels, cluster_labels, n_levels, type)
   message("Each ", cluster_labels[n_levels - 1], " sampled ",
           n_obs_print[n_levels], " ", resp_labels[n_levels - 1])
 
-  message("Total respondents: ",
-          paste0(prod(unlist(n_obs)), " (",
-                 paste(unlist(n_obs), collapse = " * "), ")"))
+  if (class(n_obs) == "list")
+  {
+    min_obs <- sapply(n_obs, function(x) x[1])
+    max_obs <- sapply(n_obs, function(x) x[length(x)])
+      message("Estimated total respondents: between ",
+          paste0(prod(min_obs), " (",
+                 paste(min_obs, collapse = " * "), ") and ",
+                 prod(max_obs), " (", paste(max_obs, collapse = " * "), ")"))
+  }
+  else
+  {
+    message("Total respondents: ", paste0(prod(unlist(n_obs)), " (",
+            paste(unlist(n_obs), collapse = " * "), ")"))
+  }
 }
