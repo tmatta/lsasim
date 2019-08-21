@@ -1,6 +1,8 @@
 # Actual test
 context("Cluster samples")
-wrap_cluster_gen <- function(...) cluster_gen(..., family = "gaussian", verbose = FALSE)
+wrap_cluster_gen <- function(...) {
+  cluster_gen(..., family = "gaussian", verbose = FALSE)
+}
 
 test_that("Basic argument handling generates data", {
   df01 <- wrap_cluster_gen(1:2)
@@ -67,3 +69,10 @@ test_that("Errors are caught", {
 
 # TODO: add tests for weights (compare with example on PISA Manual)
 # TODO: rename n_obs to "n"?
+
+cluster_gen(c(1, 2, 3), N = c(10, 100, 1000))
+cluster_gen(c(1, 2, 3))
+cluster_gen(c(1, 2, 3), N = c(10, 100, 1000), separate_q = FALSE)
+cluster_gen(c(1, 2, 3), separate_q = FALSE)
+
+cluster_gen(c(1, 2, 3), N = c(10, 100, 1000), collapse = "full")
