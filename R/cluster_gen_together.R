@@ -16,20 +16,20 @@ cluster_gen_together <- function(n_levels, n_obs, N,
 	sample <- list()  # will store all BG questionnaires
 	level_combos <- list()  # will store ID combinations
 
-  for (c in 1:(n_levels - 1)) {
-    level_combos[[n_levels - c]] <- seq(from = 1, to = n_obs[c])
+  for (l in 1:(n_levels - 1)) {
+    level_combos[[n_levels - l]] <- seq(from = 1, to = n_obs[l])
   }
 
   id_combos <- expand.grid(level_combos)
   id_combos <- id_combos[, ncol(id_combos):1]  # so first level comes first
   colnames(id_combos) <- cluster_labels[-n_levels]
 
-  for (c in seq(ncol(id_combos))) {
-    id_combos[, c] <- paste0(cluster_labels[c], id_combos[, c])
+  for (l in seq(ncol(id_combos))) {
+    id_combos[, l] <- paste0(cluster_labels[l], id_combos[, l])
   }
 
   num_questionnaires <- nrow(id_combos)
-    for (c in 1:num_questionnaires) {
+    for (l in 1:num_questionnaires) {
 
       # Generating data
       cluster_bg <- questionnaire_gen(n_obs[n_levels], n_X = n_X, n_W = n_W,
@@ -39,11 +39,11 @@ cluster_gen_together <- function(n_levels, n_obs, N,
 
       # Creating new ID variable
       studentID <- paste0("student", seq(nrow(cluster_bg)))
-      clusterID <- paste(rev(id_combos[c, ]), collapse = "_")
+      clusterID <- paste(rev(id_combos[l, ]), collapse = "_")
       cluster_bg$uniqueID <- paste(studentID, clusterID, sep = "_")
 
       # Saving the questionnaire to the final list (sample)
-      cluster_bg -> sample[[c]]
+      cluster_bg -> sample[[l]]
     }
 
     if (collapse == "none") {
