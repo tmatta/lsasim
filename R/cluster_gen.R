@@ -3,11 +3,13 @@
 #' @param cluster_labels character vector with the names of each cluster level
 #' @param resp_labels character vector with the names of the questionnaire respondents on each level
 #' @param collapse if `TRUE`, function output contains only one data frame with all answers
+#' @param N numeric vector with the population size of each level
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @param separate_questionnaires if `TRUE`, each level will have its own questionnaire
+#' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param verbose if `TRUE`, prints output messages
 #' @details This function relies heavily in two subfunctions---`cluster_gen_separate` and `cluster_gen_together`---which can be called independently. This does not make `cluster_gen` a simple wrapper function, as it performs several operations prior to calling its subfunctions, such as randomly generating `n_X` and `n_W` if they are not determined by user.
 #'   `n_obs` can have unitary length, in which case all clusters will have the same size.
@@ -19,13 +21,14 @@ cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
                         n_X = NULL,
                         n_W = NULL,
                         c_mean = NULL,
+                        # TODO: allow independent c_mean for each cluster or only levels (implemented)? Idea for this: lists of lists (kinda messy)
                         separate_questionnaires = TRUE,
                         collapse = "none",
-                        # TODO: add design weights. Have "pop_size" (N) or total clusters (N_clusters) as argument and calculate weights as a function of that. Otherwise, 1 (SRS).
+                        N = n_obs,
+                        sampling_method = "SRS",
                         # TODO: SRS for schools and students? If schools differ in size, this will result in equal weights for each school and different weights for students. Alternatively, use PPS for schools. Why not offer both alternatives?
-                        # Non-response weights? (i.e., simulate non-response?) ..or would the weights be incorporated into questionnaire_gen (ex.: sample cat_prop = list(c(.4, 1)) where it should be c(.5, 1)? Leave this for later
                         # TODO: Replicate weights
-                        # TODO: Control over inter-class correlation (intra-class is handled by quest_gen?). Add correlations (within, between)
+                        # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between)
                         verbose = TRUE,
                         ...) {
   # Validation
@@ -58,7 +61,6 @@ cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
   if (separate_questionnaires) {  # questionnaires administered at all levels
     # Generates unique questionnaires for each level
     if (is.null(n_X)) {
-      # TODO: allow custom c_mean for each cluster or only levels (implemented)? Idea for this: lists of lists (ideally, something simpler, though)
       n_X <- list()
       for (l in seq(n_levels)) {
         n_X[[l]] <- rzeropois(1.5)  # a positive number of Xs
