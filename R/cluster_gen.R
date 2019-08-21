@@ -74,37 +74,13 @@ cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
     }
 
     # Message explaining cluster scheme
-    if (verbose) {
-      message("Generating questionnaires for ",
-              paste(cluster_labels, collapse = ", "))
-      for (l in 1:(length(n_obs) - 2)) {
-        if (l == 1) message("Top level: ", n_obs[l], " ", cluster_labels[l])
-        message("Each ", cluster_labels[l], " sampled ", n_obs[l + 1], " ",
-                cluster_labels[l + 1])
-      }
-      message("Each ", cluster_labels[n_levels - 1], " sampled ", n_obs[n_levels],
-              " ", resp_labels[n_levels - 1])
-      message("Total respondents: ",
-              paste0(prod(n_obs), " (", paste(n_obs, collapse = " * "), ")"))
-    }
+    if (verbose) clusterMessage(n_obs, resp_labels, cluster_labels, n_levels, 1)
 
     sample <- cluster_gen_separate(n_levels, n_obs, N,
                                    cluster_labels, resp_labels, collapse,
                                    n_X, n_W, c_mean, ...)
   } else {  # questionnaires administered only at the bottom level
-    # Message explaining cluster scheme
-    if (verbose) {
-      message("Generating questionnaires for ", resp_labels[n_levels - 1])
-      for (l in 1:(length(n_obs) - 2)) {
-        if (l == 1) message("Top level: ", n_obs[l], " ", cluster_labels[l])
-        message("Each ", cluster_labels[l], " sampled ", n_obs[l + 1], " ",
-                cluster_labels[l + 1])
-      }
-      message("Each ", cluster_labels[n_levels - 1], " sampled ", n_obs[n_levels],
-              " ", resp_labels[n_levels - 1])
-      message("Total respondents: ",
-              paste0(prod(n_obs), " (", paste(n_obs, collapse = " * "), ")"))
-    }
+    if (verbose) clusterMessage(n_obs, resp_labels, cluster_labels, n_levels, 2)
 
     if (is.null(n_X)) n_X <- rzeropois(1.5)  # a positive number of Xs
     if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2))  # all binary
