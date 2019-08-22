@@ -14,10 +14,13 @@
 #' @details This function relies heavily in two subfunctions---`cluster_gen_separate` and `cluster_gen_together`---which can be called independently. This does not make `cluster_gen` a simple wrapper function, as it performs several operations prior to calling its subfunctions, such as randomly generating `n_X` and `n_W` if they are not determined by user.
 #'   `n_obs` can have unitary length, in which case all clusters will have the same size.
 #'   Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
+#' @note For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, by default, countries are the nexting level, schools are the first cluster level, classes are the second, and students are the third and final level.
+#'
 #' @export
-cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
+cluster_gen <- function(n_obs,
+                        # TODO: allow levels with different sizes (random only for lowest level, multiple numbers for other levels)
                         cluster_labels = c("country", "school", "class")[seq(length(n_obs)) - 1],
-                        resp_labels = c("principal", "teacher", "student")[seq(length(n_obs)) - 1],
+                        resp_labels = c("principal", "teacher", "student")[seq(length(n_obs))],
                         n_X = NULL,
                         n_W = NULL,
                         c_mean = NULL,
@@ -25,8 +28,10 @@ cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
                         separate_questionnaires = TRUE,
                         collapse = "none",
                         N = n_obs,
+                        # TODO: drop country weights
                         sampling_method = "SRS",
-                        # TODO: SRS for schools and students? If schools differ in size, this will result in equal weights for each school and different weights for students. Alternatively, use PPS for schools. Why not offer both alternatives?
+                        # TODO: SRS for classes and students, PPS for schools
+                        # TODO: Consider conditional probabilities
                         # TODO: Replicate weights
                         # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between)
                         verbose = TRUE,
@@ -47,8 +52,7 @@ cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
   # Calculating useful arguments                
   n_levels <- length(n_obs)
 
-  # Adapting additional parameters to questionnaire_gen format
-  ## n_X and n_W
+  # Adapting additional parameters to questionnaire_gen format (n_X and n_W)
   if (n_levels > 1 & separate_questionnaires) {
     if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
     if (length(n_W) == 1 & class(n_W) == "numeric") {
@@ -74,17 +78,19 @@ cluster_gen <- function(n_obs, # TODO: ranges for sizes (not just fixed values)
     }
 
     # Message explaining cluster scheme
-    if (verbose) clusterMessage(n_obs, resp_labels, cluster_labels, n_levels, 1)
+    if (verbose) clusterMessage(n_obs, resp_labels, cluster_labels, n_levels,
+                                separate_questionnaires, 1)
 
-    sample <- cluster_gen_separate(n_levels, n_obs, N,
+    sample <- cluster_gen_separate(n_levels, n_obs, N, sampling_method,
                                    cluster_labels, resp_labels, collapse,
                                    n_X, n_W, c_mean, ...)
   } else {  # questionnaires administered only at the bottom level
-    if (verbose) clusterMessage(n_obs, resp_labels, cluster_labels, n_levels, 2)
+    if (verbose) clusterMessage(n_obs, resp_labels, cluster_labels, n_levels,
+                                separate_questionnaires, 2)
 
     if (is.null(n_X)) n_X <- rzeropois(1.5)  # a positive number of Xs
     if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2))  # all binary
-    sample <- cluster_gen_together(n_levels, n_obs, N,
+    sample <- cluster_gen_together(n_levels, n_obs, N, sampling_method,
                                    cluster_labels, resp_labels, collapse,
                                    n_X, n_W, c_mean, ...)
   }
