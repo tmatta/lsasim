@@ -6,12 +6,13 @@
 #' @param resp_labels character vector with the names of the questionnaire respondents on each level
 #' @param collapse if `TRUE`, function output contains only one data frame with all answers
 #' @param N numeric vector with the population size of each level
+#' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @export
-cluster_gen_together <- function(n_levels, n_obs, N,
+cluster_gen_together <- function(n_levels, n_obs, N, sampling_method,
                                  cluster_labels, resp_labels, collapse, n_X, n_W, c_mean, ...) {
 	sample <- list()  # will store all BG questionnaires
 	level_combos <- list()  # will store ID combinations
@@ -35,7 +36,13 @@ cluster_gen_together <- function(n_levels, n_obs, N,
       cluster_bg <- questionnaire_gen(n_obs[n_levels], n_X = n_X, n_W = n_W,
                                       c_mean = c_mean, verbose = FALSE,...)
       # Adding weights
-      cluster_bg$weight <-  N[n_levels] / n_obs[n_levels]
+      # if (sampling_method == "SRS") {
+      #   weight_name <- paste0(resp_labels[n_levels], ".weight")
+      #   cluster_bg[weight_name] <-  N[n_levels] / n_obs[n_levels]
+      # } else if (sampling_method == "PPS") {
+      #   stop("PPS sampling method not yet implemented")
+      # }
+      # TODO: conditional probabilities must be considered
 
       # Creating new ID variable
       studentID <- paste0("student", seq(nrow(cluster_bg)))
