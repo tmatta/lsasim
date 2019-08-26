@@ -37,14 +37,15 @@ clusterMessage <- function(n_obs, resp_labels, cluster_labels, n_levels,
     }
   }
 
-  # Final row of messages
+  # Final level
   message("Each ", cluster_labels[n_levels - 1], " sampled ",
           resp_labels[n_levels - 1], " (", n_obs_print[n_levels], ")")
 
+  # Total respondents
   if (class(n_obs) == "list") {
     if (separate_questionnaires) {
-      tot_resp <- sum(unlist(n_obs))
-      operands <- unlist(n_obs)
+      tot_resp <- sum(unlist(n_obs)[-1])
+      operands <- unlist(n_obs[-1])
       operator <- " + "
     } else {
       tot_resp <- sum(unlist(n_obs[[n_levels]]))
