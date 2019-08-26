@@ -18,23 +18,48 @@ cluster_gen_separate <- function(n_levels, n_obs, N, sampling_method,
   out    <- list()  # actual output (differs from sample if collapse)
 	sample <- list()  # will store all BG questionnaires
   c_mean_list <- c_mean
+
+  # Defining number of questionnaires to be generated
+  if (class(n_obs) == "list") {
+    n_quest <- sapply(n_obs, sum)
+  } else {
+    n_quest <- n_obs
+  }
+
+  if (class(n_obs) == "list") {
+    id_combos <- labelRespondents(n_obs, cluster_labels)
+  }
+
   for (l in seq(n_levels - 1)) {
     # Adapting additional parameters to questionnaire_gen format
     if (class(c_mean_list) == "list") c_mean <- c_mean_list[[l]]
 
     # Defining labels and IDs for this cluster and the next one
     level_label <- cluster_labels[l]
-    next_level_label <- ifelse(l < n_levels - 1, cluster_labels[l + 1], resp_labels[l])
+    next_level_label <- ifelse(test = l < n_levels - 1,
+                               yes  = cluster_labels[l + 1],
+                               no   = resp_labels[l])
 
-    if (l > 1) {  # Only applicable for sub-country levels
-      n_obs[l] <- n_obs[l] * n_obs[l - 1]
-      previousClusterID <- as.vector(sapply(sample[[l - 1]],
-                                            function(x) x$clusterID))
+    if (l > 1) {
+      # Only applicable for sub-country levels and when next nevel is an
+      # indicator of "X per Y" (instead of "X across Y")
+      if (class(n_obs) != "list") n_obs[l] <- n_obs[l] * n_obs[l - 1]
+      previousClusterID <- as.vector(unlist(sapply(sample[[l - 1]],
+                                            function(x) x$clusterID)))
     }
 
-    for (c in seq(n_obs[l])) {
+    # Calculating the number of different clusters at this level
+    if (class(n_obs) == "list") {
+      n_groups <- sapply(n_obs, sum)[l]
+    } else {
+      n_groups <- n_obs[l]
+    }
+    
+    # Generating questionnaires for each cluster element of that level
+    for (lvl in seq(n_groups)) {
       # Generating data
-      cluster_bg <- questionnaire_gen(n_obs[l + 1],
+      n_resp <- ifelse(class(n_obs) == "list", n_obs[[l + 1]][lvl], n_obs[l + 1])
+      cluster_bg <- questionnaire_gen(n_resp,
                                       n_X = n_X[[l]], n_W = n_W[[l]],
                                       c_mean = c_mean, verbose = FALSE,...)
       # Adding weights
@@ -49,18 +74,30 @@ cluster_gen_separate <- function(n_levels, n_obs, N, sampling_method,
       }
 
       # Generating unique IDs
-      respID <- paste0(next_level_label, seq(cluster_bg$subject))
-      if (l > 1) {
-        previous_c <- rep(seq(n_obs[l] / n_obs[l - 1]), n_obs[l])[c]
-        cluster_bg$clusterID <- paste0(level_label, previous_c, "_",
-                                        previousClusterID[c])
+      if (class(n_obs) == "list") {
+        respID <- paste0(next_level_label, seq(cluster_bg$subject))
+        if (l > 1) {
+          previous_lvl <- as.vector(unlist(sapply(n_obs[[l]], seq)))[lvl]
+          cluster_bg$clusterID <- paste0(level_label, previous_lvl, "_",
+                                          previousClusterID[lvl])
+        } else {
+          cluster_bg$clusterID <- paste0(level_label, lvl)
+        }
+        cluster_bg$uniqueID <- paste(respID, cluster_bg$clusterID, sep = "_")
       } else {
-        cluster_bg$clusterID <- paste0(level_label, c)
+        respID <- paste0(next_level_label, seq(cluster_bg$subject))
+        if (l > 1) {
+          previous_lvl <- rep(seq(n_obs[l] / n_obs[l - 1]), n_obs[l])[lvl]
+          cluster_bg$clusterID <- paste0(level_label, previous_lvl, "_",
+                                          previousClusterID[lvl])
+        } else {
+          cluster_bg$clusterID <- paste0(level_label, lvl)
+        }
+        cluster_bg$uniqueID <- paste(respID, cluster_bg$clusterID, sep = "_")
       }
-      cluster_bg$uniqueID <- paste(respID, cluster_bg$clusterID, sep = "_")
 
       # Saving the questionnaire to the final list (sample)
-      cluster_bg -> sample[[level_label]][[c]]
+      cluster_bg -> sample[[level_label]][[lvl]]
     }
 
     # Collapsing levels and removing clusterIDs -------------------------------
@@ -73,7 +110,9 @@ cluster_gen_separate <- function(n_levels, n_obs, N, sampling_method,
     } else {
       out[[level_label]] <- do.call(rbind, sample[[level_label]])
       if (collapse == "full") {
-        if (l == 1) names(out[[l]]) <- paste0(names(out[[l]]), ".", resp_labels[l])
+        if (l == 1) {
+          names(out[[l]]) <- paste0(names(out[[l]]), ".", resp_labels[l])
+        }
         if (l > 1) {
           names(out[[l]]) <- paste0(names(out[[l]]), ".", resp_labels[l])
           out[[l]] <- merge(x = out[[l]], y = out[[l - 1]][-1],

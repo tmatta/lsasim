@@ -15,43 +15,11 @@
 cluster_gen_together <- function(n_levels, n_obs, N, sampling_method,
                                  cluster_labels, resp_labels, collapse, n_X, n_W, c_mean, ...) {
 	sample <- list()  # will store all BG questionnaires
-	level_combos <- list()  # will store ID combinations
 
   # Generating level label combinations
-  if (class(n_obs) == "list") {
-    n_combos <- sum(n_obs[[n_levels - 1]])
-    second_last_level <- unlist(sapply(n_obs[[n_levels - 1]], seq))
-    id_combos <- matrix(second_last_level, ncol = n_combos)
-    for (row in 2:(n_levels - 1)) {
-      id_level <- n_levels - row
-      if (length(n_obs[[id_level]]) > 1 & all(n_obs[[id_level]] == 1)) {
-        n_obs[[id_level]] <- sum(n_obs[[id_level]])
-      }
-      expanded_level <- as.vector(unlist(sapply(n_obs[[id_level]], seq)))
-      expanded_level_col <- 1
-      new_row <- matrix(ncol = n_combos)
-      for (col in seq(n_combos)) {
-        if (all(id_combos[, col] == 1)) {
-          new_row[col] <- expanded_level[expanded_level_col]
-          expanded_level_col <- expanded_level_col + 1
-        } else {
-          new_row[col] <- new_row[col - 1]
-        }
-      }
-      id_combos <- rbind(id_combos, new_row)
-    }
-    id_combos <- t(id_combos)
-  } else {
-    for (l in 1:(n_levels - 1)) {
-      level_combos[[n_levels - l]] <- seq(from = 1, to = n_obs[l])
-    }
-    id_combos <- expand.grid(level_combos)
-  }
-  id_combos <- id_combos[, ncol(id_combos):1]  # so first level comes first
-  colnames(id_combos) <- cluster_labels[-n_levels]
-  for (l in seq(ncol(id_combos))) {
-    id_combos[, l] <- paste0(cluster_labels[l], id_combos[, l])
-  }
+  id_combos <- labelRespondents(n_obs, cluster_labels)
+
+  # Generating questionnaire data for lowest level
   num_questionnaires <- nrow(id_combos)
     for (l in seq(num_questionnaires)) {
       # Generating data
@@ -65,12 +33,12 @@ cluster_gen_together <- function(n_levels, n_obs, N, sampling_method,
       }
 
       # Adding weights
-      # if (sampling_method == "SRS") {
-      #   weight_name <- paste0(resp_labels[n_levels], ".weight")
-      #   cluster_bg[weight_name] <-  N[n_levels] / n_obs[n_levels]
-      # } else if (sampling_method == "PPS") {
-      #   stop("PPS sampling method not yet implemented")
-      # }
+      if (sampling_method == "SRS") {
+        weight_name <- paste0(resp_labels[n_levels], ".weight")
+        cluster_bg[weight_name] <-  N[n_levels] / n_obs[n_levels]
+      } else if (sampling_method == "PPS") {
+        stop("PPS sampling method not yet implemented")
+      }
       # TODO: conditional probabilities must be considered
 
       # Creating new ID variable
