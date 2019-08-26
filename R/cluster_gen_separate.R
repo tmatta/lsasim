@@ -66,7 +66,8 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       }
 
       # Generating data
-      cluster_bg <- questionnaire_gen(n_obs[l + 1],
+      n_resp <- ifelse(class(n_obs) == "list", n_obs[[l + 1]][lvl], n_obs[l + 1])
+      cluster_bg <- questionnaire_gen(n_resp,
                                       n_X = n_X[[l]], n_W = n_W[[l]],
                                       c_mean = c_mean, verbose = FALSE,...)
       # Adding weights
@@ -89,7 +90,6 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       } else {
         cluster_bg$clusterID <- paste0(level_label, lvl)
       }
-      cluster_bg$uniqueID <- paste(respID, cluster_bg$clusterID, sep = "_")
 
       # Saving the questionnaire to the final list (sample)
       cluster_bg -> sample[[level_label]][[lvl]]
@@ -105,7 +105,9 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
     } else {
       out[[level_label]] <- do.call(rbind, sample[[level_label]])
       if (collapse == "full") {
-        if (l == 1) names(out[[l]]) <- paste0(names(out[[l]]), ".", resp_labels[l])
+        if (l == 1) {
+          names(out[[l]]) <- paste0(names(out[[l]]), ".", resp_labels[l])
+        }
         if (l > 1) {
           names(out[[l]]) <- paste0(names(out[[l]]), ".", resp_labels[l])
           out[[l]] <- merge(x = out[[l]], y = out[[l - 1]][-1],
