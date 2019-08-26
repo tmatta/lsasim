@@ -28,10 +28,8 @@ cluster_gen <- function(n_obs,
                         separate_questionnaires = TRUE,
                         collapse = "none",
                         N = n_obs,
-                        # TODO: drop country weights
-                        sampling_method = "SRS",
-                        # TODO: SRS for classes and students, PPS for schools
-                        # TODO: Consider conditional probabilities
+                        sampling_method = "mixed",
+                        # TODO: By default ("mixed"), SRS for classes and students, PPS for schools
                         # TODO: Replicate weights
                         # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between)
                         verbose = TRUE,
