@@ -17,24 +17,50 @@ cluster_gen_together <- function(n_levels, n_obs, N, sampling_method,
 	sample <- list()  # will store all BG questionnaires
 	level_combos <- list()  # will store ID combinations
 
-  for (l in 1:(n_levels - 1)) {
-    level_combos[[n_levels - l]] <- seq(from = 1, to = n_obs[l])
+  # Generating level label combinations
+  if (class(n_obs) == "list") {
+    n_combos <- sum(n_obs[[n_levels - 1]])
+    second_last_level <- unlist(sapply(n_obs[[n_levels - 1]], seq))
+    id_combos <- matrix(second_last_level, ncol = n_combos)
+    for (row in 2:(n_levels - 1)) {
+      id_level <- n_levels - row
+      expanded_level <- as.vector(unlist(sapply(n_obs[[id_level]], seq)))
+      expanded_level_col <- 1
+      new_row <- matrix(ncol = n_combos)
+      for (col in seq(n_combos)) {
+        if (all(id_combos[, col] == 1)) {
+          new_row[col] <- expanded_level[expanded_level_col]
+          expanded_level_col <- expanded_level_col + 1
+        } else {
+          new_row[col] <- new_row[col - 1]
+        }
+      }
+      id_combos <- rbind(id_combos, new_row)
+    }
+    id_combos <- t(id_combos)
+  } else {
+    for (l in 1:(n_levels - 1)) {
+      level_combos[[n_levels - l]] <- seq(from = 1, to = n_obs[l])
+    }
+    id_combos <- expand.grid(level_combos)
   }
-
-  id_combos <- expand.grid(level_combos)
   id_combos <- id_combos[, ncol(id_combos):1]  # so first level comes first
   colnames(id_combos) <- cluster_labels[-n_levels]
-
   for (l in seq(ncol(id_combos))) {
     id_combos[, l] <- paste0(cluster_labels[l], id_combos[, l])
   }
-
   num_questionnaires <- nrow(id_combos)
-    for (l in 1:num_questionnaires) {
-
+    for (l in seq(num_questionnaires)) {
       # Generating data
-      cluster_bg <- questionnaire_gen(n_obs[n_levels], n_X = n_X, n_W = n_W,
-                                      c_mean = c_mean, verbose = FALSE,...)
+      if (class(n_obs) == "list") {
+        cluster_bg <- questionnaire_gen(n_obs[[n_levels]][l],
+                                        n_X = n_X, n_W = n_W,
+                                        c_mean = c_mean, verbose = FALSE,...)
+      } else {
+         cluster_bg <- questionnaire_gen(n_obs[n_levels], n_X = n_X, n_W = n_W,
+                                         c_mean = c_mean, verbose = FALSE,...)
+      }
+
       # Adding weights
       # if (sampling_method == "SRS") {
       #   weight_name <- paste0(resp_labels[n_levels], ".weight")
