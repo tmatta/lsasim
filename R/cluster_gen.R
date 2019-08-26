@@ -18,6 +18,7 @@
 #'
 #' @export
 cluster_gen <- function(n_obs,
+                        #ASK: changing to n_g makes sense for final level (respondents)?
                         # TODO: allow levels with different sizes (random only for lowest level, multiple numbers for other levels)
                         cluster_labels = c("country", "school", "class")[seq(length(n_obs)) - 1],
                         resp_labels = c("principal", "teacher", "student")[seq(length(n_obs))],
@@ -34,7 +35,7 @@ cluster_gen <- function(n_obs,
                         # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between)
                         verbose = TRUE,
                         ...) {
-  # Validation
+  # Validating
   check_condition(!separate_questionnaires & length(n_X) > 1,
                   "Unique questionnaire requested. n_X must therefore be a scalar.")
   check_condition(!separate_questionnaires & length(n_W) > 1,
@@ -78,16 +79,20 @@ cluster_gen <- function(n_obs,
     # Message explaining cluster scheme
     if (verbose) clusterMessage(n_obs, resp_labels, cluster_labels, n_levels,
                                 separate_questionnaires, 1)
-
+    
+    # Questionnaire generation
     sample <- cluster_gen_separate(n_levels, n_obs, N, sampling_method,
                                    cluster_labels, resp_labels, collapse,
                                    n_X, n_W, c_mean, ...)
   } else {  # questionnaires administered only at the bottom level
+    # Message explaining cluster scheme
     if (verbose) clusterMessage(n_obs, resp_labels, cluster_labels, n_levels,
                                 separate_questionnaires, 2)
-
+    # Generating variable numbers
     if (is.null(n_X)) n_X <- rzeropois(1.5)  # a positive number of Xs
     if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2))  # all binary
+
+    # Questionnaire generation
     sample <- cluster_gen_together(n_levels, n_obs, N, sampling_method,
                                    cluster_labels, resp_labels, collapse,
                                    n_X, n_W, c_mean, ...)
