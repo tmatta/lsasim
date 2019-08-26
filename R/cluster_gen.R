@@ -18,8 +18,8 @@
 #'
 #' @export
 cluster_gen <- function(n_obs,
-                        #ASK: changing to n_g makes sense for final level (respondents)?
-                        # TODO: allow levels with different sizes (random only for lowest level, multiple numbers for other levels)
+                        # ASK: changing to n_g makes sense for final level (respondents)?
+                        # DONE: allow levels with different sizes (random only for lowest level, multiple numbers for other levels)
                         cluster_labels = c("country", "school", "class")[seq(length(n_obs)) - 1],
                         resp_labels = c("principal", "teacher", "student")[seq(length(n_obs))],
                         n_X = NULL,
@@ -36,19 +36,29 @@ cluster_gen <- function(n_obs,
                         verbose = TRUE,
                         ...) {
   # Validating
-  check_condition(!separate_questionnaires & length(n_X) > 1,
-                  "Unique questionnaire requested. n_X must therefore be a scalar.")
-  check_condition(!separate_questionnaires & length(n_W) > 1,
-                  "Unique questionnaire requested. n_W must therefore be a scalar or a list.")
+  check_condition(
+    !separate_questionnaires & length(n_X) > 1,
+    "Unique questionnaire requested. n_X must therefore be a scalar."
+  )
+  check_condition(
+    !separate_questionnaires & length(n_W) > 1,
+    "Unique questionnaire requested. n_W must therefore be a scalar or a list."
+  )
   check_condition(length(n_obs) == 1, "n_obs must have length larger than 1")
-  check_condition(class(c_mean) == "list" & !separate_questionnaires,
-                  "For unique questionnaires, c_mean must not be a list.")
-  check_condition(length(n_obs) > length(cluster_labels) + 1,
-                  "cluster_labels has insufficient length")
-  check_condition(!separate_questionnaires & collapse == "partial",
-                  "Partial collapsing unavailable for unique questionnaires")
+  check_condition(
+    class(c_mean) == "list" & !separate_questionnaires,
+    "For unique questionnaires, c_mean must not be a list."
+  )
+  check_condition(
+    length(n_obs) > length(cluster_labels) + 1,
+    "cluster_labels has insufficient length"
+  )
+  check_condition(
+    !separate_questionnaires & collapse == "partial",
+    "Partial collapsing unavailable for unique questionnaires"
+  )
 
-  # Calculating useful arguments                
+  # Calculating useful arguments
   n_levels <- length(n_obs)
 
   # Adapting additional parameters to questionnaire_gen format (n_X and n_W)
@@ -61,41 +71,53 @@ cluster_gen <- function(n_obs,
     }
   }
 
-  if (separate_questionnaires) {  # questionnaires administered at all levels
+  if (separate_questionnaires) { # questionnaires administered at all levels
     # Generates unique questionnaires for each level
     if (is.null(n_X)) {
       n_X <- list()
       for (l in seq(n_levels)) {
-        n_X[[l]] <- rzeropois(1.5)  # a positive number of Xs
+        n_X[[l]] <- rzeropois(1.5) # a positive number of Xs
       }
     }
     if (is.null(n_W)) {
       n_W <- list()
       for (l in seq(n_levels)) {
-        n_W[[l]] <- as.list(replicate(rzeropois(5), 2))  # all Ws are binary
+        n_W[[l]] <- as.list(replicate(rzeropois(5), 2)) # all Ws are binary
       }
     }
 
     # Message explaining cluster scheme
-    if (verbose) clusterMessage(n_obs, resp_labels, cluster_labels, n_levels,
-                                separate_questionnaires, 1)
-    
-    # Questionnaire generation
-    sample <- cluster_gen_separate(n_levels, n_obs, N, sampling_method,
-                                   cluster_labels, resp_labels, collapse,
-                                   n_X, n_W, c_mean, ...)
-  } else {  # questionnaires administered only at the bottom level
-    # Message explaining cluster scheme
-    if (verbose) clusterMessage(n_obs, resp_labels, cluster_labels, n_levels,
-                                separate_questionnaires, 2)
-    # Generating variable numbers
-    if (is.null(n_X)) n_X <- rzeropois(1.5)  # a positive number of Xs
-    if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2))  # all binary
+    if (verbose) {
+      clusterMessage(
+        n_obs, resp_labels, cluster_labels, n_levels,
+        separate_questionnaires, 1
+      )
+    }
 
     # Questionnaire generation
-    sample <- cluster_gen_together(n_levels, n_obs, N, sampling_method,
-                                   cluster_labels, resp_labels, collapse,
-                                   n_X, n_W, c_mean, ...)
+    sample <- cluster_gen_separate(
+      n_levels, n_obs, N, sampling_method,
+      cluster_labels, resp_labels, collapse,
+      n_X, n_W, c_mean, ...
+    )
+  } else { # questionnaires administered only at the bottom level
+    # Message explaining cluster scheme
+    if (verbose) {
+      clusterMessage(
+        n_obs, resp_labels, cluster_labels, n_levels,
+        separate_questionnaires, 2
+      )
+    }
+    # Generating variable numbers
+    if (is.null(n_X)) n_X <- rzeropois(1.5) # a positive number of Xs
+    if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2)) # all binary
+
+    # Questionnaire generation
+    sample <- cluster_gen_together(
+      n_levels, n_obs, N, sampling_method,
+      cluster_labels, resp_labels, collapse,
+      n_X, n_W, c_mean, ...
+    )
   }
   return(sample)
 }

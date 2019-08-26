@@ -3,35 +3,46 @@ wrap_cluster_gen <- function(...) {
   cluster_gen(..., family = "gaussian", verbose = FALSE)
 }
 
+# Basic argument handling ------------------------------------------------------
 test_that("Basic argument handling generates data", {
   df01 <- wrap_cluster_gen(1:2)
   df02 <- wrap_cluster_gen(2:4)
   df03 <- wrap_cluster_gen(2:4, cluster_labels = LETTERS[1:2])
   df04 <- wrap_cluster_gen(2:3, resp_labels = LETTERS[1:2])
   df05 <- wrap_cluster_gen(2:4,
-                           cluster_labels = LETTERS[1:2],
-                           resp_labels = LETTERS[3:5])
+    cluster_labels = LETTERS[1:2],
+    resp_labels = LETTERS[3:5]
+  )
   df06 <- wrap_cluster_gen(2:3, n_X = 1)
   df07 <- wrap_cluster_gen(2:3, n_X = 1, n_W = 1)
   df08 <- wrap_cluster_gen(2:3, n_X = 2:3, n_W = 3:4)
   df09 <- wrap_cluster_gen(2:3, n_X = 0, n_W = list(5, 2))
   df10 <- wrap_cluster_gen(rep(10, 3),
-                           c_mean = list(c(1, 10), c(1e2, 1e3)), n_X = 2)
-  df11 <- wrap_cluster_gen(2:4, separate_questionnaires = FALSE,
-                           c_mean = c(1, 10), n_X = 2)
+    c_mean = list(c(1, 10), c(1e2, 1e3)), n_X = 2
+  )
+  df11 <- wrap_cluster_gen(2:4,
+    separate_questionnaires = FALSE,
+    c_mean = c(1, 10), n_X = 2
+  )
   df12 <- wrap_cluster_gen(2:4, collapse = "partial")
   df13 <- wrap_cluster_gen(2:4, collapse = "full")
-  df14 <- wrap_cluster_gen(2:4, collapse = "full",
-                           separate_questionnaires = FALSE)
+  df14 <- wrap_cluster_gen(2:4,
+    collapse = "full",
+    separate_questionnaires = FALSE
+  )
 
   expect_output(str(df01), "List of 1")
   expect_output(str(df02), "List of 2")
   expect_equal(names(df03), LETTERS[1:2])
   expect_equal(df04$country[[1]]$uniqueID[1], "A1_country1")
-  expect_equal(df05$B[[3]]$uniqueID[4], "D4_B3_A1")  
-  expect_equal(as.vector(sapply(df06$country,
-                                function(c) sapply(c[1:3], class))),
-               rep(c("integer", "numeric", "factor"), 2))
+  expect_equal(df05$B[[3]]$uniqueID[4], "D4_B3_A1")
+  expect_equal(
+    as.vector(sapply(
+      df06$country,
+      function(c) sapply(c[1:3], class)
+    )),
+    rep(c("integer", "numeric", "factor"), 2)
+  )
   # expect_equal(as.vector(sapply(df07$country, function(c) sapply(c, class))),
   #              rep(c("integer", "numeric", "factor",
   #                    "numeric", "character"), 2))
@@ -58,6 +69,7 @@ test_that("Basic argument handling generates data", {
   expect_output(str(df14), "24 obs.")
 })
 
+# Errors are caught ------------------------------------------------------------
 test_that("Errors are caught", {
   expect_error(cluster_gen(1))
   expect_error(cluster_gen(2:4, separate_questionnaires = FALSE, n_X = 1:2))
@@ -67,14 +79,87 @@ test_that("Errors are caught", {
   expect_error(cluster_gen(2:4, separate_quest = FALSE, collapse = "partial"))
 })
 
+# uniqueIDs are correct --------------------------------------------------------
+test_that("uniqueIDs are correct", {
+  wrap_cluster_gen_2 <- function(..., return_all = FALSE) {
+    data <- cluster_gen(..., n_X = 0, n_W = 1, family = "gaussian",
+                        verbose = FALSE, collapse = "full")
+    if (!return_all) data <- data[, 3]
+    return(data)  # corresponds to the bottom level's uniqueID
+  }
+  scheme1 <- list(1, 2, c(1, 2), c(3, 2, 3))
+  scheme2 <- list(2, c(3, 2), c(1, 1, 2, 3, 2), rep(2, 9))
+
+  df1 <- wrap_cluster_gen_2(2:4)
+  df2 <- wrap_cluster_gen_2(2:4, separate_questionnaires = FALSE)
+  df3 <- wrap_cluster_gen_2(scheme1)
+  df4 <- wrap_cluster_gen_2(scheme1, separate_questionnaires = FALSE)
+  df5 <- wrap_cluster_gen_2(list(1, c(1, 1), c(1, 2), c(3, 2, 3)),
+                            separate_questionnaires = FALSE)
+  df6 <- wrap_cluster_gen_2(scheme2)
+  df7 <- wrap_cluster_gen_2(scheme2, separate_questionnaires = FALSE)
+  df8 <- wrap_cluster_gen(c(2, 3, 4), n_X = 1, n_W = 1, c_mean = 10,
+                          cluster_labels = c("school", "class"),
+                          resp_labels = c("teacher", "student"),
+                          separate_questionnaires = FALSE)
+  expect_equal(df1, c('teacher1_school1_country1', 'teacher2_school1_country1', 
+    'teacher3_school1_country1', 'teacher4_school1_country1', 
+    'teacher1_school1_country2', 'teacher2_school1_country2', 
+    'teacher3_school1_country2', 'teacher4_school1_country2', 
+    'teacher1_school2_country1', 'teacher2_school2_country1', 
+    'teacher3_school2_country1', 'teacher4_school2_country1', 
+    'teacher1_school2_country2', 'teacher2_school2_country2', 
+    'teacher3_school2_country2', 'teacher4_school2_country2', 
+    'teacher1_school3_country1', 'teacher2_school3_country1', 
+    'teacher3_school3_country1', 'teacher4_school3_country1', 
+    'teacher1_school3_country2', 'teacher2_school3_country2', 
+    'teacher3_school3_country2', 'teacher4_school3_country2'))
+  expect_equal(df2, c('student1_school1_country1', 'student2_school1_country1', 
+   'student3_school1_country1', 'student4_school1_country1', 
+   'student1_school2_country1', 'student2_school2_country1', 
+   'student3_school2_country1', 'student4_school2_country1', 
+   'student1_school3_country1', 'student2_school3_country1', 
+   'student3_school3_country1', 'student4_school3_country1', 
+   'student1_school1_country2', 'student2_school1_country2', 
+   'student3_school1_country2', 'student4_school1_country2', 
+   'student1_school2_country2', 'student2_school2_country2', 
+   'student3_school2_country2', 'student4_school2_country2', 
+   'student1_school3_country2', 'student2_school3_country2', 
+   'student3_school3_country2', 'student4_school3_country2'))
+  expect_equal(df3, c('student1_class1_school1_country1',
+    'student2_class1_school1_country1', 'student3_class1_school1_country1',
+    'student1_class1_school2_country1', 'student2_class1_school2_country1', 
+    'student1_class2_school2_country1', 'student2_class2_school2_country1', 
+    'student3_class2_school2_country1'))
+  expect_equal(df4, c('student1_class1_school1_country1', 
+    'student2_class1_school1_country1', 'student3_class1_school1_country1', 
+    'student1_class1_school2_country1', 'student2_class1_school2_country1', 
+    'student1_class2_school2_country1', 'student2_class2_school2_country1', 
+    'student3_class2_school2_country1'))
+  expect_equal(df5, df4)
+  expect_equal(df6, c('student1_class1_school1_country1', 
+    'student2_class1_school1_country1', 'student1_class1_school1_country2', 
+    'student2_class1_school1_country2', 'student1_class1_school2_country1', 
+    'student2_class1_school2_country1', 'student1_class1_school2_country2', 
+    'student2_class1_school2_country2', 'student1_class1_school3_country1', 
+    'student2_class1_school3_country1', 'student1_class2_school1_country2', 
+    'student2_class2_school1_country2', 'student1_class2_school2_country2', 
+    'student2_class2_school2_country2', 'student1_class2_school3_country1', 
+    'student2_class2_school3_country1', 'student1_class3_school1_country2', 
+    'student2_class3_school1_country2'))
+  expect_equal(df7, c('student1_class1_school1_country1', 
+    'student2_class1_school1_country1', 'student1_class1_school2_country1', 
+    'student2_class1_school2_country1', 'student1_class1_school3_country1', 
+    'student2_class1_school3_country1', 'student1_class2_school3_country1', 
+    'student2_class2_school3_country1', 'student1_class1_school1_country2', 
+    'student2_class1_school1_country2', 'student1_class2_school1_country2', 
+    'student2_class2_school1_country2', 'student1_class3_school1_country2', 
+    'student2_class3_school1_country2', 'student1_class1_school2_country2', 
+    'student2_class1_school2_country2', 'student1_class2_school2_country2', 
+    'student2_class2_school2_country2'))
+})
+
 # TODO: add tests for weights (compare with example on PISA Manual)
 # cluster_gen(c(1, 2, 3), N = c(1, 100, 1000))
 # TODO: make it clear that N is the population across all clusters
-
-#  cluster_gen(c(2, 3, 4), n_X = 1, n_W = 1, c_mean = 10, cluster_labels=c("school", "class"), resp_labels=c("teacher", "student"), separate_questionnaires=FALSE)
 # cluster_gen(c(1, 2, 3), N = c(10, 100, 1000), collapse = "full")
-
-
-# cluster_gen(1:4, separate_questionnaires = FALSE)
-# cluster_gen(list(1, 2, c(1, 2), c(3, 2, 3)), separate_questionnaires = FALSE)
-# cluster_gen(list(2, c(3, 2), c(1, 1, 2, 3, 2), rep(3, 9)),  n_X = 1, n_W = 1, separate_questionnaires = FALSE)
