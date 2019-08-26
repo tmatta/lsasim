@@ -24,6 +24,9 @@ cluster_gen_together <- function(n_levels, n_obs, N, sampling_method,
     id_combos <- matrix(second_last_level, ncol = n_combos)
     for (row in 2:(n_levels - 1)) {
       id_level <- n_levels - row
+      if (length(n_obs[[id_level]]) > 1 & all(n_obs[[id_level]] == 1)) {
+        n_obs[[id_level]] <- sum(n_obs[[id_level]])
+      }
       expanded_level <- as.vector(unlist(sapply(n_obs[[id_level]], seq)))
       expanded_level_col <- 1
       new_row <- matrix(ncol = n_combos)
