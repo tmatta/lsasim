@@ -22,15 +22,12 @@ cluster_gen_together <- function(n_levels, n, N, sampling_method,
   # Generating questionnaire data for lowest level
   num_questionnaires <- nrow(id_combos)
     for (l in seq(num_questionnaires)) {
-      # Generating data
-      if (class(n_obs) == "list") {
-        cluster_bg <- questionnaire_gen(n_obs[[n_levels]][l],
+      respondents <- ifelse(test = class(n) == "list",
+                            yes  = n[[n_levels]][l],
+                            no   = n[n_levels])
+      cluster_bg <- questionnaire_gen(respondents,
                                         n_X = n_X, n_W = n_W,
                                         c_mean = c_mean, verbose = FALSE,...)
-      } else {
-         cluster_bg <- questionnaire_gen(n_obs[n_levels], n_X = n_X, n_W = n_W,
-                                         c_mean = c_mean, verbose = FALSE,...)
-      }
 
       # Adding weights
       if (sampling_method == "SRS") {
