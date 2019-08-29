@@ -109,3 +109,53 @@ labelRespondents <- function (n_obs, cluster_labels) {
   }
   return(id_combos)
 }
+
+weightResponses <- function(cluster_bg, n_obs, N, lvl, sublvl, sampling_method,
+                            cluster_labels, resp_labels) {
+  # This function calculates weight responses
+  if (sampling_method == "mixed")
+  {
+    warning("Mixed sampling method not yet implemented")
+  }
+  else if (sampling_method == "SRS")
+  {
+    if (class(n_obs) == "list")
+    {
+      # Probabilities
+      p_1_i <- n_obs[[lvl - 1]] / N[[lvl - 1]]
+      p_2_ij <- n_obs[[lvl]] / N[[lvl]]
+      if (length(p_1_i) > 1) p_1_i <- p_1_i[sublvl]
+      if (length(p_2_ij) > 1) p_2_ij <- p_2_ij[sublvl]
+      p_ij <- p_1_i * p_2_ij
+      # Variable names
+      label_1_i <- paste0(cluster_labels[lvl - 1], ".weight")
+      label_2_ij <- paste0("within.", cluster_labels[lvl - 1], ".weight")
+      label_ij <- paste0("final.", resp_labels[lvl], ".weight")
+
+    }
+    else
+    {
+      # Probabilities
+      p_1_i <- n_obs[lvl - 1] / N[lvl - 1]
+      p_2_ij <- n_obs[lvl] / N[lvl]
+      p_ij <- p_1_i * p_2_ij
+      # Variable names
+      label_1_i <- paste0(cluster_labels[lvl - 1], ".weight")
+      label_2_ij <- paste0("within.", cluster_labels[lvl - 1], ".weight")
+      label_ij <- paste0("final.", resp_labels[lvl], ".weight")
+    }
+      # Weights
+      w_1_i <- 1 / p_1_i  # school weight
+      w_2_ij <- 1 / p_2_ij  # within-school weight
+      w_ij <- 1 / p_ij  # final student weight
+      # Final assignments
+      cluster_bg[label_1_i] <- w_1_i
+      cluster_bg[label_2_ij] <- w_2_ij
+      cluster_bg[label_ij] <- w_ij
+  }
+    else if (sampling_method == "PPS")
+  {
+    message("PPS not yet implemented")
+  }
+  return(cluster_bg)
+}
