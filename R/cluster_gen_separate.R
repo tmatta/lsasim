@@ -66,7 +66,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       }
 
       # Generating data
-      n_resp <- ifelse(class(n_obs) == "list", n_obs[[l + 1]][lvl], n_obs[l + 1])
+      n_resp <- ifelse(class(n) == "list", n[[l + 1]][lvl], n[l + 1])
       cluster_bg <- questionnaire_gen(n_resp,
                                       n_X = n_X[[l]], n_W = n_W[[l]],
                                       c_mean = c_mean, verbose = FALSE,...)
