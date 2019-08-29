@@ -1,18 +1,19 @@
 #' @title Generate cluster samples with lowest-level questionnaires
 #' @description This is a subfunction of `cluster_gen` that performs cluster sampling where only the lowest-level individuals (e.g. students) fill out questionnaires.
 #' @param n_levels number of cluster levels
-#' @param n numeric vector with the number of clusters on each level
+#' @param n numeric vector with the number of sampled observations (clusters or subjects) on each level
 #' @param cluster_labels character vector with the names of each cluster level
 #' @param resp_labels character vector with the names of the questionnaire respondents on each level
 #' @param collapse if `TRUE`, function output contains only one data frame with all answers
-#' @param N numeric vector with the population size of each level
+#' @param N list of numeric vector with the population size of each *sampled* cluster element on each level
+#' @param sum_pop total population at the lowest level (sampled or not)
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @export
-cluster_gen_together <- function(n_levels, n, N, sampling_method,
+cluster_gen_together <- function(n_levels, n, N, sum_pop, sampling_method,
                                  cluster_labels, resp_labels, collapse, n_X, n_W, c_mean, ...) {
 	sample <- list()  # will store all BG questionnaires
 
@@ -32,7 +33,7 @@ cluster_gen_together <- function(n_levels, n, N, sampling_method,
       # Adding weights
       cluster_bg <- weightResponses(
                 cluster_bg, n, N, n_levels, l,
-                sampling_method, cluster_labels, resp_labels
+                sampling_method, cluster_labels, resp_labels, sum_pop
               )
 
       # Creating new ID variable

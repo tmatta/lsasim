@@ -1,9 +1,10 @@
 #' @title Generate cluster sample
-#' @param n numeric vector with the number of observations (clusters or subjects) on each level
+#' @param n numeric vector with the number of sampled observations (clusters or subjects) on each level
 #' @param cluster_labels character vector with the names of each cluster level
 #' @param resp_labels character vector with the names of the questionnaire respondents on each level
 #' @param collapse if `TRUE`, function output contains only one data frame with all answers
-#' @param N list of numeric vector with the population size of each cluster element on each level
+#' @param N list of numeric vector with the population size of each *sampled* cluster element on each level
+#' @param sum_pop total population at the lowest level (sampled or not)
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
@@ -19,7 +20,7 @@
 #'
 #' @export
 cluster_gen <- function(n,
-                        cluster_labels = c("country", "school", "class")[seq(length(n))],
+                        cluster_labels = c("country", "school", "class")[seq(length(n) - 1)],
                         resp_labels = c("principal", "teacher", "student")[seq(length(n))],
                         n_X = NULL,
                         n_W = NULL,
@@ -28,8 +29,8 @@ cluster_gen <- function(n,
                         separate_questionnaires = TRUE,
                         collapse = "none",
                         N = n,
+                        sum_pop = sum(N[[length(N)]]),
                         sampling_method = "mixed",
-                        # TODO: By default ("mixed"), SRS for classes and students, PPS for schools
                         # TODO: Replicate weights
                         # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between)
                         verbose = TRUE,
@@ -103,7 +104,7 @@ cluster_gen <- function(n,
 
     # Questionnaire generation
     sample <- cluster_gen_separate(
-      n_levels, n, N, sampling_method,
+      n_levels, n, N, sum_pop, sampling_method,
       cluster_labels, resp_labels, collapse,
       n_X, n_W, c_mean, ...
     )
@@ -121,7 +122,7 @@ cluster_gen <- function(n,
 
     # Questionnaire generation
     sample <- cluster_gen_together(
-      n_levels, n, N, sampling_method,
+      n_levels, n, N, sum_pop, sampling_method,
       cluster_labels, resp_labels, collapse,
       n_X, n_W, c_mean, ...
     )

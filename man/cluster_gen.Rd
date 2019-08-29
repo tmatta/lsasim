@@ -4,14 +4,15 @@
 \alias{cluster_gen}
 \title{Generate cluster sample}
 \usage{
-cluster_gen(n_obs, cluster_labels = c("country", "school",
-  "class")[seq(length(n_obs)) - 1], resp_labels = c("principal",
-  "teacher", "student")[seq(length(n_obs))], n_X = NULL, n_W = NULL,
-  c_mean = NULL, separate_questionnaires = TRUE, collapse = "none",
-  N = n_obs, sampling_method = "mixed", verbose = TRUE, ...)
+cluster_gen(n, cluster_labels = c("country", "school",
+  "class")[seq(length(n) - 1)], resp_labels = c("principal", "teacher",
+  "student")[seq(length(n))], n_X = NULL, n_W = NULL, c_mean = NULL,
+  separate_questionnaires = TRUE, collapse = "none", N = n,
+  sum_pop = sum(N[[length(N)]]), sampling_method = "mixed",
+  verbose = TRUE, ...)
 }
 \arguments{
-\item{n_obs}{numeric vector with the number of observations (clusters or subjects) on each level}
+\item{n}{numeric vector with the number of sampled observations (clusters or subjects) on each level}
 
 \item{cluster_labels}{character vector with the names of each cluster level}
 
@@ -27,7 +28,9 @@ cluster_gen(n_obs, cluster_labels = c("country", "school",
 
 \item{collapse}{if `TRUE`, function output contains only one data frame with all answers}
 
-\item{N}{numeric vector with the population size of each level}
+\item{N}{list of numeric vector with the population size of each *sampled* cluster element on each level}
+
+\item{sum_pop}{total population at the lowest level (sampled or not)}
 
 \item{sampling_method}{can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size}
 
@@ -40,7 +43,8 @@ Generate cluster sample
 }
 \details{
 This function relies heavily in two subfunctions---`cluster_gen_separate` and `cluster_gen_together`---which can be called independently. This does not make `cluster_gen` a simple wrapper function, as it performs several operations prior to calling its subfunctions, such as randomly generating `n_X` and `n_W` if they are not determined by user.
-  `n_obs` can have unitary length, in which case all clusters will have the same size.
+  `n` can have unitary length, in which case all clusters will have the same size.
+  `N` is *not* the population size across all elements of a level, but the population size for each element of one level.
   Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
 }
 \note{

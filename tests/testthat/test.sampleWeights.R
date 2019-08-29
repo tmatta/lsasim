@@ -1,7 +1,8 @@
 context("Sampling weights")
-wrap_cluster_gen <- function(n, N, meth = "SRS", sep = FALSE, verbose = FALSE) {
+wrap_cluster_gen <- function(n, N, sum_pop, meth = "SRS",sep = FALSE, verbose = FALSE) {
   cluster_gen(n                       = n,
               N                       = N,
+              sum_pop                 = sum_pop,
               n_X                     = 1,
               n_W                     = 1,
               sampling_method         = meth,
@@ -36,12 +37,16 @@ ex_3.5 <- wrap_cluster_gen(n = list(1,  4, c(10, 10, 10,  10)),
                            N = list(1, 10, c(10, 15, 20,  25)))
 ex_3.6 <- wrap_cluster_gen(n = list(1,  4, c(10, 10, 10,  10)),
                            N = list(1, 10, c(40, 45, 80, 100)))
+ex_3.7 <- wrap_cluster_gen(n = list(1,  4, c(10, 10, 10,  10)),
+                           N = list(1, 10, c(20, 40, 80, 100)),
+                           sum_pop = 400, "PPS")
 
 test_that("Weights are correct", {
   expect_equivalent(calcWeights(ex_3.3), c(2.5 * 10 * 4, 400))
   expect_equivalent(calcWeights(ex_3.4), c(2.5 * 10 * 4, 462.5))
   expect_equivalent(calcWeights(ex_3.5), c(2.5 * 10 * 4, 175))
   expect_equivalent(calcWeights(ex_3.6), c(2.5 * 10 * 4, 662.5))
+  expect_equivalent(calcWeights(ex_3.7), c(9.75 * 10, 400))
 })
 
 test_that("Labels are correct", {
@@ -50,4 +55,5 @@ test_that("Labels are correct", {
   expect_equal(names(calcWeights(ex_3.4)), weight_names)
   expect_equal(names(calcWeights(ex_3.5)), weight_names)
   expect_equal(names(calcWeights(ex_3.6)), weight_names)
+  expect_equal(names(calcWeights(ex_3.7)), weight_names)
 })
