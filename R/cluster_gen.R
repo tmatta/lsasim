@@ -1,9 +1,9 @@
 #' @title Generate cluster sample
-#' @param n_obs numeric vector with the number of observations (clusters or subjects) on each level
+#' @param n numeric vector with the number of observations (clusters or subjects) on each level
 #' @param cluster_labels character vector with the names of each cluster level
 #' @param resp_labels character vector with the names of the questionnaire respondents on each level
 #' @param collapse if `TRUE`, function output contains only one data frame with all answers
-#' @param N numeric vector with the population size of each level
+#' @param N list of numeric vector with the population size of each cluster element on each level
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
@@ -12,23 +12,24 @@
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param verbose if `TRUE`, prints output messages
 #' @details This function relies heavily in two subfunctions---`cluster_gen_separate` and `cluster_gen_together`---which can be called independently. This does not make `cluster_gen` a simple wrapper function, as it performs several operations prior to calling its subfunctions, such as randomly generating `n_X` and `n_W` if they are not determined by user.
-#'   `n_obs` can have unitary length, in which case all clusters will have the same size.
+#'   `n` can have unitary length, in which case all clusters will have the same size.
+#'   `N` is *not* the population size across all elements of a level, but the population size for each element of one level.
 #'   Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
 #' @note For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, by default, countries are the nexting level, schools are the first cluster level, classes are the second, and students are the third and final level.
 #'
 #' @export
-cluster_gen <- function(n_obs,
-                        # ASK: changing to n_g makes sense for final level (respondents)?
-                        # DONE: allow levels with different sizes (random only for lowest level, multiple numbers for other levels)
-                        cluster_labels = c("country", "school", "class")[seq(length(n_obs)) - 1],
-                        resp_labels = c("principal", "teacher", "student")[seq(length(n_obs))],
+cluster_gen <- function(n,
+                        # TODO: change to n
+                        # TODO: getting cluster labels from n
+                        cluster_labels = c("country", "school", "class")[seq(length(n)) - 1],
+                        resp_labels = c("principal", "teacher", "student")[seq(length(n))],
                         n_X = NULL,
                         n_W = NULL,
                         c_mean = NULL,
                         # TODO: allow independent c_mean for each cluster or only levels (implemented)? Idea for this: lists of lists (kinda messy)
                         separate_questionnaires = TRUE,
                         collapse = "none",
-                        N = n_obs,
+                        N = n,
                         sampling_method = "mixed",
                         # TODO: By default ("mixed"), SRS for classes and students, PPS for schools
                         # TODO: Replicate weights
@@ -44,13 +45,13 @@ cluster_gen <- function(n_obs,
     !separate_questionnaires & length(n_W) > 1,
     "Unique questionnaire requested. n_W must therefore be a scalar or a list."
   )
-  check_condition(length(n_obs) == 1, "n_obs must have length larger than 1")
+  check_condition(length(n) == 1, "n must have length larger than 1")
   check_condition(
     class(c_mean) == "list" & !separate_questionnaires,
     "For unique questionnaires, c_mean must not be a list."
   )
   check_condition(
-    length(n_obs) > length(cluster_labels) + 1,
+    length(n) > length(cluster_labels) + 1,
     "cluster_labels has insufficient length"
   )
   check_condition(
@@ -59,7 +60,7 @@ cluster_gen <- function(n_obs,
   )
 
   # Calculating useful arguments
-  n_levels <- length(n_obs)
+  n_levels <- length(n)
 
   # Adapting additional parameters to questionnaire_gen format (n_X and n_W)
   if (n_levels > 1 & separate_questionnaires) {
@@ -89,14 +90,14 @@ cluster_gen <- function(n_obs,
     # Message explaining cluster scheme
     if (verbose) {
       clusterMessage(
-        n_obs, resp_labels, cluster_labels, n_levels,
+        n, resp_labels, cluster_labels, n_levels,
         separate_questionnaires, 1
       )
     }
 
     # Questionnaire generation
     sample <- cluster_gen_separate(
-      n_levels, n_obs, N, sampling_method,
+      n_levels, n, N, sampling_method,
       cluster_labels, resp_labels, collapse,
       n_X, n_W, c_mean, ...
     )
@@ -104,7 +105,7 @@ cluster_gen <- function(n_obs,
     # Message explaining cluster scheme
     if (verbose) {
       clusterMessage(
-        n_obs, resp_labels, cluster_labels, n_levels,
+        n, resp_labels, cluster_labels, n_levels,
         separate_questionnaires, 2
       )
     }
@@ -114,7 +115,7 @@ cluster_gen <- function(n_obs,
 
     # Questionnaire generation
     sample <- cluster_gen_together(
-      n_levels, n_obs, N, sampling_method,
+      n_levels, n, N, sampling_method,
       cluster_labels, resp_labels, collapse,
       n_X, n_W, c_mean, ...
     )
