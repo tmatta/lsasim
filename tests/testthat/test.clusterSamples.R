@@ -1,4 +1,4 @@
-context("Cluster samples")
+context("Basic cluster sampling")
 wrap_cluster_gen <- function(...) {
   cluster_gen(..., family = "gaussian", verbose = FALSE)
 }
@@ -159,7 +159,4 @@ test_that("uniqueIDs are correct", {
     'student2_class2_school2_country2'))
 })
 
-# TODO: add tests for weights (compare with example on PISA Manual)
-# cluster_gen(c(1, 2, 3), N = c(1, 100, 1000))
-# TODO: make it clear that N is the population across all clusters
-# cluster_gen(c(1, 2, 3), N = c(10, 100, 1000), collapse = "full")
+# TODO: add tests for named n

@@ -26,17 +26,14 @@ cluster_gen_together <- function(n_levels, n, N, sampling_method,
                             yes  = n[[n_levels]][l],
                             no   = n[n_levels])
       cluster_bg <- questionnaire_gen(respondents,
-                                        n_X = n_X, n_W = n_W,
-                                        c_mean = c_mean, verbose = FALSE,...)
+                                      n_X = n_X, n_W = n_W,
+                                      c_mean = c_mean, verbose = FALSE,...)
 
       # Adding weights
-      if (sampling_method == "SRS") {
-        weight_name <- paste0(resp_labels[n_levels], ".weight")
-        cluster_bg[weight_name] <-  N[n_levels] / n_obs[n_levels]
-      } else if (sampling_method == "PPS") {
-        stop("PPS sampling method not yet implemented")
-      }
-      # TODO: conditional probabilities must be considered
+      cluster_bg <- weightResponses(
+                cluster_bg, n, N, n_levels, l,
+                sampling_method, cluster_labels, resp_labels
+              )
 
       # Creating new ID variable
       studentID <- paste0("student", seq(nrow(cluster_bg)))
