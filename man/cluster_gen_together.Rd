@@ -4,15 +4,17 @@
 \alias{cluster_gen_together}
 \title{Generate cluster samples with lowest-level questionnaires}
 \usage{
-cluster_gen_together(n_levels, n_obs, N, sampling_method, cluster_labels,
-  resp_labels, collapse, n_X, n_W, c_mean, ...)
+cluster_gen_together(n_levels, n, N, sum_pop, sampling_method,
+  cluster_labels, resp_labels, collapse, n_X, n_W, c_mean, ...)
 }
 \arguments{
 \item{n_levels}{number of cluster levels}
 
-\item{n_obs}{numeric vector with the number of clusters on each level}
+\item{n}{numeric vector with the number of sampled observations (clusters or subjects) on each level}
 
-\item{N}{numeric vector with the population size of each level}
+\item{N}{list of numeric vector with the population size of each *sampled* cluster element on each level}
+
+\item{sum_pop}{total population at the lowest level (sampled or not)}
 
 \item{sampling_method}{can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size}
 

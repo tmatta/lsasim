@@ -43,14 +43,12 @@ test_that("Basic argument handling generates data", {
     )),
     rep(c("integer", "numeric", "factor"), 2)
   )
-  # expect_equal(as.vector(sapply(df07$country, function(c) sapply(c, class))),
-  #              rep(c("integer", "numeric", "factor",
-  #                    "numeric", "character"), 2))
-  # expect_equal(as.vector(sapply(df08$country, function(c) sapply(c, class))),
-  #              rep(c("integer", "numeric", "numeric",
-  #                    "factor", "factor", "factor",
-  #                    "numeric", "character"), 2))
-  # TODO: uncomment after weights have been reimplemented
+  expect_equal(as.vector(sapply(df07$country, function(c) sapply(c, class))),
+               rep(c("integer", "numeric", "factor",
+                   rep("numeric", "numeric", 3), "character"), 2))
+  expect_equal(as.vector(sapply(df08$country, function(c) sapply(c, class))),
+               rep(c("integer", rep("numeric", 2), rep("factor", 3),
+                     rep("numeric", 3), "character"), 2))
   expect_output(str(df09$country[[1]]$q1), "Factor w/ 5 levels")
   expect_output(str(df09$country[[1]]$q2), "Factor w/ 2 levels")
   expect_output(str(df09$country[[2]]$q1), "Factor w/ 5 levels")
@@ -81,10 +79,10 @@ test_that("Errors are caught", {
 
 # uniqueIDs are correct --------------------------------------------------------
 test_that("uniqueIDs are correct", {
-  wrap_cluster_gen_2 <- function(..., return_all = FALSE) {
+  wrap_cluster_gen_2 <- function(..., coll = "full", return_all = FALSE) {
     data <- cluster_gen(..., n_X = 0, n_W = 1, family = "gaussian",
-                        verbose = FALSE, collapse = "full")
-    if (!return_all) data <- data[, 3]
+                        verbose = FALSE, collapse = coll)
+    if (!return_all) data <- data[, 6]
     return(data)  # corresponds to the bottom level's uniqueID
   }
   scheme1 <- list(1, 2, c(1, 2), c(3, 2, 3))
