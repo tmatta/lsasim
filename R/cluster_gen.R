@@ -66,7 +66,8 @@ cluster_gen <- function(n,
   # Calculating useful arguments
   n_levels <- length(n)
   if (!is.null(names(n))) {
-    cluster_labels <- resp_labels <- names(n)
+    cluster_labels <- names(n)
+    resp_labels <- c(names(n)[-1], "respondent")
   }
 
   # Adapting additional parameters to questionnaire_gen format (n_X and n_W)
