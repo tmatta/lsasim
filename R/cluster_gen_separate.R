@@ -1,7 +1,7 @@
 #' @title Generate cluster samples with individual questionnaires
 #' @description This is a subfunction of `cluster_gen` that performs cluster sampling, with the twist that each cluster level has its own questionnaire.
 #' @param n_levels number of cluster levels
-#' @param n_obs numeric vector with the number of clusters on each level
+#' @param n numeric vector with the number of clusters on each level
 #' @param cluster_labels character vector with the names of each cluster level
 #' @param resp_labels character vector with the names of the questionnaire respondents on each level
 #' @param collapse if `TRUE`, function output contains only one data frame with all answers
@@ -12,7 +12,7 @@
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @export
-cluster_gen_separate <- function(n_levels, n_obs, N, sampling_method,
+cluster_gen_separate <- function(n_levels, n, N, sampling_method,
                                  cluster_labels, resp_labels, collapse, n_X,
                                  n_W, c_mean, ...) {
   out    <- list()  # actual output (differs from sample if collapse)
@@ -20,14 +20,14 @@ cluster_gen_separate <- function(n_levels, n_obs, N, sampling_method,
   c_mean_list <- c_mean
 
   # Defining number of questionnaires to be generated
-  if (class(n_obs) == "list") {
-    n_quest <- sapply(n_obs, sum)
+  if (class(n) == "list") {
+    n_quest <- sapply(n, sum)
   } else {
-    n_quest <- n_obs
+    n_quest <- n
   }
 
-  if (class(n_obs) == "list") {
-    id_combos <- labelRespondents(n_obs, cluster_labels)
+  if (class(n) == "list") {
+    id_combos <- labelRespondents(n, cluster_labels)
   }
 
   for (l in seq(n_levels - 1)) {
@@ -43,22 +43,22 @@ cluster_gen_separate <- function(n_levels, n_obs, N, sampling_method,
     if (l > 1) {
       # Only applicable for sub-country levels and when next nevel is an
       # indicator of "X per Y" (instead of "X across Y")
-      if (class(n_obs) != "list") n_obs[l] <- n_obs[l] * n_obs[l - 1]
+      if (class(n) != "list") n[l] <- n[l] * n[l - 1]
       previousClusterID <- as.vector(unlist(sapply(sample[[l - 1]],
                                             function(x) x$clusterID)))
     }
 
     # Calculating the number of different clusters at this level
-    if (class(n_obs) == "list") {
-      n_groups <- sapply(n_obs, sum)[l]
+    if (class(n) == "list") {
+      n_groups <- sapply(n, sum)[l]
     } else {
-      n_groups <- n_obs[l]
+      n_groups <- n[l]
     }
     
     # Generating questionnaires for each cluster element of that level
     for (lvl in seq(n_groups)) {
       # Generating data
-      n_resp <- ifelse(class(n_obs) == "list", n_obs[[l + 1]][lvl], n_obs[l + 1])
+      n_resp <- ifelse(class(n) == "list", n[[l + 1]][lvl], n[l + 1])
       cluster_bg <- questionnaire_gen(n_resp,
                                       n_X = n_X[[l]], n_W = n_W[[l]],
                                       c_mean = c_mean, verbose = FALSE,...)
@@ -74,10 +74,10 @@ cluster_gen_separate <- function(n_levels, n_obs, N, sampling_method,
       }
 
       # Generating unique IDs
-      if (class(n_obs) == "list") {
+      if (class(n) == "list") {
         respID <- paste0(next_level_label, seq(cluster_bg$subject))
         if (l > 1) {
-          previous_lvl <- as.vector(unlist(sapply(n_obs[[l]], seq)))[lvl]
+          previous_lvl <- as.vector(unlist(sapply(n[[l]], seq)))[lvl]
           cluster_bg$clusterID <- paste0(level_label, previous_lvl, "_",
                                           previousClusterID[lvl])
         } else {
@@ -87,7 +87,7 @@ cluster_gen_separate <- function(n_levels, n_obs, N, sampling_method,
       } else {
         respID <- paste0(next_level_label, seq(cluster_bg$subject))
         if (l > 1) {
-          previous_lvl <- rep(seq(n_obs[l] / n_obs[l - 1]), n_obs[l])[lvl]
+          previous_lvl <- rep(seq(n[l] / n[l - 1]), n[l])[lvl]
           cluster_bg$clusterID <- paste0(level_label, previous_lvl, "_",
                                           previousClusterID[lvl])
         } else {
