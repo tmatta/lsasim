@@ -19,9 +19,7 @@
 #'
 #' @export
 cluster_gen <- function(n,
-                        # TODO: change to n
-                        # TODO: getting cluster labels from n
-                        cluster_labels = c("country", "school", "class")[seq(length(n)) - 1],
+                        cluster_labels = c("country", "school", "class")[seq(length(n))],
                         resp_labels = c("principal", "teacher", "student")[seq(length(n))],
                         n_X = NULL,
                         n_W = NULL,
@@ -58,9 +56,17 @@ cluster_gen <- function(n,
     !separate_questionnaires & collapse == "partial",
     "Partial collapsing unavailable for unique questionnaires"
   )
+  check_condition(
+    !(
+      sampling_method %in% c("SRS", "PPS", "mixed")),
+      "Invalid sampling method"
+  )
 
   # Calculating useful arguments
   n_levels <- length(n)
+  if (!is.null(names(n))) {
+    cluster_labels <- resp_labels <- names(n)
+  }
 
   # Adapting additional parameters to questionnaire_gen format (n_X and n_W)
   if (n_levels > 1 & separate_questionnaires) {
