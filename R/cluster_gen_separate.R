@@ -71,13 +71,9 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
                                       n_X = n_X[[l]], n_W = n_W[[l]],
                                       c_mean = c_mean, verbose = FALSE,...)
       # Adding weights
-      # level_weight_name <- ifelse(collapse == "full", "weight",
-      #                             paste0(level_label, ".weight"))
-      # next_level_weight_name <- ifelse(collapse == "full", "weight",
-      #                           paste0(next_level_label, ".weight"))
       cluster_bg <- weightResponses(
-        cluster_bg, n, N, l + 1, lvl, sampling_method, cluster_labels,
-        resp_labels
+        cluster_bg, n, N, l + 1, length(n[[l]]), sampling_method, cluster_labels,
+        resp_labels, sum_pop
       )
 
       # Generating unique IDs
