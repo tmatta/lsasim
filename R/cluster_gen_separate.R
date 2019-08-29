@@ -71,15 +71,14 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
                                       n_X = n_X[[l]], n_W = n_W[[l]],
                                       c_mean = c_mean, verbose = FALSE,...)
       # Adding weights
-      level_weight_name <- ifelse(collapse == "full", "weight",
-                                  paste0(level_label, ".weight"))
-      next_level_weight_name <- ifelse(collapse == "full", "weight",
-                                paste0(next_level_label, ".weight"))
-      if (sampling_method == "SRS") {
-        cluster_bg[next_level_weight_name] <-  N[l + 1] / n_obs[l + 1]
-      } else if (sampling_method == "PPS") {
-        stop("PPS sampling method not yet implemented")
-      }
+      # level_weight_name <- ifelse(collapse == "full", "weight",
+      #                             paste0(level_label, ".weight"))
+      # next_level_weight_name <- ifelse(collapse == "full", "weight",
+      #                           paste0(next_level_label, ".weight"))
+      cluster_bg <- weightResponses(
+        cluster_bg, n, N, l + 1, lvl, sampling_method, cluster_labels,
+        resp_labels
+      )
 
       # Generating unique IDs
       respID <- paste0(next_level_label, seq(cluster_bg$subject))
