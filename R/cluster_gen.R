@@ -3,15 +3,16 @@
 #' @param cluster_labels character vector with the names of each cluster level
 #' @param resp_labels character vector with the names of the questionnaire respondents on each level
 #' @param collapse if `TRUE`, function output contains only one data frame with all answers
+#' @param separate_questionnaires if `TRUE`, each level will have its own questionnaire
 #' @param N list of numeric vector with the population size of each *sampled* cluster element on each level
+#' @param calc_weights if `TRUE`, sampling weights are calculated
 #' @param sum_pop total population at the lowest level (sampled or not)
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
-#' @param ... Additional parameters to be passed to `questionnaire_gen()`
-#' @param separate_questionnaires if `TRUE`, each level will have its own questionnaire
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param verbose if `TRUE`, prints output messages
+#' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @details This function relies heavily in two subfunctions---`cluster_gen_separate` and `cluster_gen_together`---which can be called independently. This does not make `cluster_gen` a simple wrapper function, as it performs several operations prior to calling its subfunctions, such as randomly generating `n_X` and `n_W` if they are not determined by user.
 #'   `n` can have unitary length, in which case all clusters will have the same size.
 #'   `N` is *not* the population size across all elements of a level, but the population size for each element of one level.
@@ -21,21 +22,26 @@
 #' @export
 cluster_gen <- function(n,
                         cluster_labels = c("country", "school", "class")[seq(length(n) - 1)],
+                        # ASK: drop countries?
                         resp_labels = c("principal", "teacher", "student")[seq(length(n))],
                         n_X = NULL,
                         n_W = NULL,
                         c_mean = NULL,
                         # TODO: allow independent c_mean for each cluster or only levels (implemented)? Idea for this: lists of lists (kinda messy)
+                        # TODO: allow different proportions
                         separate_questionnaires = TRUE,
                         collapse = "none",
                         N = n,
                         sum_pop = sum(N[[length(N)]]),
+                        calc_weights = TRUE,
+                        # TODO: hide weights if calc_weights == FALSE
                         sampling_method = "mixed",
                         # TODO: Replicate weights
-                        # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between)
+                        # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between). Cheap solution: add random value to means and proportions before calling questionnaire_gen
                         verbose = TRUE,
                         ...) {
   # Validating
+  # TODO: replace with lapply
   check_condition(
     !separate_questionnaires & length(n_X) > 1,
     "Unique questionnaire requested. n_X must therefore be a scalar."
@@ -65,6 +71,9 @@ cluster_gen <- function(n,
   )
   if (class(n) == "list") {
     for (l in seq(length(n) - 1)) {
+      if (all(n[[l + 1]] == 1) & (l + 1 < length(n))) {
+        n[[l + 1]] <- sum(n[[l + 1]])
+      }
       check_condition(length(n[[l + 1]]) != sum(n[[l]]),
                       paste0("Invalid cluster structure on level ", l,
                             ".\nThat level should have ", sum(n[[l]]),
@@ -72,6 +81,7 @@ cluster_gen <- function(n,
                             ".\nPlease refer to documentation if necessary."))
     }
   }
+  # TODO: print cluster structure (plot? ASCII?)
 
   # Calculating useful arguments
   n_levels <- length(n)
@@ -115,7 +125,7 @@ cluster_gen <- function(n,
 
     # Questionnaire generation
     sample <- cluster_gen_separate(
-      n_levels, n, N, sum_pop, sampling_method,
+      n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
       n_X, n_W, c_mean, ...
     )
@@ -133,7 +143,7 @@ cluster_gen <- function(n,
 
     # Questionnaire generation
     sample <- cluster_gen_together(
-      n_levels, n, N, sum_pop, sampling_method,
+      n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
       n_X, n_W, c_mean, ...
     )
