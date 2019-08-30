@@ -71,10 +71,12 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
                                       n_X = n_X[[l]], n_W = n_W[[l]],
                                       c_mean = c_mean, verbose = FALSE,...)
       # Adding weights
-      cluster_bg <- weightResponses(
-        cluster_bg, n, N, l + 1, length(n[[l]]), sampling_method, cluster_labels,
-        resp_labels, sum_pop
-      )
+      if (calc_weights) {
+        cluster_bg <- weightResponses(
+          cluster_bg, n, N, l + 1, length(n[[l]]), sampling_method,
+          cluster_labels, resp_labels, sum_pop
+        )
+      }
 
       # Generating unique IDs
       respID <- paste0(next_level_label, seq(cluster_bg$subject))
