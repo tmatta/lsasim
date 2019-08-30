@@ -22,34 +22,35 @@ cluster_gen_together <- function(n_levels, n, N, sum_pop, sampling_method,
 
   # Generating questionnaire data for lowest level
   num_questionnaires <- nrow(id_combos)
-    for (l in seq(num_questionnaires)) {
-      respondents <- ifelse(test = class(n) == "list",
-                            yes  = n[[n_levels]][l],
-                            no   = n[n_levels])
-      cluster_bg <- questionnaire_gen(respondents,
-                                      n_X = n_X, n_W = n_W,
-                                      c_mean = c_mean, verbose = FALSE,...)
 
-      # Adding weights
-      cluster_bg <- weightResponses(
-                cluster_bg, n, N, n_levels, l,
-                sampling_method, cluster_labels, resp_labels, sum_pop
-              )
+  for (l in seq(num_questionnaires)) {
+    respondents <- ifelse(test = class(n) == "list",
+                          yes  = n[[n_levels]][l],
+                          no   = n[n_levels])
+    cluster_bg <- questionnaire_gen(respondents,
+                                    n_X = n_X, n_W = n_W,
+                                    c_mean = c_mean, verbose = FALSE,...)
 
-      # Creating new ID variable
-      studentID <- paste0("student", seq(nrow(cluster_bg)))
-      clusterID <- paste(rev(id_combos[l, ]), collapse = "_")
-      cluster_bg$uniqueID <- paste(studentID, clusterID, sep = "_")
+    # Adding weights
+    cluster_bg <- weightResponses(
+              cluster_bg, n, N, n_levels, l,
+              sampling_method, cluster_labels, resp_labels, sum_pop
+            )
 
-      # Saving the questionnaire to the final list (sample)
-      cluster_bg -> sample[[l]]
-    }
+    # Creating new ID variable
+    studentID <- paste0("student", seq(nrow(cluster_bg)))
+    clusterID <- paste(rev(id_combos[l, ]), collapse = "_")
+    cluster_bg$uniqueID <- paste(studentID, clusterID, sep = "_")
 
-    if (collapse == "none") {
-      names(sample) <- paste0(cluster_labels[n_levels - 1], seq(length(sample)))
-    } else {
-      sample <- do.call(rbind, sample)
-      sample$subject <- seq(nrow(sample))
-    }
+    # Saving the questionnaire to the final list (sample)
+    cluster_bg -> sample[[l]]
+  }
+
+  if (collapse == "none") {
+    names(sample) <- paste0(cluster_labels[n_levels - 1], seq(length(sample)))
+  } else {
+    sample <- do.call(rbind, sample)
+    sample$subject <- seq(nrow(sample))
+  }
   return(sample)
 }

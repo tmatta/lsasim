@@ -1,13 +1,19 @@
 context("Sampling weights")
-wrap_cluster_gen <- function(n, N, sum_pop, meth = "SRS",sep = FALSE, verbose = FALSE) {
-  cluster_gen(n                       = n,
-              N                       = N,
-              sum_pop                 = sum_pop,
-              n_X                     = 1,
-              n_W                     = 1,
-              sampling_method         = meth,
-              separate_questionnaires = sep,
-              verbose                 = verbose)
+wrap_cluster_gen <- function(n, N, sum_pop, meth = "SRS",sep = FALSE,
+                             verbose = FALSE, ...) {
+  data <- cluster_gen(
+    n                       = n,
+    N                       = N,
+    sum_pop                 = sum_pop,
+    n_X                     = 1,
+    n_W                     = 1,
+    sampling_method         = meth,
+    separate_questionnaires = sep,
+    verbose                 = verbose,
+    ...
+  )
+  if (verbose) print(data)
+  return(data)
 }
 
 calcWeights <- function(data_list) {
@@ -19,9 +25,6 @@ calcWeights <- function(data_list) {
   return(out)
 }
 
-
-# TODO: add tests for weights (compare with example on PISA Manual)
-
 # Basic weight tests -----------------------------------------------------------
 ex1 <- wrap_cluster_gen(c(1, 2, 3), c(10, 100, 600))
 test_that("Weights are correct", {
@@ -29,16 +32,16 @@ test_that("Weights are correct", {
 })
 
 # Example from PISA manual tables ----------------------------------------------
-ex_3.3 <- wrap_cluster_gen(n = c(1,  4, 10),
-                           N = c(1, 10, 40))
-ex_3.4 <- wrap_cluster_gen(n = list(1,  4, c(10, 10, 10,  10)),
-                           N = list(1, 10, c(15, 30, 40, 100)))
-ex_3.5 <- wrap_cluster_gen(n = list(1,  4, c(10, 10, 10,  10)),
-                           N = list(1, 10, c(10, 15, 20,  25)))
-ex_3.6 <- wrap_cluster_gen(n = list(1,  4, c(10, 10, 10,  10)),
-                           N = list(1, 10, c(40, 45, 80, 100)))
-ex_3.7 <- wrap_cluster_gen(n = list(1,  4, c(10, 10, 10,  10)),
-                           N = list(1, 10, c(20, 40, 80, 100)),
+ex_3.3 <- wrap_cluster_gen(n = c(school = 4, student = 10),
+                           N = c(        10,           40))
+ex_3.4 <- wrap_cluster_gen(n = list(school =  4,student = c(10, 10, 10,  10)),
+                           N = list(         10,          c(15, 30, 40, 100)))
+ex_3.5 <- wrap_cluster_gen(n = list(school =  4, student = c(10, 10, 10,  10)),
+                           N = list(         10,           c(10, 15, 20,  25)))
+ex_3.6 <- wrap_cluster_gen(n = list(school =  4, student = c(10, 10, 10,  10)),
+                           N = list(         10,           c(40, 45, 80, 100)))
+ex_3.7 <- wrap_cluster_gen(n = list(school =  4, student = c(10, 10, 10,  10)),
+                           N = list(         10,           c(20, 40, 80, 100)),
                            sum_pop = 400, "PPS")
 
 test_that("Weights are correct", {
