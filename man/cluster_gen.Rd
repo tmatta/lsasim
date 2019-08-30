@@ -8,8 +8,8 @@ cluster_gen(n, cluster_labels = c("country", "school",
   "class")[seq(length(n) - 1)], resp_labels = c("principal", "teacher",
   "student")[seq(length(n))], n_X = NULL, n_W = NULL, c_mean = NULL,
   separate_questionnaires = TRUE, collapse = "none", N = n,
-  sum_pop = sum(N[[length(N)]]), sampling_method = "mixed",
-  verbose = TRUE, ...)
+  sum_pop = sum(N[[length(N)]]), calc_weights = TRUE,
+  sampling_method = "mixed", verbose = TRUE, ...)
 }
 \arguments{
 \item{n}{numeric vector with the number of sampled observations (clusters or subjects) on each level}
@@ -31,6 +31,8 @@ cluster_gen(n, cluster_labels = c("country", "school",
 \item{N}{list of numeric vector with the population size of each *sampled* cluster element on each level}
 
 \item{sum_pop}{total population at the lowest level (sampled or not)}
+
+\item{calc_weights}{if `TRUE`, sampling weights are calculated}
 
 \item{sampling_method}{can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size}
 
