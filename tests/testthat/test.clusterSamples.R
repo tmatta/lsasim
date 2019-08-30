@@ -72,9 +72,8 @@ test_that("Errors are caught", {
   expect_error(cluster_gen(1))
   expect_error(cluster_gen(2:4, separate_questionnaires = FALSE, n_X = 1:2))
   expect_error(cluster_gen(2:4, separate_questionnaires = FALSE, n_W = 1:2))
-  expect_error(cluster_gen(2:4, separate_quest = FALSE, c_mean = list(1, 2)))
   expect_error(cluster_gen(2:4, cluster_labels = "a"))
-  expect_error(cluster_gen(2:4, separate_quest = FALSE, collapse = "partial"))
+  expect_warning(cluster_gen(2:4, separate_quest = FALSE, collapse = "partial"))
 })
 
 # uniqueIDs are correct --------------------------------------------------------
@@ -175,4 +174,40 @@ test_that("Named vectors are working properly", {
     "estudante1_escola2_cidade3_país1", "estudante1_escola2_cidade4_país1",
     "estudante1_escola3_cidade3_país1", "estudante1_escola3_cidade4_país1",
     "estudante1_escola4_cidade4_país1"))
+})
+
+# Different means --------------------------------------------------------------
+wrap_c_gen_mu <- function(...) {
+  cluster_gen(..., n_X = 2, n_W = 0, family = "gaussian",
+              verbose = FALSE, calc_weights = FALSE)
+}
+df1 <- wrap_c_gen_mu(c(2, 1000))
+df2 <- wrap_c_gen_mu(c(2, 1000), c_mean = 10)
+df3 <- wrap_c_gen_mu(c(2, 1000), c_mean = c(10, 100))
+df4 <- wrap_c_gen_mu(c(2, 1000), c_mean = list(list(c(10, 100), c(20, 200))))
+df5 <- wrap_c_gen_mu(n      = c(school = 2, class = 3, student = 1000),
+                     c_mean = list(
+                        school = list(c(10, 100), c(20, 200)),
+                        class  = list(c(30, 300), c(40, 400), c(50, 500),
+                                      c(60, 600), c(70, 700), c(80, 800))
+                        )
+                    )
+test_that("Different means are working", {
+  mean_Xs <- function(x) colMeans(x[2:3])
+  expect_equivalent(sapply(df1$country, mean_Xs)[, 1], c(0, 0), tol = .1)
+  expect_equivalent(sapply(df1$country, mean_Xs)[, 2], c(0, 0), tol = .1)
+  expect_equivalent(sapply(df2$country, mean_Xs)[, 1], c(10, 10), tol = .1)
+  expect_equivalent(sapply(df2$country, mean_Xs)[, 2], c(10, 10), tol = .1)
+  expect_equivalent(sapply(df3$country, mean_Xs)[, 1], c(10, 100), tol = .1)
+  expect_equivalent(sapply(df3$country, mean_Xs)[, 2], c(10, 100), tol = .1)
+  expect_equivalent(sapply(df4$country, mean_Xs)[, 1], c(10, 100), tol = .1)
+  expect_equivalent(sapply(df4$country, mean_Xs)[, 2], c(20, 200), tol = .1)
+  expect_equivalent(sapply(df5$school, mean_Xs)[, 1], c(10, 100), tol = .1)
+  expect_equivalent(sapply(df5$school, mean_Xs)[, 2], c(20, 200), tol = .1)
+  expect_equivalent(sapply(df5$class, mean_Xs)[, 1], c(30, 300), tol = .1)
+  expect_equivalent(sapply(df5$class, mean_Xs)[, 2], c(40, 400), tol = .1)
+  expect_equivalent(sapply(df5$class, mean_Xs)[, 3], c(50, 500), tol = .1)
+  expect_equivalent(sapply(df5$class, mean_Xs)[, 4], c(60, 600), tol = .1)
+  expect_equivalent(sapply(df5$class, mean_Xs)[, 5], c(70, 700), tol = .1)
+  expect_equivalent(sapply(df5$class, mean_Xs)[, 6], c(80, 800), tol = .1)
 })

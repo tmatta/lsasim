@@ -19,6 +19,7 @@
 #'   Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
 #' @note For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, by default, countries are the nexting level, schools are the first cluster level, classes are the second, and students are the third and final level.
 #'
+#' labeling c_mean has no effect, it's for the user.
 #' @export
 cluster_gen <- function(n,
                         cluster_labels = c("country", "school", "class")[seq(length(n) - 1)],
@@ -26,22 +27,19 @@ cluster_gen <- function(n,
                         resp_labels = c("principal", "teacher", "student")[seq(length(n))],
                         n_X = NULL,
                         n_W = NULL,
+                        # TODO: allow different proportions for Ws
                         c_mean = NULL,
-                        # TODO: allow independent c_mean for each cluster or only levels (implemented)? Idea for this: lists of lists (kinda messy)
-                        # TODO: allow different proportions
                         separate_questionnaires = TRUE,
                         collapse = "none",
                         N = n,
                         sum_pop = sum(N[[length(N)]]),
                         calc_weights = TRUE,
-                        # TODO: hide weights if calc_weights == FALSE
                         sampling_method = "mixed",
                         # TODO: Replicate weights
                         # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between). Cheap solution: add random value to means and proportions before calling questionnaire_gen
                         verbose = TRUE,
                         ...) {
   # Validating
-  # TODO: replace with lapply
   check_condition(
     !separate_questionnaires & length(n_X) > 1,
     "Unique questionnaire requested. n_X must therefore be a scalar."
@@ -52,10 +50,6 @@ cluster_gen <- function(n,
   )
   check_condition(length(n) == 1, "n must have length larger than 1")
   check_condition(
-    class(c_mean) == "list" & !separate_questionnaires,
-    "For unique questionnaires, c_mean must not be a list."
-  )
-  check_condition(
     length(n) > length(cluster_labels) + 1,
     "cluster_labels has insufficient length"
   )
@@ -65,9 +59,8 @@ cluster_gen <- function(n,
           "Treated as 'full'."), FALSE
   )
   check_condition(
-    !(
-      sampling_method %in% c("SRS", "PPS", "mixed")),
-      "Invalid sampling method"
+    !(sampling_method %in% c("SRS", "PPS", "mixed")),
+    "Invalid sampling method"
   )
   if (class(n) == "list") {
     for (l in seq(length(n) - 1)) {
@@ -81,7 +74,10 @@ cluster_gen <- function(n,
                             ".\nPlease refer to documentation if necessary."))
     }
   }
-  # TODO: print cluster structure (plot? ASCII?)
+  # TODO: print cluster structure
+  # plot? ASCII? plotrix::sizetree? Rgraphviz? rpart.plot?
+  # https://stackoverflow.com/questions/7440833/how-can-i-visualize-hierarchical-data
+
 
   # Calculating useful arguments
   n_levels <- length(n)
