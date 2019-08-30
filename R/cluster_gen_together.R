@@ -18,6 +18,10 @@ cluster_gen_together <- function(n_levels, n, N, sum_pop, calc_weights,
                                  sampling_method,
                                  cluster_labels, resp_labels, collapse, n_X, n_W, c_mean, ...) {
 	sample <- list()  # will store all BG questionnaires
+  c_mean_list <- c_mean
+  if (class(c_mean_list) == "list") {
+    c_mean_list <- c_mean_list[[n_levels - 1]]
+  }
 
   # Generating level label combinations
   id_combos <- labelRespondents(n, cluster_labels)
@@ -29,9 +33,15 @@ cluster_gen_together <- function(n_levels, n, N, sum_pop, calc_weights,
     respondents <- ifelse(test = class(n) == "list",
                           yes  = n[[n_levels]][l],
                           no   = n[n_levels])
+    mu <- NULL
+    if (!is.null(c_mean_list) & class(c_mean_list) == "list") {
+      mu <- c_mean_list[[l]]
+    } else {
+      mu <- c_mean_list
+    }
     cluster_bg <- questionnaire_gen(respondents,
                                     n_X = n_X, n_W = n_W,
-                                    c_mean = c_mean, verbose = FALSE,...)
+                                    c_mean = mu, verbose = FALSE,...)
 
     # Adding weights
     if (calc_weights) {
