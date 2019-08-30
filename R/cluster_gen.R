@@ -55,13 +55,23 @@ cluster_gen <- function(n,
   )
   check_condition(
     !separate_questionnaires & collapse == "partial",
-    "Partial collapsing unavailable for unique questionnaires"
+    paste("Partial collapsing unavailable for unique questionnaires.",
+          "Treated as 'full'."), FALSE
   )
   check_condition(
     !(
       sampling_method %in% c("SRS", "PPS", "mixed")),
       "Invalid sampling method"
   )
+  if (class(n) == "list") {
+    for (l in seq(length(n) - 1)) {
+      check_condition(length(n[[l + 1]]) != sum(n[[l]]),
+                      paste0("Invalid cluster structure on level ", l,
+                            ".\nThat level should have ", sum(n[[l]]),
+                            " elements, but it has ", length(n[[l + 1]]),
+                            ".\nPlease refer to documentation if necessary."))
+    }
+  }
 
   # Calculating useful arguments
   n_levels <- length(n)
