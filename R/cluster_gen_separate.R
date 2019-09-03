@@ -74,7 +74,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       # Adding weights
       if (calc_weights) {
         cluster_bg <- weightResponses(
-          cluster_bg, n, N, l + 1, length(n[[l]]), sampling_method,
+          cluster_bg, n, N, l + 1, lvl, sampling_method,
           cluster_labels, resp_labels, sum_pop
         )
       }
