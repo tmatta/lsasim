@@ -115,7 +115,7 @@ labelRespondents <- function (n_obs, cluster_labels) {
 
 weightResponses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl, 
                             sampling_method, cluster_labels, resp_labels,
-                            sum_pop) {
+                            sum_pop, verbose) {
   # This function calculates sampling weight for the questionnaire responses
   if (length(sampling_method) > 1) {
     sampling_method <- sampling_method[lvl - 1]
@@ -131,17 +131,20 @@ weightResponses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
   label_2_ij <- paste0("within.", cluster_labels[lvl - 1], ".weight")
   label_ij <- paste0("final.", resp_labels[lvl - 1], ".weight")
 
-  if (sublvl == 1) {
-    message("\nCalculating ", sampling_method, " weights at the ",
-            cluster_labels[lvl - 1], " level")
-    if (sampling_method == "SRS") {
-      message(label_1_i, " should add up to the population size (",
-              sum_pop[lvl - 1], ") across all ", cluster_labels[lvl - 1],
-              " (repeated measures excluded)")
-    } else {
-      message(label_ij, " should add up to the population size (",
-              sum_pop[lvl] * length(N[[lvl - 1]]), ") across all ",
-              cluster_labels[lvl - 1])
+  # Messages to user
+  if (verbose) {
+    if (sublvl == 1) {
+      message("\nCalculating ", sampling_method, " weights at the ",
+              cluster_labels[lvl - 1], " level")
+      if (sampling_method == "SRS") {
+        message(label_1_i, " should add up to the population size (",
+                sum_pop[lvl - 1], ") across all ", cluster_labels[lvl - 1],
+                " (repeated measures excluded)")
+      } else {
+        message(label_ij, " should add up to the population size (",
+                sum_pop[lvl] * length(N[[lvl - 1]]), ") across all ",
+                cluster_labels[lvl - 1])
+      }
     }
   }
   

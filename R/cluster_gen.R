@@ -122,7 +122,7 @@ cluster_gen <- function(n,
     sample <- cluster_gen_separate(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, ...
+      n_X, n_W, c_mean, verbose, ...
     )
   } else { # questionnaires administered only at the bottom level
     # Message explaining cluster scheme
@@ -140,7 +140,7 @@ cluster_gen <- function(n,
     sample <- cluster_gen_together(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, ...
+      n_X, n_W, c_mean, verbose, ...
     )
   }
   return(sample)
