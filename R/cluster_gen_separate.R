@@ -80,7 +80,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       if (calc_weights) {
         cluster_bg <- weightResponses(
           cluster_bg, n, N, l + 1, lvl, previous_sublvl[lvl], sampling_method,
-          cluster_labels, resp_labels, sum_pop
+          cluster_labels, resp_labels, sum_pop, verbose
         )
       }
 
