@@ -8,7 +8,7 @@
 #' @param N list of numeric vector with the population size of each *sampled* cluster element on each level
 #' @param sum_pop total population at the lowest level (sampled or not)
 #' @param calc_weights if `TRUE`, sampling weights are calculated
-#' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
+#' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size, "mixed" to use SRS for students and PPS otherwise or a vector with the sampling method for each level
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
@@ -42,13 +42,16 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
     next_level_label <- ifelse(test = l < n_levels - 1,
                                yes  = cluster_labels[l + 1],
                                no   = resp_labels[l])
-
+    previous_clusterID <- NULL
+    previous_sublvl <- 0
     if (l > 1) {
       # Only applicable for sub-country levels and when next nevel is an
       # indicator of "X per Y" (instead of "X across Y")
       if (class(n) != "list") n[l] <- n[l] * n[l - 1]
-      previousClusterID <- as.vector(unlist(sapply(sample[[l - 1]],
+      previous_clusterID <- as.vector(unlist(sapply(sample[[l - 1]],
                                             function(x) x$clusterID)))
+      previous_sublvl <- gsub("[A-Za-zÀ-ÿ]", "", previous_clusterID)
+      previous_sublvl <- as.numeric(gsub("\\_.", "", previous_sublvl))
     }
 
     # Calculating the number of different clusters at this level
@@ -74,7 +77,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       # Adding weights
       if (calc_weights) {
         cluster_bg <- weightResponses(
-          cluster_bg, n, N, l + 1, lvl, sampling_method,
+          cluster_bg, n, N, l + 1, lvl, previous_sublvl[lvl], sampling_method,
           cluster_labels, resp_labels, sum_pop
         )
       }
@@ -85,7 +88,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
         if (l > 1) {
           previous_lvl <- as.vector(unlist(sapply(n[[l]], seq)))[lvl]
           cluster_bg$clusterID <- paste0(level_label, previous_lvl, "_",
-                                          previousClusterID[lvl])
+                                          previous_clusterID[lvl])
         } else {
           cluster_bg$clusterID <- paste0(level_label, lvl)
         }
@@ -95,7 +98,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
         if (l > 1) {
           previous_lvl <- rep(seq(n[l] / n[l - 1]), n[l])[lvl]
           cluster_bg$clusterID <- paste0(level_label, previous_lvl, "_",
-                                          previousClusterID[lvl])
+                                          previous_clusterID[lvl])
         } else {
           cluster_bg$clusterID <- paste0(level_label, lvl)
         }

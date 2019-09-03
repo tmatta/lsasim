@@ -46,7 +46,7 @@ cluster_gen_together <- function(n_levels, n, N, sum_pop, calc_weights,
     # Adding weights
     if (calc_weights) {
       cluster_bg <- weightResponses(
-                cluster_bg, n, N, n_levels, l,
+                cluster_bg, n, N, n_levels, l, previous_sublvl = 0,
                 sampling_method, cluster_labels, resp_labels, sum_pop
               )
     }

@@ -8,7 +8,7 @@ cluster_gen(n, cluster_labels = c("country", "school",
   "class")[seq(length(n) - 1)], resp_labels = c("principal", "teacher",
   "student")[seq(length(n))], n_X = NULL, n_W = NULL, c_mean = NULL,
   separate_questionnaires = TRUE, collapse = "none", N = n,
-  sum_pop = sum(N[[length(N)]]), calc_weights = TRUE,
+  sum_pop = sapply(N, sum), calc_weights = TRUE,
   sampling_method = "mixed", verbose = TRUE, ...)
 }
 \arguments{
@@ -51,4 +51,6 @@ This function relies heavily in two subfunctions---`cluster_gen_separate` and `c
 }
 \note{
 For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, by default, countries are the nexting level, schools are the first cluster level, classes are the second, and students are the third and final level.
+
+labeling c_mean has no effect, it's for the user.
 }

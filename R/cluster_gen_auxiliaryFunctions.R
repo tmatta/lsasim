@@ -113,24 +113,44 @@ labelRespondents <- function (n_obs, cluster_labels) {
   return(id_combos)
 }
 
-weightResponses <- function(cluster_bg, n_obs, N, lvl, sublvl, sampling_method,
-                            cluster_labels, resp_labels, sum_pop) {
-  # This function calculates weight responses
-
-  if (sampling_method == "mixed") {
+weightResponses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl, 
+                            sampling_method, cluster_labels, resp_labels,
+                            sum_pop) {
+  # This function calculates sampling weight for the questionnaire responses
+  if (length(sampling_method) > 1) {
+    sampling_method <- sampling_method[lvl - 1]
+  } else if (sampling_method == "mixed") {
     # Reassigns sampling method. PPS for schools, SRS for students
     sampling_method <- ifelse(test = resp_labels[lvl - 1] == "student",
                               yes  = "SRS",
                               no   = "PPS")
   }
-  # message("Calculating ", sampling_method, " weights for ", resp_labels[lvl - 1])
+
+  # Variable names
+  label_1_i <- paste0(cluster_labels[lvl - 1], ".weight")
+  label_2_ij <- paste0("within.", cluster_labels[lvl - 1], ".weight")
+  label_ij <- paste0("final.", resp_labels[lvl - 1], ".weight")
+
+  if (sublvl == 1) {
+    message("\nCalculating ", sampling_method, " weights at the ",
+            cluster_labels[lvl - 1], " level")
+    if (sampling_method == "SRS") {
+      message(label_1_i, " should add up to the population size (",
+              sum_pop[lvl - 1], ") across all ", cluster_labels[lvl - 1],
+              " (repeated measures excluded)")
+    } else {
+      message(label_ij, " should add up to the population size (",
+              sum_pop[lvl] * length(N[[lvl - 1]]), ") across all ",
+              cluster_labels[lvl - 1])
+    }
+  }
   
   # Probabilities (school and within school)
   if (sampling_method == "SRS") {
     if (class(n_obs) == "list") {
       p_1_i <- n_obs[[lvl - 1]] / N[[lvl - 1]]
       p_2_ij <- n_obs[[lvl]] / N[[lvl]]
-      if (length(p_1_i) > 1) p_1_i <- p_1_i[sublvl]
+      if (length(p_1_i) > 1) p_1_i <- p_1_i[previous_sublvl]
       if (length(p_2_ij) > 1) p_2_ij <- p_2_ij[sublvl]
     } else {
       p_1_i <- n_obs[lvl - 1] / N[lvl - 1]
@@ -138,23 +158,18 @@ weightResponses <- function(cluster_bg, n_obs, N, lvl, sublvl, sampling_method,
     }
   } else if (sampling_method == "PPS") {
     if (class(n_obs) == "list") {
-      p_1_i <- n_obs[[lvl - 1]] * N[[lvl]][sublvl] / sum_pop
+      p_1_i <- n_obs[[lvl - 1]] * N[[lvl]][sublvl] / sum_pop[lvl]
       p_2_ij <- n_obs[[lvl]] / N[[lvl]]
-      if (length(p_1_i) > 1) p_1_i <- p_1_i[sublvl]
+      if (length(p_1_i) > 1) p_1_i <- p_1_i[previous_sublvl]
       if (length(p_2_ij) > 1) p_2_ij <- p_2_ij[sublvl]
     } else {
-      p_1_i <- n_obs[lvl - 1] * N[lvl] / sum_pop
+      p_1_i <- n_obs[lvl - 1] * N[lvl] / sum_pop[lvl]
       p_2_ij <- n_obs[lvl] / N[lvl]
     }
   }
 
   # Final student probabilities
   p_ij <- p_1_i * p_2_ij
-
-  # Variable names
-  label_1_i <- paste0(cluster_labels[lvl - 1], ".weight")
-  label_2_ij <- paste0("within.", cluster_labels[lvl - 1], ".weight")
-  label_ij <- paste0("final.", resp_labels[lvl - 1], ".weight")
 
   # Weights
   w_1_i <- 1 / p_1_i  # school weight

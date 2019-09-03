@@ -32,8 +32,10 @@ cluster_gen <- function(n,
                         separate_questionnaires = TRUE,
                         collapse = "none",
                         N = n,
-                        sum_pop = sum(N[[length(N)]]),
+                        # sum_pop = sum(N[[length(N)]]),
+                        sum_pop = sapply(N, sum),
                         calc_weights = TRUE,
+                        # TODO: add feedback to user on sampling procedure applied and results expected
                         sampling_method = "mixed",
                         # TODO: Replicate weights
                         # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between). Cheap solution: add random value to means and proportions before calling questionnaire_gen
@@ -59,16 +61,13 @@ cluster_gen <- function(n,
           "Treated as 'full'."), FALSE
   )
   check_condition(
-    !(sampling_method %in% c("SRS", "PPS", "mixed")),
+    !(all(sampling_method %in% c("SRS", "PPS", "mixed"))),
     "Invalid sampling method"
   )
   if (class(n) == "list") {
     for (l in seq(length(n) - 1)) {
-      if (all(n[[l + 1]] == 1) & (l + 1 < length(n))) {
-        n[[l + 1]] <- sum(n[[l + 1]])
-      }
       check_condition(length(n[[l + 1]]) != sum(n[[l]]),
-                      paste0("Invalid cluster structure on level ", l,
+                      paste0("Invalid cluster structure on level ", l + 1,
                             ".\nThat level should have ", sum(n[[l]]),
                             " elements, but it has ", length(n[[l + 1]]),
                             ".\nPlease refer to documentation if necessary."))
