@@ -91,8 +91,8 @@ test_that("uniqueIDs are correct", {
   df2 <- wrap_cluster_gen_2(2:4, separate_questionnaires = FALSE)
   df3 <- wrap_cluster_gen_2(scheme1)
   df4 <- wrap_cluster_gen_2(scheme1, separate_questionnaires = FALSE)
-  df5 <- wrap_cluster_gen_2(list(1, c(1, 1), c(1, 2), c(3, 2, 3)),
-                            separate_questionnaires = FALSE)
+  expect_error(wrap_cluster_gen_2(list(1, c(1, 1), c(1, 2), c(3, 2, 3)),
+                                  separate_questionnaires = FALSE))
   df6 <- wrap_cluster_gen_2(scheme2)
   df7 <- wrap_cluster_gen_2(scheme2, separate_questionnaires = FALSE)
   df8 <- wrap_cluster_gen(c(2, 3, 4), n_X = 1, n_W = 1, c_mean = 10,
@@ -133,7 +133,6 @@ test_that("uniqueIDs are correct", {
     'student1_class1_school2_country1', 'student2_class1_school2_country1', 
     'student1_class2_school2_country1', 'student2_class2_school2_country1', 
     'student3_class2_school2_country1'))
-  expect_equal(df5, df4)
   expect_equal(df6, c('student1_class1_school1_country1', 
     'student2_class1_school1_country1', 'student1_class1_school1_country2', 
     'student2_class1_school1_country2', 'student1_class1_school2_country1', 

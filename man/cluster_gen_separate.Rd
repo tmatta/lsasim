@@ -19,7 +19,7 @@ cluster_gen_separate(n_levels, n, N, sum_pop, calc_weights,
 
 \item{calc_weights}{if `TRUE`, sampling weights are calculated}
 
-\item{sampling_method}{can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size}
+\item{sampling_method}{can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size, "mixed" to use SRS for students and PPS otherwise or a vector with the sampling method for each level}
 
 \item{cluster_labels}{character vector with the names of each cluster level}
 
