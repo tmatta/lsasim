@@ -12,11 +12,12 @@
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
+#' @param verbose if `TRUE`, prints output messages
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @export
 cluster_gen_together <- function(n_levels, n, N, sum_pop, calc_weights, 
-                                 sampling_method,
-                                 cluster_labels, resp_labels, collapse, n_X, n_W, c_mean, ...) {
+                                 sampling_method, cluster_labels, resp_labels,
+                                 collapse, n_X, n_W, c_mean, verbose, ...) {
 	sample <- list()  # will store all BG questionnaires
   c_mean_list <- c_mean
   if (class(c_mean_list) == "list") {
@@ -47,7 +48,7 @@ cluster_gen_together <- function(n_levels, n, N, sum_pop, calc_weights,
     if (calc_weights) {
       cluster_bg <- weightResponses(
                 cluster_bg, n, N, n_levels, l, previous_sublvl = 0,
-                sampling_method, cluster_labels, resp_labels, sum_pop
+                sampling_method, cluster_labels, resp_labels, sum_pop, verbose
               )
     }
 
