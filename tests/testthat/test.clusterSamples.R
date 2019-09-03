@@ -167,12 +167,12 @@ test_that("Named vectors are working properly", {
   expect_equal(df1$uniqueID, c("klasse1_skole1_land1", "klasse2_skole1_land1",
                                "klasse1_skole2_land1", "klasse2_skole2_land1",
                                "klasse1_skole3_land1", "klasse2_skole3_land1"))
-  expect_equal(df2$uniqueID, c("estudante1_escola1_cidade1_país1",
-    "estudante1_escola1_cidade2_país1", "estudante1_escola1_cidade3_país1",
-    "estudante1_escola1_cidade4_país1", "estudante1_escola2_cidade2_país1", 
-    "estudante1_escola2_cidade3_país1", "estudante1_escola2_cidade4_país1",
-    "estudante1_escola3_cidade3_país1", "estudante1_escola3_cidade4_país1",
-    "estudante1_escola4_cidade4_país1"))
+  expect_equal(df2$uniqueID, c("estudante1_escola1_cidade1_pais1",
+    "estudante1_escola1_cidade2_pais1", "estudante1_escola1_cidade3_pais1",
+    "estudante1_escola1_cidade4_pais1", "estudante1_escola2_cidade2_pais1", 
+    "estudante1_escola2_cidade3_pais1", "estudante1_escola2_cidade4_pais1",
+    "estudante1_escola3_cidade3_pais1", "estudante1_escola3_cidade4_pais1",
+    "estudante1_escola4_cidade4_pais1"))
 })
 
 # Different means --------------------------------------------------------------

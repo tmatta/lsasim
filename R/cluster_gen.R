@@ -73,6 +73,7 @@ cluster_gen <- function(n,
                             ".\nPlease refer to documentation if necessary."))
     }
   }
+
   # TODO: print cluster structure
   # plot? ASCII? plotrix::sizetree? Rgraphviz? rpart.plot?
   # https://stackoverflow.com/questions/7440833/how-can-i-visualize-hierarchical-data
@@ -84,6 +85,13 @@ cluster_gen <- function(n,
     cluster_labels <- names(n)
     resp_labels <- c(names(n)[-1], "respondent")
   }
+
+  # Removing accents
+  names(n)       <- iconv(names(n), to = "ASCII//TRANSLIT")
+  cluster_labels <- iconv(cluster_labels, to = "ASCII//TRANSLIT")
+  resp_labels    <- iconv(resp_labels, to = "ASCII//TRANSLIT")
+
+
 
   # Adapting additional parameters to questionnaire_gen format (n_X and n_W)
   if (n_levels > 1 & separate_questionnaires) {

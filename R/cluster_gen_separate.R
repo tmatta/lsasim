@@ -50,7 +50,9 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       if (class(n) != "list") n[l] <- n[l] * n[l - 1]
       previous_clusterID <- as.vector(unlist(sapply(sample[[l - 1]],
                                             function(x) x$clusterID)))
-      previous_sublvl <- gsub("[A-Za-zÀ-ÿ]", "", previous_clusterID)
+
+      # Remove letters from label (useful for calculating weights)
+      previous_sublvl <- gsub("[A-Za-z]", "", previous_clusterID)
       previous_sublvl <- as.numeric(gsub("\\_.", "", previous_sublvl))
     }
 
