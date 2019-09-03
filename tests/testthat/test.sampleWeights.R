@@ -1,10 +1,9 @@
 context("Sampling weights")
-wrap_cluster_gen <- function(n, N, sum_pop, meth = "SRS",sep = FALSE,
+wrap_cluster_gen <- function(n, N, meth = "SRS",sep = FALSE,
                              verbose = FALSE, ...) {
   data <- cluster_gen(
     n                       = n,
     N                       = N,
-    sum_pop                 = sum_pop,
     n_X                     = 1,
     n_W                     = 1,
     sampling_method         = meth,
@@ -25,10 +24,18 @@ calcWeights <- function(data_list) {
   return(out)
 }
 
-# Basic weight tests -----------------------------------------------------------
+# Custom weight tests ----------------------------------------------------------
 ex1 <- wrap_cluster_gen(c(1, 2, 3), c(10, 100, 600))
+ex2 <- wrap_cluster_gen(n = list(school = 4, student = c(10, 5, 2, 3)),
+                        N = list(school = 10, students = rep(100, 4)),
+                        meth = "PPS")
+ex3 <- wrap_cluster_gen(n = list(school = 4, student = c(10, 5, 2, 3)),
+                        N = list(school = 10, students = rep(100, 4)),
+                        meth = "SRS")
 test_that("Weights are correct", {
   expect_equivalent(calcWeights(ex1), c(50 * 3 * 2, 10000 * 3 * 2))
+  expect_equivalent(calcWeights(ex2)["final.student.weight"], 400)
+  expect_equivalent(calcWeights(ex3)["school.weight"], 2.5 * (10 + 5 + 2 + 3))
 })
 
 # Example from PISA manual tables ----------------------------------------------
