@@ -77,7 +77,7 @@ labelRespondents <- function (n_obs, cluster_labels) {
     n_combos <- sum(n_obs[[n_levels - 1]])
     second_last_level <- unlist(sapply(n_obs[[n_levels - 1]], seq))
     id_combos <- matrix(second_last_level, ncol = n_combos)
-    if (n_levels - 1 > 2) {
+    if (n_levels - 1 >= 2) {
       for (row in 2:(n_levels - 1)) {
         id_level <- max(n_levels - row, 1)
         if (length(n_obs[[id_level]]) > 1 & all(n_obs[[id_level]] == 1)) {
@@ -121,7 +121,8 @@ weightResponses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
     sampling_method <- sampling_method[lvl - 1]
   } else if (sampling_method == "mixed") {
     # Reassigns sampling method. PPS for schools, SRS for otherwise
-    sampling_method <- ifelse(test = resp_labels[lvl - 1] == "school",
+
+    sampling_method <- ifelse(test = cluster_labels[lvl - 1] == "school",
                               yes  = "PPS",
                               no   = "SRS")
   }
