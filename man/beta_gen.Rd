@@ -81,3 +81,6 @@ data <- questionnaire_gen(100, family="gaussian", theta = TRUE,
 beta_gen(data, MC = TRUE)
 
 }
+\seealso{
+questionnaire_gen
+}

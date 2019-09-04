@@ -56,6 +56,7 @@
 #'   the first one, \code{betas}, will contain the same output described in the
 #'   previous paragraph. The second one, called \code{vcov_YXW}, contains
 #'   the covariance matrix of the regression coefficients.
+#' @seealso questionnaire_gen
 #' @export
 #' @examples
 #'

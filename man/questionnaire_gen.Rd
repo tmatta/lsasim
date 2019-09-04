@@ -230,3 +230,6 @@ Matta, T. H., Rutkowski, L., Rutkowski, D., & Liaw, Y. L. (2018).
   lsasim: an R package for simulating large-scale assessment data.
   Large-scale Assessments in Education, 6(1), 15.
 }
+\seealso{
+beta_gen
+}
