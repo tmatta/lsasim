@@ -14,6 +14,7 @@
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param verbose if `TRUE`, prints output messages
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
+#' @seealso cluster_gen cluster_gen_together
 #' @export
 cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights, 
                                  sampling_method, cluster_labels, resp_labels,

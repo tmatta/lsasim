@@ -40,3 +40,6 @@ cluster_gen_separate(n_levels, n, N, sum_pop, calc_weights,
 \description{
 This is a subfunction of `cluster_gen` that performs cluster sampling, with the twist that each cluster level has its own questionnaire.
 }
+\seealso{
+cluster_gen cluster_gen_together
+}
