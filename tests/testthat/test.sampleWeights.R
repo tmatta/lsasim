@@ -25,6 +25,9 @@ calcWeights <- function(data_list) {
   return(out)
 }
 
+# FIXME: cluster_gen(c(school = 2, class = 3, stu = 5)) "not 'all class', 'each'"
+# FIXME: cluster_gen(c(school = 2, class = 3, stu = 5)) weights OK? If N is set, yes.
+
 # Custom weight tests ----------------------------------------------------------
 test_that("Weights are correct", {
   ex1 <- wrap_cluster_gen(c(1, 2, 3), c(10, 100, 600))
@@ -98,13 +101,15 @@ ex8 <- wrap_cluster_gen(n = list(cnt =  2,
                                  stu = c(rep(50, 5), rep(10, 7))),
                         sep = TRUE, collapse = "partial",
                         meth = c("SRS", "PPS", "SRS"))
+# FIXME: check sch.weight. Should add to pop size on each upper level separately
+# final.stu.weight should be 500 for cnt1.
 test_that("Weights are correct for different sampling methods", {
   w1 <- c(1 * 3 + 3 * (2 + 1 + 3) + 4 * 4 + 7 * 2 + 2 * 6)
   w2 <- c(3 * 3 + 12 * 2 + 21 + 6 * 3 + 16 * 4 + 28 * 2 + 8 * 6)
   expect_equivalent(calcWeights(ex4), c(w1, w2))
   w3 <- c(3 * 3 + 3.5 * 2 + 7 + 7/3 * 3 + 12 * 4 + 24 * 2 + 8 * 6)
   expect_equivalent(calcWeights(ex5)[2], w3)
-  expect_equivalent(calcWeights(ex6)[2], w3)
+  expect_equivalent(calcWeights(ex6)[2], w2)
   w4 <- c(3 * 3 + 12 * 2 + 21 + 6 * 3 + 12 * 4 + 24 * 2 + 8 * 6)
   expect_equivalent(calcWeights(ex7)[2], w4)
   w5 <- c(250 + 10 + 3.4 * 5 + 17/7 * 7 + 10 * 50 + 2 * 70)

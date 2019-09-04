@@ -120,10 +120,10 @@ weightResponses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
   if (length(sampling_method) > 1) {
     sampling_method <- sampling_method[lvl - 1]
   } else if (sampling_method == "mixed") {
-    # Reassigns sampling method. PPS for schools, SRS for students
-    sampling_method <- ifelse(test = resp_labels[lvl - 1] == "student",
-                              yes  = "SRS",
-                              no   = "PPS")
+    # Reassigns sampling method. PPS for schools, SRS for otherwise
+    sampling_method <- ifelse(test = resp_labels[lvl - 1] == "school",
+                              yes  = "PPS",
+                              no   = "SRS")
   }
 
   # Variable names
@@ -147,7 +147,7 @@ weightResponses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
       }
     }
   }
-  
+
   # Probabilities (school and within school)
   if (sampling_method == "SRS") {
     if (class(n_obs) == "list") {
