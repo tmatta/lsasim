@@ -34,10 +34,8 @@ cluster_gen <- function(n,
                         separate_questionnaires = TRUE,
                         collapse = "none",
                         N = n,
-                        # sum_pop = sum(N[[length(N)]]),
                         sum_pop = sapply(N, sum),
                         calc_weights = TRUE,
-                        # TODO: add feedback to user on sampling procedure applied and results expected
                         sampling_method = "mixed",
                         # TODO: Replicate weights
                         # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between). Cheap solution: add random value to means and proportions before calling questionnaire_gen
