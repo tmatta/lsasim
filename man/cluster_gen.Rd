@@ -40,6 +40,9 @@ cluster_gen(n, cluster_labels = c("country", "school",
 
 \item{...}{Additional parameters to be passed to `questionnaire_gen()`}
 }
+\value{
+list with background questionnaire data, grouped by level or not
+}
 \description{
 Generate cluster sample
 }
@@ -53,4 +56,7 @@ This function relies heavily in two subfunctions---`cluster_gen_separate` and `c
 For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, by default, countries are the nexting level, schools are the first cluster level, classes are the second, and students are the third and final level.
 
 labeling c_mean has no effect, it's for the user.
+}
+\seealso{
+cluster_estimates cluster_gen_separate cluster_gen_together
 }
