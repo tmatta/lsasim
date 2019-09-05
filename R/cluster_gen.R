@@ -77,6 +77,8 @@ cluster_gen <- function(n,
   # TODO: print cluster structure
   # plot? ASCII? plotrix::sizetree? Rgraphviz? rpart.plot?
   # Create replicated list from n list!
+  if (verbose & class(n) == "list") drawClusterStructure(n, cluster_labels)
+  # FIXME: often broken
   # https://stackoverflow.com/questions/7440833/how-can-i-visualize-hierarchical-data
 
 
