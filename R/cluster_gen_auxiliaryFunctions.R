@@ -1,3 +1,38 @@
+# drawClusterStructure(list(2, c(3, 2), c(4, 2, 2, 1, 4), rep(10, 13)), c("cnt", "sch", "cls"))
+drawClusterStructure <- function(n, labels) {
+  # This function creates a visual representation of the hierarchical structure
+  structure_table <- as.matrix(labelRespondents(n, labels))
+  toplvl_labels <- unique(structure_table[, 1])
+  for (toplvl in toplvl_labels) {
+    submatrix <- structure_table[structure_table[, 1] == toplvl, ]
+    # Create all nodes
+    nodes <- vector()
+    for (row in seq(nrow(submatrix))) {
+      for (col in 2:ncol(submatrix)) {
+        nodes <- append(nodes, paste(as.vector(submatrix[row, 1:col]), collapse = "_"))
+      }
+    }
+    nodes <- c(toplvl, unique(nodes))
+
+    # Retrieve children
+    children_list <- list()
+    for (n1 in seq(nodes)) {
+      chars_n1 <- nchar(nodes[n1])
+      level_n1 <- nchar(gsub("[A-Za-z0-9]", "", nodes[n1])) + 1
+      children <- vector()
+      for (n2 in seq(nodes)) {
+        parent <- substr(nodes[n2], 1, chars_n1)
+        level_n2 <- nchar(gsub("[A-Za-z0-9]", "", nodes[n2])) + 1
+        if (parent == nodes[n1] & (level_n1 + 1) == level_n2) {
+          children <- append(children, nodes[n2])
+        }
+      }
+      children_list[[n1]] <- children
+    }
+    print(cli::tree(data.frame(nodes, I(children_list)), root = toplvl))
+  }
+}
+
 clusterMessage <- function(n_obs, resp_labels, cluster_labels, n_levels,
                            separate_questionnaires, type) {
   # This function prints messages about the cluster scheme before generating questionnaire responses. All arguments are from cluster_gen except for "type", which is numeric and changes the way the first line is printed.
