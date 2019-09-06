@@ -1,3 +1,8 @@
+#' @title Draw Cluster Structure
+#' @param n same from cluster_gen
+#' @param labels corresponds to cluster_labels from cluster_gen
+#' @param resp corresponds to resp_labels from cluster_gen
+#' @description This function creates a visual representation of the hierarchical structure
 drawClusterStructure <- function(n, labels, resp) {
   # Convert n to list if necessary
   if (class(n) != "list") {
@@ -218,6 +223,7 @@ weightResponses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
       }
     }
   }
+  # TODO: do something if sampling_method is empty!
 
   # Probabilities (school and within school)
   if (sampling_method == "SRS") {
