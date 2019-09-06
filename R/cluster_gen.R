@@ -80,6 +80,7 @@ cluster_gen <- function(n,
     cluster_labels <- names(n)
     resp_labels <- c(names(n)[-1], "respondent")
   }
+  # TODO: add "undefined" for NA labels
 
   # Removing accents
   names(n)       <- iconv(names(n), to = "ASCII//TRANSLIT")
@@ -117,8 +118,8 @@ cluster_gen <- function(n,
     if (verbose) {
       clusterMessage(n, resp_labels, cluster_labels, n_levels,
                      separate_questionnaires, 1)
-        drawClusterStructure(n, cluster_labels, resp_labels)
-      }
+      drawClusterStructure(n, cluster_labels, resp_labels)
+    }
 
     # Questionnaire generation
     sample <- cluster_gen_separate(
@@ -131,8 +132,8 @@ cluster_gen <- function(n,
     if (verbose) {
       clusterMessage(n, resp_labels, cluster_labels, n_levels,
                      separate_questionnaires, 2)
-          drawClusterStructure(n, cluster_labels, resp_labels)
-      }
+      drawClusterStructure(n, cluster_labels, resp_labels)
+    }
     # Generating variable numbers
     if (is.null(n_X)) n_X <- rzeropois(1.5) # a positive number of Xs
     if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2)) # all binary
