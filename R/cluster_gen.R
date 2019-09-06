@@ -74,14 +74,6 @@ cluster_gen <- function(n,
     }
   }
 
-  # TODO: print cluster structure
-  # plot? ASCII? plotrix::sizetree? Rgraphviz? rpart.plot?
-  # Create replicated list from n list!
-  if (verbose & class(n) == "list") drawClusterStructure(n, cluster_labels)
-  # FIXME: often broken
-  # https://stackoverflow.com/questions/7440833/how-can-i-visualize-hierarchical-data
-
-
   # Calculating useful arguments
   n_levels <- length(n)
   if (!is.null(names(n))) {
@@ -123,10 +115,12 @@ cluster_gen <- function(n,
 
     # Message explaining cluster scheme
     if (verbose) {
-      clusterMessage(
-        n, resp_labels, cluster_labels, n_levels,
-        separate_questionnaires, 1
-      )
+      clusterMessage(n, resp_labels, cluster_labels, n_levels,
+                     separate_questionnaires, 1)
+      # TODO: adapt to vectored n
+      if (class(n) == "list") {
+        drawClusterStructure(n, cluster_labels, resp_labels)
+      }
     }
 
     # Questionnaire generation
@@ -138,10 +132,12 @@ cluster_gen <- function(n,
   } else { # questionnaires administered only at the bottom level
     # Message explaining cluster scheme
     if (verbose) {
-      clusterMessage(
-        n, resp_labels, cluster_labels, n_levels,
-        separate_questionnaires, 2
-      )
+      clusterMessage(n, resp_labels, cluster_labels, n_levels,
+                     separate_questionnaires, 2)
+      # TODO: adapt to vectored n
+      if (class(n) == "list") {
+          drawClusterStructure(n, cluster_labels, resp_labels)
+      }
     }
     # Generating variable numbers
     if (is.null(n_X)) n_X <- rzeropois(1.5) # a positive number of Xs

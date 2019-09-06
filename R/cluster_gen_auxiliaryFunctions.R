@@ -1,15 +1,16 @@
-# drawClusterStructure(list(2, c(3, 2), c(4, 2, 2, 1, 4), rep(10, 13)), c("cnt", "sch", "cls"))
-drawClusterStructure <- function(n, labels) {
+drawClusterStructure <- function(n, labels, resp) {
   # This function creates a visual representation of the hierarchical structure
   structure_table <- as.matrix(labelRespondents(n, labels))
   toplvl_labels <- unique(structure_table[, 1])
   for (toplvl in toplvl_labels) {
-    submatrix <- structure_table[structure_table[, 1] == toplvl, ]
+    submatrix <- structure_table[structure_table[, 1] == toplvl, , drop = FALSE]
+
     # Create all nodes
     nodes <- vector()
     for (row in seq(nrow(submatrix))) {
       for (col in 2:ncol(submatrix)) {
-        nodes <- append(nodes, paste(as.vector(submatrix[row, 1:col]), collapse = "_"))
+        nodes <- append(nodes,
+                        paste(as.vector(submatrix[row, 1:col]), collapse = "_"))
       }
     }
     nodes <- c(toplvl, unique(nodes))
@@ -29,7 +30,33 @@ drawClusterStructure <- function(n, labels) {
       }
       children_list[[n1]] <- children
     }
-    print(cli::tree(data.frame(nodes, I(children_list)), root = toplvl))
+
+    # Adding final-level observations
+    toplvl_tree <- data.frame(nodes, I(children_list))
+
+    submx_collapsed <- apply(submatrix, 1, function(x) paste(x, collapse = "_"))
+    structure_collapsed <- apply(structure_table, 1,
+                                 function(x) paste(x, collapse = "_"))
+    obs <- n[[length(n)]][match(submx_collapsed, structure_collapsed)]
+    obs <- data.frame(submx_collapsed, obs)
+    obs <- merge(data.frame(nodes), obs,
+                 by.x = "nodes", by.y = "submx_collapsed", all = TRUE)
+    parenthesis <- vector()
+    for (node in seq(nodes)) {
+      if (!is.na(obs$obs[node])) {
+        parenthesis <- append(parenthesis,
+                              paste(nodes[node],
+                              cli::style_dim(paste0("(",
+                                                    obs$obs[node], " ",
+                                                    resp[length(resp) - 1],
+                                                    ")"))))
+      } else {
+        parenthesis <- append(parenthesis, cli::col_white(nodes[node]))
+      }
+    }
+
+    # Printing tree for this particular toplvl
+    print(cli::tree(data.frame(toplvl_tree, parenthesis), root = toplvl))
   }
 }
 
