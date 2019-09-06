@@ -166,7 +166,6 @@ cluster_gen <- function(
         message("Population structure")
         draw_cluster_structure(N, cluster_labels, resp_labels)
       }
-    }
 
     # Questionnaire generation -------------------------------------------------
     if (verbose & calc_weights) {
