@@ -117,11 +117,8 @@ cluster_gen <- function(n,
     if (verbose) {
       clusterMessage(n, resp_labels, cluster_labels, n_levels,
                      separate_questionnaires, 1)
-      # TODO: adapt to vectored n
-      if (class(n) == "list") {
         drawClusterStructure(n, cluster_labels, resp_labels)
       }
-    }
 
     # Questionnaire generation
     sample <- cluster_gen_separate(
@@ -134,11 +131,8 @@ cluster_gen <- function(n,
     if (verbose) {
       clusterMessage(n, resp_labels, cluster_labels, n_levels,
                      separate_questionnaires, 2)
-      # TODO: adapt to vectored n
-      if (class(n) == "list") {
           drawClusterStructure(n, cluster_labels, resp_labels)
       }
-    }
     # Generating variable numbers
     if (is.null(n_X)) n_X <- rzeropois(1.5) # a positive number of Xs
     if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2)) # all binary
