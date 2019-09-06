@@ -73,7 +73,8 @@ test_that("Errors are caught", {
   expect_error(cluster_gen(2:4, separate_questionnaires = FALSE, n_X = 1:2))
   expect_error(cluster_gen(2:4, separate_questionnaires = FALSE, n_W = 1:2))
   expect_error(cluster_gen(2:4, cluster_labels = "a"))
-  expect_warning(cluster_gen(2:4, separate_quest = FALSE, collapse = "partial"))
+  expect_warning(cluster_gen(2:4, separate_quest = FALSE, collapse = "partial", 
+                             verbose = FALSE))
 })
 
 # uniqueIDs are correct --------------------------------------------------------
