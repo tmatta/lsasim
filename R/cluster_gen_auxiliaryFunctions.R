@@ -1,11 +1,19 @@
 drawClusterStructure <- function(n, labels, resp) {
-  # This function creates a visual representation of the hierarchical structure
+  # Convert n to list if necessary
+  if (class(n) != "list") {
+      n_list <- as.list(n)
+      for (lvl in 2:(length(n))) {
+        n_list[[lvl]] <- rep(n[[lvl]], prod(n[[1]]:n[[lvl - 1]]))
+      }
+      # n_list[[length(n_list)]] <- rep(n_list[[length(n_list)]], length(n_list[[length(n_list) - 1]]))
+      n <- n_list
+  }
+
+  # Create all nodes
   structure_table <- as.matrix(labelRespondents(n, labels))
   toplvl_labels <- unique(structure_table[, 1])
   for (toplvl in toplvl_labels) {
     submatrix <- structure_table[structure_table[, 1] == toplvl, , drop = FALSE]
-
-    # Create all nodes
     nodes <- vector()
     for (row in seq(nrow(submatrix))) {
       for (col in 2:ncol(submatrix)) {
