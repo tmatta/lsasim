@@ -72,6 +72,8 @@ cluster_gen <- function(n,
                             " elements, but it has ", length(n[[l + 1]]),
                             ".\nPlease refer to documentation if necessary."))
     }
+  } else {
+    n <- convertVectorToList(n)
   }
 
   # Calculating useful arguments

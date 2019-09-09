@@ -32,9 +32,7 @@ cluster_gen_together <- function(n_levels, n, N, sum_pop, calc_weights,
   num_questionnaires <- nrow(id_combos)
 
   for (l in seq(num_questionnaires)) {
-    respondents <- ifelse(test = class(n) == "list",
-                          yes  = n[[n_levels]][l],
-                          no   = n[n_levels])
+    respondents <- n[[n_levels]][l]
     mu <- NULL
     if (!is.null(c_mean_list) & class(c_mean_list) == "list") {
       mu <- c_mean_list[[l]]
