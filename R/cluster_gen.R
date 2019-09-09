@@ -87,8 +87,6 @@ cluster_gen <- function(n,
   cluster_labels <- iconv(cluster_labels, to = "ASCII//TRANSLIT")
   resp_labels    <- iconv(resp_labels, to = "ASCII//TRANSLIT")
 
-
-
   # Adapting additional parameters to questionnaire_gen format (n_X and n_W)
   if (n_levels > 1 & separate_questionnaires) {
     if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
@@ -116,12 +114,16 @@ cluster_gen <- function(n,
 
     # Message explaining cluster scheme
     if (verbose) {
+      print(cli::rule(left = cli::col_blue("Hierarchical structure")))
       clusterMessage(n, resp_labels, cluster_labels, n_levels,
                      separate_questionnaires, 1)
       drawClusterStructure(n, cluster_labels, resp_labels)
     }
 
     # Questionnaire generation
+    if (verbose & calc_weights) {
+      print(cli::rule(left = cli::col_blue("Information on sampling weights")))
+    }
     sample <- cluster_gen_separate(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
@@ -130,6 +132,7 @@ cluster_gen <- function(n,
   } else { # questionnaires administered only at the bottom level
     # Message explaining cluster scheme
     if (verbose) {
+      print(cli::rule(left = cli::col_blue("Hierarchical structure")))
       clusterMessage(n, resp_labels, cluster_labels, n_levels,
                      separate_questionnaires, 2)
       drawClusterStructure(n, cluster_labels, resp_labels)
@@ -139,6 +142,9 @@ cluster_gen <- function(n,
     if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2)) # all binary
 
     # Questionnaire generation
+    if (verbose & calc_weights) {
+      print(cli::rule(left = cli::col_blue("Information on sampling weights")))
+    }
     sample <- cluster_gen_together(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
