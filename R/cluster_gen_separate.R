@@ -66,7 +66,8 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       }
 
       # Generating data
-      n_resp <- ifelse(class(n) == "list", n[[l + 1]][lvl], n[l + 1])
+      n_resp <- n[[l + 1]][lvl]
+
       mu <- NULL
       if (!is.null(c_mean) & class(c_mean) == "list") {
         mu <- c_mean[[lvl]]
@@ -93,6 +94,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       } else {
         cluster_bg$clusterID <- paste0(level_label, lvl)
       }
+      cluster_bg$uniqueID <- paste(respID, cluster_bg$clusterID, sep = "_")
 
       # Saving the questionnaire to the final list (sample)
       cluster_bg -> sample[[level_label]][[lvl]]
