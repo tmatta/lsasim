@@ -22,17 +22,8 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
   out    <- list()  # actual output (differs from sample if collapse)
 	sample <- list()  # will store all BG questionnaires
   c_mean_list <- c_mean
-
-  # Defining number of questionnaires to be generated
-  if (class(n) == "list") {
-    n_quest <- sapply(n, sum)
-  } else {
-    n_quest <- n
-  }
-
-  if (class(n) == "list") {
-    id_combos <- labelRespondents(n, cluster_labels)
-  }
+  n_quest <- sapply(n, sum)
+  id_combos <- labelRespondents(n, cluster_labels)
 
   for (l in seq(n_levels - 1)) {
     # Adapting additional parameters to questionnaire_gen format
@@ -56,18 +47,13 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       previous_sublvl <- gsub("[A-Za-z]", "", previous_clusterID)
       previous_sublvl <- as.numeric(gsub("\\_.", "", previous_sublvl))
     }
-
-    # Calculating the number of different clusters at this level
-    if (class(n) == "list") {
-      n_groups <- sapply(n, sum)[l]
-    } else {
-      n_groups <- n[l]
-    }
+    n_groups <- sapply(n, sum)[l]
     
     # Generating questionnaires for each cluster element of that level
     for (lvl in seq(n_groups)) {
       # Generating data
-      n_resp <- ifelse(class(n) == "list", n[[l + 1]][lvl], n[l + 1])
+      n_resp <- n[[l + 1]][lvl]
+
       mu <- NULL
       if (!is.null(c_mean) & class(c_mean) == "list") {
         mu <- c_mean[[lvl]]
@@ -86,27 +72,15 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       }
 
       # Generating unique IDs
-      if (class(n) == "list") {
-        respID <- paste0(next_level_label, seq(cluster_bg$subject))
-        if (l > 1) {
-          previous_lvl <- as.vector(unlist(sapply(n[[l]], seq)))[lvl]
-          cluster_bg$clusterID <- paste0(level_label, previous_lvl, "_",
-                                          previous_clusterID[lvl])
-        } else {
-          cluster_bg$clusterID <- paste0(level_label, lvl)
-        }
-        cluster_bg$uniqueID <- paste(respID, cluster_bg$clusterID, sep = "_")
+      respID <- paste0(next_level_label, seq(cluster_bg$subject))
+      if (l > 1) {
+        previous_lvl <- as.vector(unlist(sapply(n[[l]], seq)))[lvl]
+        cluster_bg$clusterID <- paste0(level_label, previous_lvl, "_",
+                                        previous_clusterID[lvl])
       } else {
-        respID <- paste0(next_level_label, seq(cluster_bg$subject))
-        if (l > 1) {
-          previous_lvl <- rep(seq(n[l] / n[l - 1]), n[l])[lvl]
-          cluster_bg$clusterID <- paste0(level_label, previous_lvl, "_",
-                                          previous_clusterID[lvl])
-        } else {
-          cluster_bg$clusterID <- paste0(level_label, lvl)
-        }
-        cluster_bg$uniqueID <- paste(respID, cluster_bg$clusterID, sep = "_")
+        cluster_bg$clusterID <- paste0(level_label, lvl)
       }
+      cluster_bg$uniqueID <- paste(respID, cluster_bg$clusterID, sep = "_")
 
       # Saving the questionnaire to the final list (sample)
       cluster_bg -> sample[[level_label]][[lvl]]
