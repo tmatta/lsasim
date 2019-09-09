@@ -1,3 +1,16 @@
+#' @title Convert Vector to Expanded List
+#' @description Converts a vector to list where each element is replicated a certain number of times depending on the previous vector
+#' @param x vector to ve converted
+#' @value expanded/replicated version of x
+convertVectorToList <- function(x) {
+  x_list <- as.list(x)
+  for (lvl in 2:(length(x))) {
+    x_list[[lvl]] <- rep(x[[lvl]], prod(x[[1]]:x[[lvl - 1]]))
+  }
+  x <- x_list
+  return(x)
+}
+
 #' @title Draw Cluster Structure
 #' @param n same from cluster_gen
 #' @param labels corresponds to cluster_labels from cluster_gen
@@ -6,12 +19,7 @@
 drawClusterStructure <- function(n, labels, resp) {
   # Convert n to list if necessary
   if (class(n) != "list") {
-      n_list <- as.list(n)
-      for (lvl in 2:(length(n))) {
-        n_list[[lvl]] <- rep(n[[lvl]], prod(n[[1]]:n[[lvl - 1]]))
-      }
-      # n_list[[length(n_list)]] <- rep(n_list[[length(n_list)]], length(n_list[[length(n_list) - 1]]))
-      n <- n_list
+      n <- convertVectorToList(n)
   }
 
   # Create all nodes
