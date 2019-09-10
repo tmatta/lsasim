@@ -82,7 +82,14 @@ cluster_gen <- function(n,
     cluster_labels <- names(n)
     resp_labels <- c(names(n)[-1], "respondent")
   }
-  # TODO: add "undefined" for NA labels
+
+  # Treating NAs in labels
+  if (length(cluster_labels[!is.na(cluster_labels)]) < length(n)) {
+    cluster_labels[is.na(cluster_labels)] <- "unknown_cluster"
+  }
+  if (length(resp_labels[!is.na(resp_labels)]) < length(n)) {
+    resp_labels[is.na(resp_labels)] <- "unknown_respondent"
+  }
 
   # Removing accents
   names(n)       <- iconv(names(n), to = "ASCII//TRANSLIT")
