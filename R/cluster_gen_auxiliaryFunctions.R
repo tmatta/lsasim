@@ -85,7 +85,7 @@ drawClusterStructure <- function(n, labels, resp) {
 }
 
 clusterMessage <- function(n_obs, resp_labels, cluster_labels, n_levels,
-                           separate_questionnaires, type) {
+                           separate_questionnaires, type, detail = FALSE) {
   # This function prints messages about the cluster scheme before generating questionnaire responses. All arguments are from cluster_gen except for "type", which is numeric and changes the way the first line is printed.
   if (type == 1) {
     # Comma-separated multiple questionnaires
@@ -102,7 +102,7 @@ clusterMessage <- function(n_obs, resp_labels, cluster_labels, n_levels,
     n_obs_print <- n_obs
 
     # Printing top level
-    if (l == 1) {
+    if (l == 1 & detail) {
       message("Top level: ", cluster_labels[l], " (", n_obs_print[l], ")")
     }
 
@@ -113,7 +113,7 @@ clusterMessage <- function(n_obs, resp_labels, cluster_labels, n_levels,
       n_obs_print[[l + 1]] <- paste0(paste(n_obs[[l + 1]], collapse = " and "),
                                      ", respectively")
     }
-    if (l < length(n_obs) - 1) {
+    if (detail & l < length(n_obs) - 1) {
       message("Each ", cluster_labels[l], " sampled ",  cluster_labels[l + 1],
               " (", n_obs_print[l + 1], ")")
     }
@@ -124,30 +124,20 @@ clusterMessage <- function(n_obs, resp_labels, cluster_labels, n_levels,
   }
 
   # Final level
-  message("Each ", cluster_labels[n_levels - 1], " sampled ",
-          resp_labels[n_levels - 1], " (", n_obs_print[n_levels], ")")
+  if (detail) {
+    message("Each ", cluster_labels[n_levels - 1], " sampled ",
+            resp_labels[n_levels - 1], " (", n_obs_print[n_levels], ")")
+  }
 
   # Total respondents
-  if (class(n_obs) == "list") {
-    if (separate_questionnaires) {
-      tot_resp <- sum(unlist(n_obs)[-1])
-      operands <- unlist(n_obs[-1])
-      operator <- " + "
-    } else {
-      tot_resp <- sum(unlist(n_obs[[n_levels]]))
-      operands <- unlist(n_obs[[n_levels]])
-      operator <- " + "
-    }
+  if (separate_questionnaires) {
+    tot_resp <- sum(unlist(n_obs)[-1])
+    operands <- unlist(n_obs[-1])
+    operator <- " + "
   } else {
-    if (separate_questionnaires) {
-      tot_resp <- tot_resp + prod(n_obs)
-      operands <- c(operands, prod(n_obs))
-      operator <-  " + "
-    } else {
-      tot_resp <- prod(n_obs)
-      operands <- n_obs
-      operator <- " * "
-    }
+    tot_resp <- sum(unlist(n_obs[[n_levels]]))
+    operands <- unlist(n_obs[[n_levels]])
+    operator <- " + "
   }
   message("Total respondents: ", paste0(tot_resp, " (",
             paste(operands, collapse = operator), ")"))
