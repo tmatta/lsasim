@@ -1,6 +1,6 @@
 # lsasim 1.0.1.9007 -------------------------------------------------------
 
-context("Linda's report on lsasim 1.0.1.9007")
+context("Linda's reports on lsasim 1.0.1.9007 through 1.0.1.9039")
 
 test_that("Number of variables generated is consistent", {
   expect_error(questionnaire_gen(n_obs = 5, cat_prop = list(1, c(.25, .6, 1)),
@@ -55,8 +55,6 @@ test_that("Improper cumulative proportions yield errors", {
 
 # lsasim 1.0.1.9008 -------------------------------------------------------
 
-context("Linda's report on lsasim 1.0.1.9008")
-
 test_that("Sizes of cat_prop, cor_matrix and n_vars don't conflict", {
   expect_message(questionnaire_gen(n_obs = 5, cat_prop =  list(c(1), c(.5, 1)),
                                   cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
@@ -87,8 +85,6 @@ test_that("Sizes of cat_prop, cor_matrix and n_vars don't conflict", {
 })
 
 # lsasim 1.0.1.9009 -------------------------------------------------------
-
-context("Linda's report on lsasim 1.0.1.9009")
 
 test_that("Case 1: consistent changing cor_matrix, n_vars and cat_prop", {
   data1 <- questionnaire_gen(n_obs = 5, cat_prop = list(1, c(.2, 1), c(.5, 1)),
@@ -170,8 +166,6 @@ test_that("Case 8: generating only one binary n_W", {
 })
 
 # lsasim 1.0.1.9039 -------------------------------------------------------
-
-context("Linda's report on lsasim 1.0.1.9039")
 
 sd1 <- c(.5, 1.5)
 set.seed(1234)
