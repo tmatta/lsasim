@@ -249,13 +249,13 @@ weightResponses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
       message("- Calculating ", sampling_method, " weights at the ",
               cluster_labels[lvl - 1], " level")
       if (sampling_method == "SRS") {
-        message("  ", label_1_i, " should add up to the population size (",
-                sum_pop[lvl - 1], ") across all ", cluster_labels[lvl - 1],
-                " (repeated measures excluded)")
+        message("  ", label_1_i, " should add up to the number of ",
+          cluster_labels[lvl - 1], " in the population (",
+                sum_pop[lvl - 1], ", repeated measures excluded)")
       } else {
-        message("  ", label_ij, " should add up to the population size (",
-                sum_pop[lvl] * length(N[[lvl - 1]]), ") across all ",
-                cluster_labels[lvl - 1])
+        message("  ", label_ij, " should add up to the number of ",
+          cluster_labels[lvl - 1], " in the population (",
+                sum_pop[lvl] * length(N[[lvl - 1]]), ")")
       }
     }
   }
