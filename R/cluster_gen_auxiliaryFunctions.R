@@ -35,9 +35,15 @@ drawClusterStructure <- function(n, labels, resp)
     submatrix <- structure_table[structure_table[, 1] == toplvl, , drop = FALSE]
     nodes <- vector()
     for (row in seq(nrow(submatrix))) {
-      for (col in 2:ncol(submatrix)) {
-        nodes <- append(nodes,
-                        paste(as.vector(submatrix[row, 1:col]), collapse = "_"))
+      if (ncol(submatrix) > 1) {
+        for (col in 2:ncol(submatrix)) {
+          nodes <- append(nodes,
+                          paste(as.vector(submatrix[row, 1:col]), collapse = "_"))
+        }
+      } else {
+        nodes <- append(
+          nodes, paste(as.vector(submatrix[row, 1]), collapse = "_")
+        )
       }
     }
     nodes <- c(toplvl, unique(nodes))
