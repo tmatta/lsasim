@@ -6,7 +6,7 @@
 #' @param separate_questionnaires if `TRUE`, each level will have its own questionnaire
 #' @param N list of numeric vector with the population size of each *sampled* cluster element on each level
 #' @param calc_weights if `TRUE`, sampling weights are calculated
-#' @param sum_pop total population at the lowest level (sampled or not)
+#' @param sum_pop total population at each level (sampled or not)
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
@@ -23,25 +23,27 @@
 #' labeling c_mean has no effect, it's for the user.
 #' @seealso cluster_estimates cluster_gen_separate cluster_gen_together
 #' @export
-cluster_gen <- function(n,
-                        cluster_labels = c("country", "school", "class")[seq(length(n) - 1)],
-                        # ASK: drop countries?
-                        resp_labels = c("principal", "teacher", "student")[seq(length(n))],
-                        n_X = NULL,
-                        n_W = NULL,
-                        # TODO: allow different proportions for Ws
-                        c_mean = NULL,
-                        separate_questionnaires = TRUE,
-                        collapse = "none",
-                        N = n,
-                        sum_pop = sapply(N, sum),
-                        calc_weights = TRUE,
-                        sampling_method = "mixed",
-                        # TODO: Replicate weights
-                        # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between). Cheap solution: add random value to means and proportions before calling questionnaire_gen
-                        verbose = TRUE,
-                        ...) {
-  # Validating
+cluster_gen <- function(
+  n,
+  cluster_labels = c("country", "school", "class")[seq(length(n) - 1)],
+  # ASK: drop countries?
+  resp_labels = c("principal", "teacher", "student")[seq(length(n))],
+  n_X = NULL,
+  n_W = NULL,  # TODO: allow different proportions for Ws
+  c_mean = NULL,
+  separate_questionnaires = TRUE,
+  collapse = "none",
+  N = n,
+  sum_pop = sapply(N, sum),
+  calc_weights = TRUE,
+  sampling_method = "mixed",
+  # TODO: Replicate weights
+  # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between). Cheap solution: add random value to means and proportions before calling questionnaire_gen
+  verbose = TRUE,
+  ...
+)
+{
+  # Validating =================================================================
   check_condition(
     !separate_questionnaires & length(n_X) > 1,
     "Unique questionnaire requested. n_X must therefore be a scalar."
@@ -66,24 +68,28 @@ cluster_gen <- function(n,
   )
   if (class(n) == "list") {
     for (l in seq(length(n) - 1)) {
-      check_condition(length(n[[l + 1]]) != sum(n[[l]]),
-                      paste0("Invalid cluster structure on level ", l + 1,
-                            ".\nThat level should have ", sum(n[[l]]),
-                            " elements, but it has ", length(n[[l + 1]]),
-                            ".\nPlease refer to documentation if necessary."))
+      check_condition(
+        length(n[[l + 1]]) != sum(n[[l]]),
+        paste0(
+          "Invalid cluster structure on level ", l + 1,
+          ".\nThat level should have ", sum(n[[l]]),
+          " elements, but it has ", length(n[[l + 1]]),
+          ".\nPlease refer to documentation if necessary."
+        )
+      )
     }
   } else {
     n <- convertVectorToList(n)
   }
 
-  # Calculating useful arguments
+  # Calculating useful arguments ===============================================
   n_levels <- length(n)
   if (!is.null(names(n))) {
     cluster_labels <- names(n)
     resp_labels <- c(names(n)[-1], "respondent")
   }
 
-  # Treating NAs in labels
+  # Treating NAs in labels =====================================================
   if (length(cluster_labels[!is.na(cluster_labels)]) < length(n)) {
     cluster_labels[is.na(cluster_labels)] <- "unknown_cluster"
   }
@@ -91,12 +97,12 @@ cluster_gen <- function(n,
     resp_labels[is.na(resp_labels)] <- "unknown_respondent"
   }
 
-  # Removing accents
+  # Removing accents ===========================================================
   names(n)       <- iconv(names(n), to = "ASCII//TRANSLIT")
   cluster_labels <- iconv(cluster_labels, to = "ASCII//TRANSLIT")
   resp_labels    <- iconv(resp_labels, to = "ASCII//TRANSLIT")
 
-  # Adapting additional parameters to questionnaire_gen format (n_X and n_W)
+  # Adapting additional parameters to questionnaire_gen (n_X and n_W) ==========
   if (n_levels > 1 & separate_questionnaires) {
     if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
     if (length(n_W) == 1 & class(n_W) == "numeric") {
@@ -106,8 +112,11 @@ cluster_gen <- function(n,
     }
   }
 
+  # Generating messages and data ===============================================
   if (separate_questionnaires) { # questionnaires administered at all levels
     # Generates unique questionnaires for each level
+
+    # Defining n_X and n_W -----------------------------------------------------
     if (is.null(n_X)) {
       n_X <- list()
       for (l in seq(n_levels)) {
@@ -121,7 +130,7 @@ cluster_gen <- function(n,
       }
     }
 
-    # Message explaining cluster scheme
+    # Message explaining cluster scheme ----------------------------------------
     if (verbose) {
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
       clusterMessage(n, resp_labels, cluster_labels, n_levels,
@@ -129,7 +138,7 @@ cluster_gen <- function(n,
       drawClusterStructure(n, cluster_labels, resp_labels)
     }
 
-    # Questionnaire generation
+    # Questionnaire generation -------------------------------------------------
     if (verbose & calc_weights) {
       print(cli::rule(left = cli::col_blue("Information on sampling weights")))
     }
@@ -139,18 +148,19 @@ cluster_gen <- function(n,
       n_X, n_W, c_mean, verbose, ...
     )
   } else { # questionnaires administered only at the bottom level
-    # Message explaining cluster scheme
+    # Message explaining cluster scheme ----------------------------------------
     if (verbose) {
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
       clusterMessage(n, resp_labels, cluster_labels, n_levels,
                      separate_questionnaires, 2)
       drawClusterStructure(n, cluster_labels, resp_labels)
     }
-    # Generating variable numbers
+
+    # Generating variable numbers ----------------------------------------------
     if (is.null(n_X)) n_X <- rzeropois(1.5) # a positive number of Xs
     if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2)) # all binary
 
-    # Questionnaire generation
+    # Questionnaire generation -------------------------------------------------
     if (verbose & calc_weights) {
       print(cli::rule(left = cli::col_blue("Information on sampling weights")))
     }
@@ -160,5 +170,6 @@ cluster_gen <- function(n,
       n_X, n_W, c_mean, verbose, ...
     )
   }
+
   return(sample)
 }

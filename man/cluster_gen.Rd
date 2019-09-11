@@ -30,7 +30,7 @@ cluster_gen(n, cluster_labels = c("country", "school",
 
 \item{N}{list of numeric vector with the population size of each *sampled* cluster element on each level}
 
-\item{sum_pop}{total population at the lowest level (sampled or not)}
+\item{sum_pop}{total population at each level (sampled or not)}
 
 \item{calc_weights}{if `TRUE`, sampling weights are calculated}
 

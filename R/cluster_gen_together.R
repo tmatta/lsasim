@@ -18,19 +18,18 @@
 #' @export
 cluster_gen_together <- function(n_levels, n, N, sum_pop, calc_weights, 
                                  sampling_method, cluster_labels, resp_labels,
-                                 collapse, n_X, n_W, c_mean, verbose, ...) {
+                                 collapse, n_X, n_W, c_mean, verbose, ...)
+{
+  # Creating basic elements ----------------------------------------------------
 	sample <- list()  # will store all BG questionnaires
   c_mean_list <- c_mean
   if (class(c_mean_list) == "list") {
     c_mean_list <- c_mean_list[[n_levels - 1]]
   }
-
-  # Generating level label combinations
-  id_combos <- labelRespondents(n, cluster_labels)
-
-  # Generating questionnaire data for lowest level
+  id_combos <- labelRespondents(n, cluster_labels)  # level label combinations
   num_questionnaires <- nrow(id_combos)
 
+  # Generating questionnaire data for lowest level -----------------------------
   for (l in seq(num_questionnaires)) {
     respondents <- n[[n_levels]][l]
     mu <- NULL
@@ -39,16 +38,16 @@ cluster_gen_together <- function(n_levels, n, N, sum_pop, calc_weights,
     } else {
       mu <- c_mean_list
     }
-    cluster_bg <- questionnaire_gen(respondents,
-                                    n_X = n_X, n_W = n_W,
-                                    c_mean = mu, verbose = FALSE,...)
+    cluster_bg <- questionnaire_gen(
+      respondents, n_X = n_X, n_W = n_W, c_mean = mu, verbose = FALSE,...
+    )
 
     # Adding weights
     if (calc_weights) {
       cluster_bg <- weightResponses(
-                cluster_bg, n, N, n_levels, l, previous_sublvl = 0,
-                sampling_method, cluster_labels, resp_labels, sum_pop, verbose
-              )
+        cluster_bg, n, N, n_levels, l, previous_sublvl = 0,
+        sampling_method, cluster_labels, resp_labels, sum_pop, verbose
+      )
     }
 
     # Creating new ID variable
@@ -60,11 +59,13 @@ cluster_gen_together <- function(n_levels, n, N, sum_pop, calc_weights,
     cluster_bg -> sample[[l]]
   }
 
+  # Collapsing data and creating output ----------------------------------------
   if (collapse == "none") {
     names(sample) <- paste0(cluster_labels[n_levels - 1], seq(length(sample)))
   } else {
     sample <- do.call(rbind, sample)
     sample$subject <- seq(nrow(sample))
   }
+
   return(sample)
 }
