@@ -262,25 +262,15 @@ weightResponses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
 
   # Probabilities (previous_lvl and within previous_lvl) =======================
   if (sampling_method == "SRS") {
-    if (class(n_obs) == "list") {
-      p_1_i <- n_obs[[lvl - 1]] / N[[lvl - 1]]
-      p_2_ij <- n_obs[[lvl]] / N[[lvl]]
-      if (length(p_1_i) > 1) p_1_i <- p_1_i[previous_sublvl]
-      if (length(p_2_ij) > 1) p_2_ij <- p_2_ij[sublvl]
-    } else {
-      p_1_i <- n_obs[lvl - 1] / N[lvl - 1]
-      p_2_ij <- n_obs[lvl] / N[lvl]
-    }
+    p_1_i <- n_obs[[lvl - 1]] / N[[lvl - 1]]
+    p_2_ij <- n_obs[[lvl]] / N[[lvl]]
+    if (length(p_1_i) > 1) p_1_i <- p_1_i[previous_sublvl]
+    if (length(p_2_ij) > 1) p_2_ij <- p_2_ij[sublvl]
   } else if (sampling_method == "PPS") {
-    if (class(n_obs) == "list") {
-      p_1_i <- n_obs[[lvl - 1]] * N[[lvl]][sublvl] / sum_pop[lvl]
-      p_2_ij <- n_obs[[lvl]] / N[[lvl]]
-      if (length(p_1_i) > 1) p_1_i <- p_1_i[previous_sublvl]
-      if (length(p_2_ij) > 1) p_2_ij <- p_2_ij[sublvl]
-    } else {
-      p_1_i <- n_obs[lvl - 1] * N[lvl] / sum_pop[lvl]
-      p_2_ij <- n_obs[lvl] / N[lvl]
-    }
+    p_1_i <- n_obs[[lvl - 1]] * N[[lvl]][sublvl] / sum_pop[lvl]
+    p_2_ij <- n_obs[[lvl]] / N[[lvl]]
+    if (length(p_1_i) > 1) p_1_i <- p_1_i[previous_sublvl]
+    if (length(p_2_ij) > 1) p_2_ij <- p_2_ij[sublvl]
   }
 
   # Final lvl probabilities ====================================================
