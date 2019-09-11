@@ -66,6 +66,17 @@ cluster_gen <- function(
     !(all(sampling_method %in% c("SRS", "PPS", "mixed"))),
     "Invalid sampling method"
   )
+  check_condition(
+    class(n) == "select" & class(N) == "select",
+    "If n is select, N must be explicitly defined"
+  )
+
+  # Sampling from N ============================================================
+  if (class(n) == "select") {
+    n <- sampleFrom(N, n)
+  }
+  
+  # Formatting n and N as lists (unless n is "select") =========================
   if (class(n) == "list") {
     for (l in seq(length(n) - 1)) {
       check_condition(
