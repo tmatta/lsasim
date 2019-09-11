@@ -14,7 +14,7 @@ Overall aim: to simulate data that mimics large-scale assessments (LSAs), includ
 
 ## License
 
-In the spirit of the [open science](https://openscience.com) movement, lsasim (pronounced "LSA-sim") is a free and open source software, licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html). Contributions to the package are welcome, and we recommend you [contact us](https://embracingheterogeneity.com/contact/) if you're interested in doing so.
+In the spirit of the [open science](https://openscience.com) movement, `lsasim` (pronounced "LSA-sim") is a free and open source software, licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html). Contributions to the package are welcome, and we recommend you [contact us](https://embracingheterogeneity.com/contact/) if you're interested in doing so.
 
 ## Installation
 
