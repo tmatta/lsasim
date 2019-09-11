@@ -4,7 +4,9 @@
 \alias{drawClusterStructure}
 \title{Draw Cluster Structure}
 \usage{
-drawClusterStructure(n, labels, resp)
+drawClusterStructure(n, labels = c("country", "school",
+  "class")[seq(length(n) - 1)], resp = c("principal", "teacher",
+  "student")[seq(length(n))], output = "tree")
 }
 \arguments{
 \item{n}{same from cluster_gen}
@@ -12,6 +14,8 @@ drawClusterStructure(n, labels, resp)
 \item{labels}{corresponds to cluster_labels from cluster_gen}
 
 \item{resp}{corresponds to resp_labels from cluster_gen}
+
+\item{output}{"tree" or "vector"}
 }
 \value{
 Prints structure to console.
