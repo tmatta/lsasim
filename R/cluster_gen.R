@@ -92,6 +92,9 @@ cluster_gen <- function(
   } else {
     n <- convertVectorToList(n)
   }
+  if (class(N) != "list") {
+    N <- convertVectorToList(N)
+  }
 
   # Calculating useful arguments ===============================================
   n_levels <- length(n)
@@ -147,7 +150,7 @@ cluster_gen <- function(
       clusterMessage(n, resp_labels, cluster_labels, n_levels,
                      separate_questionnaires, 1)
       if (identical(N, n)) {
-      drawClusterStructure(n, cluster_labels, resp_labels)
+        drawClusterStructure(n, cluster_labels, resp_labels)
       } else {
         message("Sample structure")
         drawClusterStructure(n, cluster_labels, resp_labels)
@@ -175,7 +178,7 @@ cluster_gen <- function(
         drawClusterStructure(n, cluster_labels, resp_labels)
       } else {
         message("Sampled structure")
-      drawClusterStructure(n, cluster_labels, resp_labels)
+        drawClusterStructure(n, cluster_labels, resp_labels)
         message("Population structure")
         drawClusterStructure(N, cluster_labels, resp_labels)
       }
