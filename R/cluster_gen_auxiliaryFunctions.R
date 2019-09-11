@@ -19,14 +19,20 @@ convertVectorToList <- function(x)
 #' @param n same from cluster_gen
 #' @param labels corresponds to cluster_labels from cluster_gen
 #' @param resp corresponds to resp_labels from cluster_gen
+#' @param output "tree" or "vector"
 #' @description This function creates a visual representation of the hierarchical structure
 #' @return Prints structure to console.
-drawClusterStructure <- function(n, labels, resp)
+drawClusterStructure <- function(
+  n, labels =  c("country", "school", "class")[seq(length(n) - 1)],
+  resp =  c("principal", "teacher", "student")[seq(length(n))],
+  output = "tree"
+)
 {
   # Convert n to list if necessary =============================================
   if (class(n) != "list") {
       n <- convertVectorToList(n)
   }
+  out <- NULL
 
   # Create all nodes ===========================================================
   structure_table <- as.matrix(labelRespondents(n, labels))
@@ -37,8 +43,9 @@ drawClusterStructure <- function(n, labels, resp)
     for (row in seq(nrow(submatrix))) {
       if (ncol(submatrix) > 1) {
         for (col in 2:ncol(submatrix)) {
-          nodes <- append(nodes,
-                          paste(as.vector(submatrix[row, 1:col]), collapse = "_"))
+          nodes <- append(
+            nodes, paste(as.vector(submatrix[row, 1:col]), collapse = "_")
+          )
         }
       } else {
         nodes <- append(
@@ -90,8 +97,13 @@ drawClusterStructure <- function(n, labels, resp)
     }
 
     # Printing tree for this particular toplvl ---------------------------------
-    print(cli::tree(data.frame(toplvl_tree, parenthesis), root = toplvl))
+    if (output == "tree") {
+      print(cli::tree(data.frame(toplvl_tree, parenthesis), root = toplvl))
+    } else if (output == "text") {
+      out <- append(out, as.character(cli::tree(data.frame(toplvl_tree, parenthesis), root = toplvl)))  #TEMP
+    }
   }
+  return(out)
 }
 
 #' @title Print messages about clusters
