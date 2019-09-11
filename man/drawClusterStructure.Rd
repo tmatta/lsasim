@@ -13,6 +13,9 @@ drawClusterStructure(n, labels, resp)
 
 \item{resp}{corresponds to resp_labels from cluster_gen}
 }
+\value{
+Prints structure to console.
+}
 \description{
 This function creates a visual representation of the hierarchical structure
 }
