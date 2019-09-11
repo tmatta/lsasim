@@ -241,7 +241,7 @@ calcWeights <- function(data_list) {
 }
 
 # FIXME: cluster_gen(c(school = 2, class = 3, stu = 5)) "not 'all class', 'each'"
-# FIXME: cluster_gen(c(school = 2, class = 3, stu = 5)) weights OK? If N is set, yes.
+# FIXME: cluster_gen(c(school = 2, class = 3, stu = 5)) weights OK? If N is defined, yes.
 
 # Custom weight tests ----------------------------------------------------------
 test_that("Weights are correct", {
@@ -330,3 +330,46 @@ test_that("Weights are correct for different sampling methods", {
   w5 <- c(250 + 10 + 3.4 * 5 + 17/7 * 7 + 10 * 50 + 2 * 70)
   expect_equivalent(calcWeights(ex8)[2], w5)
 })
+
+# Script for testing with Leslie ===============================================
+
+# This script is meant to aid the verification of the calculation of sampling weights.
+
+# Installing development version -----------------------------------------------
+# install.packages("remotes")  # only necessary if library(remotes) fails
+# library(remotes)
+# install_github("tmatta/lsasim", ref = "v2.1.0.9047", force = TRUE)
+# devtools::build()
+# library(lsasim)  # (re)loads the package
+
+# Data examples ----------------------------------------------------------------
+# options(width = 150)  # keeps everything in one line for easier visualization
+
+# Example 1: 2-level symmetric structure, census, PPS weights
+# cluster_gen(n = c(school = 2, student = 10), n_X = 1, n_W = 1)
+
+# Example 2: 3-level symmetric structure, sample, PPS and SRS weights
+# cluster_gen(n = c(school = 2, class = 1, student =  5),
+#             N = c(school = 5, class = 2, student = 10),
+#             n_X = 1, n_W = 1)
+
+# Example 3: 3-level asymmetric structure, sample, PPS and SRS weights
+# cluster_gen(n = list(country = 2,
+#                     school  = c(2, 3),
+#                     student = c(10, 20, 6, 9, 12)),
+#             #FIXME: pop tree output is wrong
+#             N = list(country = 10,
+#                     school  = c(20, 3),
+#                     student = c(20, 30, 12, 12, 12)),
+#             n_X = 1, n_W = 1)
+
+# P.S.: final weights are always calculated as a product of the other two weights, so wrong calculations are traceable back to either the *.weight or the within.*.weight.
+
+# ASK: alternative input paradigm: user defines either n (and N == n) or they define N as well as the *number* of elements from each level to be sampled. Is this more realistic?
+# TODO: create new class for n called "select"
+# ASK: also add option where user knows both what was sampled as well as the pop structure?
+
+# Testing actual sampling ======================================================
+# cl_scheme <- list(school = 2, class = c(3, 2), student = c(5, 4, 5, 5, 5))
+# cluster_gen(n = cl_scheme)
+# cluster_gen(n = select(1, 2, 4), N = cl_scheme)
