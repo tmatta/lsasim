@@ -9,9 +9,10 @@
 #'   \item \code{proportion_gen} Generation of random cumulative proportions.
 #'   \item \code{questionnaire_gen} Generation of ordinal and continuous variables.
 #'   \item \code{response_gen} Generation of item response data using a rotated block design.
+#'   \item \code{cluster_gen} Generation of background questionnaires from a cluster sampling scheme.
 #' }
 #'
-#' @section Ancillary functions:
+#' @section Useful aqncillary functions:
 #' \itemize{
 #'   \item \code{irt_gen} Generate item responses from an IRT model.  Used by
 #'   \code{response_gen}.
