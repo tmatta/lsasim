@@ -288,3 +288,37 @@ weightResponses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
 
   return(cluster_bg)
 }
+
+#' @title Transform regular vector into selection vector
+#' @description Attaches a "select" class to a vector
+#' @param x vector
+#' @return same as `x`, but with a class attribute that classifies `x` as "select"
+#' @export
+select <- function(x, ...)
+{
+  out <- c(x, ...)
+  class(out) <- "select"
+  return(out)
+}
+
+sampleFrom <- function (N, n, labels = names(N))
+{
+  # Creating basic elements ====================================================
+  if (class(N) != "list") N <- convertVectorToList(N)
+  unit_labels <- labelRespondents(N, labels)
+  sampled_units <- unit_labels
+
+  # Sampling elements until second-to-last level ===============================
+  for (l in seq(from = 1, to = length(n) - 1)) {
+    subunit_labels <- unique(unit_labels[, l])
+    selected_subunit <- sample(x = subunit_labels, size = n[l])
+    selected_rows <- sampled_units[, l] %in% selected_subunit
+    sampled_units <- sampled_units[selected_rows, , drop = FALSE]
+  }
+
+  # Sampling from last level ===================================================
+  browser()#TEMP
+  # lapply(sampled_units, 1, function(x) sample(n[length(n))
+  drawClusterStructure(N, labels)
+  drawClusterStructure(N, labels, output = "text")
+}
