@@ -12,13 +12,8 @@ drawClusterStructure <- function(
   output = "tree"
 )
 {
-  # Convert n to list if necessary =============================================
-  if (class(n) != "list") {
-      n <- convertVectorToList(n)
-  }
-  out <- NULL
-
   # Create all nodes ===========================================================
+  out <- NULL
   structure_table <- as.matrix(labelRespondents(n, labels))
   toplvl_labels <- unique(structure_table[, 1])
   for (toplvl in toplvl_labels) {
