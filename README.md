@@ -2,7 +2,7 @@
 
 # README
 
-Overall aim: to simulate data that mimics large-scale assessments (LSAs), including background questionnaire data and cognitive item responses that adhere to a multiple-matrix sampled design.  This package was created as part of the [Embracing Heterogeneity Project](https://embracingheterogeneity.com/).
+Overall aim: to simulate data that mimics large-scale assessments (LSAs), including background questionnaire data and cognitive item responses that adhere to a multiple-matrix sampled design.  With specified correlations between background data and latent cognitive traits, the package also has functionality for theoretical and Monte Carlo regression coefficients for the effect of background data on the latent trait. This package was created as part of the [Embracing Heterogeneity Project](https://embracingheterogeneity.com/).
 
 ## Development Team
   * Tyler Matta
