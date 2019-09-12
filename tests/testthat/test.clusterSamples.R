@@ -349,19 +349,19 @@ test_that("Weights are correct for different sampling methods", {
 # cluster_gen(n = c(school = 2, student = 10), n_X = 1, n_W = 1)
 
 # Example 2: 3-level symmetric structure, sample, PPS and SRS weights
-# cluster_gen(n = c(school = 2, class = 1, student =  5),
-#             N = c(school = 5, class = 2, student = 10),
-#             n_X = 1, n_W = 1)
+cluster_gen(n = c(school = 2, class = 1, student =  5),
+            N = c(school = 5, class = 2, student = 10),
+            n_X = 1, n_W = 1)
 
 # Example 3: 3-level asymmetric structure, sample, PPS and SRS weights
-# cluster_gen(n = list(country = 2,
-#                     school  = c(2, 3),
-#                     student = c(10, 20, 6, 9, 12)),
-#             #FIXME: pop tree output is wrong
-#             N = list(country = 10,
-#                     school  = c(20, 3),
-#                     student = c(20, 30, 12, 12, 12)),
-#             n_X = 1, n_W = 1)
+cluster_gen(n = list(country = 2,
+                    school  = c(2, 3),
+                    student = c(10, 20, 6, 9, 12)),
+            #FIXME: pop tree output is wrong
+            N = list(country = 10,
+                    school  = c(20, 3),
+                    student = c(20, 30, 12, 12, 12)),
+            n_X = 1, n_W = 1)
 
 # P.S.: final weights are always calculated as a product of the other two weights, so wrong calculations are traceable back to either the *.weight or the within.*.weight.
 
