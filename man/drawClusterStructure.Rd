@@ -23,3 +23,6 @@ Prints structure to console.
 \description{
 This function creates a visual representation of the hierarchical structure
 }
+\note{
+This function is useful for checking how a `list()` object looks as a hierarchical structure, usually to be used as the  `n` and/or `N` arguments of the `cluster_gen` function.
+}
