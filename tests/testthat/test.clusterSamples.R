@@ -349,27 +349,30 @@ test_that("Weights are correct for different sampling methods", {
 # cluster_gen(n = c(school = 2, student = 10), n_X = 1, n_W = 1)
 
 # Example 2: 3-level symmetric structure, sample, PPS and SRS weights
-cluster_gen(n = c(school = 2, class = 1, student =  5),
-            N = c(school = 5, class = 2, student = 10),
-            n_X = 1, n_W = 1)
+# cluster_gen(n = c(school = 2, class = 1, student =  5),
+#             N = c(school = 5, class = 2, student = 10),
+#             n_X = 1, n_W = 1)
 
 # Example 3: 3-level asymmetric structure, sample, PPS and SRS weights
-cluster_gen(n = list(country = 2,
-                    school  = c(2, 3),
-                    student = c(10, 20, 6, 9, 12)),
-            #FIXME: pop tree output is wrong
-            N = list(country = 10,
-                    school  = c(20, 3),
-                    student = c(20, 30, 12, 12, 12)),
-            n_X = 1, n_W = 1)
+# cluster_gen(n = list(country = 2,
+#                     school  = c(2, 3),
+#                     student = c(10, 20, 6, 9, 12)),
+#             
+#             N = list(country = 10,
+#                     school  = c(20, 3),
+#                     student = c(20, 30, 12, 12, 12)),
+#             n_X = 1, n_W = 1)
 
 # P.S.: final weights are always calculated as a product of the other two weights, so wrong calculations are traceable back to either the *.weight or the within.*.weight.
 
-# ASK: alternative input paradigm: user defines either n (and N == n) or they define N as well as the *number* of elements from each level to be sampled. Is this more realistic?
-# TODO: create new class for n called "select"
 # ASK: also add option where user knows both what was sampled as well as the pop structure?
 
 # Testing actual sampling ======================================================
 # cl_scheme <- list(school = 2, class = c(3, 2), student = c(5, 4, 5, 5, 5))
+# cl_scheme2 <- list(country = 5,
+#                    school  = c(20, 8, 5, 7, 3),
+#                    student = c(20, 30, 12, 12, 12))
+# drawClusterStructure(cl_scheme)
+# drawClusterStructure(cl_scheme2) #FIXME: incomplete is wrong
 # cluster_gen(n = cl_scheme)
 # cluster_gen(n = select(1, 2, 4), N = cl_scheme)
