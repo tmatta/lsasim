@@ -32,10 +32,11 @@ clusterMessage <- function(n_obs, resp_labels, cluster_labels, n_levels,
   if (type == 1) {
     # Comma-separated multiple questionnaires
     message("Generating questionnaires for ",
-            paste(cluster_labels, collapse = ", "))
+            paste(pluralize(cluster_labels), collapse = ", "))
   } else {
     # Questionnaires only for the lowest level
-    message("Generating questionnaires for ", resp_labels[n_levels - 1])  
+    message("Generating questionnaires for ",
+            pluralize(resp_labels[n_levels - 1]))  
   }
 
   # Printing second until second-to-last messages ==============================
@@ -46,7 +47,8 @@ clusterMessage <- function(n_obs, resp_labels, cluster_labels, n_levels,
 
     # Printing top level -------------------------------------------------------
     if (l == 1 & detail) {
-      message("Top level: ", cluster_labels[l], " (", n_obs_print[l], ")")
+      message("Top level: ", pluralize(cluster_labels[l]),
+              " (", n_obs_print[l], ")")
     }
 
     # Printing second to second-to-last levels ---------------------------------
@@ -57,7 +59,8 @@ clusterMessage <- function(n_obs, resp_labels, cluster_labels, n_levels,
                                      ", respectively")
     }
     if (detail & l < length(n_obs) - 1) {
-      message("Each ", cluster_labels[l], " sampled ",  cluster_labels[l + 1],
+      message("Each ", cluster_labels[l], " sampled ", 
+              pluralize(cluster_labels[l + 1]),
               " (", n_obs_print[l + 1], ")")
     }
     if (l > 1 & class(n_obs) != "list" & separate_questionnaires) {
@@ -69,7 +72,8 @@ clusterMessage <- function(n_obs, resp_labels, cluster_labels, n_levels,
   # Final level ================================================================
   if (detail) {
     message("Each ", cluster_labels[n_levels - 1], " sampled ",
-            resp_labels[n_levels - 1], " (", n_obs_print[n_levels], ")")
+            pluralize(resp_labels[n_levels - 1]),
+            " (", n_obs_print[n_levels], ")")
   }
 
   # Total respondents ==========================================================
@@ -171,11 +175,11 @@ weightResponses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
               cluster_labels[lvl - 1], " level")
       if (sampling_method == "SRS") {
         message("  ", label_1_i, " should add up to the number of ",
-          cluster_labels[lvl - 1], " in the population (",
+          pluralize(cluster_labels[lvl - 1]), " in the population (",
                 sum_pop[lvl - 1], ", repeated measures excluded)")
       } else {
         message("  ", label_ij, " should add up to the number of ",
-          cluster_labels[lvl - 1], " in the population (",
+          pluralize(cluster_labels[lvl - 1]), " in the population (",
                 sum_pop[lvl] * length(N[[lvl - 1]]), ")")
       }
     }
@@ -242,4 +246,33 @@ sampleFrom <- function (N, n, labels = names(N))
   # lapply(sampled_units, 1, function(x) sample(n[length(n))
   drawClusterStructure(N, labels)
   drawClusterStructure(N, labels, output = "text")
+}
+
+#' @title Pluralize words
+#' @description Pluralize a word
+#' @param word vector of characters to be pluralized
+#' @param n vector of number of times each word appears (to determine if the plural or single form will be returned)
+#' @return `word`, either pluralized or not (depending on `n`)
+pluralize <- function(word, n = rep(2, length(word)))
+{
+  # Define basic dictionaty ====================================================
+  singular <- c(
+    "country", "region", "state", "city", "neighborhood", "school",
+    "class", "student"
+  )
+  plural <- c(
+    "countries", "regions", "states", "cities", "neighborhoods", "schools",
+    "classes", "students"
+  )
+
+  # Pluralize if necessary =====================================================
+  out <- NULL
+  for (w in word) {
+    position <- match(w, singular)
+    position_n <- match(w, word)
+    new_w <- ifelse(is.na(position) | n[position_n] == 1, w, plural[position])
+    out <- append(out, new_w)
+  }
+
+  return(out)
 }
