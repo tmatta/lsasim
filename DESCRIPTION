@@ -3,7 +3,7 @@ Title: Functions to Facilitate the Simulation of Large Scale Assessment Data
 Version: 2.0.0
 Authors@R: c(
   person("Tyler", "Matta",
-         email = "tyler.matta@gmail.com", role = c("aut", "cre")),
+         email = "tyler.matta@gmail.com", role = "aut"),
   person("Leslie", "Rutkowski",
          email = "leslie.rutkowski@cemo.uio.no", role = "aut"),
   person("David", "Rutkowski",
@@ -13,7 +13,7 @@ Authors@R: c(
   person("Kondwani Kajera", "Mughogho",
          email = "k.k.mughogho@cemo.uio.no", role = "ctb"),
   person("Waldir", "Leoncio",
-         email = "waldir.leoncio@gmail.com", role = "aut")
+         email = "waldir.leoncio@gmail.com", role = c("aut", "cre"))
   )
 Maintainer: Waldir Leoncio <waldir.leoncio@gmail.com>
 BugReports: https://github.com/tmatta/lsasim/issues
