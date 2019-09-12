@@ -8,7 +8,7 @@ This release adds several features to the `questionnaire_gen` function, such as:
 * Generation of questionnaires given a much wider range of arguments.
 * Reduction of the number of mandatory arguments to 1 (number of observations).
 * Generation of answers which are jointly-distributed as a multivariate normal distribution.
-* Generation of regression coefficients of $\theta$ as a linear function of the background questionnaire items.
+* Generation of theoretical and empirical (Monte Carlo) regression coefficients of `theta` as a linear function of the background questionnaire items.
 
 Please read the function's help file for more details on how to access these new features.
 
