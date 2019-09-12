@@ -15,11 +15,12 @@ drawClusterStructure <- function(
 )
 {
   # Check if list structure is correct =========================================
+  # TODO: move to its own function
   for (l in seq(length(n) - 1)) {
     check_condition(
       length(n[[l + 1]]) != sum(n[[l]]),
       paste0(
-        "Invalid cluster structure on level ", l + 1,
+        "Invalid cluster structure on level ", l + 1,  # TODO: add (school)
         ".\nThat level should have ", sum(n[[l]]),
         " elements, but it has ", length(n[[l + 1]]),
         ".\nPlease refer to documentation if necessary."

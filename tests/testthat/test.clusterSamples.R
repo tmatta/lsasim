@@ -351,9 +351,9 @@ calcWeights2 <- function(data_list) {
 # cluster_gen(n = c(school = 2, student = 10), n_X = 1, n_W = 1)
 
 # Example 2: 3-level symmetric structure, sample, PPS and SRS weights
-# cluster_gen(n = c(school = 2, class = 1, student =  5),
-#             N = c(school = 5, class = 2, student = 10),
-#             n_X = 1, n_W = 1)
+cluster_gen(n = c(school = 2, class = 1, student =  5),
+            N = c(school = 5, class = 2, student = 10),
+            n_X = 1, n_W = 1)
 
 # Example 3: 3-level asymmetric structure, sample, PPS and SRS weights
 # cluster_gen(n = list(country = 2,
