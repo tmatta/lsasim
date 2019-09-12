@@ -5,13 +5,28 @@
 #' @param output "tree" or "vector"
 #' @description This function creates a visual representation of the hierarchical structure
 #' @return Prints structure to console.
+#' @note This function is useful for checking how a `list()` object looks as a hierarchical structure, usually to be used as the  `n` and/or `N` arguments of the `cluster_gen` function.
 #' @export
 drawClusterStructure <- function(
-  n, labels =  c("country", "school", "class")[seq(length(n) - 1)],
-  resp =  c("principal", "teacher", "student")[seq(length(n))],
+  n, 
+  labels =  c("country", "school", "class")[seq(length(n) - 1)],
+  resp   =  c("principal", "teacher", "student")[seq(length(n))],
   output = "tree"
 )
 {
+  # Check if list structure is correct =========================================
+  for (l in seq(length(n) - 1)) {
+    check_condition(
+      length(n[[l + 1]]) != sum(n[[l]]),
+      paste0(
+        "Invalid cluster structure on level ", l + 1,
+        ".\nThat level should have ", sum(n[[l]]),
+        " elements, but it has ", length(n[[l + 1]]),
+        ".\nPlease refer to documentation if necessary."
+      )
+    )
+  }
+
   # Create all nodes ===========================================================
   out <- NULL
   structure_table <- as.matrix(labelRespondents(n, labels))
