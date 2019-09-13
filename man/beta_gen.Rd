@@ -48,6 +48,14 @@ This function was primarily conceived as a subfunction of
   \code{questionnaire_gen}, when \code{family = "gaussian"}, \code{theta =
   TRUE}, and \code{full_output = TRUE}. However, it can also be directly
   called by the user so they can perform further analysis.
+  
+  This function primarily calculates the true regression coefficients 
+  (\eqn{\beta}) for the linear influence of the background questionnaire 
+  variables in \eqn{\theta}. From a statistical perspective, this 
+  relationship can be modeled as follows:
+  
+  \deqn{E(theta | X, W) = beta_0 + runSum_{p = 1}^P beta_p X_p + runSum_{q = P + 1}^Q beta_q W_q}{E(\theta | \mathbf{X}, \mathbf{W}) = \beta_0 + \sum_{p = 1}^P \beta_p X_p + \sum_{q = P + 1}^Q \beta_q W_q}
+  \deqn{X + Y > alpha}{X + Y \ge \alpha}
 
   The regression coefficients are calculated using the true covariance matrix
   either provided by the user upon calling of \code{questionnaire_gen} or
