@@ -4,9 +4,7 @@
 \alias{drawClusterStructure}
 \title{Draw Cluster Structure}
 \usage{
-drawClusterStructure(n, labels = c("country", "school",
-  "class")[seq(length(n) - 1)], resp = c("principal", "teacher",
-  "student")[seq(length(n))], output = "tree")
+drawClusterStructure(n, labels = NULL, resp = NULL, output = "tree")
 }
 \arguments{
 \item{n}{same from cluster_gen}

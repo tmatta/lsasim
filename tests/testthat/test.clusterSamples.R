@@ -376,3 +376,30 @@ calcWeights2 <- function(data_list) {
 # drawClusterStructure(cl_scheme2) #FIXME: incomplete is wrong
 # cluster_gen(n = cl_scheme)
 # cluster_gen(n = select(1, 2, 4), N = cl_scheme)
+
+# Testing
+#DONE: ranges for levels
+context("Cluster sampling with ranged number of elements")
+check_cluster_structure <- function(n, FUN = "length")
+{
+  set.seed(1234)
+  n_list <- convertVectorToList(n)
+  structure <- drawClusterStructure(n_list, output="text")
+  func <- match.fun(FUN)
+  structure_out <- func(structure)
+  return(structure_out)
+}
+test_that("Random levels work", {
+  n <- c(city = 2, school = 2, class = 3, student = 4)
+  n2 <- list(city = 2, school = 2, class = 3, student = ranges(10, 50))
+  n3 <- list(city = 2, school = 2, class = ranges(1, 3), stu = ranges(10, 50))
+  n4 <- list(city = 2, school = 2, class = ranges(1, 3), student = 20)
+  n5 <- list(city = 2, school = ranges(5, 8), class = ranges(1, 3), stu = 20)
+  n6 <- list(2, ranges(1, 3), ranges(2, 5), ranges(1, 5), ranges(5, 100))
+  expect_equal(check_cluster_structure(n), 18)
+  expect_equal(check_cluster_structure(n2), 18)
+  expect_equal(check_cluster_structure(n3), 14)
+  expect_equal(check_cluster_structure(n4), 14)
+  expect_equal(check_cluster_structure(n5), 50)
+  expect_equal(check_cluster_structure(n6), 67)
+})
