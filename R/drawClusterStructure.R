@@ -7,15 +7,26 @@
 #' @return Prints structure to console.
 #' @note This function is useful for checking how a `list()` object looks as a hierarchical structure, usually to be used as the  `n` and/or `N` arguments of the `cluster_gen` function.
 #' @export
-drawClusterStructure <- function(
-  n, 
-  labels =  c("country", "school", "class")[seq(length(n) - 1)],
-  resp   =  c("principal", "teacher", "student")[seq(length(n))],
-  output = "tree"
-)
+drawClusterStructure <- function(n, labels = NULL,resp = NULL, output = "tree")
 {
   # Check if list structure is correct =========================================
   check_valid_structure(n)
+
+  # Create labels ==============================================================
+  if (is.null(labels)) {
+    if (is.null(names(n))) {
+      labels <- c("country", "school", "class")[seq(length(n) - 1)]
+    } else {
+      labels <- names(n)
+    }
+  }
+  if (is.null(resp)) {
+    if (is.null(names(n))) {
+      resp <- c("principal", "teacher", "student")[seq(length(n))]
+    } else {
+      resp <- c(names(n), NA)
+    }
+  }
 
   # Create all nodes ===========================================================
   out <- NULL
@@ -73,7 +84,7 @@ drawClusterStructure <- function(
                               paste(nodes[node],
                               cli::style_dim(paste0("(",
                                                     obs$obs[node], " ",
-                                                    resp[length(resp) - 1],
+                                                    pluralize(resp[length(resp) - 1], obs$obs[node]),
                                                     ")"))))
       } else {
         parenthesis <- append(parenthesis, cli::col_white(nodes[node]))
