@@ -95,7 +95,7 @@ drawClusterStructure <- function(n, labels = NULL,resp = NULL, output = "tree")
     if (output == "tree") {
       print(cli::tree(data.frame(toplvl_tree, parenthesis), root = toplvl))
     } else if (output == "text") {
-      out <- append(out, as.character(cli::tree(data.frame(toplvl_tree, parenthesis), root = toplvl)))  #TEMP
+      out <- append(out, as.character(cli::tree(data.frame(toplvl_tree, parenthesis), root = toplvl)))
     }
   }
   return(out)

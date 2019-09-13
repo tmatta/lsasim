@@ -365,8 +365,6 @@ calcWeights2 <- function(data_list) {
 
 # P.S.: final weights are always calculated as a product of the other two weights, so wrong calculations are traceable back to either the *.weight or the within.*.weight.
 
-# ASK: also add option where user knows both what was sampled as well as the pop structure?
-
 # Testing actual sampling ======================================================
 # cl_scheme <- list(school = 2, class = c(3, 2), student = c(5, 4, 5, 5, 5))
 # cl_scheme2 <- list(country = 5,
@@ -403,3 +401,10 @@ test_that("Random levels work", {
   expect_equal(check_cluster_structure(n5), 50)
   expect_equal(check_cluster_structure(n6), 67)
 })
+
+context("Replicate weights")
+# set.seed(230)
+# df <- cluster_gen(c(sch = 4, stu = 10), n_X = 3, n_W = 1, verb = TRUE)
+# jackknife(df$sch[[4]], c("sch.weight", "final.stu.weight"))
+# df2 <- replicate_weights(df, var_method = "Jackknife", verbose = FALSE, print_data = TRUE)
+# ASK: Rename to "replicate_weights" and have the statistics be secondary?
