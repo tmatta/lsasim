@@ -71,30 +71,31 @@ cluster_gen <- function(
     "If n is select, N must be explicitly defined"
   )
 
-  # Sampling from N ============================================================
-  if (class(n) == "select") {
-    n <- sampleFrom(N, n)
-  }
-  
-  # Formatting n and N as lists (unless n is "select") =========================
-  if (class(n) == "list") {
-    for (l in seq(length(n) - 1)) {
-      check_condition(
-        length(n[[l + 1]]) != sum(n[[l]]),
-        paste0(
-          "Invalid cluster structure on level ", l + 1,
-          ".\nThat level should have ", sum(n[[l]]),
-          " elements, but it has ", length(n[[l + 1]]),
-          ".\nPlease refer to documentation if necessary."
-        )
-      )
-    }
-  } else {
-    n <- convertVectorToList(n)
-  }
-  if (class(N) != "list") {
-    N <- convertVectorToList(N)
-  }
+   # Checking valid n-N combinations and reclassifying them ====================
+   # vector + vector := ok
+   # list + (blank) := ok
+   # sample + vector or list := ok
+   # list + vector or list := error ("use sample")
+   if (class(n) == "select") {
+     check_condition(class(N) == "select",
+                     "If n is 'select', N must be a vector or a list")
+     n <- sampleFrom(N, n)
+   } else {
+     if (class(n) == "list") {
+       check_condition(!identical(N, n),
+                       paste("If n is a list, N must be identical to it.",
+                             "Perhaps you mean to use 'select' for n."))
+       check_valid_structure(n)
+     } else if (mode(n) == "numeric") {  # mode catches "numeric" and "integer"
+       check_condition(class(N) %in% c("list", "sample"),
+                       paste("If n is a vector, N must be identical to it.",
+                             "Perhaps you mean to use 'select' for n"))
+       n <- convertVectorToList(n)
+       N <- convertVectorToList(N)
+       check_valid_structure(n)
+       check_valid_structure(N)
+     }
+   }
 
   # Calculating useful arguments ===============================================
   n_levels <- length(n)
