@@ -32,7 +32,7 @@ draw_cluster_structure <- function(
 
   # Create all nodes ===========================================================
   out <- NULL
-  structure_table <- as.matrix(labelRespondents(n, labels))
+  structure_table <- as.matrix(label_respondents(n, labels))
   toplvl_labels <- unique(structure_table[, 1])
   for (toplvl in toplvl_labels) {
     submatrix <- structure_table[structure_table[, 1] == toplvl, , drop = FALSE]

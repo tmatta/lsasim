@@ -215,7 +215,8 @@ test_that("Different means are working", {
 
 context("Sampling weights")
 wrap_cluster_gen <- function(n, N, meth = "SRS", sum_pop = sapply(N, sum),
-                             sep = FALSE, verbose = FALSE, ...) {
+                             sep = FALSE, verbose = FALSE, ...)
+{
   data <- cluster_gen(
     n                       = n,
     N                       = N,
@@ -231,7 +232,8 @@ wrap_cluster_gen <- function(n, N, meth = "SRS", sum_pop = sapply(N, sum),
   return(data)
 }
 
-calcWeights <- function(data_list) {
+calcWeights <- function(data_list)
+{
   w <- sapply(data_list, function(x) colSums(x[4:6]))
   w_sum <- rowSums(w)
   w_1_i <- w_sum[1]
@@ -241,9 +243,9 @@ calcWeights <- function(data_list) {
 }
 
 # Custom weight tests ----------------------------------------------------------
-# TODO: replace with select
+# FIXME: replace with select
 # test_that("Weights are correct", {
-#   ex1 <- wrap_cluster_gen(c(1, 2, 3), c(10, 100, 600))
+#   ex1 <- wrap_cluster_gen(select(1, 2, 3), c(10, 100, 600))
 #   ex2 <- wrap_cluster_gen(n = list(school = 4, student = c(10, 5, 2, 3)),
 #                           N = list(school = 10, students = rep(100, 4)),
 #                           meth = "PPS")
@@ -256,7 +258,7 @@ calcWeights <- function(data_list) {
 # })
 
 # Example from PISA manual tables ----------------------------------------------
-# TODO: replace with select
+# FIXME: replace with select
 # ex_3.3 <- wrap_cluster_gen(n = c(school = 4, student = 10),
 #                            N = c(        10,           40))
 # ex_3.4 <- wrap_cluster_gen(n = list(school =  4,student = c(10, 10, 10,  10)),
@@ -299,7 +301,7 @@ calcWeights2 <- function(data_list) {
   return(out)
 }
 
-# TODO: replace n1 with "select"
+# FIXME: replace n1 with "select"
 # n1 <- list(cnt = 1, sch = 3, cls = c(2, 1, 3), stu = rep(2, 6))
 # N1 <- list(cnt = 1, sch = 9, cls = c(8, 7, 6), stu = rep(8, 6))
 # ex4 <- wrap_cluster_gen(n1, N1, meth = "SRS", sep = TRUE, collapse = "partial")

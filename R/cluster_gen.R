@@ -83,13 +83,18 @@ cluster_gen <- function(
    } else {
      if (class(n) == "list") {
        check_condition(!identical(N, n),
-                       paste("If n is a list, N must be identical to it.",
-                             "Perhaps you mean to use 'select' for n."))
+                       paste("If n and N are lists, they must be must be",      
+                             "identical. Perhaps you mean to use 'select'",
+                             "for n."))
        check_valid_structure(n)
      } else if (mode(n) == "numeric") {  # mode catches "numeric" and "integer"
        check_condition(class(N) %in% c("list", "sample"),
                        paste("If n is a vector, N must be identical to it.",
                              "Perhaps you mean to use 'select' for n"))
+       check_condition(!identical(N, n),
+                       paste("If n and N are vectors, they must be must be",
+                             "identical. Perhaps you mean to use 'select'",
+                             "for n."))
        n <- convert_vector_to_list(n)
        N <- convert_vector_to_list(N)
        check_valid_structure(n)
