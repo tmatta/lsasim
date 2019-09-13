@@ -25,7 +25,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
 	sample <- list()  # will store all BG questionnaires
   c_mean_list <- c_mean
   n_quest <- sapply(n, sum)
-  id_combos <- labelRespondents(n, cluster_labels)
+  id_combos <- label_respondents(n, cluster_labels)
 
   # Generating data ------------------------------------------------------------
   for (l in seq(n_levels - 1)) {
@@ -73,7 +73,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
 
       # Adding weights
       if (calc_weights) {
-        cluster_bg <- weightResponses(
+        cluster_bg <- weight_responses(
           cluster_bg, n, N, l + 1, lvl, previous_sublvl[lvl], sampling_method,
           cluster_labels, resp_labels, sum_pop, verbose
         )

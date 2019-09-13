@@ -79,7 +79,7 @@ cluster_gen <- function(
    if (class(n) == "select") {
      check_condition(class(N) == "select",
                      "If n is 'select', N must be a vector or a list")
-     n <- sampleFrom(N, n)
+     n <- sample_from(N, n)
    } else {
      if (class(n) == "list") {
        check_condition(!identical(N, n),
@@ -90,8 +90,8 @@ cluster_gen <- function(
        check_condition(class(N) %in% c("list", "sample"),
                        paste("If n is a vector, N must be identical to it.",
                              "Perhaps you mean to use 'select' for n"))
-       n <- convertVectorToList(n)
-       N <- convertVectorToList(N)
+       n <- convert_vector_to_list(n)
+       N <- convert_vector_to_list(N)
        check_valid_structure(n)
        check_valid_structure(N)
      }
@@ -154,9 +154,9 @@ cluster_gen <- function(
         drawClusterStructure(n, cluster_labels, resp_labels)
       } else {
         message("Sample structure")
-        drawClusterStructure(n, cluster_labels, resp_labels)
+        draw_cluster_structure(n, cluster_labels, resp_labels)
         message("Population structure")
-        drawClusterStructure(N, cluster_labels, resp_labels)
+        draw_cluster_structure(N, cluster_labels, resp_labels)
       }
     }
 
@@ -176,12 +176,12 @@ cluster_gen <- function(
       clusterMessage(n, resp_labels, cluster_labels, n_levels,
                      separate_questionnaires, 2)
       if (identical(N, n)) {
-        drawClusterStructure(n, cluster_labels, resp_labels)
+        draw_cluster_structure(n, cluster_labels, resp_labels)
       } else {
         message("Sampled structure")
-        drawClusterStructure(n, cluster_labels, resp_labels)
+        draw_cluster_structure(n, cluster_labels, resp_labels)
         message("Population structure")
-        drawClusterStructure(N, cluster_labels, resp_labels)
+        draw_cluster_structure(N, cluster_labels, resp_labels)
       }
     }
 

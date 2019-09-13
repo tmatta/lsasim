@@ -2,7 +2,8 @@
 #' @description Converts a vector to list where each element is replicated a certain number of times depending on the previous vector
 #' @param x vector to ve converted
 #' @return expanded/replicated version of x
-convertVectorToList <- function(x)
+#' @export
+convert_vector_to_list <- function(x)
 {
   x_list <- as.list(x)
   for (lvl in 2:(length(x))) {

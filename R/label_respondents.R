@@ -3,7 +3,7 @@
 #' @param n_obs list with the number of elements per level
 #' @param cluster_labels character vector with the names of each cluster level
 #' @return Data frame with the combinations of IDs from all levels
-labelRespondents <- function (n_obs, cluster_labels)
+label_respondents <- function (n_obs, cluster_labels)
 {
   # Creating basic elements ====================================================
   n_levels <- length(n_obs)
