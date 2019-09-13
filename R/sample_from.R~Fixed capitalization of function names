@@ -1,10 +1,10 @@
 #' @title Sample from population structure
 #' @description Generates a sample from a population structure
-sampleFrom <- function (N, n, labels = names(N))
+sample_from <- function (N, n, labels = names(N))
 {
   # Creating basic elements ====================================================
-  if (class(N) != "list") N <- convertVectorToList(N)
-  unit_labels <- labelRespondents(N, labels)
+  if (class(N) != "list") N <- convert_vector_to_list(N)
+  unit_labels <- label_respondents(N, labels)
   sampled_units <- unit_labels
 
   # Sampling elements until second-to-last level ===============================
@@ -18,6 +18,6 @@ sampleFrom <- function (N, n, labels = names(N))
   # Sampling from last level ===================================================
   browser()#TEMP
   # lapply(sampled_units, 1, function(x) sample(n[length(n))
-  drawClusterStructure(N, labels)
-  drawClusterStructure(N, labels, output = "text")
+  draw_cluster_structure(N, labels)
+  draw_cluster_structure(N, labels, output = "text")
 }

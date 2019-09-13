@@ -12,9 +12,10 @@
 #' @param sum_pop total population at each level (sampled or not)
 #' @param verbose if `TRUE`, prints output messages
 #' @return Input data frame (`cluster_bg`) with three new columns for the sampling weights.
-weightResponses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl, 
-                            sampling_method, cluster_labels, resp_labels,
-                            sum_pop, verbose)
+weight_responses <- function(
+  cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl, sampling_method, 
+  cluster_labels, resp_labels, sum_pop, verbose
+)
 {
   # Determining sampling method ================================================
   if (length(sampling_method) > 1) {

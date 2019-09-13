@@ -8,7 +8,7 @@
 #' @param type Type of top-level message
 #' @param detail if `TRUE`, prints further details about each level composition
 #' @return Messages.
-clusterMessage <- function(n_obs, resp_labels, cluster_labels, n_levels,
+cluster_message <- function(n_obs, resp_labels, cluster_labels, n_levels,
                            separate_questionnaires, type, detail = FALSE)
 {
   # Printing first-row message =================================================
