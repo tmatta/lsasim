@@ -28,6 +28,7 @@
 #'   
 #'   \deqn{E(theta | X, W) = beta_0 + runSum_{p = 1}^P beta_p X_p + runSum_{q = P + 1}^Q beta_q W_q}{E(\theta | \mathbf{X}, \mathbf{W}) = \beta_0 + \sum_{p = 1}^P \beta_p X_p + \sum_{q = P + 1}^Q \beta_q W_q}
 #'   \deqn{X + Y > alpha}{X + Y \ge \alpha}
+#TODO: fix formatting and add "where... is the expect. of theta given X and W"
 #'
 #'   The regression coefficients are calculated using the true covariance matrix
 #'   either provided by the user upon calling of \code{questionnaire_gen} or
