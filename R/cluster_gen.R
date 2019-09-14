@@ -108,9 +108,6 @@ cluster_gen <- function(
     cluster_labels <- names(n)
     resp_labels <- c(names(n)[-1], "respondent")
   }
-  if (length(n_obs) == 1) {
-    stop("n_obs must have length larger than 1")
-  }
 
   # Treating NAs in labels =====================================================
   if (length(cluster_labels[!is.na(cluster_labels)]) < length(n)) {
@@ -139,6 +136,21 @@ cluster_gen <- function(
   if (separate_questionnaires) { # questionnaires administered at all levels
     # Generates unique questionnaires for each level
 
+    # Message explaining cluster scheme ----------------------------------------
+    if (verbose) {
+      print(cli::rule(left = cli::col_blue("Hierarchical structure")))
+      cluster_message(n, resp_labels, cluster_labels, n_levels,
+                     separate_questionnaires, 1)
+      if (identical(N, n)) {
+        draw_cluster_structure(n, cluster_labels, resp_labels)
+      } else {
+        message("Sample structure")
+        draw_cluster_structure(n, cluster_labels, resp_labels)
+        message("Population structure")
+        draw_cluster_structure(N, cluster_labels, resp_labels)
+      }
+    }
+
     # Defining n_X and n_W -----------------------------------------------------
     if (is.null(n_X)) {
       n_X <- list()
@@ -152,21 +164,7 @@ cluster_gen <- function(
         n_W[[l]] <- as.list(replicate(rzeropois(5), 2)) # all Ws are binary
       }
     }
-
-    # Message explaining cluster scheme ----------------------------------------
-    if (verbose) {
-      print(cli::rule(left = cli::col_blue("Hierarchical structure")))
-      clusterMessage(n, resp_labels, cluster_labels, n_levels,
-                     separate_questionnaires, 1)
-      if (identical(N, n)) {
-        drawClusterStructure(n, cluster_labels, resp_labels)
-      } else {
-        message("Sample structure")
-        draw_cluster_structure(n, cluster_labels, resp_labels)
-        message("Population structure")
-        draw_cluster_structure(N, cluster_labels, resp_labels)
-      }
-
+    
     # Questionnaire generation -------------------------------------------------
     if (verbose & calc_weights) {
       print(cli::rule(left = cli::col_blue("Information on sampling weights")))
@@ -180,8 +178,8 @@ cluster_gen <- function(
     # Message explaining cluster scheme ----------------------------------------
     if (verbose) {
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
-      clusterMessage(n, resp_labels, cluster_labels, n_levels,
-                     separate_questionnaires, 2)
+      cluster_message(n, resp_labels, cluster_labels, n_levels,
+                    separate_questionnaires, 2)
       if (identical(N, n)) {
         draw_cluster_structure(n, cluster_labels, resp_labels)
       } else {

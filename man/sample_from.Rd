@@ -4,7 +4,10 @@
 \alias{sample_from}
 \title{Sample from population structure}
 \usage{
-sample_from(N, n, labels = names(N))
+sample_from(N, n, labels = names(N), verbose = TRUE)
+}
+\arguments{
+\item{N}{list containing the population sampling structure}
 }
 \description{
 Generates a sample from a population structure
