@@ -4,10 +4,12 @@
 \alias{convert_vector_to_list}
 \title{Convert Vector to Expanded List}
 \usage{
-convert_vector_to_list(x)
+convert_vector_to_list(x, ref_x = x)
 }
 \arguments{
-\item{x}{vector to ve converted}
+\item{x}{vector to be converted}
+
+\item{ref_x}{reference vector}
 }
 \value{
 expanded/replicated version of x
