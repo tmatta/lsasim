@@ -8,7 +8,7 @@ convert_vector_to_list <- function(x, ref_x = x)
 {
   x_list <- as.list(x)
   ref_x_list <- as.list(ref_x)
-  for (lvl in 2:(length(x))) {
+  for (lvl in 2:length(x)) {
     if (class(x_list[[lvl]]) == "range") {
       x_list[[lvl]] <- sample_within_range(x[[lvl]], sum(ref_x_list[[lvl - 1]]))
       ref_x_list[[lvl]] <- sample_within_range(ref_x[[lvl]], sum(ref_x_list[[lvl - 1]]))

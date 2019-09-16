@@ -106,7 +106,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
     # Collapsing levels and removing clusterIDs -------------------------------
     if (collapse == "none") {
       out[[l]] <- sample[[l]]
-      for (ll in seq(length(out[[l]]))) {
+      for (ll in seq_along(out[[l]])) {
         out[[l]][[ll]]["clusterID"] <- NULL
       }
       names(out)[[l]] <- cluster_labels[l]
