@@ -16,7 +16,6 @@ sample_from <- function (N, n, labels = names(N))
   }
 
   # Sampling from last level ===================================================
-  browser()#TEMP
   # lapply(sampled_units, 1, function(x) sample(n[length(n))
   draw_cluster_structure(N, labels)
   draw_cluster_structure(N, labels, output = "text")
