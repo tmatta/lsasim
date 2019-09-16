@@ -18,31 +18,54 @@ sample_from <- function (N, n, labels = names(N), verbose = TRUE)
 
   # Sampling setup =============================================================
   # TODO: sample from top to bottom
-  # TODO: start by selecting elements_1st_lvl
+  # TODO: start by selecting elements_in_lvl
   # TODO: then select second level based on results from 1st. Then rinse and repeat until last level.
   # lapply(sampled_units, 1, function(x) sample(n[length(n))
   if (verbose) message("Sampling from population")
+  # TODO: add txtProgressBar or something...
   elements <- draw_cluster_structure(N, labels, output = "text")
 
-  # Sampling from the last level ===============================================
-  sampled_elements <- 
+  # Determining elements from the level =======================================
+  sample_tree <- function(pop, level, grepl_filter, grepl_cleanup1,
+                          grepl_cleanup2 = "")
+  {
+    elements_in_lvl <- NULL
+    for (i in seq_along(pop)) {
+      is_in_lvl <- grepl(grepl_filter, pop[i])
+      elements_in_lvl <- append(elements_in_lvl, is_in_lvl)
+    }
+    elements_in_lvl <- pop[elements_in_lvl]
 
-  # Retrieving elements from the last level ====================================
-  elements_last_lvl <- NULL
-  for (i in seq_along(elements)) {
-    is_last_lvl <- grepl("\\(", elements[i])
-    elements_last_lvl <- append(elements_last_lvl, is_last_lvl)
+    # Cleaning up elements ------------------------
+    elements_in_lvl <- gsub(grepl_cleanup1, "", elements_in_lvl)
+    elements_in_lvl <- gsub(grepl_cleanup2, "", elements_in_lvl)
+
+    # Sampling ------------------------
+    sampled_elements <- sample(x = elements_in_lvl, size = n[level])
+    elements_left <- pop[elements_in_lvl %in% sampled_elements]
+    return(elements_left)
   }
-  elements_last_lvl <- elements[elements_last_lvl]
 
-  # Cleaning up elements from last level =======================================
-  elements_last_lvl <- gsub("\\s.+", "", elements_last_lvl)
-  elements_last_lvl <- gsub("\\W", "", elements_last_lvl)
+  # Sampling from the top level ================================================
+  el_top <- sample_tree(elements, 1, "^\\\033", "\\\033\\[\\d\\dm")
+
+  # Sampling from the intermediate levels ======================================
+  if (length(n) > 3) {
+    # This only applies in cases where intermediate levels exist
+    stop("Sampling not yet implemented for length(n) this large")
+    el_lvl <- el_top
+    for (l in 2:length(n) - 1) {
+      # TODO: implement for intermediate levels
+      # el_lvl <- sample(tree, el_lvl, 
+    }
+  }
 
   # Sampling from second-to-last level =========================================
-  sampled_elements <- append(sample(x = elements_last_lvl,
-                                    size = prod(n[1]:n[length(n) - 1])),
-                             sampled_elements)
+  el_lvl <- sample_tree(el_top, n[length(n) - 1], "\\_", "\\s.+", "\\W")
 
-  browser()#TEMP
+  # Sampling from last level ===================================================
+  el_lvl <- gsub("\\(\\d+", paste0("\\(", n[length(n)]), el_lvl)
+
+  # Printing sampled elements ==================================================
+  if (verbose) cat(el_lvl, sep = "\n")
 }
