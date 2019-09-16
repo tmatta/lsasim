@@ -383,7 +383,8 @@ test_that("Weights are correct for different sampling methods", {
 # cluster_gen(n = select(1, 2, 4), N = cl_scheme)
 
 # Testing
-#DONE: ranges for levels
+# DONE: generate tree for level ranges
+# TODO: generate data for level ranges
 context("Cluster sampling with ranged number of elements")
 check_cluster_structure <- function(n, FUN = "length")
 {
@@ -394,23 +395,50 @@ check_cluster_structure <- function(n, FUN = "length")
   structure_out <- func(structure)
   return(structure_out)
 }
+n <- c(city = 2, school = 2, class = 3, student = 4)
+n2 <- list(city = 2, school = 2, class = 3, student = ranges(10, 50))
+n3 <- list(city = 2, school = 2, class = ranges(1, 3), stu = ranges(10, 50))
+n4 <- list(city = 2, school = 2, class = ranges(1, 3), student = 20)
+n5 <- list(city = 2, school = ranges(5, 8), class = ranges(1, 3), stu = 20)
+n6 <- list(2, ranges(1, 3), ranges(2, 5), ranges(1, 5), ranges(5, 100))
+
 test_that("Random levels work", {
-  # n <- c(city = 2, school = 2, class = 3, student = 4)
-  # n2 <- list(city = 2, school = 2, class = 3, student = ranges(10, 50))
-  # n3 <- list(city = 2, school = 2, class = ranges(1, 3), stu = ranges(10, 50))
-  # n4 <- list(city = 2, school = 2, class = ranges(1, 3), student = 20)
-  # n5 <- list(city = 2, school = ranges(5, 8), class = ranges(1, 3), stu = 20)
-  # n6 <- list(2, ranges(1, 3), ranges(2, 5), ranges(1, 5), ranges(5, 100))
-  # expect_equal(check_cluster_structure(n), 18)
-  # expect_equal(check_cluster_structure(n2), 18)
-  # expect_equal(check_cluster_structure(n3), 14)
-  # expect_equal(check_cluster_structure(n4), 14)
-  # expect_equal(check_cluster_structure(n5), 50)
-  # expect_equal(check_cluster_structure(n6), 67)
+  expect_equal(check_cluster_structure(n), 18)
+  expect_equal(check_cluster_structure(n2), 18)
+  expect_equal(check_cluster_structure(n3), 14)
+  expect_equal(check_cluster_structure(n4), 14)
+  expect_equal(check_cluster_structure(n5), 50)
+  expect_equal(check_cluster_structure(n6), 67)
 })
 
 test_that("Random level-generated data generates questionnaires", {
   # TODO: add functionality and tests
+  set.seed(1234); df2 <- cluster_gen(n2, verbose = FALSE, separate = FALSE)
+  set.seed(1234); df3 <- cluster_gen(n3, verbose = FALSE)
+  set.seed(1234); df4 <- cluster_gen(n4, verbose = FALSE)
+  set.seed(7646); df5 <- cluster_gen(n5, verbose = FALSE)
+  set.seed(7646); df6 <- cluster_gen(n6, verbose = FALSE)
+  expect_equivalent(
+    sapply(df2, nrow), c(37, 25, 31, 46, 18, 14, 47, 25, 13, 43, 48, 31)
+  )
+  expect_equivalent(sapply(df3$school, nrow), c(2, 2, 1, 3))
+  expect_equivalent(sapply(df3$class, nrow), c(18, 14, 47, 25, 13, 43, 48, 31))
+  expect_equivalent(sapply(df4$school, nrow), c(2, 2, 1, 3))
+  expect_equivalent(sapply(df5$city, nrow), c(5, 8))
+  expect_equivalent(
+    sapply(df5$school, nrow), c(3, 2, 1, 2, 1, 2, 2, 2, 3, 2, 3, 2, 2)
+  )
+  expect_equivalent(sapply(df6$country, nrow), c(1, 3))
+  expect_equivalent(sapply(df6$school, nrow), c(5, 3, 2, 3))
+  expect_equivalent(
+    sapply(df6$class, nrow), c(4, 1, 2, 2, 2, 3, 2, 2, 4, 5, 4, 5, 4)
+  )
+  expect_equivalent(
+    sapply(df6$unknowncluster, nrow),
+    c(87, 99, 21, 26, 87, 29, 41, 57, 10, 86, 92, 67, 53, 18, 38, 89, 75, 37,
+      9, 88, 95, 59, 35, 14, 88, 44, 18, 100, 61, 99, 48, 75, 14, 18, 68, 87,
+      60, 40, 20, 9)
+  )
 })
 
 context("Replicate weights")

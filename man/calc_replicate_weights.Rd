@@ -12,9 +12,9 @@ calc_replicate_weights(data, var_method = "none", print_stats = TRUE,
 
 \item{var_method}{if other than `none`, calculates replicate weights. Can be "jackknife", "BRR" or "BRR Fay"}
 
-\item{verbose}{if `TRUE`, prints summary}
+\item{print_stats}{if `TRUE`, includes some statistics concerning the background questionnaire questions}
 
-\item{print_data}{if `TRUE`, includes the input data with replicate weights as an output}
+\item{verbose}{if `TRUE`, prints summary}
 }
 \value{
 list with data and, if requeted, some statistics
