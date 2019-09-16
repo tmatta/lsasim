@@ -44,6 +44,10 @@ cluster_gen <- function(
 )
 {
   # Validating =================================================================
+  check_condition(!identical(N, n), "N != n not yet implemented") # TEMP
+  check_condition(any(sapply(n, class) == "range"),  # TEMP
+                 "Data generation for ranges not yet implemented") # TEMP
+  check_condition(class(n) == "select", "Select not yet implemented") # TEMP
   check_condition(
     !separate_questionnaires & length(n_X) > 1,
     "Unique questionnaire requested. n_X must therefore be a scalar."
@@ -82,23 +86,34 @@ cluster_gen <- function(
      n <- sample_from(N, n)
    } else {
      if (class(n) == "list") {
-       check_condition(!identical(N, n),
-                       paste("If n and N are lists, they must be must be",      
-                             "identical. Perhaps you mean to use 'select'",
-                             "for n."))
+      #  check_condition(!identical(N, n),
+      #                  paste("If n and N are lists, they must be must be",      
+      #                        "identical. Perhaps you mean to use 'select'",
+      #                        "for n."))
        check_valid_structure(n)
+       if (any(sapply(n, class) == "range")) {
+         N <- convert_vector_to_list(N)
+         check_valid_structure(N)
+       } else {
+         N <- convert_vector_to_list(N, n)
+       }
      } else if (mode(n) == "numeric") {  # mode catches "numeric" and "integer"
-       check_condition(class(N) %in% c("list", "sample"),
-                       paste("If n is a vector, N must be identical to it.",
-                             "Perhaps you mean to use 'select' for n"))
-       check_condition(!identical(N, n),
-                       paste("If n and N are vectors, they must be must be",
-                             "identical. Perhaps you mean to use 'select'",
-                             "for n."))
+      #  check_condition(class(N) %in% c("list", "sample"),
+      #                  paste("If n is a vector, N must be identical to it.",
+      #                        "Perhaps you mean to use 'select' for n"))
+      #  check_condition(!identical(N, n),
+      #                  paste("If n and N are vectors, they must be must be",
+      #                        "identical. Perhaps you mean to use 'select'",
+      #                        "for n."))
        n <- convert_vector_to_list(n)
-       N <- convert_vector_to_list(N)
+       if (any(sapply(n, class) == "range")) {
+         N <- convert_vector_to_list(N)
+         check_valid_structure(N)
+       } else {
+         N <- convert_vector_to_list(N, n)
+       }
        check_valid_structure(n)
-       check_valid_structure(N)
+      #  check_valid_structure(N)
      }
    }
 
@@ -146,8 +161,8 @@ cluster_gen <- function(
       } else {
         message("Sample structure")
         draw_cluster_structure(n, cluster_labels, resp_labels)
-        message("Population structure")
-        draw_cluster_structure(N, cluster_labels, resp_labels)
+        # message("Population structure")
+        # draw_cluster_structure(N, cluster_labels, resp_labels)
       }
     }
 
@@ -185,8 +200,8 @@ cluster_gen <- function(
       } else {
         message("Sampled structure")
         draw_cluster_structure(n, cluster_labels, resp_labels)
-        message("Population structure")
-        draw_cluster_structure(N, cluster_labels, resp_labels)
+        # message("Population structure")
+        # draw_cluster_structure(N, cluster_labels, resp_labels)
       }
     }
 
