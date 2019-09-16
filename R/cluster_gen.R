@@ -45,8 +45,6 @@ cluster_gen <- function(
 {
   # Validating =================================================================
   check_condition(!identical(N, n), "N != n not yet implemented") # TEMP
-  check_condition(any(sapply(n, class) == "range"),  # TEMP
-                 "Data generation for ranges not yet implemented") # TEMP
   check_condition(class(n) == "select", "Select not yet implemented") # TEMP
   check_condition(
     !separate_questionnaires & length(n_X) > 1,
@@ -90,10 +88,10 @@ cluster_gen <- function(
       #                  paste("If n and N are lists, they must be must be",      
       #                        "identical. Perhaps you mean to use 'select'",
       #                        "for n."))
-       check_valid_structure(n)
        if (any(sapply(n, class) == "range")) {
-         N <- convert_vector_to_list(N)
-         check_valid_structure(N)
+         n <- convert_vector_to_list(n)
+         N <- n
+        #  check_valid_structure(N)
        } else {
          N <- convert_vector_to_list(N, n)
        }
