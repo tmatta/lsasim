@@ -126,10 +126,10 @@ cluster_gen <- function(
 
   # Treating NAs in labels =====================================================
   if (length(cluster_labels[!is.na(cluster_labels)]) < length(n)) {
-    cluster_labels[is.na(cluster_labels)] <- "unknown_cluster"
+    cluster_labels[is.na(cluster_labels)] <- "unknowncluster"
   }
   if (length(resp_labels[!is.na(resp_labels)]) < length(n)) {
-    resp_labels[is.na(resp_labels)] <- "unknown_respondent"
+    resp_labels[is.na(resp_labels)] <- "unknownrespondent"
   }
 
   # Removing accents ===========================================================
