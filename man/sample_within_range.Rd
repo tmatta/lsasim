@@ -4,12 +4,14 @@
 \alias{sample_within_range}
 \title{Sample from range}
 \usage{
-sample_within_range(rg, sample_size = NULL)
+sample_within_range(rg, sample_size = NULL, seed = NULL)
 }
 \arguments{
 \item{rg}{a "range"-class vector}
 
 \item{sample_size}{the size of the sample to be generated}
+
+\item{seed}{pseudo-random number generator seed}
 }
 \value{
 A vector containing the generated sample

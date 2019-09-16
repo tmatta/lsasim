@@ -1,6 +1,9 @@
 #' @title Sample from population structure
 #' @description Generates a sample from a population structure
 #' @param N list containing the population sampling structure
+#' @param n numeric vector with the number of sampled observations (clusters or subjects) on each level
+#' @param labels character vector with the names of the questionnaire respondents on each level
+#' @param verbose if `TRUE`, prints output messages
 sample_from <- function (N, n, labels = names(N), verbose = TRUE)
 {
   # Creating basic elements ====================================================
@@ -17,9 +20,6 @@ sample_from <- function (N, n, labels = names(N), verbose = TRUE)
   }
 
   # Sampling setup =============================================================
-  # TODO: sample from top to bottom
-  # TODO: start by selecting elements_in_lvl
-  # TODO: then select second level based on results from 1st. Then rinse and repeat until last level.
   # lapply(sampled_units, 1, function(x) sample(n[length(n))
   if (verbose) message("Sampling from population")
   # TODO: add txtProgressBar or something...

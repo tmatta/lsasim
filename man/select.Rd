@@ -8,6 +8,8 @@ select(x, ...)
 }
 \arguments{
 \item{x}{vector}
+
+\item{...}{parameters to be passed to `c()`}
 }
 \value{
 same as `x`, but with a class attribute that classifies `x` as "select"
