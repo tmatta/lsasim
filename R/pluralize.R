@@ -8,11 +8,11 @@ pluralize <- function(word, n = rep(2, length(word)))
   # Define basic dictionaty ====================================================
   singular <- c(
     "country", "region", "state", "city", "neighborhood", "school",
-    "class", "student"
+    "class", "teacher", "student", "principal"
   )
   plural <- c(
     "countries", "regions", "states", "cities", "neighborhoods", "schools",
-    "classes", "students"
+    "classes", "teachers", "students", "principals"
   )
 
   # Pluralize if necessary =====================================================
@@ -20,7 +20,9 @@ pluralize <- function(word, n = rep(2, length(word)))
   for (w in word) {
     position <- match(w, singular)
     position_n <- match(w, word)
-    new_w <- ifelse(is.na(position) | n[position_n] == 1, w, plural[position])
+    new_w <- ifelse(test = is.na(position) | n[position_n] == 1,
+                    yes  = paste0(w, "s"),
+                    no   = plural[position])
     out <- append(out, new_w)
   }
 
