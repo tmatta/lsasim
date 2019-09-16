@@ -52,7 +52,7 @@ weight_responses <- function(
   # Probabilities (previous_lvl and within previous_lvl) =======================
   if (sampling_method == "SRS") {
     p_1_i <- n_obs[[lvl - 1]] / N[[lvl - 1]]
-    p_2_ij <- n_obs[[lvl]] / N[[lvl]]
+    p_2_ij <- n_obs[[lvl]] / N[[lvl]][sublvl]
     if (length(p_1_i) > 1) p_1_i <- p_1_i[previous_sublvl]
     if (length(p_2_ij) > 1) p_2_ij <- p_2_ij[sublvl]
   } else if (sampling_method == "PPS") {
