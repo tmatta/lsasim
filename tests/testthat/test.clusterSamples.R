@@ -93,8 +93,8 @@ test_that("uniqueIDs are correct", {
   df2 <- wrap_cluster_gen_2(2:4, separate_questionnaires = FALSE)
   df3 <- wrap_cluster_gen_2(scheme1)
   df4 <- wrap_cluster_gen_2(scheme1, separate_questionnaires = FALSE)
-  expect_error(wrap_cluster_gen_2(list(1, c(1, 1), c(1, 2), c(3, 2, 3)),
-                                  separate_questionnaires = FALSE))
+  df5 <- wrap_cluster_gen_2(list(1, c(1, 1), c(1, 2), c(3, 2, 3)),
+                            separate_questionnaires = FALSE)
   df6 <- wrap_cluster_gen_2(scheme2)
   df7 <- wrap_cluster_gen_2(scheme2, separate_questionnaires = FALSE)
   df8 <- wrap_cluster_gen(c(2, 3, 4), n_X = 1, n_W = 1, c_mean = 10,
@@ -135,6 +135,7 @@ test_that("uniqueIDs are correct", {
     'student1_class1_school2_country1', 'student2_class1_school2_country1', 
     'student1_class2_school2_country1', 'student2_class2_school2_country1', 
     'student3_class2_school2_country1'))
+  expect_identical(df5, df4)
   expect_equal(df6, c('student1_class1_school1_country1', 
     'student2_class1_school1_country1', 'student1_class1_school1_country2', 
     'student2_class1_school1_country2', 'student1_class1_school2_country1', 
@@ -196,6 +197,17 @@ df5 <- wrap_c_gen_mu(
   )
 )
 test_that("Different means are working", {
+  df1 <- wrap_c_gen_mu(c(2, 1000))
+  df2 <- wrap_c_gen_mu(c(2, 1000), c_mean = 10)
+  df3 <- wrap_c_gen_mu(c(2, 1000), c_mean = c(10, 100))
+  df4 <- wrap_c_gen_mu(c(2, 1000), c_mean = list(list(c(10, 100), c(20, 200))))
+  df5 <- wrap_c_gen_mu(n      = c(school = 2, class = 3, student = 1000),
+                      c_mean = list(
+                          school = list(c(10, 100), c(20, 200)),
+                          class  = list(c(30, 300), c(40, 400), c(50, 500),
+                                        c(60, 600), c(70, 700), c(80, 800))
+                          )
+                      )
   mean_Xs <- function(x) colMeans(x[2:3])
   expect_equivalent(sapply(df1$country, mean_Xs)[, 1], c(0, 0), tol = .1)
   expect_equivalent(sapply(df1$country, mean_Xs)[, 2], c(0, 0), tol = .1)
@@ -398,6 +410,10 @@ test_that("Random levels work", {
   # expect_equal(check_cluster_structure(n4), 14)
   # expect_equal(check_cluster_structure(n5), 50)
   # expect_equal(check_cluster_structure(n6), 67)
+})
+
+test_that("Random level-generated data generates questionnaires", {
+  # TODO: add functionality and tests
 })
 
 context("Replicate weights")
