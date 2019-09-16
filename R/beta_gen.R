@@ -24,7 +24,7 @@
 #'   This function primarily calculates the true regression coefficients 
 #'   (\eqn{\beta}) for the linear influence of the background questionnaire 
 #'   variables in \eqn{\theta}. From a statistical perspective, this 
-#'   relationship can be modeled as follows, where \eqn{E(\theta | X, W)} is the expectation of \eqn{\theta} given \eqn{\boldsymbol{X} = \{X_1 \ldots X_P\}} and \eqn{\boldsymbol{W} = \{W_1 \ldots W_Q\}}{X = {X_1 ... X_P}} and \eqn{\boldsymbol{W} = \{W_1 \ldots W_Q\}}{W = {W_1 ... W_Q}}:
+#'   relationship can be modeled as follows, where \eqn{E(\theta | \boldsymbol{X}, \boldsymbol{W})}{E(\theta | X, W)} is the expectation of \eqn{\theta} given \eqn{\boldsymbol{X} = \{X_1, \ldots, X_P\}}{X = {X_1, ..., X_P}} and \eqn{\boldsymbol{W} = \{W_1, \ldots, W_Q\}}{W = {W_1, ..., W_Q}}:
 #'   
 #'   \deqn{E(\theta | \boldsymbol{X}, \boldsymbol{W}) = \beta_0 + \sum_{p = 1}^P \beta_p X_p + \sum_{q = 1}^Q \beta_{P + q} W_q}{E(theta | X, W) = b_0 + \sum_{p = 1}^P b_p X_p + \sum_{q = 1}^Q b_{P + q} W_q}
 #'
