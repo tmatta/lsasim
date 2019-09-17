@@ -1,11 +1,11 @@
 ---
-title: "Demo 3"
+title: "Retrieving regression coefficients"
 author: Yuan-Ling Liaw and Waldir Leoncio
 header-includes:
     - \usepackage{setspace}\onehalfspacing
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{ex3}
+  %\VignetteIndexEntry{Retrieving regression coefficients}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,11 +17,6 @@ opts_chunk$set(comment = "", warning = FALSE, message = FALSE,
                echo = TRUE, tidy = TRUE)
 ```
 
-```{r install, include = FALSE, warning = FALSE}
-#install.packages("devtools")
-#install_github("wleoncio/lsasim", force = TRUE)
-```
-
 ```{r load}
 library(lsasim)
 ```
@@ -31,8 +26,6 @@ packageVersion("lsasim")
 ```
 
 ---
-
-### **Retrieving regression coefficients**
 
 With the arguments `theta = TRUE`, `full_Output = TRUE` and `family = "gaussian"`, the output will automatically contain the $\beta$ vector and the $R$ matrix (i.e., `beta_gen` will be called automatically from within `questionnaire_gen`).
 
