@@ -8,6 +8,9 @@
 \description{
 lsasim: A package for simulating large scale assessment data
 }
+\note{
+This package contains vignettes. If you are installing lsasim from GitHub, remember to use `build_vignettes=TRUE` in your `remotes::install_github()` call. Afterwards, you can browse the vignettes by issuing `browseVignettes("lsasim")` in your R terminal.
+}
 \section{Core functions}{
 
 \itemize{

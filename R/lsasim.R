@@ -21,6 +21,8 @@
 #'   latent variable. Used by \code{questionnaire_gen}
 #' }
 #'
+#' @note This package contains vignettes. If you are installing lsasim from GitHub, remember to use `build_vignettes=TRUE` in your `remotes::install_github()` call. Afterwards, you can browse the vignettes by issuing `browseVignettes("lsasim")` in your R terminal.
+#'
 #' @importFrom stats cov2cor qnorm reshape rnorm runif
 #'
 #' @docType package
