@@ -68,6 +68,6 @@ calc_replicate_weights <- function(data, var_method = "none",
 
     # Assembling output ========================================================
     out <- new_bg
-    if (print_data) out <- list(data = out, statistics = replicate_stats)
+    if (print_stats) out <- list(data = out, statistics = replicate_stats)
     return(out)
 }
