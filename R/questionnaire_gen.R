@@ -113,6 +113,10 @@
 #'   must be kept in mind when using real-life data as input to 
 #'   `questionnaire_gen`, as the input might need to be reordered to fit the
 #'   expectations of the function.
+#'   
+#'   By definition, the expected order of the variables is \eqn{theta}, 
+#'   followed by \eqn{X} and then \eqn{W}. The reference category of the 
+#'   categorical variables \eqn{W} is always the first one.
 #'
 #' @return By default, the function returns a \code{data.frame} object where the
 #'   first column ("subject") is a \eqn{1,\ldots,n} ordered list of the \eqn{n}
