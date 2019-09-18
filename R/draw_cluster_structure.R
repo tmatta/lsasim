@@ -12,6 +12,7 @@ draw_cluster_structure <- function(
 )
 {
   # Check if list structure is correct =========================================
+  if (any(sapply(n, class) == "range")) n <- convert_vector_to_list(n)
   check_valid_structure(n)
 
   # Create labels ==============================================================
