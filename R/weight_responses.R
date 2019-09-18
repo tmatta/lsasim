@@ -40,25 +40,28 @@ weight_responses <- function(
       if (sampling_method == "SRS") {
         message("  ", label_1_i, " should add up to the number of ",
           pluralize(cluster_labels[lvl - 1]), " in the population (",
-                sum_pop[lvl - 1], ", repeated measures excluded)")
+                    sum_pop[lvl - 1], ", counting once per ",
+                    cluster_labels[lvl - 1], ")")
       } else {
         message("  ", label_ij, " should add up to the number of ",
-          pluralize(cluster_labels[lvl - 1]), " in the population (",
+          pluralize(resp_labels[lvl - 1]), " in the population (",
                 sum_pop[lvl] * length(N[[lvl - 1]]), ")")
       }
     }
   }
 
   # Probabilities (previous_lvl and within previous_lvl) =======================
+  # TODO: overhaul and calculate p_1_i and p_2_ij from label_respondents(n_obs, cluster_labels)
   if (sampling_method == "SRS") {
-    p_1_i <- n_obs[[lvl - 1]] / N[[lvl - 1]]
-    p_2_ij <- n_obs[[lvl]] / N[[lvl]][sublvl]
+    p_1_i <- n_obs[[lvl - 1]] / N[[lvl - 1]][seq_along(n_obs[[lvl - 1]])]
+    p_2_ij <- n_obs[[lvl]] / N[[lvl]][seq_along(n_obs[[lvl]])]
     if (length(p_1_i) > 1) p_1_i <- p_1_i[previous_sublvl]
     if (length(p_2_ij) > 1) p_2_ij <- p_2_ij[sublvl]
   } else if (sampling_method == "PPS") {
-    p_1_i <- n_obs[[lvl - 1]] * N[[lvl]][sublvl] / sum_pop[lvl]
-    p_2_ij <- n_obs[[lvl]] / N[[lvl]]
-    if (length(p_1_i) > 1) p_1_i <- p_1_i[previous_sublvl]
+    # browser()#TEMP
+    p_1_i <- n_obs[[lvl - 1]] * N[[lvl]][seq_along(n_obs[[lvl - 1]])] / sum_pop[lvl]
+    p_2_ij <- n_obs[[lvl]] / N[[lvl]][seq_along(n_obs[[lvl]])]
+    if (length(p_1_i) > 1) p_1_i <- p_1_i[sublvl]  # was previous_sublvl
     if (length(p_2_ij) > 1) p_2_ij <- p_2_ij[sublvl]
   }
 
