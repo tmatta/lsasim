@@ -130,7 +130,7 @@ cluster_gen <- function(
   }
 
   # Removing accents ===========================================================
-  names(n)       <- iconv(names(n), to = "ASCII//TRANSLIT")
+  if (!is.null(names(n))) names(n) <- iconv(names(n), to = "ASCII//TRANSLIT")
   cluster_labels <- iconv(cluster_labels, to = "ASCII//TRANSLIT")
   resp_labels    <- iconv(resp_labels, to = "ASCII//TRANSLIT")
 
