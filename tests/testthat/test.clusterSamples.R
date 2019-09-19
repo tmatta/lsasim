@@ -1,6 +1,5 @@
 context("Basic cluster sampling")
-wrap_cluster_gen <- function(...)
-{
+wrap_cluster_gen <- function(...) {
   cluster_gen(..., family = "gaussian", verbose = FALSE)
 }
 
@@ -55,13 +54,13 @@ test_that("Basic argument handling generates data", {
   expect_output(str(df09$country[[2]]$q1), "Factor w/ 5 levels")
   expect_output(str(df09$country[[2]]$q2), "Factor w/ 2 levels")
   expect_equivalent(sapply(df10, function(x) apply(x[[1]][2:3], 2, mean))[, 1],
-                    c(1, 10), tolerance = .1)
+                    c(1, 10), tolerance = .5)
   expect_equivalent(sapply(df10, function(x) apply(x[[2]][2:3], 2, mean))[, 1],
-                    c(1, 10), tolerance = .1)
+                    c(1, 10), tolerance = .5)
   expect_equivalent(sapply(df10, function(x) apply(x[[1]][2:3], 2, mean))[, 2],
-                    c(1e2, 1e3), tolerance = .1)
+                    c(1e2, 1e3), tolerance = .5)
   expect_equivalent(sapply(df10, function(x) apply(x[[2]][2:3], 2, mean))[, 2],
-                    c(1e2, 1e3), tolerance = .1)
+                    c(1e2, 1e3), tolerance = .5)
   expect_output(str(df11), "List of 6")
   expect_output(str(df12), "List of 2")
   expect_output(str(df13), "24 obs.")
@@ -176,24 +175,11 @@ test_that("Named vectors are working properly", {
 })
 
 # Different means --------------------------------------------------------------
-wrap_c_gen_mu <- function(...)
-{
-  cluster_gen(..., n_X = 2, n_W = 0, family = "gaussian",
-              verbose = FALSE, calc_weights = FALSE)
-}
-df1 <- wrap_c_gen_mu(c(2, 1000))
-df2 <- wrap_c_gen_mu(c(2, 1000), c_mean = 10)
-df3 <- wrap_c_gen_mu(c(2, 1000), c_mean = c(10, 100))
-df4 <- wrap_c_gen_mu(c(2, 1000), c_mean = list(list(c(10, 100), c(20, 200))))
-df5 <- wrap_c_gen_mu(
-  n      = c(school = 2, class = 3, student = 1000),
-  c_mean = list(
-    school = list(c(10, 100), c(20, 200)),
-    class  = list(c(30, 300), c(40, 400), c(50, 500),
-                  c(60, 600), c(70, 700), c(80, 800))
-  )
-)
 test_that("Different means are working", {
+  wrap_c_gen_mu <- function(...) {
+    cluster_gen(..., n_X = 2, n_W = 0, family = "gaussian",
+                verbose = FALSE, calc_weights = FALSE)
+  }
   df1 <- wrap_c_gen_mu(c(2, 1000))
   df2 <- wrap_c_gen_mu(c(2, 1000), c_mean = 10)
   df3 <- wrap_c_gen_mu(c(2, 1000), c_mean = c(10, 100))
@@ -224,28 +210,9 @@ test_that("Different means are working", {
   expect_equivalent(sapply(df5$class, mean_Xs)[, 6], c(80, 800), tol = .1)
 })
 
-
+# Sampling weights =============================================================
 context("Sampling weights")
-wrap_cluster_gen <- function(n, N, meth = "SRS", sum_pop = sapply(N, sum),
-                             sep = FALSE, verbose = FALSE, ...)
-{
-  data <- cluster_gen(
-    n                       = n,
-    N                       = N,
-    sum_pop                 = sum_pop,
-    n_X                     = 1,
-    n_W                     = 1,
-    sampling_method         = meth,
-    separate_questionnaires = sep,
-    verbose                 = verbose,
-    ...
-  )
-  if (verbose) print(data)
-  return(data)
-}
-
-calcWeights <- function(data_list)
-{
+calcWeights <- function(data_list) {
   w <- sapply(data_list, function(x) colSums(x[4:6]))
   w_sum <- rowSums(w)
   w_1_i <- w_sum[1]
@@ -255,53 +222,89 @@ calcWeights <- function(data_list)
 }
 
 # Custom weight tests ----------------------------------------------------------
-test_that("Weights are correct", {
-  # FIXME: weights are wrong
-  # ex1 <- wrap_cluster_gen(n = c(1, 2, 3), N = c(10, 100, 600))
-  # ex2 <- wrap_cluster_gen(n = list(school = 4, student = c(10, 5, 2, 3)),
-  #                         N = list(school = 10, students = rep(100, 4)),
-  #                         meth = "PPS")
-  # ex3 <- wrap_cluster_gen(n = list(school = 4, student = c(10, 5, 2, 3)),
-  #                         N = list(school = 10, students = rep(100, 4)),
-  #                         meth = "SRS")
-  # expect_equivalent(calcWeights(ex1), c(50 * 3 * 2, 10000 * 3 * 2))
-  # expect_equivalent(calcWeights(ex2)["final.student.weight"], 400)
-  # expect_equivalent(calcWeights(ex3)["school.weight"], 2.5 * (10 + 5 + 2 + 3))
+test_that("Weights for 2 levels are correct", {
+  wrap_cluster_gen <- function(n, N, meth = "SRS", sum_pop = sapply(N, sum),
+                             sep = FALSE, verbose = FALSE, ...) {
+    data <- cluster_gen(n                       = n,
+                        N                       = N,
+                        sum_pop                 = sum_pop,
+                        n_X                     = 1,
+                        n_W                     = 1,
+                        sampling_method         = meth,
+                        separate_questionnaires = sep,
+                        verbose                 = verbose,
+                        ...)
+    if (verbose) print(data)
+    return(data)
+  }
+  ex1 <- wrap_cluster_gen(n = c(1, 2, 3), N = c(10, 100, 600))
+  ex2 <- wrap_cluster_gen(n = list(school = 4, student = c(10, 5, 2, 3)),
+                          N = list(school = 10, students = rep(100, 10)),
+                          meth = "PPS")
+  ex3 <- wrap_cluster_gen(n = list(school = 4, student = c(10, 5, 2, 3)),
+                          N = list(school = 10, students = rep(100, 10)),
+                          meth = "SRS")
+  expect_equivalent(calcWeights(ex1)["school.weight"] / 3 / 2, 50)
+  expect_equivalent(calcWeights(ex2)["final.student.weight"], 100 * 10)
+  expect_equivalent(calcWeights(ex3)["school.weight"], 2.5 * (10 + 5 + 2 + 3))
 })
 
 # Example from PISA manual tables ----------------------------------------------
-# ex_3.3 <- wrap_cluster_gen(n = c(school = 4, student = 10),
-#                            N = c(        10,           40), verbose = TRUE)
-# ex_3.4 <- wrap_cluster_gen(n = list(school =  4,student = c(10, 10, 10,  10)),
-#                            N = list(         10,          c(15, 30, 40, 100)))
-# ex_3.5 <- wrap_cluster_gen(n = list(school =  4, student = c(10, 10, 10,  10)),
-#                            N = list(         10,           c(10, 15, 20,  25)))
-# ex_3.6 <- wrap_cluster_gen(n = list(school =  4, student = c(10, 10, 10,  10)),
-#                            N = list(         10,           c(40, 45, 80, 100)))
-# ex_3.7 <- wrap_cluster_gen(n = list(school =  4, student = c(10, 10, 10,  10)),
-#                            N = list(         10,           c(20, 40, 80, 100)),
-#                            sum_pop = c(10, 400), "PPS")
+test_that("Weights and labels from PISA examples are correct", {
+  wrap_cl_gen <- function(n, N, meth = "SRS", sum_pop = sapply(N, sum),
+                          sep = FALSE, verbose = FALSE, ...) {
+    data <- cluster_gen(
+      n                       = n,
+      N                       = N,
+      sum_pop                 = sum_pop,
+      n_X                     = 1,
+      n_W                     = 1,
+      sampling_method         = meth,
+      separate_questionnaires = sep,
+      verbose                 = verbose,
+      ...
+    )
+    if (verbose) print(data)
+    return(data)
+  }
+  ex_3.3 <- wrap_cl_gen(n = c(school = 4, student = 10),
+                        N = c(        10,           40))
+  ex_3.4 <- wrap_cl_gen(
+    n = list(school =  4, student = c(10, 10, 10,  10)),
+    N = list(school = 10,
+             student = c(15, 30, 40, 100, 10, 20, 25, 35, 45, 80))
+  )
+  ex_3.5 <- wrap_cl_gen(
+    n = list(school =  4, student = c(10, 10, 10,  10)),
+    N = list(school = 10,
+             student = c(10, 15, 20, 25, 30, 35, 40, 45, 80, 100))
+  )
+  ex_3.6 <- wrap_cl_gen(
+    n = list(school = 4, student = c(10, 10, 10,  10)),
+    N = list(school = 10,
+             student = c(40, 45, 80, 100, 10, 15, 20, 25, 30, 35))
+  )
+  ex_3.7 <- wrap_cl_gen(
+    n = list(school =  4, student = c(10, 10, 10,  10)),
+    N = list(school = 10,
+             student = c(20, 40, 80, 100, 10, 15, 25, 30, 35, 45)), "PPS"
+  )
+  expect_equivalent(calcWeights(ex_3.3), c(2.5 * 10 * 4, 400))
+  expect_equivalent(calcWeights(ex_3.4), c(2.5 * 10 * 4, 462.5))
+  expect_equivalent(calcWeights(ex_3.5), c(2.5 * 10 * 4, 175))
+  expect_equivalent(calcWeights(ex_3.6), c(2.5 * 10 * 4, 662.5))
+  expect_equivalent(calcWeights(ex_3.7), c(9.75 * 10, 400))
 
-test_that("Weights from PISA examples are correct", {
-  # expect_equivalent(calcWeights(ex_3.3), c(2.5 * 10 * 4, 400))
-  # expect_equivalent(calcWeights(ex_3.4), c(2.5 * 10 * 4, 462.5))
-  # expect_equivalent(calcWeights(ex_3.5), c(2.5 * 10 * 4, 175))
-  # expect_equivalent(calcWeights(ex_3.6), c(2.5 * 10 * 4, 662.5))
-  # expect_equivalent(calcWeights(ex_3.7), c(9.75 * 10, 400))
-})
-
-test_that("Weight labels are correct", {
-  # weight_names <- c("school.weight", "final.student.weight")
-  # expect_equal(names(calcWeights(ex_3.3)), weight_names)
-  # expect_equal(names(calcWeights(ex_3.4)), weight_names)
-  # expect_equal(names(calcWeights(ex_3.5)), weight_names)
-  # expect_equal(names(calcWeights(ex_3.6)), weight_names)
-  # expect_equal(names(calcWeights(ex_3.7)), weight_names)
+  weight_names <- c("school.weight", "final.student.weight")
+  expect_equal(names(calcWeights(ex_3.3)), weight_names)
+  expect_equal(names(calcWeights(ex_3.4)), weight_names)
+  expect_equal(names(calcWeights(ex_3.5)), weight_names)
+  expect_equal(names(calcWeights(ex_3.6)), weight_names)
+  expect_equal(names(calcWeights(ex_3.7)), weight_names)
 })
 
 # Exploring different sampling methods -----------------------------------------
-calcWeights2 <- function(data_list)
-{
+calcWeights2 <- function(data_list) {
   p_1_i <- sapply(data_list, function(x) sapply(x, function(y) x[[y]][1, 4]))
   
   w <- sapply(data_list, function(x) colSums(x[4:6]))
@@ -332,6 +335,7 @@ calcWeights2 <- function(data_list)
 #                         meth = c("SRS", "PPS", "SRS"))
 # FIXME: check sch.weight. Should add to pop size on each upper level separately
 # final.stu.weight should be 500 for cnt1.
+
 test_that("Weights are correct for different sampling methods", {
 #   w1 <- c(1 * 3 + 3 * (2 + 1 + 3) + 4 * 4 + 7 * 2 + 2 * 6)
 #   w2 <- c(3 * 3 + 12 * 2 + 21 + 6 * 3 + 16 * 4 + 28 * 2 + 8 * 6)
@@ -353,41 +357,40 @@ test_that("Weights are correct for different sampling methods", {
 # options(width = 150)  # keeps everything in one line for easier visualization
 
 # Example 1: 2-level symmetric structure, census, PPS weights
-# cluster_gen(n = c(school = 2, student = 10), n_X = 1, n_W = 1)
+test_that("Examples worked on with Leslie have correct weights", {
+  wrap_cluster_gen <- function(...)
+  {
+    cluster_gen(..., n_X = 1, n_W = 1, verbose = FALSE)
+  }
+  #TODO: check weights
+  lr1 <- wrap_cluster_gen(n = c(school = 2, student = 10))  # DONE
 
-# Example 2: 3-level symmetric structure, sample, PPS and SRS weights
-# cluster_gen(n = c(school = 2, class = 1, student =  5),
-#             N = c(school = 5, class = 2, student = 10),
-#             n_X = 1, n_W = 1)
+  # FIXME: wrong weights on lr2.
+  # IDEA: force list? use select?
+  # lr2 <- wrap_cluster_gen(n = c(school = 2, class = 1, student =  5),
+  #                         N = c(school = 5, class = 2, student = 10))
+  # FIXME: wrong vector length when calculating weights
+  # lr3 <- wrap_cluster_gen(n = list(country = 2,
+  #                                  school  = c(2, 3),
+  #                                  student = c(10, 20, 6, 9, 12)),
+  #                         N = list(country = 10,
+  #                                  school  = c(20, 3, rep(1, 8)),
+  #                                  student = c(20, 30, 1:18, rep(12, 3), 1:8)))
+  expect_equal(
+    object = sapply(seq_along(lr1$school),
+                    function (x) sum(lr1$school[[x]]["final.student.weight"])),
+    expected = c(10, 10)
+  )
+  # expect_equal(
+  #   object = sapply(seq_along(lr2$school),
+  #                   function (x) sum(lr1$school[[x]]["final.student.weight"])),
+  #   expected = c(10, 10)
+  # )
+})
 
-# Example 3: 3-level asymmetric structure, sample, PPS and SRS weights
-# cluster_gen(n = list(country = 2,
-#                     school  = c(2, 3),
-#                     student = c(10, 20, 6, 9, 12)),
-#             
-#             N = list(country = 10,
-#                     school  = c(20, 3),
-#                     student = c(20, 30, 12, 12, 12)),
-#             n_X = 1, n_W = 1)
-
-# P.S.: final weights are always calculated as a product of the other two weights, so wrong calculations are traceable back to either the *.weight or the within.*.weight.
-
-# Testing actual sampling ======================================================
-# cl_scheme <- list(school = 2, class = c(3, 2), student = c(5, 4, 5, 5, 5))
-# cl_scheme2 <- list(country = 5,
-#                    school  = c(20, 8, 5, 7, 3),
-#                    student = c(20, 30, 12, 12, 12))
-# drawClusterStructure(cl_scheme)
-# drawClusterStructure(cl_scheme2) #FIXME: incomplete is wrong
-# cluster_gen(n = cl_scheme)
-# cluster_gen(n = select(1, 2, 4), N = cl_scheme)
-
-# Testing
-# DONE: generate tree for level ranges
-# TODO: generate data for level ranges
+# DONE: generate tree and data for level ranges
 context("Cluster sampling with ranged number of elements")
-check_cluster_structure <- function(n, FUN = "length")
-{
+check_cluster_structure <- function(n, FUN = "length") {
   set.seed(1234)
   n_list <- convert_vector_to_list(n)
   structure <- draw_cluster_structure(n_list, output="text")
@@ -412,7 +415,6 @@ test_that("Random levels work", {
 })
 
 test_that("Random level-generated data generates questionnaires", {
-  # TODO: add functionality and tests
   set.seed(1234); df2 <- cluster_gen(n2, verbose = FALSE, separate = FALSE)
   set.seed(1234); df3 <- cluster_gen(n3, verbose = FALSE)
   set.seed(1234); df4 <- cluster_gen(n4, verbose = FALSE)
@@ -441,9 +443,19 @@ test_that("Random level-generated data generates questionnaires", {
   )
 })
 
+# Testing actual sampling ======================================================
+# cl_scheme <- list(school = 2, class = c(3, 2), student = c(5, 4, 5, 5, 5))
+# cl_scheme2 <- list(country = 5,
+#                    school  = c(20, 8, 5, 7, 3),
+#                    student = c(20, 30, 12, 12, 12))
+# drawClusterStructure(cl_scheme)
+# drawClusterStructure(cl_scheme2) #FIXME: incomplete is wrong
+# cluster_gen(n = cl_scheme)
+# cluster_gen(n = select(1, 2, 4), N = cl_scheme)
+
+
 context("Replicate weights")
 # set.seed(230)
 # df <- cluster_gen(c(sch = 4, stu = 10), n_X = 3, n_W = 1, verb = TRUE)
 # jackknife(df$sch[[4]], c("sch.weight", "final.stu.weight"))
-# df2 <- replicate_weights(df, var_method = "Jackknife", verbose = FALSE, print_data = TRUE)
-# ASK: Rename to "replicate_weights" and have the statistics be secondary?
+# df2 <- replicate_weights(df, var_method = "Jackknife", verbose = FALSE, print_data = TRUE)=
