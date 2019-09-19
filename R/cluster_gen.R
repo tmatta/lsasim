@@ -33,7 +33,7 @@ cluster_gen <- function(
   c_mean = NULL,
   separate_questionnaires = TRUE,
   collapse = "none",
-  N = n,
+  N = 1,
   sum_pop = sapply(N, sum),
   calc_weights = TRUE,
   sampling_method = "mixed",
@@ -73,46 +73,59 @@ cluster_gen <- function(
     "If n is select, N must be explicitly defined"
   )
 
-   # Checking valid n-N combinations and reclassifying them ====================
-   # vector + vector := ok
-   # list + (blank) := ok
-   # sample + vector or list := ok
-   # list + vector or list := error ("use sample")
-   if (class(n) == "select") {
-     check_condition(class(N) == "select",
-                     "If n is 'select', N must be a vector or a list")
-     n <- sample_from(N, n)
-   } else {
-     if (class(n) == "list") {
-      #  check_condition(!identical(N, n),
-      #                  paste("If n and N are lists, they must be must be",      
-      #                        "identical. Perhaps you mean to use 'select'",
-      #                        "for n."))
-       if (any(sapply(n, class) == "range")) {
-         n <- convert_vector_to_list(n)
-         N <- n
-       } else {
-        #  N <- convert_vector_to_list(N, n)
-        #  N_reduced <- convert_vector_to_list(N, n)
-       }
-     } else if (mode(n) == "numeric") {  # mode catches "numeric" and "integer"
-      #  check_condition(class(N) %in% c("list", "sample"),
-      #                  paste("If n is a vector, N must be identical to it.",
-      #                        "Perhaps you mean to use 'select' for n"))
-      #  check_condition(!identical(N, n),
-      #                  paste("If n and N are vectors, they must be must be",
-      #                        "identical. Perhaps you mean to use 'select'",
-      #                        "for n."))
-       n <- convert_vector_to_list(n)
-       if (any(sapply(n, class) == "range")) {
-         N <- convert_vector_to_list(N)
-         check_valid_structure(N)
-       } else {
-         N <- convert_vector_to_list(N)
-         N_reduced <- convert_vector_to_list(N, n)
-       }
-     }
-   }
+  # Expanding N as a function of n =============================================
+  if (length(N) == 1) {
+    if (mode(n) == "numeric") {
+      N <- as.integer(N * n)
+    } else {
+      if (N == 1) {
+        N <- n
+      } else {
+        stop("If n is a list, N must be 1 or explicitly defined")
+      }
+    }
+  }
+
+  # Checking valid n-N combinations and reclassifying them =====================
+  # vector + vector := ok
+  # list + (blank) := ok
+  # sample + vector or list := ok
+  # list + vector or list := error ("use sample")
+  if (class(n) == "select") {
+    check_condition(class(N) == "select",
+                    "If n is 'select', N must be a vector or a list")
+    n <- sample_from(N, n)
+  } else {
+    if (class(n) == "list") {
+    #  check_condition(!identical(N, n),
+    #                  paste("If n and N are lists, they must be must be",      
+    #                        "identical. Perhaps you mean to use 'select'",
+    #                        "for n."))
+      if (any(sapply(n, class) == "range")) {
+        n <- convert_vector_to_list(n)
+        N <- n
+      } else {
+      #  N <- convert_vector_to_list(N, n)
+      #  N_reduced <- convert_vector_to_list(N, n)
+      }
+    } else if (mode(n) == "numeric") {  # mode catches "numeric" and "integer"
+    #  check_condition(class(N) %in% c("list", "sample"),
+    #                  paste("If n is a vector, N must be identical to it.",
+    #                        "Perhaps you mean to use 'select' for n"))
+    #  check_condition(!identical(N, n),
+    #                  paste("If n and N are vectors, they must be must be",
+    #                        "identical. Perhaps you mean to use 'select'",
+    #                        "for n."))
+      n <- convert_vector_to_list(n)
+      if (any(sapply(n, class) == "range")) {
+        N <- convert_vector_to_list(N)
+        check_valid_structure(N)
+      } else {
+        N <- convert_vector_to_list(N)
+        N_reduced <- convert_vector_to_list(N, n)
+      }
+    }
+  }
 
   # Calculating useful arguments ===============================================
   n_levels <- length(n)
@@ -122,15 +135,15 @@ cluster_gen <- function(
   }
 
   # Treating NAs in labels =====================================================
-  if (length(cluster_labels[!is.na(cluster_labels)]) < length(n)) {
+  if (length(cluster_labels[!is.na(cluster_labels)]) < n_levels - 1) {
     cluster_labels[is.na(cluster_labels)] <- "unknowncluster"
   }
-  if (length(resp_labels[!is.na(resp_labels)]) < length(n)) {
+  if (length(resp_labels[!is.na(resp_labels)]) < n_levels) {
     resp_labels[is.na(resp_labels)] <- "unknownrespondent"
   }
 
   # Removing accents ===========================================================
-  names(n)       <- iconv(names(n), to = "ASCII//TRANSLIT")
+  if (!is.null(names(n))) names(n) <- iconv(names(n), to = "ASCII//TRANSLIT")
   cluster_labels <- iconv(cluster_labels, to = "ASCII//TRANSLIT")
   resp_labels    <- iconv(resp_labels, to = "ASCII//TRANSLIT")
 
@@ -153,16 +166,12 @@ cluster_gen <- function(
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
       cluster_message(n, resp_labels, cluster_labels, n_levels,
                      separate_questionnaires, 1)
-      if (identical(N, n)) {
-        draw_cluster_structure(n, cluster_labels, resp_labels)
-      } else {
-        if (!identical(N, n)) {
-          message("Population structure")
-          draw_cluster_structure(N, cluster_labels, resp_labels)
-        }
-        message("Sample structure")
-        draw_cluster_structure(n, cluster_labels, resp_labels)
+      if (!identical(N, n)) {
+        message("Population structure")
+        draw_cluster_structure(N, cluster_labels, resp_labels)
+        message("Sampled structure")
       }
+      draw_cluster_structure(n, cluster_labels, resp_labels)
     }
 
     # Defining n_X and n_W -----------------------------------------------------
@@ -194,16 +203,12 @@ cluster_gen <- function(
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
       cluster_message(n, resp_labels, cluster_labels, n_levels,
                     separate_questionnaires, 2)
-      if (identical(N, n)) {
-        draw_cluster_structure(n, cluster_labels, resp_labels)
-      } else {
-        if (!identical(N, n)) {
-          message("Population structure")
-          draw_cluster_structure(N, cluster_labels, resp_labels)
-        }
+      if (!identical(N, n)) {
+        message("Population structure")
+        draw_cluster_structure(N, cluster_labels, resp_labels)
         message("Sampled structure")
-        draw_cluster_structure(n, cluster_labels, resp_labels)
       }
+      draw_cluster_structure(n, cluster_labels, resp_labels)
     }
 
     # Generating variable numbers ----------------------------------------------
