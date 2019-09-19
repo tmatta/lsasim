@@ -4,6 +4,7 @@
 #' @param n numeric vector with the number of sampled observations (clusters or subjects) on each level
 #' @param labels character vector with the names of the questionnaire respondents on each level
 #' @param verbose if `TRUE`, prints output messages
+#' @export
 sample_from <- function (N, n, labels = names(N), verbose = TRUE)
 {
   # Creating basic elements ====================================================
@@ -69,3 +70,4 @@ sample_from <- function (N, n, labels = names(N), verbose = TRUE)
   # Printing sampled elements ==================================================
   if (verbose) cat(el_lvl, sep = "\n")
 }
+# TODO: sample size max(defined by user, population size)

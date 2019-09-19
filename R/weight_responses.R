@@ -12,16 +12,15 @@
 #' @param sum_pop total population at each level (sampled or not)
 #' @param verbose if `TRUE`, prints output messages
 #' @return Input data frame (`cluster_bg`) with three new columns for the sampling weights.
-weight_responses <- function(
-  cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl, sampling_method, 
-  cluster_labels, resp_labels, sum_pop, verbose
-)
+weight_responses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
+                             sampling_method, cluster_labels, resp_labels,
+                             sum_pop, verbose)
 {
   # Determining sampling method ================================================
   if (length(sampling_method) > 1) {
     sampling_method <- sampling_method[lvl - 1]
   } else if (sampling_method == "mixed") {
-    # Reassigns sampling method. PPS for schools, SRS for otherwise
+    # Reassigns sampling method. PPS for schools, SRS otherwise ----------------
     sampling_method <- ifelse(test = cluster_labels[lvl - 1] == "school",
                               yes  = "PPS",
                               no   = "SRS")

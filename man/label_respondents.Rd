@@ -4,7 +4,7 @@
 \alias{label_respondents}
 \title{Label respondents}
 \usage{
-label_respondents(n_obs, cluster_labels)
+label_respondents(n_obs, cluster_labels = names(n_obs))
 }
 \arguments{
 \item{n_obs}{list with the number of elements per level}

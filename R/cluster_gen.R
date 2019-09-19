@@ -15,9 +15,9 @@
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @return list with background questionnaire data, grouped by level or not
 #' @details This function relies heavily in two subfunctions---`cluster_gen_separate` and `cluster_gen_together`---which can be called independently. This does not make `cluster_gen` a simple wrapper function, as it performs several operations prior to calling its subfunctions, such as randomly generating `n_X` and `n_W` if they are not determined by user.
-#'   `n` can have unitary length, in which case all clusters will have the same size.
-#'   `N` is *not* the population size across all elements of a level, but the population size for each element of one level.
-#'   Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
+#' `n` can have unitary length, in which case all clusters will have the same size.
+#' `N` is *not* the population size across all elements of a level, but the population size for each element of one level.
+#' Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
 #' @note For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, by default, countries are the nexting level, schools are the first cluster level, classes are the second, and students are the third and final level.
 #'
 #' labeling c_mean has no effect, it's for the user.
@@ -26,7 +26,7 @@
 cluster_gen <- function(
   n,
   cluster_labels = c("country", "school", "class")[seq(length(n) - 1)],
-  # ASK: drop countries?
+  # TODO: drop countries (because country weights feel weird
   resp_labels = c("principal", "teacher", "student")[seq(length(n))],
   n_X = NULL,
   n_W = NULL,  # TODO: allow different proportions for Ws
@@ -44,7 +44,7 @@ cluster_gen <- function(
 )
 {
   # Validating =================================================================
-  check_condition(!identical(N, n), "N != n not yet implemented") # TEMP
+  check_condition(!identical(N, n) & length(n) > 2, "N != n for 3+ levels not yet implemented") # TEMP
   check_condition(class(n) == "select", "Select not yet implemented") # TEMP
   check_condition(
     !separate_questionnaires & length(n_X) > 1,
@@ -91,9 +91,9 @@ cluster_gen <- function(
        if (any(sapply(n, class) == "range")) {
          n <- convert_vector_to_list(n)
          N <- n
-        #  check_valid_structure(N)
        } else {
-         N <- convert_vector_to_list(N, n)
+        #  N <- convert_vector_to_list(N, n)
+        #  N_reduced <- convert_vector_to_list(N, n)
        }
      } else if (mode(n) == "numeric") {  # mode catches "numeric" and "integer"
       #  check_condition(class(N) %in% c("list", "sample"),
@@ -108,10 +108,9 @@ cluster_gen <- function(
          N <- convert_vector_to_list(N)
          check_valid_structure(N)
        } else {
-         N <- convert_vector_to_list(N, n)
+         N <- convert_vector_to_list(N)
+         N_reduced <- convert_vector_to_list(N, n)
        }
-       check_valid_structure(n)
-      #  check_valid_structure(N)
      }
    }
 
@@ -157,10 +156,12 @@ cluster_gen <- function(
       if (identical(N, n)) {
         draw_cluster_structure(n, cluster_labels, resp_labels)
       } else {
+        if (!identical(N, n)) {
+          message("Population structure")
+          draw_cluster_structure(N, cluster_labels, resp_labels)
+        }
         message("Sample structure")
         draw_cluster_structure(n, cluster_labels, resp_labels)
-        # message("Population structure")
-        # draw_cluster_structure(N, cluster_labels, resp_labels)
       }
     }
 
@@ -196,10 +197,12 @@ cluster_gen <- function(
       if (identical(N, n)) {
         draw_cluster_structure(n, cluster_labels, resp_labels)
       } else {
+        if (!identical(N, n)) {
+          message("Population structure")
+          draw_cluster_structure(N, cluster_labels, resp_labels)
+        }
         message("Sampled structure")
         draw_cluster_structure(n, cluster_labels, resp_labels)
-        # message("Population structure")
-        # draw_cluster_structure(N, cluster_labels, resp_labels)
       }
     }
 
