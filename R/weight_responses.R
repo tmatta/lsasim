@@ -12,16 +12,15 @@
 #' @param sum_pop total population at each level (sampled or not)
 #' @param verbose if `TRUE`, prints output messages
 #' @return Input data frame (`cluster_bg`) with three new columns for the sampling weights.
-weight_responses <- function(
-  cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl, sampling_method, 
-  cluster_labels, resp_labels, sum_pop, verbose
-)
+weight_responses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
+                             sampling_method, cluster_labels, resp_labels,
+                             sum_pop, verbose)
 {
   # Determining sampling method ================================================
   if (length(sampling_method) > 1) {
     sampling_method <- sampling_method[lvl - 1]
   } else if (sampling_method == "mixed") {
-    # Reassigns sampling method. PPS for schools, SRS for otherwise
+    # Reassigns sampling method. PPS for schools, SRS otherwise ----------------
     sampling_method <- ifelse(test = cluster_labels[lvl - 1] == "school",
                               yes  = "PPS",
                               no   = "SRS")
@@ -40,27 +39,54 @@ weight_responses <- function(
       if (sampling_method == "SRS") {
         message("  ", label_1_i, " should add up to the number of ",
           pluralize(cluster_labels[lvl - 1]), " in the population (",
-                sum_pop[lvl - 1], ", repeated measures excluded)")
+                    sum_pop[lvl - 1], ", counting once per ",
+                    cluster_labels[lvl - 1], ")")
       } else {
         message("  ", label_ij, " should add up to the number of ",
-          pluralize(cluster_labels[lvl - 1]), " in the population (",
+          pluralize(resp_labels[lvl - 1]), " in the population (",
                 sum_pop[lvl] * length(N[[lvl - 1]]), ")")
       }
     }
   }
 
-  # Probabilities (previous_lvl and within previous_lvl) =======================
+  # Defining cluster structures ------------------------------------------------
+  cluster_structure <- list(n = label_respondents(n_obs, cluster_labels),
+                            N = label_respondents(N, cluster_labels))
+
+  # Adding final levels --------------------------------------------------------
+  final_level <- length(n_obs)
+  cluster_structure$n <- data.frame(cluster_structure$n, n_obs[[final_level]])
+  cluster_structure$N <- data.frame(cluster_structure$N, N[[final_level]])
+  names(cluster_structure$N) <- names(cluster_structure$n) <- cluster_labels
+
+  # Defining substructures =====================================================
+  parent_index <- unlist(sapply(n_obs[[lvl - 1]], seq))[sublvl]
+  parent_label <- paste0(cluster_labels[lvl - 1], parent_index)
+  cluster_substructure <- list(
+    n = cluster_structure$n[cluster_structure$n[, lvl - 1] == parent_label, ],
+    N = cluster_structure$N[cluster_structure$N[, lvl - 1] == parent_label, ]
+  )
+
+  # Calculating the cluster weights --------------------------------------------
+  n_sc <- length(unique(cluster_structure$n[, lvl - 1]))
+  N_sc <- length(unique(cluster_structure$N[, lvl - 1]))
+  n_i <- ifelse(test = lvl == final_level,
+                yes  = cluster_substructure$n[, lvl],
+                no   = length(cluster_substructure$n[, lvl]))
+  N_i <- ifelse(test = lvl == final_level,
+                yes  = cluster_substructure$N[, lvl],
+                no   = length(cluster_substructure$N[, lvl]))
   if (sampling_method == "SRS") {
-    p_1_i <- n_obs[[lvl - 1]] / N[[lvl - 1]]
-    p_2_ij <- n_obs[[lvl]] / N[[lvl]][sublvl]
-    if (length(p_1_i) > 1) p_1_i <- p_1_i[previous_sublvl]
-    if (length(p_2_ij) > 1) p_2_ij <- p_2_ij[sublvl]
+    p_1_i <- n_sc / N_sc
   } else if (sampling_method == "PPS") {
-    p_1_i <- n_obs[[lvl - 1]] * N[[lvl]][sublvl] / sum_pop[lvl]
-    p_2_ij <- n_obs[[lvl]] / N[[lvl]]
-    if (length(p_1_i) > 1) p_1_i <- p_1_i[previous_sublvl]
-    if (length(p_2_ij) > 1) p_2_ij <- p_2_ij[sublvl]
+    N_total <- ifelse(test = lvl == final_level,
+                      yes  = sum(cluster_structure$N[, lvl]),
+                      no   = length(cluster_substructure$N[, lvl]))
+    p_1_i <- N_i * n_sc / N_total
   }
+
+  # Calculating the within cluster weights -------------------------------------
+  p_2_ij <- n_i / N_i
 
   # Final lvl probabilities ====================================================
   p_ij <- p_1_i * p_2_ij

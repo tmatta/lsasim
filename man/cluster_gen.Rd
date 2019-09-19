@@ -48,9 +48,9 @@ Generate cluster sample
 }
 \details{
 This function relies heavily in two subfunctions---`cluster_gen_separate` and `cluster_gen_together`---which can be called independently. This does not make `cluster_gen` a simple wrapper function, as it performs several operations prior to calling its subfunctions, such as randomly generating `n_X` and `n_W` if they are not determined by user.
-  `n` can have unitary length, in which case all clusters will have the same size.
-  `N` is *not* the population size across all elements of a level, but the population size for each element of one level.
-  Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
+`n` can have unitary length, in which case all clusters will have the same size.
+`N` is *not* the population size across all elements of a level, but the population size for each element of one level.
+Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
 }
 \note{
 For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, by default, countries are the nexting level, schools are the first cluster level, classes are the second, and students are the third and final level.

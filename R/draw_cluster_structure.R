@@ -12,6 +12,7 @@ draw_cluster_structure <- function(
 )
 {
   # Check if list structure is correct =========================================
+  if (any(sapply(n, class) == "range")) n <- convert_vector_to_list(n)
   check_valid_structure(n)
 
   # Create labels ==============================================================
@@ -56,11 +57,11 @@ draw_cluster_structure <- function(
     children_list <- list()
     for (n1 in seq(nodes)) {
       chars_n1 <- nchar(nodes[n1])
-      level_n1 <- nchar(gsub("[A-Za-z0-9]", "", nodes[n1])) + 1
+      level_n1 <- nchar(gsub("[A-Za-z0-9]", "", nodes[n1])) + 1  # counts "_"
       children <- vector()
       for (n2 in seq(nodes)) {
         parent <- substr(nodes[n2], 1, chars_n1)
-        level_n2 <- nchar(gsub("[A-Za-z0-9]", "", nodes[n2])) + 1
+        level_n2 <- nchar(gsub("[A-Za-z0-9]", "", nodes[n2])) + 1  # counts "_"
         if (parent == nodes[n1] & (level_n1 + 1) == level_n2) {
           children <- append(children, nodes[n2])
         }
@@ -79,6 +80,7 @@ draw_cluster_structure <- function(
       x = data.frame(nodes), y = obs, by.x = "nodes", by.y = "submx_collapsed", 
       all = TRUE
     )
+    obs <- obs[match(nodes, obs$nodes), ]  # fixes order for 10+ PSUs
     parenthesis <- vector()
     for (node in seq(nodes)) {
       if (!is.na(obs$obs[node])) {
