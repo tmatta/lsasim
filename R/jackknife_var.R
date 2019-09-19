@@ -10,20 +10,27 @@
 #' @export
 jackknife_var <- function(data_whole, data_rep, stat = mean, theta = NULL,
                           full_output = FALSE) {
+    # Fetching statistic of interest ===========================================
     statistic <- match.fun(stat)
 
-    # Determining which variables to use
-    if (is.null(theta)) theta <- names(data_whole)  # uses all the variables
-    # Dropping categorical and nominal variables
+    # Converting data to data frame, if necessary ==============================
+    if (class(data_whole) == "matrix") data_whole <- data.frame(data_whole)
+    if (any(sapply(data_rep, class) == "matrix")) {
+        data_rep <- lapply(data_rep, data.frame)
+    }
+
+    # Determining which variables to use =======================================
+    if (is.null(theta)) theta <- names(data_whole)  # uses all variables
+    
+    # Dropping categorical and nominal variables ===============================
     theta_classes <- sapply(data_whole[theta], class)
     numeric_cols <- theta[grepl("numeric|integer", theta_classes)]
     numeric_data_whole <- data_whole[numeric_cols]
     numeric_data_rep <- lapply(data_rep, function(x) x[names(numeric_data_whole)])
 
-    # Calculating mean variance
+    # Calculating mean variance ================================================
     theta_whole <- sapply(numeric_data_whole, statistic)
     theta_rep <- t(sapply(numeric_data_rep, function(x) apply(x, 2, statistic)))
-    # rownames(theta_rep) <- numeric_cols
     n <- length(theta_rep)
     sigma2_jack <- vector()
     for (col in numeric_cols) {
@@ -36,7 +43,7 @@ jackknife_var <- function(data_whole, data_rep, stat = mean, theta = NULL,
         sigma2_jack <- c(sigma2_jack, new_s2)
     }
 
-    # Building output
+    # Building output ==========================================================
     if (full_output) {
         out <- mget(ls())
     } else {
