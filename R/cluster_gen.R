@@ -33,7 +33,7 @@ cluster_gen <- function(
   c_mean = NULL,
   separate_questionnaires = TRUE,
   collapse = "none",
-  N = n,
+  N = 1,
   sum_pop = sapply(N, sum),
   calc_weights = TRUE,
   sampling_method = "mixed",
@@ -73,7 +73,20 @@ cluster_gen <- function(
     "If n is select, N must be explicitly defined"
   )
 
-   # Checking valid n-N combinations and reclassifying them ====================
+  # Expanding N as a function of n =============================================
+  if (length(N) == 1) {
+    if (mode(n) == "numeric") {
+      N <- as.integer(N * n)
+    } else {
+      if (N == 1) {
+        N <- n
+      } else {
+        stop("If n is a list, N must be 1 or explicitly defined")
+      }
+    }
+  }
+
+  # Checking valid n-N combinations and reclassifying them =====================
    # vector + vector := ok
    # list + (blank) := ok
    # sample + vector or list := ok
