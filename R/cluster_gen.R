@@ -25,9 +25,10 @@
 #' @export
 cluster_gen <- function(
   n,
-  cluster_labels = c("country", "school", "class")[seq(length(n) - 1)],
-  # TODO: drop countries (because country weights feel weird
-  resp_labels = c("principal", "teacher", "student")[seq(length(n))],
+  cluster_labels = NULL,
+  # DONE: drop countries (because country weights feel weird
+  # DONE: dinamically expand this (school/class, neighborhood/school/class...)
+  resp_labels = NULL,
   n_X = NULL,
   n_W = NULL,  # TODO: allow different proportions for Ws
   c_mean = NULL,
@@ -54,9 +55,9 @@ cluster_gen <- function(
     !separate_questionnaires & length(n_W) > 1,
     "Unique questionnaire requested. n_W must therefore be a scalar or a list."
   )
-  check_condition(length(n) == 1, "n must have length larger than 1")
+  check_condition(length(n) == 1, "n must have length longer than 1")
   check_condition(
-    length(n) > length(cluster_labels) + 1,
+    length(n) > length(cluster_labels) + 1 & !is.null(cluster_labels),
     "cluster_labels has insufficient length"
   )
   check_condition(
@@ -73,10 +74,15 @@ cluster_gen <- function(
     "If n is select, N must be explicitly defined"
   )
 
+  # Attributing labels =========================================================
+  if (is.null(cluster_labels)) cluster_labels <- attribute_cluster_labels(n)$cl
+  if (is.null(resp_labels)) resp_labels <- attribute_cluster_labels(n)$resp
+
   # Expanding N as a function of n =============================================
   if (length(N) == 1) {
     if (mode(n) == "numeric") {
-      N <- as.integer(N * n)
+      N <- N * n
+      if (all(sapply(n, class) == "integer")) N <- as.integer(N)
     } else {
       if (N == 1) {
         N <- n

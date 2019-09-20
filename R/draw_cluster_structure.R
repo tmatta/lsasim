@@ -16,20 +16,8 @@ draw_cluster_structure <- function(
   check_valid_structure(n)
 
   # Create labels ==============================================================
-  if (is.null(labels)) {
-    if (is.null(names(n))) {
-      labels <- c("country", "school", "class")[seq(length(n) - 1)]
-    } else {
-      labels <- names(n)
-    }
-  }
-  if (is.null(resp)) {
-    if (is.null(names(n))) {
-      resp <- c("principal", "teacher", "student")[seq(length(n))]
-    } else {
-      resp <- c(names(n), NA)
-    }
-  }
+  if (is.null(labels)) labels <- attribute_cluster_labels(n)$cl
+  if (is.null(resp)) resp <- attribute_cluster_labels(n)$resp
 
   # Create all nodes ===========================================================
   out <- NULL
@@ -88,7 +76,7 @@ draw_cluster_structure <- function(
                               paste(nodes[node],
                               cli::style_dim(paste0("(",
                                                     obs$obs[node], " ",
-                                                    pluralize(resp[length(resp) - 1], obs$obs[node]),
+                                                    pluralize(resp[length(resp)], obs$obs[node]),
                                                     ")"))))
       } else {
         parenthesis <- append(parenthesis, cli::col_white(nodes[node]))
