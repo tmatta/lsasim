@@ -45,7 +45,6 @@ cluster_gen <- function(
 )
 {
   # Validating =================================================================
-  # check_condition(!identical(N, n) & length(n) > 2, "N != n for 3+ levels not yet implemented") # TEMP
   check_condition(class(n) == "select", "Select not yet implemented") # TEMP
   check_condition(
     !separate_questionnaires & length(n_X) > 1,

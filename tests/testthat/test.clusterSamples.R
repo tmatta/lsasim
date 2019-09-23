@@ -233,7 +233,7 @@ calcWeights <- function(data_list) {
 # Custom weight tests ----------------------------------------------------------
 test_that("Weights for 2 levels are correct", {
   wrap_cluster_gen <- function(n, N, meth = "SRS", sum_pop = sapply(N, sum),
-                             sep = FALSE, verbose = FALSE, ...) {
+                               sep = FALSE, verb = FALSE, print = FALSE, ...) {
     data <- cluster_gen(n                       = n,
                         N                       = N,
                         sum_pop                 = sum_pop,
@@ -241,9 +241,9 @@ test_that("Weights for 2 levels are correct", {
                         n_W                     = 1,
                         sampling_method         = meth,
                         separate_questionnaires = sep,
-                        verbose                 = verbose,
+                        verbose                 = verb,
                         ...)
-    if (verbose) print(data)
+    if (print) print(data)
     return(data)
   }
   ex1 <- wrap_cluster_gen(n = c(1, 2, 3), N = c(10, 100, 600))
@@ -253,7 +253,7 @@ test_that("Weights for 2 levels are correct", {
   ex3 <- wrap_cluster_gen(n = list(school = 4, student = c(10, 5, 2, 3)),
                           N = list(school = 10, students = rep(100, 10)),
                           meth = "SRS")
-  expect_equivalent(calcWeights(ex1)["class.weight"] / 3 / 2, 50)
+  expect_equivalent(calcWeights(ex1)["class.weight"] / 3, 100 * 10)
   expect_equivalent(calcWeights(ex2)["final.student.weight"], 100 * 10)
   expect_equivalent(calcWeights(ex3)["school.weight"], 2.5 * (10 + 5 + 2 + 3))
 })
@@ -342,7 +342,7 @@ calcWeights2 <- function(data_list) {
 #                                  stu = c(rep(50, 5), rep(10, 7))),
 #                         sep = TRUE, collapse = "partial",
 #                         meth = c("SRS", "PPS", "SRS"))
-# FIXME: check sch.weight. Should add to pop size on each upper level separately
+# TODO: check sch.weight. Should add to pop size on each upper level separately
 # final.stu.weight should be 500 for cnt1.
 
 test_that("Weights are correct for different sampling methods", {
@@ -361,34 +361,44 @@ test_that("Weights are correct for different sampling methods", {
 # Script for testing with Leslie ===============================================
 # Example 1: 2-level symmetric structure, census, PPS weights
 test_that("Examples worked on with Leslie have correct weights", {
-  wrap_cluster_gen <- function(...)
-  {
-    cluster_gen(..., n_X = 1, n_W = 1, verbose = FALSE)
+  wrap_cluster_gen <- function(..., verb = FALSE) {
+    cluster_gen(..., n_X = 1, n_W = 1, verbose = verb)
   }
-  #TODO: check weights
-  lr1 <- wrap_cluster_gen(n = c(school = 2, student = 10))  # DONE
-
-  # FIXME: wrong weights on lr2.
-  # IDEA: force list? use select?
-  # lr2 <- wrap_cluster_gen(n = c(school = 2, class = 1, student =  5),
-  #                         N = c(school = 5, class = 2, student = 10))
-  # FIXME: wrong vector length when calculating weights
-  # lr3 <- wrap_cluster_gen(n = list(country = 2,
-  #                                  school  = c(2, 3),
-  #                                  student = c(10, 20, 6, 9, 12)),
-  #                         N = list(country = 10,
-  #                                  school  = c(20, 3, rep(1, 8)),
-  #                                  student = c(20, 30, 1:18, rep(12, 3), 1:8)))
+  # DONE: check weights from Leslie examples
+  lr1 <- wrap_cluster_gen(n = c(school = 2, student = 10))
+  lr2 <- wrap_cluster_gen(n = c(school = 2, class = 1, student =  5), 
+                          N = c(school = 5, class = 2, student = 10))
+  lr3 <- wrap_cluster_gen(n = list(state = 2,
+                                   school  = c(2, 3),
+                                   student = c(10, 20, 6, 9, 12)),
+                          N = list(state = 10,
+                                   school  = c(20, 3, rep(1, 8)),
+                                   student = c(20, 30, 1:18, rep(12, 3), 1:8)))
   expect_equal(
     object = sapply(seq_along(lr1$school),
                     function (x) sum(lr1$school[[x]]["final.student.weight"])),
-    expected = c(10, 10)
+    expected = rep(10, 2)
   )
-  # expect_equal(
-  #   object = sapply(seq_along(lr2$school),
-  #                   function (x) sum(lr1$school[[x]]["final.student.weight"])),
-  #   expected = c(10, 10)
-  # )
+  expect_equal(
+    object = sapply(seq_along(lr2$school),
+                    function (x) sum(lr2$school[[x]]["final.class.weight"])),
+    expected = rep(5, 2)
+  )
+  expect_equal(
+    object = sapply(seq_along(lr2$class),
+                    function (x) sum(lr2$class[[x]]["final.student.weight"])),
+    expected = rep(50, 2)
+  )
+  expect_equal(
+    object = sapply(seq_along(lr3$state),
+                    function (x) sum(lr3$state[[x]]["state.weight"])),
+    expected = 5 * c(2, 3)
+  )
+  expect_equal(
+    object = sapply(seq_along(lr3$school),
+                    function (x) sum(lr3$school[[x]]["final.student.weight"])),
+    expected = rep(58.6, 5)
+  )
 })
 
 context("Cluster sampling with ranged number of elements")

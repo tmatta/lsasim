@@ -32,26 +32,29 @@ weight_responses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
   label_ij <- paste0("final.", resp_labels[lvl - 1], ".weight")
 
   # Messages to user ===========================================================
-  if (verbose) {
-    if (sublvl == 1) {
-      message("- Calculating ", sampling_method, " weights at the ",
-              cluster_labels[lvl - 1], " level")
-      if (sampling_method == "SRS") {
-        message("  ", label_1_i, " should add up to the number of ",
-          pluralize(cluster_labels[lvl - 1]), " in the population (",
-                    sum_pop[lvl - 1], ", counting once per ",
-                    cluster_labels[lvl - 1], ")")
-      } else {
-        message("  ", label_ij, " should add up to the number of ",
-          pluralize(resp_labels[lvl - 1]), " in the population (",
-                sum_pop[lvl] * length(N[[lvl - 1]]), ")")
-      }
+  if (verbose & sublvl == 1) {
+    message("- Calculating ", sampling_method, " weights at the ",
+            cluster_labels[lvl - 1], " level")
+    if (sampling_method == "SRS") {
+      message("  ", label_1_i, " should add up to the number of ",
+        pluralize(cluster_labels[lvl - 1]), " in the population (",
+                  sum_pop[lvl - 1], ", counting once per ",
+                  cluster_labels[lvl - 1], ")")
+    } else {
+      message("  ", label_ij, " should add up to the number of ",
+        pluralize(resp_labels[lvl - 1]), " in the population (",
+              # sum_pop[lvl - 1] * length(N[[lvl - 1]]), ")")
+              sum_pop[lvl], ")")
     }
   }
 
   # Defining cluster structures ------------------------------------------------
   cluster_structure <- list(n = label_respondents(n_obs, cluster_labels),
                             N = label_respondents(N, cluster_labels))
+  # cluster_structure_collapsed <- list(
+  #   n = apply(cluster_structure$n, 1, function (x) paste0(x, collapse = "_")),
+  #   n = apply(cluster_structure$n, 1, function (x) paste0(x, collapse = "_"))
+  # )
 
   # Adding final levels --------------------------------------------------------
   final_level <- length(n_obs)
@@ -60,32 +63,54 @@ weight_responses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
   names(cluster_structure$N) <- names(cluster_structure$n) <- cluster_labels
 
   # Defining substructures =====================================================
+  # cluster_substructure <- list(
+  #     n = cluster_structure$n[cluster_structure$n[, 1] == parent_label, ],
+  #     N = cluster_structure$N[cluster_structure$N[, 1] == parent_label, ]
+  # )
+  # parent_index <- unlist(sapply(n_obs[[lvl - 1]], seq))[sublvl]
+  # parent_label <- paste0(cluster_labels[lvl - 1], parent_index)
+  # cluster_substructure <- list(
+  #   n = cluster_structure$n[cluster_structure$n[, lvl - 1] == parent_label, ],
+  #   N = cluster_structure$N[cluster_structure$N[, lvl - 1] == parent_label, ]
+  # )
   parent_index <- unlist(sapply(n_obs[[lvl - 1]], seq))[sublvl]
   parent_label <- paste0(cluster_labels[lvl - 1], parent_index)
   cluster_substructure <- list(
-    n = cluster_structure$n[cluster_structure$n[, lvl - 1] == parent_label, ],
-    N = cluster_structure$N[cluster_structure$N[, lvl - 1] == parent_label, ]
-  )
+      n = cluster_structure$n[cluster_structure$n[, lvl - 1] == parent_label, ],
+      N = cluster_structure$N[cluster_structure$N[, lvl - 1] == parent_label, ]
+    )
+  if (lvl >= 3) {
+    for (l in 2:max(lvl - 1, 2)) {
+      parent_label <- label_respondents(n_obs)[sublvl, l - 1]
+      cluster_substructure <- list(
+        n = cluster_substructure$n[cluster_substructure$n[, l - 1] == parent_label, ],
+        N = cluster_substructure$N[cluster_substructure$N[, l - 1] == parent_label, ]
+      )
+    }
+  }
 
-  # Calculating the cluster weights --------------------------------------------
-  n_sc <- length(unique(cluster_structure$n[, lvl - 1]))
-  N_sc <- length(unique(cluster_structure$N[, lvl - 1]))
+  # Calculating the cluster weights ============================================
+  retrieve_unique_labels <- function(x, lvl) {
+    lbl <- apply(x[, 1:lvl, drop = FALSE], 1,
+                 function (x) paste(x, collapse = ""))
+    return(length(unique(lbl)))
+  }
+  n_sc <- retrieve_unique_labels(cluster_structure$n, lvl - 1)
+  N_sc <- retrieve_unique_labels(cluster_structure$N, lvl - 1)
   n_i <- ifelse(test = lvl == final_level,
                 yes  = cluster_substructure$n[, lvl],
-                no   = length(cluster_substructure$n[, lvl]))
+                no   = retrieve_unique_labels(cluster_substructure$n, lvl))
   N_i <- ifelse(test = lvl == final_level,
                 yes  = cluster_substructure$N[, lvl],
-                no   = length(cluster_substructure$N[, lvl]))
+                no   = retrieve_unique_labels(cluster_substructure$N, lvl))
   if (sampling_method == "SRS") {
     p_1_i <- n_sc / N_sc
   } else if (sampling_method == "PPS") {
-    N_total <- ifelse(test = lvl == final_level,
-                      yes  = sum(cluster_structure$N[, lvl]),
-                      no   = length(cluster_substructure$N[, lvl]))
+    N_total <- sum_pop[lvl]
     p_1_i <- N_i * n_sc / N_total
   }
 
-  # Calculating the within cluster weights -------------------------------------
+  # Calculating the within cluster weights =====================================
   p_2_ij <- n_i / N_i
 
   # Final lvl probabilities ====================================================
