@@ -136,8 +136,8 @@ cluster_gen <- function(
   # Calculating useful arguments ===============================================
   n_levels <- length(n)
   if (!is.null(names(n))) {
-    cluster_labels <- names(n)
-    resp_labels <- c(names(n)[-1], "respondent")
+    if (is.null(cluster_labels)) cluster_labels <- names(n)
+    if (is.null(resp_labels)) resp_labels <- c(names(n)[-1], "respondent")
   }
 
   # Treating NAs in labels =====================================================

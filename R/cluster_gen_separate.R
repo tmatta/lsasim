@@ -20,14 +20,14 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
                                  sampling_method, cluster_labels, resp_labels,
                                  collapse, n_X, n_W, c_mean, verbose, ...)
 {
-  # Creating basic elements ----------------------------------------------------
+  # Creating basic elements ====================================================
   out    <- list()  # actual output (differs from sample if collapse)
 	sample <- list()  # will store all BG questionnaires
   c_mean_list <- c_mean
   n_quest <- sapply(n, sum)
   id_combos <- label_respondents(n, cluster_labels)
 
-  # Generating data ------------------------------------------------------------
+  # Generating data ============================================================
   for (l in seq(n_levels - 1)) {
     # Adapting additional parameters to questionnaire_gen format
     if (class(c_mean_list) == "list") c_mean <- c_mean_list[[l]]
@@ -54,9 +54,9 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
     }
     n_groups <- sapply(n, sum)[l]
     
-    # Generating questionnaires for each cluster element of that level
+    # Generating questionnaires for each cluster element of that level ---------
     for (lvl in seq(n_groups)) {
-      # Creating basic elements
+      # Creating basic elements ................................................
       n_resp <- n[[l + 1]][lvl]
       mu <- NULL
       if (!is.null(c_mean) & class(c_mean) == "list") {
@@ -65,22 +65,13 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
         mu <- c_mean
       }
 
-      # Generating data
-      n_resp <- n[[l + 1]][lvl]
-      mu <- NULL
-      if (!is.null(c_mean) & class(c_mean) == "list") {
-        mu <- c_mean[[lvl]]
-      } else {
-        mu <- c_mean
-      }
-
-      # Generating data
+      # Generating data ........................................................
       cluster_bg <- questionnaire_gen(
         n_resp, n_X = n_X[[l]], n_W = n_W[[l]], c_mean = mu, verbose = FALSE,
         ...
       )
 
-      # Adding weights
+      # Adding weights .........................................................
       if (calc_weights) {
         cluster_bg <- weight_responses(
           cluster_bg, n, N, l + 1, lvl, previous_sublvl[lvl], sampling_method,
@@ -88,7 +79,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
         )
       }
 
-      # Generating unique IDs
+      # Generating unique IDs ..................................................
       respID <- paste0(next_level_label, seq(cluster_bg$subject))
       if (l > 1) {
         previous_lvl <- as.vector(unlist(sapply(n[[l]], seq)))[lvl]
@@ -99,11 +90,11 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       }
       cluster_bg$uniqueID <- paste(respID, cluster_bg$clusterID, sep = "_")
 
-      # Saving the questionnaire to the final list (sample)
+      # Saving the questionnaire to the final list (sample) ....................
       cluster_bg -> sample[[level_label]][[lvl]]
     }
 
-    # Collapsing levels and removing clusterIDs -------------------------------
+    # Collapsing levels and removing clusterIDs --------------------------------
     if (collapse == "none") {
       out[[l]] <- sample[[l]]
       for (ll in seq_along(out[[l]])) {
@@ -117,7 +108,9 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
           names(out[[l]]) <- paste0(names(out[[l]]), ".", resp_labels[l])
         }
         if (l > 1) {
-          names(out[[l]]) <- paste0(names(out[[l]]), ".", resp_labels[l])
+          non_weight_cols <- grep("weight", names(out[[l]]), invert = TRUE)
+          names(out[[l]])[non_weight_cols] <-
+            paste0(names(out[[l]])[non_weight_cols], ".", resp_labels[l])
           out[[l]] <- merge(x = out[[l]], y = out[[l - 1]][-1],
                             by.x = paste0("clusterID", ".", resp_labels[l]),
                             by.y = paste0("uniqueID", ".", resp_labels[l - 1]))

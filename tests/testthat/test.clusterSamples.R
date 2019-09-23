@@ -79,9 +79,10 @@ test_that("Errors are caught", {
 
 # uniqueIDs are correct --------------------------------------------------------
 test_that("uniqueIDs are correct", {
-  wrap_cluster_gen_2 <- function(..., coll = "full", return_all = FALSE) {
+  wrap_cluster_gen_2 <- function(..., coll = "full", return_all = FALSE,
+                                 verb = FALSE) {
     data <- cluster_gen(..., n_X = 0, n_W = 1, family = "gaussian",
-                        verbose = FALSE, collapse = coll)
+                        verbose = verb, collapse = coll)
     if (!return_all) data <- data[, 6]
     return(data)  # corresponds to the bottom level's uniqueID
   }
@@ -324,7 +325,7 @@ calcWeights2 <- function(data_list) {
   return(out)
 }
 
-# FIXME: replace n1 with "select"
+# IDEA: replace n1 with "select"
 # n1 <- list(cnt = 1, sch = 3, cls = c(2, 1, 3), stu = rep(2, 6))
 # N1 <- list(cnt = 1, sch = 9, cls = c(8, 7, 6), stu = rep(8, 6))
 # ex4 <- wrap_cluster_gen(n1, N1, meth = "SRS", sep = TRUE, collapse = "partial")
@@ -358,12 +359,6 @@ test_that("Weights are correct for different sampling methods", {
 })
 
 # Script for testing with Leslie ===============================================
-
-# This script is meant to aid the verification of the calculation of sampling weights.
-
-# Data examples ----------------------------------------------------------------
-# options(width = 150)  # keeps everything in one line for easier visualization
-
 # Example 1: 2-level symmetric structure, census, PPS weights
 test_that("Examples worked on with Leslie have correct weights", {
   wrap_cluster_gen <- function(...)
@@ -396,7 +391,6 @@ test_that("Examples worked on with Leslie have correct weights", {
   # )
 })
 
-# DONE: generate tree and data for level ranges
 context("Cluster sampling with ranged number of elements")
 check_cluster_structure <- function(n, FUN = "length") {
   set.seed(1234)
@@ -411,7 +405,7 @@ n2 <- list(city = 2, school = 2, class = 3, student = ranges(10, 50))
 n3 <- list(city = 2, school = 2, class = ranges(1, 3), stu = ranges(10, 50))
 n4 <- list(city = 2, school = 2, class = ranges(1, 3), student = 20)
 n5 <- list(city = 2, school = ranges(5, 8), class = ranges(1, 3), stu = 20)
-n6 <- list(2, ranges(1, 3), ranges(2, 5), ranges(1, 5), ranges(5, 100))  #FIXME: lacking names
+n6 <- list(2, ranges(1, 3), ranges(2, 5), ranges(1, 5), ranges(5, 100))
 
 test_that("Random levels work", {
   expect_equal(check_cluster_structure(n), 18)
@@ -456,8 +450,8 @@ test_that("Random level-generated data generates questionnaires", {
 # cl_scheme2 <- list(country = 5,
 #                    school  = c(20, 8, 5, 7, 3),
 #                    student = c(20, 30, 12, 12, 12))
-# drawClusterStructure(cl_scheme)
-# drawClusterStructure(cl_scheme2) #FIXME: incomplete is wrong
+# draw_cluster_structure(cl_scheme)
+# draw_cluster_structure(cl_scheme2) #FIXME: "incomplete" is wrong
 # cluster_gen(n = cl_scheme)
 # cluster_gen(n = select(1, 2, 4), N = cl_scheme)
 
