@@ -12,6 +12,7 @@
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param verbose if `TRUE`, prints output messages
+#' @param print_pop_structure if `TRUE`, prints the population hierarchical structure (as long as it differs from the sample structure)
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @return list with background questionnaire data, grouped by level or not
 #' @details This function relies heavily in two subfunctions---`cluster_gen_separate` and `cluster_gen_together`---which can be called independently. This does not make `cluster_gen` a simple wrapper function, as it performs several operations prior to calling its subfunctions, such as randomly generating `n_X` and `n_W` if they are not determined by user.
@@ -41,6 +42,7 @@ cluster_gen <- function(
   # TODO: Replicate weights
   # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between). Cheap solution: add random value to means and proportions before calling questionnaire_gen
   verbose = TRUE,
+  print_pop_structure = verbose,
   ...
 )
 {
@@ -97,35 +99,17 @@ cluster_gen <- function(
   }
 
   # Checking valid n-N combinations and reclassifying them =====================
-  # vector + vector := ok
-  # list + (blank) := ok
-  # sample + vector or list := ok
-  # list + vector or list := error ("use sample")
   if (class(n) == "select") {
     check_condition(class(N) == "select",
                     "If n is 'select', N must be a vector or a list")
     n <- sample_from(N, n)
   } else {
     if (class(n) == "list") {
-    #  check_condition(!identical(N, n),
-    #                  paste("If n and N are lists, they must be must be",      
-    #                        "identical. Perhaps you mean to use 'select'",
-    #                        "for n."))
       if (any(sapply(n, class) == "range")) {
         n <- convert_vector_to_list(n)
         N <- n
-      } else {
-      #  N <- convert_vector_to_list(N, n)
-      #  N_reduced <- convert_vector_to_list(N, n)
       }
     } else if (mode(n) == "numeric") {  # mode catches "numeric" and "integer"
-    #  check_condition(class(N) %in% c("list", "sample"),
-    #                  paste("If n is a vector, N must be identical to it.",
-    #                        "Perhaps you mean to use 'select' for n"))
-    #  check_condition(!identical(N, n),
-    #                  paste("If n and N are vectors, they must be must be",
-    #                        "identical. Perhaps you mean to use 'select'",
-    #                        "for n."))
       n <- convert_vector_to_list(n)
       if (any(sapply(n, class) == "range")) {
         N <- convert_vector_to_list(N)
@@ -174,13 +158,13 @@ cluster_gen <- function(
     # Message explaining cluster scheme ----------------------------------------
     if (verbose) {
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
-      cluster_message(n, resp_labels, cluster_labels, n_levels,
-                     separate_questionnaires, 1)
-      if (!identical(N, n)) {
+      if (!identical(N, n) & print_pop_structure) {
         message("Population structure")
         draw_cluster_structure(N, cluster_labels, resp_labels)
         message("Sampled structure")
       }
+      cluster_message(n, resp_labels, cluster_labels, n_levels,
+                     separate_questionnaires, 1)
       draw_cluster_structure(n, cluster_labels, resp_labels)
     }
 
@@ -211,13 +195,13 @@ cluster_gen <- function(
     # Message explaining cluster scheme ----------------------------------------
     if (verbose) {
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
-      cluster_message(n, resp_labels, cluster_labels, n_levels,
-                    separate_questionnaires, 2)
-      if (!identical(N, n)) {
+      if (!identical(N, n) & print_pop_structure) {
         message("Population structure")
         draw_cluster_structure(N, cluster_labels, resp_labels)
         message("Sampled structure")
       }
+      cluster_message(n, resp_labels, cluster_labels, n_levels,
+                    separate_questionnaires, 2)
       draw_cluster_structure(n, cluster_labels, resp_labels)
     }
 
