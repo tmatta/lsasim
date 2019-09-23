@@ -18,5 +18,5 @@ a list containing all the Jackknife replicates of `data`
 Generate replicates of a dataset using Jackknife
 }
 \seealso{
-cluster_estimates
+cluster_estimates brr
 }

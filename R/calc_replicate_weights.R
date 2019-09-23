@@ -55,8 +55,21 @@ calc_replicate_weights <- function(data, var_method = "none",
                 stats <- rbind(means, sqrt(vars))
                 rownames(stats) <- c("mean", "sd")
             }
-            # TODO: Add BRR
+            } else if (var_method == "BRR") {
+                # DONE: Add BRR
+                replicates <- brr(bg)
+                w_cols <- grep("weight", names(bg))
+                if (length(w_cols) > 0) {
+                    bg <- recalc_final_weights(bg, w_cols, 2)
+                }
+                # browser()#TEMP
+                # TODO: add brr_var (joined with jack_var?)
+            } else if (var_method == "BRR Fay") {
             # TODO: Add Fay's weights
+                stop("BRR Fay not yet implemented.")
+            } else {
+                stop("Invalid method for calculating replicate weights.")
+            }
             bg -> new_bg[[lvl_name]][[sublvl]]
             stats -> replicate_stats[[lvl_name]][[sublvl]]
         }
