@@ -47,6 +47,11 @@ cluster_gen <- function(
   # Validating =================================================================
   check_condition(class(n) == "select", "Select not yet implemented") # TEMP
   check_condition(
+    (!is.null(names(n)) | !is.null(names(N))) & 
+    (!is.null(cluster_labels) | !is.null(resp_labels)),
+    "If n or N are labeled, cluster_labels and resp_labels must be left NULL"
+  )
+  check_condition(
     !separate_questionnaires & length(n_X) > 1,
     "Unique questionnaire requested. n_X must therefore be a scalar."
   )

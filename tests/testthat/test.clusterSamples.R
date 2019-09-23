@@ -230,34 +230,6 @@ calcWeights <- function(data_list) {
   return(out)
 }
 
-# Custom weight tests ----------------------------------------------------------
-test_that("Weights for 2 levels are correct", {
-  wrap_cluster_gen <- function(n, N, meth = "SRS", sum_pop = sapply(N, sum),
-                               sep = FALSE, verb = FALSE, print = FALSE, ...) {
-    data <- cluster_gen(n                       = n,
-                        N                       = N,
-                        sum_pop                 = sum_pop,
-                        n_X                     = 1,
-                        n_W                     = 1,
-                        sampling_method         = meth,
-                        separate_questionnaires = sep,
-                        verbose                 = verb,
-                        ...)
-    if (print) print(data)
-    return(data)
-  }
-  ex1 <- wrap_cluster_gen(n = c(1, 2, 3), N = c(10, 100, 600))
-  ex2 <- wrap_cluster_gen(n = list(school = 4, student = c(10, 5, 2, 3)),
-                          N = list(school = 10, students = rep(100, 10)),
-                          meth = "PPS")
-  ex3 <- wrap_cluster_gen(n = list(school = 4, student = c(10, 5, 2, 3)),
-                          N = list(school = 10, students = rep(100, 10)),
-                          meth = "SRS")
-  expect_equivalent(calcWeights(ex1)["class.weight"] / 3, 100 * 10)
-  expect_equivalent(calcWeights(ex2)["final.student.weight"], 100 * 10)
-  expect_equivalent(calcWeights(ex3)["school.weight"], 2.5 * (10 + 5 + 2 + 3))
-})
-
 # Example from PISA manual tables ----------------------------------------------
 test_that("Weights and labels from PISA examples are correct", {
   wrap_cl_gen <- function(n, N, meth = "SRS", sum_pop = sapply(N, sum),
@@ -312,54 +284,63 @@ test_that("Weights and labels from PISA examples are correct", {
   expect_equal(names(calcWeights(ex_3.7)), weight_names)
 })
 
-# Exploring different sampling methods -----------------------------------------
-calcWeights2 <- function(data_list) {
-  p_1_i <- sapply(data_list, function(x) sapply(x, function(y) x[[y]][1, 4]))
-  
-  w <- sapply(data_list, function(x) colSums(x[4:6]))
-  w_sum <- rowSums(w)
-
-  w_1_i <- p_1_i
-  n_i_w_ij <- w_sum[3]
-  out <- c(w_1_i, n_i_w_ij)
-  return(out)
+# Custom weight tests ----------------------------------------------------------
+wrap_cluster_gen <- function(n, N, meth = "SRS", sum_pop = sapply(N, sum),
+                               sep = FALSE, verb = FALSE, print = FALSE, ...) {
+    data <- cluster_gen(n                       = n,
+                        N                       = N,
+                        sum_pop                 = sum_pop,
+                        n_X                     = 1,
+                        n_W                     = 1,
+                        sampling_method         = meth,
+                        separate_questionnaires = sep,
+                        verbose                 = verb,
+                        ...)
+    if (print) print(data)
+    return(data)
 }
+test_that("Sampling weights are correct", {
+  ex1 <- wrap_cluster_gen(n = c(1, 2, 3), N = c(10, 100, 600))
+  ex2 <- wrap_cluster_gen(n = list(school = 4, student = c(10, 5, 2, 3)),
+                          N = list(school = 10, students = rep(100, 10)),
+                          meth = "PPS")
+  ex3 <- wrap_cluster_gen(n = list(school = 4, student = c(10, 5, 2, 3)),
+                          N = list(school = 10, students = rep(100, 10)),
+                          meth = "SRS")
+  expect_equivalent(calcWeights(ex1)["class.weight"] / 3, 100 * 10)
+  expect_equivalent(calcWeights(ex2)["final.student.weight"], 100 * 10)
+  expect_equivalent(calcWeights(ex3)["school.weight"], 2.5 * (10 + 5 + 2 + 3))
+})
 
-# IDEA: replace n1 with "select"
-# n1 <- list(cnt = 1, sch = 3, cls = c(2, 1, 3), stu = rep(2, 6))
-# N1 <- list(cnt = 1, sch = 9, cls = c(8, 7, 6), stu = rep(8, 6))
-# ex4 <- wrap_cluster_gen(n1, N1, meth = "SRS", sep = TRUE, collapse = "partial")
-# ex5 <- wrap_cluster_gen(n1, N1, meth = "PPS", sep = TRUE, collapse = "partial")
-# ex6 <- wrap_cluster_gen(n1, N1, meth = "mixed", sep = TRUE, collapse = "partial")
-# ex7 <- wrap_cluster_gen(n1, N1, meth = c("PPS", "SRS", "PPS"), sep = TRUE, collapse = "partial")
-# ex8 <- wrap_cluster_gen(n = list(cnt =  2,
-#                                  sch = c(1, 1),
-#                                  cls = c(5, 7),
-#                                  stu = rep(10, 12)),
-#                         N = list(cnt = 10,
-#                                  sch = c(50, 2),
-#                                  cls = c(10, 7),
-#                                  stu = c(rep(50, 5), rep(10, 7))),
-#                         sep = TRUE, collapse = "partial",
-#                         meth = c("SRS", "PPS", "SRS"))
-# TODO: check sch.weight. Should add to pop size on each upper level separately
-# final.stu.weight should be 500 for cnt1.
-
+# Exploring different sampling methods -----------------------------------------
+n1 <- list(cnt = 1, sch = 3, cls = c(2, 1, 3), stu = rep(2, 6))
+N1 <- list(cnt = 1, sch = 5, cls = 8:4, stu = rep(8, sum(8:4)))
+ex4 <- wrap_cluster_gen(n1, N1, meth = "SRS", sep = TRUE)
+ex5 <- wrap_cluster_gen(n1, N1, meth = "PPS", sep = TRUE)
+ex6 <- wrap_cluster_gen(n1, N1, meth = c("PPS", "SRS", "PPS"), sep = TRUE)
+n2 <- list(1, 3, c(2, 1, 3), rep(2, 6))
+N2 <- list(1, 5, 8:4, rep(8, sum(8:4)))
+ex7 <- wrap_cluster_gen(n2, N2, meth = "mixed", sep = TRUE,
+                        cluster_labels = c("state", "school", "class"),
+                        resp_labels = c("governor", "principal", "student"))
 test_that("Weights are correct for different sampling methods", {
-#   w1 <- c(1 * 3 + 3 * (2 + 1 + 3) + 4 * 4 + 7 * 2 + 2 * 6)
-#   w2 <- c(3 * 3 + 12 * 2 + 21 + 6 * 3 + 16 * 4 + 28 * 2 + 8 * 6)
-#   expect_equivalent(calcWeights(ex4), c(w1, w2))
-#   w3 <- c(3 * 3 + 3.5 * 2 + 7 + 7/3 * 3 + 12 * 4 + 24 * 2 + 8 * 6)
-#   expect_equivalent(calcWeights(ex5)[2], w3)
-#   expect_equivalent(calcWeights(ex6)[2], w2)
-#   w4 <- c(3 * 3 + 12 * 2 + 21 + 6 * 3 + 12 * 4 + 24 * 2 + 8 * 6)
-#   expect_equivalent(calcWeights(ex7)[2], w4)
-#   w5 <- c(250 + 10 + 3.4 * 5 + 17/7 * 7 + 10 * 50 + 2 * 70)
-#   expect_equivalent(calcWeights(ex8)[2], w5)
+  expect_equivalent(calcWeights(ex4$cnt)["cnt.weight"], 1 * 3)
+  expect_equivalent(calcWeights(ex4$sch)["sch.weight"], (5 / 3) * 6)
+  expect_equivalent(calcWeights(ex4$cls)["cls.weight"], 5 * 2 * 6)
+  expect_equivalent(calcWeights(ex5$cnt)["final.sch.weight"], 5)
+  expect_equivalent(calcWeights(ex5$sch)["final.cls.weight"], sum(8:4))
+  expect_equivalent(calcWeights(ex5$cls)["final.stu.weight"],
+                    sum(rep(8, sum(8:4))))
+  expect_equivalent(calcWeights(ex6$cnt)["final.sch.weight"], 5)
+  expect_equivalent(calcWeights(ex6$sch)["sch.weight"], (5 / 3) * 6)
+  expect_equivalent(calcWeights(ex6$cls)["final.stu.weight"],
+                    sum(rep(8, sum(8:4))))
+  expect_equivalent(calcWeights(ex7$state)["state.weight"], 1 * 3)
+  expect_equivalent(calcWeights(ex7$school)["final.principal.weight"], sum(8:4))
+  expect_equivalent(calcWeights(ex7$class)["class.weight"], 5 * 2 * 6)
 })
 
 # Script for testing with Leslie ===============================================
-# Example 1: 2-level symmetric structure, census, PPS weights
 test_that("Examples worked on with Leslie have correct weights", {
   wrap_cluster_gen <- function(..., verb = FALSE) {
     cluster_gen(..., n_X = 1, n_W = 1, verbose = verb)
@@ -470,4 +451,4 @@ context("Replicate weights")
 # set.seed(230)
 # df <- cluster_gen(c(sch = 4, stu = 10), n_X = 3, n_W = 1, verb = TRUE)
 # jackknife(df$sch[[4]], c("sch.weight", "final.stu.weight"))
-# df2 <- replicate_weights(df, var_method = "Jackknife", verbose = FALSE, print_data = TRUE)=
+# df2 <- replicate_weights(df, var_method = "Jackknife", verbose = FALSE, print_data = TRUE)
