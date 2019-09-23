@@ -48,11 +48,7 @@ calc_replicate_weights <- function(data, var_method = "none",
                 w_cols <- grep("weight", names(bg))
                 if (length(w_cols) > 0) {
                     G <- nrow(bg)
-                    bg$replicate.weight <- G / (G - 1)
-                    new_w_cols <- grep("weight", names(bg))
-                    w_cols_final <- w_cols[length(w_cols)]
-                    w_cols_inter <- new_w_cols[new_w_cols != w_cols_final]
-                    bg[w_cols_final] <- apply(bg[w_cols_inter], 1, prod)
+                    bg <- recalc_final_weights(bg, w_cols, G / (G - 1))
                 }
                 means <- jack_stats$theta_whole
                 vars  <- jack_stats$sigma2_jack
