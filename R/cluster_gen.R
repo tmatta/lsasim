@@ -107,7 +107,19 @@ cluster_gen <- function(
     if (class(n) == "list") {
       if (any(sapply(n, class) == "range")) {
         n <- convert_vector_to_list(n)
-        N <- n
+        if (length(N) == 1) {
+          if (N == 1) {
+            N <- n
+          } else {
+            stop("If n is a list, N must be 1 or explicitly defined")
+          }
+        } else {
+          if (class(N) != "list") {
+            N <- convert_vector_to_list(N)
+          } else if (any(sapply(N, class) == "range")) {
+            stop("N and n can't both contain ranges")#TEMP
+          }
+        }  
       }
     } else if (mode(n) == "numeric") {  # mode catches "numeric" and "integer"
       n <- convert_vector_to_list(n)
