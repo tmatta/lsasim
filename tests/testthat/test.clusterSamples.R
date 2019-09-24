@@ -436,6 +436,20 @@ test_that("Random level-generated data generates questionnaires", {
   )
 })
 
+# TODO: add the following as tests
+test_that("Combinations of ranges for n and N are treated correctly", {
+# ex1 <- cluster_gen(n = list(school=4, student=ranges(5, 10)), n_X = 1, n_W = 0)
+# ex2 <- cluster_gen(n = list(school=4, student=ranges(5, 10)),
+#                    N = list(school=10, student=rep(10, 10)),
+#                    n_X = 1, n_W = 0)
+# ex3 <- cluster_gen(n = list(school=4, student=ranges(5, 10)),
+#                    N = list(school=10, student=ranges(10, 20)),
+#                    n_X = 1, n_W = 0)
+# ex4 <- cluster_gen(n = list(school=4, class=2, student=rep(5, 2 * 4)),
+#                    N = list(school=10, class=rep(3, 10), student=ranges(10, 30)),
+#                    n_X = 1, n_W = 0)
+})
+
 # Testing actual sampling ======================================================
 # cl_scheme <- list(school = 2, class = c(3, 2), student = c(5, 4, 5, 5, 5))
 # cl_scheme2 <- list(country = 5,

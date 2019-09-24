@@ -91,11 +91,14 @@ cluster_gen <- function(
       if (all(sapply(n, class) == "integer")) N <- as.integer(N)
     } else {
       if (N == 1) {
+        if (any(sapply(n, class) == "range")) n <- convert_vector_to_list(n)
         N <- n
       } else {
         stop("If n is a list, N must be 1 or explicitly defined")
       }
     }
+  } else if (any(sapply(N, class) == "range")) {
+    stop("N can't contain ranges")#TEMP
   }
 
   # Checking valid n-N combinations and reclassifying them =====================
@@ -116,10 +119,8 @@ cluster_gen <- function(
         } else {
           if (class(N) != "list") {
             N <- convert_vector_to_list(N)
-          } else if (any(sapply(N, class) == "range")) {
-            stop("N and n can't both contain ranges")#TEMP
           }
-        }  
+        }
       }
     } else if (mode(n) == "numeric") {  # mode catches "numeric" and "integer"
       n <- convert_vector_to_list(n)
