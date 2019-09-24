@@ -32,8 +32,9 @@ calc_replicate_weights <- function(data, var_method, print_stats = FALSE)
             # Calculating replicate weights ------------------------------------
             if (var_method == "Jackknife") {
                 replicates <- jackknife(bg)
-                jack_stats <- jackknife_var(data_whole = bg,
+                rep_stats <- replicate_var(data_whole = bg,
                                             data_rep   = replicates,
+                                           method     = "Jackknife",
                                             theta      = data_cols,     
                                             full_output = TRUE)
                 
@@ -55,9 +56,12 @@ calc_replicate_weights <- function(data, var_method, print_stats = FALSE)
                 if (length(w_cols) > 0) {
                     bg <- recalc_final_weights(bg, w_cols, 2)
                 }
-                # browser()#TEMP
-                # TODO: add brr_var (joined with jack_var?)
-            } else if (var_method == "BRR Fay") {
+                # DONE: add brr_var (joined with jack_var)
+                rep_stats <- replicate_var(data_whole = bg,
+                                           data_rep   = replicates,
+                                           method     = "BRR",
+                                           theta      = data_cols,     
+                                           full_output = TRUE)
                 # TODO: Add Fay's weights
                 stop("BRR Fay not yet implemented.")
             } else {
