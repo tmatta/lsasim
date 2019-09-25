@@ -1,7 +1,7 @@
 context("beta_gen() behavior with n_W > 0 and c_means != 0")
 
 # Generating data -------------------------------------------------------------
-qGenWrap <- function(nX, nW, mu = NULL, n = 400, verbose = FALSE) {
+qGenWrap <- function(nX, nW, mu = NULL, n = 200, verbose = FALSE) {
   if (verbose) cat("n_X = ", nX, ", n_W = ", unlist(nW), ", mu = ",
                    ifelse(is.null(mu), 0, mu), "\n")
 	# ad-hoc wrapper for questionnaire_gen()
@@ -42,7 +42,7 @@ df_111mb <- qGenWrap(1, list(2), c(20, -30))
 
 # Checking means -------------------------------------------------------------
 test_that("Observed means equal expectations", {
-  expect_equivalent(df_111mb$means, c(20, -30),  tolerance = 0.2)
+  expect_equivalent(df_111mb$means, c(20, -30),  tolerance = 0.5)
 })
 
 # Checking betas --------------------------------------------------------------
@@ -53,7 +53,7 @@ test_that("Estimated true betas are equivalent to MC estimates", {
 context("beta_gen() behavior with n_W > 0 and c_sd != 1")
 
 # Generating data -------------------------------------------------------------
-qGenWrap <- function(nX, nW, sd = NULL, n = 400, verbose = FALSE) {
+qGenWrap <- function(nX, nW, sd = NULL, n = 200, verbose = FALSE) {
   if (verbose) cat("n_X = ", nX, ", n_W = ", unlist(nW), ", sd = ",
                    ifelse(is.null(sd), 0, sd), "\n")
 	# ad-hoc wrapper for questionnaire_gen()
@@ -94,7 +94,7 @@ df_229m <- qGenWrap(2, list(2, 3), 7:9)
 
 # Checking means -------------------------------------------------------------
 test_that("Observed means equal expectations", {
-  expect_equivalent(df_229m$sds, 7:9, tolerance = 0.2)
+  expect_equivalent(df_229m$sds, 7:9, tolerance = 0.5)
 })
 
 # Checking betas --------------------------------------------------------------
