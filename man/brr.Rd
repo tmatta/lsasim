@@ -4,7 +4,8 @@
 \alias{brr}
 \title{Generate replicates of a dataset using Balanced Repeated Replication}
 \usage{
-brr(data, pseudo_strata = ceiling(nrow(data)/2), weight_cols = "none")
+brr(data, k = 0, pseudo_strata = ceiling(nrow(data)/2),
+  weight_cols = "none")
 }
 \arguments{
 \item{data}{dataset}

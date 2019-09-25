@@ -39,29 +39,39 @@ calc_replicate_weights <- function(data, method, k = .5, print_stats = FALSE)
             if (method == "Jackknife") {
                 replicates <- jackknife(bg)
                 rep_stats <- replicate_var(data_whole = bg,
-                                            data_rep   = replicates,
+                                           data_rep   = replicates,
                                            method     = "Jackknife",
-                                            theta      = data_cols,     
-                                            full_output = TRUE)
+                                           theta      = data_cols,     
+                                           full_output = TRUE)
                 if (length(w_cols) > 0) {
                     G <- nrow(bg)
                     bg <- recalc_final_weights(bg, w_cols, G / (G - 1))
                 }
             } else if (method == "BRR") {
                 # DONE: Add BRR
-                replicates <- brr(bg)
+                replicates <- brr(bg, 0)
                 if (length(w_cols) > 0) {
-                    # TODO: redo? Apply 0 weights instead of dropping from data?
+                    # ASK: redo? Apply 0 weights instead of dropping from data?
                     bg <- recalc_final_weights(bg, w_cols, 2)
                 }
-                # DONE: add brr_var (joined with jack_var)
                 rep_stats <- replicate_var(data_whole = bg,
                                            data_rep   = replicates,
                                            method     = "BRR",
+                                           k          = 0,
                                            theta      = data_cols,     
                                            full_output = TRUE)
-                # TODO: Add Fay's weights
-                stop("BRR Fay not yet implemented.")
+            } else if (method == "BRR Fay") {
+                # DONE: Add Fay's weights
+                replicates <- brr(bg, k)
+                if (length(w_cols) > 0) {
+                    bg <- recalc_final_weights(bg, w_cols, c(2 - k, k))
+                }
+                rep_stats <- replicate_var(data_whole = bg,
+                                           data_rep   = replicates,
+                                           method     = "BRR Fay",
+                                           k          = k,
+                                           theta      = data_cols,     
+                                           full_output = TRUE)
             } else {
                 stop("Invalid method for calculating replicate weights.")
             }

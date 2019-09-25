@@ -5,7 +5,7 @@
 #' @return a list containing all the BRR replicates of `data`
 #' @seealso cluster_estimates jackknife
 #' @export
-brr <- function(data, pseudo_strata = ceiling(nrow(data) / 2),
+brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
                 weight_cols = "none") {
     # ASK: Number of pseudo-strata == number of pairs in data rows?
 
@@ -28,7 +28,7 @@ brr <- function(data, pseudo_strata = ceiling(nrow(data) / 2),
         for (p in seq_len(pseudo_strata)) {
             data_pseudo_stratum <- data[data$pseudo_stratum == p, ]
             chosen_one <- sample(data_pseudo_stratum$subject, size = 1)
-            # TODO: don't drop, just set weight to k
+            # ASK: don't drop, just set weight to k?
             replicate <- replicate[replicate$subject != chosen_one, ]
         }
         if (weight_cols[1] != "none") {
