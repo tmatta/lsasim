@@ -1,15 +1,21 @@
-#' @title Jackknife estimate of sampling variance of the mean
-#' @description Estimates the mean variance for Jackknife replications
-#' @param data_whole entire dataset (pre-Jackknife)
-#' @param data_rep Jackknife list with replications of `data_whole`
+#' @title Sampling variance of the mean for replications
+#' @description Estimates the mean variance for Jackknife, BRR and BRR Fay replication methods
+#' @param data_whole full, original dataset (the one that generated the replications)
+#' @param data_rep list with replications of `data_whole`
+#' @param method replication method. Can be "jackknife", "BRR" or "BRR Fay"
+#' @param k deflating weight factor (used only when `method = "BRR Fay")
 #' @param stat statistic of interest to calculate (must be a base R function)
 #' @param theta vector containing the variables of interest
 #' @param full_output if `TRUE`, returns all intermediate objects created
 #' @details `data_rep` can be obtained from 
 #' @seealso jackknife
 #' @export
-jackknife_var <- function(data_whole, data_rep, stat = mean, theta = NULL,
-                          full_output = FALSE) {
+replicate_var <- function(data_whole, data_rep, method, k = .5, stat = mean,
+                          theta = NULL, full_output = FALSE)
+{
+    # Verification =============================================================
+    if (k < 0 | k > 1) stop ("k must be between 0 and 1")
+
     # Fetching statistic of interest ===========================================
     statistic <- match.fun(stat)
 
@@ -31,23 +37,38 @@ jackknife_var <- function(data_whole, data_rep, stat = mean, theta = NULL,
     # Calculating mean variance ================================================
     theta_whole <- sapply(numeric_data_whole, statistic)
     theta_rep <- t(sapply(numeric_data_rep, function(x) apply(x, 2, statistic)))
-    n <- length(theta_rep)
-    sigma2_jack <- vector()
+    G <- length(theta_rep)
+    sigma2 <- vector()
     for (col in numeric_cols) {
+
+        # Retrieving theta_i ---------------------------------------------------
         if (nrow(theta_rep) == 1) {
             theta_i <- theta_rep
         } else {
             theta_i <- theta_rep[, col]
         }
-        new_s2 <- (n - 1) / n * sum((theta_i - theta_whole[col]) ^ 2)
-        sigma2_jack <- c(sigma2_jack, new_s2)
+
+        # Defining variance multiplier -----------------------------------------
+        if (method == "Jackknife") {
+            multiplier <- (G - 1) / G
+        } else if (method == "BRR") {
+            multiplier <- 1 / G
+        } else if (method == "BRR Fay") {
+            multiplier <- 1 / (G * (1 - k) ^ 2)
+        } else {
+            stop("Invalid method")
+        }
+
+        # Calculating variance and adding to output object ---------------------
+        new_s2 <- multiplier * sum((theta_i - theta_whole[col]) ^ 2)
+        sigma2 <- c(sigma2, new_s2)
     }
 
     # Building output ==========================================================
     if (full_output) {
         out <- mget(ls())
     } else {
-        out <- sigma2_jack
+        out <- sigma2
     }
     return(out)
 }

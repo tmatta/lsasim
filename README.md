@@ -39,7 +39,7 @@ There are several sources of information that help a user get started with `lsas
 
 This package contains vignettes. If you are installing `lsasim` from GitHub, remember to include `build_vignettes=TRUE` in your `remotes::install_github()` call. Afterwards, you can browse the vignettes by issuing `browseVignettes("lsasim")` in your R terminal.
 
-## Planned features
+## Feature wishlist
 
 ### `questionnaire_gen`:
 
@@ -51,6 +51,10 @@ This package contains vignettes. If you are installing `lsasim` from GitHub, rem
 ### `beta_gen`:
 
 1. Support more complex functions, e.g. including interactions between the covariates.
+
+### `cluster_gen`:
+
+1. Implement stratified sampling
 
 ## Reporting bugs and requesting features
 

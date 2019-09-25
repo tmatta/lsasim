@@ -2,7 +2,7 @@
 #' @param data dataset
 #' @param weight_cols vector of weight columns
 #' @return a list containing all the Jackknife replicates of `data`
-#' @seealso cluster_estimates
+#' @seealso cluster_estimates brr
 #' @export
 jackknife <- function(data, weight_cols = "none") {
     n_PSU <- nrow(data)

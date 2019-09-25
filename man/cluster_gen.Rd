@@ -8,7 +8,7 @@ cluster_gen(n, cluster_labels = NULL, resp_labels = NULL, n_X = NULL,
   n_W = NULL, c_mean = NULL, separate_questionnaires = TRUE,
   collapse = "none", N = 1, sum_pop = sapply(N, sum),
   calc_weights = TRUE, sampling_method = "mixed", verbose = TRUE,
-  ...)
+  print_pop_structure = verbose, ...)
 }
 \arguments{
 \item{n}{numeric vector with the number of sampled observations (clusters or subjects) on each level}
@@ -36,6 +36,8 @@ cluster_gen(n, cluster_labels = NULL, resp_labels = NULL, n_X = NULL,
 \item{sampling_method}{can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size}
 
 \item{verbose}{if `TRUE`, prints output messages}
+
+\item{print_pop_structure}{if `TRUE`, prints the population hierarchical structure (as long as it differs from the sample structure)}
 
 \item{...}{Additional parameters to be passed to `questionnaire_gen()`}
 }

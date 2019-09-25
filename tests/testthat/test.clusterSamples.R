@@ -456,13 +456,19 @@ test_that("Combinations of ranges for n and N are treated correctly", {
 #                    school  = c(20, 8, 5, 7, 3),
 #                    student = c(20, 30, 12, 12, 12))
 # draw_cluster_structure(cl_scheme)
-# draw_cluster_structure(cl_scheme2) #FIXME: "incomplete" is wrong
+# draw_cluster_structure(cl_scheme2)
 # cluster_gen(n = cl_scheme)
 # cluster_gen(n = select(1, 2, 4), N = cl_scheme)
 
 
 context("Replicate weights")
-# set.seed(230)
-# df <- cluster_gen(c(sch = 4, stu = 10), n_X = 3, n_W = 1, verb = TRUE)
-# jackknife(df$sch[[4]], c("sch.weight", "final.stu.weight"))
-# df2 <- replicate_weights(df, var_method = "Jackknife", verbose = FALSE, print_data = TRUE)
+#TODO: turn this into a test
+test_that("Replication weights are correct", {
+  set.seed(230)
+  df <- cluster_gen(c(sch = 4, stu = 10), n_X = 3, n_W = 1, verb = TRUE)
+  df_jack <- calc_replicate_weights(df, "Jackknife", print_stats = TRUE)
+  df_brr <- calc_replicate_weights(df, "BRR", print_stats = TRUE)
+  df_fay <- calc_replicate_weights(df, "BRR Fay", print_stats = TRUE)
+  print(df_jack$statistics)
+  print(df_brr$statistics)  # ASK: are these expected to be lower than Jackknife?
+})
