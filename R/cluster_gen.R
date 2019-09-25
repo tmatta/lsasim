@@ -85,54 +85,35 @@ cluster_gen <- function(
   if (is.null(cluster_labels)) cluster_labels <- attribute_cluster_labels(n)$cl
   if (is.null(resp_labels)) resp_labels <- attribute_cluster_labels(n)$resp
 
-  # Expanding N as a function of n =============================================
-  if (length(N) == 1) {
-    if (mode(n) == "numeric") {
-      N <- N * n
-      if (all(sapply(n, class) == "integer")) N <- as.integer(N)
-    } else {
+  # Checking valid n-N combinations and reformatting them if necessary =========
+  class_n <- check_n_N_class(n)
+  class_N <- check_n_N_class(N)
+  if (class_n == "select") {
+    check_condition(class_N == "select", "N can't be select")
+    n <- sample_from(N, n)
+  } else if (class_n == "list with ranges") {
+    n <- convert_vector_to_list(n)
+    if (class_N == "multiplier") {
+      check_condition(N != 1,
+                      "If n is a list, N must be 1 or explicitly defined")
+      N <- n
+    } else if (class_N == "vector") {
+      N <- convert_vector_to_list(N)
+    }
+  } else if (class_n == "list without ranges") {
+    if (class_N == "multiplier") {
       if (N == 1) {
-        if (any(sapply(n, class) == "range")) n <- convert_vector_to_list(n)
         N <- n
       } else {
         stop("If n is a list, N must be 1 or explicitly defined")
       }
-    }
-  } else if (any(sapply(N, class) == "range")) {
-    stop("N can't contain ranges")#TEMP
-  }
-
-  # Checking valid n-N combinations and reclassifying them =====================
-  if (class(n) == "select") {
-    check_condition(class(N) == "select",
-                    "If n is 'select', N must be a vector or a list")
-    n <- sample_from(N, n)
-  } else {
-    if (class(n) == "list") {
-      if (any(sapply(n, class) == "range")) {
-        n <- convert_vector_to_list(n)
-        if (length(N) == 1) {
-          if (N == 1) {
-            N <- n
-          } else {
-            stop("If n is a list, N must be 1 or explicitly defined")
-          }
-        } else {
-          if (class(N) != "list") {
-            N <- convert_vector_to_list(N)
-          }
-        }
-      }
-    } else if (mode(n) == "numeric") {  # mode catches "numeric" and "integer"
-      n <- convert_vector_to_list(n)
-      if (any(sapply(n, class) == "range")) {
+    } else if (class_N == "vector") {
         N <- convert_vector_to_list(N)
-        check_valid_structure(N)
-      } else {
-        N <- convert_vector_to_list(N)
-        N_reduced <- convert_vector_to_list(N, n)
-      }
     }
+  } else if (class_n == "vector") {
+    if (class_N == "multiplier") N <- N * n
+    n <- convert_vector_to_list(n)
+    N <- convert_vector_to_list(N)
   }
 
   # Calculating useful arguments ===============================================
