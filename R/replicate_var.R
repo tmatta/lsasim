@@ -34,14 +34,16 @@ replicate_var <- function(data_whole, data_rep, method, k = .5, stat = mean,
     numeric_data_whole <- data_whole[numeric_cols]
     numeric_data_rep <- lapply(data_rep, function(x) x[names(numeric_data_whole)])
 
-    # Calculating mean variance ================================================
+    # Calculating theta for the whole dataset and for each replication
     theta_whole <- sapply(numeric_data_whole, statistic)
     theta_rep <- t(sapply(numeric_data_rep, function(x) apply(x, 2, statistic)))
+
+    # Calculating mean variance ================================================
     G <- length(theta_rep)
     sigma2 <- vector()
     for (col in numeric_cols) {
 
-        # Retrieving theta_i ---------------------------------------------------
+        # Retrieving theta_i from theta_rep ------------------------------------
         if (nrow(theta_rep) == 1) {
             theta_i <- theta_rep
         } else {

@@ -4,18 +4,27 @@
 \alias{jackknife}
 \title{Generate replicates of a dataset using Jackknife}
 \usage{
-jackknife(data, weight_cols = "none")
+jackknife(data, weight_cols = "none", drop = TRUE)
 }
 \arguments{
 \item{data}{dataset}
 
 \item{weight_cols}{vector of weight columns}
+
+\item{drop}{if `TRUE`, the observation that will not be part of the subsample is dropped from the dataset. Otherwise, it stays in the dataset but a new weight column is created to differentiate the selected observations}
 }
 \value{
 a list containing all the Jackknife replicates of `data`
 }
 \description{
 Generate replicates of a dataset using Jackknife
+}
+\examples{
+x <- data.frame(number = 1:5,
+                letter = LETTERS[1:5],
+                stringsAsFactors = FALSE)
+jackknife(x)
+jackknife(x, drop = FALSE)
 }
 \seealso{
 cluster_estimates brr
