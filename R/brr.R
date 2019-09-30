@@ -1,12 +1,18 @@
 #' @title Generate replicates of a dataset using Balanced Repeated Replication
 #' @param data dataset
+#' @param k deflating weight factor. \eqn{0 \leq k \leq 1}.
 #' @param pseudo_strata number of pseudo-strata
 #' @param weight_cols vector of weight columns
+#' @param drop if `TRUE`, the observation that will not be part of the subsample is dropped from the dataset. Otherwise, it stays in the dataset but a new weight column is created to differentiate the selected observations
 #' @return a list containing all the BRR replicates of `data`
-#' @seealso cluster_estimates jackknife
+#' @seealso jackknife
+#' @note PISA uses the BRR Fay method with \eqn{k = 0.5}.
+#' @references 
+#' OECD (2015). Pisa Data Analysis Manual.
+#' Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.
 #' @export
 brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
-                weight_cols = "none") {
+                weight_cols = "none", drop = TRUE) {
     # Verification =============================================================
     if (k < 0 | k > 1) stop ("k must be between 0 and 1")
 
@@ -23,10 +29,15 @@ brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
     R <- list()  # will restore replicate data
     for (rep in seq_len(total_replicates)) {
         replicate <- data
+        if (!drop) replicate$replicate_weight <- 2 - k
         for (p in seq_len(pseudo_strata)) {
             data_pseudo_stratum <- data[data$pseudo_stratum == p, ]
             chosen_one <- sample(data_pseudo_stratum$subject, size = 1)
-            replicate <- replicate[replicate$subject != chosen_one, ]
+            if (drop) {
+                replicate <- replicate[replicate$subject != chosen_one, ]
+            } else {
+                replicate$replicate_weight[replicate$subject == chosen_one] <- k
+            }
         }
         if (weight_cols[1] != "none") {
             adj_factor <- 2
