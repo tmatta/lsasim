@@ -51,7 +51,7 @@ replicate_var <- function(data_whole, data_rep, method, k = .5, stat = mean,
         }
 
         # Defining variance multiplier -----------------------------------------
-        if (method == "Jackknife") {
+        if (method %in% c("Jackknife", "jackknife")) {
             multiplier <- (G - 1) / G
         } else if (method == "BRR") {
             multiplier <- 1 / G
