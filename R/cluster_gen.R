@@ -111,7 +111,10 @@ cluster_gen <- function(
   } else if (class_n == "vector") {
     if (class_N == "multiplier") N <- N * n
     n <- convert_vector_to_list(n)
-    N <- convert_vector_to_list(N)
+    class_N <- check_n_N_class(N)
+    if (class_N %in% c("vector", "list with ranges")) {
+      N <- convert_vector_to_list(N)
+    }
   }
 
   # Calculating useful arguments ===============================================
