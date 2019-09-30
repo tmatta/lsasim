@@ -8,11 +8,11 @@ pluralize <- function(word, n = rep(2, length(word)))
   # Define basic dictionaty ====================================================
   singular <- c(
     "country", "region", "state", "city", "neighborhood", "school",
-    "class", "teacher", "student", "principal"
+    "class", "teacher", "student", "principal", "people"
   )
   plural <- c(
     "countries", "regions", "states", "cities", "neighborhoods", "schools",
-    "classes", "teachers", "students", "principals"
+    "classes", "teachers", "students", "principals", "people"
   )
 
   # Pluralize if necessary =====================================================
