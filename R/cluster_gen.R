@@ -27,8 +27,6 @@
 cluster_gen <- function(
   n,
   cluster_labels = NULL,
-  # DONE: drop countries (because country weights feel weird
-  # DONE: dinamically expand this (school/class, neighborhood/school/class...)
   # TODO: replace NULL with missing()?
   resp_labels = NULL,
   n_X = NULL,
@@ -40,7 +38,7 @@ cluster_gen <- function(
   sum_pop = sapply(N, sum),
   calc_weights = TRUE,
   sampling_method = "mixed",
-  # DONE: Replicate weights
+  # TODO: Replicate weights
   # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between). Cheap solution: add random value to means and proportions before calling questionnaire_gen
   verbose = TRUE,
   print_pop_structure = verbose,
@@ -183,6 +181,7 @@ cluster_gen <- function(
     }
 
     # Defining n_X and n_W -----------------------------------------------------
+    #IDEA: define cat_prop/n_X-n_W as a function of the correlation matrix
     if (is.null(n_X)) {
       n_X <- list()
       for (l in seq(n_levels)) {

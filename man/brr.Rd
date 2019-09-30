@@ -5,14 +5,18 @@
 \title{Generate replicates of a dataset using Balanced Repeated Replication}
 \usage{
 brr(data, k = 0, pseudo_strata = ceiling(nrow(data)/2),
-  weight_cols = "none")
+  weight_cols = "none", drop = TRUE)
 }
 \arguments{
 \item{data}{dataset}
 
+\item{k}{deflating weight factor. \eqn{0 \leq k \leq 1}.}
+
 \item{pseudo_strata}{number of pseudo-strata}
 
 \item{weight_cols}{vector of weight columns}
+
+\item{drop}{if `TRUE`, the observation that will not be part of the subsample is dropped from the dataset. Otherwise, it stays in the dataset but a new weight column is created to differentiate the selected observations}
 }
 \value{
 a list containing all the BRR replicates of `data`
@@ -20,6 +24,13 @@ a list containing all the BRR replicates of `data`
 \description{
 Generate replicates of a dataset using Balanced Repeated Replication
 }
+\note{
+PISA uses the BRR Fay method with \eqn{k = 0.5}.
+}
+\references{
+OECD (2015). Pisa Data Analysis Manual.
+Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.
+}
 \seealso{
-cluster_estimates jackknife
+jackknife
 }
