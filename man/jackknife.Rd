@@ -27,5 +27,5 @@ jackknife(x)
 jackknife(x, drop = FALSE)
 }
 \seealso{
-cluster_estimates brr
+brr
 }

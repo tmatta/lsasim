@@ -3,7 +3,7 @@
 #' @param weight_cols vector of weight columns
 #' @param drop if `TRUE`, the observation that will not be part of the subsample is dropped from the dataset. Otherwise, it stays in the dataset but a new weight column is created to differentiate the selected observations
 #' @return a list containing all the Jackknife replicates of `data`
-#' @seealso cluster_estimates brr
+#' @seealso brr
 #' @examples
 #' x <- data.frame(number = 1:5,
 #'                 letter = LETTERS[1:5],
@@ -19,8 +19,8 @@ jackknife <- function(data, weight_cols = "none", drop = TRUE) {
             replicate <- data[-rep, ]
         } else {
             replicate <- data
-            replicate$jackknife_weight <- 1
-            replicate$jackknife_weight[rep] <- 0
+            replicate$replicate_weight <- 1
+            replicate$replicate_weight[rep] <- 0
         }
         if (weight_cols[1] != "none") {
             adj_factor <- n_PSU / (n_PSU - 1)

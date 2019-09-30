@@ -8,7 +8,7 @@
 #' @param theta vector containing the variables of interest
 #' @param full_output if `TRUE`, returns all intermediate objects created
 #' @details `data_rep` can be obtained from 
-#' @seealso jackknife
+#' @seealso jackknife brr
 #' @export
 replicate_var <- function(data_whole, data_rep, method, k = .5, stat = mean,
                           theta = NULL, full_output = FALSE)
