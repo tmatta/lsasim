@@ -78,7 +78,7 @@ By default, the function returns a \code{data.frame} object where the
   Details section for more information.}
 
   \item{cat_prop_W_p}{a list containing the probabilities for each category
-  of the categorical variables (cat_prop_W contains the cumulative
+  of the categorical variables (\code{cat_prop_W} contains the cumulative
   probabilities).}
 
   \item{cor_matrix}{identical to the input argument of the same name. Read
@@ -115,7 +115,7 @@ By default, the function returns a \code{data.frame} object where the
   \item{var_YX}{list containing the variances of the continuous variables
   (including \eqn{\theta})}
   
-  \item{linear_regression}{This list is printed only If `theta = TRUE`,
+  \item{linear_regression}{This list is printed only if `theta = TRUE`,
   `family = "gaussian"` and `full_output = TRUE`. It contains one vector 
   named `betas` and one tabled named `cov_YXW`. The former displays the true
   linear regression coefficients of \eqn{theta} on the background  

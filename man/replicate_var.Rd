@@ -12,7 +12,7 @@ replicate_var(data_whole, data_rep, method, k = 0.5, stat = mean,
 
 \item{data_rep}{list with replications of `data_whole`}
 
-\item{method}{replication method. Can be "jackknife", "BRR" or "BRR Fay"}
+\item{method}{replication method. Can be "Jackknife", "BRR" or "BRR Fay"}
 
 \item{k}{deflating weight factor (used only when `method = "BRR Fay")}
 

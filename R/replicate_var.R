@@ -2,7 +2,7 @@
 #' @description Estimates the mean variance for Jackknife, BRR and BRR Fay replication methods
 #' @param data_whole full, original dataset (the one that generated the replications)
 #' @param data_rep list with replications of `data_whole`
-#' @param method replication method. Can be "jackknife", "BRR" or "BRR Fay"
+#' @param method replication method. Can be "Jackknife", "BRR" or "BRR Fay"
 #' @param k deflating weight factor (used only when `method = "BRR Fay")
 #' @param stat statistic of interest to calculate (must be a base R function)
 #' @param theta vector containing the variables of interest
