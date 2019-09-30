@@ -2,7 +2,7 @@
 #' @description Estimates the mean variance for Jackknife, BRR and BRR Fay replication methods
 #' @param data_whole full, original dataset (the one that generated the replications)
 #' @param data_rep list with replications of `data_whole`
-#' @param method replication method. Can be "jackknife", "BRR" or "BRR Fay"
+#' @param method replication method. Can be "Jackknife", "BRR" or "BRR Fay"
 #' @param k deflating weight factor (used only when `method = "BRR Fay")
 #' @param stat statistic of interest to calculate (must be a base R function)
 #' @param theta vector containing the variables of interest
@@ -58,7 +58,7 @@ replicate_var <- function(data_whole, data_rep, method, k = .5, stat = mean,
         } else if (method == "BRR Fay") {
             multiplier <- 1 / (G * (1 - k) ^ 2)
         } else {
-            stop("Invalid method")
+            stop("Invalid method. Please use 'Jackknife', 'BRR' or 'BRR Fay'.")
         }
 
         # Calculating variance and adding to output object ---------------------

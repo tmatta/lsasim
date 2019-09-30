@@ -7,8 +7,6 @@
 #' @export
 brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
                 weight_cols = "none") {
-    # ASK: Number of pseudo-strata == number of pairs in data rows?
-
     # Verification =============================================================
     if (k < 0 | k > 1) stop ("k must be between 0 and 1")
 
@@ -28,7 +26,6 @@ brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
         for (p in seq_len(pseudo_strata)) {
             data_pseudo_stratum <- data[data$pseudo_stratum == p, ]
             chosen_one <- sample(data_pseudo_stratum$subject, size = 1)
-            # ASK: don't drop, just set weight to k?
             replicate <- replicate[replicate$subject != chosen_one, ]
         }
         if (weight_cols[1] != "none") {

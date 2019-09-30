@@ -48,10 +48,8 @@ calc_replicate_weights <- function(data, method, k = .5, print_stats = FALSE)
                     bg <- recalc_final_weights(bg, w_cols, G / (G - 1))
                 }
             } else if (method == "BRR") {
-                # DONE: Add BRR
                 replicates <- brr(bg, 0)
                 if (length(w_cols) > 0) {
-                    # ASK: redo? Apply 0 weights instead of dropping from data?
                     bg <- recalc_final_weights(bg, w_cols, 2)
                 }
                 rep_stats <- replicate_var(data_whole = bg,
@@ -61,7 +59,6 @@ calc_replicate_weights <- function(data, method, k = .5, print_stats = FALSE)
                                            theta      = data_cols,     
                                            full_output = TRUE)
             } else if (method == "BRR Fay") {
-                # DONE: Add Fay's weights
                 replicates <- brr(bg, k)
                 if (length(w_cols) > 0) {
                     bg <- recalc_final_weights(bg, w_cols, c(2 - k, k))

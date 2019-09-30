@@ -345,7 +345,6 @@ test_that("Examples worked on with Leslie have correct weights", {
   wrap_cluster_gen <- function(..., verb = FALSE) {
     cluster_gen(..., n_X = 1, n_W = 1, verbose = verb)
   }
-  # DONE: check weights from Leslie examples
   lr1 <- wrap_cluster_gen(n = c(school = 2, student = 10))
   lr2 <- wrap_cluster_gen(n = c(school = 2, class = 1, student =  5), 
                           N = c(school = 5, class = 2, student = 10))
@@ -456,5 +455,5 @@ test_that("Replication weights are correct", {
   df_brr <- calc_replicate_weights(df, "BRR", print_stats = TRUE)
   df_fay <- calc_replicate_weights(df, "BRR Fay", print_stats = TRUE)
   print(df_jack$statistics)
-  print(df_brr$statistics)  # ASK: are these expected to be lower than Jackknife?
+  print(df_brr$statistics)
 })
