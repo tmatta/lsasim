@@ -464,7 +464,7 @@ context("Replicate weights")
 #TODO: turn this into a test
 test_that("Replication weights are correct", {
   set.seed(230)
-  df <- cluster_gen(c(sch = 4, stu = 10), n_X = 3, n_W = 1, verb = TRUE)
+  df <- cluster_gen(c(sch = 4, stu = 10), n_X = 3, n_W = 1, verb = FALSE)
   df_jack <- calc_replicate_weights(df, "Jackknife", print_stats = TRUE)
   df_brr <- calc_replicate_weights(df, "BRR", print_stats = TRUE)
   df_fay <- calc_replicate_weights(df, "BRR Fay", print_stats = TRUE)

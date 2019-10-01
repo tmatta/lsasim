@@ -1,7 +1,7 @@
 Package: lsasim
 Date: 2019-09-12
 Title: Functions to Facilitate the Simulation of Large-Scale Assessment Data
-Version: 2.0.0.9101
+Version: 2.0.0.9102
 Authors@R: c(
   person("Tyler", "Matta",
          email = "tyler.matta@gmail.com", role = "aut"),
