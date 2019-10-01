@@ -100,66 +100,66 @@ test_that("uniqueIDs are correct", {
                           resp_labels = c("teacher", "student"),
                           separate_questionnaires = FALSE)
   expect_equal(df1,
-    c('student1_class1_school1', 'student2_class1_school1', 
-      'student3_class1_school1', 'student4_class1_school1', 
-      'student1_class1_school2', 'student2_class1_school2', 
-      'student3_class1_school2', 'student4_class1_school2', 
-      'student1_class2_school1', 'student2_class2_school1', 
-      'student3_class2_school1', 'student4_class2_school1', 
-      'student1_class2_school2', 'student2_class2_school2', 
-      'student3_class2_school2', 'student4_class2_school2', 
-      'student1_class3_school1', 'student2_class3_school1', 
-      'student3_class3_school1', 'student4_class3_school1', 
-      'student1_class3_school2', 'student2_class3_school2', 
-      'student3_class3_school2', 'student4_class3_school2')
+    c("student1_class1_school1", "student2_class1_school1", 
+      "student3_class1_school1", "student4_class1_school1", 
+      "student1_class1_school2", "student2_class1_school2", 
+      "student3_class1_school2", "student4_class1_school2", 
+      "student1_class2_school1", "student2_class2_school1", 
+      "student3_class2_school1", "student4_class2_school1", 
+      "student1_class2_school2", "student2_class2_school2", 
+      "student3_class2_school2", "student4_class2_school2", 
+      "student1_class3_school1", "student2_class3_school1", 
+      "student3_class3_school1", "student4_class3_school1", 
+      "student1_class3_school2", "student2_class3_school2", 
+      "student3_class3_school2", "student4_class3_school2")
   )
   expect_equal(df2,
-    c('student1_class1_school1', 'student2_class1_school1',
-     'student3_class1_school1', 'student4_class1_school1', 
-     'student1_class2_school1', 'student2_class2_school1', 
-     'student3_class2_school1', 'student4_class2_school1', 
-     'student1_class3_school1', 'student2_class3_school1', 
-     'student3_class3_school1', 'student4_class3_school1', 
-     'student1_class1_school2', 'student2_class1_school2', 
-     'student3_class1_school2', 'student4_class1_school2', 
-     'student1_class2_school2', 'student2_class2_school2', 
-     'student3_class2_school2', 'student4_class2_school2', 
-     'student1_class3_school2', 'student2_class3_school2', 
-     'student3_class3_school2', 'student4_class3_school2')
+    c("student1_class1_school1", "student2_class1_school1",
+     "student3_class1_school1", "student4_class1_school1", 
+     "student1_class2_school1", "student2_class2_school1", 
+     "student3_class2_school1", "student4_class2_school1", 
+     "student1_class3_school1", "student2_class3_school1", 
+     "student3_class3_school1", "student4_class3_school1", 
+     "student1_class1_school2", "student2_class1_school2", 
+     "student3_class1_school2", "student4_class1_school2", 
+     "student1_class2_school2", "student2_class2_school2", 
+     "student3_class2_school2", "student4_class2_school2", 
+     "student1_class3_school2", "student2_class3_school2", 
+     "student3_class3_school2", "student4_class3_school2")
   )
   expect_equal(df3,
-    c('student1_class1_school1_state1', 'student2_class1_school1_state1', 
-    'student3_class1_school1_state1', 'student1_class1_school2_state1', 
-    'student2_class1_school2_state1', 'student1_class2_school2_state1', 
-    'student2_class2_school2_state1', 'student3_class2_school2_state1')
+    c("student1_class1_school1_state1", "student2_class1_school1_state1", 
+    "student3_class1_school1_state1", "student1_class1_school2_state1", 
+    "student2_class1_school2_state1", "student1_class2_school2_state1", 
+    "student2_class2_school2_state1", "student3_class2_school2_state1")
   )
   expect_equal(df4,
-    c('student1_class1_school1_state1', 'student2_class1_school1_state1', 
-    'student3_class1_school1_state1', 'student1_class1_school2_state1', 
-    'student2_class1_school2_state1', 'student1_class2_school2_state1', 
-    'student2_class2_school2_state1', 'student3_class2_school2_state1')
+    c("student1_class1_school1_state1", "student2_class1_school1_state1", 
+    "student3_class1_school1_state1", "student1_class1_school2_state1", 
+    "student2_class1_school2_state1", "student1_class2_school2_state1", 
+    "student2_class2_school2_state1", "student3_class2_school2_state1")
   )
   expect_equal(df6,
-    c('student1_class1_school1_state1', 'student2_class1_school1_state1', 
-    'student1_class1_school1_state2', 'student2_class1_school1_state2', 
-    'student1_class1_school2_state1', 'student2_class1_school2_state1', 
-    'student1_class1_school2_state2', 'student2_class1_school2_state2', 
-    'student1_class1_school3_state1', 'student2_class1_school3_state1', 
-    'student1_class2_school1_state2', 'student2_class2_school1_state2', 
-    'student1_class2_school2_state2', 'student2_class2_school2_state2', 
-    'student1_class2_school3_state1', 'student2_class2_school3_state1', 
-    'student1_class3_school1_state2', 'student2_class3_school1_state2')
+    c("student1_class1_school1_state1", "student2_class1_school1_state1", 
+    "student1_class1_school1_state2", "student2_class1_school1_state2", 
+    "student1_class1_school2_state1", "student2_class1_school2_state1", 
+    "student1_class1_school2_state2", "student2_class1_school2_state2", 
+    "student1_class1_school3_state1", "student2_class1_school3_state1", 
+    "student1_class2_school1_state2", "student2_class2_school1_state2", 
+    "student1_class2_school2_state2", "student2_class2_school2_state2", 
+    "student1_class2_school3_state1", "student2_class2_school3_state1", 
+    "student1_class3_school1_state2", "student2_class3_school1_state2")
   )
   expect_equal(df7,
-    c('student1_class1_school1_state1', 'student2_class1_school1_state1', 
-    'student1_class1_school2_state1', 'student2_class1_school2_state1', 
-    'student1_class1_school3_state1', 'student2_class1_school3_state1', 
-    'student1_class2_school3_state1', 'student2_class2_school3_state1', 
-    'student1_class1_school1_state2', 'student2_class1_school1_state2', 
-    'student1_class2_school1_state2', 'student2_class2_school1_state2', 
-    'student1_class3_school1_state2', 'student2_class3_school1_state2', 
-    'student1_class1_school2_state2', 'student2_class1_school2_state2', 
-    'student1_class2_school2_state2', 'student2_class2_school2_state2')
+    c("student1_class1_school1_state1", "student2_class1_school1_state1", 
+    "student1_class1_school2_state1", "student2_class1_school2_state1", 
+    "student1_class1_school3_state1", "student2_class1_school3_state1", 
+    "student1_class2_school3_state1", "student2_class2_school3_state1", 
+    "student1_class1_school1_state2", "student2_class1_school1_state2", 
+    "student1_class2_school1_state2", "student2_class2_school1_state2", 
+    "student1_class3_school1_state2", "student2_class3_school1_state2", 
+    "student1_class1_school2_state2", "student2_class1_school2_state2", 
+    "student1_class2_school2_state2", "student2_class2_school2_state2")
   )
 })
 
@@ -221,7 +221,7 @@ test_that("Different means are working", {
 
 # Sampling weights =============================================================
 context("Sampling weights")
-calcWeights <- function(data_list) {
+calc_weights <- function(data_list) {
   w <- sapply(data_list, function(x) colSums(x[4:6]))
   w_sum <- rowSums(w)
   w_1_i <- w_sum[1]
@@ -270,18 +270,18 @@ test_that("Weights and labels from PISA examples are correct", {
     N = list(school = 10,
              student = c(20, 40, 80, 100, 10, 15, 25, 30, 35, 45)), "PPS"
   )
-  expect_equivalent(calcWeights(ex_3.3), c(2.5 * 10 * 4, 400))
-  expect_equivalent(calcWeights(ex_3.4), c(2.5 * 10 * 4, 462.5))
-  expect_equivalent(calcWeights(ex_3.5), c(2.5 * 10 * 4, 175))
-  expect_equivalent(calcWeights(ex_3.6), c(2.5 * 10 * 4, 662.5))
-  expect_equivalent(calcWeights(ex_3.7), c(9.75 * 10, 400))
+  expect_equivalent(calc_weights(ex_3.3), c(2.5 * 10 * 4, 400))
+  expect_equivalent(calc_weights(ex_3.4), c(2.5 * 10 * 4, 462.5))
+  expect_equivalent(calc_weights(ex_3.5), c(2.5 * 10 * 4, 175))
+  expect_equivalent(calc_weights(ex_3.6), c(2.5 * 10 * 4, 662.5))
+  expect_equivalent(calc_weights(ex_3.7), c(9.75 * 10, 400))
 
   weight_names <- c("school.weight", "final.student.weight")
-  expect_equal(names(calcWeights(ex_3.3)), weight_names)
-  expect_equal(names(calcWeights(ex_3.4)), weight_names)
-  expect_equal(names(calcWeights(ex_3.5)), weight_names)
-  expect_equal(names(calcWeights(ex_3.6)), weight_names)
-  expect_equal(names(calcWeights(ex_3.7)), weight_names)
+  expect_equal(names(calc_weights(ex_3.3)), weight_names)
+  expect_equal(names(calc_weights(ex_3.4)), weight_names)
+  expect_equal(names(calc_weights(ex_3.5)), weight_names)
+  expect_equal(names(calc_weights(ex_3.6)), weight_names)
+  expect_equal(names(calc_weights(ex_3.7)), weight_names)
 })
 
 # Custom weight tests ----------------------------------------------------------
@@ -306,10 +306,10 @@ test_that("Sampling weights are correct", {
                           meth = "PPS")
   ex3 <- wrap_cluster_gen(n = list(school = 4, student = c(10, 5, 2, 3)),
                           N = list(school = 10, students = rep(100, 10)),
-                          meth = "SRS")
-  expect_equivalent(calcWeights(ex1)["class.weight"] / 3, 100 * 10)
-  expect_equivalent(calcWeights(ex2)["final.student.weight"], 100 * 10)
-  expect_equivalent(calcWeights(ex3)["school.weight"], 2.5 * (10 + 5 + 2 + 3))
+                          meth = "PPS", verb = TRUE)
+  expect_equivalent(calc_weights(ex1)["class.weight"] / 3, 100 * 10)
+  expect_equivalent(calc_weights(ex2)["final.student.weight"], 100 * 10)
+  expect_equivalent(calc_weights(ex3)["school.weight"], 2.5 * (10 + 5 + 2 + 3))
 })
 
 # Exploring different sampling methods -----------------------------------------
@@ -324,20 +324,20 @@ ex7 <- wrap_cluster_gen(n2, N2, meth = "mixed", sep = TRUE,
                         cluster_labels = c("state", "school", "class"),
                         resp_labels = c("governor", "principal", "student"))
 test_that("Weights are correct for different sampling methods", {
-  expect_equivalent(calcWeights(ex4$cnt)["cnt.weight"], 1 * 3)
-  expect_equivalent(calcWeights(ex4$sch)["sch.weight"], (5 / 3) * 6)
-  expect_equivalent(calcWeights(ex4$cls)["cls.weight"], 5 * 2 * 6)
-  expect_equivalent(calcWeights(ex5$cnt)["final.sch.weight"], 5)
-  expect_equivalent(calcWeights(ex5$sch)["final.cls.weight"], sum(8:4))
-  expect_equivalent(calcWeights(ex5$cls)["final.stu.weight"],
+  expect_equivalent(calc_weights(ex4$cnt)["cnt.weight"], 1 * 3)
+  expect_equivalent(calc_weights(ex4$sch)["sch.weight"], (5 / 3) * 6)
+  expect_equivalent(calc_weights(ex4$cls)["cls.weight"], 5 * 2 * 6)
+  expect_equivalent(calc_weights(ex5$cnt)["final.sch.weight"], 5)
+  expect_equivalent(calc_weights(ex5$sch)["final.cls.weight"], sum(8:4))
+  expect_equivalent(calc_weights(ex5$cls)["final.stu.weight"],
                     sum(rep(8, sum(8:4))))
-  expect_equivalent(calcWeights(ex6$cnt)["final.sch.weight"], 5)
-  expect_equivalent(calcWeights(ex6$sch)["sch.weight"], (5 / 3) * 6)
-  expect_equivalent(calcWeights(ex6$cls)["final.stu.weight"],
+  expect_equivalent(calc_weights(ex6$cnt)["final.sch.weight"], 5)
+  expect_equivalent(calc_weights(ex6$sch)["sch.weight"], (5 / 3) * 6)
+  expect_equivalent(calc_weights(ex6$cls)["final.stu.weight"],
                     sum(rep(8, sum(8:4))))
-  expect_equivalent(calcWeights(ex7$state)["state.weight"], 1 * 3)
-  expect_equivalent(calcWeights(ex7$school)["final.principal.weight"], sum(8:4))
-  expect_equivalent(calcWeights(ex7$class)["class.weight"], 5 * 2 * 6)
+  expect_equivalent(calc_weights(ex7$state)["state.weight"], 1 * 3)
+  expect_equivalent(calc_weights(ex7$school)["final.principal.weight"], sum(8:4))
+  expect_equivalent(calc_weights(ex7$class)["class.weight"], 5 * 2 * 6)
 })
 
 # Script for testing with Leslie ===============================================
@@ -347,7 +347,7 @@ test_that("Examples worked on with Leslie have correct weights", {
   }
   lr1 <- wrap_cluster_gen(n = c(school = 2, student = 10))
   lr2 <- wrap_cluster_gen(n = c(school = 2, class = 1, student =  5), 
-                          N = c(school = 5, class = 2, student = 10))
+                          N = c(school = 5, class = 2, student = 10), verb = TRUE)
   lr3 <- wrap_cluster_gen(n = list(state = 2,
                                    school  = c(2, 3),
                                    student = c(10, 20, 6, 9, 12)),
@@ -437,16 +437,17 @@ test_that("Random level-generated data generates questionnaires", {
 
 # TODO: add the following as tests
 test_that("Combinations of ranges for n and N are treated correctly", {
-# ex1 <- cluster_gen(n = list(school=4, student=ranges(5, 10)), n_X = 1, n_W = 0)
-# ex2 <- cluster_gen(n = list(school=4, student=ranges(5, 10)),
-#                    N = list(school=10, student=rep(10, 10)),
-#                    n_X = 1, n_W = 0)
-# ex3 <- cluster_gen(n = list(school=4, student=ranges(5, 10)),
-#                    N = list(school=10, student=ranges(10, 20)),
-#                    n_X = 1, n_W = 0)
-# ex4 <- cluster_gen(n = list(school=4, class=2, student=rep(5, 2 * 4)),
-#                    N = list(school=10, class=rep(3, 10), student=ranges(10, 30)),
-#                    n_X = 1, n_W = 0)
+  wrap_cluster_gen_3 <- function(N, ...) {
+    cluster_gen(n   = list(school=4, student=ranges(5, 10)),
+                N   = N,
+                n_X = 1,
+                n_W = 0)
+  }
+  ex1 <- wrap_cluster_gen_3(list(sch=10, stu=rep(10, 10)))
+  expect_error({
+    df2 <- wrap_cluster_gen_3(list(sch=10, stu=ranges(10, 20)))
+    ex3 <- wrap_cluster_gen_3(list(sch=10, cls=rep(3, 10), stu=ranges(10, 30)))
+  })
 })
 
 # Testing actual sampling ======================================================
