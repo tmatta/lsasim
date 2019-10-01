@@ -306,7 +306,7 @@ test_that("Sampling weights are correct", {
                           meth = "PPS")
   ex3 <- wrap_cluster_gen(n = list(school = 4, student = c(10, 5, 2, 3)),
                           N = list(school = 10, students = rep(100, 10)),
-                          meth = "PPS", verb = TRUE)
+                          meth = "PPS")
   expect_equivalent(calc_weights(ex1)["class.weight"] / 3, 100 * 10)
   expect_equivalent(calc_weights(ex2)["final.student.weight"], 100 * 10)
   expect_equivalent(calc_weights(ex3)["school.weight"], 2.5 * (10 + 5 + 2 + 3))
@@ -347,7 +347,7 @@ test_that("Examples worked on with Leslie have correct weights", {
   }
   lr1 <- wrap_cluster_gen(n = c(school = 2, student = 10))
   lr2 <- wrap_cluster_gen(n = c(school = 2, class = 1, student =  5), 
-                          N = c(school = 5, class = 2, student = 10), verb = TRUE)
+                          N = c(school = 5, class = 2, student = 10))
   lr3 <- wrap_cluster_gen(n = list(state = 2,
                                    school  = c(2, 3),
                                    student = c(10, 20, 6, 9, 12)),
@@ -438,10 +438,11 @@ test_that("Random level-generated data generates questionnaires", {
 # TODO: add the following as tests
 test_that("Combinations of ranges for n and N are treated correctly", {
   wrap_cluster_gen_3 <- function(N, ...) {
-    cluster_gen(n   = list(school=4, student=ranges(5, 10)),
-                N   = N,
-                n_X = 1,
-                n_W = 0)
+    cluster_gen(n       = list(school=4, student=ranges(5, 10)),
+                N       = N,
+                n_X     = 1,
+                n_W     = 0,
+                verbose = FALSE)
   }
   ex1 <- wrap_cluster_gen_3(list(sch=10, stu=rep(10, 10)))
   expect_error({
