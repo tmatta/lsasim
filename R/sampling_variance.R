@@ -12,9 +12,7 @@
 #' @return list with data and, if requeted, some statistics
 #' @note This function is essentially a big wrapper for `replicate_var`, applying that function on each element of an output of `cluster_gen`.
 #' @export
-calc_replicate_weights <- function(data, method, k = .5) {
-    # TODO: rename to sampling_variance or something else
-
+sampling_variance <- function(data, method, k = .5) {
     # Verification =============================================================
     if (k < 0 | k > 1) stop ("k must be between 0 and 1")
     if (method == "BRR" & k != .5 & k != 0) {
