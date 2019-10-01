@@ -468,6 +468,6 @@ test_that("Replication weights are correct", {
   df_jack <- calc_replicate_weights(df, "Jackknife", print_stats = TRUE)
   df_brr <- calc_replicate_weights(df, "BRR", print_stats = TRUE)
   df_fay <- calc_replicate_weights(df, "BRR Fay", print_stats = TRUE)
-  print(df_jack$statistics)
-  print(df_brr$statistics)
+  # print(df_jack$statistics)
+  # print(df_brr$statistics)
 })
