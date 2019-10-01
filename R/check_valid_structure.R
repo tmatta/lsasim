@@ -12,7 +12,9 @@ check_valid_structure <- function(n)
         "Invalid cluster structure on level ", l + 1,
         ".\nThat level should have ", sum(n[[l]]),
         " elements, but it has ", length(n[[l + 1]]),
-        ".\nPlease refer to documentation if necessary."
+        "\nCheck the length of your object at that level, ",
+        "maybe it should be a scalar.",
+        "\nPlease refer to documentation if necessary."
       )
     )
   }

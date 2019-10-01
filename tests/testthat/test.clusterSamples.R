@@ -435,20 +435,63 @@ test_that("Random level-generated data generates questionnaires", {
   )
 })
 
-# TODO: add the following as tests
+# DONE: add the following as tests
 test_that("Combinations of ranges for n and N are treated correctly", {
-  wrap_cluster_gen_3 <- function(N, ...) {
-    cluster_gen(n       = list(school=4, student=ranges(5, 10)),
+  wrap_cluster_gen_3 <- function(n, N, ...) {
+    cluster_gen(n       = n,
                 N       = N,
                 n_X     = 1,
                 n_W     = 0,
                 verbose = FALSE)
   }
-  ex1 <- wrap_cluster_gen_3(list(sch=10, stu=rep(10, 10)))
-  expect_error({
-    df2 <- wrap_cluster_gen_3(list(sch=10, stu=ranges(10, 20)))
-    ex3 <- wrap_cluster_gen_3(list(sch=10, cls=rep(3, 10), stu=ranges(10, 30)))
-  })
+  # Templates for n and N
+  n_combos_2 <- list(
+    n_vect_nn = c(4, 5),
+    n_list_nr = list(4,            ranges(5, 10)),
+    n_list_rn = list(ranges(1, 5), 5),
+    n_list_rr = list(ranges(1, 5), ranges(5, 10))
+  )
+  n_combos_3 <- list(
+    n_vect_nnn = c(4, 3, 5),
+    n_list_nnr = list(4,            3,            ranges(5, 10)),
+    n_list_nrn = list(4,            ranges(1, 3), 5),
+    n_list_nrr = list(4,            ranges(2, 3), ranges(5, 10)),
+    n_list_rnn = list(ranges(1, 5), 3,            5),
+    n_list_rnr = list(ranges(1, 5), 3,            ranges(5, 10)),
+    n_list_rrn = list(ranges(1, 5), ranges(2, 3), 5),
+    n_list_rrr = list(ranges(1, 5), ranges(2, 3), ranges(5, 10))
+  )
+  N_combos_2 <- list(
+    N_nn = list(10,            rep(10, 10)),
+    N_nr = list(10,            ranges(10, 20)),
+    N_rn = list(ranges(5, 10), ranges(10, 20))
+  )
+  N_combos_3 <- list(
+    N_nnr = list(10,           3,            ranges(10, 30)),
+    N_nrn = list(10,           ranges(1, 3), 10),
+    N_nrr = list(10,           ranges(1, 3), ranges(10, 30)),
+    N_rnn = list(ranges(1, 5), 3,            10),
+    N_rnr = list(ranges(1, 5), 3,            ranges(10, 30)),
+    N_rrn = list(ranges(1, 5), ranges(1, 3), 10),
+    N_rrr = list(ranges(1, 5), ranges(1, 3), ranges(10, 30))
+  )
+
+  # Data combininng templates
+  data <- list()
+  for (n in names(n_combos_2)) {
+    for (N in names(N_combos_2)) {
+      name <- paste(n, N, sep=",")
+      data[[name]] <- wrap_cluster_gen_3(n_combos_2[[n]], N_combos_2[[N]])
+    }
+  }
+  for (n in names(n_combos_3)) {
+    for (N in names(N_combos_3)) {
+      name <- paste(n, N, sep=",")
+      data[[name]] <- wrap_cluster_gen_3(n_combos_3[[n]], N_combos_3[[N]])
+    }
+  }
+
+  expect_length(data, 68)
 })
 
 # Testing actual sampling ======================================================
