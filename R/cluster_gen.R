@@ -95,7 +95,7 @@ cluster_gen <- function(
       check_condition(N != 1,
                       "If n is a list, N must be 1 or explicitly defined")
       N <- n
-    } else if (class_N == "vector") {
+    } else if (class_N %in% c("vector", "list with ranges")) {
       N <- convert_vector_to_list(N)
     }
   } else if (class_n == "list without ranges") {
@@ -105,7 +105,7 @@ cluster_gen <- function(
       } else {
         stop("If n is a list, N must be 1 or explicitly defined")
       }
-    } else if (class_N == "vector") {
+    } else if (class_N %in% c("vector", "list with ranges")) {
         N <- convert_vector_to_list(N)
     }
   } else if (class_n == "vector") {
