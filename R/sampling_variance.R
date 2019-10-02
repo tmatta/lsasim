@@ -44,7 +44,7 @@ sampling_variance <- function(data, method, k = .5) {
                                            data_rep   = replicates,
                                            method     = "Jackknife",
                                            weight_var = "replicate_weight",
-                                           vars       = data_cols,     
+                                           vars       = data_cols,
                                            full_output = TRUE)
                 if (length(w_cols) > 0) {
                     G <- nrow(bg)
@@ -59,7 +59,7 @@ sampling_variance <- function(data, method, k = .5) {
                                            data_rep   = replicates,
                                            method     = "BRR",
                                            weight_var = "replicate_weight",
-                                           vars       = data_cols,     
+                                           vars       = data_cols,
                                            full_output = TRUE)
             } else if (method == "BRR Fay") {
                 replicates <- brr(bg, k, drop = FALSE)
@@ -71,7 +71,7 @@ sampling_variance <- function(data, method, k = .5) {
                                            method     = "BRR Fay",
                                            k          = k,
                                            weight_var = "replicate_weight",
-                                           vars       = data_cols,     
+                                           vars       = data_cols,
                                            full_output = TRUE)
             } else {
                 stop("Invalid method for calculating replicate weights.")
@@ -91,6 +91,5 @@ sampling_variance <- function(data, method, k = .5) {
 
     # Assembling output ========================================================
     out <- replicate_stats
-    # out <- list(data = out, statistics = replicate_stats)
     return(out)
 }
