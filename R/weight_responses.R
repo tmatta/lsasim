@@ -51,10 +51,6 @@ weight_responses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
   # Defining cluster structures ------------------------------------------------
   cluster_structure <- list(n = label_respondents(n_obs, cluster_labels),
                             N = label_respondents(N, cluster_labels))
-  # cluster_structure_collapsed <- list(
-  #   n = apply(cluster_structure$n, 1, function (x) paste0(x, collapse = "_")),
-  #   n = apply(cluster_structure$n, 1, function (x) paste0(x, collapse = "_"))
-  # )
 
   # Adding final levels --------------------------------------------------------
   final_level <- length(n_obs)
@@ -63,16 +59,6 @@ weight_responses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
   names(cluster_structure$N) <- names(cluster_structure$n) <- cluster_labels
 
   # Defining substructures =====================================================
-  # cluster_substructure <- list(
-  #     n = cluster_structure$n[cluster_structure$n[, 1] == parent_label, ],
-  #     N = cluster_structure$N[cluster_structure$N[, 1] == parent_label, ]
-  # )
-  # parent_index <- unlist(sapply(n_obs[[lvl - 1]], seq))[sublvl]
-  # parent_label <- paste0(cluster_labels[lvl - 1], parent_index)
-  # cluster_substructure <- list(
-  #   n = cluster_structure$n[cluster_structure$n[, lvl - 1] == parent_label, ],
-  #   N = cluster_structure$N[cluster_structure$N[, lvl - 1] == parent_label, ]
-  # )
   parent_index <- unlist(sapply(n_obs[[lvl - 1]], seq))[sublvl]
   parent_label <- paste0(cluster_labels[lvl - 1], parent_index)
   cluster_substructure <- list(
