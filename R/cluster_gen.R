@@ -86,6 +86,14 @@ cluster_gen <- function(
   # Checking valid n-N combinations and reformatting them if necessary =========
   class_n <- check_n_N_class(n)
   class_N <- check_n_N_class(N)
+
+  census <- TRUE  # used to decide wether to print the pop structure
+  if (class_N != "multiplier") {
+    census <- FALSE
+  } else {
+    census <- (N == 1)
+  }
+
   if (class_n == "select") {
     check_condition(class_N == "select", "N can't be select")
     n <- sample_from(N, n)
@@ -157,7 +165,7 @@ cluster_gen <- function(
     # Message explaining cluster scheme ----------------------------------------
     if (verbose) {
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
-      if (!identical(N, n) & print_pop_structure) {
+      if (!census & print_pop_structure) {
         message("Population structure")
         draw_cluster_structure(N, cluster_labels, resp_labels)
         message("Sampled structure")
@@ -195,7 +203,7 @@ cluster_gen <- function(
     # Message explaining cluster scheme ----------------------------------------
     if (verbose) {
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
-      if (!identical(N, n) & print_pop_structure) {
+      if (!census & print_pop_structure) {
         message("Population structure")
         draw_cluster_structure(N, cluster_labels, resp_labels)
         message("Sampled structure")
