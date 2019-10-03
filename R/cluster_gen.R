@@ -34,7 +34,7 @@ cluster_gen <- function(
   c_mean = NULL,
   separate_questionnaires = TRUE,
   collapse = "none",
-  N = 1,
+  N = 1,  # TODO: move N to second argument
   sum_pop = sapply(N, sum),
   calc_weights = TRUE,
   sampling_method = "mixed",
@@ -90,13 +90,16 @@ cluster_gen <- function(
     check_condition(class_N == "select", "N can't be select")
     n <- sample_from(N, n)
   } else if (class_n == "list with ranges") {
-    n <- convert_vector_to_list(n)
     if (class_N == "multiplier") {
       check_condition(N != 1,
                       "If n is a list, N must be 1 or explicitly defined")
+      n <- convert_vector_to_list(n)
       N <- n
     } else if (class_N %in% c("vector", "list with ranges")) {
       N <- convert_vector_to_list(N)
+      n <- convert_vector_to_list(n, N)
+    } else if (class_N %in% "list without ranges") {
+      n <- convert_vector_to_list(n, N)
     }
   } else if (class_n == "list without ranges") {
     if (class_N == "multiplier") {
