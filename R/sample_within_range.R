@@ -5,8 +5,7 @@
 #' @param sample_size the size of the sample to be generated
 #' @param seed pseudo-random number generator seed
 #' @return A vector containing the generated sample
-sample_within_range <- function(rg, sample_size = NULL, seed = NULL)
-{
+sample_within_range <- function(rg, sample_size = NULL, seed = NULL) {
     check_condition(class(rg) != "range" | length(rg) != 2,
                     "Wrong class or size for rg object")
     minimum <- rg[1]

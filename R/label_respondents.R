@@ -49,7 +49,7 @@ label_respondents <- function (n_obs, cluster_labels = names(n_obs),
 
   # Adding bottom level ========================================================
   if (add_last_level) {
-    id_combos <- data.frame(id_combos, n_obs[[row + 1]])
+    id_combos <- data.frame(id_combos, n_obs[[n_levels]])
     names(id_combos) <- cluster_labels
   }
 

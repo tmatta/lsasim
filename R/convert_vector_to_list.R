@@ -9,10 +9,6 @@ convert_vector_to_list <- function(x, x_max = x) {
   x_list <- as.list(x)
   x_max_list <- as.list(x_max)
 
-  # Classifying x and x_max ====================================================
-  class_x <- check_n_N_class(x)
-  class_x_max <- check_n_N_class(x_max)
-
   # Defining top-level element =================================================
 
   # For x_max ------------------------------------------------------------------
@@ -32,18 +28,17 @@ convert_vector_to_list <- function(x, x_max = x) {
   }
 
   # Defining elements for other levels of x_max ================================
-  if (class_x_max == "list with ranges") {
     for (l in 2:length(x_max)) {
       if (class(x_max_list[[l]]) == "range") {
         x_max_list[[l]] <- sample_within_range(x_max[[l]], sum(x_max_list[[l - 1]]))
       } else {
+      if (length(x_max_list[[l]]) < sum(x_max_list[[l - 1]])) {
         x_max_list[[l]] <- rep(x_max[[l]], sum(x_max_list[[l - 1]]))
       }
     }
   }
 
-  # Defining elements for other levels =========================================
-  # browser()#TEMP
+  # Defining elements for other levels of x ====================================
   for (l in 2:length(x)) {
     if (class(x_list[[l]]) == "range") {
       if (l < length(x)) {
@@ -57,13 +52,15 @@ convert_vector_to_list <- function(x, x_max = x) {
       } else {
         limit <- sum(x_list[[l - 1]])
         x_list[[l]] <- sample_within_range(x_list[[l]], limit)
+
         # Trim x_list[[l]] by comparing it to the max value --------------------
         for (e in seq_along(x_list[[l]])) {
           x_list[[l]][e] <- min(x_list[[l]][e], x_max_list[[l]][e])
         }
       }
     } else {
-      x_list[[l]] <- rep(x[[l]], sum(x_list[[l - 1]]))
+      x_list[[l]] <- rep(x[[l]], length = sum(x_list[[l - 1]]))
+      
       # Trim x_list[[l]] by comparing it to the max value --------------------
       for (e in seq_along(x_list[[l]])) {
         x_list[[l]][e] <- min(x_list[[l]][e], x_max_list[[l]][e])
