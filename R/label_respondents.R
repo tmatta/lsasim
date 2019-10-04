@@ -2,9 +2,12 @@
 #' @description This function nerated level label combinations for each respondent
 #' @param n_obs list with the number of elements per level
 #' @param cluster_labels character vector with the names of each cluster level
+#' @param add_last_level if `TRUE` (not default), adds the last level to the output table
+#' @param apply_labels if `TRUE`, applies labels (column names) to data cells
 #' @return Data frame with the combinations of IDs from all levels
 #' @export
-label_respondents <- function (n_obs, cluster_labels = names(n_obs))
+label_respondents <- function (n_obs, cluster_labels = names(n_obs),
+                               add_last_level = FALSE, apply_labels = TRUE)
 {
   # Creating basic elements ====================================================
   n_levels <- length(n_obs)
@@ -43,8 +46,18 @@ label_respondents <- function (n_obs, cluster_labels = names(n_obs))
   id_combos <- id_combos[, ncol(id_combos):1, drop = FALSE]  # so 1st lvl comes 1st
   id_combos <- as.data.frame(id_combos)  # prevents bug with list n. don't ask.
   names(id_combos) <- cluster_labels[-n_levels]
-  for (l in seq(ncol(id_combos))) {
-    id_combos[, l] <- paste0(cluster_labels[l], id_combos[, l])
+
+  # Adding bottom level ========================================================
+  if (add_last_level) {
+    id_combos <- data.frame(id_combos, n_obs[[row + 1]])
+    names(id_combos) <- cluster_labels
+  }
+
+  # Pasting labels onto cells ==================================================
+  if (apply_labels) {
+    for (l in seq(ncol(id_combos))) {
+      id_combos[, l] <- paste0(cluster_labels[l], id_combos[, l])
+    }
   }
   return(id_combos)
 }

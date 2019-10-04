@@ -4,12 +4,17 @@
 \alias{label_respondents}
 \title{Label respondents}
 \usage{
-label_respondents(n_obs, cluster_labels = names(n_obs))
+label_respondents(n_obs, cluster_labels = names(n_obs),
+  add_last_level = FALSE, apply_labels = TRUE)
 }
 \arguments{
 \item{n_obs}{list with the number of elements per level}
 
 \item{cluster_labels}{character vector with the names of each cluster level}
+
+\item{add_last_level}{if `TRUE` (not default), adds the last level to the output table}
+
+\item{apply_labels}{if `TRUE`, applies labels (column names) to data cells}
 }
 \value{
 Data frame with the combinations of IDs from all levels
