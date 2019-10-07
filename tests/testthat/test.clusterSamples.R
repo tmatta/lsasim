@@ -507,36 +507,10 @@ test_that("N cannot be smaller than n", {
 
 # Replicate weights ============================================================
 context("Replicate weights")
-#TODO: turn this into a test
-# x <- cluster_gen(N = c(school = 3, class = 2, student = 10),
-#                  n = c(school = 2, class = 2, student = 5))
-# sampling_variance(x, "Jackknife")  # FIXME on alpha branch
-
-# y <- cluster_gen(N = list(school = 2, class = c(2, 3),
-#                           student = c(6, 7, 3, 2, 9)),
-#                  n = list(school = 2, class = c(1, 2),
-#                           student = c(2, 2, 2)))
-# sampling_variance(y, "Jackknife")  # FIXME on alpha branch
-
-# z <- cluster_gen(c(4, 2, 50), N = 2, n_X = 3, n_W = 1)
-# sampling_variance(z, "BRR")
-
-# z <- cluster_gen(n = c(sch = 20, stu = 5),
-#                  N = c(sch = 1e2, stu = 20),
-#                  n_X = 3, n_W = 1, print_pop_structure = F)
 test_that("Replication weights are correct", {
   set.seed(230)
   df <- cluster_gen(c(sch = 4, stu = 10), n_X = 3, n_W = 1, verb = FALSE)
-  # replicate_var(df$sch[[1]], method = "Jackknife", full_output = TRUE)
-  # replicate_var(df$sch[[1]], method = "BRR")
-  # replicate_var(df$sch[[1]], method = "BRR Fay", full_output = TRUE)
-  # sampling_variance(df, "Jackknife")
-  # sampling_variance(df, "BRR")
-  # sampling_variance(df, "BRR Fay")
   df2 <- cluster_gen(c(4, 2, 50), N = 2, n_X = 3, n_W = 1, verb = FALSE)
-  # sampling_variance(df2, "Jackknife")
-  # sampling_variance(df2, "BRR")
-  # sampling_variance(df2, "BRR Fay")
   expect_equivalent(
     unlist(sampling_variance(df, "Jackknife")),
     c(0.15831098532366, 0.258632952368482, -0.62911601852465, 
@@ -650,6 +624,31 @@ test_that("Replication weights are correct", {
       0.0711903387149986, 0.142178007870234, -0.0489083764770658, 
       0.127247099246219, -0.0826242295517048, 0.0979339407597531)
   )
+  # Tests shown to Eugene on 4/sep/2019
+  set.seed(1127)
+  w <- cluster_gen(N = c(school = 3, class = 2, student = 10),
+                 n = c(school = 2, class = 2, student = 5), verbose = FALSE)
+  x <- cluster_gen(N = list(school = 2, class = c(2, 3),
+                            student = c(6, 7, 3, 2, 9)),
+                  n = list(school = 2, class = c(1, 2),
+                            student = c(2, 2, 2)), verbose = FALSE)
+  y <- cluster_gen(c(4, 2, 50), N = 2, n_X = 3, n_W = 1, verbose = FALSE)
+  z <- cluster_gen(n = c(sch = 20, stu = 5),
+                  N = c(sch = 1e2, stu = 20),
+                  n_X = 3, n_W = 1,
+                  print_pop_structure = FALSE, verbose = FALSE)
+  expect_equivalent(mean(unlist(sampling_variance(w, "Jackknife"))), 0.23, .01)
+  expect_equivalent(mean(unlist(sampling_variance(w, "BRR"))), 0.2, .1)
+  expect_equivalent(mean(unlist(sampling_variance(w, "BRR Fay"))), 0.2, .1)
+  expect_equal(mean(unlist(sampling_variance(x, "Jackknife"))), NaN)
+  expect_equal(mean(unlist(sampling_variance(x, "BRR"))), NaN)
+  expect_equivalent(mean(unlist(sampling_variance(x, "BRR Fay"))), 0.2, .1)
+  expect_equivalent(mean(unlist(sampling_variance(y, "Jackknife"))), 0.16, .01)
+  expect_equivalent(mean(unlist(sampling_variance(y, "BRR"))), 0.16, .01)
+  expect_equivalent(mean(unlist(sampling_variance(y, "BRR Fay"))), 0.16, .01)
+  expect_equivalent(mean(unlist(sampling_variance(z, "Jackknife"))), 0.23, .01)
+  expect_equivalent(mean(unlist(sampling_variance(z, "BRR"))), 0.2, .1)
+  expect_equivalent(mean(unlist(sampling_variance(z, "BRR Fay"))), 0.2, .1)
 })
 
 # Within and Between-class correlations ========================================

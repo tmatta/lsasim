@@ -69,7 +69,7 @@ replicate_var <- function(data_whole, data_rep, method, k = .5,
         statistic_rep <- function(x) apply(x, 2, statistic)
     } else {
         statistic_rep <- function(x, w = weight_var) {
-            x_without_w <- x[, -match(w, names(x))]
+            x_without_w <- x[, -match(w, names(x)), drop = FALSE]
             w_col <- x[, w]
             apply(x_without_w, 2, function(x) statistic(x, w_col))
         }
