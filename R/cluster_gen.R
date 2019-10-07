@@ -34,7 +34,7 @@ cluster_gen <- function(
   c_mean = NULL,
   separate_questionnaires = TRUE,
   collapse = "none",
-  N = 1,
+  N = 1,  # TODO: move N to second argument
   sum_pop = sapply(N, sum),
   calc_weights = TRUE,
   sampling_method = "mixed",
@@ -86,17 +86,28 @@ cluster_gen <- function(
   # Checking valid n-N combinations and reformatting them if necessary =========
   class_n <- check_n_N_class(n)
   class_N <- check_n_N_class(N)
+
+  census <- TRUE  # used to decide wether to print the pop structure
+  if (class_N != "multiplier") {
+    census <- FALSE
+  } else {
+    census <- (N == 1)
+  }
+
   if (class_n == "select") {
     check_condition(class_N == "select", "N can't be select")
     n <- sample_from(N, n)
   } else if (class_n == "list with ranges") {
-    n <- convert_vector_to_list(n)
     if (class_N == "multiplier") {
       check_condition(N != 1,
                       "If n is a list, N must be 1 or explicitly defined")
+      n <- convert_vector_to_list(n)
       N <- n
     } else if (class_N %in% c("vector", "list with ranges")) {
       N <- convert_vector_to_list(N)
+      n <- convert_vector_to_list(n, N)
+    } else if (class_N %in% "list without ranges") {
+      n <- convert_vector_to_list(n, N)
     }
   } else if (class_n == "list without ranges") {
     if (class_N == "multiplier") {
@@ -108,13 +119,14 @@ cluster_gen <- function(
     } else if (class_N %in% c("vector", "list with ranges")) {
         N <- convert_vector_to_list(N)
     }
+    n <- convert_vector_to_list(n, N)
   } else if (class_n == "vector") {
     if (class_N == "multiplier") N <- N * n
-    n <- convert_vector_to_list(n)
     class_N <- check_n_N_class(N)
     if (class_N %in% c("vector", "list with ranges")) {
       N <- convert_vector_to_list(N)
     }
+    n <- convert_vector_to_list(n, N)
   }
 
   # Calculating useful arguments ===============================================
@@ -154,7 +166,7 @@ cluster_gen <- function(
     # Message explaining cluster scheme ----------------------------------------
     if (verbose) {
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
-      if (!identical(N, n) & print_pop_structure) {
+      if (!census & print_pop_structure) {
         message("Population structure")
         draw_cluster_structure(N, cluster_labels, resp_labels)
         message("Sampled structure")
@@ -192,7 +204,7 @@ cluster_gen <- function(
     # Message explaining cluster scheme ----------------------------------------
     if (verbose) {
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
-      if (!identical(N, n) & print_pop_structure) {
+      if (!census & print_pop_structure) {
         message("Population structure")
         draw_cluster_structure(N, cluster_labels, resp_labels)
         message("Sampled structure")

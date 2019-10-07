@@ -23,7 +23,8 @@ brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
     }
 
     # Associating data to pseudo-strata ========================================
-    data$pseudo_stratum <- rep(seq_len(pseudo_strata), each = 2)
+    data$pseudo_stratum <- rep(seq_len(pseudo_strata), each = 2)[1:nrow(data)]
+    # TODO: improve handlinng of odd-numbered datasets (don't always include the lasst one!)
 
     # Generating replicates ====================================================
     R <- list()  # will restore replicate data

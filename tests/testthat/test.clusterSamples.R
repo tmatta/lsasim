@@ -3,7 +3,7 @@ wrap_cluster_gen <- function(...) {
   cluster_gen(..., family = "gaussian", verbose = FALSE)
 }
 
-# Basic argument handling ------------------------------------------------------
+# Basic argument handling ======================================================
 test_that("Basic argument handling generates data", {
   df01 <- wrap_cluster_gen(1:2)
   df02 <- wrap_cluster_gen(2:4)
@@ -67,7 +67,7 @@ test_that("Basic argument handling generates data", {
   expect_output(str(df14), "24 obs.")
 })
 
-# Errors are caught ------------------------------------------------------------
+# Errors are caught ============================================================
 test_that("Errors are caught", {
   expect_error(cluster_gen(1))
   expect_error(cluster_gen(2:4, separate_questionnaires = FALSE, n_X = 1:2))
@@ -77,7 +77,7 @@ test_that("Errors are caught", {
                              verbose = FALSE))
 })
 
-# uniqueIDs are correct --------------------------------------------------------
+# uniqueIDs are correct ========================================================
 test_that("uniqueIDs are correct", {
   wrap_cluster_gen_2 <- function(..., coll = "full", return_all = FALSE,
                                  verb = FALSE) {
@@ -163,7 +163,7 @@ test_that("uniqueIDs are correct", {
   )
 })
 
-# Named n vector ---------------------------------------------------------------
+# Named n vector ===============================================================
 test_that("Named vectors are working properly", {
   df1 <- cluster_gen(n       = c("land" = 1, "skole" = 3, "klasse" = 2),
                      verbose = FALSE,
@@ -183,7 +183,7 @@ test_that("Named vectors are working properly", {
     "estudante1_escola4_cidade4_pais1"))
 })
 
-# Different means --------------------------------------------------------------
+# Different means ==============================================================
 test_that("Different means are working", {
   wrap_c_gen_mu <- function(...) {
     cluster_gen(..., n_X = 2, n_W = 0, family = "gaussian",
@@ -230,7 +230,7 @@ calc_weights <- function(data_list) {
   return(out)
 }
 
-# Example from PISA manual tables ----------------------------------------------
+# Example from PISA manual tables ==============================================
 test_that("Weights and labels from PISA examples are correct", {
   wrap_cl_gen <- function(n, N, meth = "SRS", sum_pop = sapply(N, sum),
                           sep = FALSE, verbose = FALSE, ...) {
@@ -284,7 +284,7 @@ test_that("Weights and labels from PISA examples are correct", {
   expect_equal(names(calc_weights(ex_3.7)), weight_names)
 })
 
-# Custom weight tests ----------------------------------------------------------
+# Custom weight tests ==========================================================
 wrap_cluster_gen <- function(n, N, meth = "SRS", sum_pop = sapply(N, sum),
                                sep = FALSE, verb = FALSE, print = FALSE, ...) {
     data <- cluster_gen(n                       = n,
@@ -312,7 +312,7 @@ test_that("Sampling weights are correct", {
   expect_equivalent(calc_weights(ex3)["school.weight"], 2.5 * (10 + 5 + 2 + 3))
 })
 
-# Exploring different sampling methods -----------------------------------------
+# Exploring different sampling methods =========================================
 n1 <- list(cnt = 1, sch = 3, cls = c(2, 1, 3), stu = rep(2, 6))
 N1 <- list(cnt = 1, sch = 5, cls = 8:4, stu = rep(8, sum(8:4)))
 ex4 <- wrap_cluster_gen(n1, N1, meth = "SRS", sep = TRUE)
@@ -343,7 +343,7 @@ test_that("Weights are correct for different sampling methods", {
 # Script for testing with Leslie ===============================================
 test_that("Examples worked on with Leslie have correct weights", {
   wrap_cluster_gen <- function(..., verb = FALSE) {
-    cluster_gen(..., n_X = 1, n_W = 1, verbose = verb)
+    suppressWarnings(cluster_gen(..., n_X = 1, n_W = 1, verbose = verb))
   }
   lr1 <- wrap_cluster_gen(n = c(school = 2, student = 10))
   lr2 <- wrap_cluster_gen(n = c(school = 2, class = 1, student =  5), 
@@ -381,6 +381,7 @@ test_that("Examples worked on with Leslie have correct weights", {
   )
 })
 
+# Ranges for n and N ===========================================================
 context("Cluster sampling with ranged number of elements")
 check_cluster_structure <- function(n, FUN = "length") {
   set.seed(1234)
@@ -400,10 +401,10 @@ n6 <- list(2, ranges(1, 3), ranges(2, 5), ranges(1, 5), ranges(5, 100))
 test_that("Random levels work", {
   expect_equal(check_cluster_structure(n), 18)
   expect_equal(check_cluster_structure(n2), 18)
-  expect_equal(check_cluster_structure(n3), 14)
-  expect_equal(check_cluster_structure(n4), 14)
-  expect_equal(check_cluster_structure(n5), 50)
-  expect_equal(check_cluster_structure(n6), 67)
+  expect_equal(check_cluster_structure(n3), 13)
+  expect_equal(check_cluster_structure(n4), 11)
+  expect_equal(check_cluster_structure(n5), 40)
+  expect_equal(check_cluster_structure(n6), 37)
 })
 
 test_that("Random level-generated data generates questionnaires", {
@@ -412,37 +413,27 @@ test_that("Random level-generated data generates questionnaires", {
   set.seed(1234); df4 <- cluster_gen(n4, verbose = FALSE)
   set.seed(7646); df5 <- cluster_gen(n5, verbose = FALSE)
   set.seed(7646); df6 <- cluster_gen(n6, verbose = FALSE)
-  expect_equivalent(
-    sapply(df2, nrow), c(37, 25, 31, 46, 18, 14, 47, 25, 13, 43, 48, 31)
-  )
-  expect_equivalent(sapply(df3$school, nrow), c(2, 2, 1, 3))
-  expect_equivalent(sapply(df3$class, nrow), c(18, 14, 47, 25, 13, 43, 48, 31))
-  expect_equivalent(sapply(df4$school, nrow), c(2, 2, 1, 3))
-  expect_equivalent(sapply(df5$city, nrow), c(5, 8))
-  expect_equivalent(
-    sapply(df5$school, nrow), c(3, 2, 1, 2, 1, 2, 2, 2, 3, 2, 3, 2, 2)
-  )
-  expect_equivalent(sapply(df6$state, nrow), c(1, 3))
-  expect_equivalent(sapply(df6$city, nrow), c(5, 3, 2, 3))
-  expect_equivalent(
-    sapply(df6$school, nrow), c(4, 1, 2, 2, 2, 3, 2, 2, 4, 5, 4, 5, 4)
-  )
-  expect_equivalent(
-    sapply(df6$class, nrow),
-    c(87, 99, 21, 26, 87, 29, 41, 57, 10, 86, 92, 67, 53, 18, 38, 89, 75, 37,
-      9, 88, 95, 59, 35, 14, 88, 44, 18, 100, 61, 99, 48, 75, 14, 18, 68, 87,
-      60, 40, 20, 9)
-  )
+  expect_output(str(df2), "List of 12")
+  expect_output(str(df3$school), "List of 4")
+  expect_output(str(df3$class), "List of 7")
+  expect_output(str(df4$school), "List of 4")
+  expect_output(str(df5$city), "List of 2")
+  expect_output(str(df5$school), "List of 13")
+  expect_output(str(df6$state), "List of 2")
+  expect_output(str(df6$city), "List of 3")
+  expect_output(str(df6$school), "List of 8")
+  expect_output(str(df6$class), "List of 17")
 })
 
-# DONE: add the following as tests
 test_that("Combinations of ranges for n and N are treated correctly", {
   wrap_cluster_gen_3 <- function(n, N, ...) {
-    cluster_gen(n       = n,
-                N       = N,
-                n_X     = 1,
-                n_W     = 0,
-                verbose = FALSE)
+    suppressWarnings(
+      cluster_gen(n       = n,
+                  N       = N,
+                  n_X     = 1,
+                  n_W     = 0,
+                  verbose = FALSE)
+    )
   }
   # Templates for n and N
   n_combos_2 <- list(
@@ -494,6 +485,19 @@ test_that("Combinations of ranges for n and N are treated correctly", {
   expect_length(data, 68)
 })
 
+test_that("N cannot be smaller than n", {
+  N7 <- list(ranges(1, 5), ranges(2, 5), ranges(5, 10))
+  n7 <- list(ranges(2, 4), 6, ranges(5, 15))
+  set.seed(212128)
+  expect_warning(df7 <- cluster_gen(n7, N = N7, verbose = FALSE))
+  expect_warning(df8 <- cluster_gen(n = 2:4, N = 1:3, verbose = FALSE))
+  expect_warning(df9 <- cluster_gen(n = list(2, 3:4, ranges(3, 9)),
+                                    N = list(1, 2, 1:2), verbose = FALSE))
+  expect_output(str(df7), "List of 2")
+  expect_output(str(df8), "List of 2")
+  expect_output(str(df9), "List of 2")
+})
+
 # Testing actual sampling ======================================================
 # cl_scheme <- list(school = 2, class = c(3, 2), student = c(5, 4, 5, 5, 5))
 # cl_scheme2 <- list(country = 5,
@@ -504,21 +508,12 @@ test_that("Combinations of ranges for n and N are treated correctly", {
 # cluster_gen(n = cl_scheme)
 # cluster_gen(n = select(1, 2, 4), N = cl_scheme)
 
-
+# Replicate weights ============================================================
 context("Replicate weights")
-#TODO: turn this into a test
 test_that("Replication weights are correct", {
   set.seed(230)
   df <- cluster_gen(c(sch = 4, stu = 10), n_X = 3, n_W = 1, verb = FALSE)
-  # replicate_var(df$sch[[1]], method = "Jackknife", full_output = TRUE)
-  # replicate_var(df$sch[[1]], method = "BRR")
-  # replicate_var(df$sch[[1]], method = "BRR Fay")
-  # sampling_variance(df, "BRR")
-  # sampling_variance(df, "BRR Fay")
   df2 <- cluster_gen(c(4, 2, 50), N = 2, n_X = 3, n_W = 1, verb = FALSE)
-  # sampling_variance(df2, "Jackknife")
-  # sampling_variance(df2, "BRR")
-  # sampling_variance(df2, "BRR Fay")
   expect_equivalent(
     unlist(sampling_variance(df, "Jackknife")),
     c(0.15831098532366, 0.258632952368482, -0.62911601852465, 
@@ -632,5 +627,45 @@ test_that("Replication weights are correct", {
       0.0711903387149986, 0.142178007870234, -0.0489083764770658, 
       0.127247099246219, -0.0826242295517048, 0.0979339407597531)
   )
-  # cat(paste(unname(unlist(sampling_variance(df, "BRR Fay"))), collapse = ", "))
+  # Tests shown to Eugene on 4/sep/2019
+  set.seed(1127)
+  w <- cluster_gen(N = c(school = 3, class = 2, student = 10),
+                 n = c(school = 2, class = 2, student = 5), verbose = FALSE)
+  x <- cluster_gen(N = list(school = 2, class = c(2, 3),
+                            student = c(6, 7, 3, 2, 9)),
+                  n = list(school = 2, class = c(1, 2),
+                            student = c(2, 2, 2)), verbose = FALSE)
+  y <- cluster_gen(c(4, 2, 50), N = 2, n_X = 3, n_W = 1, verbose = FALSE)
+  z <- cluster_gen(n = c(sch = 20, stu = 5),
+                  N = c(sch = 1e2, stu = 20),
+                  n_X = 3, n_W = 1,
+                  print_pop_structure = FALSE, verbose = FALSE)
+  expect_equivalent(mean(unlist(sampling_variance(w, "Jackknife"))), 0.23, .01)
+  expect_equivalent(mean(unlist(sampling_variance(w, "BRR"))), 0.2, .1)
+  expect_equivalent(mean(unlist(sampling_variance(w, "BRR Fay"))), 0.2, .1)
+  expect_equal(mean(unlist(sampling_variance(x, "Jackknife"))), NaN)
+  expect_equal(mean(unlist(sampling_variance(x, "BRR"))), NaN)
+  expect_equivalent(mean(unlist(sampling_variance(x, "BRR Fay"))), 0.2, .1)
+  expect_equivalent(mean(unlist(sampling_variance(y, "Jackknife"))), 0.16, .01)
+  expect_equivalent(mean(unlist(sampling_variance(y, "BRR"))), 0.16, .01)
+  expect_equivalent(mean(unlist(sampling_variance(y, "BRR Fay"))), 0.16, .01)
+  expect_equivalent(mean(unlist(sampling_variance(z, "Jackknife"))), 0.23, .01)
+  expect_equivalent(mean(unlist(sampling_variance(z, "BRR"))), 0.2, .1)
+  expect_equivalent(mean(unlist(sampling_variance(z, "BRR Fay"))), 0.2, .1)
 })
+
+# Within and Between-class correlations ========================================
+# TODO: implement inter and intra-class correlation tests
+# set.seed(4512)
+# n1 <- c(2, 100)
+# cor1 <- matrix(c(1, .5, .5, 1), 2)
+# df1 <- cluster_gen(n1, class_cor = cor1, verbose = FALSE)
+# summarize_clusters(df1)
+
+# n2 <- c(2, 3, 100)
+# df2 <- cluster_gen(n2, verbose = FALSE, family = "gaussian")
+# summarize_clusters(df2)
+
+
+# # FIXME: figure out why this is breaking sometimes
+# # IDEA: fixing N to geq to n may fix this indirectly

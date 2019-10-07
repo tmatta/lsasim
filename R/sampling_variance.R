@@ -46,15 +46,8 @@ sampling_variance <- function(data, method, k = .5) {
                                            weight_var = "replicate_weight",
                                            vars       = data_cols,
                                            full_output = TRUE)
-                if (length(w_cols) > 0) {
-                    G <- nrow(bg)
-                    bg <- recalc_final_weights(bg, w_cols, G / (G - 1))
-                }
             } else if (method == "BRR") {
                 replicates <- brr(bg, drop = FALSE)
-                if (length(w_cols) > 0) {
-                    bg <- recalc_final_weights(bg, w_cols, 2)
-                }
                 rep_stats <- replicate_var(data_whole = bg,
                                            data_rep   = replicates,
                                            method     = "BRR",
@@ -63,9 +56,6 @@ sampling_variance <- function(data, method, k = .5) {
                                            full_output = TRUE)
             } else if (method == "BRR Fay") {
                 replicates <- brr(bg, k, drop = FALSE)
-                if (length(w_cols) > 0) {
-                    bg <- recalc_final_weights(bg, w_cols, c(2 - k, k))
-                }
                 rep_stats <- replicate_var(data_whole = bg,
                                            data_rep   = replicates,
                                            method     = "BRR Fay",
@@ -74,7 +64,7 @@ sampling_variance <- function(data, method, k = .5) {
                                            vars       = data_cols,
                                            full_output = TRUE)
             } else {
-                stop("Invalid method for calculating replicate weights.")
+                stop("Invalid replication method.")
             }
 
             # Organizing statistics --------------------------------------------
