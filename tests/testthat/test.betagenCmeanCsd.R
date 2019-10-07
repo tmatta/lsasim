@@ -1,4 +1,5 @@
 context("beta_gen() behavior with n_W > 0 and c_means != 0")
+set.seed(4052837)
 
 # Generating data -------------------------------------------------------------
 qGenWrap <- function(nX, nW, mu = NULL, n = 200, verbose = FALSE) {
