@@ -343,7 +343,7 @@ test_that("Weights are correct for different sampling methods", {
 # Script for testing with Leslie ===============================================
 test_that("Examples worked on with Leslie have correct weights", {
   wrap_cluster_gen <- function(..., verb = FALSE) {
-    cluster_gen(..., n_X = 1, n_W = 1, verbose = verb)
+    suppressWarnings(cluster_gen(..., n_X = 1, n_W = 1, verbose = verb))
   }
   lr1 <- wrap_cluster_gen(n = c(school = 2, student = 10))
   lr2 <- wrap_cluster_gen(n = c(school = 2, class = 1, student =  5), 
@@ -427,11 +427,13 @@ test_that("Random level-generated data generates questionnaires", {
 
 test_that("Combinations of ranges for n and N are treated correctly", {
   wrap_cluster_gen_3 <- function(n, N, ...) {
-    cluster_gen(n       = n,
-                N       = N,
-                n_X     = 1,
-                n_W     = 0,
-                verbose = FALSE)
+    suppressWarnings(
+      cluster_gen(n       = n,
+                  N       = N,
+                  n_X     = 1,
+                  n_W     = 0,
+                  verbose = FALSE)
+    )
   }
   # Templates for n and N
   n_combos_2 <- list(
@@ -486,10 +488,11 @@ test_that("Combinations of ranges for n and N are treated correctly", {
 test_that("N cannot be smaller than n", {
   N7 <- list(ranges(1, 5), ranges(2, 5), ranges(5, 10))
   n7 <- list(ranges(2, 4), 6, ranges(5, 15))
-  set.seed(212128); df7 <- cluster_gen(n7, N = N7, verbose = FALSE)
-  df8 <- cluster_gen(n = 2:4, N = 1:3, verbose = FALSE)
-  df9 <- cluster_gen(n = list(2, 3:4, ranges(3, 9)), N = list(1, 2, 1:2),       
-                     verbose = FALSE)
+  set.seed(212128)
+  expect_warning(df7 <- cluster_gen(n7, N = N7, verbose = FALSE))
+  expect_warning(df8 <- cluster_gen(n = 2:4, N = 1:3, verbose = FALSE))
+  expect_warning(df9 <- cluster_gen(n = list(2, 3:4, ranges(3, 9)),
+                                    N = list(1, 2, 1:2), verbose = FALSE))
   expect_output(str(df7), "List of 2")
   expect_output(str(df8), "List of 2")
   expect_output(str(df9), "List of 2")
