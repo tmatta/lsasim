@@ -1,7 +1,7 @@
 #' @title Generate n_X and n_W for clusters
 #' @description Generates n_X and n_W for `cluster_gen` based on a correlation matrix
 #' @param n_levels number of levels
-#' @param corresponds to the `separate_questionnaires` argument of `cluster_gen`
+#' @param separate to the `separate_questionnaires` argument of `cluster_gen`
 #' @param class_cor corresponds to the `class_cor` argument of `cluster_gen`
 #' @export
 #TODO: remove export after development

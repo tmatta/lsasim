@@ -23,6 +23,10 @@ print_anova_table(s2_within, s2_between, s2_total, sigma2_hat, tau2_hat,
 \item{se_rho}{standard errors of `rho_hat`}
 
 \item{n_tilde}{function of the variance of n_N, M and N. See reference and code within `summarize_clusters` for details}
+
+\item{M}{total sample size}
+
+\item{N}{number of classes j}
 }
 \description{
 Print the ANOVA table

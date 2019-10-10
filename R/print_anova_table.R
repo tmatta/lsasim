@@ -7,6 +7,8 @@
 #' @param rho_hat estimated intraclass correlation
 #' @param se_rho standard errors of `rho_hat`
 #' @param n_tilde function of the variance of n_N, M and N. See reference and code within `summarize_clusters` for details
+#' @param M total sample size
+#' @param N number of classes j
 #' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
 #' @seealso anova_table
 print_anova_table <- function(s2_within, s2_between, s2_total,

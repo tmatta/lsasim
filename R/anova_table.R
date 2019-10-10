@@ -20,7 +20,7 @@ anova_table <- function(data) {
         sigma2_hat <- s2_within
         X <- names(sigma2_hat)
         for (x in X) {
-            tau2_hat <- max(s2_between[x] - sigma2_hat[x] / n_tilde, 0)
+            tau2_hat <- max(s2_between[x] - sigma2_hat[x] / ds$n_tilde, 0)
             rho_hat <-  intraclass_cor(tau2_hat, sigma2_hat[x])
             if (stats::var(ds$n_j) == 0) {
                 se_rho <- calc_se_rho(rho_hat, ds$n_j, ds$N)
