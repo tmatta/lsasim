@@ -592,32 +592,32 @@ test_that("Replication weights are correct", {
                    N = c(sch = 1e2, stu = 20),
                    n_X = 3, n_W = 1,
                    print_pop_structure = FALSE, verbose = FALSE)
-  expect_equivalent(mean(unlist(sampling_variance(w, "Jackknife"))), 0.23, .01)
+  expect_equivalent(mean(unlist(sampling_variance(w, "Jackknife"))), 0.2, .1)
   expect_equivalent(mean(unlist(sampling_variance(w, "BRR"))), 0.2, .1)
   expect_equivalent(mean(unlist(sampling_variance(w, "BRR Fay"))), 0.2, .1)
   expect_equal(mean(unlist(sampling_variance(x, "Jackknife"))), NaN)
   expect_equal(mean(unlist(sampling_variance(x, "BRR"))), NaN)
-  expect_equivalent(mean(unlist(sampling_variance(x, "BRR Fay"))), 0.2, .1)
-  expect_equivalent(mean(unlist(sampling_variance(y, "Jackknife"))), 0.16, .01)
-  expect_equivalent(mean(unlist(sampling_variance(y, "BRR"))), 0.16, .01)
-  expect_equivalent(mean(unlist(sampling_variance(y, "BRR Fay"))), 0.16, .01)
-  expect_equivalent(mean(unlist(sampling_variance(z, "Jackknife"))), 0.23, .01)
+  expect_equivalent(mean(unlist(sampling_variance(x, "BRR Fay"))), 0.3, .1)
+  expect_equivalent(mean(unlist(sampling_variance(y, "Jackknife"))), 0.1, .1)
+  expect_equivalent(mean(unlist(sampling_variance(y, "BRR"))), 0.1, .1)
+  expect_equivalent(mean(unlist(sampling_variance(y, "BRR Fay"))), 0.1, .1)
+  expect_equivalent(mean(unlist(sampling_variance(z, "Jackknife"))), 0.2, .1)
   expect_equivalent(mean(unlist(sampling_variance(z, "BRR"))), 0.2, .1)
   expect_equivalent(mean(unlist(sampling_variance(z, "BRR Fay"))), 0.2, .1)
 })
 
 # Within and Between-class correlations ========================================
 # TODO: implement inter and intra-class correlation tests
-# set.seed(4512)
-# n1 <- c(2, 100)
-# cor1 <- matrix(c(1, .5, .5, 1), 2)
-# df1 <- cluster_gen(n1, class_cor = cor1, verbose = FALSE)
-# summarize_clusters(df1)
+# set.seed(4512); df <- cluster_gen(c(sch = 4, stu = 10),
+#                                   n_X = 2, n_W = list(list(2, 5)))
+# anova_table(df)
 
-# n2 <- c(2, 3, 100)
-# df2 <- cluster_gen(n2, verbose = FALSE, family = "gaussian")
-# summarize_clusters(df2)
+# df2 <- cluster_gen(c(10, 100), n_X = 1, verbose = FALSE)
+# anova_table(df2)
 
+# df3 <- cluster_gen(c(3, 10, 100), n_X = list(2, 3), verbose = FALSE)
+# anova_table(df3)
 
-# # FIXME: figure out why this is breaking sometimes
-# # IDEA: fixing N to geq to n may fix this indirectly
+# df4 <- cluster_gen(list(4, 101:104), verbose = FALSE)
+# summarize_clusters(df4, print = FALSE)
+# anova_table(df4)

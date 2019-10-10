@@ -4,10 +4,12 @@
 \alias{summarize_clusters}
 \title{Summarizes clusters}
 \usage{
-summarize_clusters(data)
+summarize_clusters(data, print = TRUE)
 }
 \arguments{
 \item{data}{output of `cluster_gen`}
+
+\item{print}{if `TRUE`, pretty-print a summary of statistics; otherwise, output statistics that will be useful for `intraclass_cor`.}
 }
 \value{
 list of summaries

@@ -38,9 +38,10 @@ cluster_gen <- function(
   calc_weights = TRUE,
   sampling_method = "mixed",
   # DONE: Replicate weights
-  # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between). Cheap solution: add random value to means and proportions before calling questionnaire_gen
-  ICC_matrix = NULL,
-  class_cor = NULL,
+  # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between).
+  # IDEA: add argument rho and N_SRS
+  # IDEA: add arguments for tau2 and sigma2
+  # IDEA: variance is given, user selects proportion of within and between (or rho) and data is generated form there
   verbose = TRUE,
   print_pop_structure = verbose,
   ...
