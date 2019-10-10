@@ -10,6 +10,7 @@
 #' @param weight_var variances containing the weights
 #' @details `data_rep` can be obtained from 
 #' @seealso jackknife brr
+#' @importFrom stats weighted.mean
 #' @export
 replicate_var <- function(data_whole, data_rep, method, k = .5,
                           weight_var = NULL,
