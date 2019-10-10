@@ -16,6 +16,8 @@ replicate_var(data_whole, data_rep, method, k = 0.5, weight_var = NULL,
 
 \item{k}{deflating weight factor (used only when `method = "BRR Fay")}
 
+\item{weight_var}{variances containing the weights}
+
 \item{stat}{statistic of interest to calculate (must be a base R function)}
 
 \item{vars}{vector containing the variables of interest}

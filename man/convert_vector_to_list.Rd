@@ -4,12 +4,14 @@
 \alias{convert_vector_to_list}
 \title{Convert Vector to Expanded List}
 \usage{
-convert_vector_to_list(x, x_max = x)
+convert_vector_to_list(x, x_max = x, verbose = TRUE)
 }
 \arguments{
 \item{x}{vector or ranged list to be converted}
 
 \item{x_max}{reference vector or ranged list with max values for x}
+
+\item{verbose}{if `TRUE`, sends messages to user about what's being done}
 }
 \value{
 expanded/replicated version of x

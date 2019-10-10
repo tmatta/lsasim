@@ -27,7 +27,6 @@
 cluster_gen <- function(
   n,
   cluster_labels = NULL,
-  # TODO: replace NULL with missing()?
   resp_labels = NULL,
   n_X = NULL,
   n_W = NULL,  # TODO: allow different proportions for Ws
@@ -38,8 +37,11 @@ cluster_gen <- function(
   sum_pop = sapply(N, sum),
   calc_weights = TRUE,
   sampling_method = "mixed",
-  # TODO: Replicate weights
-  # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between). Cheap solution: add random value to means and proportions before calling questionnaire_gen
+  # DONE: Replicate weights
+  # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between).
+  # IDEA: add argument rho and N_SRS
+  # IDEA: add arguments for tau2 and sigma2
+  # IDEA: variance is given, user selects proportion of within and between (or rho) and data is generated form there
   verbose = TRUE,
   print_pop_structure = verbose,
   ...
@@ -159,6 +161,15 @@ cluster_gen <- function(
     }
   }
 
+  # Defining n_X and n_W -----------------------------------------------------
+  #IDEA: define cat_prop/n_X-n_W as a function of the correlation matrix
+  if (is.null(n_X)) {
+    n_X <- gen_X_W_cluster(n_levels, separate_questionnaires, class_cor = NULL)$n_X
+  }
+  if (is.null(n_W)) {
+    n_W <- gen_X_W_cluster(n_levels, separate_questionnaires, class_cor = NULL)$n_W
+  }
+    
   # Generating messages and data ===============================================
   if (separate_questionnaires) { # questionnaires administered at all levels
     # Generates unique questionnaires for each level
@@ -174,21 +185,6 @@ cluster_gen <- function(
       cluster_message(n, resp_labels, cluster_labels, n_levels,
                      separate_questionnaires, 1)
       draw_cluster_structure(n, cluster_labels, resp_labels)
-    }
-
-    # Defining n_X and n_W -----------------------------------------------------
-    #IDEA: define cat_prop/n_X-n_W as a function of the correlation matrix
-    if (is.null(n_X)) {
-      n_X <- list()
-      for (l in seq(n_levels)) {
-        n_X[[l]] <- rzeropois(1.5) # a positive number of Xs
-      }
-    }
-    if (is.null(n_W)) {
-      n_W <- list()
-      for (l in seq(n_levels)) {
-        n_W[[l]] <- as.list(replicate(rzeropois(5), 2)) # all Ws are binary
-      }
     }
     
     # Questionnaire generation -------------------------------------------------
@@ -213,10 +209,6 @@ cluster_gen <- function(
                     separate_questionnaires, 2)
       draw_cluster_structure(n, cluster_labels, resp_labels)
     }
-
-    # Generating variable numbers ----------------------------------------------
-    if (is.null(n_X)) n_X <- rzeropois(1.5) # a positive number of Xs
-    if (is.null(n_W)) n_W <- as.list(replicate(rzeropois(5), 2)) # all binary
 
     # Questionnaire generation -------------------------------------------------
     if (verbose & calc_weights) {
