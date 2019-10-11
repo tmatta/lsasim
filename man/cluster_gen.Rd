@@ -4,14 +4,17 @@
 \alias{cluster_gen}
 \title{Generate cluster sample}
 \usage{
-cluster_gen(n, cluster_labels = NULL, resp_labels = NULL, n_X = NULL,
-  n_W = NULL, c_mean = NULL, separate_questionnaires = TRUE,
-  collapse = "none", N = 1, sum_pop = sapply(N, sum),
-  calc_weights = TRUE, sampling_method = "mixed", verbose = TRUE,
+cluster_gen(n, N = 1, cluster_labels = NULL, resp_labels = NULL,
+  n_X = NULL, n_W = NULL, c_mean = NULL,
+  separate_questionnaires = TRUE, collapse = "none",
+  sum_pop = sapply(N, sum), calc_weights = TRUE,
+  sampling_method = "mixed", verbose = TRUE,
   print_pop_structure = verbose, ...)
 }
 \arguments{
 \item{n}{numeric vector with the number of sampled observations (clusters or subjects) on each level}
+
+\item{N}{list of numeric vector with the population size of each *sampled* cluster element on each level}
 
 \item{cluster_labels}{character vector with the names of each cluster level}
 
@@ -26,8 +29,6 @@ cluster_gen(n, cluster_labels = NULL, resp_labels = NULL, n_X = NULL,
 \item{separate_questionnaires}{if `TRUE`, each level will have its own questionnaire}
 
 \item{collapse}{if `TRUE`, function output contains only one data frame with all answers}
-
-\item{N}{list of numeric vector with the population size of each *sampled* cluster element on each level}
 
 \item{sum_pop}{total population at each level (sampled or not)}
 

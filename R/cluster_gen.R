@@ -26,6 +26,7 @@
 #' @export
 cluster_gen <- function(
   n,
+  N = 1,
   cluster_labels = NULL,
   resp_labels = NULL,
   n_X = NULL,
@@ -34,7 +35,6 @@ cluster_gen <- function(
   c_mean = NULL,
   separate_questionnaires = TRUE,
   collapse = "none",
-  N = 1,  # TODO: move N to second argument
   sum_pop = sapply(N, sum),
   calc_weights = TRUE,
   sampling_method = "mixed",
