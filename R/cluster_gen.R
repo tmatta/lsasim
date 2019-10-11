@@ -29,7 +29,8 @@ cluster_gen <- function(
   cluster_labels = NULL,
   resp_labels = NULL,
   n_X = NULL,
-  n_W = NULL,  # TODO: allow different proportions for Ws
+  n_W = NULL,
+  # TODO: allow different proportions for Ws (pass cat_prop)
   c_mean = NULL,
   separate_questionnaires = TRUE,
   collapse = "none",
@@ -37,7 +38,6 @@ cluster_gen <- function(
   sum_pop = sapply(N, sum),
   calc_weights = TRUE,
   sampling_method = "mixed",
-  # DONE: Replicate weights
   # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between).
   # IDEA: add argument rho and N_SRS
   # IDEA: add arguments for tau2 and sigma2
@@ -48,7 +48,7 @@ cluster_gen <- function(
 )
 {
   # Validating =================================================================
-  check_condition(class(n) == "select", "Select not yet implemented") # TEMP
+  check_condition(class(n) == "select", "Select not yet implemented")
   check_condition(
     (!is.null(names(n)) | !is.null(names(N))) & 
     (!is.null(cluster_labels) | !is.null(resp_labels)),

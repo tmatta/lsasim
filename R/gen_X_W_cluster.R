@@ -3,8 +3,6 @@
 #' @param n_levels number of levels
 #' @param separate to the `separate_questionnaires` argument of `cluster_gen`
 #' @param class_cor corresponds to the `class_cor` argument of `cluster_gen`
-#' @export
-#TODO: remove export after development
 gen_X_W_cluster <- function(n_levels, separate, class_cor) {
     number_of_W <- function() {
         rbinom(n = rzeropois(5), prob = .5, size = 3) + 2 
@@ -24,7 +22,6 @@ gen_X_W_cluster <- function(n_levels, separate, class_cor) {
         # n_W <- number_of_W()
         n_W <- as.list(replicate(rzeropois(5), 2))
     }
-    # browser()#TEMP
     out <- list("n_X" = n_X, "n_W" = n_W)
     return(out)
 }
