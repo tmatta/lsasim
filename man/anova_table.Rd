@@ -4,10 +4,12 @@
 \alias{anova_table}
 \title{Print ANOVA table}
 \usage{
-anova_table(data)
+anova_table(data, print = TRUE)
 }
 \arguments{
 \item{data}{list output of `cluster_gen`}
+
+\item{print}{if `TRUE`, output will be a list containing estimators; if `FALSE` (default), output are formatted tables of this information}
 }
 \value{
 Printed ANOVA table

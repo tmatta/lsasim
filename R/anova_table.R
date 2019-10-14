@@ -1,9 +1,10 @@
 #' @title Print ANOVA table
 #' @description Prints Analysis of Variance table for `cluster_gen` output.
 #' @param data list output of `cluster_gen`
+#' @param print if `TRUE`, output will be a list containing estimators; if `FALSE` (default), output are formatted tables of this information
 #' @return Printed ANOVA table
 #' @export
-anova_table <- function(data) {
+anova_table <- function(data, print = TRUE) {
     # Create summary statistics ================================================
     data_summary <- summarize_clusters(data, print = FALSE)
 
@@ -15,6 +16,9 @@ anova_table <- function(data) {
         s2_within <- calc_var_within(ds$n_j, ds$s2_j, ds$M, ds$N)
         s2_between <- calc_var_between(ds$n_j, ds$y_bar_j, ds$y_bar, ds$n_tilde, ds$N)
         s2_total <- calc_var_tot(ds$M, ds$N, ds$n_tilde, s2_within, s2_between)
+        out <- list(sample_statistics = c(s2_within = s2_within,
+                                          s2_between = s2_between,
+                                          s2_total = s2_total))
 
         ## Population parameters and ANOVA table -------------------------------
         sigma2_hat <- s2_within
@@ -28,11 +32,20 @@ anova_table <- function(data) {
                 se_rho <- NA
                 warning("SE not yet implemented for different sample sizes")
             }
+            out$population_estimates[[x]] <- c(sigma2_hat = sigma2_hat[x], 
+                                               tau2_hat = tau2_hat,
+                                               rho_hat = rho_hat,
+                                               se_rho = se_rho)
 
             ### ANOVA table ...................................................,
-            message("\nANOVA table for ", pluralize(n), ", ", x)
-            print_anova_table(s2_within[x], s2_between[x], s2_total[x], sigma2_hat[x], tau2_hat, rho_hat, se_rho, ds$n_tilde, ds$M, ds$N)
+            if (print) {
+                message("\nANOVA table for ", pluralize(n), ", ", x)
+                print_anova_table(s2_within[x], s2_between[x], s2_total[x], 
+                                  sigma2_hat[x], tau2_hat, rho_hat, se_rho, 
+                                  ds$n_tilde, ds$M, ds$N)
+            }
         }
         if (n != names(data)[length(names(data))]) cli::cat_rule()
     }
+    if (!print) return(out)
 }
