@@ -6,7 +6,7 @@
 \usage{
 cluster_gen_separate(n_levels, n, N, sum_pop, calc_weights,
   sampling_method, cluster_labels, resp_labels, collapse, n_X, n_W, c_mean,
-  verbose, ...)
+  verbose, rho, sigma2, ...)
 }
 \arguments{
 \item{n_levels}{number of cluster levels}

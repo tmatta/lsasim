@@ -8,8 +8,8 @@ cluster_gen(n, N = 1, cluster_labels = NULL, resp_labels = NULL,
   n_X = NULL, n_W = NULL, c_mean = NULL,
   separate_questionnaires = TRUE, collapse = "none",
   sum_pop = sapply(N, sum), calc_weights = TRUE,
-  sampling_method = "mixed", verbose = TRUE,
-  print_pop_structure = verbose, ...)
+  sampling_method = "mixed", rho = NULL, sigma2 = NULL,
+  verbose = TRUE, print_pop_structure = verbose, ...)
 }
 \arguments{
 \item{n}{numeric vector with the number of sampled observations (clusters or subjects) on each level}
@@ -35,6 +35,10 @@ cluster_gen(n, N = 1, cluster_labels = NULL, resp_labels = NULL,
 \item{calc_weights}{if `TRUE`, sampling weights are calculated}
 
 \item{sampling_method}{can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size}
+
+\item{rho}{estimated intraclass correlation}
+
+\item{sigma2}{how much of `rho` is composed of within-group variance}
 
 \item{verbose}{if `TRUE`, prints output messages}
 

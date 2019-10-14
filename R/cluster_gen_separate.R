@@ -18,7 +18,7 @@
 #' @export
 cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights, 
                                  sampling_method, cluster_labels, resp_labels,
-                                 collapse, n_X, n_W, c_mean, verbose, rho_hat, sigma2_hat, ...)
+                                 collapse, n_X, n_W, c_mean, verbose, rho, sigma2, ...)
 {
   # Creating basic elements ====================================================
   out    <- list()  # actual output (differs from sample if collapse)
@@ -55,16 +55,16 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
     n_groups <- sapply(n, sum)[l]
 
     # Defining parameters for intraclass correlations ==========================
-    if (!is.null(rho_hat)) {
-      ## Defining sigma2_hat and tau2_hat --------------------------------------
-      if (is.null(sigma2_hat)) sigma2_hat <- runif(1)
-      tau2_hat <- rho_hat * sigma2_hat / (1 - rho_hat)
+    if (!is.null(rho)) {
+      ## Defining sigma2 and tau2 --------------------------------------
+      if (is.null(sigma2)) sigma2 <- runif(1)
+      tau2 <- rho * sigma2 / (1 - rho)
 
       ## Defining the group correlations (s2_j == s2 for all j) ----------------
       n_j <- n[[l + 1]]
       M <- sum(n_j)
       Nn <- length(n_j)
-      s2 <- sigma2_hat * (M - Nn) / sum(n_j - 1)
+      s2 <- sigma2 * (M - Nn) / sum(n_j - 1)
       sd <- sqrt(s2)
     } else {
       sd <- NULL
@@ -74,9 +74,11 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
     # Generating questionnaires for each cluster element of that level ---------
     for (lvl in seq(n_groups)) {
       # Creating basic elements ................................................
-      n_resp <- n[[l + 1]][lvl]
+      n_resp <- n[[l + 1]][lvl]      
       mu <- NULL
-      if (!is.null(c_mean) & class(c_mean) == "list") {
+      if (!is.null(rho)) {
+        mu <- rnorm(1, sd = sqrt(tau2 + sigma2 / n_j[lvl]))
+      } else if (!is.null(c_mean) & class(c_mean) == "list") {
         mu <- c_mean[[lvl]]
       } else {
         mu <- c_mean

@@ -43,8 +43,9 @@ cluster_gen <- function(
   # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between).
   # IDEA: add arguments for tau2 and sigma2
   # IDEA: variance is given, user selects proportion of within and between (or rho) and data is generated form there
-  rho_hat = NULL,
-  sigma2_hat = NULL,
+  rho = NULL,
+  sigma2 = NULL,
+  # TODO: merge sigma2 and c_sd?
   verbose = TRUE,
   print_pop_structure = verbose,
   ...
@@ -197,7 +198,7 @@ cluster_gen <- function(
     sample <- cluster_gen_separate(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, verbose, rho_hat, sigma2_hat, ...
+      n_X, n_W, c_mean, verbose, rho, sigma2, ...
     )
   } else { # questionnaires administered only at the bottom level
     # Message explaining cluster scheme ----------------------------------------
