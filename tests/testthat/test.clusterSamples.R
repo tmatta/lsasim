@@ -621,3 +621,42 @@ test_that("Replication weights are correct", {
 # df4 <- cluster_gen(list(4, 101:104), verbose = FALSE)
 # summarize_clusters(df4, print = FALSE)
 # anova_table(df4)
+
+# df5 <- cluster_gen(c(10, 10), n_X = 1, n_W = 0, verbose = FALSE)
+# df6 <- cluster_gen(c(10, 100), n_X = 1, n_W = 0, verbose = FALSE)
+# df7 <- cluster_gen(c(100, 10), n_X = 1, n_W = 0, verbose = FALSE)
+# df8 <- cluster_gen(c(100, 100), n_X = 1, n_W = 0, verbose = FALSE)
+# anova_table(df5)
+# anova_table(df6)
+# anova_table(df7)
+# anova_table(df8)
+
+# cluster_gen(c(10, 5), n_X = 1, n_W = 0, c_sd = 5, verbose = FALSE) %>% anova_table()
+# cluster_gen(c(10, 10), n_X = 1, n_W = 0, c_sd = 5, verbose = FALSE) %>% anova_table()
+# cluster_gen(c(10, 20), n_X = 1, n_W = 0, c_sd = 5, verbose = FALSE) %>% anova_table()
+
+df <- cluster_gen(c(4, 5), n_X = 1, rho_hat = .3, sigma2_hat = .3)
+anova_table(df)
+
+df2 <- cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)))
+summarize_clusters(df2) 
+anova_table(df2)
+
+cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)), rho_hat = .25, sigma2_hat = .3) %>% anova_table()
+cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)), rho_hat = .5, sigma2_hat = .3) %>% anova_table()
+cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)), rho_hat = .75, sigma2_hat = .3) %>% anova_table()
+
+cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)), rho_hat = .5, sigma2_hat = .25) %>% anova_table()
+cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)), rho_hat = .5, sigma2_hat = .5) %>% anova_table()
+cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)), rho_hat = .5, sigma2_hat = .75) %>% anova_table()
+cluster_gen(c(4, 50), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)), rho_hat = .5, sigma2_hat = 10) %>% anova_table()
+
+cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(list(1, 2, 1.5, 1)), rho_hat = .75, sigma2_hat = .3) %>% anova_table()
+
+cluster_gen(c(4, 5), n_X = 1, rho_hat = .3, sigma2_hat = .3) %>% anova_table()
+cluster_gen(c(4, 5), n_X = 1, rho_hat = .6, sigma2_hat = .3) %>% anova_table()
+cluster_gen(c(4, 5), n_X = 1, rho_hat = .9, sigma2_hat = .3) %>% anova_table()
+
+cluster_gen(c(4, 5), n_X = 1, rho_hat = .5, sigma2_hat = .3) %>% anova_table()
+cluster_gen(c(4, 50), n_X = 1, rho_hat = .5, sigma2_hat = .3) %>% anova_table()
+cluster_gen(c(4, 500), n_X = 1, rho_hat = .5, sigma2_hat = .3) %>% anova_table()

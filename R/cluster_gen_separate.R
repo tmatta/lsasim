@@ -18,7 +18,7 @@
 #' @export
 cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights, 
                                  sampling_method, cluster_labels, resp_labels,
-                                 collapse, n_X, n_W, c_mean, verbose, ...)
+                                 collapse, n_X, n_W, c_mean, verbose, rho_hat, sigma2_hat, ...)
 {
   # Creating basic elements ====================================================
   out    <- list()  # actual output (differs from sample if collapse)
@@ -53,6 +53,23 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       previous_sublvl <- as.numeric(gsub("\\_.", "", previous_sublvl))
     }
     n_groups <- sapply(n, sum)[l]
+
+    # Defining parameters for intraclass correlations ==========================
+    if (!is.null(rho_hat)) {
+      ## Defining sigma2_hat and tau2_hat --------------------------------------
+      if (is.null(sigma2_hat)) sigma2_hat <- runif(1)
+      tau2_hat <- rho_hat * sigma2_hat / (1 - rho_hat)
+
+      ## Defining the group correlations (s2_j == s2 for all j) ----------------
+      n_j <- n[[l + 1]]
+      M <- sum(n_j)
+      Nn <- length(n_j)
+      s2 <- sigma2_hat * (M - Nn) / sum(n_j - 1)
+      sd <- sqrt(s2)
+    } else {
+      sd <- NULL
+    }
+
     
     # Generating questionnaires for each cluster element of that level ---------
     for (lvl in seq(n_groups)) {
@@ -68,7 +85,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       # Generating data ........................................................
       cluster_bg <- questionnaire_gen(
         n_resp, n_X = n_X[[l]], n_W = n_W[[l]], c_mean = mu, verbose = FALSE,
-        ...
+          c_sd = sd,...
       )
 
       # Adding weights .........................................................

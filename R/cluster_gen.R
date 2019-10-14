@@ -11,6 +11,8 @@
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
+#' @param rho estimated intraclass correlation
+#' @param sigma2 how much of `rho` is composed of within-group variance
 #' @param verbose if `TRUE`, prints output messages
 #' @param print_pop_structure if `TRUE`, prints the population hierarchical structure (as long as it differs from the sample structure)
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
@@ -39,9 +41,10 @@ cluster_gen <- function(
   calc_weights = TRUE,
   sampling_method = "mixed",
   # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between).
-  # IDEA: add argument rho and N_SRS
   # IDEA: add arguments for tau2 and sigma2
   # IDEA: variance is given, user selects proportion of within and between (or rho) and data is generated form there
+  rho_hat = NULL,
+  sigma2_hat = NULL,
   verbose = TRUE,
   print_pop_structure = verbose,
   ...
@@ -161,7 +164,7 @@ cluster_gen <- function(
     }
   }
 
-  # Defining n_X and n_W -----------------------------------------------------
+  # Defining n_X and n_W =======================================================
   #IDEA: define cat_prop/n_X-n_W as a function of the correlation matrix
   if (is.null(n_X)) {
     n_X <- gen_X_W_cluster(n_levels, separate_questionnaires, class_cor = NULL)$n_X
@@ -194,7 +197,7 @@ cluster_gen <- function(
     sample <- cluster_gen_separate(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, verbose, ...
+      n_X, n_W, c_mean, verbose, rho_hat, sigma2_hat, ...
     )
   } else { # questionnaires administered only at the bottom level
     # Message explaining cluster scheme ----------------------------------------
