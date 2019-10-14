@@ -608,10 +608,10 @@ test_that("Replication weights are correct", {
 
 # Intraclass correlations ======================================================
 context("Retrieval of intraclass correlations")
+reps <- 100
 rep_stats <- matrix(nrow = reps, ncol = 14)
 retrieved <- vector()
 bias <- vector()
-reps <- 100
 for (r in seq_len(reps)) {
   rho <- runif(1)
   df <- cluster_gen(c(rpois(1, 10), rpois(1, 100)), n_X = 2, n_W = 0,

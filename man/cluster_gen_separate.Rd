@@ -35,6 +35,10 @@ cluster_gen_separate(n_levels, n, N, sum_pop, calc_weights,
 
 \item{verbose}{if `TRUE`, prints output messages}
 
+\item{rho}{estimated intraclass correlation}
+
+\item{sigma2}{within-group variance}
+
 \item{...}{Additional parameters to be passed to `questionnaire_gen()`}
 }
 \description{

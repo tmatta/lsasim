@@ -13,8 +13,11 @@
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param verbose if `TRUE`, prints output messages
+#' @param rho estimated intraclass correlation
+#' @param sigma2 within-group variance
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @seealso cluster_gen cluster_gen_together
+#' @importFrom stats rchisq
 #' @export
 cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights, 
                                  sampling_method, cluster_labels, resp_labels,
@@ -57,7 +60,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
     # Defining parameters for intraclass correlations ==========================
     if (!is.null(rho)) {
       ## Defining sigma2 and tau2 --------------------------------------
-      if (is.null(sigma2)) sigma2 <- runif(1)
+      if (is.null(sigma2)) sigma2 <- rchisq(1, 2)
       tau2 <- rho * sigma2 / (1 - rho)
 
       ## Defining the group correlations (s2_j == s2 for all j) ----------------

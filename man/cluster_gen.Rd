@@ -38,7 +38,7 @@ cluster_gen(n, N = 1, cluster_labels = NULL, resp_labels = NULL,
 
 \item{rho}{estimated intraclass correlation}
 
-\item{sigma2}{how much of `rho` is composed of within-group variance}
+\item{sigma2}{within-group variance}
 
 \item{verbose}{if `TRUE`, prints output messages}
 

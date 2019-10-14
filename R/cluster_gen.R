@@ -12,7 +12,7 @@
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param rho estimated intraclass correlation
-#' @param sigma2 how much of `rho` is composed of within-group variance
+#' @param sigma2 within-group variance
 #' @param verbose if `TRUE`, prints output messages
 #' @param print_pop_structure if `TRUE`, prints the population hierarchical structure (as long as it differs from the sample structure)
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
