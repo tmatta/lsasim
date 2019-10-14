@@ -606,57 +606,30 @@ test_that("Replication weights are correct", {
   expect_equivalent(mean(unlist(sampling_variance(z, "BRR Fay"))), 0.2, .1)
 })
 
-# Within and Between-class correlations ========================================
-# TODO: implement inter and intra-class correlation tests
-# set.seed(4512); df <- cluster_gen(c(sch = 4, stu = 10),
-#                                   n_X = 2, n_W = list(list(2, 5)))
-# anova_table(df)
-
-# df2 <- cluster_gen(c(10, 100), n_X = 1, verbose = FALSE)
-# anova_table(df2)
-
-# df3 <- cluster_gen(c(3, 10, 100), n_X = list(2, 3), verbose = FALSE)
-# anova_table(df3)
-
-# df4 <- cluster_gen(list(4, 101:104), verbose = FALSE)
-# summarize_clusters(df4, print = FALSE)
-# anova_table(df4)
-
-# df5 <- cluster_gen(c(10, 10), n_X = 1, n_W = 0, verbose = FALSE)
-# df6 <- cluster_gen(c(10, 100), n_X = 1, n_W = 0, verbose = FALSE)
-# df7 <- cluster_gen(c(100, 10), n_X = 1, n_W = 0, verbose = FALSE)
-# df8 <- cluster_gen(c(100, 100), n_X = 1, n_W = 0, verbose = FALSE)
-# anova_table(df5)
-# anova_table(df6)
-# anova_table(df7)
-# anova_table(df8)
-
-# cluster_gen(c(10, 5), n_X = 1, n_W = 0, c_sd = 5, verbose = FALSE) %>% anova_table()
-# cluster_gen(c(10, 10), n_X = 1, n_W = 0, c_sd = 5, verbose = FALSE) %>% anova_table()
-# cluster_gen(c(10, 20), n_X = 1, n_W = 0, c_sd = 5, verbose = FALSE) %>% anova_table()
-
-df <- cluster_gen(c(4, 5), n_X = 1, rho_hat = .3, sigma2_hat = .3)
-anova_table(df)
-
-df2 <- cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)))
-summarize_clusters(df2) 
-anova_table(df2)
-
-cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)), rho_hat = .25, sigma2_hat = .3) %>% anova_table()
-cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)), rho_hat = .5, sigma2_hat = .3) %>% anova_table()
-cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)), rho_hat = .75, sigma2_hat = .3) %>% anova_table()
-
-cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)), rho_hat = .5, sigma2_hat = .25) %>% anova_table()
-cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)), rho_hat = .5, sigma2_hat = .5) %>% anova_table()
-cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)), rho_hat = .5, sigma2_hat = .75) %>% anova_table()
-cluster_gen(c(4, 50), n_X = 1, n_W = 0, c_mean = list(as.list(1:4)), rho_hat = .5, sigma2_hat = 10) %>% anova_table()
-
-cluster_gen(c(4, 100), n_X = 1, n_W = 0, c_mean = list(list(1, 2, 1.5, 1)), rho_hat = .75, sigma2_hat = .3) %>% anova_table()
-
-cluster_gen(c(4, 5), n_X = 1, rho_hat = .3, sigma2_hat = .3) %>% anova_table()
-cluster_gen(c(4, 5), n_X = 1, rho_hat = .6, sigma2_hat = .3) %>% anova_table()
-cluster_gen(c(4, 5), n_X = 1, rho_hat = .9, sigma2_hat = .3) %>% anova_table()
-
-cluster_gen(c(4, 5), n_X = 1, rho_hat = .5, sigma2_hat = .3) %>% anova_table()
-cluster_gen(c(4, 50), n_X = 1, rho_hat = .5, sigma2_hat = .3) %>% anova_table()
-cluster_gen(c(4, 500), n_X = 1, rho_hat = .5, sigma2_hat = .3) %>% anova_table()
+# Intraclass correlations ======================================================
+context("Retrieval of intraclass correlations")
+rep_stats <- matrix(nrow = reps, ncol = 14)
+retrieved <- vector()
+bias <- vector()
+reps <- 100
+for (r in seq_len(reps)) {
+  rho <- runif(1)
+  df <- cluster_gen(c(rpois(1, 10), rpois(1, 100)), n_X = 2, n_W = 0,
+                    rho = rho,
+                    sigma2 = rpois(1, 10),
+                    verbose = FALSE)
+  df_stats <- anova_table(df, FALSE)
+  rep_stats[r, ] <- unlist(df_stats)
+  # TODO: check asymptotic distro of rho to adjust retrieval boundaries
+  retrieved <- append(retrieved,
+                      rho <= rep_stats[r, 9] + 2 * rep_stats[r, 10] &
+                      rho >= rep_stats[r, 9] - 2 * rep_stats[r, 10])
+  bias <- append(bias, rep_stats[r, 9] - rho)
+}
+colnames(rep_stats) <- names(unlist(df_stats))
+test_that("Intraclass correlations are retrieved", {
+  expect_gte(prop.table(table(retrieved))["TRUE"], .8)
+})
+test_that("Observed rho is an unbiased estimator", {
+  expect_equivalent(mean(bias), 0, tol = .1)
+})
