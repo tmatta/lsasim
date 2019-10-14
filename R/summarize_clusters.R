@@ -27,11 +27,11 @@ summarize_clusters <- function(data, print = TRUE) {
                 for (w in names(df[factor_cols])) {
                     message("Statistics per category of ", w)
                     w_lvls <- levels(df[, w])
-                    stats <- lapply(
+                    stats <- sapply(
                         w_lvls,
                         function(l) summary(df[df[, w] == l, numeric_cols])
                     )
-                    names(stats) <- w_lvls
+                    colnames(stats) <- paste0(w, ".", w_lvls)
                     print(stats)
                 }
                 cli::cat_rule()
