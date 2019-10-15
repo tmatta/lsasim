@@ -12,3 +12,6 @@ rzeropois(lambda)
 \description{
 Random generation of one observation of a random variable distributed as a Zero-truncated Poisson
 }
+\details{
+The zero-truncated Poisson (a.k.a. conditional Poisson or positive Poisson) distribution is a discrete probability distribution whose support is the set of positive integers.
+}

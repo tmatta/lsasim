@@ -56,7 +56,7 @@ cluster_gen <- function(
   check_condition(
     (!is.null(names(n)) | !is.null(names(N))) & 
     (!is.null(cluster_labels) | !is.null(resp_labels)),
-    "If n or N are labeled, cluster_labels and resp_labels must be left NULL"
+    "If n or N are labeled, cluster_labels and resp_labels must be left NULL."
   )
   check_condition(
     !separate_questionnaires & length(n_X) > 1,
@@ -69,7 +69,7 @@ cluster_gen <- function(
   check_condition(length(n) == 1, "n must have length longer than 1")
   check_condition(
     length(n) > length(cluster_labels) + 1 & !is.null(cluster_labels),
-    "cluster_labels has insufficient length"
+    "cluster_labels has insufficient length."
   )
   check_condition(
     !separate_questionnaires & collapse == "partial",
@@ -78,12 +78,16 @@ cluster_gen <- function(
   )
   check_condition(
     !(all(sampling_method %in% c("SRS", "PPS", "mixed"))),
-    "Invalid sampling method"
+    "Invalid sampling method."
   )
   check_condition(
     class(n) == "select" & class(N) == "select",
-    "If n is select, N must be explicitly defined"
+    "If n is select, N must be explicitly defined."
   )
+  # check_condition(
+  #   length(rho) > 1 & is.null(n_X),
+  #   "If rho is a vector, n_X must be provided with corresponding values."
+  # )
 
   # Attributing labels =========================================================
   if (is.null(cluster_labels)) cluster_labels <- attribute_cluster_labels(n)$cl
