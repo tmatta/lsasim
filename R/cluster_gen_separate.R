@@ -29,6 +29,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
   c_mean_list <- c_mean
   n_quest <- sapply(n, sum)
   id_combos <- label_respondents(n, cluster_labels)
+  missing_sigma2 <- is.null(sigma2)
 
   # Generating data ============================================================
   for (l in seq(n_levels - 1)) {
@@ -62,10 +63,11 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
 
       ## Expanding rho to n_level width ----------------------------------------
       if (class(rho) != "list") rho <- replicate(n_levels, list(rho))
+      if (length(rho[[l]]) == 1) rho[[l]] <- rep(rho[[l]], n_X[[l]])
       # if (length(rho) == 1) rho <- rep(rho, n_levels - 1)
       
       ## Defining sigma2 and tau2 ----------------------------------------------
-      if (is.null(sigma2)) sigma2 <- rchisq(n_X[l], 2)
+      if (missing_sigma2) sigma2 <- rchisq(n_X[[l]], 2)
       tau2 <- rho[[l]] * sigma2 / (1 - rho[[l]])
 
       ## Defining the group correlations (s2_j == s2 for all j) ----------------

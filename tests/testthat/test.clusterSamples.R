@@ -643,4 +643,43 @@ test_that("Rho changes as expected", {
 })
 test_that("Rho works for dataframes with three or more levels", {
   # TODO: develop rho for 3+ levels
+  set.seed(9621)
+  df <- cluster_gen(c(5, 4, 50), rho = .7, verbose = FALSE)
+  df_stats <- anova_table(df, FALSE)
+  expect_equivalent(mean(unlist(df_stats$school$population_estimates)[c(3, 7)]),
+                    .7,
+                    tol = .1)
+  expect_equivalent(unlist(df_stats$class$population_estimates)[3],
+                    .7,
+                    tol = .1)
+  set.seed(6485)
+  df2 <- cluster_gen(c(10, 20, 50), rho = c(.7, .2), verbose = FALSE)
+  df2_stats <- anova_table(df2, FALSE)
+  expect_equivalent(unlist(df2_stats$school$population_estimates)[c(3, 7)],
+                    c(.7, .2),
+                    tol = .1)
+  expect_equivalent(unlist(df2_stats$class$population_estimates)[c(3, 7)],
+                    c(.7, .2),
+                    tol = .1)
+  set.seed(893961)
+  df3 <- cluster_gen(c(25, 15, 50), rho = list(.4, .9), verbose = FALSE)
+  df3_stats <- anova_table(df3, FALSE)
+  expect_equivalent(unlist(df3_stats$school$population_estimates)[c(3, 7)],
+                    c(.4, .4),
+                    tol = .1)
+  expect_equivalent(unlist(df3_stats$class$population_estimates)[c(3, 7)],
+                    c(.9, .9),
+                    tol = .1)
+  set.seed(977753)
+  df4 <- cluster_gen(c(25, 15, 50), rho = list(.4, c(.1, .2, .3)), n_X = list(2, 3), verbose = FALSE)
+  df4_stats <- anova_table(df4, FALSE)
+  expect_equivalent(unlist(df4_stats$school$population_estimates)[c(3, 7)],
+                    c(.4, .4),
+                    tol = .1)
+  expect_equivalent(unlist(df4_stats$class$population_estimates)[c(3, 7, 11)],
+                    c(.1, .2, .3),
+                    tol = .1)
+})
+test_that("Rho works for together questionnaires", {
+  # TODO: develop rho control for !separate_questionnaires
 })

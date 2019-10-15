@@ -9,6 +9,7 @@ anova_table <- function(data, print = TRUE) {
     data_summary <- summarize_clusters(data, print = FALSE)
 
     # Create other relevant input ==============================================
+    out_complete <- list()
     for (n in names(data)) {
         ds <- data_summary[[n]]
 
@@ -45,7 +46,14 @@ anova_table <- function(data, print = TRUE) {
                                   ds$n_tilde, ds$M, ds$N)
             }
         }
-        if (n != names(data)[length(names(data))]) cli::cat_rule()
+        if (print & (n != names(data)[length(names(data))])) cli::cat_rule()
+        out_complete[[n]] <- out
     }
-    if (!print) return(out)
+    if (!print) {
+        if (length(out_complete) > 1) {
+            return(out_complete)
+        } else {
+            return(out)
+        }
+    }
 }

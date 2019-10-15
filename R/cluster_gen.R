@@ -166,9 +166,13 @@ cluster_gen <- function(
   }
 
   # Defining n_X and n_W =======================================================
-  #IDEA: define cat_prop/n_X-n_W as a function of the correlation matrix
   if (is.null(n_X)) {
-    n_X <- gen_X_W_cluster(n_levels, separate_questionnaires, class_cor = NULL)$n_X
+    if (length(rho) > 1) {
+      n_X <- as.list(rep(length(rho), n_levels))
+    } else {
+      n_X <- gen_X_W_cluster(n_levels, separate_questionnaires,
+                             class_cor = NULL)$n_X
+    }
   }
   if (is.null(n_W)) {
     n_W <- gen_X_W_cluster(n_levels, separate_questionnaires, class_cor = NULL)$n_W
