@@ -59,9 +59,14 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
 
     # Defining parameters for intraclass correlations ==========================
     if (!is.null(rho)) {
-      ## Defining sigma2 and tau2 --------------------------------------
-      if (is.null(sigma2)) sigma2 <- rchisq(1, 2)
-      tau2 <- rho * sigma2 / (1 - rho)
+
+      ## Expanding rho to n_level width ----------------------------------------
+      if (class(rho) != "list") rho <- replicate(n_levels, list(rho))
+      # if (length(rho) == 1) rho <- rep(rho, n_levels - 1)
+      
+      ## Defining sigma2 and tau2 ----------------------------------------------
+      if (is.null(sigma2)) sigma2 <- rchisq(n_X[l], 2)
+      tau2 <- rho[[l]] * sigma2 / (1 - rho[[l]])
 
       ## Defining the group correlations (s2_j == s2 for all j) ----------------
       n_j <- n[[l + 1]]
@@ -79,8 +84,9 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       # Creating basic elements ................................................
       n_resp <- n[[l + 1]][lvl]      
       mu <- NULL
-      if (!is.null(rho)) {
-        mu <- rnorm(1, sd = sqrt(tau2 + sigma2 / n_j[lvl]))
+      if (all(!is.null(rho[[l]]))) {
+        sd_mu <- sqrt(tau2 + sigma2 / n_j[lvl])
+        mu <- sapply(sd_mu, function(s) rnorm(1, sd = s))
       } else if (!is.null(c_mean) & class(c_mean) == "list") {
         mu <- c_mean[[lvl]]
       } else {

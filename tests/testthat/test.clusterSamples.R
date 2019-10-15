@@ -607,7 +607,7 @@ test_that("Replication weights are correct", {
 })
 
 # Intraclass correlations ======================================================
-context("Retrieval of intraclass correlations")
+context("Intraclass correlations")
 reps <- 100
 rep_stats <- matrix(nrow = reps, ncol = 14)
 retrieved <- vector()
@@ -627,9 +627,20 @@ for (r in seq_len(reps)) {
   bias <- append(bias, rep_stats[r, 9] - rho)
 }
 colnames(rep_stats) <- names(unlist(df_stats))
-test_that("Intraclass correlations are retrieved", {
+test_that("Intraclass correlations are properly retrieved", {
   expect_gte(prop.table(table(retrieved))["TRUE"], .8)
 })
 test_that("Observed rho is an unbiased estimator", {
   expect_equivalent(mean(bias), 0, tol = .1)
+})
+test_that("Rho changes as expected", {
+  rho <- c(.9, .3, .2)
+  set.seed(8141221)
+  df <- cluster_gen(c(20, 100), n_X = 3, rho = rho, verbose = FALSE)
+  df_stats <- anova_table(df, FALSE)
+  expect_equivalent(unlist(df_stats$population_estimates)[c(3, 7, 11)], rho,
+                    tol = .01)
+})
+test_that("Rho works for dataframes with three or more levels", {
+  # TODO: develop rho for 3+ levels
 })
