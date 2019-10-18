@@ -14,7 +14,11 @@
 brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
                 weight_cols = "none", drop = TRUE) {
     # Verification =============================================================
-    if (k < 0 | k > 1) stop ("k must be between 0 and 1")
+    check_condition(k < 0 | k > 1, "k must be between 0 and 1")
+    check_condition(
+        !(class(data) %in% c("data.frame", "matrix")),
+        "Input must be a data frame or a matrix"
+    )
 
     # Determining the number of replicates =====================================
     total_replicates <- 4
