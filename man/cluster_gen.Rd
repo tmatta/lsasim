@@ -5,11 +5,11 @@
 \title{Generate cluster sample}
 \usage{
 cluster_gen(n, N = 1, cluster_labels = NULL, resp_labels = NULL,
-  n_X = NULL, n_W = NULL, c_mean = NULL,
+  n_X = NULL, n_W = NULL, c_mean = NULL, c_sd = NULL,
   separate_questionnaires = TRUE, collapse = "none",
   sum_pop = sapply(N, sum), calc_weights = TRUE,
-  sampling_method = "mixed", rho = NULL, sigma2 = NULL,
-  verbose = TRUE, print_pop_structure = verbose, ...)
+  sampling_method = "mixed", rho = NULL, verbose = TRUE,
+  print_pop_structure = verbose, ...)
 }
 \arguments{
 \item{n}{numeric vector with the number of sampled observations (clusters or subjects) on each level}
@@ -26,6 +26,8 @@ cluster_gen(n, N = 1, cluster_labels = NULL, resp_labels = NULL,
 
 \item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level}
 
+\item{c_sd}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level}
+
 \item{separate_questionnaires}{if `TRUE`, each level will have its own questionnaire}
 
 \item{collapse}{if `TRUE`, function output contains only one data frame with all answers}
@@ -37,8 +39,6 @@ cluster_gen(n, N = 1, cluster_labels = NULL, resp_labels = NULL,
 \item{sampling_method}{can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size}
 
 \item{rho}{estimated intraclass correlation}
-
-\item{sigma2}{within-group variance}
 
 \item{verbose}{if `TRUE`, prints output messages}
 
@@ -59,7 +59,8 @@ This function relies heavily in two subfunctions---`cluster_gen_separate` and `c
 Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
 }
 \note{
-For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, by default, countries are the nexting level, schools are the first cluster level, classes are the second, and students are the third and final level.
+For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, for example, schools are the first cluster level, classes are the second, and students are the third and final level. This behavior can be customized by naming the `n` argument or providing custom labels in `cluster_labels` and `resp_labels`.
+#TODO: explain the danger of setting c_mean and rho (sigma2 may get really high)
 
 labeling c_mean has no effect, it's for the user.
 }

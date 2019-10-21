@@ -616,7 +616,7 @@ for (r in seq_len(reps)) {
   rho <- runif(1)
   df <- cluster_gen(c(rpois(1, 10), rpois(1, 100)), n_X = 2, n_W = 0,
                     rho = rho,
-                    sigma2 = rpois(1, 10),
+                    c_sd = rpois(1, 10),
                     verbose = FALSE)
   df_stats <- anova_table(df, FALSE)
   rep_stats[r, ] <- unlist(df_stats)
@@ -637,10 +637,11 @@ test_that("Observed rho is an unbiased estimator", {
 test_that("Rho changes as expected", {
   rho <- c(.9, .3, .2)
   set.seed(8141221)
-  df <- cluster_gen(c(20, 100), n_X = 3, rho = rho, verbose = FALSE)
+  df <- cluster_gen(c(40, 100), n_X = 3, n_W = 0, rho = rho, verbose = FALSE)
   df_stats <- anova_table(df, FALSE)
-  expect_equivalent(unlist(df_stats$population_estimates)[c(3, 7, 11)], rho,
-                    tol = .01)
+  expect_equivalent(
+    unlist(df_stats$population_estimates)[c(3, 7, 11)], rho, tol = .1
+  )
 })
 test_that("Rho works for dataframes with three or more levels", {
   set.seed(9621)
@@ -680,7 +681,8 @@ test_that("Rho works for dataframes with three or more levels", {
                     c(.1, .2, .3),
                     tol = .1)
 })
-test_that("c_means and rho work together", {
+
+test_that("c_mean and rho work together", {
   rho <- .3
   df <- cluster_gen(n = c(20, 200), n_X = 1, n_W = 0,
                     rho = rho, c_mean = 5, verbose = FALSE)
@@ -697,10 +699,45 @@ test_that("c_means and rho work together", {
     anova_table(df, FALSE)$population_estimates$q1[3], rho, .1
   )
 })
+
+test_that("Rho behaves properly with c_sd and c_mean", {
+  expect_error(
+    cluster_gen(
+      n = c(40, 100), n_X = 1, n_W = 0,
+      c_sd = list(as.list(1:40)),
+      rho = .5,
+      verbose = FALSE
+    )
+  )
+  set.seed(9624063)
+  df2 <- cluster_gen(
+    n = c(5, 40, 100), n_X = 1, n_W = 0,
+    c_sd = list(5, 10),
+    rho = .5,
+    verbose = FALSE
+  )
+  df3 <- cluster_gen(
+    n = c(5, 40, 100), n_X = 1, n_W = 0,
+    c_mean = list(1, 7),
+    c_sd = list(3, 9),
+    rho = list(.2, .8),
+    verbose = FALSE
+  )
+  expect_equivalent(
+    anova_table(df2, print=FALSE)$school$sample_statistics[1], 25, 1
+  )
+  expect_equivalent(
+    anova_table(df2, print=FALSE)$class$sample_statistics[1], 100, 1
+  )
+  expect_equivalent(
+    anova_table(df3, print=FALSE)$school$sample_statistics[1], 9, 1
+  )
+  expect_equivalent(
+    anova_table(df3, print=FALSE)$class$sample_statistics[1], 64, 1
+  )
+  anova_table(df3, print=FALSE)
+})
+
 test_that("Rho works for together questionnaires", {
   # TODO: develop rho control for !separate_questionnaires
-})
-test_that("Rho behaves properly with c_mean and c_sd", {
-  # DONE: develop rho control through c_mean
-  # TODO: develop rho control through c_sd
 })
