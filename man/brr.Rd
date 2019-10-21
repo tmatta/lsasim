@@ -5,7 +5,7 @@
 \title{Generate replicates of a dataset using Balanced Repeated Replication}
 \usage{
 brr(data, k = 0, pseudo_strata = ceiling(nrow(data)/2),
-  weight_cols = "none", drop = TRUE)
+  weight_cols = "none", id_col = 1, drop = TRUE)
 }
 \arguments{
 \item{data}{dataset}
@@ -15,6 +15,8 @@ brr(data, k = 0, pseudo_strata = ceiling(nrow(data)/2),
 \item{pseudo_strata}{number of pseudo-strata}
 
 \item{weight_cols}{vector of weight columns}
+
+\item{id_col}{number of column in dataset containing subject IDs. Set 0 to use the row names as ID}
 
 \item{drop}{if `TRUE`, the observation that will not be part of the subsample is dropped from the dataset. Otherwise, it stays in the dataset but a new weight column is created to differentiate the selected observations}
 }

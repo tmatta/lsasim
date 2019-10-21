@@ -20,9 +20,11 @@ a list containing all the Jackknife replicates of `data`
 Generate replicates of a dataset using Jackknife
 }
 \examples{
-x <- data.frame(number = 1:5,
-                letter = LETTERS[1:5],
-                stringsAsFactors = FALSE)
+x <- data.frame(
+    number = 1:5,
+    letter = LETTERS[1:5],
+    stringsAsFactors = FALSE
+)
 jackknife(x)
 jackknife(x, drop = FALSE)
 }

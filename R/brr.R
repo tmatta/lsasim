@@ -4,6 +4,7 @@
 #' @param pseudo_strata number of pseudo-strata
 #' @param weight_cols vector of weight columns
 #' @param drop if `TRUE`, the observation that will not be part of the subsample is dropped from the dataset. Otherwise, it stays in the dataset but a new weight column is created to differentiate the selected observations
+#' @param id_col number of column in dataset containing subject IDs. Set 0 to use the row names as ID
 #' @return a list containing all the BRR replicates of `data`
 #' @seealso jackknife
 #' @note PISA uses the BRR Fay method with \eqn{k = 0.5}.
@@ -12,13 +13,31 @@
 #' Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.
 #' @export
 brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
-                weight_cols = "none", drop = TRUE) {
+                weight_cols = "none", id_col = 1, drop = TRUE) {
     # Verification =============================================================
     check_condition(k < 0 | k > 1, "k must be between 0 and 1")
     check_condition(
         !(class(data) %in% c("data.frame", "matrix")),
         "Input must be a data frame or a matrix"
     )
+    check_condition(
+        id_col == 1 & ncol(data) == 1,
+        "data only has one column. You might want to set id_col = 0.",
+        FALSE
+    )
+    if(class(data[, id_col]) %in% c("character", "factor")) {
+        warning("id_col pointed to a non-numeric variable. ",
+                "Proceeding with id_col = 0.")
+        id_col <- 0
+    }
+
+    # Adding subject variable (easier than working with row names) =============
+    drop_subject <- FALSE
+    if (id_col == 0) {
+        data$subject <- seq(nrow(data))
+        id_col <- match("subject", names(data))
+        drop_subject <- TRUE
+    }
 
     # Determining the number of replicates =====================================
     total_replicates <- 4
@@ -37,17 +56,18 @@ brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
         if (!drop) replicate$replicate_weight <- 2 - k
         for (p in seq_len(pseudo_strata)) {
             data_pseudo_stratum <- data[data$pseudo_stratum == p, ]
-            chosen_one <- sample(data_pseudo_stratum$subject, size = 1)
+            chosen_one <- sample(data_pseudo_stratum[, id_col], size = 1)
             if (drop) {
-                replicate <- replicate[replicate$subject != chosen_one, ]
+                replicate <- replicate[replicate[id_col] != chosen_one, ]
             } else {
-                replicate$replicate_weight[replicate$subject == chosen_one] <- k
+                replicate$replicate_weight[replicate[id_col] == chosen_one] <- k
             }
         }
         if (weight_cols[1] != "none") {
             adj_factor <- 2
             replicate[weight_cols] <- replicate[weight_cols] * adj_factor
         }
+        if (drop_subject) replicate$subject <- NULL
         replicate -> R[[paste0("R", rep)]]
     }
     return(R)
