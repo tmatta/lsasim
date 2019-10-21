@@ -21,7 +21,11 @@ replicate_var <- function(data_whole, data_rep, method, k = .5,
     if (method == "BRR" & k != .5 & k != 0) {
         warning("BRR ignores k. Use 'BRR Fay' instead.")
     }
-    if (missing(data_rep)) {
+    if (missing(data_rep) & class(data_whole) == "list") {
+        stop("If data_rep is missing, ",
+             "data_whole must be a data frame or a matrix")
+    }
+    if (missing(data_rep) & class(data_whole) != "list") {
         message("Generating replications and statistics with ", method)
         if (method %in% c("Jackknife", "jackknife")) {
             data_rep <- jackknife(data_whole, drop = FALSE)
