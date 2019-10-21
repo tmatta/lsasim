@@ -11,6 +11,8 @@
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
+#' @param rho estimated intraclass correlation
+#' @param sigma2 within-group variance
 #' @param verbose if `TRUE`, prints output messages
 #' @param print_pop_structure if `TRUE`, prints the population hierarchical structure (as long as it differs from the sample structure)
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
@@ -32,16 +34,17 @@ cluster_gen <- function(
   n_X = NULL,
   n_W = NULL,
   # TODO: allow different proportions for Ws (pass cat_prop)
+  # TODO: pass cor_matrix to questionnaire_gen
   c_mean = NULL,
   separate_questionnaires = TRUE,
   collapse = "none",
   sum_pop = sapply(N, sum),
   calc_weights = TRUE,
   sampling_method = "mixed",
-  # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between).
-  # IDEA: add argument rho and N_SRS
-  # IDEA: add arguments for tau2 and sigma2
-  # IDEA: variance is given, user selects proportion of within and between (or rho) and data is generated form there
+  # TODO: Control over inter-class correlation (intra-class handled by quest_gen?).
+  rho = NULL,
+  sigma2 = NULL,
+  # TODO: merge (rename?) sigma2 and c_sd?
   verbose = TRUE,
   print_pop_structure = verbose,
   ...
@@ -52,7 +55,7 @@ cluster_gen <- function(
   check_condition(
     (!is.null(names(n)) | !is.null(names(N))) & 
     (!is.null(cluster_labels) | !is.null(resp_labels)),
-    "If n or N are labeled, cluster_labels and resp_labels must be left NULL"
+    "If n or N are labeled, cluster_labels and resp_labels must be left NULL."
   )
   check_condition(
     !separate_questionnaires & length(n_X) > 1,
@@ -65,7 +68,7 @@ cluster_gen <- function(
   check_condition(length(n) == 1, "n must have length longer than 1")
   check_condition(
     length(n) > length(cluster_labels) + 1 & !is.null(cluster_labels),
-    "cluster_labels has insufficient length"
+    "cluster_labels has insufficient length."
   )
   check_condition(
     !separate_questionnaires & collapse == "partial",
@@ -74,11 +77,24 @@ cluster_gen <- function(
   )
   check_condition(
     !(all(sampling_method %in% c("SRS", "PPS", "mixed"))),
-    "Invalid sampling method"
+    "Invalid sampling method."
   )
   check_condition(
     class(n) == "select" & class(N) == "select",
-    "If n is select, N must be explicitly defined"
+    "If n is select, N must be explicitly defined."
+  )
+  # check_condition(
+  #   length(rho) > 1 & is.null(n_X),
+  #   "If rho is a vector, n_X must be provided with corresponding values."
+  # )
+  check_condition(
+    !is.null(rho) & !is.null(c_mean), #TEMP
+    "If both rho and c_mean are provided, the latter is ignored",
+    FALSE
+  )
+  check_condition(
+    !is.null(rho) & !separate_questionnaires, #TEMP
+    "Intraclass correlations not yet available for separate_questionnaires = FALSE"
   )
 
   # Attributing labels =========================================================
@@ -161,10 +177,14 @@ cluster_gen <- function(
     }
   }
 
-  # Defining n_X and n_W -----------------------------------------------------
-  #IDEA: define cat_prop/n_X-n_W as a function of the correlation matrix
+  # Defining n_X and n_W =======================================================
   if (is.null(n_X)) {
-    n_X <- gen_X_W_cluster(n_levels, separate_questionnaires, class_cor = NULL)$n_X
+    if (length(rho) > 1) {
+      n_X <- as.list(rep(length(rho), n_levels))
+    } else {
+      n_X <- gen_X_W_cluster(n_levels, separate_questionnaires,
+                             class_cor = NULL)$n_X
+    }
   }
   if (is.null(n_W)) {
     n_W <- gen_X_W_cluster(n_levels, separate_questionnaires, class_cor = NULL)$n_W
@@ -194,7 +214,7 @@ cluster_gen <- function(
     sample <- cluster_gen_separate(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, verbose, ...
+      n_X, n_W, c_mean, verbose, rho, sigma2, ...
     )
   } else { # questionnaires administered only at the bottom level
     # Message explaining cluster scheme ----------------------------------------

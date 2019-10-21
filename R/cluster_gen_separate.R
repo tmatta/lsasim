@@ -13,12 +13,15 @@
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param verbose if `TRUE`, prints output messages
+#' @param rho estimated intraclass correlation
+#' @param sigma2 within-group variance
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @seealso cluster_gen cluster_gen_together
+#' @importFrom stats rchisq
 #' @export
 cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights, 
                                  sampling_method, cluster_labels, resp_labels,
-                                 collapse, n_X, n_W, c_mean, verbose, ...)
+                                 collapse, n_X, n_W, c_mean, verbose, rho, sigma2, ...)
 {
   # Creating basic elements ====================================================
   out    <- list()  # actual output (differs from sample if collapse)
@@ -26,6 +29,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
   c_mean_list <- c_mean
   n_quest <- sapply(n, sum)
   id_combos <- label_respondents(n, cluster_labels)
+  missing_sigma2 <- is.null(sigma2)
 
   # Generating data ============================================================
   for (l in seq(n_levels - 1)) {
@@ -53,13 +57,39 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       previous_sublvl <- as.numeric(gsub("\\_.", "", previous_sublvl))
     }
     n_groups <- sapply(n, sum)[l]
+
+    # Defining parameters for intraclass correlations ==========================
+    if (!is.null(rho)) {
+
+      ## Expanding rho to n_level width ----------------------------------------
+      if (class(rho) != "list") rho <- replicate(n_levels, list(rho))
+      if (length(rho[[l]]) == 1) rho[[l]] <- rep(rho[[l]], n_X[[l]])
+      # if (length(rho) == 1) rho <- rep(rho, n_levels - 1)
+      
+      ## Defining sigma2 and tau2 ----------------------------------------------
+      if (missing_sigma2) sigma2 <- rchisq(n_X[[l]], 2)
+      tau2 <- rho[[l]] * sigma2 / (1 - rho[[l]])
+
+      ## Defining the group correlations (s2_j == s2 for all j) ----------------
+      n_j <- n[[l + 1]]
+      M <- sum(n_j)
+      Nn <- length(n_j)
+      s2 <- sigma2 * (M - Nn) / sum(n_j - 1)
+      sd <- sqrt(s2)
+    } else {
+      sd <- NULL
+    }
+
     
     # Generating questionnaires for each cluster element of that level ---------
     for (lvl in seq(n_groups)) {
       # Creating basic elements ................................................
-      n_resp <- n[[l + 1]][lvl]
+      n_resp <- n[[l + 1]][lvl]      
       mu <- NULL
-      if (!is.null(c_mean) & class(c_mean) == "list") {
+      if (all(!is.null(rho[[l]]))) {
+        sd_mu <- sqrt(tau2 + sigma2 / n_j[lvl])
+        mu <- sapply(sd_mu, function(s) rnorm(1, sd = s))
+      } else if (!is.null(c_mean) & class(c_mean) == "list") {
         mu <- c_mean[[lvl]]
       } else {
         mu <- c_mean
@@ -68,7 +98,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       # Generating data ........................................................
       cluster_bg <- questionnaire_gen(
         n_resp, n_X = n_X[[l]], n_W = n_W[[l]], c_mean = mu, verbose = FALSE,
-        ...
+          c_sd = sd,...
       )
 
       # Adding weights .........................................................

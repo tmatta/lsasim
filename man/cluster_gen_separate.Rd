@@ -6,7 +6,7 @@
 \usage{
 cluster_gen_separate(n_levels, n, N, sum_pop, calc_weights,
   sampling_method, cluster_labels, resp_labels, collapse, n_X, n_W, c_mean,
-  verbose, ...)
+  verbose, rho, sigma2, ...)
 }
 \arguments{
 \item{n_levels}{number of cluster levels}
@@ -34,6 +34,10 @@ cluster_gen_separate(n_levels, n, N, sum_pop, calc_weights,
 \item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level}
 
 \item{verbose}{if `TRUE`, prints output messages}
+
+\item{rho}{estimated intraclass correlation}
+
+\item{sigma2}{within-group variance}
 
 \item{...}{Additional parameters to be passed to `questionnaire_gen()`}
 }

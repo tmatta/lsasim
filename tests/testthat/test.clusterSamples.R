@@ -606,18 +606,84 @@ test_that("Replication weights are correct", {
   expect_equivalent(mean(unlist(sampling_variance(z, "BRR Fay"))), 0.2, .1)
 })
 
-# Within and Between-class correlations ========================================
-# TODO: implement inter and intra-class correlation tests
-# set.seed(4512); df <- cluster_gen(c(sch = 4, stu = 10),
-#                                   n_X = 2, n_W = list(list(2, 5)))
-# anova_table(df)
-
-# df2 <- cluster_gen(c(10, 100), n_X = 1, verbose = FALSE)
-# anova_table(df2)
-
-# df3 <- cluster_gen(c(3, 10, 100), n_X = list(2, 3), verbose = FALSE)
-# anova_table(df3)
-
-# df4 <- cluster_gen(list(4, 101:104), verbose = FALSE)
-# summarize_clusters(df4, print = FALSE)
-# anova_table(df4)
+# Intraclass correlations ======================================================
+context("Intraclass correlations")
+reps <- 100
+rep_stats <- matrix(nrow = reps, ncol = 14)
+retrieved <- vector()
+bias <- vector()
+for (r in seq_len(reps)) {
+  rho <- runif(1)
+  df <- cluster_gen(c(rpois(1, 10), rpois(1, 100)), n_X = 2, n_W = 0,
+                    rho = rho,
+                    sigma2 = rpois(1, 10),
+                    verbose = FALSE)
+  df_stats <- anova_table(df, FALSE)
+  rep_stats[r, ] <- unlist(df_stats)
+  # TODO: check asymptotic distro of rho to adjust retrieval boundaries
+  # IDEA: It's probably F
+  retrieved <- append(retrieved,
+                      rho <= rep_stats[r, 9] + 2 * rep_stats[r, 10] &
+                      rho >= rep_stats[r, 9] - 2 * rep_stats[r, 10])
+  bias <- append(bias, rep_stats[r, 9] - rho)
+}
+colnames(rep_stats) <- names(unlist(df_stats))
+test_that("Intraclass correlations are properly retrieved", {
+  expect_gte(prop.table(table(retrieved))["TRUE"], .8)
+})
+test_that("Observed rho is an unbiased estimator", {
+  expect_equivalent(mean(bias), 0, tol = .1)
+})
+test_that("Rho changes as expected", {
+  rho <- c(.9, .3, .2)
+  set.seed(8141221)
+  df <- cluster_gen(c(20, 100), n_X = 3, rho = rho, verbose = FALSE)
+  df_stats <- anova_table(df, FALSE)
+  expect_equivalent(unlist(df_stats$population_estimates)[c(3, 7, 11)], rho,
+                    tol = .01)
+})
+test_that("Rho works for dataframes with three or more levels", {
+  set.seed(9621)
+  df <- cluster_gen(c(5, 4, 50), rho = .7, verbose = FALSE)
+  df_stats <- anova_table(df, FALSE)
+  expect_equivalent(mean(unlist(df_stats$school$population_estimates)[c(3, 7)]),
+                    .7,
+                    tol = .1)
+  expect_equivalent(unlist(df_stats$class$population_estimates)[3],
+                    .7,
+                    tol = .1)
+  set.seed(6485)
+  df2 <- cluster_gen(c(10, 20, 50), rho = c(.7, .2), verbose = FALSE)
+  df2_stats <- anova_table(df2, FALSE)
+  expect_equivalent(unlist(df2_stats$school$population_estimates)[c(3, 7)],
+                    c(.7, .2),
+                    tol = .1)
+  expect_equivalent(unlist(df2_stats$class$population_estimates)[c(3, 7)],
+                    c(.7, .2),
+                    tol = .1)
+  set.seed(893961)
+  df3 <- cluster_gen(c(25, 15, 50), rho = list(.4, .9), verbose = FALSE)
+  df3_stats <- anova_table(df3, FALSE)
+  expect_equivalent(unlist(df3_stats$school$population_estimates)[c(3, 7)],
+                    c(.4, .4),
+                    tol = .1)
+  expect_equivalent(unlist(df3_stats$class$population_estimates)[c(3, 7)],
+                    c(.9, .9),
+                    tol = .1)
+  set.seed(977753)
+  df4 <- cluster_gen(c(25, 15, 50), rho = list(.4, c(.1, .2, .3)), n_X = list(2, 3), verbose = FALSE)
+  df4_stats <- anova_table(df4, FALSE)
+  expect_equivalent(unlist(df4_stats$school$population_estimates)[c(3, 7)],
+                    c(.4, .4),
+                    tol = .1)
+  expect_equivalent(unlist(df4_stats$class$population_estimates)[c(3, 7, 11)],
+                    c(.1, .2, .3),
+                    tol = .1)
+})
+test_that("Rho works for together questionnaires", {
+  # TODO: develop rho control for !separate_questionnaires
+})
+test_that("Rho behaves properly with c_mean and c_sd", {
+  # DONE: develop rho control through c_mean
+  # TODO: develop rho control through c_sd
+})

@@ -20,8 +20,9 @@ print_anova_table <- function(s2_within, s2_between, s2_total,
     )
     table <- data.frame(
         "Source" = sources,
-        "Observed" = c(s2_within, s2_between, s2_total),
-        "Estimated" = c(sigma2_hat, tau2_hat, NA)
+        "Sample statistic" = c(s2_within, s2_between, s2_total),
+        "Population estimate" = c(sigma2_hat, tau2_hat, NA)
+        # ASK: Total <- sigma2_hat + hau2_hat?
     )
     rho <- data.frame(
         "Estimated" = rho_hat,
