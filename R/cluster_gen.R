@@ -83,15 +83,6 @@ cluster_gen <- function(
     class(n) == "select" & class(N) == "select",
     "If n is select, N must be explicitly defined."
   )
-  # check_condition(
-  #   length(rho) > 1 & is.null(n_X),
-  #   "If rho is a vector, n_X must be provided with corresponding values."
-  # )
-  check_condition(
-    !is.null(rho) & !is.null(c_mean), #TEMP
-    "If both rho and c_mean are provided, the latter is ignored",
-    FALSE
-  )
   check_condition(
     !is.null(rho) & !separate_questionnaires, #TEMP
     "Intraclass correlations not yet available for separate_questionnaires = FALSE"
