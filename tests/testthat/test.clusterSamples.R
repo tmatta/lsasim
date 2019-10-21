@@ -680,6 +680,23 @@ test_that("Rho works for dataframes with three or more levels", {
                     c(.1, .2, .3),
                     tol = .1)
 })
+test_that("c_means and rho work together", {
+  rho <- .3
+  df <- cluster_gen(n = c(20, 200), n_X = 1, n_W = 0,
+                    rho = rho, c_mean = 5, verbose = FALSE)
+  expect_equivalent(summarize_clusters(df, print = FALSE)$school$y_bar, 5, .1)
+  expect_equivalent(
+    anova_table(df, print = FALSE)$population_estimates$q1[3], rho, .1
+  )
+  rho <- .5
+  df <- cluster_gen(n = c(50, 500), n_X = 1, n_W = 0,
+                    rho = rho,
+                    c_mean = list(as.list(seq(1, 4, length.out = 50))),
+                    verbose = FALSE)
+  expect_equivalent(
+    anova_table(df, FALSE)$population_estimates$q1[3], rho, .1
+  )
+})
 test_that("Rho works for together questionnaires", {
   # TODO: develop rho control for !separate_questionnaires
 })

@@ -64,7 +64,6 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       ## Expanding rho to n_level width ----------------------------------------
       if (class(rho) != "list") rho <- replicate(n_levels, list(rho))
       if (length(rho[[l]]) == 1) rho[[l]] <- rep(rho[[l]], n_X[[l]])
-      # if (length(rho) == 1) rho <- rep(rho, n_levels - 1)
       
       ## Defining sigma2 and tau2 ----------------------------------------------
       if (missing_sigma2) sigma2 <- rchisq(n_X[[l]], 2)
@@ -85,14 +84,19 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
     for (lvl in seq(n_groups)) {
       # Creating basic elements ................................................
       n_resp <- n[[l + 1]][lvl]      
-      mu <- NULL
+      if (!is.null(c_mean) & class(c_mean) == "list") {
+        mu_mu <- c_mean[[lvl]]
+      } else {
+        mu_mu <- c_mean
+      }
+
+      # Recalculating mu to fit rho ............................................
       if (all(!is.null(rho[[l]]))) {
         sd_mu <- sqrt(tau2 + sigma2 / n_j[lvl])
-        mu <- sapply(sd_mu, function(s) rnorm(1, sd = s))
-      } else if (!is.null(c_mean) & class(c_mean) == "list") {
-        mu <- c_mean[[lvl]]
+        mu_mu <- ifelse(is.null(mu_mu), 0, mu_mu)
+        mu <- sapply(sd_mu, function(s) rnorm(1, mu_mu, s))
       } else {
-        mu <- c_mean
+        mu <- mu_mu
       }
 
       # Generating data ........................................................

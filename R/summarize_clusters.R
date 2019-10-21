@@ -62,5 +62,14 @@ summarize_clusters <- function(data, print = TRUE) {
                                              out[[n]]$n_j)
         }
     }
-    if (!print) return(out)
+    if (print) {
+        collapsed_data <- lapply(data, function(x) do.call(rbind, x))
+        cli::cat_rule()
+        for (n in names(collapsed_data)) {
+            message("Summary statistics for all ", pluralize(n))
+            print(summary(collapsed_data[[n]][names(numeric_cols)]))
+        }
+    } else {
+        return(out)
+    }
 }
