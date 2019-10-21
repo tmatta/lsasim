@@ -621,6 +621,7 @@ for (r in seq_len(reps)) {
   df_stats <- anova_table(df, FALSE)
   rep_stats[r, ] <- unlist(df_stats)
   # TODO: check asymptotic distro of rho to adjust retrieval boundaries
+  # IDEA: It's probably F
   retrieved <- append(retrieved,
                       rho <= rep_stats[r, 9] + 2 * rep_stats[r, 10] &
                       rho >= rep_stats[r, 9] - 2 * rep_stats[r, 10])
@@ -642,7 +643,6 @@ test_that("Rho changes as expected", {
                     tol = .01)
 })
 test_that("Rho works for dataframes with three or more levels", {
-  # TODO: develop rho for 3+ levels
   set.seed(9621)
   df <- cluster_gen(c(5, 4, 50), rho = .7, verbose = FALSE)
   df_stats <- anova_table(df, FALSE)
@@ -682,4 +682,8 @@ test_that("Rho works for dataframes with three or more levels", {
 })
 test_that("Rho works for together questionnaires", {
   # TODO: develop rho control for !separate_questionnaires
+})
+test_that("Rho behaves properly with c_mean and c_sd", {
+  # DONE: develop rho control through c_mean
+  # TODO: develop rho control through c_sd
 })

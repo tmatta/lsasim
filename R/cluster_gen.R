@@ -34,18 +34,17 @@ cluster_gen <- function(
   n_X = NULL,
   n_W = NULL,
   # TODO: allow different proportions for Ws (pass cat_prop)
+  # TODO: pass cor_matrix to questionnaire_gen
   c_mean = NULL,
   separate_questionnaires = TRUE,
   collapse = "none",
   sum_pop = sapply(N, sum),
   calc_weights = TRUE,
   sampling_method = "mixed",
-  # TODO: Control over inter-class correlation (intra-class handled by quest_gen?). Add correlations (within, between).
-  # IDEA: add arguments for tau2 and sigma2
-  # IDEA: variance is given, user selects proportion of within and between (or rho) and data is generated form there
+  # TODO: Control over inter-class correlation (intra-class handled by quest_gen?).
   rho = NULL,
   sigma2 = NULL,
-  # TODO: merge sigma2 and c_sd?
+  # TODO: merge (rename?) sigma2 and c_sd?
   verbose = TRUE,
   print_pop_structure = verbose,
   ...
