@@ -77,5 +77,21 @@ summarize_clusters <- function(data, digits = 2, print = TRUE) {
                                              out[[n]]$n_j)
         }
     }
-    if (!print) return(out)
+    
+    # Printing aggregate level statistics or returning output ==================
+    if (print) {
+        collapsed_data <- lapply(data, function(x) do.call(rbind, x))
+        cli::cat_rule()
+        for (n in names(collapsed_data)) {
+            message("Summary statistics for all ", pluralize(n))
+            df <- collapsed_data[[n]][names(numeric_cols)]
+            print(summary(df))
+            cat("\n ")
+                stdevs <- sapply(df, sd)
+                cat(paste("Std.dv.:", round(stdevs, digits = digits),
+                          collapse = "   "), "\n")
+        }
+    } else {
+        return(out)
+    }
 }

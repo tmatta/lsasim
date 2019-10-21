@@ -108,6 +108,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       }
 
       # Generating data ........................................................
+      print(paste("mu =", mu, "sigma2 =", sigma2, "sd_X =", sd_X))#TEMP
       cluster_bg <- questionnaire_gen(
         n_resp, n_X = n_X[[l]], n_W = n_W[[l]], c_mean = mu, verbose = FALSE,
           c_sd = sd_X,...

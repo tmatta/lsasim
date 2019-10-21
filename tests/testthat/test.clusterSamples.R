@@ -697,10 +697,19 @@ test_that("c_means and rho work together", {
     anova_table(df, FALSE)$population_estimates$q1[3], rho, .1
   )
 })
+test_that("Rho behaves properly with c_sd", {
+  df <- cluster_gen(
+    n = c(40, 100), n_X = 1, n_W = 0,
+    c_mean = list(as.list(c(11:54))),
+    sigma2 = 5,
+    # c_sd = 5,
+    # c_sd = list(as.list(1:4)),
+    rho = .5,
+    verbose = FALSE
+  )
+  summarize_clusters(df)
+  anova_table(df)
+})
 test_that("Rho works for together questionnaires", {
   # TODO: develop rho control for !separate_questionnaires
-})
-test_that("Rho behaves properly with c_mean and c_sd", {
-  # DONE: develop rho control through c_mean
-  # TODO: develop rho control through c_sd
 })
