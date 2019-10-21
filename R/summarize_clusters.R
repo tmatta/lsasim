@@ -1,15 +1,25 @@
 #' @title Summarizes clusters
 #' @description Takes the output of `cluster_gen` and creates summary statistics of the questionnaire variables
 #' @param data output of `cluster_gen`
+#' @param digits controls the number of digits in the output (for `print = TRUE`)
 #' @param print if `TRUE`, pretty-print a summary of statistics; otherwise, output statistics that will be useful for `intraclass_cor`.
 #' @return list of summaries
 #' @export
-summarize_clusters <- function(data, print = TRUE) {
+summarize_clusters <- function(data, digits = 2, print = TRUE) {
     # Filtering out subject, ID and weight variables ===========================
-    data_names <- lapply(data, function(x) sapply(x[1], names))
     detect_data_cols <- function(x) {
         grep("subject|ID|weight", x, invert = TRUE)
     }
+    if (all(sapply(data, class) == "list")) {
+        # Data was generated with separate_questionnaires = TRUE
+        # data_names <- lapply(data, function(x) sapply(x[1], names))
+    } else {
+        # Data was generated with separate_questionnaires = FALSE
+        data_list <- list(data)  # makes it behave like separate = TRUE
+        names(data_list) <- names(data[1])
+        data <- data_list
+    }
+    data_names <- lapply(data, function(x) sapply(x[1], names))
     data_cols <- lapply(data_names, detect_data_cols)
 
     # Producing summary statistics =============================================
@@ -23,7 +33,12 @@ summarize_clusters <- function(data, print = TRUE) {
             factor_cols <- sapply(df, class) == "factor"
             if (print) {
                 message("Summary statistics for ", n, i)
-                print(summary(df))
+                print(summary(df, digits = digits))
+                cat("\n ")
+                stdevs <- sapply(df[numeric_cols], sd)
+                cat(paste("Std.dv.:", round(stdevs, digits = digits),
+                          collapse = "   "), "\n")
+                # TODO: align output of summary and sd
                 for (w in names(df[factor_cols])) {
                     message("Statistics per category of ", w)
                     w_lvls <- levels(df[, w])
@@ -62,14 +77,5 @@ summarize_clusters <- function(data, print = TRUE) {
                                              out[[n]]$n_j)
         }
     }
-    if (print) {
-        collapsed_data <- lapply(data, function(x) do.call(rbind, x))
-        cli::cat_rule()
-        for (n in names(collapsed_data)) {
-            message("Summary statistics for all ", pluralize(n))
-            print(summary(collapsed_data[[n]][names(numeric_cols)]))
-        }
-    } else {
-        return(out)
-    }
+    if (!print) return(out)
 }

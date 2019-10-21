@@ -4,10 +4,12 @@
 \alias{summarize_clusters}
 \title{Summarizes clusters}
 \usage{
-summarize_clusters(data, print = TRUE)
+summarize_clusters(data, digits = 2, print = TRUE)
 }
 \arguments{
 \item{data}{output of `cluster_gen`}
+
+\item{digits}{controls the number of digits in the output (for `print = TRUE`)}
 
 \item{print}{if `TRUE`, pretty-print a summary of statistics; otherwise, output statistics that will be useful for `intraclass_cor`.}
 }
