@@ -7,7 +7,7 @@
 #' @param stat statistic of interest to calculate (must be a base R function)
 #' @param vars vector containing the variables of interest
 #' @param full_output if `TRUE`, returns all intermediate objects created
-#' @param weight_var variances containing the weights
+#' @param weight_var variables containing the weights
 #' @details `data_rep` can be obtained from 
 #' @seealso jackknife brr
 #' @importFrom stats weighted.mean

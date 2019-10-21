@@ -16,7 +16,7 @@ brr(data, k = 0, pseudo_strata = ceiling(nrow(data)/2),
 
 \item{weight_cols}{vector of weight columns}
 
-\item{id_col}{number of column in dataset containing subject IDs}
+\item{id_col}{number of column in dataset containing subject IDs. Set 0 to use the row names as ID}
 
 \item{drop}{if `TRUE`, the observation that will not be part of the subsample is dropped from the dataset. Otherwise, it stays in the dataset but a new weight column is created to differentiate the selected observations}
 }
