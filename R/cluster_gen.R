@@ -10,6 +10,7 @@
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
+#' @param c_sd vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param rho estimated intraclass correlation
 #' @param sigma2 within-group variance
@@ -21,7 +22,7 @@
 #' `n` can have unitary length, in which case all clusters will have the same size.
 #' `N` is *not* the population size across all elements of a level, but the population size for each element of one level.
 #' Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
-#' @note For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, by default, countries are the nexting level, schools are the first cluster level, classes are the second, and students are the third and final level.
+#' @note For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, for example, schools are the first cluster level, classes are the second, and students are the third and final level. This behavior can be customized by naming the `n` argument or providing custom labels in `cluster_labels` and `resp_labels`.
 #'
 #' labeling c_mean has no effect, it's for the user.
 #' @seealso cluster_estimates cluster_gen_separate cluster_gen_together
@@ -36,6 +37,7 @@ cluster_gen <- function(
   # TODO: allow different proportions for Ws (pass cat_prop)
   # TODO: pass cor_matrix to questionnaire_gen
   c_mean = NULL,
+  c_sd = NULL,
   separate_questionnaires = TRUE,
   collapse = "none",
   sum_pop = sapply(N, sum),
@@ -205,7 +207,7 @@ cluster_gen <- function(
     sample <- cluster_gen_separate(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, verbose, rho, sigma2, ...
+      n_X, n_W, c_mean, c_sd, verbose, rho, sigma2, ...
     )
   } else { # questionnaires administered only at the bottom level
     # Message explaining cluster scheme ----------------------------------------
@@ -228,7 +230,7 @@ cluster_gen <- function(
     sample <- cluster_gen_together(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, verbose, ...
+      n_X, n_W, c_mean, c_sd, verbose, ...
     )
   }
 

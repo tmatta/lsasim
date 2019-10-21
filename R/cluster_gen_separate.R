@@ -12,6 +12,7 @@
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
+#' @param c_sd vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
 #' @param verbose if `TRUE`, prints output messages
 #' @param rho estimated intraclass correlation
 #' @param sigma2 within-group variance
@@ -21,12 +22,13 @@
 #' @export
 cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights, 
                                  sampling_method, cluster_labels, resp_labels,
-                                 collapse, n_X, n_W, c_mean, verbose, rho, sigma2, ...)
+                                 collapse, n_X, n_W, c_mean, c_sd, verbose, rho, sigma2, ...)
 {
   # Creating basic elements ====================================================
   out    <- list()  # actual output (differs from sample if collapse)
 	sample <- list()  # will store all BG questionnaires
   c_mean_list <- c_mean
+  c_sd_list <- c_sd
   n_quest <- sapply(n, sum)
   id_combos <- label_respondents(n, cluster_labels)
   missing_sigma2 <- is.null(sigma2)
@@ -35,6 +37,7 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
   for (l in seq(n_levels - 1)) {
     # Adapting additional parameters to questionnaire_gen format
     if (class(c_mean_list) == "list") c_mean <- c_mean_list[[l]]
+    if (class(c_sd_list) == "list") c_sd <- c_sd_list[[l]]
 
     # Defining labels and IDs for this cluster and the next one
     level_label <- cluster_labels[l]
@@ -74,9 +77,9 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       M <- sum(n_j)
       Nn <- length(n_j)
       s2 <- sigma2 * (M - Nn) / sum(n_j - 1)
-      sd <- sqrt(s2)
+      sd_X <- sqrt(s2)
     } else {
-      sd <- NULL
+      sd_X <- c_sd
     }
 
     
@@ -98,11 +101,16 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       } else {
         mu <- mu_mu
       }
+      if (!is.null(c_sd) & class(c_sd) == "list") {
+        sd_X <- c_sd[[lvl]]
+      } else {
+        sd_X <- c_sd
+      }
 
       # Generating data ........................................................
       cluster_bg <- questionnaire_gen(
         n_resp, n_X = n_X[[l]], n_W = n_W[[l]], c_mean = mu, verbose = FALSE,
-          c_sd = sd,...
+          c_sd = sd_X,...
       )
 
       # Adding weights .........................................................
