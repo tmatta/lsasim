@@ -13,7 +13,6 @@
 #' @param c_sd vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param rho estimated intraclass correlation
-#' @param sigma2 within-group variance
 #' @param verbose if `TRUE`, prints output messages
 #' @param print_pop_structure if `TRUE`, prints the population hierarchical structure (as long as it differs from the sample structure)
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
@@ -23,6 +22,7 @@
 #' `N` is *not* the population size across all elements of a level, but the population size for each element of one level.
 #' Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
 #' @note For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, for example, schools are the first cluster level, classes are the second, and students are the third and final level. This behavior can be customized by naming the `n` argument or providing custom labels in `cluster_labels` and `resp_labels`.
+#' #TODO: explain the danger of setting c_mean and rho (sigma2 may get really high)
 #'
 #' labeling c_mean has no effect, it's for the user.
 #' @seealso cluster_estimates cluster_gen_separate cluster_gen_together
@@ -45,8 +45,7 @@ cluster_gen <- function(
   sampling_method = "mixed",
   # TODO: Control over inter-class correlation (intra-class handled by quest_gen?).
   rho = NULL,
-  sigma2 = NULL,
-  # TODO: merge (rename?) sigma2 and c_sd?
+  # DONE: merge (rename?) sigma2 and c_sd?
   verbose = TRUE,
   print_pop_structure = verbose,
   ...
@@ -85,6 +84,10 @@ cluster_gen <- function(
     class(n) == "select" & class(N) == "select",
     "If n is select, N must be explicitly defined."
   )
+  # TODO: if rho is provided, c_sd can only be a scalar or a list (not a list of lists, i.e., the sd of all PSUs within a level must be the same)
+  # check_condition(
+  #   !is.null(rho) & all(sapply(c_sd, class) != "list")
+  # )
   check_condition(
     !is.null(rho) & !separate_questionnaires, #TEMP
     "Intraclass correlations not yet available for separate_questionnaires = FALSE"
@@ -98,7 +101,7 @@ cluster_gen <- function(
   class_n <- check_n_N_class(n)
   class_N <- check_n_N_class(N)
 
-  census <- TRUE  # used to decide wether to print the pop structure
+  census <- TRUE  # used to decide whether to print the pop structure or not
   if (class_N != "multiplier") {
     census <- FALSE
   } else {
@@ -207,7 +210,7 @@ cluster_gen <- function(
     sample <- cluster_gen_separate(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, c_sd, verbose, rho, sigma2, ...
+      n_X, n_W, c_mean, c_sd, verbose, rho, ...
     )
   } else { # questionnaires administered only at the bottom level
     # Message explaining cluster scheme ----------------------------------------

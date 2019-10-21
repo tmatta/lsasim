@@ -616,7 +616,7 @@ for (r in seq_len(reps)) {
   rho <- runif(1)
   df <- cluster_gen(c(rpois(1, 10), rpois(1, 100)), n_X = 2, n_W = 0,
                     rho = rho,
-                    sigma2 = rpois(1, 10),
+                    c_sd = rpois(1, 10),
                     verbose = FALSE)
   df_stats <- anova_table(df, FALSE)
   rep_stats[r, ] <- unlist(df_stats)
@@ -637,10 +637,11 @@ test_that("Observed rho is an unbiased estimator", {
 test_that("Rho changes as expected", {
   rho <- c(.9, .3, .2)
   set.seed(8141221)
-  df <- cluster_gen(c(20, 100), n_X = 3, rho = rho, verbose = FALSE)
+  df <- cluster_gen(c(40, 100), n_X = 3, n_W = 0, rho = rho, verbose = FALSE)
   df_stats <- anova_table(df, FALSE)
-  expect_equivalent(unlist(df_stats$population_estimates)[c(3, 7, 11)], rho,
-                    tol = .01)
+  expect_equivalent(
+    unlist(df_stats$population_estimates)[c(3, 7, 11)], rho, tol = .1
+  )
 })
 test_that("Rho works for dataframes with three or more levels", {
   set.seed(9621)
@@ -700,15 +701,14 @@ test_that("c_means and rho work together", {
 test_that("Rho behaves properly with c_sd", {
   df <- cluster_gen(
     n = c(40, 100), n_X = 1, n_W = 0,
-    c_mean = list(as.list(c(11:54))),
-    sigma2 = 5,
-    # c_sd = 5,
+    # c_mean = list(as.list(c(11:54))),
+    c_sd = 5,
     # c_sd = list(as.list(1:4)),
     rho = .5,
     verbose = FALSE
   )
-  summarize_clusters(df)
-  anova_table(df)
+  # summarize_clusters(df)
+  # anova_table(df)
 })
 test_that("Rho works for together questionnaires", {
   # TODO: develop rho control for !separate_questionnaires
