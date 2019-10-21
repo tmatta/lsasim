@@ -681,7 +681,8 @@ test_that("Rho works for dataframes with three or more levels", {
                     c(.1, .2, .3),
                     tol = .1)
 })
-test_that("c_means and rho work together", {
+
+test_that("c_mean and rho work together", {
   rho <- .3
   df <- cluster_gen(n = c(20, 200), n_X = 1, n_W = 0,
                     rho = rho, c_mean = 5, verbose = FALSE)
@@ -698,18 +699,45 @@ test_that("c_means and rho work together", {
     anova_table(df, FALSE)$population_estimates$q1[3], rho, .1
   )
 })
-test_that("Rho behaves properly with c_sd", {
-  df <- cluster_gen(
-    n = c(40, 100), n_X = 1, n_W = 0,
-    # c_mean = list(as.list(c(11:54))),
-    c_sd = 5,
-    # c_sd = list(as.list(1:4)),
+
+test_that("Rho behaves properly with c_sd and c_mean", {
+  expect_error(
+    cluster_gen(
+      n = c(40, 100), n_X = 1, n_W = 0,
+      c_sd = list(as.list(1:40)),
+      rho = .5,
+      verbose = FALSE
+    )
+  )
+  set.seed(9624063)
+  df2 <- cluster_gen(
+    n = c(5, 40, 100), n_X = 1, n_W = 0,
+    c_sd = list(5, 10),
     rho = .5,
     verbose = FALSE
   )
-  # summarize_clusters(df)
-  # anova_table(df)
+  df3 <- cluster_gen(
+    n = c(5, 40, 100), n_X = 1, n_W = 0,
+    c_mean = list(1, 7),
+    c_sd = list(3, 9),
+    rho = list(.2, .8),
+    verbose = FALSE
+  )
+  expect_equivalent(
+    anova_table(df2, print=FALSE)$school$sample_statistics[1], 25, 1
+  )
+  expect_equivalent(
+    anova_table(df2, print=FALSE)$class$sample_statistics[1], 100, 1
+  )
+  expect_equivalent(
+    anova_table(df3, print=FALSE)$school$sample_statistics[1], 9, 1
+  )
+  expect_equivalent(
+    anova_table(df3, print=FALSE)$class$sample_statistics[1], 64, 1
+  )
+  anova_table(df3, print=FALSE)
 })
+
 test_that("Rho works for together questionnaires", {
   # TODO: develop rho control for !separate_questionnaires
 })

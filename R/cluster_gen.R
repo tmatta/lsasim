@@ -84,10 +84,12 @@ cluster_gen <- function(
     class(n) == "select" & class(N) == "select",
     "If n is select, N must be explicitly defined."
   )
-  # TODO: if rho is provided, c_sd can only be a scalar or a list (not a list of lists, i.e., the sd of all PSUs within a level must be the same)
-  # check_condition(
-  #   !is.null(rho) & all(sapply(c_sd, class) != "list")
-  # )
+  # DONE: if rho is provided, c_sd can only be a scalar or a list (not a list of lists, i.e., the sd of all PSUs within a level must be the same)
+  check_condition(
+    !is.null(rho) & any(sapply(c_sd, class) == "list"),
+    paste("If rho is provided, c_sd must be the same for all PSUs in a level",
+          "(i.e., c_sd must not contain a list within a list)")
+  )
   check_condition(
     !is.null(rho) & !separate_questionnaires, #TEMP
     "Intraclass correlations not yet available for separate_questionnaires = FALSE"

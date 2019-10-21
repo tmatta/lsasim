@@ -72,7 +72,11 @@ cluster_gen_separate <- function(n_levels, n, N, sum_pop,  calc_weights,
       if (missing_sigma2) {
         sigma2 <- rchisq(n_X[[l]], 2)
       } else {
-        sigma2 <- c_sd[[l]] ^ 2
+        if (class(c_sd) == "list") {
+          sigma2 <- c_sd[[l]] ^ 2
+        } else {
+          sigma2 <- c_sd ^ 2
+        }
       }
       tau2 <- rho[[l]] * sigma2 / (1 - rho[[l]])
 
