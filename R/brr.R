@@ -2,6 +2,8 @@
 #' @param data dataset
 #' @param k deflating weight factor. \eqn{0 \leq k \leq 1}.
 #' @param pseudo_strata number of pseudo-strata
+#' @param reps number of replicates
+#' @param max_reps maximum number of replicates (only functional if `reps = NULL`)
 #' @param weight_cols vector of weight columns
 #' @param drop if `TRUE`, the observation that will not be part of the subsample is dropped from the dataset. Otherwise, it stays in the dataset but a new weight column is created to differentiate the selected observations
 #' @param id_col number of column in dataset containing subject IDs. Set 0 to use the row names as ID
@@ -13,6 +15,7 @@
 #' Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.
 #' @export
 brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
+                reps = NULL, max_reps = 80,
                 weight_cols = "none", id_col = 1, drop = TRUE) {
     # Verification =============================================================
     check_condition(k < 0 | k > 1, "k must be between 0 and 1")
@@ -40,9 +43,14 @@ brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
     }
 
     # Determining the number of replicates =====================================
-    total_replicates <- 4
-    for (r in seq_len(pseudo_strata)) {
-        if (r %% 4 == 0) total_replicates <- total_replicates + 4
+    if (is.null(reps)) { 
+        total_replicates <- 4
+        for (r in seq_len(pseudo_strata)) {
+            if (r %% 4 == 0) total_replicates <- total_replicates + 4
+        }
+        total_replicates <- min(total_replicates, max_reps)
+    } else {
+        total_replicates <- reps
     }
 
     # Associating data to pseudo-strata ========================================
