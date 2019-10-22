@@ -12,6 +12,7 @@
 #' @note PISA uses the BRR Fay method with \eqn{k = 0.5}.
 #' @references 
 #' OECD (2015). Pisa Data Analysis Manual.
+#' Adams, R., & Wu, M. (2002). PISA 2000 Technical Report. Paris: Organisation for Economic Co-operation and Development (OECD).
 #' Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.
 #' @export
 brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
@@ -54,21 +55,46 @@ brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
     }
 
     # Associating data to pseudo-strata ========================================
-    data$pseudo_stratum <- rep(seq_len(pseudo_strata), each = 2)[1:nrow(data)]
-    # TODO: improve handling of odd-numbered datasets (don't always include the last one!)
+    if (nrow(data) %% 2 == 0) {
+        expanded_pseudo_strata <- rep(seq_len(pseudo_strata), each = 2)
+        data$pseudo_stratum <- expanded_pseudo_strata
+    } else {
+        pseudo_strata <- pseudo_strata - 1
+        if (pseudo_strata == 0) {
+            data$pseudo_stratum <- 1
+            pseudo_strata <- 1
+        } else {   
+            expanded_pseudo_strata <- rep(seq_len(pseudo_strata), each = 2)
+            data$pseudo_stratum <- c(expanded_pseudo_strata, pseudo_strata)
+        }
+    }
 
     # Generating replicates ====================================================
     R <- list()  # will restore replicate data
     for (rep in seq_len(total_replicates)) {
         replicate <- data
-        if (!drop) replicate$replicate_weight <- 2 - k
+        # if (!drop) replicate$replicate_weight <- 2 - k
         for (p in seq_len(pseudo_strata)) {
             data_pseudo_stratum <- data[data$pseudo_stratum == p, ]
             chosen_one <- sample(data_pseudo_stratum[, id_col], size = 1)
             if (drop) {
                 replicate <- replicate[replicate[id_col] != chosen_one, ]
             } else {
-                replicate$replicate_weight[replicate[id_col] == chosen_one] <- k
+                group_size <- nrow(data_pseudo_stratum)
+                chosen_row <- replicate["pseudo_stratum"] == p &
+                    replicate[id_col] == chosen_one
+                not_chosen_row <- replicate["pseudo_stratum"] == p &
+                    replicate[id_col] != chosen_one
+                if (group_size == 3) {
+                    adjusted_k <- 1 - (-1 / 2 / sqrt(2))
+                    replicate$replicate_weight[chosen_row] <- 3 - adjusted_k * 2
+                    replicate$replicate_weight[not_chosen_row] <- adjusted_k
+                } else if (group_size == 2) {
+                    replicate$replicate_weight[chosen_row] <- k
+                    replicate$replicate_weight[not_chosen_row] <- 2 - k
+                } else if (group_size == 1) {
+                    replicate$replicate_weight[chosen_row] <- 2 - k
+                }
             }
         }
         if (weight_cols[1] != "none") {

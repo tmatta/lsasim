@@ -596,7 +596,7 @@ test_that("Replication weights are correct", {
   expect_equivalent(mean(unlist(sampling_variance(w, "BRR"))), 0.2, .1)
   expect_equivalent(mean(unlist(sampling_variance(w, "BRR Fay"))), 0.2, .1)
   expect_equal(mean(unlist(sampling_variance(x, "Jackknife"))), NaN)
-  expect_equal(mean(unlist(sampling_variance(x, "BRR"))), NaN)
+  expect_equal(mean(unlist(sampling_variance(x, "BRR"))), .3, .1)
   expect_equivalent(mean(unlist(sampling_variance(x, "BRR Fay"))), 0.3, .1)
   expect_equivalent(mean(unlist(sampling_variance(y, "Jackknife"))), 0.1, .1)
   expect_equivalent(mean(unlist(sampling_variance(y, "BRR"))), 0.1, .1)
