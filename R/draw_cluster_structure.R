@@ -88,8 +88,13 @@ draw_cluster_structure <- function(
     if (output == "tree") {
       print(cli::tree(data.frame(toplvl_tree, parenthesis), root = toplvl))
     } else if (output == "text") {
-      out <- append(out, as.character(cli::tree(data.frame(toplvl_tree, parenthesis), root = toplvl)))
+      out <- append(
+        out,
+        as.character(
+          cli::tree(data.frame(toplvl_tree, parenthesis), root = toplvl)
+        )
+      )
     }
   }
-  return(out)
+  if (output == "text") return(out)
 }
