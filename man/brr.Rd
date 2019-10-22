@@ -4,8 +4,8 @@
 \alias{brr}
 \title{Generate replicates of a dataset using Balanced Repeated Replication}
 \usage{
-brr(data, k = 0, pseudo_strata = ceiling(nrow(data)/2),
-  weight_cols = "none", id_col = 1, drop = TRUE)
+brr(data, k = 0, pseudo_strata = ceiling(nrow(data)/2), reps = NULL,
+  max_reps = 80, weight_cols = "none", id_col = 1, drop = TRUE)
 }
 \arguments{
 \item{data}{dataset}
@@ -13,6 +13,10 @@ brr(data, k = 0, pseudo_strata = ceiling(nrow(data)/2),
 \item{k}{deflating weight factor. \eqn{0 \leq k \leq 1}.}
 
 \item{pseudo_strata}{number of pseudo-strata}
+
+\item{reps}{number of replicates}
+
+\item{max_reps}{maximum number of replicates (only functional if `reps = NULL`)}
 
 \item{weight_cols}{vector of weight columns}
 
@@ -31,6 +35,7 @@ PISA uses the BRR Fay method with \eqn{k = 0.5}.
 }
 \references{
 OECD (2015). Pisa Data Analysis Manual.
+Adams, R., & Wu, M. (2002). PISA 2000 Technical Report. Paris: Organisation for Economic Co-operation and Development (OECD).
 Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.
 }
 \seealso{
