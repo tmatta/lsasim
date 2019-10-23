@@ -51,6 +51,7 @@ sampling_variance <- function(data, method, k = .5) {
                 rep_stats <- replicate_var(data_whole = bg,
                                            data_rep   = replicates,
                                            method     = "BRR",
+                                           k          = 0,
                                            weight_var = "replicate_weight",
                                            vars       = data_cols,
                                            full_output = TRUE)

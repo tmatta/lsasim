@@ -83,7 +83,7 @@ replicate_var <- function(data_whole, data_rep, method, k = .5,
     theta_rep <- t(sapply(numeric_data$rep, statistic_rep))
 
     # Defining variance multiplier =============================================
-    G <- nrow(theta_rep)  # number of reps
+    G <- ifelse(nrow(theta_rep) > 1, nrow(theta_rep), length(theta_rep)) # n_rep
     if (method %in% c("Jackknife", "jackknife")) {
         multiplier <- (G - 1) / G
     } else if (method == "BRR") {
@@ -99,7 +99,7 @@ replicate_var <- function(data_whole, data_rep, method, k = .5,
     for (col in numeric_cols$whole) {
 
         # Retrieving theta_i from theta_rep ------------------------------------
-        if (G == 1) {
+        if (nrow(theta_rep) == 1) {
             theta_i <- theta_rep
         } else {
             theta_i <- theta_rep[, col]
