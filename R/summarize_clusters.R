@@ -34,14 +34,20 @@ summarize_clusters <- function(data, digits = 2, print = "all") {
             factor_cols <- sapply(df, class) == "factor"
             if (print == "all") {
                 message("Summary statistics for ", n, i)
-                print(summary(df, digits = digits))
-                cat("\n ")
+                # browser()#TEMP
+                df_summary <- summary(df, digits = digits)
+                # TODO: move addition of stdev and removal of Q1, Q2 Q3 to fun
                 stdevs <- sapply(df[numeric_cols], sd)
-                cat(paste("Std.dv.:", round(stdevs, digits = digits),
-                          collapse = "   "), "\n")
-                # TODO: align output of summary and sd
+                stdevs_txt <- c(
+                    paste("Stddev.:", round(stdevs, digits = digits)),
+                    rep("", sum(factor_cols))
+                )
+                df_table <- rbind(df_summary, stdevs_txt)
+                rownames(df_table)[7] <- ""
+                print(as.table(df_table))
+                # DONE: align output of summary and sd
                 for (w in names(df[factor_cols])) {
-                    message("Statistics per category of ", w)
+                    message("\nStatistics per category of ", w)
                     w_lvls <- levels(df[, w])
                     x_names <- names(numeric_cols[numeric_cols])
                     stats <- lapply(
@@ -53,6 +59,7 @@ summarize_clusters <- function(data, digits = 2, print = "all") {
                     colnames(stats_binded) <- paste(x_names, rep(names(stats), each = length(x_names)), sep = " for ")
                     stats_binded <- stats_binded[, sort(colnames(stats_binded))]
                     stats_table <- as.table(stats_binded)
+                    # TODO: call fun to calc SD 
                     print(stats_table)
                 }
                 cli::cat_rule()
@@ -92,10 +99,7 @@ summarize_clusters <- function(data, digits = 2, print = "all") {
             message("Summary statistics for all ", pluralize(n))
             df <- collapsed_data[[n]][names(numeric_cols)]
             print(summary(df))
-            cat("\n ")
-                stdevs <- sapply(df, sd)
-                cat(paste("Std.dv.:", round(stdevs, digits = digits),
-                          collapse = "   "), "\n")
+            # TODO: call fun to calc SD 
         }
     } else {
         return(out)
