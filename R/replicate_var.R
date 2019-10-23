@@ -12,7 +12,7 @@
 #' @seealso jackknife brr
 #' @importFrom stats weighted.mean
 #' @export
-replicate_var <- function(data_whole, data_rep, method, k = .5,
+replicate_var <- function(data_whole, data_rep, method, k = 0,
                           weight_var = NULL,
                           stat = weighted.mean, vars = NULL,
                           full_output = FALSE) {
@@ -20,6 +20,9 @@ replicate_var <- function(data_whole, data_rep, method, k = .5,
     if (k < 0 | k > 1) stop("k must be between 0 and 1")
     if (method != "BRR Fay" & k != .5 & k != 0) {
         warning(method, " ignores k. Use 'BRR Fay' instead.")
+    }
+    if (method == "BRR Fay" & k == 0) {
+        k <- .5
     }
     if (missing(data_rep) & class(data_whole) == "list") {
         stop("If data_rep is missing, ",
