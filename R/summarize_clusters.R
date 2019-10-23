@@ -30,41 +30,33 @@ summarize_clusters <- function(data, digits = 2, print = "all") {
 
             ## Calculating simple statistics for a cluster element i -----------
             df <- data[[n]][[i]][data_cols[[n]]]
-            numeric_cols <- sapply(df, class) == "numeric"
-            factor_cols <- sapply(df, class) == "factor"
+            x_cols <- sapply(df, class) == "numeric"
+            w_cols <- sapply(df, class) == "factor"
             if (print == "all") {
                 message("Summary statistics for ", n, i)
-                # browser()#TEMP
                 df_summary <- summary(df, digits = digits)
-                # TODO: move addition of stdev and removal of Q1, Q2 Q3 to fun
-                stdevs <- sapply(df[numeric_cols], sd)
-                stdevs_txt <- c(
-                    paste("Stddev.:", round(stdevs, digits = digits)),
-                    rep("", sum(factor_cols))
-                )
-                df_table <- rbind(df_summary, stdevs_txt)
-                rownames(df_table)[7] <- ""
-                print(as.table(df_table))
+                df_table <- customize_summary(df_summary, df, x_cols, w_cols)
+                print(df_table)
                 # DONE: align output of summary and sd
-                for (w in names(df[factor_cols])) {
+                for (w in names(df[w_cols])) {
                     message("\nStatistics per category of ", w)
                     w_lvls <- levels(df[, w])
-                    x_names <- names(numeric_cols[numeric_cols])
+                    x_names <- names(x_cols[x_cols])
                     stats <- lapply(
                         w_lvls,
-                        function(l) summary(df[df[, w] == l, numeric_cols])
+                        function(l) summary(df[df[, w] == l, x_cols])
                     )
                     names(stats) <- paste0(w, ".", w_lvls)
                     stats_binded <- do.call(cbind, stats)
                     colnames(stats_binded) <- paste(x_names, rep(names(stats), each = length(x_names)), sep = " for ")
                     stats_binded <- stats_binded[, sort(colnames(stats_binded))]
+                    # TODO: call customize_summary()
                     stats_table <- as.table(stats_binded)
-                    # TODO: call fun to calc SD 
                     print(stats_table)
                 }
                 cli::cat_rule()
             } else {
-                df_X <- df[numeric_cols]
+                df_X <- df[x_cols]
                 out[[n]]$y_bar_j <- rbind(out[[n]]$y_bar_j, colMeans(df_X))
                 out[[n]]$n_j <- rbind(out[[n]]$n_j, nrow(df_X))
                 out[[n]]$s2_j <- rbind(out[[n]]$s2_j, apply(df_X, 2, stats::var))
@@ -97,9 +89,10 @@ summarize_clusters <- function(data, digits = 2, print = "all") {
         cli::cat_rule()
         for (n in names(collapsed_data)) {
             message("Summary statistics for all ", pluralize(n))
-            df <- collapsed_data[[n]][names(numeric_cols)]
-            print(summary(df))
-            # TODO: call fun to calc SD 
+            df <- collapsed_data[[n]][names(x_cols)]
+            df_summary <- summary(df)
+            df_table <- customize_summary(df_summary, df, x_cols, w_cols)
+            print(df_table)
         }
     } else {
         return(out)
