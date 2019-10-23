@@ -6,7 +6,6 @@ customize_summary <- function(df_summary, df, numeric_cols, factor_cols) {
     stdevs_txt <- c(
         paste("Stddev.:", round(stdevs, 2)), rep("", sum(factor_cols))
     )
-    # browser()#TEMP
     df_table <- rbind(df_summary, stdevs_txt)
     rownames(df_table)[7] <- ""
     # TODO: remove quantiles

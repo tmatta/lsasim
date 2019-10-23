@@ -36,8 +36,9 @@ cluster_gen <- function(
   n_W = NULL,
   # TODO: allow different proportions for Ws (pass cat_prop)
   # TODO: pass cor_matrix to questionnaire_gen
-  c_mean = NULL,
-  c_sd = NULL,
+  c_mean = NULL, # TODO: document about this being the grand mean if it's scalar
+  c_sd = NULL, #TODO: rename to sigma
+  # TODO: documet change in meaning from within-class variance to grand var
   separate_questionnaires = TRUE,
   collapse = "none",
   sum_pop = sapply(N, sum),
@@ -45,7 +46,6 @@ cluster_gen <- function(
   sampling_method = "mixed",
   # TODO: Control over inter-class correlation (intra-class handled by quest_gen?).
   rho = NULL,
-  # DONE: merge (rename?) sigma2 and c_sd?
   verbose = TRUE,
   print_pop_structure = verbose,
   ...
@@ -84,7 +84,6 @@ cluster_gen <- function(
     class(n) == "select" & class(N) == "select",
     "If n is select, N must be explicitly defined."
   )
-  # DONE: if rho is provided, c_sd can only be a scalar or a list (not a list of lists, i.e., the sd of all PSUs within a level must be the same)
   check_condition(
     !is.null(rho) & any(sapply(c_sd, class) == "list"),
     paste("If rho is provided, c_sd must be the same for all PSUs in a level",

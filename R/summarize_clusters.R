@@ -37,7 +37,6 @@ summarize_clusters <- function(data, digits = 2, print = "all") {
                 df_summary <- summary(df, digits = digits)
                 df_table <- customize_summary(df_summary, df, x_cols, w_cols)
                 print(df_table)
-                # DONE: align output of summary and sd
                 for (w in names(df[w_cols])) {
                     message("\nStatistics per category of ", w)
                     w_lvls <- levels(df[, w])
