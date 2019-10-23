@@ -686,7 +686,7 @@ test_that("c_mean and rho work together", {
   rho <- .3
   df <- cluster_gen(n = c(20, 200), n_X = 1, n_W = 0,
                     rho = rho, c_mean = 5, verbose = FALSE)
-  expect_equivalent(summarize_clusters(df, print = FALSE)$school$y_bar, 5, .1)
+  expect_equivalent(summarize_clusters(df, print = "none")$school$y_bar, 5, .1)
   expect_equivalent(
     anova_table(df, print = FALSE)$population_estimates$q1[3], rho, .1
   )
