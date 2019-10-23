@@ -6,7 +6,7 @@
 #' @export
 anova_table <- function(data, print = TRUE) {
     # Create summary statistics ================================================
-    data_summary <- summarize_clusters(data, print = FALSE)
+    data_summary <- summarize_clusters(data, print = "none")
 
     # Create other relevant input ==============================================
     out_complete <- list()

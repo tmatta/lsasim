@@ -2,10 +2,11 @@
 #' @description Takes the output of `cluster_gen` and creates summary statistics of the questionnaire variables
 #' @param data output of `cluster_gen`
 #' @param digits controls the number of digits in the output (for `print = TRUE`)
-#' @param print if `TRUE`, pretty-print a summary of statistics; otherwise, output statistics that will be useful for `intraclass_cor`.
+#' @param print "all" will pretty-print a summary of statistics, "partial" will only print cluster-level sumamrizes; "none" outputs statistics as a list
 #' @return list of summaries
+#' @seealso anova_table
 #' @export
-summarize_clusters <- function(data, digits = 2, print = TRUE) {
+summarize_clusters <- function(data, digits = 2, print = "all") {
     # Filtering out subject, ID and weight variables ===========================
     detect_data_cols <- function(x) {
         grep("subject|ID|weight", x, invert = TRUE)
@@ -31,7 +32,7 @@ summarize_clusters <- function(data, digits = 2, print = TRUE) {
             df <- data[[n]][[i]][data_cols[[n]]]
             numeric_cols <- sapply(df, class) == "numeric"
             factor_cols <- sapply(df, class) == "factor"
-            if (print) {
+            if (print == "all") {
                 message("Summary statistics for ", n, i)
                 print(summary(df, digits = digits))
                 cat("\n ")
@@ -59,7 +60,7 @@ summarize_clusters <- function(data, digits = 2, print = TRUE) {
         }
 
         ## Calculating summary statistics for cluster group n ------------------
-        if (!print) {
+        if (print == "none") {
             out[[n]]$y_bar <- apply(
                 X      = out[[n]]$y_bar_j,
                 MARGIN = 2, 
@@ -79,7 +80,7 @@ summarize_clusters <- function(data, digits = 2, print = TRUE) {
     }
     
     # Printing aggregate level statistics or returning output ==================
-    if (print) {
+    if (print != "none") {
         collapsed_data <- lapply(data, function(x) do.call(rbind, x))
         cli::cat_rule()
         for (n in names(collapsed_data)) {
