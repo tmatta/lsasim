@@ -15,8 +15,8 @@
 sampling_variance <- function(data, method, k = .5) {
     # Verification =============================================================
     if (k < 0 | k > 1) stop ("k must be between 0 and 1")
-    if (method == "BRR" & k != .5 & k != 0) {
-        warning("BRR ignores k. Use 'BRR Fay' instead.")
+    if (method != "BRR Fay" & k != .5 & k != 0) {
+        warning(method, " ignores k. Use 'BRR Fay' instead.")
     }
     
     # Basic variable creation ==================================================
@@ -40,33 +40,22 @@ sampling_variance <- function(data, method, k = .5) {
             # Calculating replicate weights ------------------------------------
             if (method == "Jackknife") {
                 replicates <- jackknife(bg, drop = FALSE)
-                rep_stats <- replicate_var(data_whole = bg,
-                                           data_rep   = replicates,
-                                           method     = "Jackknife",
-                                           weight_var = "replicate_weight",
-                                           vars       = data_cols,
-                                           full_output = TRUE)
+                k <- 0
             } else if (method == "BRR") {
                 replicates <- brr(bg, drop = FALSE)
-                rep_stats <- replicate_var(data_whole = bg,
-                                           data_rep   = replicates,
-                                           method     = "BRR",
-                                           k          = 0,
-                                           weight_var = "replicate_weight",
-                                           vars       = data_cols,
-                                           full_output = TRUE)
+                k <- 0
             } else if (method == "BRR Fay") {
                 replicates <- brr(bg, k, drop = FALSE)
-                rep_stats <- replicate_var(data_whole = bg,
-                                           data_rep   = replicates,
-                                           method     = "BRR Fay",
-                                           k          = k,
-                                           weight_var = "replicate_weight",
-                                           vars       = data_cols,
-                                           full_output = TRUE)
             } else {
                 stop("Invalid replication method.")
             }
+            rep_stats <- replicate_var(data_whole = bg,
+                data_rep   = replicates,
+                method     = method,
+                k          = k,
+                weight_var = "replicate_weight",
+                vars       = data_cols,
+                full_output = TRUE)
 
             # Organizing statistics --------------------------------------------
             means <- rep_stats$theta_whole
