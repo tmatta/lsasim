@@ -43,12 +43,17 @@ summarize_clusters <- function(data, digits = 2, print = "all") {
                 for (w in names(df[factor_cols])) {
                     message("Statistics per category of ", w)
                     w_lvls <- levels(df[, w])
-                    stats <- sapply(
+                    x_names <- names(numeric_cols[numeric_cols])
+                    stats <- lapply(
                         w_lvls,
                         function(l) summary(df[df[, w] == l, numeric_cols])
                     )
-                    colnames(stats) <- paste0(w, ".", w_lvls)
-                    print(stats)
+                    names(stats) <- paste0(w, ".", w_lvls)
+                    stats_binded <- do.call(cbind, stats)
+                    colnames(stats_binded) <- paste(x_names, rep(names(stats), each = length(x_names)), sep = " for ")
+                    stats_binded <- stats_binded[, sort(colnames(stats_binded))]
+                    stats_table <- as.table(stats_binded)
+                    print(stats_table)
                 }
                 cli::cat_rule()
             } else {
