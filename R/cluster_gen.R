@@ -10,7 +10,7 @@
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
-#' @param c_sd vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
+#' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param rho estimated intraclass correlation
 #' @param verbose if `TRUE`, prints output messages
@@ -37,7 +37,7 @@ cluster_gen <- function(
   # TODO: allow different proportions for Ws (pass cat_prop)
   # TODO: pass cor_matrix to questionnaire_gen
   c_mean = NULL, # TODO: document about this being the grand mean if it's scalar
-  c_sd = NULL, #TODO: rename to sigma
+  sigma = NULL, #TODO: rename to sigma
   # TODO: documet change in meaning from within-class variance to grand var
   separate_questionnaires = TRUE,
   collapse = "none",
@@ -85,9 +85,9 @@ cluster_gen <- function(
     "If n is select, N must be explicitly defined."
   )
   check_condition(
-    !is.null(rho) & any(sapply(c_sd, class) == "list"),
-    paste("If rho is provided, c_sd must be the same for all PSUs in a level",
-          "(i.e., c_sd must not contain a list within a list)")
+    !is.null(rho) & any(sapply(sigma, class) == "list"),
+    paste("If rho is provided, sigma must be the same for all PSUs in a level",
+          "(i.e., sigma must not contain a list within a list)")
   )
   check_condition(
     !is.null(rho) & !separate_questionnaires, #TEMP
@@ -211,7 +211,7 @@ cluster_gen <- function(
     sample <- cluster_gen_separate(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, c_sd, verbose, rho, ...
+      n_X, n_W, c_mean, sigma, verbose, rho, ...
     )
   } else { # questionnaires administered only at the bottom level
     # Message explaining cluster scheme ----------------------------------------
@@ -234,7 +234,7 @@ cluster_gen <- function(
     sample <- cluster_gen_together(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, c_sd, verbose, ...
+      n_X, n_W, c_mean, sigma, verbose, ...
     )
   }
 
