@@ -12,24 +12,24 @@
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
-#' @param c_sd vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
+#' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
 #' @seealso cluster_gen cluster_gen_separate cluster_gen_together
 #' @param verbose if `TRUE`, prints output messages
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @export
-cluster_gen_together <- function(n_levels, n, N, sum_pop, calc_weights, 
-                                 sampling_method, cluster_labels, resp_labels,
-                                 collapse, n_X, n_W, c_mean, c_sd, verbose, ...)
-{
+cluster_gen_together <- function(
+  n_levels, n, N, sum_pop, calc_weights, sampling_method, cluster_labels,
+  resp_labels, collapse, n_X, n_W, c_mean, sigma, rho, verbose, ...
+) {
   # Creating basic elements ----------------------------------------------------
 	sample <- list()  # will store all BG questionnaires
   c_mean_list <- c_mean
   if (class(c_mean_list) == "list") {
     c_mean_list <- c_mean_list[[n_levels - 1]]
   }
-  c_sd_list <- c_sd
-  if (class(c_sd_list) == "list") {
-    c_sd_list <- c_sd_list[[n_levels - 1]]
+  sigma_list <- sigma
+  if (class(sigma_list) == "list") {
+    sigma_list <- sigma_list[[n_levels - 1]]
   }
   id_combos <- label_respondents(n, cluster_labels)  # level label combinations
   num_questionnaires <- nrow(id_combos)
@@ -43,10 +43,10 @@ cluster_gen_together <- function(n_levels, n, N, sum_pop, calc_weights,
     } else {
       mu <- c_mean_list
     }
-    if (!is.null(c_sd_list) & class(c_sd_list) == "list") {
-      sd_X <- c_sd_list[[l]]
+    if (!is.null(sigma_list) & class(sigma_list) == "list") {
+      sd_X <- sigma_list[[l]]
     } else {
-      sd_X <- c_sd_list
+      sd_X <- sigma_list
     }
     cluster_bg <- questionnaire_gen(
       respondents, n_X = n_X, n_W = n_W, c_mean = mu, c_sd = sd_X,

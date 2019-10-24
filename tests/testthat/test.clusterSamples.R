@@ -616,7 +616,7 @@ for (r in seq_len(reps)) {
   rho <- runif(1)
   df <- cluster_gen(c(rpois(1, 10), rpois(1, 100)), n_X = 2, n_W = 0,
                     rho = rho,
-                    c_sd = rpois(1, 10),
+                    sigma = rpois(1, 10),
                     verbose = FALSE)
   df_stats <- anova_table(df, FALSE)
   rep_stats[r, ] <- unlist(df_stats)
@@ -700,11 +700,11 @@ test_that("c_mean and rho work together", {
   )
 })
 
-test_that("Rho behaves properly with c_sd and c_mean", {
+test_that("Rho behaves properly with sigma and c_mean", {
   expect_error(
     cluster_gen(
       n = c(40, 100), n_X = 1, n_W = 0,
-      c_sd = list(as.list(1:40)),
+      sigma = list(as.list(1:40)),
       rho = .5,
       verbose = FALSE
     )
@@ -712,14 +712,14 @@ test_that("Rho behaves properly with c_sd and c_mean", {
   set.seed(9624063)
   df2 <- cluster_gen(
     n = c(5, 40, 100), n_X = 1, n_W = 0,
-    c_sd = list(5, 10),
+    sigma = list(5, 10),
     rho = .5,
     verbose = FALSE
   )
   df3 <- cluster_gen(
     n = c(5, 40, 100), n_X = 1, n_W = 0,
     c_mean = list(1, 7),
-    c_sd = list(3, 9),
+    sigma = list(3, 9),
     rho = list(.2, .8),
     verbose = FALSE
   )
