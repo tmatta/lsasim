@@ -66,6 +66,11 @@ cluster_gen <- function(
     !separate_questionnaires & length(n_W) > 1,
     "Unique questionnaire requested. n_W must therefore be a scalar or a list."
   )
+  check_condition(
+    !separate_questionnaires & 
+      (class(rho) == "list" | class(c_mean) == "list" | class(sigma) == "list"),
+    "Unique questionnaire requested. rho, c_mean and c_sd must not be lists."
+  )
   check_condition(length(n) == 1, "n must have length longer than 1")
   check_condition(
     length(n) > length(cluster_labels) + 1 & !is.null(cluster_labels),
@@ -88,10 +93,6 @@ cluster_gen <- function(
     !is.null(rho) & any(sapply(sigma, class) == "list"),
     paste("If rho is provided, sigma must be the same for all PSUs in a level",
           "(i.e., sigma must not contain a list within a list)")
-  )
-  check_condition(
-    !is.null(rho) & !separate_questionnaires, #TEMP
-    "Intraclass correlations not yet available for separate_questionnaires = FALSE"
   )
 
   # Attributing labels =========================================================
@@ -211,7 +212,7 @@ cluster_gen <- function(
     sample <- cluster_gen_separate(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, sigma, verbose, rho, ...
+      n_X, n_W, c_mean, sigma, rho, verbose, ...
     )
   } else { # questionnaires administered only at the bottom level
     # Message explaining cluster scheme ----------------------------------------
@@ -234,7 +235,7 @@ cluster_gen <- function(
     sample <- cluster_gen_together(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, sigma, verbose, ...
+      n_X, n_W, c_mean, sigma, rho, verbose, ...
     )
   }
 
