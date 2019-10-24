@@ -7,6 +7,12 @@
 #' @seealso anova_table
 #' @export
 summarize_clusters <- function(data, digits = 2, print = "all") {
+    # Wrap data in a list (for !separate_questionnaires) =======================
+    if (all(sapply(data, class) != "list")) {
+        data <- list(data)
+        names(data) <- gsub("[0-9]", "", names(data[[1]])[1])
+    }
+    
     # Filtering out subject, ID and weight variables ===========================
     detect_data_cols <- function(x) {
         grep("subject|ID|weight", x, invert = TRUE)

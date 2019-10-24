@@ -27,6 +27,7 @@ cluster_gen_together <- function(
   if (class(c_mean_list) == "list") {
     c_mean_list <- c_mean_list[[n_levels - 1]]
   }
+  missing_sigma2 <- is.null(sigma)
   sigma_list <- sigma
   if (class(sigma_list) == "list") {
     sigma_list <- sigma_list[[n_levels - 1]]
@@ -34,20 +35,59 @@ cluster_gen_together <- function(
   id_combos <- label_respondents(n, cluster_labels)  # level label combinations
   num_questionnaires <- nrow(id_combos)
 
+  ## Defining parameters for intraclass correlations -------------------------
+  if (!is.null(rho)) {
+
+    ### Expanding rho to n_level width .......................................
+    # if (class(rho) != "list") rho <- replicate(n_levels, list(rho))
+    if (length(rho) == 1) rho <- rep(rho, n_X)
+    
+    ### Defining sigma2 and tau2 .............................................
+    if (missing_sigma2) {
+      sigma2 <- rchisq(n_X, 2)
+    } else {
+      sigma2 <- sigma ^ 2
+    }
+    tau2 <- rho * sigma2 / (1 - rho)
+
+    ### Defining the group correlations (s2_j == s2 for all j) ...............
+    n_j <- n[[n_levels]]
+    M <- sum(n_j)
+    Nn <- length(n_j)
+    s2 <- sigma2 * (M - Nn) / sum(n_j - 1)
+  }  
+
   # Generating questionnaire data for lowest level -----------------------------
   for (l in seq(num_questionnaires)) {
     respondents <- n[[n_levels]][l]
-    mu <- NULL
     if (!is.null(c_mean_list) & class(c_mean_list) == "list") {
-      mu <- c_mean_list[[l]]
+      mu_mu <- c_mean_list[[l]]
     } else {
-      mu <- c_mean_list
+      mu_mu <- c_mean_list
     }
-    if (!is.null(sigma_list) & class(sigma_list) == "list") {
-      sd_X <- sigma_list[[l]]
+
+    if (!is.null(rho)) {
+      sd_X <- sqrt(s2)  # same sd for all PSUs if rho is present
+    } else if (!is.null(sigma_list) & class(sigma_list) == "list") {
+      sd_X <- sigma_list
     } else {
       sd_X <- sigma_list
     }
+
+    ## Recalculating mu to fit rho ---------------------------------------------
+    if (all(!is.null(rho))) {
+      sd_mu <- sqrt(tau2 + sigma2 / n_j[l])
+      if (is.null(mu_mu)) mu_mu <- rep(0, length(sd_mu))
+      mu <- NULL
+      # browser()#TEMP
+      for (s in seq_along(sd_mu)) {
+        mu <- append(mu, rnorm(1, mu_mu[s], sd_mu[s]))
+      }
+    } else {
+      mu <- mu_mu
+    }
+    
+    ## Generating data ---------------------------------------------------------
     cluster_bg <- questionnaire_gen(
       respondents, n_X = n_X, n_W = n_W, c_mean = mu, c_sd = sd_X,
       verbose = FALSE,...

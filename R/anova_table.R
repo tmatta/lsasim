@@ -5,6 +5,12 @@
 #' @return Printed ANOVA table
 #' @export
 anova_table <- function(data, print = TRUE) {
+    # Wrap data in a list (for !separate_questionnaires) =======================
+    if (all(sapply(data, class) != "list")) {
+        data <- list(data)
+        names(data) <- gsub("[0-9]", "", names(data[[1]])[1])
+    }
+
     # Create summary statistics ================================================
     data_summary <- summarize_clusters(data, print = "none")
 
@@ -46,7 +52,8 @@ anova_table <- function(data, print = TRUE) {
                                   ds$n_tilde, ds$M, ds$N)
             }
         }
-        if (print & (n != names(data)[length(names(data))])) cli::cat_rule()
+        if (print & sapply(data, class)[1] == "list" &
+            (n != names(data)[length(names(data))])) cli::cat_rule()
         out_complete[[n]] <- out
     }
     if (!print) {

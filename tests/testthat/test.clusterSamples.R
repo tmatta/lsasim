@@ -739,5 +739,46 @@ test_that("Rho behaves properly with sigma and c_mean", {
 })
 
 test_that("Rho works for together questionnaires", {
-  # TODO: develop rho control for !separate_questionnaires
+  set.seed(278074)
+  df1 <- cluster_gen(c(50, 20), rho = .8, n_X = 1, verbose = FALSE, 
+                    separate_questionnaires = FALSE)
+  df2 <- cluster_gen(
+    n = c(5, 40, 100), n_X = 2, n_W = 0,
+    c_mean = c(1, 7),
+    rho = c(.2, .8),
+    verbose = FALSE,
+    separate_questionnaires = FALSE
+  )
+  df3 <- cluster_gen(
+    n = c(5, 40, 100), n_X = 2, n_W = 0,
+    sigma = c(5, 10),
+    rho = .5,
+    verbose = FALSE,
+    separate_questionnaires = FALSE
+  )
+  df4 <- cluster_gen(
+    n = c(5, 40, 100), n_X = 2, n_W = 0,
+    c_mean = c(1, 7),
+    sigma = c(3, 9),
+    rho = c(.2, .8),
+    verbose = FALSE,
+    separate_questionnaires = FALSE
+  )
+  expect_equivalent(anova_table(df1, print=F)$pop$q1["rho_hat.q1"], .8, .1)
+  expect_equivalent(anova_table(df2, print=F)$pop$q1["rho_hat.q1"], .2, .1)
+  expect_equivalent(anova_table(df2, print=F)$pop$q2["rho_hat.q2"], .8, .1)
+  expect_equivalent(
+    summarize_clusters(df2, print="none")$class$y_bar, c(1, 7), .1
+  )
+  expect_equivalent(anova_table(df3, print=F)$pop$q1["rho_hat.q1"], .5, .1)
+  expect_equivalent(anova_table(df3, print=F)$pop$q2["rho_hat.q2"], .5, .1)
+  expect_equivalent(anova_table(df3, print=F)$pop$q1["sigma2_hat.q1"], 25, .1)
+  expect_equivalent(anova_table(df3, print=F)$pop$q2["sigma2_hat.q2"], 100, .1)
+  expect_equivalent(anova_table(df4, print=F)$pop$q1["rho_hat.q1"], .2, .1)
+  expect_equivalent(anova_table(df4, print=F)$pop$q2["rho_hat.q2"], .8, .1)
+  expect_equivalent(anova_table(df4, print=F)$pop$q1["sigma2_hat.q1"], 9, .1)
+  expect_equivalent(anova_table(df4, print=F)$pop$q2["sigma2_hat.q2"], 81, .1)
+  expect_equivalent(
+    summarize_clusters(df4, print="none")$class$y_bar, c(1, 7), .1
+  )
 })
