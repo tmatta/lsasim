@@ -4,7 +4,7 @@
 \alias{replicate_var}
 \title{Sampling variance of the mean for replications}
 \usage{
-replicate_var(data_whole, data_rep, method, k = 0.5, weight_var = NULL,
+replicate_var(data_whole, data_rep, method, k = 0, weight_var = NULL,
   stat = weighted.mean, vars = NULL, full_output = FALSE)
 }
 \arguments{

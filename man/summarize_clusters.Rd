@@ -4,18 +4,21 @@
 \alias{summarize_clusters}
 \title{Summarizes clusters}
 \usage{
-summarize_clusters(data, digits = 2, print = TRUE)
+summarize_clusters(data, digits = 2, print = "all")
 }
 \arguments{
 \item{data}{output of `cluster_gen`}
 
 \item{digits}{controls the number of digits in the output (for `print = TRUE`)}
 
-\item{print}{if `TRUE`, pretty-print a summary of statistics; otherwise, output statistics that will be useful for `intraclass_cor`.}
+\item{print}{"all" will pretty-print a summary of statistics, "partial" will only print cluster-level sumamrizes; "none" outputs statistics as a list}
 }
 \value{
 list of summaries
 }
 \description{
 Takes the output of `cluster_gen` and creates summary statistics of the questionnaire variables
+}
+\seealso{
+anova_table
 }

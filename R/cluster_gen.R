@@ -11,6 +11,7 @@
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
+#' @param cor_matrix Correlation matrix between all variables (except weights)
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param rho estimated intraclass correlation
 #' @param verbose if `TRUE`, prints output messages
@@ -25,7 +26,7 @@
 #' #TODO: explain the danger of setting c_mean and rho (sigma2 may get really high)
 #'
 #' labeling c_mean has no effect, it's for the user.
-#' @seealso cluster_estimates cluster_gen_separate cluster_gen_together
+#' @seealso cluster_estimates cluster_gen_separate cluster_gen_together questionnaire_gen
 #' @export
 cluster_gen <- function(
   n,
@@ -34,17 +35,17 @@ cluster_gen <- function(
   resp_labels = NULL,
   n_X = NULL,
   n_W = NULL,
-  # TODO: allow different proportions for Ws (pass cat_prop)
-  # TODO: pass cor_matrix to questionnaire_gen
   c_mean = NULL, # TODO: document about this being the grand mean if it's scalar
   sigma = NULL, #TODO: rename to sigma
   # TODO: documet change in meaning from within-class variance to grand var
+  # TODO: allow different proportions for Ws (pass cat_prop)
+  # TODO: pass cor_matrix to questionnaire_gen
+  cor_matrix = NULL,
   separate_questionnaires = TRUE,
   collapse = "none",
   sum_pop = sapply(N, sum),
   calc_weights = TRUE,
   sampling_method = "mixed",
-  # TODO: Control over inter-class correlation (intra-class handled by quest_gen?).
   rho = NULL,
   verbose = TRUE,
   print_pop_structure = verbose,
@@ -165,7 +166,7 @@ cluster_gen <- function(
   cluster_labels <- iconv(cluster_labels, to = "ASCII//TRANSLIT")
   resp_labels    <- iconv(resp_labels, to = "ASCII//TRANSLIT")
 
-  # Adapting additional parameters to questionnaire_gen (n_X and n_W) ==========
+  # Defining n_X and n_W =======================================================
   if (n_levels > 1 & separate_questionnaires) {
     if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
     if (length(n_W) == 1 & class(n_W) == "numeric") {
@@ -174,23 +175,25 @@ cluster_gen <- function(
       n_W <- rep(list(n_W), n_levels)
     }
   }
-
-  # Defining n_X and n_W =======================================================
-  if (is.null(n_X)) {
-    if (length(rho) > 1) {
-      n_X <- as.list(rep(length(rho), n_levels))
-    } else {
-      n_X <- gen_X_W_cluster(n_levels, separate_questionnaires,
-                             class_cor = NULL)$n_X
+  if (!is.null(cor_matrix) & is.null(n_X) & is.null(n_W)) {
+    n_X <- sample(x = seq(0, ncol(cor_matrix)), size = 1)
+    n_W <- ncol(cor_matrix) - n_X
+  } else {
+    if (is.null(n_X)) {
+      if (length(rho) > 1) {
+        n_X <- as.list(rep(length(rho), n_levels))
+      } else {
+        n_X <- gen_X_W_cluster(n_levels, separate_questionnaires,
+                              class_cor = NULL)$n_X
+      }
+    }
+    if (is.null(n_W)) {
+      n_W <- gen_X_W_cluster(n_levels, separate_questionnaires, class_cor = NULL)$n_W
     }
   }
-  if (is.null(n_W)) {
-    n_W <- gen_X_W_cluster(n_levels, separate_questionnaires, class_cor = NULL)$n_W
-  }
-    
+
   # Generating messages and data ===============================================
-  if (separate_questionnaires) { # questionnaires administered at all levels
-    # Generates unique questionnaires for each level
+  if (separate_questionnaires) { # unique questionnaires at each level
 
     # Message explaining cluster scheme ----------------------------------------
     if (verbose) {
@@ -212,9 +215,10 @@ cluster_gen <- function(
     sample <- cluster_gen_separate(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, sigma, rho, verbose, ...
+      n_X, n_W, c_mean, sigma, cor_matrix, rho, verbose, ...
     )
   } else { # questionnaires administered only at the bottom level
+
     # Message explaining cluster scheme ----------------------------------------
     if (verbose) {
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
@@ -235,7 +239,7 @@ cluster_gen <- function(
     sample <- cluster_gen_together(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, sigma, rho, verbose, ...
+      n_X, n_W, c_mean, sigma, cor_matrix, rho, verbose, ...
     )
   }
 
