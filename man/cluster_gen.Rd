@@ -5,9 +5,9 @@
 \title{Generate cluster sample}
 \usage{
 cluster_gen(n, N = 1, cluster_labels = NULL, resp_labels = NULL,
-  n_X = NULL, n_W = NULL, c_mean = NULL, c_sd = NULL,
-  separate_questionnaires = TRUE, collapse = "none",
-  sum_pop = sapply(N, sum), calc_weights = TRUE,
+  n_X = NULL, n_W = NULL, c_mean = NULL, sigma = NULL,
+  cor_matrix = NULL, separate_questionnaires = TRUE,
+  collapse = "none", sum_pop = sapply(N, sum), calc_weights = TRUE,
   sampling_method = "mixed", rho = NULL, verbose = TRUE,
   print_pop_structure = verbose, ...)
 }
@@ -26,7 +26,9 @@ cluster_gen(n, N = 1, cluster_labels = NULL, resp_labels = NULL,
 
 \item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level}
 
-\item{c_sd}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level}
+\item{sigma}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level}
+
+\item{cor_matrix}{Correlation matrix between all variables (except weights)}
 
 \item{separate_questionnaires}{if `TRUE`, each level will have its own questionnaire}
 
@@ -65,5 +67,5 @@ For the purpose of this function, levels are counted starting from the top nesti
 labeling c_mean has no effect, it's for the user.
 }
 \seealso{
-cluster_estimates cluster_gen_separate cluster_gen_together
+cluster_estimates cluster_gen_separate cluster_gen_together questionnaire_gen
 }

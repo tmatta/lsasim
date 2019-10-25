@@ -467,7 +467,7 @@ test_that("Combinations of ranges for n and N are treated correctly", {
     N_rrr = list(ranges(1, 5), ranges(1, 3), ranges(10, 30))
   )
 
-  # Data combininng templates
+  # Data combining templates
   data <- list()
   for (n in names(n_combos_2)) {
     for (N in names(N_combos_2)) {
@@ -782,3 +782,74 @@ test_that("Rho works for together questionnaires", {
     summarize_clusters(df4, print="none")$class$y_bar, c(1, 7), .1
   )
 })
+
+# Adding cor_matrix and cat_prop to cluster_gen ================================
+context("Passing cor_matrix and cat_prop from cluster_gen to questionnaire_gen")
+cl_gen_cor <- function(n, mx, nX = 0, nW = 0, sep = TRUE) {
+  cluster_gen(
+    n, n_X = nX, n_W = nW, cor_matrix = mx,
+    verbose = FALSE, separate_questionnaires = sep
+  )
+}
+test_that("Correlation matrix is correctly parsed in 2-level structures", {
+
+  ## Setting up datasets -------------------------------------------------------
+  cor_mx <- matrix(c(1, .8, .8, 1), 2)
+  set.seed(33602732)
+  dfXX <- cl_gen_cor(c(4, 100), cor_mx, 2)
+  dfXW <- cl_gen_cor(c(4, 100), cor_mx, 1, 1)
+  dfWW <- cl_gen_cor(c(4, 100), cor_mx, 0, 2)
+  dfXXt <- cl_gen_cor(c(4, 100), cor_mx, 2, 0, FALSE)
+
+  ## Testing output ------------------------------------------------------------
+  expect_equivalent(
+    object    = lapply(dfXX$school, function(x) cor(x[, c("q1", "q2")])),
+    expected  = replicate(4, list(cor_mx)),
+    tolerance = .1
+  )
+  expect_equivalent(
+    object    = with(dfXW$school[[1]], polycor::polychor(q1, q2)),
+    expected  = cor_mx[1, 2],
+    tolerance = .1
+  )
+  expect_equivalent(
+    object    = with(dfXW$school[[3]], polycor::polychor(q1, q2)),
+    expected  = cor_mx[1, 2],
+    tolerance = .1
+  )
+  expect_equivalent(
+    object    = with(dfWW$school[[1]], polycor::polychor(q1, q2)),
+    expected  = cor_mx[1, 2],
+    tolerance = .1
+  )
+  expect_equivalent(
+    object    = lapply(dfXXt, function(x) cor(x[, c("q1", "q2")])),
+    expected  = replicate(4, list(cor_mx)),
+    tolerance = .1
+  )
+})
+test_that("Correlation matrix works for structures with 3+ levels", {
+  ## Generating data -----------------------------------------------------------
+  cor_mx_schools <- matrix(c(1, .6, .3, .6, 1, -.4, .3, -.4, 1), 3)
+  cor_mx_classes <- matrix(c(1, -.9, -.9, 1), 2)
+  cor_mx <- list(school = cor_mx_schools, class = cor_mx_classes)
+  set.seed(6400492)
+  df3 <- cl_gen_cor(c(2, 200, 100), cor_mx, list(3, 2))
+  expect_equivalent(
+    object    = lapply(df3$school, function(x) cor(x[, c("q1", "q2", "q3")])),
+    expected  = list(cor_mx$school, cor_mx$school),
+    tolerance = .1
+  )
+  expect_equivalent(
+    object    = lapply(df3$class, function(x) cor(x[, c("q1", "q2")])),
+    expected  = replicate(400, list(cor_mx$class)),
+    tolerance = .1
+  )
+})
+# test_that("cor_matrix is customizable between elements at the same level", {
+#   cor_mx_school1 <- matrix(c(1, -.9, -.9, 1), 2)
+#   cor_mx_school2 <- matrix(c(1, .4, .4, 1), 2)
+#   cor_mx <- list(school = list(cor_mx_school1, cor_mx_school2))
+#   df_sep <- cl_gen_cor(c(2, 50), cor_mx, 2)
+#   df_tog <- cl_gen_cor(c(2, 50), cor_mx, 2, 0, FALSE)
+# })

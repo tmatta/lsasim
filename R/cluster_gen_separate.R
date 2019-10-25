@@ -13,6 +13,7 @@
 #' @param n_W list of `n_W` per cluster level
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
+#' @param cor_matrix Correlation matrix between all variables (except weights)
 #' @param verbose if `TRUE`, prints output messages
 #' @param rho estimated intraclass correlation
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
@@ -20,7 +21,7 @@
 #' @importFrom stats rchisq
 #' @export
 cluster_gen_separate <- function(
-  n_levels, n, N, sum_pop, calc_weights, sampling_method, cluster_labels, resp_labels, collapse, n_X, n_W, c_mean, sigma, rho, verbose, ...
+  n_levels, n, N, sum_pop, calc_weights, sampling_method, cluster_labels, resp_labels, collapse, n_X, n_W, c_mean, sigma, cor_matrix, rho, verbose, ...
 ) {
   # Creating basic elements ====================================================
   out    <- list()  # actual output (differs from sample if collapse)
@@ -30,12 +31,18 @@ cluster_gen_separate <- function(
   n_quest <- sapply(n, sum)
   id_combos <- label_respondents(n, cluster_labels)
   missing_sigma2 <- is.null(sigma)
+  if (class(cor_matrix) != "list") {
+    cor_matrix <- replicate(n_levels - 1, list(cor_matrix))
+  }
+  # cor_matrix_list <- cor_matrix
+
 
   # Generating data ============================================================
   for (l in seq(n_levels - 1)) {
     # Adapting additional parameters to questionnaire_gen format
     if (class(c_mean_list) == "list") c_mean <- c_mean_list[[l]]
     if (class(sigma_list) == "list") sigma <- sigma_list[[l]]
+    # cor_matrix <- cor_matrix_list[[l]]
 
     # Defining labels and IDs for this cluster and the next one
     level_label <- cluster_labels[l]
@@ -88,6 +95,7 @@ cluster_gen_separate <- function(
     ## Generating questionnaires for each cluster element of that level --------
     
     for (lvl in seq(n_groups)) {
+
       ### Creating basic elements ..............................................
       n_resp <- n[[l + 1]][lvl]      
       if (!is.null(c_mean) & class(c_mean) == "list") {
@@ -95,6 +103,11 @@ cluster_gen_separate <- function(
       } else {
         mu_mu <- c_mean
       }
+      # if (!is.null(cor_matrix) & class(cor_matrix) == "list") {
+      #   cor_mx <- cor_matrix[[lvl]]
+      # } else {
+      #   cor_mx <- cor_matrix
+      # }
       if (!is.null(rho[[l]])) {
         sd_X <- sqrt(s2)  # same sd for all PSUs if rho is present
       } else if (!is.null(sigma) & class(sigma) == "list") {
@@ -115,7 +128,7 @@ cluster_gen_separate <- function(
       ### Generating data ......................................................
       cluster_bg <- questionnaire_gen(
         n_resp, n_X = n_X[[l]], n_W = n_W[[l]], c_mean = mu, verbose = FALSE,
-          c_sd = sd_X,...
+          c_sd = sd_X, cor_matrix = cor_matrix[[l]], ...
       )
 
       ### Adding weights .......................................................

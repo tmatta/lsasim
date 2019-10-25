@@ -19,7 +19,7 @@
 #' @export
 cluster_gen_together <- function(
   n_levels, n, N, sum_pop, calc_weights, sampling_method, cluster_labels,
-  resp_labels, collapse, n_X, n_W, c_mean, sigma, rho, verbose, ...
+  resp_labels, collapse, n_X, n_W, c_mean, sigma, cor_matrix, rho, verbose, ...
 ) {
   # Creating basic elements ----------------------------------------------------
 	sample <- list()  # will store all BG questionnaires
@@ -79,7 +79,6 @@ cluster_gen_together <- function(
       sd_mu <- sqrt(tau2 + sigma2 / n_j[l])
       if (is.null(mu_mu)) mu_mu <- rep(0, length(sd_mu))
       mu <- NULL
-      # browser()#TEMP
       for (s in seq_along(sd_mu)) {
         mu <- append(mu, rnorm(1, mu_mu[s], sd_mu[s]))
       }
@@ -90,7 +89,7 @@ cluster_gen_together <- function(
     ## Generating data ---------------------------------------------------------
     cluster_bg <- questionnaire_gen(
       respondents, n_X = n_X, n_W = n_W, c_mean = mu, c_sd = sd_X,
-      verbose = FALSE,...
+      cor_matrix = cor_matrix, verbose = FALSE,...
     )
 
     # Adding weights

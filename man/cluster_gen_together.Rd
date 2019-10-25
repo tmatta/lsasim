@@ -6,7 +6,7 @@
 \usage{
 cluster_gen_together(n_levels, n, N, sum_pop, calc_weights,
   sampling_method, cluster_labels, resp_labels, collapse, n_X, n_W, c_mean,
-  c_sd, verbose, ...)
+  sigma, cor_matrix, rho, verbose, ...)
 }
 \arguments{
 \item{n_levels}{number of cluster levels}
@@ -33,7 +33,7 @@ cluster_gen_together(n_levels, n, N, sum_pop, calc_weights,
 
 \item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level}
 
-\item{c_sd}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level}
+\item{sigma}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level}
 
 \item{verbose}{if `TRUE`, prints output messages}
 
