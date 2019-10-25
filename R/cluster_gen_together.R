@@ -34,6 +34,10 @@ cluster_gen_together <- function(
   }
   id_combos <- label_respondents(n, cluster_labels)  # level label combinations
   num_questionnaires <- nrow(id_combos)
+  if (class(cor_matrix) != "list") {
+    cor_matrix <- replicate(n_levels - 1, list(cor_matrix))
+  }
+  cor_matrix_list <- cor_matrix
 
   ## Defining parameters for intraclass correlations -------------------------
   if (!is.null(rho)) {
@@ -65,6 +69,10 @@ cluster_gen_together <- function(
     } else {
       mu_mu <- c_mean_list
     }
+      if (!is.null(cor_matrix) & class(cor_matrix) == "list") {
+        cor_mx <- cor_matrix[[1]]
+        if (class(cor_mx) == "list")  cor_mx <- cor_matrix[[1]][[l]]
+      }
 
     if (!is.null(rho)) {
       sd_X <- sqrt(s2)  # same sd for all PSUs if rho is present
@@ -89,7 +97,7 @@ cluster_gen_together <- function(
     ## Generating data ---------------------------------------------------------
     cluster_bg <- questionnaire_gen(
       respondents, n_X = n_X, n_W = n_W, c_mean = mu, c_sd = sd_X,
-      cor_matrix = cor_matrix, verbose = FALSE,...
+      cor_matrix = cor_mx, verbose = FALSE,...
     )
 
     # Adding weights

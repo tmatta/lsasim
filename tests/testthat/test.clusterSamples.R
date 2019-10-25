@@ -829,12 +829,15 @@ test_that("Correlation matrix is correctly parsed in 2-level structures", {
   )
 })
 test_that("Correlation matrix works for structures with 3+ levels", {
+
   ## Generating data -----------------------------------------------------------
   cor_mx_schools <- matrix(c(1, .6, .3, .6, 1, -.4, .3, -.4, 1), 3)
   cor_mx_classes <- matrix(c(1, -.9, -.9, 1), 2)
   cor_mx <- list(school = cor_mx_schools, class = cor_mx_classes)
   set.seed(6400492)
   df3 <- cl_gen_cor(c(2, 200, 100), cor_mx, list(3, 2))
+
+  ## Testing output ------------------------------------------------------------
   expect_equivalent(
     object    = lapply(df3$school, function(x) cor(x[, c("q1", "q2", "q3")])),
     expected  = list(cor_mx$school, cor_mx$school),
@@ -846,10 +849,23 @@ test_that("Correlation matrix works for structures with 3+ levels", {
     tolerance = .1
   )
 })
-# test_that("cor_matrix is customizable between elements at the same level", {
-#   cor_mx_school1 <- matrix(c(1, -.9, -.9, 1), 2)
-#   cor_mx_school2 <- matrix(c(1, .4, .4, 1), 2)
-#   cor_mx <- list(school = list(cor_mx_school1, cor_mx_school2))
-#   df_sep <- cl_gen_cor(c(2, 50), cor_mx, 2)
-#   df_tog <- cl_gen_cor(c(2, 50), cor_mx, 2, 0, FALSE)
-# })
+test_that("cor_matrix is customizable between elements at the same level", {
+  ## Generating data -----------------------------------------------------------
+  cor_mx_school1 <- matrix(c(1, -.9, -.9, 1), 2)
+  cor_mx_school2 <- matrix(c(1, .4, .4, 1), 2)
+  cor_mx <- list(school = list(cor_mx_school1, cor_mx_school2))
+  df_sep <- cl_gen_cor(c(2, 200), cor_mx, 2)
+  df_tog <- cl_gen_cor(c(2, 200), cor_mx, 2, 0, FALSE)
+
+  ## Testing output ------------------------------------------------------------
+  expect_equivalent(
+    object = lapply(df_sep$school, function(x) cor(x[, c("q1", "q2")])),
+    expected = cor_mx$school,
+    tolerance = .5
+  )
+  expect_equivalent(
+    object = lapply(df_tog, function(x) cor(x[, c("q1", "q2")])),
+    expected = cor_mx$school,
+    tolerance = .5
+  )
+})

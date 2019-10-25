@@ -34,7 +34,7 @@ cluster_gen_separate <- function(
   if (class(cor_matrix) != "list") {
     cor_matrix <- replicate(n_levels - 1, list(cor_matrix))
   }
-  # cor_matrix_list <- cor_matrix
+  cor_matrix_list <- cor_matrix
 
 
   # Generating data ============================================================
@@ -75,6 +75,15 @@ cluster_gen_separate <- function(
       
       ### Defining sigma2 and tau2 .............................................
       if (missing_sigma2) {
+        # TODO: if missing(sigma2), calculate tau2 from c_means and sigms2 from rho and tau2
+        # Example: 
+        # cluster_gen(n = c(500, 10), n_X = 1, n_W = 0, 
+        # rho = .2, 
+        # c_mean = list(as.list(seq(1, 100, length = 500))),  
+        # verbose = FALSE) %>% anova_table()                                    
+        #
+        # sigma2 should have blown up so that rho is .2 (as expected)
+
         sigma2 <- rchisq(n_X[[l]], 2)
       } else {
         if (class(sigma) == "list") {
@@ -103,11 +112,10 @@ cluster_gen_separate <- function(
       } else {
         mu_mu <- c_mean
       }
-      # if (!is.null(cor_matrix) & class(cor_matrix) == "list") {
-      #   cor_mx <- cor_matrix[[lvl]]
-      # } else {
-      #   cor_mx <- cor_matrix
-      # }
+      if (!is.null(cor_matrix) & class(cor_matrix) == "list") {
+        cor_mx <- cor_matrix[[l]]
+        if (class(cor_mx) == "list")  cor_mx <- cor_matrix[[l]][[lvl]]
+      }
       if (!is.null(rho[[l]])) {
         sd_X <- sqrt(s2)  # same sd for all PSUs if rho is present
       } else if (!is.null(sigma) & class(sigma) == "list") {
@@ -128,7 +136,7 @@ cluster_gen_separate <- function(
       ### Generating data ......................................................
       cluster_bg <- questionnaire_gen(
         n_resp, n_X = n_X[[l]], n_W = n_W[[l]], c_mean = mu, verbose = FALSE,
-          c_sd = sd_X, cor_matrix = cor_matrix[[l]], ...
+          c_sd = sd_X, cor_matrix = cor_mx, ...
       )
 
       ### Adding weights .......................................................
