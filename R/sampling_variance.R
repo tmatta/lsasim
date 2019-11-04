@@ -60,7 +60,7 @@ sampling_variance <- function(data, method, k = 0) {
             means <- rep_stats$theta_whole
             vars  <- rep_stats$sigma2
             stats <- rbind(means, sqrt(vars))
-            rownames(stats) <- c("mean", "sd")
+            rownames(stats) <- c("mean", "SE")
 
             # Putting data and stats into common list for output ---------------
             bg -> new_bg[[lvl_name]][[sublvl]]

@@ -792,7 +792,6 @@ cl_gen_cor <- function(n, mx, nX = 0, nW = 0, sep = TRUE) {
   )
 }
 test_that("Correlation matrix is correctly parsed in 2-level structures", {
-
   ## Setting up datasets -------------------------------------------------------
   cor_mx <- matrix(c(1, .8, .8, 1), 2)
   set.seed(33602732)
@@ -829,7 +828,6 @@ test_that("Correlation matrix is correctly parsed in 2-level structures", {
   )
 })
 test_that("Correlation matrix works for structures with 3+ levels", {
-
   ## Generating data -----------------------------------------------------------
   cor_mx_schools <- matrix(c(1, .6, .3, .6, 1, -.4, .3, -.4, 1), 3)
   cor_mx_classes <- matrix(c(1, -.9, -.9, 1), 2)

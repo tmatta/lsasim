@@ -4,7 +4,7 @@
 \alias{summarize_clusters}
 \title{Summarizes clusters}
 \usage{
-summarize_clusters(data, digits = 2, print = "all")
+summarize_clusters(data, digits = 2, print = "partial")
 }
 \arguments{
 \item{data}{output of `cluster_gen`}

@@ -6,7 +6,7 @@
 #' @return list of summaries
 #' @seealso anova_table
 #' @export
-summarize_clusters <- function(data, digits = 2, print = "all") {
+summarize_clusters <- function(data, digits = 2, print = "partial") {
     # Wrap data in a list (for !separate_questionnaires) =======================
     if (all(sapply(data, class) != "list")) {
         data <- list(data)

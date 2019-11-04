@@ -7,6 +7,7 @@
 #' @export
 ranges <- function(x, y)
 {
+    if (x > y) stop("The first argument cannot be larger than the second.")
     out <- c(x, y)
     class(out) <- "range"
     return(out)
