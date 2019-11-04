@@ -94,8 +94,10 @@ summarize_clusters <- function(data, digits = 2, print = "partial") {
         cli::cat_rule()
         for (n in names(collapsed_data)) {
             message("Summary statistics for all ", pluralize(n))
-            df <- collapsed_data[[n]][names(x_cols)]
+            df <- collapsed_data[[n]][data_cols[[n]]]
             df_summary <- summary(df)
+            x_cols <- sapply(df, class) == "numeric"
+            w_cols <- sapply(df, class) == "factor"
             df_table <- customize_summary(df_summary, df, x_cols, w_cols)
             print(df_table)
         }
