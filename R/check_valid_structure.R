@@ -14,7 +14,7 @@ check_valid_structure <- function(n)
         " elements, but it has ", length(n[[l + 1]]),
         "\nCheck the length of your object at that level, ",
         "maybe it should be a scalar.",
-        "\nPlease refer to documentation if necessary."
+        "\nPlease refer to the documentation if necessary."
       )
     )
   }
