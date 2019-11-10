@@ -7,7 +7,12 @@
 #' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
 #' @seealso anova_table
 calc_var_between <- function(n_j, y_bar_j, y_bar, n_tilde, N) {
-    X <- colnames(y_bar_j)
+    if (class(y_bar_j) != "matrix") y_bar_j <- as.matrix(y_bar_j)
+    if (is.null(colnames(y_bar_j))) {
+        X <- ncol(y_bar_j)
+    } else {
+        X <- colnames(y_bar_j)
+    }
     s2_between <- vector()
     for (x in X) {
         s2_between <- append(

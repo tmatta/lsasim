@@ -79,17 +79,19 @@ cluster_gen_separate <- function(
       if (length(rho[[l]]) == 1) rho[[l]] <- rep(rho[[l]], n_X[[l]])
       
       ### Defining sigma2 and tau2 .............................................
+      n_j <- n[[l + 1]]
+      M <- sum(n_j)
       if (missing_sigma2) {
-        # FIXME: if missing(sigma2), calculate tau2 from c_means and sigms2 from rho and tau2
-        # Example: 
-        # cluster_gen(n = c(500, 10), n_X = 1, n_W = 0, 
-        # rho = .2, 
-        # c_mean = list(as.list(seq(1, 100, length = 500))),  
-        # verbose = FALSE) %>% anova_table()                                    
-        #
-        # sigma2 should have blown up so that rho is .2 (as expected)
-
-        sigma2 <- rchisq(n_X[[l]], 2)
+        if (is.null(c_mean) | is.null(rho) | length(c_mean) == 1) {
+          sigma2 <- rchisq(n_X[[l]], 2)
+        } else {
+          n_tilde <- calc_n_tilde(M, N[[l]], n_j)
+          mean_j <- unlist(c_mean)
+          overall_mean <- sum(mean_j * n_j) / M 
+          s2btw <- calc_var_between(n_j, mean_j, overall_mean, n_tilde, N[[l]])
+          tau2 <- s2btw * n_tilde
+          sigma2 <- tau2 * (1 - rho[[l]]) / rho[[l]]
+        }
       } else {
         if (class(sigma) == "list") {
           sigma2 <- sigma[[l]] ^ 2
@@ -100,14 +102,11 @@ cluster_gen_separate <- function(
       tau2 <- rho[[l]] * sigma2 / (1 - rho[[l]])
 
       ### Defining the group correlations (s2_j == s2 for all j) ...............
-      n_j <- n[[l + 1]]
-      M <- sum(n_j)
       Nn <- length(n_j)
       s2 <- sigma2 * (M - Nn) / sum(n_j - 1)
     }
     
     ## Generating questionnaires for each cluster element of that level --------
-    
     for (lvl in seq(n_groups)) {
 
       ### Creating basic elements ..............................................
@@ -136,7 +135,7 @@ cluster_gen_separate <- function(
 
       ### Recalculating mu to fit rho ..........................................
       if (all(!is.null(rho[[l]]))) {
-        sd_mu <- sqrt(tau2 + sigma2 / n_j[lvl])
+        sd_mu <- sqrt(tau2 + sigma2 / n_j[lvl])  # from Snijders p. 20
         mu_mu <- ifelse(is.null(mu_mu), 0, mu_mu)
         mu <- sapply(sd_mu, function(s) rnorm(1, mu_mu, s))
       } else {

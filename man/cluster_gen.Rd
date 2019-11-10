@@ -5,8 +5,8 @@
 \title{Generate cluster sample}
 \usage{
 cluster_gen(n, N = 1, cluster_labels = NULL, resp_labels = NULL,
-  n_X = NULL, n_W = NULL, c_mean = NULL, sigma = NULL,
-  cor_matrix = NULL, separate_questionnaires = TRUE,
+  cat_prop = NULL, n_X = NULL, n_W = NULL, c_mean = NULL,
+  sigma = NULL, cor_matrix = NULL, separate_questionnaires = TRUE,
   collapse = "none", sum_pop = sapply(N, sum), calc_weights = TRUE,
   sampling_method = "mixed", rho = NULL, verbose = TRUE,
   print_pop_structure = verbose, ...)
@@ -19,6 +19,10 @@ cluster_gen(n, N = 1, cluster_labels = NULL, resp_labels = NULL,
 \item{cluster_labels}{character vector with the names of each cluster level}
 
 \item{resp_labels}{character vector with the names of the questionnaire respondents on each level}
+
+\item{cat_prop}{list of cumulative proportions for each item. If \code{theta
+= TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
+corresponds to the \code{theta}.}
 
 \item{n_X}{list of `n_X` per cluster level}
 
