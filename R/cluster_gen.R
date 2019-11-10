@@ -9,6 +9,9 @@
 #' @param sum_pop total population at each level (sampled or not)
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
+#' @param cat_prop list of cumulative proportions for each item. If \code{theta
+#'   = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
+#'   corresponds to the \code{theta}.
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
 #' @param cor_matrix Correlation matrix between all variables (except weights)
@@ -33,13 +36,13 @@ cluster_gen <- function(
   N = 1,
   cluster_labels = NULL,
   resp_labels = NULL,
+  cat_prop = NULL,
   n_X = NULL,
   n_W = NULL,
   c_mean = NULL, # TODO: document about this being the grand mean if it's scalar
-  sigma = NULL, #TODO: rename to sigma
+  sigma = NULL,
   # TODO: documet change in meaning from within-class variance to grand var
   # TODO: allow different proportions for Ws (pass cat_prop)
-  # TODO: pass cor_matrix to questionnaire_gen
   cor_matrix = NULL,
   separate_questionnaires = TRUE,
   collapse = "none",
@@ -167,28 +170,30 @@ cluster_gen <- function(
   resp_labels    <- iconv(resp_labels, to = "ASCII//TRANSLIT")
 
   # Defining n_X and n_W =======================================================
-  if (n_levels > 1 & separate_questionnaires) {
-    if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
-    if (length(n_W) == 1 & class(n_W) == "numeric") {
-      n_W <- rep(n_W, n_levels)
-    } else if (length(n_W) > 1 & class(n_W) == "list") {
-      n_W <- rep(list(n_W), n_levels)
-    }
-  }
-  if (!is.null(cor_matrix) & is.null(n_X) & is.null(n_W)) {
-    n_X <- sample(x = seq(0, ncol(cor_matrix)), size = 1)
-    n_W <- ncol(cor_matrix) - n_X
-  } else {
-    if (is.null(n_X)) {
-      if (length(rho) > 1) {
-        n_X <- as.list(rep(length(rho), n_levels))
-      } else {
-        n_X <- gen_X_W_cluster(n_levels, separate_questionnaires,
-                              class_cor = NULL)$n_X
+  if (is.null(cat_prop)) {
+    if (n_levels > 1 & separate_questionnaires) {
+      if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
+      if (length(n_W) == 1 & class(n_W) == "numeric") {
+        n_W <- rep(n_W, n_levels)
+      } else if (length(n_W) > 1 & class(n_W) == "list") {
+        n_W <- rep(list(n_W), n_levels)
       }
     }
-    if (is.null(n_W)) {
-      n_W <- gen_X_W_cluster(n_levels, separate_questionnaires, class_cor = NULL)$n_W
+    if (!is.null(cor_matrix) & is.null(n_X) & is.null(n_W)) {
+      n_X <- sample(x = seq(0, ncol(cor_matrix)), size = 1)
+      n_W <- ncol(cor_matrix) - n_X
+    } else {
+      if (is.null(n_X)) {
+        if (length(rho) > 1) {
+          n_X <- as.list(rep(length(rho), n_levels))
+        } else {
+          n_X <- gen_X_W_cluster(n_levels, separate_questionnaires,
+                                class_cor = NULL)$n_X
+        }
+      }
+      if (is.null(n_W)) {
+        n_W <- gen_X_W_cluster(n_levels, separate_questionnaires, class_cor = NULL)$n_W
+      }
     }
   }
 
@@ -215,7 +220,7 @@ cluster_gen <- function(
     sample <- cluster_gen_separate(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, sigma, cor_matrix, rho, verbose, ...
+      n_X, n_W, cat_prop, c_mean, sigma, cor_matrix, rho, verbose, ...
     )
   } else { # questionnaires administered only at the bottom level
 
@@ -239,7 +244,7 @@ cluster_gen <- function(
     sample <- cluster_gen_together(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, c_mean, sigma, cor_matrix, rho, verbose, ...
+      n_X, n_W, cat_prop, c_mean, sigma, cor_matrix, rho, verbose, ...
     )
   }
 

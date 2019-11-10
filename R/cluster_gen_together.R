@@ -11,6 +11,9 @@
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
+#' @param cat_prop list of cumulative proportions for each item. If \code{theta
+#'   = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
+#'   corresponds to the \code{theta}.
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
 #' @seealso cluster_gen cluster_gen_separate cluster_gen_together
@@ -19,7 +22,7 @@
 #' @export
 cluster_gen_together <- function(
   n_levels, n, N, sum_pop, calc_weights, sampling_method, cluster_labels,
-  resp_labels, collapse, n_X, n_W, c_mean, sigma, cor_matrix, rho, verbose, ...
+  resp_labels, collapse, n_X, n_W, cat_prop, c_mean, sigma, cor_matrix, rho, verbose, ...
 ) {
   # Creating basic elements ----------------------------------------------------
 	sample <- list()  # will store all BG questionnaires
@@ -96,8 +99,8 @@ cluster_gen_together <- function(
     
     ## Generating data ---------------------------------------------------------
     cluster_bg <- questionnaire_gen(
-      respondents, n_X = n_X, n_W = n_W, c_mean = mu, c_sd = sd_X,
-      cor_matrix = cor_mx, verbose = FALSE,...
+      respondents, n_X = n_X, n_W = n_W, cat_prop = cat_prop, 
+      c_mean = mu, c_sd = sd_X, cor_matrix = cor_mx, verbose = FALSE,...
     )
 
     # Adding weights
