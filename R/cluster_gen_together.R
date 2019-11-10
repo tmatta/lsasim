@@ -41,6 +41,9 @@ cluster_gen_together <- function(
     cor_matrix <- replicate(n_levels - 1, list(cor_matrix))
   }
   cor_matrix_list <- cor_matrix
+  if (any(sapply(cat_prop, class) == "list")) {
+    cat_prop <- cat_prop[[n_levels - 1]]
+  }
 
   ## Defining parameters for intraclass correlations -------------------------
   if (!is.null(rho)) {
@@ -64,18 +67,25 @@ cluster_gen_together <- function(
     s2 <- sigma2 * (M - Nn) / sum(n_j - 1)
   }  
 
-  # Generating questionnaire data for lowest level -----------------------------
+  ### Generating questionnaire data for lowest level ...........................
   for (l in seq(num_questionnaires)) {
+
+    #### Filtering elements pertaining to that specific PSU ("l")
+    if (any(sapply(cat_prop, class) == "list")) {
+      cat_prop_lvl <- cat_prop[[l]]
+    } else {
+      cat_prop_lvl <- cat_prop
+    }
     respondents <- n[[n_levels]][l]
     if (!is.null(c_mean_list) & class(c_mean_list) == "list") {
       mu_mu <- c_mean_list[[l]]
     } else {
       mu_mu <- c_mean_list
     }
-      if (!is.null(cor_matrix) & class(cor_matrix) == "list") {
-        cor_mx <- cor_matrix[[1]]
-        if (class(cor_mx) == "list")  cor_mx <- cor_matrix[[1]][[l]]
-      }
+    if (!is.null(cor_matrix) & class(cor_matrix) == "list") {
+      cor_mx <- cor_matrix[[1]]
+      if (class(cor_mx) == "list")  cor_mx <- cor_matrix[[1]][[l]]
+    }
 
     if (!is.null(rho)) {
       sd_X <- sqrt(s2)  # same sd for all PSUs if rho is present
@@ -99,7 +109,7 @@ cluster_gen_together <- function(
     
     ## Generating data ---------------------------------------------------------
     cluster_bg <- questionnaire_gen(
-      respondents, n_X = n_X, n_W = n_W, cat_prop = cat_prop, 
+      respondents, n_X = n_X, n_W = n_W, cat_prop = cat_prop_lvl, 
       c_mean = mu, c_sd = sd_X, cor_matrix = cor_mx, verbose = FALSE,...
     )
 

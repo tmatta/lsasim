@@ -38,16 +38,18 @@ cluster_gen_separate <- function(
     cor_matrix <- replicate(n_levels - 1, list(cor_matrix))
   }
   cor_matrix_list <- cor_matrix
-
+  cat_prop_orig <- cat_prop
 
   # Generating data ============================================================
   for (l in seq(n_levels - 1)) {
-    # Adapting additional parameters to questionnaire_gen format
+    ## Adapting additional parameters to questionnaire_gen format --------------
     if (class(c_mean_list) == "list") c_mean <- c_mean_list[[l]]
     if (class(sigma_list) == "list") sigma <- sigma_list[[l]]
-    # cor_matrix <- cor_matrix_list[[l]]
+    if (any(sapply(cat_prop_orig, class) == "list")) {
+      cat_prop <- cat_prop_orig[[l]]
+    }
 
-    # Defining labels and IDs for this cluster and the next one
+    ## Defining labels and IDs for this cluster and the next one ---------------
     level_label <- cluster_labels[l]
     next_level_label <- ifelse(
       test = l < n_levels - 1,
@@ -78,7 +80,7 @@ cluster_gen_separate <- function(
       
       ### Defining sigma2 and tau2 .............................................
       if (missing_sigma2) {
-        # TODO: if missing(sigma2), calculate tau2 from c_means and sigms2 from rho and tau2
+        # FIXME: if missing(sigma2), calculate tau2 from c_means and sigms2 from rho and tau2
         # Example: 
         # cluster_gen(n = c(500, 10), n_X = 1, n_W = 0, 
         # rho = .2, 
@@ -109,7 +111,12 @@ cluster_gen_separate <- function(
     for (lvl in seq(n_groups)) {
 
       ### Creating basic elements ..............................................
-      n_resp <- n[[l + 1]][lvl]      
+      n_resp <- n[[l + 1]][lvl]
+      if (any(sapply(cat_prop, class) == "list")) {
+        cat_prop_lvl <- cat_prop[[lvl]]
+      } else {
+        cat_prop_lvl <- cat_prop
+      }
       if (!is.null(c_mean) & class(c_mean) == "list") {
         mu_mu <- c_mean[[lvl]]
       } else {
@@ -138,7 +145,7 @@ cluster_gen_separate <- function(
 
       ### Generating data ......................................................
       cluster_bg <- questionnaire_gen(
-        n_resp, n_X = n_X[[l]], n_W = n_W[[l]], cat_prop = cat_prop,
+        n_resp, n_X = n_X[[l]], n_W = n_W[[l]], cat_prop = cat_prop_lvl,
         c_mean = mu, verbose = FALSE, c_sd = sd_X, cor_matrix = cor_mx, ...
       )
 

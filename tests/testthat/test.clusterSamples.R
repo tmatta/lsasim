@@ -867,3 +867,182 @@ test_that("cor_matrix is customizable between elements at the same level", {
     tolerance = .5
   )
 })
+
+# Passing cat_prop =============================================================
+context("Passing cat_prop to cluster_gen")
+wrap_cluster_gen_cat <- function(n, cat, sep = TRUE) {
+  cluster_gen(n, cat_prop = cat, separate_questionnaires = sep, verbose = FALSE)
+}
+test_that("cat_prop is parsed correctly: unique props for all structures", {
+  set.seed(288497)
+  propX <- list(1)
+  propW <- list(c(.5, .8, 1))
+  propXW <- list(1, c(.3, 1))
+  propXX <- list(1, 1)
+  propWW <- list(c(.7, 1), c(.2, .3, .7, .9, 1))
+  propXXWW <- list(1, 1, c(.5, 1), c(.25, .75, 1))
+  nXW <- c(1, 100)
+  dfXsep <- wrap_cluster_gen_cat(nXW, propX)
+  dfWsep <- wrap_cluster_gen_cat(nXW, propW)
+  dfXWsep <- wrap_cluster_gen_cat(nXW, propXW)
+  dfXXsep <- wrap_cluster_gen_cat(nXW, propXX)
+  dfWWsep <- wrap_cluster_gen_cat(nXW, propWW)
+  dfXXWWsep <- wrap_cluster_gen_cat(nXW, propXXWW)
+  dfXtog <- wrap_cluster_gen_cat(nXW, propX, FALSE)
+  dfWtog <- wrap_cluster_gen_cat(nXW, propW, FALSE)
+  dfXWtog <- wrap_cluster_gen_cat(nXW, propXW, FALSE)
+  dfXXtog <- wrap_cluster_gen_cat(nXW, propXX, FALSE)
+  dfWWtog <- wrap_cluster_gen_cat(nXW, propWW, FALSE)
+  dfXXWWtog <- wrap_cluster_gen_cat(nXW, propXXWW, FALSE)
+  expect_equivalent(
+    object = sapply(dfXsep$school[[1]], class),
+    expected = c("integer", "numeric", rep("numeric", 3), "character")
+  )
+  expect_equivalent(
+    object = sapply(dfXtog$school1, class),
+    expected = c("integer", "numeric", rep("numeric", 3), "character")
+  )
+  expect_equivalent(
+    object = sapply(dfWsep$school[[1]], class),
+    expected = c("integer", "factor", rep("numeric", 3), "character")
+  )
+  expect_equivalent(
+    object = sapply(dfWtog$school1, class),
+    expected = c("integer", "factor", rep("numeric", 3), "character")
+  )
+  expect_equivalent(
+    object = sapply(dfXWsep$school[[1]], class),
+    expected = c("integer", "numeric", "factor", rep("numeric", 3), "character")
+  )
+  expect_equivalent(
+    object = sapply(dfXWtog$school1, class),
+    expected = c("integer", "numeric", "factor", rep("numeric", 3), "character")
+  )
+  expect_equivalent(
+    object = sapply(dfWWsep$school[[1]], class),
+    expected = c("integer", "factor", "factor", rep("numeric", 3), "character")
+  )
+  expect_equivalent(
+    object = sapply(dfWWtog$school1, class),
+    expected = c("integer", "factor", "factor", rep("numeric", 3), "character")
+  )
+  expect_equivalent(
+    object = sapply(dfXXWWsep$school[[1]], class),
+    expected = c("integer", "numeric", "numeric", "factor", "factor",
+      rep("numeric", 3), "character")
+  )
+  expect_equivalent(
+    object = sapply(dfXXWWtog$school1, class),
+    expected = c("integer", "numeric", "numeric", "factor", "factor",
+      rep("numeric", 3), "character")
+  )
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfWsep$school[[1]]["q1"]))), 
+    expected = unlist(propW),
+    tol = .1
+  )
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfXWsep$school[[1]]["q2"]))),
+    expected = unlist(propXW[[2]]),
+    tol = .1
+  )
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfWWsep$school[[1]]["q1"]))),
+    expected = unlist(propWW[[1]]),
+    tol = .1
+  )
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfWWsep$school[[1]]["q2"]))),
+    expected = unlist(propWW[[2]]),
+    tol = .1
+  )
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfXXWWsep$school[[1]]["q3"]))),
+    expected = unlist(propXXWW[[3]]),
+    tol = .1
+  )
+    expect_equivalent(
+    object = cumsum(prop.table(table(dfXXWWsep$school[[1]]["q4"]))),
+    expected = unlist(propXXWW[[4]]),
+    tol = .1
+  )
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfWtog$school1["q1"]))), 
+    expected = unlist(propW),
+    tol = .1
+  )
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfXWtog$school1["q2"]))),
+    expected = unlist(propXW[[2]]),
+    tol = .1
+  )
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfWWtog$school1["q1"]))),
+    expected = unlist(propWW[[1]]),
+    tol = .1
+  )
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfWWtog$school1["q2"]))),
+    expected = unlist(propWW[[2]]),
+    tol = .1
+  )
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfXXWWtog$school1["q3"]))),
+    expected = unlist(propXXWW[[3]]),
+    tol = .1
+  )
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfXXWWtog$school1["q4"]))),
+    expected = unlist(propXXWW[[4]]),
+    tol = .1
+  )
+})
+test_that("cat_prop is parsed correctly: individual props for each level", {
+  set.seed(879752)
+  nXW <- c(1, 30, 100)
+  propXXWW <- list(list(1, 1, c(.5, 1)), list(1, c(.25, .75, 1), c(.9, 1)))
+  dfXXWWsep <- wrap_cluster_gen_cat(nXW, propXXWW)
+  dfXXWWtog <- wrap_cluster_gen_cat(nXW, propXXWW, FALSE)
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfXXWWsep$school[[1]]["q3"]))),
+    expected = unlist(propXXWW[[1]][[3]]),
+    tol = .1
+  )
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfXXWWsep$class[[1]]["q2"]))),
+    expected = unlist(propXXWW[[2]][[2]]),
+    tol = .1
+  )
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfXXWWsep$class[[1]]["q3"]))),
+    expected = unlist(propXXWW[[2]][[3]]),
+    tol = .1
+  )
+})
+test_that("cat_prop is parsed correctly: individual props within a level", {
+  set.seed(87975)
+  nXW <- c(2, 100)
+  propXXWW <- list(list(list(c(.9, 1)), list(c(.1, 1))))
+  dfXXWWsep <- wrap_cluster_gen_cat(nXW, propXXWW)
+  dfXXWWtog <- wrap_cluster_gen_cat(nXW, propXXWW, FALSE)
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfXXWWsep$school[[1]]["q1"]))),
+    expected = unlist(propXXWW[[1]][[1]][[1]]),
+    tol = .1
+  )
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfXXWWsep$school[[2]]["q1"]))),
+    expected = unlist(propXXWW[[1]][[2]][[1]]),
+    tol = .1
+  )  
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfXXWWtog$school1["q1"]))),
+    expected = unlist(propXXWW[[1]][[1]][[1]]),
+    tol = .1
+  )
+  expect_equivalent(
+    object = cumsum(prop.table(table(dfXXWWtog$school2["q1"]))),
+    expected = unlist(propXXWW[[1]][[2]][[1]]),
+    tol = .1
+  )  
+})
