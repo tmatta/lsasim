@@ -5,8 +5,8 @@
 \title{Generate cluster samples with individual questionnaires}
 \usage{
 cluster_gen_separate(n_levels, n, N, sum_pop, calc_weights,
-  sampling_method, cluster_labels, resp_labels, collapse, n_X, n_W, c_mean,
-  sigma, cor_matrix, rho, verbose, ...)
+  sampling_method, cluster_labels, resp_labels, collapse, n_X, n_W,
+  cat_prop, c_mean, sigma, cor_matrix, rho, verbose, ...)
 }
 \arguments{
 \item{n_levels}{number of cluster levels}
@@ -30,6 +30,10 @@ cluster_gen_separate(n_levels, n, N, sum_pop, calc_weights,
 \item{n_X}{list of `n_X` per cluster level}
 
 \item{n_W}{list of `n_W` per cluster level}
+
+\item{cat_prop}{list of cumulative proportions for each item. If \code{theta
+= TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
+corresponds to the \code{theta}.}
 
 \item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level}
 

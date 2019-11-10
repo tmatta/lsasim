@@ -738,6 +738,50 @@ test_that("Rho behaves properly with sigma and c_mean", {
   anova_table(df3, print=FALSE)
 })
 
+test_that("Rho is retrieved when c_mean is provided and sigma2 is missing", {
+  n_classes <- 150
+  c_mean_narrow <- list(as.list(seq(10, 12, length = n_classes)))
+  c_mean_wide <- list(as.list(seq(10, 50, length = n_classes)))
+  df_narrow <- cluster_gen(
+    n = c(n_classes, 50), n_X = 1, n_W = 0, rho = .2, verbose = FALSE,
+    c_mean = c_mean_narrow
+  )
+  df_wide <- cluster_gen(
+    n = c(n_classes, 50), n_X = 1, n_W = 0, rho = .2, verbose = FALSE,
+    c_mean = c_mean_wide
+  )
+  df_narrow_tog <- cluster_gen(
+    n = c(n_classes, 50), n_X = 1, n_W = 0, rho = .2, verbose = FALSE,
+    separate_questionnaires = FALSE,
+    c_mean = unlist(c_mean_narrow)
+  )
+  df_wide_tog <- cluster_gen(
+    n = c(n_classes, 50), n_X = 1, n_W = 0, rho = .2, verbose = FALSE,
+    separate_questionnaires = FALSE,
+    c_mean = unlist(c_mean_wide)
+  )
+  expect_equivalent(
+    object = anova_table(df_narrow, print = FALSE)$population$q1["rho_hat.q1"],
+    expected = .2,
+    tol = .1
+  )
+  expect_equivalent(
+    object = anova_table(df_wide, print = FALSE)$population$q1["rho_hat.q1"],
+    expected = .2,
+    tol = .1
+  )
+  expect_equivalent(
+    object = anova_table(df_narrow_tog, print = FALSE)$pop$q1["rho_hat.q1"],
+    expected = .2,
+    tol = .1
+  )
+  expect_equivalent(
+    object = anova_table(df_wide, print = FALSE)$pop$q1["rho_hat.q1"],
+    expected = .2,
+    tol = .1
+  )
+})
+
 test_that("Rho works for together questionnaires", {
   set.seed(278074)
   df1 <- cluster_gen(c(50, 20), rho = .8, n_X = 1, verbose = FALSE, 
