@@ -11,6 +11,9 @@
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size, "mixed" to use SRS for students and PPS otherwise or a vector with the sampling method for each level
 #' @param n_X list of `n_X` per cluster level
 #' @param n_W list of `n_W` per cluster level
+#' @param cat_prop list of cumulative proportions for each item. If \code{theta
+#'   = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
+#'   corresponds to the \code{theta}.
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
 #' @param cor_matrix Correlation matrix between all variables (except weights)
@@ -21,7 +24,7 @@
 #' @importFrom stats rchisq
 #' @export
 cluster_gen_separate <- function(
-  n_levels, n, N, sum_pop, calc_weights, sampling_method, cluster_labels, resp_labels, collapse, n_X, n_W, c_mean, sigma, cor_matrix, rho, verbose, ...
+  n_levels, n, N, sum_pop, calc_weights, sampling_method, cluster_labels, resp_labels, collapse, n_X, n_W, cat_prop, c_mean, sigma, cor_matrix, rho, verbose, ...
 ) {
   # Creating basic elements ====================================================
   out    <- list()  # actual output (differs from sample if collapse)
@@ -35,16 +38,18 @@ cluster_gen_separate <- function(
     cor_matrix <- replicate(n_levels - 1, list(cor_matrix))
   }
   cor_matrix_list <- cor_matrix
-
+  cat_prop_orig <- cat_prop
 
   # Generating data ============================================================
   for (l in seq(n_levels - 1)) {
-    # Adapting additional parameters to questionnaire_gen format
+    ## Adapting additional parameters to questionnaire_gen format --------------
     if (class(c_mean_list) == "list") c_mean <- c_mean_list[[l]]
     if (class(sigma_list) == "list") sigma <- sigma_list[[l]]
-    # cor_matrix <- cor_matrix_list[[l]]
+    if (any(sapply(cat_prop_orig, class) == "list")) {
+      cat_prop <- cat_prop_orig[[l]]
+    }
 
-    # Defining labels and IDs for this cluster and the next one
+    ## Defining labels and IDs for this cluster and the next one ---------------
     level_label <- cluster_labels[l]
     next_level_label <- ifelse(
       test = l < n_levels - 1,
@@ -75,7 +80,7 @@ cluster_gen_separate <- function(
       
       ### Defining sigma2 and tau2 .............................................
       if (missing_sigma2) {
-        # TODO: if missing(sigma2), calculate tau2 from c_means and sigms2 from rho and tau2
+        # FIXME: if missing(sigma2), calculate tau2 from c_means and sigms2 from rho and tau2
         # Example: 
         # cluster_gen(n = c(500, 10), n_X = 1, n_W = 0, 
         # rho = .2, 
@@ -106,7 +111,12 @@ cluster_gen_separate <- function(
     for (lvl in seq(n_groups)) {
 
       ### Creating basic elements ..............................................
-      n_resp <- n[[l + 1]][lvl]      
+      n_resp <- n[[l + 1]][lvl]
+      if (any(sapply(cat_prop, class) == "list")) {
+        cat_prop_lvl <- cat_prop[[lvl]]
+      } else {
+        cat_prop_lvl <- cat_prop
+      }
       if (!is.null(c_mean) & class(c_mean) == "list") {
         mu_mu <- c_mean[[lvl]]
       } else {
@@ -135,8 +145,8 @@ cluster_gen_separate <- function(
 
       ### Generating data ......................................................
       cluster_bg <- questionnaire_gen(
-        n_resp, n_X = n_X[[l]], n_W = n_W[[l]], c_mean = mu, verbose = FALSE,
-          c_sd = sd_X, cor_matrix = cor_mx, ...
+        n_resp, n_X = n_X[[l]], n_W = n_W[[l]], cat_prop = cat_prop_lvl,
+        c_mean = mu, verbose = FALSE, c_sd = sd_X, cor_matrix = cor_mx, ...
       )
 
       ### Adding weights .......................................................
