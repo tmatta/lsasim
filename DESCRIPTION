@@ -13,9 +13,9 @@ Authors@R: c(
   person("Kondwani Kajera", "Mughogho",
          email = "k.k.mughogho@cemo.uio.no", role = "ctb"),
   person("Waldir", "Leoncio",
-         email = "waldir.leoncio@gmail.com", role = c("aut", "cre"))
+         email = "w.l.netto@medisin.uio.no", role = c("aut", "cre"))
   )
-Maintainer: Waldir Leoncio <waldir.leoncio@gmail.com>
+Maintainer: Waldir Leoncio <w.l.netto@medisin.uio.no>
 BugReports: https://github.com/tmatta/lsasim/issues
 Description: Provides functions to simulate data from large-scale educational
   assessments, including background questionnaire data and cognitive item
