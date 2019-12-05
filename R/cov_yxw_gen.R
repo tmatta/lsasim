@@ -23,7 +23,7 @@ cov_yxw_gen <- function(n_ind, n_z, Phi, n_fac, Lambda) {
   rownames(vcov_yxw) <- colnames(vcov_yxw) <- c("y", x_names, w_names)
 
   # Generating or formatting factor-loading matrix (Lambda) ---------------
-  if (class(Lambda) %in% c("numeric", "integer")) {
+  if (class(Lambda)[1] %in% c("numeric", "integer")) {
     # "Lambda" parameter was provided as limits for random genration
     Lambda <- lambda_gen(n_ind, n_fac, Lambda, x_names, f_names)
   } else {

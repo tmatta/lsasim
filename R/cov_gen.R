@@ -28,7 +28,7 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
   w_names <- paste0("w", 1:n_z)
 
   # Generating or formatting factor-loading matrix (Lambda) ---------------
-  if (class(Lambda) %in% c("numeric", "integer")) {
+  if (class(Lambda)[1] %in% c("numeric", "integer")) {
     # "Lambda" parameter was provided as limits for random genration
     Lambda <- lambda_gen(n_ind, n_fac, Lambda, x_names, f_names)
   } else {
