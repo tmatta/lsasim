@@ -7,6 +7,12 @@
 #' @seealso anova_table
 #' @export
 summarize_clusters <- function(data, digits = 2, print = "partial") {
+    # Validation ===============================================================
+    check_condition(
+        condition = !(print %in% c("partial", "all", "none")),
+        message = "Invalid print option. Defaulting to partial.",
+        fatal = FALSE
+    )
     # Wrap data in a list (for !separate_questionnaires) =======================
     if (all(sapply(data, class) != "list")) {
         data <- list(data)
