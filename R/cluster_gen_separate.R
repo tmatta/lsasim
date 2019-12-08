@@ -34,7 +34,7 @@ cluster_gen_separate <- function(
   n_quest <- sapply(n, sum)
   id_combos <- label_respondents(n, cluster_labels)
   missing_sigma2 <- is.null(sigma)
-  if (class(cor_matrix) != "list") {
+  if (class(cor_matrix)[1] != "list") {
     cor_matrix <- replicate(n_levels - 1, list(cor_matrix))
   }
   cor_matrix_list <- cor_matrix
@@ -121,9 +121,9 @@ cluster_gen_separate <- function(
       } else {
         mu_mu <- c_mean
       }
-      if (!is.null(cor_matrix) & class(cor_matrix) == "list") {
+      if (!is.null(cor_matrix) & class(cor_matrix)[1] == "list") {
         cor_mx <- cor_matrix[[l]]
-        if (class(cor_mx) == "list")  cor_mx <- cor_matrix[[l]][[lvl]]
+        if (class(cor_mx)[1] == "list")  cor_mx <- cor_matrix[[l]][[lvl]]
       }
       if (!is.null(rho[[l]])) {
         sd_X <- sqrt(s2)  # same sd for all PSUs if rho is present

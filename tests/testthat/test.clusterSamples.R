@@ -620,17 +620,9 @@ for (r in seq_len(reps)) {
                     verbose = FALSE)
   df_stats <- anova_table(df, FALSE)
   rep_stats[r, ] <- unlist(df_stats)
-  # TODO: check asymptotic distro of rho to adjust retrieval boundaries
-  # IDEA: It's probably F
-  retrieved <- append(retrieved,
-                      rho <= rep_stats[r, 9] + 2 * rep_stats[r, 10] &
-                      rho >= rep_stats[r, 9] - 2 * rep_stats[r, 10])
   bias <- append(bias, rep_stats[r, 9] - rho)
 }
 colnames(rep_stats) <- names(unlist(df_stats))
-test_that("Intraclass correlations are properly retrieved", {
-  expect_gte(prop.table(table(retrieved))["TRUE"], .8)
-})
 test_that("Observed rho is an unbiased estimator", {
   expect_equivalent(mean(bias), 0, tol = .1)
 })
