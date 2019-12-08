@@ -33,15 +33,18 @@ customize_summary <- function(df_summary, df, numeric_cols, factor_cols) {
             ## Add prop tables
             prop_table <- round(prop.table(table(df[, col])), 3)
             prop_table_str <- paste(names(prop_table), prop_table, sep = ":")
-            n_cats <- length(prop_table)
-            fits <- nrow(df_table) >= 2 * n_cats + 1
+            prop_table_str <- c("Prop.", prop_table_str)
+            n_cats <- length(prop_table) + 1
+            fits <- nrow(df_table) >= 2 * n_cats + 2
             while (!fits) {
                 df_table <- rbind(df_table, NA)
-                fits <- nrow(df_table) >= 2 * n_cats + 1
+                fits <- nrow(df_table) >= 2 * n_cats + 2
             }
-            df_table[(n_cats + 2):(2 * n_cats + 1), col] <- prop_table_str
+            df_table[(n_cats + 1):(2 * n_cats), col] <- prop_table_str
         }
     }
+
+    browser()#TEMP
 
     # Returning table ==========================================================
     return(as.table(df_table))
