@@ -8,6 +8,8 @@ summary_2(data, digits = 3)
 }
 \arguments{
 \item{data}{Data frame}
+
+\item{digits}{number of digits for the output}
 }
 \description{
 Creates summary statistics of a dataset

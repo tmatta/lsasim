@@ -39,6 +39,10 @@ corresponds to the \code{theta}.}
 
 \item{sigma}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level}
 
+\item{cor_matrix}{correlation matrix or list of correlation matrices per PSU}
+
+\item{rho}{intraclass correlation (scalar, vector or list)}
+
 \item{verbose}{if `TRUE`, prints output messages}
 
 \item{...}{Additional parameters to be passed to `questionnaire_gen()`}

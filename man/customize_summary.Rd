@@ -6,6 +6,15 @@
 \usage{
 customize_summary(df_summary, df, numeric_cols, factor_cols)
 }
+\arguments{
+\item{df_summary}{dataframe containing summary statistics}
+
+\item{df}{original data frame}
+
+\item{numeric_cols}{indices of the numeric columns}
+
+\item{factor_cols}{indices of the factor columns}
+}
 \description{
 Adds standard deviations and removes quantiles from a `summary()` output
 }

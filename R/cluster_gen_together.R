@@ -16,6 +16,8 @@
 #'   corresponds to the \code{theta}.
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
+#' @param cor_matrix correlation matrix or list of correlation matrices per PSU
+#' @param rho intraclass correlation (scalar, vector or list)
 #' @seealso cluster_gen cluster_gen_separate cluster_gen_together
 #' @param verbose if `TRUE`, prints output messages
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
