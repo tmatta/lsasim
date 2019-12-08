@@ -74,15 +74,17 @@ replicate_var <- function(data_whole, data_rep, method, k = 0,
 
     # Calculating theta for the whole dataset and for each replication =========
     theta_whole <- sapply(numeric_data$whole, statistic)
-    if (is.null(weight_var)) {
-        statistic_rep <- function(x) apply(x, 2, statistic)
-    } else {
-        statistic_rep <- function(x, w = weight_var) {
+    statistic_rep <- function(x, w = weight_var) {
+        if (is.null(w)) {
+            out <- apply(x, 2, statistic)
+        } else {
             x_without_w <- x[, -match(w, names(x)), drop = FALSE]
             w_col <- x[, w]
-            apply(x_without_w, 2, function(x) statistic(x, w_col))
+            out <- apply(x_without_w, 2, function(x) statistic(x, w_col))
         }
+        return(out)
     }
+
     theta_rep <- t(sapply(numeric_data$rep, statistic_rep))
 
     # Defining variance multiplier =============================================
