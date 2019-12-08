@@ -16,6 +16,8 @@
 #'   corresponds to the \code{theta}.
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
 #' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
+#' @param cor_matrix correlation matrix or list of correlation matrices per PSU
+#' @param rho intraclass correlation (scalar, vector or list)
 #' @seealso cluster_gen cluster_gen_separate cluster_gen_together
 #' @param verbose if `TRUE`, prints output messages
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
@@ -37,7 +39,7 @@ cluster_gen_together <- function(
   }
   id_combos <- label_respondents(n, cluster_labels)  # level label combinations
   num_questionnaires <- nrow(id_combos)
-  if (class(cor_matrix) != "list") {
+  if (class(cor_matrix)[1] != "list") {
     cor_matrix <- replicate(n_levels - 1, list(cor_matrix))
   }
   cor_matrix_list <- cor_matrix
@@ -84,7 +86,7 @@ cluster_gen_together <- function(
     }
     if (!is.null(cor_matrix) & class(cor_matrix) == "list") {
       cor_mx <- cor_matrix[[1]]
-      if (class(cor_mx) == "list")  cor_mx <- cor_matrix[[1]][[l]]
+      if (class(cor_mx)[1] == "list")  cor_mx <- cor_matrix[[1]][[l]]
     }
 
     if (!is.null(rho)) {
