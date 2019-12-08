@@ -7,6 +7,12 @@
 #' @seealso anova_table
 #' @export
 summarize_clusters <- function(data, digits = 2, print = "partial") {
+    # Validation ===============================================================
+    check_condition(
+        condition = !(print %in% c("partial", "all", "none")),
+        message = "Invalid print option. Defaulting to partial.",
+        fatal = FALSE
+    )
     # Wrap data in a list (for !separate_questionnaires) =======================
     if (all(sapply(data, class) != "list")) {
         data <- list(data)
@@ -43,6 +49,10 @@ summarize_clusters <- function(data, digits = 2, print = "partial") {
                 df_summary <- summary(df, digits = digits)
                 df_table <- customize_summary(df_summary, df, x_cols, w_cols)
                 print(df_table)
+
+                # Adding correlation matrix
+                cat("\n Heterogeneous correlation matrix\n")
+                print(polycor::hetcor(df)$correlations)
                 for (w in names(df[w_cols])) {
                     message("\nStatistics per category of ", w)
                     w_lvls <- levels(df[, w])
@@ -55,10 +65,14 @@ summarize_clusters <- function(data, digits = 2, print = "partial") {
                     stats_binded <- do.call(cbind, stats)
                     colnames(stats_binded) <- paste(x_names, rep(names(stats), each = length(x_names)), sep = " for ")
                     stats_binded <- stats_binded[, sort(colnames(stats_binded))]
-                    # TODO: call customize_summary()
+                    # TODO: call customize_summary() instead?
                     stats_table <- as.table(stats_binded)
                     print(stats_table)
                 }
+
+                # Adding correlation matrix
+                cat("\n Heterogeneous correlation matrix\n")
+                print(polycor::hetcor(df)$correlations)
                 cli::cat_rule()
             } else {
                 df_X <- df[x_cols]
@@ -81,6 +95,7 @@ summarize_clusters <- function(data, digits = 2, print = "partial") {
                                              out[[n]]$n_j)
         }
     }
+
     
     # Printing aggregate level statistics or returning output ==================
     if (print != "none") {
@@ -94,6 +109,10 @@ summarize_clusters <- function(data, digits = 2, print = "partial") {
             w_cols <- sapply(df, class) == "factor"
             df_table <- customize_summary(df_summary, df, x_cols, w_cols)
             print(df_table)
+
+            # Adding correlation matrix
+            cat("\n Heterogeneous correlation matrix\n")
+            print(polycor::hetcor(df)$correlations)
         }
     } else {
         return(out)
