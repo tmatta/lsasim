@@ -42,7 +42,6 @@ cluster_gen <- function(
   c_mean = NULL, # TODO: document about this being the grand mean if it's scalar
   sigma = NULL,
   # TODO: documet change in meaning from within-class variance to grand var
-  # TODO: allow different proportions for Ws (pass cat_prop)
   cor_matrix = NULL,
   separate_questionnaires = TRUE,
   collapse = "none",

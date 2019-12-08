@@ -44,8 +44,6 @@ customize_summary <- function(df_summary, df, numeric_cols, factor_cols) {
         }
     }
 
-    browser()#TEMP
-
     # Returning table ==========================================================
     return(as.table(df_table))
 }
