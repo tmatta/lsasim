@@ -55,7 +55,7 @@ lapply(df1, function(s) lapply(s, head))
 
 The `lapply` call above simply applies `head()` to the elements of `df1` (i.e., each school dataset); this saves space by printing only the 6 first elements of each school.
 
-### What did not went well
+### What did not go well
 
 The user reported issues when the following is ran:
 
