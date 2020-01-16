@@ -13,8 +13,10 @@
 #' @param c_mean vector of means of all variables (YXW)
 #' @param c_sd vector of standard deviations of all variables (YXW)
 #'
-validate_questionnaire_gen <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
-                                 cor_matrix, cov_matrix, c_mean, c_sd) {
+validate_questionnaire_gen <- function(
+  n_cats, n_vars, n_X, n_W, theta, cat_prop, cor_matrix, cov_matrix, 
+  c_mean, c_sd
+) {
 
   # Conditions involving number and quality of covariates -------------
   check_condition(any(n_cats == 1),
@@ -45,10 +47,6 @@ validate_questionnaire_gen <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop
       )
     }
   }
-  # check_condition(
-  #   (n_X + n_W + theta < ncol(cor_matrix)) & !theta,
-
-  # )
   check_condition(n_vars > ncol(cov_matrix),
                   "n_vars must not exceed ncol(cov_matrix)")
   check_condition(n_vars > ncol(cor_matrix),

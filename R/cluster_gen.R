@@ -60,11 +60,11 @@ cluster_gen <- function(
     separate_questionnaires, collapse, sampling_method
   )
 
-  # Attributing labels =========================================================
+  # Attributing labels ====================================================
   if (is.null(cluster_labels)) cluster_labels <- attribute_cluster_labels(n)$cl
   if (is.null(resp_labels)) resp_labels <- attribute_cluster_labels(n)$resp
 
-  # Checking valid n-N combinations and reformatting them if necessary =========
+  # Checking valid n-N combinations and reformatting them if necessary ====
   class_n <- check_n_N_class(n)
   class_N <- check_n_N_class(N)
 
@@ -110,14 +110,14 @@ cluster_gen <- function(
     n <- convert_vector_to_list(n, N)
   }
 
-  # Calculating useful arguments ===============================================
+  # Calculating useful arguments ==========================================
   n_levels <- length(n)
   if (!is.null(names(n))) {
     if (is.null(cluster_labels)) cluster_labels <- names(n)
     if (is.null(resp_labels)) resp_labels <- c(names(n)[-1], "respondent")
   }
 
-  # Treating NAs in labels =====================================================
+  # Treating NAs in labels ================================================
   if (length(cluster_labels[!is.na(cluster_labels)]) < n_levels - 1) {
     cluster_labels[is.na(cluster_labels)] <- "unknowncluster"
   }
@@ -125,12 +125,12 @@ cluster_gen <- function(
     resp_labels[is.na(resp_labels)] <- "unknownrespondent"
   }
 
-  # Removing accents ===========================================================
+  # Removing accents ======================================================
   if (!is.null(names(n))) names(n) <- iconv(names(n), to = "ASCII//TRANSLIT")
   cluster_labels <- iconv(cluster_labels, to = "ASCII//TRANSLIT")
   resp_labels    <- iconv(resp_labels, to = "ASCII//TRANSLIT")
 
-  # Defining n_X and n_W =======================================================
+  # Defining n_X and n_W ==================================================
   if (is.null(cat_prop)) {
     if (n_levels > 1 & separate_questionnaires) {
       if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
@@ -158,10 +158,10 @@ cluster_gen <- function(
     }
   }
 
-  # Generating messages and data ===============================================
+  # Generating messages and data ==========================================
   if (separate_questionnaires) { # unique questionnaires at each level
 
-    # Message explaining cluster scheme ----------------------------------------
+    # Message explaining cluster scheme -----------------------------------
     if (verbose) {
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
       if (!census & print_pop_structure) {
@@ -174,7 +174,7 @@ cluster_gen <- function(
       draw_cluster_structure(n, cluster_labels, resp_labels)
     }
     
-    # Questionnaire generation -------------------------------------------------
+    # Questionnaire generation --------------------------------------------
     if (verbose & calc_weights) {
       print(cli::rule(left = cli::col_blue("Information on sampling weights")))
     }
@@ -185,7 +185,7 @@ cluster_gen <- function(
     )
   } else { # questionnaires administered only at the bottom level
 
-    # Message explaining cluster scheme ----------------------------------------
+    # Message explaining cluster scheme -----------------------------------
     if (verbose) {
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
       if (!census & print_pop_structure) {
@@ -198,7 +198,7 @@ cluster_gen <- function(
       draw_cluster_structure(n, cluster_labels, resp_labels)
     }
 
-    # Questionnaire generation -------------------------------------------------
+    # Questionnaire generation --------------------------------------------
     if (verbose & calc_weights) {
       print(cli::rule(left = cli::col_blue("Information on sampling weights")))
     }
