@@ -52,6 +52,10 @@ run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
   # Conditions involving the covariance or correlation matrices -----------
   check_condition(ncol(cov_matrix) > 0 & ncol(cor_matrix) > 0,
                   "Only one matrix (cov_matrix or cor_matrix) may be provided")
+  check_condition(
+    any(eigen(cor_matrix)$values < 0),
+    "Improper correlation matrix. Make sure all eigenvalues are non-negative"
+  )
   check_condition(any(cor_matrix > 1), "Improper correlation matrix")
   if (!is.null(cor_matrix)) {
     check_condition(!isSymmetric(cor_matrix), "cor_matrix is not symmetric")
