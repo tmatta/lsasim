@@ -1,0 +1,9 @@
+There seems a bug about the ranges function, for example:
+n1 <- list(school = ranges(5, 10), student = ranges(10, 20))
+N1 = c (150,40)
+
+then, when I run draw_cluster_structure(n1, N1) or cluster_gen(n1), everything is good;
+but when I run cluster_gen(n1, N1) or cluster_gen(n1, N1, n_X=2, n_W=2), the number of school goes very big, such as 107 and 127
+
+
+

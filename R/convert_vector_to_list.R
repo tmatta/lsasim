@@ -23,7 +23,8 @@ convert_vector_to_list <- function(x, x_max = x, verbose = TRUE) {
     if (x_max_list[[1]] == 1) {
       x_list[[1]] <- 1
     } else {
-      x_list[[1]] <- sample(x_list[[1]][1]:x_max_list[[1]], size = 1)
+      limit <- min(x_list[[1]][2], x_max_list[[1]])
+      x_list[[1]] <- sample(x_list[[1]][1]:limit, size = 1)
     }
   } else {
     if (x_list[[1]] > x_max_list[[1]] & !identical(x, x_max)) {
@@ -56,6 +57,7 @@ convert_vector_to_list <- function(x, x_max = x, verbose = TRUE) {
     } else {
       x_list[[l]] <- rep(x[[l]], length = sum(x_list[[l - 1]]))
     }
+
     ## Trim x_list[[l]] by comparing it to the max value -----------------------
     for (e in seq_along(x_list[[l]])) {
       if (x_list[[l]][e] > x_max_list[[l]][e] & !identical(x, x_max)) {
