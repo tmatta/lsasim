@@ -54,52 +54,10 @@ cluster_gen <- function(
   ...
 )
 {
-  # Validating =================================================================
-  check_condition(class(n) == "select", "Select not yet implemented")
-  check_condition(
-    (!is.null(names(n)) | !is.null(names(N))) & 
-    (!is.null(cluster_labels) | !is.null(resp_labels)),
-    "If n or N are labeled, cluster_labels and resp_labels must be left NULL."
-  )
-  check_condition(
-    !separate_questionnaires & length(n_X) > 1,
-    "Unique questionnaire requested. n_X must therefore be a scalar."
-  )
-  check_condition(
-    !separate_questionnaires & length(n_W) > 1,
-    "Unique questionnaire requested. n_W must therefore be a scalar or a list."
-  )
-  check_condition(
-    !separate_questionnaires & 
-      (class(rho) == "list" | class(c_mean) == "list" | class(sigma) == "list"),
-    "Unique questionnaire requested. rho, c_mean and c_sd must not be lists."
-  )
-  check_condition(length(n) == 1, "n must have length longer than 1")
-  check_condition(
-    length(n) > length(cluster_labels) + 1 & !is.null(cluster_labels),
-    "cluster_labels has insufficient length."
-  )
-  check_condition(
-    !separate_questionnaires & collapse == "partial",
-    paste("Partial collapsing unavailable for unique questionnaires.",
-          "Treated as 'full'."), FALSE
-  )
-  check_condition(
-    !(all(sampling_method %in% c("SRS", "PPS", "mixed"))),
-    "Invalid sampling method."
-  )
-  check_condition(
-    class(n) == "select" & class(N) == "select",
-    "If n is select, N must be explicitly defined."
-  )
-  check_condition(
-    !is.null(rho) & any(sapply(sigma, class) == "list"),
-    paste("If rho is provided, sigma must be the same for all PSUs in a level",
-          "(i.e., sigma must not contain a list within a list)")
-  )
-  check_condition(
-    !is.null(n_W) & (length(n_W) > length(n) - 1) & class(n_W) != "list",
-    "length(n_W) cannot be larger than length(n) - 1"
+  # Validating ============================================================
+  validate_cluster_gen(
+    n, N, cluster_labels, resp_labels, n_X, n_W, rho, sigma, c_mean,
+    separate_questionnaires, collapse, sampling_method
   )
 
   # Attributing labels =========================================================
