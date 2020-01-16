@@ -102,9 +102,12 @@ cluster_gen <- function(
   } else {
     census <- (N == 1)
   }
+
+  whitelist <- NULL
   if (class_n == "select") {
     check_condition(class_N == "select", "N can't be select")
-    n <- sample_from(N, n)
+    whitelist <- sample_from(N, n)
+    n <- N
   } else if (class_n == "list with ranges") {
     if (class_N == "multiplier") {
       check_condition(N != 1,
@@ -216,7 +219,9 @@ cluster_gen <- function(
     sample <- cluster_gen_separate(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, cat_prop, c_mean, sigma, cor_matrix, rho, theta, verbose, ...
+      n_X, n_W, cat_prop, c_mean, sigma, cor_matrix, rho, theta,
+      whitelist, verbose,
+      ...
     )
   } else { # questionnaires administered only at the bottom level
 
