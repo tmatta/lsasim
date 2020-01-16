@@ -3,7 +3,7 @@ wrap_cluster_gen <- function(...) {
   cluster_gen(..., family = "gaussian", verbose = FALSE)
 }
 
-# Basic argument handling ======================================================
+# Basic argument handling =====================================================
 test_that("Basic argument handling generates data", {
   df01 <- wrap_cluster_gen(1:2)
   df02 <- wrap_cluster_gen(2:4)
@@ -67,7 +67,7 @@ test_that("Basic argument handling generates data", {
   expect_output(str(df14), "24 obs.")
 })
 
-# Errors are caught ============================================================
+# Errors are caught ===========================================================
 test_that("Errors are caught", {
   expect_error(cluster_gen(1))
   expect_error(cluster_gen(2:4, separate_questionnaires = FALSE, n_X = 1:2))
@@ -77,7 +77,7 @@ test_that("Errors are caught", {
                              verbose = FALSE))
 })
 
-# uniqueIDs are correct ========================================================
+# uniqueIDs are correct =======================================================
 test_that("uniqueIDs are correct", {
   wrap_cluster_gen_2 <- function(..., coll = "full", return_all = FALSE,
                                  verb = FALSE) {
@@ -163,7 +163,7 @@ test_that("uniqueIDs are correct", {
   )
 })
 
-# Named n vector ===============================================================
+# Named n vector ==============================================================
 test_that("Named vectors are working properly", {
   df1 <- cluster_gen(n       = c("land" = 1, "skole" = 3, "klasse" = 2),
                      verbose = FALSE,
@@ -183,7 +183,7 @@ test_that("Named vectors are working properly", {
     "estudante1_escola4_cidade4_pais1"))
 })
 
-# Different means ==============================================================
+# Different means =============================================================
 test_that("Different means are working", {
   wrap_c_gen_mu <- function(...) {
     cluster_gen(..., n_X = 2, n_W = 0, family = "gaussian",
@@ -381,7 +381,7 @@ test_that("Examples worked on with Leslie have correct weights", {
   )
 })
 
-# Ranges for n and N ===========================================================
+# Ranges for n and N ==========================================================
 context("Cluster sampling with ranged number of elements")
 check_cluster_structure <- function(n, FUN = "length") {
   set.seed(1234)
@@ -498,7 +498,14 @@ test_that("N cannot be smaller than n", {
   expect_output(str(df9), "List of 2")
 })
 
-# Testing actual sampling ======================================================
+test_that("n cannor be larger than N", {
+  n7 <- list(school = ranges(5, 10), student = ranges(10, 20))
+  N7 <- c(150, 40)
+  set.seed(683)
+  expect_output(str(cluster_gen(n7, N7, verbose = FALSE)), "List of 7")
+})
+
+# Testing actual sampling =====================================================
 # cl_scheme <- list(school = 2, class = c(3, 2), student = c(5, 4, 5, 5, 5))
 # cl_scheme2 <- list(country = 5,
 #                    school  = c(20, 8, 5, 7, 3),
@@ -508,7 +515,7 @@ test_that("N cannot be smaller than n", {
 # cluster_gen(n = cl_scheme)
 # cluster_gen(n = select(1, 2, 4), N = cl_scheme)
 
-# Replicate weights ============================================================
+# Replicate weights ===========================================================
 context("Replicate weights")
 test_that("Replication weights are correct", {
   set.seed(230)
@@ -606,7 +613,7 @@ test_that("Replication weights are correct", {
   expect_equivalent(mean(unlist(sampling_variance(z, "BRR Fay"))), 0.2, .1)
 })
 
-# Intraclass correlations ======================================================
+# Intraclass correlations =====================================================
 context("Intraclass correlations")
 reps <- 100
 rep_stats <- matrix(nrow = reps, ncol = 14)
@@ -819,7 +826,7 @@ test_that("Rho works for together questionnaires", {
   )
 })
 
-# Adding cor_matrix and cat_prop to cluster_gen ================================
+# Adding cor_matrix and cat_prop to cluster_gen ===============================
 context("Passing cor_matrix and cat_prop from cluster_gen to questionnaire_gen")
 cl_gen_cor <- function(n, mx, nX = 0, nW = 0, sep = TRUE) {
   cluster_gen(
@@ -828,7 +835,7 @@ cl_gen_cor <- function(n, mx, nX = 0, nW = 0, sep = TRUE) {
   )
 }
 test_that("Correlation matrix is correctly parsed in 2-level structures", {
-  ## Setting up datasets -------------------------------------------------------
+  ## Setting up datasets ------------------------------------------------------
   cor_mx <- matrix(c(1, .8, .8, 1), 2)
   set.seed(33602732)
   dfXX <- cl_gen_cor(c(4, 100), cor_mx, 2)
@@ -836,7 +843,7 @@ test_that("Correlation matrix is correctly parsed in 2-level structures", {
   dfWW <- cl_gen_cor(c(4, 100), cor_mx, 0, 2)
   dfXXt <- cl_gen_cor(c(4, 100), cor_mx, 2, 0, FALSE)
 
-  ## Testing output ------------------------------------------------------------
+  ## Testing output -----------------------------------------------------------
   expect_equivalent(
     object    = lapply(dfXX$school, function(x) cor(x[, c("q1", "q2")])),
     expected  = replicate(4, list(cor_mx)),
@@ -864,14 +871,14 @@ test_that("Correlation matrix is correctly parsed in 2-level structures", {
   )
 })
 test_that("Correlation matrix works for structures with 3+ levels", {
-  ## Generating data -----------------------------------------------------------
+  ## Generating data ----------------------------------------------------------
   cor_mx_schools <- matrix(c(1, .6, .3, .6, 1, -.4, .3, -.4, 1), 3)
   cor_mx_classes <- matrix(c(1, -.9, -.9, 1), 2)
   cor_mx <- list(school = cor_mx_schools, class = cor_mx_classes)
   set.seed(6400492)
   df3 <- cl_gen_cor(c(2, 200, 100), cor_mx, list(3, 2))
 
-  ## Testing output ------------------------------------------------------------
+  ## Testing output -----------------------------------------------------------
   expect_equivalent(
     object    = lapply(df3$school, function(x) cor(x[, c("q1", "q2", "q3")])),
     expected  = list(cor_mx$school, cor_mx$school),
@@ -884,14 +891,14 @@ test_that("Correlation matrix works for structures with 3+ levels", {
   )
 })
 test_that("cor_matrix is customizable between elements at the same level", {
-  ## Generating data -----------------------------------------------------------
+  ## Generating data ----------------------------------------------------------
   cor_mx_school1 <- matrix(c(1, -.9, -.9, 1), 2)
   cor_mx_school2 <- matrix(c(1, .4, .4, 1), 2)
   cor_mx <- list(school = list(cor_mx_school1, cor_mx_school2))
   df_sep <- cl_gen_cor(c(2, 200), cor_mx, 2)
   df_tog <- cl_gen_cor(c(2, 200), cor_mx, 2, 0, FALSE)
 
-  ## Testing output ------------------------------------------------------------
+  ## Testing output -----------------------------------------------------------
   expect_equivalent(
     object = lapply(df_sep$school, function(x) cor(x[, c("q1", "q2")])),
     expected = cor_mx$school,
@@ -904,7 +911,7 @@ test_that("cor_matrix is customizable between elements at the same level", {
   )
 })
 
-# Passing cat_prop =============================================================
+# Passing cat_prop ============================================================
 context("Passing cat_prop to cluster_gen")
 wrap_cluster_gen_cat <- function(n, cat, sep = TRUE) {
   cluster_gen(n, cat_prop = cat, separate_questionnaires = sep, verbose = FALSE)

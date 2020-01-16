@@ -1,0 +1,80 @@
+---
+title: "Issues from December testing session"
+author: "Waldir Leoncio"
+date: 2020-01-16
+---
+
+# Introduction
+
+This document addresses issues raised from the lsasim testing session on 2019-12-16. The output is not shown will reflect the latest development stage of lsasim, so it will not necessarity correspond to the behavior observed by the users during the testing session. However, the issues raised will be acknowledged whenever they were reproducible.
+
+The latest development version of lsasim at the time this document was created is `r packageVersion("lsasim")`.
+
+Test units have been put in place to prevent the issues raised to creep up in future versions of the package.
+
+# Yi.txt
+
+> There seems a bug about the ranges function, for example:
+> n1 <- list(school = ranges(5, 10), student = ranges(10, 20))
+> N1 = c (150,40)
+> 
+> then, when I run draw_cluster_structure(n1, N1) or cluster_gen(n1), everything is good;
+> but when I run cluster_gen(n1, N1) or cluster_gen(n1, N1, n_X=2, n_W=2), the number of school goes very big, such as 107 and 127
+
+## Reproducing the issue
+
+### What went well
+
+```{r yi-setup}
+library(lsasim)
+n1 <- list(school = ranges(5, 10), student = ranges(10, 20))
+N1 <- c(150,40)
+```
+
+Since `n1` was defined with `ranges()`, the code below will generate a different structure each time it is called. In any case, the number of schools will be sampled from a discrete U(5, 10) and the number of students from U(10, 20).
+
+One issue with running `draw_cluster_structure` with the argument set `{n1, N1}` is that the two first arguments of this function are, in order, "n" and "labels", so calling `draw_cluster_structure(n1, N1)` will attribute `N1` to the labels of `n1`, as seen below:
+
+```{r yi-draw-N1-labels}
+draw_cluster_structure(n1, N1)
+```
+
+A more proper way to print the structure is by calling as below. The function is called twice here to show that each call to it will generate different sample sizes.
+
+```{r yi-structure}
+draw_cluster_structure(n1)
+draw_cluster_structure(n1)
+```
+
+As reported, running `cluster_gen(n1)` will generate data as expected. Since this call to `cluster_gen` is independent from the `draw_cluster_structure` calls above, the sample sizes will differ once again.
+
+```{r yi-gen-1}
+df1 <- cluster_gen(n1)
+lapply(df1, function(s) lapply(s, head)) 
+```
+
+The `lapply` call above simply applies `head()` to the elements of `df1` (i.e., each school dataset); this saves space by printing only the 6 first elements of each school.
+
+### What did not go well
+
+The user reported issues when the following is ran:
+
+```{r yi-problem, eval=FALSE}
+df2 <- cluster_gen(n1, N1)
+df3 <- cluster_gen(n1, N1, n_X=2, n_W=2)
+```
+
+This is indeed observed in lsasim 2.0.1.9001, where the Sampled structure is not drawn from U(5, 10) anymore, it is just as large as the population. This was observed both visually and by running, for example, `length(df2$school)`, which outputs a large number of sampled schools.
+
+## Identifying the issue
+
+The issue has been found to be in the `convert_vector_to_list` function, which converts a vector to list where each element is replicated a certain number of times depending on the previous vector. It can be called as `convert_vector_to_list(n)` or as `convert_vector_to_list(n, N)`. On the latter case, N should work as a limiter for n. When both n and N are ranges, though, the function doesn't work properly, as n will be only limited by N and not by both N and itself.
+
+## Fixing the issue
+
+Code has been modified on `convert_vector_to_list` to define an upper limit to the sample size considering both the limits set for n as well as for N. The fix can be seen below (`print_pop_structure = FALSE` saves space by suppressing the printing of the population structure of 150 schools)
+
+```{r yi-fixed}
+df4 <- cluster_gen(n1, N1, print_pop_structure = FALSE)
+df5 <- cluster_gen(n1, N1, n_X=2, n_W=2, print_pop_structure=FALSE)
+```
