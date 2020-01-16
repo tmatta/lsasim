@@ -1,5 +1,5 @@
-#' Wrapper-function for check_condition
-#'
+#' Wrapper-functions for check_condition
+#' @description functions to save space in ther parent functions by moving the validation checks here
 #' @param n_cats vector with number of categories for each categorical variable
 #'   (W)
 #' @param n_vars number of variables (Y, X and W)
@@ -13,7 +13,7 @@
 #' @param c_mean vector of means of all variables (YXW)
 #' @param c_sd vector of standard deviations of all variables (YXW)
 #'
-run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
+validate_questionnaire_gen <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
                                  cor_matrix, cov_matrix, c_mean, c_sd) {
 
   # Conditions involving number and quality of covariates -------------
