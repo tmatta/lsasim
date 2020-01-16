@@ -390,14 +390,46 @@ summary {
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#yi.txt">Yi.txt</a>
+<ul>
+<li><a href="#reproducing-the-issue">Reproducing the issue</a>
+<ul>
+<li><a href="#what-went-well">What went well</a></li>
+<li><a href="#what-did-not-go-well">What did not go well</a></li>
+</ul></li>
+<li><a href="#identifying-the-issue">Identifying the issue</a></li>
+<li><a href="#fixing-the-issue">Fixing the issue</a></li>
+</ul></li>
+<li><a href="#correlation-matrix-in-cluster_gen.pdf">correlation-matrix-in-cluster_gen.pdf</a>
+<ul>
+<li><a href="#issue-1-improper-correlation-matrices">Issue #1: improper correlation matrices</a>
+<ul>
+<li><a href="#reproducing-the-issue-1">Reproducing the issue</a></li>
+<li><a href="#identifying-the-issue-1">Identifying the issue</a></li>
+<li><a href="#fixing-the-issue-1">Fixing the issue</a></li>
+</ul></li>
+<li><a href="#issue-2-failure-to-produce-data">Issue #2: failure to produce data</a>
+<ul>
+<li><a href="#identifying-the-issue-2">Identifying the issue</a></li>
+<li><a href="#fixing-the-issue-2">Fixing the issue</a></li>
+</ul></li>
+<li><a href="#issue-3-miscellaneous-errors">Issue #3: miscellaneous errors</a></li>
+</ul></li>
+</ul>
+</div>
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <p>This document addresses issues raised from the lsasim testing session on 2019-12-16. The output is not shown will reflect the latest development stage of lsasim, so it will not necessarity correspond to the behavior observed by the users during the testing session. However, the issues raised will be acknowledged whenever they were reproducible.</p>
 <p>The latest development version of lsasim at the time this document was created is 2.0.1.9001.</p>
+<p>Test units have been put in place to prevent the issues raised to creep up in future versions of the package.</p>
 </div>
 <div id="yi.txt" class="section level1">
 <h1>Yi.txt</h1>
+<p>The content of the file is reproduced below:</p>
 <blockquote>
 <p>There seems a bug about the ranges function, for example: n1 &lt;- list(school = ranges(5, 10), student = ranges(10, 20)) N1 = c (150,40)</p>
 <p>then, when I run draw_cluster_structure(n1, N1) or cluster_gen(n1), everything is good; but when I run cluster_gen(n1, N1) or cluster_gen(n1, N1, n_X=2, n_W=2), the number of school goes very big, such as 107 and 127</p>
@@ -408,130 +440,95 @@ summary {
 <h3>What went well</h3>
 <pre class="r"><code>library(lsasim)
 n1 &lt;- list(school = ranges(5, 10), student = ranges(10, 20))
-N1 &lt;- c (150,40)</code></pre>
+N1 &lt;- c(150,40)</code></pre>
 <p>Since <code>n1</code> was defined with <code>ranges()</code>, the code below will generate a different structure each time it is called. In any case, the number of schools will be sampled from a discrete U(5, 10) and the number of students from U(10, 20).</p>
 <p>One issue with running <code>draw_cluster_structure</code> with the argument set <code>{n1, N1}</code> is that the two first arguments of this function are, in order, “n” and “labels”, so calling <code>draw_cluster_structure(n1, N1)</code> will attribute <code>N1</code> to the labels of <code>n1</code>, as seen below:</p>
 <pre class="r"><code>draw_cluster_structure(n1, N1)</code></pre>
-<pre><code>## 1501 (14 students)
+<pre><code>## 1501 (13 students)
 ## 1502 (10 students)
-## 1503 (18 students)
-## 1504 (17 students)
-## 1505 (15 students)
-## 1506 (17 students)
-## 1507 (13 students)
-## 1508 (13 students)</code></pre>
+## 1503 (11 students)
+## 1504 (15 students)
+## 1505 (12 students)
+## 1506 (10 students)</code></pre>
 <p>A more proper way to print the structure is by calling as below. The function is called twice here to show that each call to it will generate different sample sizes.</p>
 <pre class="r"><code>draw_cluster_structure(n1)</code></pre>
-<pre><code>## school1 (19 students)
-## school2 (12 students)
-## school3 (15 students)
-## school4 (15 students)
-## school5 (12 students)</code></pre>
-<pre class="r"><code>draw_cluster_structure(n1)</code></pre>
 <pre><code>## school1 (14 students)
-## school2 (10 students)
+## school2 (15 students)
 ## school3 (13 students)
-## school4 (14 students)
-## school5 (10 students)
-## school6 (10 students)</code></pre>
+## school4 (13 students)</code></pre>
+<pre class="r"><code>draw_cluster_structure(n1)</code></pre>
+<pre><code>## school1 (15 students)
+## school2 (20 students)
+## school3 (10 students)
+## school4 (10 students)
+## school5 (15 students)
+## school6 (17 students)
+## school7 (12 students)
+## school8 (19 students)</code></pre>
 <p>As reported, running <code>cluster_gen(n1)</code> will generate data as expected. Since this call to <code>cluster_gen</code> is independent from the <code>draw_cluster_structure</code> calls above, the sample sizes will differ once again.</p>
 <pre class="r"><code>df1 &lt;- cluster_gen(n1)</code></pre>
-<pre><code>## ── Hierarchical structure ─────────────────────────────────────────────────────────────────</code></pre>
+<pre><code>## ── Hierarchical structure ────────────────────────────────────────────────────────</code></pre>
 <pre><code>## Generating questionnaires for schools, students</code></pre>
-<pre><code>## Total respondents: 61 (12 + 11 + 11 + 11 + 16)</code></pre>
-<pre><code>## school1 (12 students)
+<pre><code>## Total respondents: 40 (16 + 11 + 13)</code></pre>
+<pre><code>## school1 (16 students)
 ## school2 (11 students)
-## school3 (11 students)
-## school4 (11 students)
-## school5 (16 students)
-## ── Information on sampling weights ────────────────────────────────────────────────────────</code></pre>
+## school3 (13 students)
+## ── Information on sampling weights ───────────────────────────────────────────────</code></pre>
 <pre><code>## - Calculating PPS weights at the school level</code></pre>
-<pre><code>##   final.student.weight should add up to the number of students in the population (61)</code></pre>
+<pre><code>##   final.student.weight should add up to the number of students in the population (40)</code></pre>
 <pre class="r"><code>lapply(df1, function(s) lapply(s, head)) </code></pre>
 <pre><code>## $school
 ## $school[[1]]
-##   subject         q1 q2 q3 q4 q5 school.weight within.school.weight final.student.weight
-## 1       1 -1.6796143  1  1  2  1      1.016667                    1             1.016667
-## 2       2  1.1350002  1  1  1  1      1.016667                    1             1.016667
-## 3       3 -0.4397606  2  1  1  2      1.016667                    1             1.016667
-## 4       4 -0.3020124  1  1  1  2      1.016667                    1             1.016667
-## 5       5  0.5216475  1  2  2  1      1.016667                    1             1.016667
-## 6       6  0.3447289  2  2  2  1      1.016667                    1             1.016667
-##           uniqueID
-## 1 student1_school1
-## 2 student2_school1
-## 3 student3_school1
-## 4 student4_school1
-## 5 student5_school1
-## 6 student6_school1
+##   subject          q1 q2 q3 q4 q5 q6 q7 q8 q9 school.weight within.school.weight
+## 1       1 -0.41893797  1  1  1  2  2  1  2  1     0.8333333                    1
+## 2       2 -0.08350358  2  1  1  2  1  2  2  1     0.8333333                    1
+## 3       3  1.42918956  2  2  1  2  1  2  2  1     0.8333333                    1
+## 4       4  2.11370536  2  1  2  1  1  2  2  1     0.8333333                    1
+## 5       5 -0.13909465  2  1  1  2  1  2  2  1     0.8333333                    1
+## 6       6  0.87451566  2  1  1  2  1  1  2  2     0.8333333                    1
+##   final.student.weight         uniqueID
+## 1            0.8333333 student1_school1
+## 2            0.8333333 student2_school1
+## 3            0.8333333 student3_school1
+## 4            0.8333333 student4_school1
+## 5            0.8333333 student5_school1
+## 6            0.8333333 student6_school1
 ## 
 ## $school[[2]]
-##   subject          q1 q2 q3 q4 q5 school.weight within.school.weight final.student.weight
-## 1       1  0.08087319  2  1  2  2      1.109091                    1             1.109091
-## 2       2  1.33910202  1  1  1  1      1.109091                    1             1.109091
-## 3       3  0.08651420  1  1  2  2      1.109091                    1             1.109091
-## 4       4 -0.27881144  1  1  1  1      1.109091                    1             1.109091
-## 5       5 -0.60635596  2  1  1  2      1.109091                    1             1.109091
-## 6       6 -0.20364118  2  2  1  2      1.109091                    1             1.109091
-##           uniqueID
-## 1 student1_school2
-## 2 student2_school2
-## 3 student3_school2
-## 4 student4_school2
-## 5 student5_school2
-## 6 student6_school2
+##   subject         q1 q2 q3 q4 q5 q6 q7 q8 q9 school.weight within.school.weight
+## 1       1 -0.7854539  2  1  1  1  2  2  1  1      1.212121                    1
+## 2       2 -1.5577912  1  2  1  2  2  1  1  1      1.212121                    1
+## 3       3 -0.8720125  2  1  1  1  1  1  1  2      1.212121                    1
+## 4       4  1.5304341  2  2  1  2  2  1  2  2      1.212121                    1
+## 5       5 -1.7855395  1  2  1  2  2  1  2  1      1.212121                    1
+## 6       6  1.1337681  1  2  1  2  2  2  1  1      1.212121                    1
+##   final.student.weight         uniqueID
+## 1             1.212121 student1_school2
+## 2             1.212121 student2_school2
+## 3             1.212121 student3_school2
+## 4             1.212121 student4_school2
+## 5             1.212121 student5_school2
+## 6             1.212121 student6_school2
 ## 
 ## $school[[3]]
-##   subject          q1 q2 q3 q4 q5 school.weight within.school.weight final.student.weight
-## 1       1 -0.10378080  2  1  1  1      1.109091                    1             1.109091
-## 2       2 -1.44213956  1  2  2  2      1.109091                    1             1.109091
-## 3       3 -0.09630135  1  1  1  2      1.109091                    1             1.109091
-## 4       4  0.20341999  2  1  2  2      1.109091                    1             1.109091
-## 5       5 -0.51714095  2  1  2  1      1.109091                    1             1.109091
-## 6       6  1.12969370  2  1  2  2      1.109091                    1             1.109091
-##           uniqueID
-## 1 student1_school3
-## 2 student2_school3
-## 3 student3_school3
-## 4 student4_school3
-## 5 student5_school3
-## 6 student6_school3
-## 
-## $school[[4]]
-##   subject         q1 q2 q3 q4 q5 school.weight within.school.weight final.student.weight
-## 1       1 -0.9195491  2  2  1  2      1.109091                    1             1.109091
-## 2       2 -1.3367669  1  2  1  2      1.109091                    1             1.109091
-## 3       3  1.1243324  1  1  1  2      1.109091                    1             1.109091
-## 4       4  1.2321870  1  1  1  2      1.109091                    1             1.109091
-## 5       5 -0.3146156  1  1  2  2      1.109091                    1             1.109091
-## 6       6  0.0782894  1  1  2  2      1.109091                    1             1.109091
-##           uniqueID
-## 1 student1_school4
-## 2 student2_school4
-## 3 student3_school4
-## 4 student4_school4
-## 5 student5_school4
-## 6 student6_school4
-## 
-## $school[[5]]
-##   subject           q1 q2 q3 q4 q5 school.weight within.school.weight final.student.weight
-## 1       1 -0.229195228  1  2  1  1        0.7625                    1               0.7625
-## 2       2  0.009805473  2  2  2  1        0.7625                    1               0.7625
-## 3       3 -0.249829747  1  2  2  1        0.7625                    1               0.7625
-## 4       4 -0.916445606  1  2  2  2        0.7625                    1               0.7625
-## 5       5 -0.597071481  1  1  1  2        0.7625                    1               0.7625
-## 6       6  0.758628287  1  1  2  2        0.7625                    1               0.7625
-##           uniqueID
-## 1 student1_school5
-## 2 student2_school5
-## 3 student3_school5
-## 4 student4_school5
-## 5 student5_school5
-## 6 student6_school5</code></pre>
+##   subject          q1 q2 q3 q4 q5 q6 q7 q8 q9 school.weight within.school.weight
+## 1       1  1.07032824  1  1  2  2  2  2  1  1      1.025641                    1
+## 2       2  2.95092841  1  2  1  1  2  2  2  1      1.025641                    1
+## 3       3 -0.50614649  1  2  1  1  2  2  1  2      1.025641                    1
+## 4       4  0.01005758  2  2  1  2  2  1  2  1      1.025641                    1
+## 5       5  0.42518180  2  2  1  1  2  1  2  2      1.025641                    1
+## 6       6 -0.22905631  1  2  1  2  2  2  2  2      1.025641                    1
+##   final.student.weight         uniqueID
+## 1             1.025641 student1_school3
+## 2             1.025641 student2_school3
+## 3             1.025641 student3_school3
+## 4             1.025641 student4_school3
+## 5             1.025641 student5_school3
+## 6             1.025641 student6_school3</code></pre>
 <p>The <code>lapply</code> call above simply applies <code>head()</code> to the elements of <code>df1</code> (i.e., each school dataset); this saves space by printing only the 6 first elements of each school.</p>
 </div>
-<div id="what-did-not-went-well" class="section level3">
-<h3>What did not went well</h3>
+<div id="what-did-not-go-well" class="section level3">
+<h3>What did not go well</h3>
 <p>The user reported issues when the following is ran:</p>
 <pre class="r"><code>df2 &lt;- cluster_gen(n1, N1)
 df3 &lt;- cluster_gen(n1, N1, n_X=2, n_W=2)</code></pre>
@@ -546,37 +543,461 @@ df3 &lt;- cluster_gen(n1, N1, n_X=2, n_W=2)</code></pre>
 <h2>Fixing the issue</h2>
 <p>Code has been modified on <code>convert_vector_to_list</code> to define an upper limit to the sample size considering both the limits set for n as well as for N. The fix can be seen below (<code>print_pop_structure = FALSE</code> saves space by suppressing the printing of the population structure of 150 schools)</p>
 <pre class="r"><code>df4 &lt;- cluster_gen(n1, N1, print_pop_structure = FALSE)</code></pre>
-<pre><code>## ── Hierarchical structure ─────────────────────────────────────────────────────────────────</code></pre>
+<pre><code>## ── Hierarchical structure ────────────────────────────────────────────────────────</code></pre>
 <pre><code>## Generating questionnaires for schools, students</code></pre>
-<pre><code>## Total respondents: 143 (15 + 13 + 19 + 16 + 10 + 12 + 14 + 12 + 14 + 18)</code></pre>
-<pre><code>## school1 (15 students)
-## school2 (13 students)
-## school3 (19 students)
-## school4 (16 students)
-## school5 (10 students)
-## school6 (12 students)
-## school7 (14 students)
-## school8 (12 students)
-## school9 (14 students)
-## school10 (18 students)
-## ── Information on sampling weights ────────────────────────────────────────────────────────</code></pre>
+<pre><code>## Total respondents: 150 (18 + 19 + 16 + 19 + 12 + 16 + 20 + 20 + 10)</code></pre>
+<pre><code>## school1 (18 students)
+## school2 (19 students)
+## school3 (16 students)
+## school4 (19 students)
+## school5 (12 students)
+## school6 (16 students)
+## school7 (20 students)
+## school8 (20 students)
+## school9 (10 students)
+## ── Information on sampling weights ───────────────────────────────────────────────</code></pre>
 <pre><code>## - Calculating PPS weights at the school level</code></pre>
 <pre><code>##   final.student.weight should add up to the number of students in the population (6000)</code></pre>
 <pre class="r"><code>df5 &lt;- cluster_gen(n1, N1, n_X=2, n_W=2, print_pop_structure=FALSE)</code></pre>
-<pre><code>## ── Hierarchical structure ─────────────────────────────────────────────────────────────────</code></pre>
+<pre><code>## ── Hierarchical structure ────────────────────────────────────────────────────────</code></pre>
 <pre><code>## Generating questionnaires for schools, students</code></pre>
-<pre><code>## Total respondents: 120 (12 + 10 + 15 + 20 + 20 + 15 + 10 + 18)</code></pre>
-<pre><code>## school1 (12 students)
-## school2 (10 students)
-## school3 (15 students)
-## school4 (20 students)
-## school5 (20 students)
-## school6 (15 students)
-## school7 (10 students)
-## school8 (18 students)
-## ── Information on sampling weights ────────────────────────────────────────────────────────</code></pre>
+<pre><code>## Total respondents: 90 (16 + 19 + 17 + 12 + 14 + 12)</code></pre>
+<pre><code>## school1 (16 students)
+## school2 (19 students)
+## school3 (17 students)
+## school4 (12 students)
+## school5 (14 students)
+## school6 (12 students)
+## ── Information on sampling weights ───────────────────────────────────────────────</code></pre>
 <pre><code>## - Calculating PPS weights at the school level</code></pre>
 <pre><code>##   final.student.weight should add up to the number of students in the population (6000)</code></pre>
+</div>
+</div>
+<div id="correlation-matrix-in-cluster_gen.pdf" class="section level1">
+<h1>correlation-matrix-in-cluster_gen.pdf</h1>
+<p>The content of the file will be reproduced in the following subsections.</p>
+<div id="issue-1-improper-correlation-matrices" class="section level2">
+<h2>Issue #1: improper correlation matrices</h2>
+<div id="reproducing-the-issue-1" class="section level3">
+<h3>Reproducing the issue</h3>
+<p>The basic setup for the first issue raised is as follows:</p>
+<pre class="r"><code>n3 &lt;- c(5, 15)
+N3 &lt;- c(150, 40)
+matrix3 &lt;- matrix(
+    c(
+        .3, .3, .6, -1.03,
+        .3,  1, .7, .4,
+        .6, .7,  1, .8,
+        -1.03, .4, .8,  1
+    ),
+    nrow = 4, ncol = 4, byrow=T
+)</code></pre>
+<p>This setup raises errors when calling</p>
+<pre class="r"><code>set.seed(2345)
+cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix3, n_W = 2)</code></pre>
+</div>
+<div id="identifying-the-issue-1" class="section level3">
+<h3>Identifying the issue</h3>
+<p>The user reported the following:</p>
+<blockquote>
+<p>When I have some misspecification in the diagonal of ones in the correlation matrix it trows an error: Errorin chol.default(cor_matrix) : the leading minor of order 3 is not positive definite</p>
+</blockquote>
+<p>This is indeed the case, as an improper correlation matrix will generate errors in the generation of data. This behavior is present since lsasim 1.0.0 and can be reproduced by issuing the following:</p>
+<pre class="r"><code>questionnaire_gen(5, n_X = 2, cor_matrix = matrix3)</code></pre>
+<p>Data can be generated even with such improper matrices, as long as <code>family = &quot;gaussian&quot;</code> is provided:</p>
+<pre class="r"><code>questionnaire_gen(5, n_X = 2, cor_matrix = matrix3, family = &quot;gaussian&quot;)</code></pre>
+<p>The differing behavior is caused by <code>family = NULL</code> triggering the default data-generation process of <code>questionnaire_gen</code>, which uses Cholesky decomposition, and there are no validation checks in the <code>chol.default</code> function; <code>family = &quot;gaussian&quot;</code>, on the other hand, uses the function <code>rmvnorm</code> to generate the data from a multivariate normal distribution. The latter function makes little judgement of the covariate matrix which is passed, and is able to generate data even if the matrix is not positive semidefinite. See the example below, which contains such a matrix:</p>
+<pre class="r"><code>mvtnorm::rmvnorm(
+    n = 2,
+    mean = c(3, 0),
+    sigma = matrix(c(1, 2, 2, 1), 2)
+)</code></pre>
+<pre><code>## Warning in mvtnorm::rmvnorm(n = 2, mean = c(3, 0), sigma = matrix(c(1, 2, : sigma
+## is numerically not positive semidefinite</code></pre>
+<pre><code>##          [,1]      [,2]
+## [1,] 3.556622 0.5566216
+## [2,] 3.298072 0.2980721</code></pre>
+<p>The problem persists with the matrix below:</p>
+<pre class="r"><code>matrix4 &lt;- matrix(
+    c(
+        1, .3, .6, -1.03,
+        .3, 1, .7, .4,
+        .6, .7, 1, .8,
+        -1.03, .4, .8, 1),
+    nrow = 4, ncol = 4, byrow=T
+)</code></pre>
+<p>Those issues are expected, as both matrices are not positive semidefinite. This means that their eigenvalues are not all non-negative:</p>
+<pre class="r"><code>eigen(matrix3)$values</code></pre>
+<pre><code>## [1]  2.2818544  1.5767434  0.3698563 -0.9284541</code></pre>
+<pre class="r"><code>eigen(matrix4)$values</code></pre>
+<pre><code>## [1]  2.2836843  1.9558888  0.3961532 -0.6357263</code></pre>
+<p>Naturally, the problem dissappear as proper matrices are provided. For instance, assuming the first variable is inversely correlated to the others:</p>
+<pre class="r"><code>matrix3_pos &lt;- matrix(
+    c(
+        1, -.3, -.6, -.5,
+        -.3,  1, .7, .4,
+        -.6, .7,  1, .8,
+        -.5, .4, .8,  1
+    ),
+    nrow = 4, ncol = 4, byrow=T
+)
+eigen(matrix3_pos)$values</code></pre>
+<pre><code>## [1] 2.6843579 0.7222774 0.4922551 0.1011097</code></pre>
+<pre class="r"><code>df1 &lt;- cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix3_pos, n_W = 2)</code></pre>
+<pre><code>## ── Hierarchical structure ────────────────────────────────────────────────────────</code></pre>
+<pre><code>## Population structure</code></pre>
+<pre><code>## school1 (40 students)
+## school2 (40 students)
+## school3 (40 students)
+## school4 (40 students)
+## school5 (40 students)
+## school6 (40 students)
+## school7 (40 students)
+## school8 (40 students)
+## school9 (40 students)
+## school10 (40 students)
+## school11 (40 students)
+## school12 (40 students)
+## school13 (40 students)
+## school14 (40 students)
+## school15 (40 students)
+## school16 (40 students)
+## school17 (40 students)
+## school18 (40 students)
+## school19 (40 students)
+## school20 (40 students)
+## school21 (40 students)
+## school22 (40 students)
+## school23 (40 students)
+## school24 (40 students)
+## school25 (40 students)
+## school26 (40 students)
+## school27 (40 students)
+## school28 (40 students)
+## school29 (40 students)
+## school30 (40 students)
+## school31 (40 students)
+## school32 (40 students)
+## school33 (40 students)
+## school34 (40 students)
+## school35 (40 students)
+## school36 (40 students)
+## school37 (40 students)
+## school38 (40 students)
+## school39 (40 students)
+## school40 (40 students)
+## school41 (40 students)
+## school42 (40 students)
+## school43 (40 students)
+## school44 (40 students)
+## school45 (40 students)
+## school46 (40 students)
+## school47 (40 students)
+## school48 (40 students)
+## school49 (40 students)
+## school50 (40 students)
+## school51 (40 students)
+## school52 (40 students)
+## school53 (40 students)
+## school54 (40 students)
+## school55 (40 students)
+## school56 (40 students)
+## school57 (40 students)
+## school58 (40 students)
+## school59 (40 students)
+## school60 (40 students)
+## school61 (40 students)
+## school62 (40 students)
+## school63 (40 students)
+## school64 (40 students)
+## school65 (40 students)
+## school66 (40 students)
+## school67 (40 students)
+## school68 (40 students)
+## school69 (40 students)
+## school70 (40 students)
+## school71 (40 students)
+## school72 (40 students)
+## school73 (40 students)
+## school74 (40 students)
+## school75 (40 students)
+## school76 (40 students)
+## school77 (40 students)
+## school78 (40 students)
+## school79 (40 students)
+## school80 (40 students)
+## school81 (40 students)
+## school82 (40 students)
+## school83 (40 students)
+## school84 (40 students)
+## school85 (40 students)
+## school86 (40 students)
+## school87 (40 students)
+## school88 (40 students)
+## school89 (40 students)
+## school90 (40 students)
+## school91 (40 students)
+## school92 (40 students)
+## school93 (40 students)
+## school94 (40 students)
+## school95 (40 students)
+## school96 (40 students)
+## school97 (40 students)
+## school98 (40 students)
+## school99 (40 students)
+## school100 (40 students)
+## school101 (40 students)
+## school102 (40 students)
+## school103 (40 students)
+## school104 (40 students)
+## school105 (40 students)
+## school106 (40 students)
+## school107 (40 students)
+## school108 (40 students)
+## school109 (40 students)
+## school110 (40 students)
+## school111 (40 students)
+## school112 (40 students)
+## school113 (40 students)
+## school114 (40 students)
+## school115 (40 students)
+## school116 (40 students)
+## school117 (40 students)
+## school118 (40 students)
+## school119 (40 students)
+## school120 (40 students)
+## school121 (40 students)
+## school122 (40 students)
+## school123 (40 students)
+## school124 (40 students)
+## school125 (40 students)
+## school126 (40 students)
+## school127 (40 students)
+## school128 (40 students)
+## school129 (40 students)
+## school130 (40 students)
+## school131 (40 students)
+## school132 (40 students)
+## school133 (40 students)
+## school134 (40 students)
+## school135 (40 students)
+## school136 (40 students)
+## school137 (40 students)
+## school138 (40 students)
+## school139 (40 students)
+## school140 (40 students)
+## school141 (40 students)
+## school142 (40 students)
+## school143 (40 students)
+## school144 (40 students)
+## school145 (40 students)
+## school146 (40 students)
+## school147 (40 students)
+## school148 (40 students)
+## school149 (40 students)
+## school150 (40 students)</code></pre>
+<pre><code>## Sampled structure</code></pre>
+<pre><code>## Generating questionnaires for schools</code></pre>
+<pre><code>## Total respondents: 75 (15 + 15 + 15 + 15 + 15)</code></pre>
+<pre><code>## school1 (15 students)
+## school2 (15 students)
+## school3 (15 students)
+## school4 (15 students)
+## school5 (15 students)
+## ── Information on sampling weights ───────────────────────────────────────────────</code></pre>
+<pre><code>## - Calculating PPS weights at the school level</code></pre>
+<pre><code>##   final.student.weight should add up to the number of students in the population (6000)</code></pre>
+</div>
+<div id="fixing-the-issue-1" class="section level3">
+<h3>Fixing the issue</h3>
+<p>The <code>questionnaire_gen</code> function nas been given a new validation check which prevents improper correlation matrices to be passed. This is the current new behavior:</p>
+<pre class="r"><code>cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix3, n_W = 2, print_pop_structure=FALSE)</code></pre>
+<pre><code>## ── Hierarchical structure ────────────────────────────────────────────────────────</code></pre>
+<pre><code>## Generating questionnaires for schools</code></pre>
+<pre><code>## Total respondents: 75 (15 + 15 + 15 + 15 + 15)</code></pre>
+<pre><code>## school1 (15 students)
+## school2 (15 students)
+## school3 (15 students)
+## school4 (15 students)
+## school5 (15 students)
+## ── Information on sampling weights ───────────────────────────────────────────────</code></pre>
+<pre><code>## Error: Improper correlation matrix. Make sure all eigenvalues are non-negative</code></pre>
+<pre class="r"><code>cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix4, n_W = 2, print_pop_structure=FALSE)</code></pre>
+<pre><code>## ── Hierarchical structure ────────────────────────────────────────────────────────</code></pre>
+<pre><code>## Generating questionnaires for schools
+## Total respondents: 75 (15 + 15 + 15 + 15 + 15)</code></pre>
+<pre><code>## school1 (15 students)
+## school2 (15 students)
+## school3 (15 students)
+## school4 (15 students)
+## school5 (15 students)
+## ── Information on sampling weights ───────────────────────────────────────────────</code></pre>
+<pre><code>## Error: Improper correlation matrix. Make sure all eigenvalues are non-negative</code></pre>
+<pre class="r"><code>cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix3, n_W = 2, print_pop_structure=FALSE, family = &quot;gaussian&quot;)</code></pre>
+<pre><code>## ── Hierarchical structure ────────────────────────────────────────────────────────</code></pre>
+<pre><code>## Generating questionnaires for schools
+## Total respondents: 75 (15 + 15 + 15 + 15 + 15)</code></pre>
+<pre><code>## school1 (15 students)
+## school2 (15 students)
+## school3 (15 students)
+## school4 (15 students)
+## school5 (15 students)
+## ── Information on sampling weights ───────────────────────────────────────────────</code></pre>
+<pre><code>## Error: Improper correlation matrix. Make sure all eigenvalues are non-negative</code></pre>
+</div>
+</div>
+<div id="issue-2-failure-to-produce-data" class="section level2">
+<h2>Issue #2: failure to produce data</h2>
+<p>According to the user:</p>
+<blockquote>
+<p>cluster_gen won’t produce data if the dimension of the correlation matrix is smaller than the sum of the continuous and categorical variable</p>
+</blockquote>
+<pre class="r"><code>matrix5 &lt;- matrix(
+    c(1, .3, .6, .3, 1, .7, .6, .7, 1), nrow = 3, ncol = 3, byrow=T
+)
+set.seed(2345)
+cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix5, n_W = 2)</code></pre>
+<div id="identifying-the-issue-2" class="section level3">
+<h3>Identifying the issue</h3>
+<p>As reported by lsasim, the issue is caused by the fact that the matrix provided matrix5 has fewer columns (3) than the sum of <code>n_X</code> and <code>n_W</code> (2 + 2 = 4).</p>
+</div>
+<div id="fixing-the-issue-2" class="section level3">
+<h3>Fixing the issue</h3>
+<p>The validation check of <code>questionnaire_gen</code> has been improved to show the results of the sums, thus making it easier for the user to identify the problem:</p>
+<pre class="r"><code>cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix5, n_W = 2, print_pop_structure=FALSE)</code></pre>
+<pre><code>## ── Hierarchical structure ────────────────────────────────────────────────────────</code></pre>
+<pre><code>## Generating questionnaires for schools</code></pre>
+<pre><code>## Total respondents: 75 (15 + 15 + 15 + 15 + 15)</code></pre>
+<pre><code>## school1 (15 students)
+## school2 (15 students)
+## school3 (15 students)
+## school4 (15 students)
+## school5 (15 students)
+## ── Information on sampling weights ───────────────────────────────────────────────</code></pre>
+<pre><code>## Error: n_X + n_W + theta must not be different from ncol(cor_matrix). The former add up to 4, whereas the latter equals 3</code></pre>
+</div>
+</div>
+<div id="issue-3-miscellaneous-errors" class="section level2">
+<h2>Issue #3: miscellaneous errors</h2>
+<p>The author found some code at the end of the user’s report, containing code similar to the one below, where the following was changed to generate proper output:</p>
+<ul>
+<li><code>matrix6</code> was defined as having 5 rows and 5 columns (instead of 3).</li>
+<li><code>df6</code> was complemented with <code>theta = TRUE</code> to ensure that <code>n_X + n_W + theta = ncol(matrix6)</code> (otherwise, no data is generated, as it falls in the case of issue # 2).</li>
+</ul>
+<pre class="r"><code>matrix6 &lt;- matrix(
+    c(
+        1, .3, .6, .8, .5,
+        .3,  1, .7, .5, .4,
+        .6, .7,  1, .8, .3,
+        .8, .5, .8,  1, .2,
+        .5, .4, .3, .2,  1
+    ),
+    nrow = 5, ncol = 5, byrow=T
+)
+set.seed(2345)
+df6 &lt;- cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix6, n_W = 2, print_pop_structure=FALSE)</code></pre>
+<pre><code>## ── Hierarchical structure ────────────────────────────────────────────────────────</code></pre>
+<pre><code>## Generating questionnaires for schools</code></pre>
+<pre><code>## Total respondents: 75 (15 + 15 + 15 + 15 + 15)</code></pre>
+<pre><code>## school1 (15 students)
+## school2 (15 students)
+## school3 (15 students)
+## school4 (15 students)
+## school5 (15 students)
+## ── Information on sampling weights ───────────────────────────────────────────────</code></pre>
+<pre><code>## Error: n_X + n_W + theta must not be different from ncol(cor_matrix). The former add up to 4, whereas the latter equals 5</code></pre>
+<pre class="r"><code>n4 &lt;- c(5, 15)
+N4 &lt;- c(150, 40)
+matrix4 &lt;- matrix(
+    c(
+        1, .3, .6, .5,
+        .3,  1, .7, .4,
+        .6, .7,  1, .8,
+        .5, .4, .8,  1
+    ),
+    nrow = 4, ncol = 4, byrow=T
+)
+c_mean &lt;- c(1,2)
+sigma &lt;- c(1.25, 1.50)
+set.seed(2345)
+data3 &lt;- cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix4, n_W = 2, print_pop_structure=FALSE)</code></pre>
+<pre><code>## ── Hierarchical structure ────────────────────────────────────────────────────────</code></pre>
+<pre><code>## Generating questionnaires for schools</code></pre>
+<pre><code>## Total respondents: 75 (15 + 15 + 15 + 15 + 15)</code></pre>
+<pre><code>## school1 (15 students)
+## school2 (15 students)
+## school3 (15 students)
+## school4 (15 students)
+## school5 (15 students)
+## ── Information on sampling weights ───────────────────────────────────────────────</code></pre>
+<pre><code>## - Calculating PPS weights at the school level</code></pre>
+<pre><code>##   final.student.weight should add up to the number of students in the population (6000)</code></pre>
+<pre class="r"><code>data3$school[[1]]</code></pre>
+<pre><code>##    subject           q1          q2 q3 q4 school.weight within.school.weight
+## 1        1  0.801171064  0.79464145  3  1            30             2.666667
+## 2        2  0.559066064  0.33592633  4  3            30             2.666667
+## 3        3 -0.405412590 -0.03316325  1  1            30             2.666667
+## 4        4 -1.036730322  0.48455986  1  1            30             2.666667
+## 5        5 -0.438849831  1.91634786  4  3            30             2.666667
+## 6        6 -0.165662476  0.02546579  2  2            30             2.666667
+## 7        7 -0.882344504 -1.10617283  1  1            30             2.666667
+## 8        8 -0.013321815  0.84752365  3  2            30             2.666667
+## 9        9  0.008731314 -0.78787038  1  1            30             2.666667
+## 10      10 -1.079318435 -0.44608957  1  1            30             2.666667
+## 11      11  0.277301885  0.73557771  3  1            30             2.666667
+## 12      12  1.080466374 -2.04611733  3  3            30             2.666667
+## 13      13  0.040096817  0.41208537  3  2            30             2.666667
+## 14      14  0.237270360 -0.55013486  4  3            30             2.666667
+## 15      15  0.973579659  1.15536486  3  1            30             2.666667
+##    final.student.weight          uniqueID
+## 1                    80  student1_school1
+## 2                    80  student2_school1
+## 3                    80  student3_school1
+## 4                    80  student4_school1
+## 5                    80  student5_school1
+## 6                    80  student6_school1
+## 7                    80  student7_school1
+## 8                    80  student8_school1
+## 9                    80  student9_school1
+## 10                   80 student10_school1
+## 11                   80 student11_school1
+## 12                   80 student12_school1
+## 13                   80 student13_school1
+## 14                   80 student14_school1
+## 15                   80 student15_school1</code></pre>
+<pre class="r"><code>data3$school[[2]]</code></pre>
+<pre><code>##    subject          q1          q2 q3 q4 school.weight within.school.weight
+## 1        1  0.08882883  1.39000859  4  2            30             2.666667
+## 2        2 -0.15878619  1.96871055  5  4            30             2.666667
+## 3        3 -1.13233379 -0.47238797  1  2            30             2.666667
+## 4        4  1.32497449  1.23172712  5  4            30             2.666667
+## 5        5 -0.96706641 -0.30245604  2  1            30             2.666667
+## 6        6  1.19594963  1.32810890  4  2            30             2.666667
+## 7        7  0.96830653  0.03422083  2  2            30             2.666667
+## 8        8 -1.23082544  1.22665720  4  4            30             2.666667
+## 9        9  1.88655196  0.07970581  3  2            30             2.666667
+## 10      10  1.24368740  0.32859842  5  4            30             2.666667
+## 11      11 -0.81428889 -0.60581118  2  2            30             2.666667
+## 12      12 -1.29013739 -2.04288264  1  2            30             2.666667
+## 13      13 -1.66840785  0.15091320  1  1            30             2.666667
+## 14      14 -0.41893797 -0.18903707  2  2            30             2.666667
+## 15      15 -0.08350358 -1.31121701  2  2            30             2.666667
+##    final.student.weight          uniqueID
+## 1                    80  student1_school2
+## 2                    80  student2_school2
+## 3                    80  student3_school2
+## 4                    80  student4_school2
+## 5                    80  student5_school2
+## 6                    80  student6_school2
+## 7                    80  student7_school2
+## 8                    80  student8_school2
+## 9                    80  student9_school2
+## 10                   80 student10_school2
+## 11                   80 student11_school2
+## 12                   80 student12_school2
+## 13                   80 student13_school2
+## 14                   80 student14_school2
+## 15                   80 student15_school2</code></pre>
 </div>
 </div>
 
