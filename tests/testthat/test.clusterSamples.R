@@ -15,7 +15,7 @@ test_that("Basic argument handling generates data", {
   )
   df06 <- wrap_cluster_gen(2:3, n_X = 1)
   df07 <- wrap_cluster_gen(2:3, n_X = 1, n_W = 1)
-  df08 <- wrap_cluster_gen(2:3, n_X = 2:3, n_W = 3:4)
+  df08 <- wrap_cluster_gen(2:3, n_X = 2:3, n_W = 3)
   df09 <- wrap_cluster_gen(2:3, n_X = 0, n_W = list(5, 2))
   df10 <- wrap_cluster_gen(rep(10, 3),
     c_mean = list(c(1, 10), c(1e2, 1e3)), n_X = 2
