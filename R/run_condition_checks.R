@@ -16,17 +16,39 @@
 run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
                                  cor_matrix, cov_matrix, c_mean, c_sd) {
 
-  # Conditions involving number and quality of covariates -----------------
+  # Conditions involving number and quality of covariates -------------
   check_condition(any(n_cats == 1),
                   "the number of categories in n_W must all be greater than 1")
   check_condition(n_vars != n_X + n_W + theta,
                   "n_vars must equal n_X + n_W + theta")
   check_condition(n_X == 0 & n_W == 0,
                   "At least one background variable must be generated")
-  check_condition(n_X + n_W + theta > ncol(cov_matrix),
-                  "n_X + n_W + theta must not exceed ncol(cov_matrix)")
-  check_condition(n_X + n_W + theta > ncol(cor_matrix),
-                  "n_X + n_W + theta must not exceed ncol(cor_matrix)")
+  if (!is.null(n_X) & !is.null(n_W)) {
+    if (n_W > 1) {
+      check_condition(
+        n_X + n_W + theta != ncol(cov_matrix),
+        paste0("n_X + n_W + theta must not be different from ncol(cov_matrix).",
+          " The former add up to",
+          n_X + n_W + theta,
+          ", whereas the latter equals ",
+          ncol(cov_matrix)
+        )
+      )
+      check_condition(
+        n_X + n_W + theta != ncol(cor_matrix),
+        paste0("n_X + n_W + theta must not be different from ncol(cor_matrix).",
+          " The former add up to ",
+          n_X + n_W + theta,
+          ", whereas the latter equals ",
+          ncol(cor_matrix)
+        )
+      )
+    }
+  }
+  # check_condition(
+  #   (n_X + n_W + theta < ncol(cor_matrix)) & !theta,
+
+  # )
   check_condition(n_vars > ncol(cov_matrix),
                   "n_vars must not exceed ncol(cov_matrix)")
   check_condition(n_vars > ncol(cor_matrix),
@@ -49,16 +71,16 @@ run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
   check_condition(length(c_sd) > 1 & length(c_sd) != n_X + theta,
                   "c_sd recycled to fit all continuous variables", FALSE)
 
-  # Conditions involving the covariance or correlation matrices -----------
+  # Conditions involving the covariance or correlation matrices -------
   check_condition(ncol(cov_matrix) > 0 & ncol(cor_matrix) > 0,
                   "Only one matrix (cov_matrix or cor_matrix) may be provided")
-  check_condition(
-    any(eigen(cor_matrix)$values < 0),
-    "Improper correlation matrix. Make sure all eigenvalues are non-negative"
-  )
   check_condition(any(cor_matrix > 1), "Improper correlation matrix")
   if (!is.null(cor_matrix)) {
     check_condition(!isSymmetric(cor_matrix), "cor_matrix is not symmetric")
+    check_condition(
+      any(eigen(cor_matrix)$values < 0),
+      "Improper correlation matrix. Make sure all eigenvalues are non-negative"
+    )
   }
   if (!is.null(cov_matrix)) {
     check_condition(!isSymmetric(cov_matrix), "cov_matrix is not symmetric")

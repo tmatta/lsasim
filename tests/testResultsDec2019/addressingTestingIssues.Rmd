@@ -2,6 +2,9 @@
 title: "Issues from December testing session"
 author: "Waldir Leoncio"
 date: 2020-01-16
+output:
+  html_document:
+    toc: true
 ---
 
 # Introduction
@@ -13,6 +16,8 @@ The latest development version of lsasim at the time this document was created i
 Test units have been put in place to prevent the issues raised to creep up in future versions of the package.
 
 # Yi.txt
+
+The content of the file is reproduced below:
 
 > There seems a bug about the ranges function, for example:
 > n1 <- list(school = ranges(5, 10), student = ranges(10, 20))
@@ -77,4 +82,177 @@ Code has been modified on `convert_vector_to_list` to define an upper limit to t
 ```{r yi-fixed}
 df4 <- cluster_gen(n1, N1, print_pop_structure = FALSE)
 df5 <- cluster_gen(n1, N1, n_X=2, n_W=2, print_pop_structure=FALSE)
+```
+
+# correlation-matrix-in-cluster_gen.pdf
+
+The content of the file will be reproduced in the following subsections.
+
+## Issue #1: improper correlation matrices
+
+### Reproducing the issue
+
+The basic setup for the first issue raised is as follows:
+
+```{r montse-matrix3}
+n3 <- c(5, 15)
+N3 <- c(150, 40)
+matrix3 <- matrix(
+    c(
+        .3, .3, .6, -1.03,
+        .3,  1, .7, .4,
+        .6, .7,  1, .8,
+        -1.03, .4, .8,  1
+    ),
+    nrow = 4, ncol = 4, byrow=T
+)
+```
+
+This setup raises errors when calling
+
+```{r montse-error1, eval=FALSE}
+set.seed(2345)
+cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix3, n_W = 2)
+```
+
+### Identifying the issue
+
+The user reported the following:
+
+> When I have some misspecification in the diagonal of ones in the correlation matrix it trows an error: Errorin chol.default(cor_matrix) : the leading minor of order 3 is not positive definite
+
+This is indeed the case, as an improper correlation matrix will generate errors in the generation of data. This behavior is present since lsasim 1.0.0 and can be reproduced by issuing the following:
+
+```{r errors-matrix3, eval=FALSE}
+questionnaire_gen(5, n_X = 2, cor_matrix = matrix3)
+```
+
+Data can be generated even with such improper matrices, as long as `family = "gaussian"` is provided:
+
+```{r errors-matrix3-gaussian, eval=FALSE}
+questionnaire_gen(5, n_X = 2, cor_matrix = matrix3, family = "gaussian")
+```
+
+The differing behavior is caused by `family = NULL` triggering the default data-generation process of `questionnaire_gen`, which uses Cholesky decomposition, and there are no validation checks in the `chol.default` function; `family = "gaussian"`, on the other hand, uses the function `rmvnorm` to generate the data from a multivariate normal distribution. The latter function makes little judgement of the covariate matrix which is passed, and is able to generate data even if the matrix is not positive semidefinite. See the example below, which contains such a matrix:
+
+```{r example-mvtnorm}
+mvtnorm::rmvnorm(
+    n = 2,
+    mean = c(3, 0),
+    sigma = matrix(c(1, 2, 2, 1), 2)
+)
+```
+
+The problem persists with the matrix below:
+
+```{r matrix4}
+matrix4 <- matrix(
+    c(
+        1, .3, .6, -1.03,
+        .3, 1, .7, .4,
+        .6, .7, 1, .8,
+        -1.03, .4, .8, 1),
+    nrow = 4, ncol = 4, byrow=T
+)
+```
+
+Those issues are expected, as both matrices are not positive semidefinite. This means that their eigenvalues are not all non-negative:
+
+```{r eigen}
+eigen(matrix3)$values
+eigen(matrix4)$values
+```
+
+Naturally, the problem dissappear as proper matrices are provided. For instance, assuming the first variable is inversely correlated to the others:
+
+```{r montse-matrix3-pos}
+matrix3_pos <- matrix(
+    c(
+        1, -.3, -.6, -.5,
+        -.3,  1, .7, .4,
+        -.6, .7,  1, .8,
+        -.5, .4, .8,  1
+    ),
+    nrow = 4, ncol = 4, byrow=T
+)
+eigen(matrix3_pos)$values
+df1 <- cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix3_pos, n_W = 2)
+```
+
+### Fixing the issue
+
+The `questionnaire_gen` function nas been given a new validation check which prevents improper correlation matrices to be passed. This is the current new behavior:
+
+```{r montse-fixed, error=TRUE}
+cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix3, n_W = 2, print_pop_structure=FALSE)
+cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix4, n_W = 2, print_pop_structure=FALSE)
+cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix3, n_W = 2, print_pop_structure=FALSE, family = "gaussian")
+```
+
+## Issue #2: failure to produce data
+
+According to the user:
+
+> cluster_gen won’t produce data if the dimension of the correlation matrix is smaller than the sum of the continuous and categorical variable
+
+```{r error-matrix5, eval=FALSE}
+matrix5 <- matrix(
+    c(1, .3, .6, .3, 1, .7, .6, .7, 1), nrow = 3, ncol = 3, byrow=T
+)
+set.seed(2345)
+cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix5, n_W = 2)
+```
+
+### Identifying the issue
+
+As reported by lsasim, the issue is caused by the fact that the matrix provided matrix5 has fewer columns (3) than the sum of `n_X` and `n_W` (2 + 2 = 4).
+
+### Fixing the issue
+
+The validation check of `questionnaire_gen` has been improved to show the results of the sums, thus making it easier for the user to identify the problem:
+
+```{r matrix5-fix, error=TRUE}
+cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix5, n_W = 2, print_pop_structure=FALSE)
+```
+
+## Issue #3: miscellaneous issues
+
+The author found some code at the end of the user's report, containing code similar to the one below, where the following was changed to generate proper output:
+
+- `matrix6` was defined as having 5 rows and 5 columns (instead of 3).
+- `df6` was complemented with `theta = TRUE` to ensure that `n_X + n_W + theta = ncol(matrix6)` (otherwise, no data is generated, as it falls in the case of issue # 2).
+
+```{r misc1, error=TRUE}
+matrix6 <- matrix(
+    c(
+        1, .3, .6, .8, .5,
+        .3,  1, .7, .5, .4,
+        .6, .7,  1, .8, .3,
+        .8, .5, .8,  1, .2,
+        .5, .4, .3, .2,  1
+    ),
+    nrow = 5, ncol = 5, byrow=T
+)
+set.seed(2345)
+df6 <- cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix6, n_W = 2, print_pop_structure=FALSE)
+```
+
+```{r misc2}
+n4 <- c(5, 15)
+N4 <- c(150, 40)
+matrix4 <- matrix(
+    c(
+        1, .3, .6, .5,
+        .3,  1, .7, .4,
+        .6, .7,  1, .8,
+        .5, .4, .8,  1
+    ),
+    nrow = 4, ncol = 4, byrow=T
+)
+c_mean <- c(1,2)
+sigma <- c(1.25, 1.50)
+set.seed(2345)
+data3 <- cluster_gen(n3, N3, n_X = 2, cor_matrix = matrix4, n_W = 2, print_pop_structure=FALSE)
+data3$school[[1]]
+data3$school[[2]]
 ```
