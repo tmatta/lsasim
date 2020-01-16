@@ -143,8 +143,14 @@ cluster_gen_separate <- function(
       }
 
       ### Generating data ......................................................
+      # Parsing lists of lists
+      if (any(sapply(n_W[[l]], class) == "list")) {
+        n_W_used <- n_W[[l]][[lvl]]
+      } else {
+        n_W_used <- n_W[[l]]
+      }
       cluster_bg <- questionnaire_gen(
-        n_resp, n_X = n_X[[l]], n_W = n_W[[l]], cat_prop = cat_prop_lvl,
+        n_resp, n_X = n_X[[l]], n_W = n_W_used, cat_prop = cat_prop_lvl,
         c_mean = mu, verbose = FALSE, c_sd = sd_X, cor_matrix = cor_mx, ...
       )
 
