@@ -227,8 +227,10 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
   }
 
   # Initial checks for consistency ----------------------------------------
-  run_condition_checks(n_cats, n_vars, n_X, n_W, theta, cat_prop, cor_matrix,
-                       cov_matrix, c_mean, c_sd)
+  validate_questionnaire_gen(
+    n_cats, n_vars, n_X, n_W, theta, cat_prop, cor_matrix, cov_matrix, 
+    c_mean, c_sd
+  )
 
   # Generation of number and characteristic of variables, if necessary ----
   if (is.null(n_vars)) {

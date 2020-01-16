@@ -1,5 +1,5 @@
-#' Wrapper-function for check_condition
-#'
+#' Wrapper-functions for check_condition
+#' @description functions to save space in ther parent functions by moving the validation checks here
 #' @param n_cats vector with number of categories for each categorical variable
 #'   (W)
 #' @param n_vars number of variables (Y, X and W)
@@ -13,8 +13,10 @@
 #' @param c_mean vector of means of all variables (YXW)
 #' @param c_sd vector of standard deviations of all variables (YXW)
 #'
-run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
-                                 cor_matrix, cov_matrix, c_mean, c_sd) {
+validate_questionnaire_gen <- function(
+  n_cats, n_vars, n_X, n_W, theta, cat_prop, cor_matrix, cov_matrix, 
+  c_mean, c_sd
+) {
 
   # Conditions involving number and quality of covariates -------------
   check_condition(any(n_cats == 1),
@@ -45,10 +47,6 @@ run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
       )
     }
   }
-  # check_condition(
-  #   (n_X + n_W + theta < ncol(cor_matrix)) & !theta,
-
-  # )
   check_condition(n_vars > ncol(cov_matrix),
                   "n_vars must not exceed ncol(cov_matrix)")
   check_condition(n_vars > ncol(cor_matrix),
@@ -114,4 +112,55 @@ run_condition_checks <- function(n_cats, n_vars, n_X, n_W, theta, cat_prop,
     check_condition(length(c_sd) > numYX,
                     "c_sd recycled to fit all continuous variables", FALSE)
   }
+}
+
+validate_cluster_gen <- function(
+  n, N, cluster_labels, resp_labels, n_X, n_W, rho, sigma, c_mean,
+  separate_questionnaires, collapse, sampling_method) {
+  check_condition(class(n) == "select", "Select not yet implemented")
+  check_condition(
+    (!is.null(names(n)) | !is.null(names(N))) & 
+    (!is.null(cluster_labels) | !is.null(resp_labels)),
+    "If n or N are labeled, cluster_labels and resp_labels must be left NULL."
+  )
+  check_condition(
+    !separate_questionnaires & length(n_X) > 1,
+    "Unique questionnaire requested. n_X must therefore be a scalar."
+  )
+  check_condition(
+    !separate_questionnaires & length(n_W) > 1,
+    "Unique questionnaire requested. n_W must therefore be a scalar or a list."
+  )
+  check_condition(
+    !separate_questionnaires & 
+      (class(rho) == "list" | class(c_mean) == "list" | class(sigma) == "list"),
+    "Unique questionnaire requested. rho, c_mean and c_sd must not be lists."
+  )
+  check_condition(length(n) == 1, "n must have length longer than 1")
+  check_condition(
+    length(n) > length(cluster_labels) + 1 & !is.null(cluster_labels),
+    "cluster_labels has insufficient length."
+  )
+  check_condition(
+    !separate_questionnaires & collapse == "partial",
+    paste("Partial collapsing unavailable for unique questionnaires.",
+          "Treated as 'full'."), FALSE
+  )
+  check_condition(
+    !(all(sampling_method %in% c("SRS", "PPS", "mixed"))),
+    "Invalid sampling method."
+  )
+  check_condition(
+    class(n) == "select" & class(N) == "select",
+    "If n is select, N must be explicitly defined."
+  )
+  check_condition(
+    !is.null(rho) & any(sapply(sigma, class) == "list"),
+    paste("If rho is provided, sigma must be the same for all PSUs in a level",
+          "(i.e., sigma must not contain a list within a list)")
+  )
+  check_condition(
+    !is.null(n_W) & (length(n_W) > length(n) - 1) & class(n_W) != "list",
+    "length(n_W) cannot be larger than length(n) - 1"
+  )
 }
