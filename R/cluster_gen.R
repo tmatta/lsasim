@@ -97,6 +97,10 @@ cluster_gen <- function(
     paste("If rho is provided, sigma must be the same for all PSUs in a level",
           "(i.e., sigma must not contain a list within a list)")
   )
+  check_condition(
+    !is.null(n_W) & (length(n_W) > length(n) - 1) & class(n_W) != "list",
+    "length(n_W) cannot be larger than length(n) - 1"
+  )
 
   # Attributing labels =========================================================
   if (is.null(cluster_labels)) cluster_labels <- attribute_cluster_labels(n)$cl
