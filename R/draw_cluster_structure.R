@@ -2,7 +2,7 @@
 #' @param n same from cluster_gen
 #' @param labels corresponds to cluster_labels from cluster_gen
 #' @param resp corresponds to resp_labels from cluster_gen
-#' @param output "tree" or "vector"
+#' @param output "tree" or "text"
 #' @description This function creates a visual representation of the hierarchical structure
 #' @return Prints structure to console.
 #' @note This function is useful for checking how a `list()` object looks as a hierarchical structure, usually to be used as the  `n` and/or `N` arguments of the `cluster_gen` function.
