@@ -4,9 +4,26 @@
 \alias{cluster_gen_separate}
 \title{Generate cluster samples with individual questionnaires}
 \usage{
-cluster_gen_separate(n_levels, n, N, sum_pop, calc_weights,
-  sampling_method, cluster_labels, resp_labels, collapse, n_X, n_W,
-  cat_prop, c_mean, sigma, cor_matrix, rho, verbose, ...)
+cluster_gen_separate(
+  n_levels,
+  n,
+  N,
+  sum_pop,
+  calc_weights,
+  sampling_method,
+  cluster_labels,
+  resp_labels,
+  collapse,
+  n_X,
+  n_W,
+  cat_prop,
+  c_mean,
+  sigma,
+  cor_matrix,
+  rho,
+  verbose,
+  ...
+)
 }
 \arguments{
 \item{n_levels}{number of cluster levels}

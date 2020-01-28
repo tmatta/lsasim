@@ -4,8 +4,12 @@
 \alias{label_respondents}
 \title{Label respondents}
 \usage{
-label_respondents(n_obs, cluster_labels = names(n_obs),
-  add_last_level = FALSE, apply_labels = TRUE)
+label_respondents(
+  n_obs,
+  cluster_labels = names(n_obs),
+  add_last_level = FALSE,
+  apply_labels = TRUE
+)
 }
 \arguments{
 \item{n_obs}{list with the number of elements per level}

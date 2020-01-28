@@ -4,8 +4,18 @@
 \alias{print_anova_table}
 \title{Print the ANOVA table}
 \usage{
-print_anova_table(s2_within, s2_between, s2_total, sigma2_hat, tau2_hat,
-  rho_hat, se_rho, n_tilde, M, N)
+print_anova_table(
+  s2_within,
+  s2_between,
+  s2_total,
+  sigma2_hat,
+  tau2_hat,
+  rho_hat,
+  se_rho,
+  n_tilde,
+  M,
+  N
+)
 }
 \arguments{
 \item{s2_within}{Within-class variance}

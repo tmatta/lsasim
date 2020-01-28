@@ -3,7 +3,6 @@
 \docType{package}
 \name{lsasim}
 \alias{lsasim}
-\alias{lsasim-package}
 \title{lsasim: A package for simulating large scale assessment data}
 \description{
 lsasim: A package for simulating large scale assessment data

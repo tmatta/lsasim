@@ -4,8 +4,19 @@
 \alias{weight_responses}
 \title{Weight responses}
 \usage{
-weight_responses(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
-  sampling_method, cluster_labels, resp_labels, sum_pop, verbose)
+weight_responses(
+  cluster_bg,
+  n_obs,
+  N,
+  lvl,
+  sublvl,
+  previous_sublvl,
+  sampling_method,
+  cluster_labels,
+  resp_labels,
+  sum_pop,
+  verbose
+)
 }
 \arguments{
 \item{cluster_bg}{dataset with background questionnaire}

@@ -4,8 +4,16 @@
 \alias{replicate_var}
 \title{Sampling variance of the mean for replications}
 \usage{
-replicate_var(data_whole, data_rep, method, k = 0, weight_var = NULL,
-  stat = weighted.mean, vars = NULL, full_output = FALSE)
+replicate_var(
+  data_whole,
+  data_rep,
+  method,
+  k = 0,
+  weight_var = NULL,
+  stat = weighted.mean,
+  vars = NULL,
+  full_output = FALSE
+)
 }
 \arguments{
 \item{data_whole}{full, original dataset (the one that generated the replications)}

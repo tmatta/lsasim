@@ -4,8 +4,15 @@
 \alias{beta_gen}
 \title{Generate regression coefficients}
 \usage{
-beta_gen(data, MC = FALSE, MC_replications = 100, CI = c(0.005,
-  0.995), output_cov = FALSE, rename_to_q = FALSE, verbose = TRUE)
+beta_gen(
+  data,
+  MC = FALSE,
+  MC_replications = 100,
+  CI = c(0.005, 0.995),
+  output_cov = FALSE,
+  rename_to_q = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{data}{output from the \code{questionnaire_gen} function with

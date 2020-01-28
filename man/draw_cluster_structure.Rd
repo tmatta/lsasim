@@ -4,8 +4,7 @@
 \alias{draw_cluster_structure}
 \title{Draw Cluster Structure}
 \usage{
-draw_cluster_structure(n, labels = NULL, resp = NULL,
-  output = "tree")
+draw_cluster_structure(n, labels = NULL, resp = NULL, output = "tree")
 }
 \arguments{
 \item{n}{same from cluster_gen}

@@ -4,8 +4,7 @@
 \alias{recalc_final_weights}
 \title{Recalculate final weights}
 \usage{
-recalc_final_weights(data, w_cols, replicate_weight = 1,
-  reorder = TRUE)
+recalc_final_weights(data, w_cols, replicate_weight = 1, reorder = TRUE)
 }
 \arguments{
 \item{data}{dataset}

@@ -4,8 +4,15 @@
 \alias{cluster_message}
 \title{Print messages about clusters}
 \usage{
-cluster_message(n_obs, resp_labels, cluster_labels, n_levels,
-  separate_questionnaires, type, detail = FALSE)
+cluster_message(
+  n_obs,
+  resp_labels,
+  cluster_labels,
+  n_levels,
+  separate_questionnaires,
+  type,
+  detail = FALSE
+)
 }
 \arguments{
 \item{n_obs}{list with the number of elements per level}

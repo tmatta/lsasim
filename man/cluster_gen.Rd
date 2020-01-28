@@ -4,12 +4,27 @@
 \alias{cluster_gen}
 \title{Generate cluster sample}
 \usage{
-cluster_gen(n, N = 1, cluster_labels = NULL, resp_labels = NULL,
-  cat_prop = NULL, n_X = NULL, n_W = NULL, c_mean = NULL,
-  sigma = NULL, cor_matrix = NULL, separate_questionnaires = TRUE,
-  collapse = "none", sum_pop = sapply(N, sum), calc_weights = TRUE,
-  sampling_method = "mixed", rho = NULL, verbose = TRUE,
-  print_pop_structure = verbose, ...)
+cluster_gen(
+  n,
+  N = 1,
+  cluster_labels = NULL,
+  resp_labels = NULL,
+  cat_prop = NULL,
+  n_X = NULL,
+  n_W = NULL,
+  c_mean = NULL,
+  sigma = NULL,
+  cor_matrix = NULL,
+  separate_questionnaires = TRUE,
+  collapse = "none",
+  sum_pop = sapply(N, sum),
+  calc_weights = TRUE,
+  sampling_method = "mixed",
+  rho = NULL,
+  verbose = TRUE,
+  print_pop_structure = verbose,
+  ...
+)
 }
 \arguments{
 \item{n}{numeric vector with the number of sampled observations (clusters or subjects) on each level}
