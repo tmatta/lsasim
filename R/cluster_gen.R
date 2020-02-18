@@ -173,7 +173,7 @@ cluster_gen <- function(
                      separate_questionnaires, 1)
       draw_cluster_structure(n, cluster_labels, resp_labels)
     }
-    
+
     # Questionnaire generation --------------------------------------------
     if (verbose & calc_weights) {
       print(cli::rule(left = cli::col_blue("Information on sampling weights")))
