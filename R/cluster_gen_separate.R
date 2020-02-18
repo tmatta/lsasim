@@ -77,7 +77,7 @@ cluster_gen_separate <- function(
       ### Expanding rho to n_level width .......................................
       if (class(rho) != "list") rho <- replicate(n_levels, list(rho))
       if (length(rho[[l]]) == 1) rho[[l]] <- rep(rho[[l]], n_X[[l]])
-      
+
       ### Defining sigma2 and tau2 .............................................
       n_j <- n[[l + 1]]
       M <- sum(n_j)
@@ -87,7 +87,7 @@ cluster_gen_separate <- function(
         } else {
           n_tilde <- calc_n_tilde(M, N[[l]], n_j)
           mean_j <- unlist(c_mean)
-          overall_mean <- sum(mean_j * n_j) / M 
+          overall_mean <- sum(mean_j * n_j) / M
           s2btw <- calc_var_between(n_j, mean_j, overall_mean, n_tilde, N[[l]])
           tau2 <- s2btw * n_tilde
           sigma2 <- tau2 * (1 - rho[[l]]) / rho[[l]]
@@ -105,7 +105,7 @@ cluster_gen_separate <- function(
       Nn <- length(n_j)
       s2 <- sigma2 * (M - Nn) / sum(n_j - 1)
     }
-    
+
     ## Generating questionnaires for each cluster element of that level --------
     for (lvl in seq(n_groups)) {
 
@@ -215,7 +215,7 @@ cluster_gen_separate <- function(
       }
     }
   }
-  
+
   # Returning datasets =========================================================
   return(out)
 }
