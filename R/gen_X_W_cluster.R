@@ -4,9 +4,7 @@
 #' @param separate to the `separate_questionnaires` argument of `cluster_gen`
 #' @param class_cor corresponds to the `class_cor` argument of `cluster_gen`
 gen_X_W_cluster <- function(n_levels, separate, class_cor) {
-    number_of_W <- function() {
-        rbinom(n = rzeropois(5), prob = .5, size = 3) + 2 
-    }
+    number_of_W <- function() rbinom(n = rzeropois(5), prob = .5, size = 3) + 2
     if (separate) {
         n_X <- list()
         for (l in seq(n_levels)) {
@@ -14,13 +12,15 @@ gen_X_W_cluster <- function(n_levels, separate, class_cor) {
         }
         n_W <- list()
         for (l in seq(n_levels)) {
-            # n_W[[l]] <- as.list(number_of_W())
-            n_W[[l]] <- as.list(replicate(rzeropois(5), 2))
+            n_W[[l]] <- as.list(number_of_W())
+            # n_cats <- rzeropois(lambda=1) + 1
+            # n_W[[l]] <- as.list(replicate(rzeropois(5), n_cats))
         }
     } else {
         n_X <- rzeropois(1.5) # a positive number of Xs
-        # n_W <- number_of_W()
-        n_W <- as.list(replicate(rzeropois(5), 2))
+        n_W <- as.list(number_of_W())
+        # n_cats <- rzeropois(lambda=1) + 1
+        # n_W <- as.list(replicate(rzeropois(5), 2))
     }
     out <- list("n_X" = n_X, "n_W" = n_W)
     return(out)
