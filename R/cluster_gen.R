@@ -74,7 +74,6 @@ cluster_gen <- function(
   } else {
     census <- (N == 1)
   }
-
   if (class_n == "select") {
     check_condition(class_N == "select", "N can't be select")
     n <- sample_from(N, n)
@@ -84,8 +83,10 @@ cluster_gen <- function(
                       "If n is a list, N must be 1 or explicitly defined")
       n <- convert_vector_to_list(n)
       N <- n
+      sum_pop <- sapply(N, sum)
     } else if (class_N %in% c("vector", "list with ranges")) {
       N <- convert_vector_to_list(N)
+      sum_pop <- sapply(N, sum)
       n <- convert_vector_to_list(n, N)
     } else if (class_N %in% "list without ranges") {
       n <- convert_vector_to_list(n, N)
@@ -94,6 +95,7 @@ cluster_gen <- function(
     if (class_N == "multiplier") {
       if (N == 1) {
         N <- n
+        sum_pop <- sapply(N, sum)
       } else {
         stop("If n is a list, N must be 1 or explicitly defined")
       }
@@ -106,6 +108,7 @@ cluster_gen <- function(
     class_N <- check_n_N_class(N)
     if (class_N %in% c("vector", "list with ranges")) {
       N <- convert_vector_to_list(N)
+      sum_pop <- sapply(N, sum)
     }
     n <- convert_vector_to_list(n, N)
   }
