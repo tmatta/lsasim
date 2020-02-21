@@ -140,7 +140,11 @@ cluster_gen <- function(
       if (length(n_W) == 1 & class(n_W) == "numeric") {
         n_W <- rep(n_W, n_levels)
       } else if (length(n_W) > 1 & class(n_W) == "list") {
-        n_W <- rep(list(n_W), n_levels)
+        if (any(sapply(n_W, class) == "list")) {
+          n_W <- n_W
+        } else {
+          n_W <- rep(list(n_W), n_levels)
+        }
       }
     }
     if (!is.null(cor_matrix) & is.null(n_X) & is.null(n_W)) {
