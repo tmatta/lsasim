@@ -1095,3 +1095,27 @@ test_that("cat_prop is parsed correctly: individual props within a level", {
     tol = .1
   )
 })
+
+# n_W as list of lists =========================================================
+context("Complex n_W")
+test_that("Special cases of n_W work as expected", {
+  n3 <- c(school = 3, class = 2, student = 5)
+  cluster_gen_2 <- function(...) {
+      cluster_gen(
+        ..., verbose = FALSE, calc_weights = FALSE, family = "gaussian"
+      )
+  }
+  df3 <- cluster_gen_2(n3, n_X = 0, n_W = list(list(3, 4, 4), list(2, 5)))
+  for (i in seq_len(3)) {
+    expect_equivalent(
+      object = sapply(df3$school[[i]][, 2:4], function(x) max(levels(x))),
+      expected = c("3", "4", "4")
+    )
+  }
+  for (i in seq_len(6)) {
+    expect_equivalent(
+      object = sapply(df3$class[[i]][, 2:3], function(x) max(levels(x))),
+      expected = c("2", "5")
+    )
+  }
+})
