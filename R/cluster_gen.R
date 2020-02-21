@@ -27,7 +27,7 @@
 #' Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
 #' @note For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, for example, schools are the first cluster level, classes are the second, and students are the third and final level. This behavior can be customized by naming the `n` argument or providing custom labels in `cluster_labels` and `resp_labels`.
 #' #TODO: explain the danger of setting c_mean and rho (sigma2 may get really high)
-#'
+#' #TODO: add mention to n as ranges (it must be inside of a list)
 #' labeling c_mean has no effect, it's for the user.
 #' @seealso cluster_estimates cluster_gen_separate cluster_gen_together questionnaire_gen
 #' @export
