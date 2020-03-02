@@ -21,6 +21,7 @@ cluster_gen(
   calc_weights = TRUE,
   sampling_method = "mixed",
   rho = NULL,
+  theta = FALSE,
   verbose = TRUE,
   print_pop_structure = verbose,
   ...
@@ -61,6 +62,9 @@ corresponds to the \code{theta}.}
 
 \item{rho}{estimated intraclass correlation}
 
+\item{theta}{if \code{TRUE}, the first continuous variable will be labeled
+'theta'. Otherwise, it will be labeled 'q1'.}
+
 \item{verbose}{if `TRUE`, prints output messages}
 
 \item{print_pop_structure}{if `TRUE`, prints the population hierarchical structure (as long as it differs from the sample structure)}
@@ -82,7 +86,7 @@ Regarding the additional parameters to be passed to `questionnaire_gen()`, they 
 \note{
 For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, for example, schools are the first cluster level, classes are the second, and students are the third and final level. This behavior can be customized by naming the `n` argument or providing custom labels in `cluster_labels` and `resp_labels`.
 #TODO: explain the danger of setting c_mean and rho (sigma2 may get really high)
-
+#TODO: add mention to n as ranges (it must be inside of a list)
 labeling c_mean has no effect, it's for the user.
 }
 \seealso{

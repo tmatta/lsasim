@@ -21,6 +21,7 @@ cluster_gen_separate(
   sigma,
   cor_matrix,
   rho,
+  theta,
   verbose,
   ...
 )
@@ -59,6 +60,9 @@ corresponds to the \code{theta}.}
 \item{cor_matrix}{Correlation matrix between all variables (except weights)}
 
 \item{rho}{estimated intraclass correlation}
+
+\item{theta}{if \code{TRUE}, the first continuous variable will be labeled
+'theta'. Otherwise, it will be labeled 'q1'.}
 
 \item{verbose}{if `TRUE`, prints output messages}
 
