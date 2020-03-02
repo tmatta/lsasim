@@ -19,12 +19,16 @@
 #' @param cor_matrix Correlation matrix between all variables (except weights)
 #' @param verbose if `TRUE`, prints output messages
 #' @param rho estimated intraclass correlation
+#' @param theta if \code{TRUE}, the first continuous variable will be labeled
+#'   'theta'. Otherwise, it will be labeled 'q1'.
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @seealso cluster_gen cluster_gen_together
 #' @importFrom stats rchisq
 #' @export
 cluster_gen_separate <- function(
-  n_levels, n, N, sum_pop, calc_weights, sampling_method, cluster_labels, resp_labels, collapse, n_X, n_W, cat_prop, c_mean, sigma, cor_matrix, rho, verbose, ...
+  n_levels, n, N, sum_pop, calc_weights, sampling_method, cluster_labels,
+  resp_labels, collapse, n_X, n_W, cat_prop, c_mean, sigma, cor_matrix,
+  rho, theta, verbose, ...
 ) {
   # Creating basic elements ====================================================
   out    <- list()  # actual output (differs from sample if collapse)
@@ -76,14 +80,14 @@ cluster_gen_separate <- function(
 
       ### Expanding rho to n_level width .......................................
       if (class(rho) != "list") rho <- replicate(n_levels, list(rho))
-      if (length(rho[[l]]) == 1) rho[[l]] <- rep(rho[[l]], n_X[[l]])
+      if (length(rho[[l]]) == 1) rho[[l]] <- rep(rho[[l]], n_X[[l]] + theta)
 
       ### Defining sigma2 and tau2 .............................................
       n_j <- n[[l + 1]]
       M <- sum(n_j)
       if (missing_sigma2) {
         if (is.null(c_mean) | is.null(rho) | length(c_mean) == 1) {
-          sigma2 <- rchisq(n_X[[l]], 2)
+          sigma2 <- rchisq(n_X[[l]] + theta, 2)
         } else {
           n_tilde <- calc_n_tilde(M, N[[l]], n_j)
           mean_j <- unlist(c_mean)
@@ -151,7 +155,8 @@ cluster_gen_separate <- function(
       }
       cluster_bg <- questionnaire_gen(
         n_resp, n_X = n_X[[l]], n_W = n_W_used, cat_prop = cat_prop_lvl,
-        c_mean = mu, verbose = FALSE, c_sd = sd_X, cor_matrix = cor_mx, ...
+        c_mean = mu, verbose = FALSE, c_sd = sd_X, cor_matrix = cor_mx,
+        theta = theta, ...
       )
 
       ### Adding weights .......................................................

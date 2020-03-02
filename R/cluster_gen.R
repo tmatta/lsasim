@@ -17,6 +17,8 @@
 #' @param cor_matrix Correlation matrix between all variables (except weights)
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param rho estimated intraclass correlation
+#' @param theta if \code{TRUE}, the first continuous variable will be labeled
+#'   'theta'. Otherwise, it will be labeled 'q1'.
 #' @param verbose if `TRUE`, prints output messages
 #' @param print_pop_structure if `TRUE`, prints the population hierarchical structure (as long as it differs from the sample structure)
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
@@ -49,6 +51,7 @@ cluster_gen <- function(
   calc_weights = TRUE,
   sampling_method = "mixed",
   rho = NULL,
+  theta = FALSE,
   verbose = TRUE,
   print_pop_structure = verbose,
   ...
@@ -56,7 +59,7 @@ cluster_gen <- function(
 {
   # Validating ============================================================
   validate_cluster_gen(
-    n, N, cluster_labels, resp_labels, n_X, n_W, rho, sigma, c_mean,
+    n, N, cluster_labels, resp_labels, n_X, n_W, rho, sigma, c_mean,calculating tau2 and sigma2 (components of rho)
     separate_questionnaires, collapse, sampling_method
   )
 
@@ -188,7 +191,7 @@ cluster_gen <- function(
     sample <- cluster_gen_separate(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, cat_prop, c_mean, sigma, cor_matrix, rho, verbose, ...
+      n_X, n_W, cat_prop, c_mean, sigma, cor_matrix, rho, theta, verbose, ...
     )
   } else { # questionnaires administered only at the bottom level
 
