@@ -59,7 +59,7 @@ cluster_gen <- function(
 {
   # Validating ============================================================
   validate_cluster_gen(
-    n, N, cluster_labels, resp_labels, n_X, n_W, rho, sigma, c_mean,calculating tau2 and sigma2 (components of rho)
+    n, N, cluster_labels, resp_labels, n_X, n_W, rho, sigma, c_mean,
     separate_questionnaires, collapse, sampling_method
   )
 
