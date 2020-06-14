@@ -182,10 +182,18 @@ cluster_gen_separate <- function(
       }
       cluster_bg$uniqueID <- paste(respID, cluster_bg$clusterID, sep = "_")
 
-      # Drop the whole thing if data is not on the wishlist .................
+      # Drop the whole thing if data is not on the whitelist .................
       if (!is.null(whitelist)) {
         if (!(lvl %in% whitelist[, l])) {
           cluster_bg <- list(NA)
+        }
+        # Dropping indivial elements that should not have been sampled .......
+        if (l < n_levels & all(!is.na(cluster_bg))) {
+          keep_rows <- whitelist[, l + 1]
+          blacklisted_rows <- match(NA, match(rownames(cluster_bg), keep_rows))
+          cluster_bg[blacklisted_rows, 2:(ncol(cluster_bg) - 2)] <- NA
+        } else {
+          # browser()#TEMP
         }
       }
 
