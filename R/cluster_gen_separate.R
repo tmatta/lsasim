@@ -153,6 +153,9 @@ cluster_gen_separate <- function(
       } else {
         n_W_used <- n_W[[l]]
       }
+      if (is(n_W_used, "list") & any(sapply(n_W_used, length) > 1)) {
+        n_W_used <- n_W_used[[l]][lvl]
+      }
       cluster_bg <- questionnaire_gen(
         n_resp, n_X = n_X[[l]], n_W = n_W_used, cat_prop = cat_prop_lvl,
         c_mean = mu, verbose = FALSE, c_sd = sd_X, cor_matrix = cor_mx,
