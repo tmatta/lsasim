@@ -95,6 +95,14 @@ The `ranges()` function should always be put inside a `list()`,as putting it ins
 The only arguments that can be used to label each level are `n`, `N`, `cluster_labels` and `resp_labels`. Labeling other arguments such as `c_mean` and `cat_prop` has no effect on the final results, but it is a recommended way for users to keep track of which value corresponds to which element in a complex hierarchical structure.
 }
 \examples{
+# Simple structure of 3 schools with 5 students each
+cluster_gen(c(3, 5))
+
+# Complex structure of 2 schools with different number of students, sampling weights and custom number of questions
+n <- list(3, c(20, 15, 25))
+N <- list(5, c(200, 500, 400, 100, 100))
+cluster_gen(n, N, n_X = 5, n_W = 2)
+
 
 # Controlling the intra-class correlation and the grand mean
 x <- cluster_gen(c(5, 1000), rho = .9, n_X = 2, n_W = 0, c_mean = 10)

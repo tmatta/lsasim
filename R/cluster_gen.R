@@ -40,6 +40,14 @@
 #' @seealso cluster_estimates cluster_gen_separate cluster_gen_together questionnaire_gen
 #' @export
 #' @examples
+#' # Simple structure of 3 schools with 5 students each
+#' cluster_gen(c(3, 5))
+#'
+#' # Complex structure of 2 schools with different number of students, sampling weights and custom number of questions
+#' n <- list(3, c(20, 15, 25))
+#' N <- list(5, c(200, 500, 400, 100, 100))
+#' cluster_gen(n, N, n_X = 5, n_W = 2)
+#'
 #'
 #' # Controlling the intra-class correlation and the grand mean
 #' x <- cluster_gen(c(5, 1000), rho = .9, n_X = 2, n_W = 0, c_mean = 10)
