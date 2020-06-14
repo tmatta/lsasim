@@ -22,6 +22,7 @@ cluster_gen_separate(
   cor_matrix,
   rho,
   theta,
+  whitelist,
   verbose,
   ...
 )
@@ -63,6 +64,8 @@ corresponds to the \code{theta}.}
 
 \item{theta}{if \code{TRUE}, the first continuous variable will be labeled
 'theta'. Otherwise, it will be labeled 'q1'.}
+
+\item{whitelist}{used when `n = select(...)`, determines which PSUs get to generate questionnaires}
 
 \item{verbose}{if `TRUE`, prints output messages}
 
