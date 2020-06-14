@@ -19,6 +19,9 @@ label_respondents <- function (n_obs, cluster_labels = names(n_obs),
   # Create labels ==============================================================
   if (is.null(cluster_labels)) {
     cluster_labels <- attribute_cluster_labels(n_obs)$cl
+    if (length(cluster_labels) == length(n_obs) - 1) {
+      cluster_labels <- append(cluster_labels, "student") # hacky?
+    }
   }
 
   # Assembling id_combos =======================================================
