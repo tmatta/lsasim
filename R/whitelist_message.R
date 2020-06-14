@@ -9,7 +9,7 @@ whitelist_message <- function(w) {
 		# Extracting PSU name
 		# ======================================================================
 		cluster_names <- paste0(colnames(w), w[i, ])[-last_element]
-		cluster_names <- paste(cluster_names, collapse = ", ")
+		cluster_names <- paste(cluster_names, collapse = "_")
 		# ======================================================================
 		# Adding final element
 		# ======================================================================
@@ -19,7 +19,7 @@ whitelist_message <- function(w) {
 			" (",
 			final_element[i, ],
 			" ",
-			pluralize(colnames(w)[last_element]),
+			pluralize(colnames(w)[last_element], n = final_element[i, ]),
 			")"
 		)
 		cat(final_name, "\n")
