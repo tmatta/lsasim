@@ -12,7 +12,6 @@ sample_from <- function (N, n, labels = names(N), verbose = TRUE) {
     ncol(N_matrix) != length(n),
     "length(n) must match the number of levels of N"
   )
-  # N_matrix <- cbind(N_matrix, chosen = 0)
 
   # Sampling from top level
   id_n <- sample(N[[1]], min(n[1], N[[1]]))
