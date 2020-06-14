@@ -106,6 +106,11 @@ cluster_gen <- function(
   whitelist <- NULL
   if (class_n == "select") {
     check_condition(class_N == "select", "N can't be select")
+    check_condition(
+      class_N == "multiplier",
+      "if n is select, N must be a vector or a list"
+      )
+    if (is(N, "numeric")) N <- convert_vector_to_list(N)
     whitelist <- sample_from(N, n)
     n <- N
   } else if (class_n == "list with ranges") {
