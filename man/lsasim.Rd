@@ -5,7 +5,7 @@
 \alias{lsasim}
 \title{lsasim: A package for simulating large scale assessment data}
 \description{
-lsasim: A package for simulating large scale assessment data
+Functions to Facilitate the Simulation of Large Scale Assessment Data
 }
 \note{
 This package contains vignettes. If you are installing lsasim from GitHub, remember to use `build_vignettes=TRUE` in your `remotes::install_github()` call. Afterwards, you can browse the vignettes by issuing `browseVignettes("lsasim")` in your R terminal.
@@ -24,7 +24,7 @@ This package contains vignettes. If you are installing lsasim from GitHub, remem
 }
 }
 
-\section{Useful aqncillary functions}{
+\section{Useful ancillary functions}{
 
 \itemize{
   \item \code{irt_gen} Generate item responses from an IRT model.  Used by

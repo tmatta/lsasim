@@ -4,7 +4,9 @@
 \name{pisa2012_q_cormat}
 \alias{pisa2012_q_cormat}
 \title{Correlation matrix from the PISA 2012 background questionnaire}
-\format{An 19 by 19 matrix.}
+\format{
+An 19 by 19 matrix.
+}
 \source{
 Raw data can be found at \url{https://www.oecd.org/pisa/pisaproducts/pisa2012database-downloadabledata.htm}
 Codebook can be found at \url{https://www.oecd.org/pisa/pisaproducts/PISA12_stu_codebook.pdf}

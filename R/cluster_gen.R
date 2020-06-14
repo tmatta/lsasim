@@ -28,11 +28,27 @@
 #' `N` is *not* the population size across all elements of a level, but the population size for each element of one level.
 #' Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
 #' @note For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, for example, schools are the first cluster level, classes are the second, and students are the third and final level. This behavior can be customized by naming the `n` argument or providing custom labels in `cluster_labels` and `resp_labels`.
-#' #TODO: explain the danger of setting c_mean and rho (sigma2 may get really high)
-#' #TODO: add mention to n as ranges (it must be inside of a list)
-#' labeling c_mean has no effect, it's for the user.
+#'
+#' @note Manually setting both `c_mean` and `rho`, while possible, may yield unexpected results due to how those parameters work together. A high intraclass correlation (`rho`) teoretically means that each group will end up with different means so they can be better separated. If `c_mean` is left untouched (i.e., at the default value of zero), then `c_mean` will freely change between clusters in order to result in the expected intraclass correlation. For large samples, `c_mean` will in practice correspond to the grand mean across that level, as the means of each element will be different no matter the sample size.
+#'
+#' If in addition to `rho` the user also determine different means for each level, the only way the math can check out is if the variance in each group becomes very high. For examples of this scenario and the one described in the previous paragraph, check out the final section of this page.
+#'
+#' @note The `ranges()` function should always be put inside a `list()`,as putting it inside a vector (`c()`) will cancel its effect. For more details, please read the documentation of the `ranges()` function.
+#'
+#' @note The only arguments that can be used to label each level are `n`, `N`, `cluster_labels` and `resp_labels`. Labeling other arguments such as `c_mean` and `cat_prop` has no effect on the final results, but it is a recommended way for users to keep track of which value corresponds to which element in a complex hierarchical structure.
+#'
 #' @seealso cluster_estimates cluster_gen_separate cluster_gen_together questionnaire_gen
 #' @export
+#' @examples
+#'
+#' # Controlling the intra-class correlation and the grand mean
+#' x <- cluster_gen(c(5, 1000), rho = .9, n_X = 2, n_W = 0, c_mean = 10)
+#' sapply(1:5, function(s) mean(x$school[[s]]$q1))  # means per school != 10
+#' mean(sapply(1:5, function(s) mean(x$school[[s]]$q1))) # closer to c_mean
+#'
+#' # Making the intraclass variance explode by forcing "incompatible" rho and c_mean
+#' x <- cluster_gen(c(5, 1000), rho = .5, n_X = 2, n_W = 0, c_mean = 1:5)
+#' anova_table(x)
 cluster_gen <- function(
   n,
   N = 1,
@@ -41,9 +57,8 @@ cluster_gen <- function(
   cat_prop = NULL,
   n_X = NULL,
   n_W = NULL,
-  c_mean = NULL, # TODO: document about this being the grand mean if it's scalar
+  c_mean = NULL,
   sigma = NULL,
-  # TODO: documet change in meaning from within-class variance to grand var
   cor_matrix = NULL,
   separate_questionnaires = TRUE,
   collapse = "none",

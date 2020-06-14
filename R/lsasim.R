@@ -1,5 +1,7 @@
 #' lsasim: A package for simulating large scale assessment data
 #'
+#' @description Functions to Facilitate the Simulation of Large Scale Assessment Data
+#'
 #' @section Core functions:
 #' \itemize{
 #'   \item \code{block_design} Assignment of test items to blocks.
@@ -12,7 +14,7 @@
 #'   \item \code{cluster_gen} Generation of background questionnaires from a cluster sampling scheme.
 #' }
 #'
-#' @section Useful aqncillary functions:
+#' @section Useful ancillary functions:
 #' \itemize{
 #'   \item \code{irt_gen} Generate item responses from an IRT model.  Used by
 #'   \code{response_gen}.
