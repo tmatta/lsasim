@@ -184,16 +184,43 @@ cluster_gen_separate <- function(
 
       # Drop the whole thing if data is not on the whitelist .................
       if (!is.null(whitelist)) {
-        if (!(lvl %in% whitelist[, l])) {
-          cluster_bg <- list(NA)
+        if (l == 1) {
+          is_whitelisted <- (lvl %in% whitelist[, 1:l])
+        } else {
+          clusterID_extracted <- gsub(
+            pattern = "\\D", # anything that is not a digit
+            replacement = "",
+            cluster_bg[, "clusterID"][1]
+          )
+          clusterID_extracted <- as.numeric(clusterID_extracted)
+          whitelist_extracted <- apply(
+            whitelist[, rev(seq_len(l))],
+            1,
+            function(x) paste(x, collapse = "")
+          )
+          is_whitelisted <- match(clusterID_extracted, whitelist_extracted)
+          is_whitelisted <- !is.na(is_whitelisted)
+          message(print(cluster_bg[, "clusterID"][1]), " ", is_whitelisted)
+        }
+        # if (!(lvl %in% whitelist[, 1:l])) {
+        if (!is_whitelisted) {
+          cluster_bg[, 2:(ncol(cluster_bg) - 2)] <- NA
         }
         # Dropping indivial elements that should not have been sampled .......
-        if (l < n_levels & all(!is.na(cluster_bg))) {
-          keep_rows <- whitelist[, l + 1]
-          blacklisted_rows <- match(NA, match(rownames(cluster_bg), keep_rows))
-          cluster_bg[blacklisted_rows, 2:(ncol(cluster_bg) - 2)] <- NA
-        } else {
-          # browser()#TEMP
+        if (all(!is.na(cluster_bg))) {
+          if (l < n_levels - 1) {
+            keep_rows <- whitelist[whitelist[, l] == lvl, l + 1]
+            blacklisted_rows <- which(
+              is.na(match(rownames(cluster_bg), keep_rows))
+            )
+            cluster_bg[blacklisted_rows, 2:(ncol(cluster_bg) - 2)] <- NA
+          } else if (l == n_levels - 1) {
+            # browser()#TEMP
+            rowmatched <- match(clusterID_extracted, whitelist_extracted)
+            limit <- whitelist[rowmatched, n_levels]
+            if (limit < nrow(cluster_bg))
+            cluster_bg <- cluster_bg[seq_len(limit), ]
+          }
         }
       }
 
