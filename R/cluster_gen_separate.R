@@ -185,6 +185,13 @@ cluster_gen_separate <- function(
       # Drop the whole thing if data is not on the whitelist .................
       if (!is.null(whitelist)) {
         if (l == 1) {
+          clusterID_extracted <- gsub(
+            pattern = "\\D", # anything that is not a digit
+            replacement = "",
+            cluster_bg[, "clusterID"][1]
+          )
+          clusterID_extracted <- as.numeric(clusterID_extracted)
+          whitelist_extracted <- whitelist[, l]
           is_whitelisted <- (lvl %in% whitelist[, 1:l])
         } else {
           clusterID_extracted <- gsub(

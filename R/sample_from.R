@@ -18,7 +18,8 @@ sample_from <- function (N, n, labels = names(N), verbose = TRUE) {
   n_matrix <- N_matrix[N_matrix[, 1] %in% id_n, ]
 
   # Sampling from next levels (before last, though)
-  for (lvl in 2:(length(n) - 1)) {
+  n_lvl <- ifelse(length(n) > 2, 2:(length(n) - 1), 2)
+  for (lvl in n_lvl) {
     parent_id <- apply(
       X      = n_matrix[, 1:(lvl - 1), drop = FALSE],
       MARGIN = 1,
