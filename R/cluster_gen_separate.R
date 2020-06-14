@@ -24,6 +24,7 @@
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @seealso cluster_gen cluster_gen_together
 #' @importFrom stats rchisq
+#' @importFrom methods is
 #' @export
 cluster_gen_separate <- function(
   n_levels, n, N, sum_pop, calc_weights, sampling_method, cluster_labels,

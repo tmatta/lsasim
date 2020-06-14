@@ -98,7 +98,8 @@ The only arguments that can be used to label each level are `n`, `N`, `cluster_l
 # Simple structure of 3 schools with 5 students each
 cluster_gen(c(3, 5))
 
-# Complex structure of 2 schools with different number of students, sampling weights and custom number of questions
+# Complex structure of 2 schools with different number of students,
+# sampling weights and custom number of questions
 n <- list(3, c(20, 15, 25))
 N <- list(5, c(200, 500, 400, 100, 100))
 cluster_gen(n, N, n_X = 5, n_W = 2)

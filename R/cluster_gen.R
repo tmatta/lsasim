@@ -27,6 +27,7 @@
 #' `n` can have unitary length, in which case all clusters will have the same size.
 #' `N` is *not* the population size across all elements of a level, but the population size for each element of one level.
 #' Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
+#'
 #' @note For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, for example, schools are the first cluster level, classes are the second, and students are the third and final level. This behavior can be customized by naming the `n` argument or providing custom labels in `cluster_labels` and `resp_labels`.
 #'
 #' @note Manually setting both `c_mean` and `rho`, while possible, may yield unexpected results due to how those parameters work together. A high intraclass correlation (`rho`) teoretically means that each group will end up with different means so they can be better separated. If `c_mean` is left untouched (i.e., at the default value of zero), then `c_mean` will freely change between clusters in order to result in the expected intraclass correlation. For large samples, `c_mean` will in practice correspond to the grand mean across that level, as the means of each element will be different no matter the sample size.
@@ -43,7 +44,8 @@
 #' # Simple structure of 3 schools with 5 students each
 #' cluster_gen(c(3, 5))
 #'
-#' # Complex structure of 2 schools with different number of students, sampling weights and custom number of questions
+#' # Complex structure of 2 schools with different number of students,
+#' # sampling weights and custom number of questions
 #' n <- list(3, c(20, 15, 25))
 #' N <- list(5, c(200, 500, 400, 100, 100))
 #' cluster_gen(n, N, n_X = 5, n_W = 2)

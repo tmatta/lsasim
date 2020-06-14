@@ -1,6 +1,6 @@
 Package: lsasim
 Title: Functions to Facilitate the Simulation of Large Scale Assessment Data
-Version: 2.0.1.9005
+Version: 2.0.1.9006
 Authors@R: c(
   person("Tyler", "Matta",
          email = "tyler.matta@gmail.com", role = "aut"),
@@ -20,7 +20,7 @@ BugReports: https://github.com/tmatta/lsasim/issues
 Description: Provides functions to simulate data from large-scale educational
   assessments, including background questionnaire data and cognitive item
   responses that adhere to a multiple-matrix sampled design.
-Imports: mvtnorm, cli
+Imports: mvtnorm, cli, methods
 Depends:
     R (>= 3.6.0)
 License: GPL-3
