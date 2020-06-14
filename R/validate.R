@@ -117,7 +117,6 @@ validate_questionnaire_gen <- function(
 validate_cluster_gen <- function(
   n, N, cluster_labels, resp_labels, n_X, n_W, rho, sigma, c_mean,
   separate_questionnaires, collapse, sampling_method) {
-  check_condition(class(n) == "select", "Select not yet implemented")
   check_condition(
     (!is.null(names(n)) | !is.null(names(N))) & 
     (!is.null(cluster_labels) | !is.null(resp_labels)),

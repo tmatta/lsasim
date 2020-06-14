@@ -20,9 +20,14 @@ pluralize <- function(word, n = rep(2, length(word)))
   for (w in word) {
     position <- match(w, singular)
     position_n <- match(w, word)
-    new_w <- ifelse(test = is.na(position) | n[position_n] == 1,
-                    yes  = paste0(w, "s"),
-                    no   = plural[position])
+    if (n[position_n] > 1) {
+      # Deciding between a known plural or a generic one (just adding "s")
+      new_w <- ifelse(test = is.na(position) | n[position_n] == 1,
+                      yes  = paste0(w, "s"),
+                      no   = plural[position])
+    } else {
+      new_w <- w
+    }
     out <- append(out, new_w)
   }
 

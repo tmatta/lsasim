@@ -505,16 +505,6 @@ test_that("n cannor be larger than N", {
   expect_output(str(cluster_gen(n7, N7, verbose = FALSE)), "List of 7")
 })
 
-# Testing actual sampling =====================================================
-# cl_scheme <- list(school = 2, class = c(3, 2), student = c(5, 4, 5, 5, 5))
-# cl_scheme2 <- list(country = 5,
-#                    school  = c(20, 8, 5, 7, 3),
-#                    student = c(20, 30, 12, 12, 12))
-# draw_cluster_structure(cl_scheme)
-# draw_cluster_structure(cl_scheme2)
-# cluster_gen(n = cl_scheme)
-# cluster_gen(n = select(1, 2, 4), N = cl_scheme)
-
 # Replicate weights ===========================================================
 context("Replicate weights")
 test_that("Replication weights are correct", {

@@ -102,9 +102,17 @@ cluster_gen <- function(
   } else {
     census <- (N == 1)
   }
+
+  whitelist <- NULL
   if (class_n == "select") {
     check_condition(class_N == "select", "N can't be select")
-    n <- sample_from(N, n)
+    check_condition(
+      class_N == "multiplier",
+      "if n is select, N must be a vector or a list"
+      )
+    if (is(N, "numeric")) N <- convert_vector_to_list(N)
+    whitelist <- sample_from(N, n)
+    n <- N
   } else if (class_n == "list with ranges") {
     if (class_N == "multiplier") {
       check_condition(N != 1,
@@ -195,18 +203,21 @@ cluster_gen <- function(
 
   # Generating messages and data ==========================================
   if (separate_questionnaires) { # unique questionnaires at each level
-
     # Message explaining cluster scheme -----------------------------------
     if (verbose) {
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
       if (!census & print_pop_structure) {
         message("Population structure")
         draw_cluster_structure(N, cluster_labels, resp_labels)
-        message("Sampled structure")
       }
-      cluster_message(n, resp_labels, cluster_labels, n_levels,
-                     separate_questionnaires, 1)
-      draw_cluster_structure(n, cluster_labels, resp_labels)
+      if (is.null(whitelist)) {
+        message("Sampled structure")
+        cluster_message(n, resp_labels, cluster_labels, n_levels,
+                      separate_questionnaires, 1)
+        draw_cluster_structure(n, cluster_labels, resp_labels)
+      } else {
+        whitelist_message(whitelist)
+      }
     }
 
     # Questionnaire generation --------------------------------------------
@@ -216,7 +227,9 @@ cluster_gen <- function(
     sample <- cluster_gen_separate(
       n_levels, n, N, sum_pop, calc_weights, sampling_method,
       cluster_labels, resp_labels, collapse,
-      n_X, n_W, cat_prop, c_mean, sigma, cor_matrix, rho, theta, verbose, ...
+      n_X, n_W, cat_prop, c_mean, sigma, cor_matrix, rho, theta,
+      whitelist, verbose,
+      ...
     )
   } else { # questionnaires administered only at the bottom level
 
@@ -228,9 +241,13 @@ cluster_gen <- function(
         draw_cluster_structure(N, cluster_labels, resp_labels)
         message("Sampled structure")
       }
-      cluster_message(n, resp_labels, cluster_labels, n_levels,
-                    separate_questionnaires, 2)
-      draw_cluster_structure(n, cluster_labels, resp_labels)
+      if (is.null(whitelist)) {
+        cluster_message(n, resp_labels, cluster_labels, n_levels,
+                      separate_questionnaires, 2)
+        draw_cluster_structure(n, cluster_labels, resp_labels)
+      } else {
+        whitelist_message(whitelist)
+      }
     }
 
     # Questionnaire generation --------------------------------------------

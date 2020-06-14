@@ -21,15 +21,15 @@
 #' @param rho estimated intraclass correlation
 #' @param theta if \code{TRUE}, the first continuous variable will be labeled
 #'   'theta'. Otherwise, it will be labeled 'q1'.
+#' @param whitelist used when `n = select(...)`, determines which PSUs get to generate questionnaires
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @seealso cluster_gen cluster_gen_together
 #' @importFrom stats rchisq
 #' @importFrom methods is
 #' @export
 cluster_gen_separate <- function(
-  n_levels, n, N, sum_pop, calc_weights, sampling_method, cluster_labels,
-  resp_labels, collapse, n_X, n_W, cat_prop, c_mean, sigma, cor_matrix,
-  rho, theta, verbose, ...
+  n_levels, n, N, sum_pop, calc_weights, sampling_method, cluster_labels, resp_labels, collapse, n_X, n_W, cat_prop, c_mean, sigma, cor_matrix,
+  rho, theta, whitelist, verbose, ...
 ) {
   # Creating basic elements ====================================================
   out    <- list()  # actual output (differs from sample if collapse)
@@ -163,7 +163,7 @@ cluster_gen_separate <- function(
         theta = theta, ...
       )
 
-      ### Adding weights .......................................................
+      ### Adding weights .....................................................
       if (calc_weights) {
         cluster_bg <- weight_responses(
           cluster_bg, n, N, l + 1, lvl, previous_sublvl[lvl], sampling_method,
@@ -171,7 +171,7 @@ cluster_gen_separate <- function(
         )
       }
 
-      ### Generating unique IDs ................................................
+      ### Generating unique IDs ..............................................
       respID <- paste0(next_level_label, seq(cluster_bg$subject))
       if (l > 1) {
         previous_lvl <- as.vector(unlist(sapply(n[[l]], seq)))[lvl]
@@ -182,8 +182,55 @@ cluster_gen_separate <- function(
       }
       cluster_bg$uniqueID <- paste(respID, cluster_bg$clusterID, sep = "_")
 
-      ### Saving the questionnaire to the final list (sample) ..................
-      cluster_bg -> sample[[level_label]][[lvl]]
+      # Drop the whole thing if data is not on the whitelist .................
+      if (!is.null(whitelist)) {
+        if (l == 1) {
+          clusterID_extracted <- gsub(
+            pattern = "\\D", # anything that is not a digit
+            replacement = "",
+            cluster_bg[, "clusterID"][1]
+          )
+          clusterID_extracted <- as.numeric(clusterID_extracted)
+          whitelist_extracted <- whitelist[, l]
+          is_whitelisted <- (lvl %in% whitelist[, 1:l])
+        } else {
+          clusterID_extracted <- gsub(
+            pattern = "\\D", # anything that is not a digit
+            replacement = "",
+            cluster_bg[, "clusterID"][1]
+          )
+          clusterID_extracted <- as.numeric(clusterID_extracted)
+          whitelist_extracted <- apply(
+            whitelist[, rev(seq_len(l))],
+            1,
+            function(x) paste(x, collapse = "")
+          )
+          is_whitelisted <- match(clusterID_extracted, whitelist_extracted)
+          is_whitelisted <- !is.na(is_whitelisted)
+        }
+        # if (!(lvl %in% whitelist[, 1:l])) {
+        if (!is_whitelisted) {
+          cluster_bg[, 2:(ncol(cluster_bg) - 2)] <- NA
+        }
+        # Dropping indivial elements that should not have been sampled .......
+        if (all(!is.na(cluster_bg))) {
+          if (l < n_levels - 1) {
+            keep_rows <- whitelist[whitelist[, l] == lvl, l + 1]
+            blacklisted_rows <- which(
+              is.na(match(rownames(cluster_bg), keep_rows))
+            )
+            cluster_bg[blacklisted_rows, 2:(ncol(cluster_bg) - 2)] <- NA
+          } else if (l == n_levels - 1) {
+            rowmatched <- match(clusterID_extracted, whitelist_extracted)
+            limit <- whitelist[rowmatched, n_levels]
+            if (limit < nrow(cluster_bg))
+            cluster_bg <- cluster_bg[seq_len(limit), ]
+          }
+        }
+      }
+
+      ### Saving the questionnaire to the final list (sample) ................
+      sample[[level_label]][[lvl]] <- cluster_bg
     }
 
     ## Collapsing levels and removing clusterIDs -------------------------------

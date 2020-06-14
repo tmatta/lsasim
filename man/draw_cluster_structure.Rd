@@ -13,7 +13,7 @@ draw_cluster_structure(n, labels = NULL, resp = NULL, output = "tree")
 
 \item{resp}{corresponds to resp_labels from cluster_gen}
 
-\item{output}{"tree" or "vector"}
+\item{output}{"tree" or "text"}
 }
 \value{
 Prints structure to console.
