@@ -69,8 +69,11 @@ convert_vector_to_list <- function(x, x_max = x, verbose = TRUE) {
 
   # Returning converted x ======================================================
   if (verbose & trimmed_x) {
-      warning("Some elements of the sample structure provided were larger ",            "than their counterparts in the population",
-              "; they were trimmed accordingly.")
+      warning(
+        "Some elements of the sample structure provided were larger ",
+        "than their counterparts in the population",
+        "; they were trimmed accordingly."
+      )
   }
   return(x_list)
 }

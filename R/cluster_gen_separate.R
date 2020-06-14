@@ -200,7 +200,6 @@ cluster_gen_separate <- function(
           )
           is_whitelisted <- match(clusterID_extracted, whitelist_extracted)
           is_whitelisted <- !is.na(is_whitelisted)
-          message(print(cluster_bg[, "clusterID"][1]), " ", is_whitelisted)
         }
         # if (!(lvl %in% whitelist[, 1:l])) {
         if (!is_whitelisted) {
@@ -215,7 +214,6 @@ cluster_gen_separate <- function(
             )
             cluster_bg[blacklisted_rows, 2:(ncol(cluster_bg) - 2)] <- NA
           } else if (l == n_levels - 1) {
-            # browser()#TEMP
             rowmatched <- match(clusterID_extracted, whitelist_extracted)
             limit <- whitelist[rowmatched, n_levels]
             if (limit < nrow(cluster_bg))
