@@ -4,11 +4,9 @@
 \alias{select}
 \title{Transform regular vector into selection vector}
 \usage{
-select(x, ...)
+select(...)
 }
 \arguments{
-\item{x}{vector}
-
 \item{...}{parameters to be passed to `c()`}
 }
 \value{

@@ -1,6 +1,3 @@
-library(devtools)
-library(testthat)
-library(lsasim)
 context("Random cluster sampling")
 
 # ==============================================================================

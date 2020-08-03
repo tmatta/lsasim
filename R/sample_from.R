@@ -4,6 +4,7 @@
 #' @param n numeric vector with the number of sampled observations (clusters or subjects) on each level
 #' @param labels character vector with the names of the questionnaire respondents on each level
 #' @param verbose if `TRUE`, prints output messages
+#' @importFrom stats complete.cases
 #' @export
 sample_from <- function (N, n, labels = names(N), verbose = TRUE) {
   # Basic elements and validation
