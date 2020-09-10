@@ -150,7 +150,7 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
           
     }  
     
-    d_par <- do.call("rbind", d_i)
+    d_par <- round(do.call("rbind", d_i), 2)
     
     dlabs <- paste0("d", 1:ncol(d_par))
 
