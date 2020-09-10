@@ -4,7 +4,8 @@
 \name{pisa2012_math_block}
 \alias{pisa2012_math_block}
 \title{PISA 2012 mathematics item - item block indicator matrix}
-\format{A data frame with 109 rows and 12 variables:
+\format{
+A data frame with 109 rows and 12 variables:
 \describe{
   \item{item_name}{Item name.}
   \item{item_no}{Item numbers.}
@@ -18,7 +19,8 @@
   \item{block8}{Indicator specifying those items in block 8.}
   \item{block9}{Indicator specifying those items in block 9.}
   \item{block10}{Indicator specifying those items in block 10.}
-}}
+}
+}
 \source{
 PISA 2012 Technical Report, ANNEX A.
         Table A.1: PISA 2012 Main Survey mathematics item classification. 

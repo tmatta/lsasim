@@ -4,8 +4,18 @@
 \alias{run_condition_checks}
 \title{Wrapper-function for check_condition}
 \usage{
-run_condition_checks(n_cats, n_vars, n_X, n_W, theta, cat_prop, cor_matrix,
-  cov_matrix, c_mean, c_sd)
+run_condition_checks(
+  n_cats,
+  n_vars,
+  n_X,
+  n_W,
+  theta,
+  cat_prop,
+  cor_matrix,
+  cov_matrix,
+  c_mean,
+  c_sd
+)
 }
 \arguments{
 \item{n_cats}{vector with number of categories for each categorical variable

@@ -4,8 +4,7 @@
 \alias{questionnaire_gen_polychoric}
 \title{Generation of ordinal and continuous variables}
 \usage{
-questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix, c_mean, c_sd,
-  theta)
+questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix, c_mean, c_sd, theta)
 }
 \arguments{
 \item{n_obs}{number of observations to generate.}

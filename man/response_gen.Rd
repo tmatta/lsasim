@@ -4,8 +4,17 @@
 \alias{response_gen}
 \title{Generation of item response data using a rotated block design}
 \usage{
-response_gen(subject, item, theta, a_par = NULL, b_par, c_par = NULL,
-  d_par = NULL, item_no = NULL, ogive = "Logistic")
+response_gen(
+  subject,
+  item,
+  theta,
+  a_par = NULL,
+  b_par,
+  c_par = NULL,
+  d_par = NULL,
+  item_no = NULL,
+  ogive = "Logistic"
+)
 }
 \arguments{
 \item{subject}{integer vector of test taker IDs.}

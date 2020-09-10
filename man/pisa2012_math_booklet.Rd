@@ -4,7 +4,8 @@
 \name{pisa2012_math_booklet}
 \alias{pisa2012_math_booklet}
 \title{PISA 2012 mathematics item block - test booklet indicator matrix}
-\format{A data frame with 13 rows and 10 variables:
+\format{
+A data frame with 13 rows and 10 variables:
 \describe{
   \item{booklet}{Booklet name.}
   \item{b1}{Indicator specifying those test booklets that use item block 1.}
@@ -16,7 +17,8 @@
   \item{b7}{Indicator specifying those test booklets that use item block 7.}
   \item{b8}{Indicator specifying those test booklets that use item block 8.}
   \item{b9}{Indicator specifying those test booklets that use item block 9.}
-}}
+}
+}
 \source{
 PISA 2012 Technical Report, Chapter 2: Test Design and Test Development.
         Figure 2.1: Cluster rotation design used to form standard test booklets for PISA 2012. 

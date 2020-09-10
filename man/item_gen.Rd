@@ -4,8 +4,15 @@
 \alias{item_gen}
 \title{Generation of item parameters from uniform distributions}
 \usage{
-item_gen(b_bounds, a_bounds = NULL, c_bounds = NULL, thresholds = 1,
-  n_1pl = NULL, n_2pl = NULL, n_3pl = NULL)
+item_gen(
+  b_bounds,
+  a_bounds = NULL,
+  c_bounds = NULL,
+  thresholds = 1,
+  n_1pl = NULL,
+  n_2pl = NULL,
+  n_3pl = NULL
+)
 }
 \arguments{
 \item{b_bounds}{a vector containing the bounds of the the uniform distribution for sampling the difficulty parameters.}

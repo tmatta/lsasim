@@ -3,10 +3,9 @@
 \docType{package}
 \name{lsasim}
 \alias{lsasim}
-\alias{lsasim-package}
 \title{lsasim: A package for simulating large scale assessment data}
 \description{
-lsasim: A package for simulating large scale assessment data
+lsasim simulates data that mimics large-scale assessments (LSAs), including background questionnaire data and cognitive item responses that adhere to a multiple-matrix sampled design
 }
 \section{Core functions}{
 

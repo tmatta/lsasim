@@ -4,7 +4,9 @@
 \name{pisa2012_q_marginal}
 \alias{pisa2012_q_marginal}
 \title{Marginal proportions from the PISA 2012 background questionnaire}
-\format{A list of 19 named numeric vectors.}
+\format{
+A list of 19 named numeric vectors.
+}
 \source{
 Raw data can be found at \url{https://www.oecd.org/pisa/pisaproducts/pisa2012database-downloadabledata.htm}
 Codebook can be found at \url{https://www.oecd.org/pisa/pisaproducts/PISA12_stu_codebook.pdf}
