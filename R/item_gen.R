@@ -130,44 +130,44 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
   
   }
 
-  b_mean <- mean(unlist(b_par))
-  b_center <- lapply(b_par, function(x) round(x - b_mean, 2))
-  
-  #-- b_star is the average difficulty for each item
-  #-- For dicotomous items, b_star = b_center
-  b_star <- lapply(b_center, function(x) round(mean(x), 2))
-  b_par <- do.call("rbind", b_star)
+  if (sum(thresholds) > 1) {
 
-  d <- list()
-  for (p in 1:i) {
+    b_star <- lapply(b_par, mean)
+  
     d_i <- list()
-  
-    if (k[p] != 1) {
-
-      d_i[[p]] <- rep(0, max(k))
-      for(j in 1:k[p]) d_i[[p]][j] <- b_center[[p]][j] - b_star[[p]]
-       
-    } else {
-  
-      d_i[[p]] <- rep(0, max(k))
     
-    }
+    for (pp in 1:i) {
     
-    d[[p]] <- unlist(d_i)
+      if (k[pp] != 1) {
   
-  }
+        d_i[[pp]] <- b_par[[pp]] - b_star[[pp]]
+         
+      } else {
+    
+        d_i[[pp]] <- rep(0, max(k))
+      
+      }
+          
+    }  
+    
+    d_par <- round(do.call("rbind", d_i), 2)
+    
+    dlabs <- paste0("d", 1:ncol(d_par))
 
-  d_par <- do.call("rbind", d)
-  
-  dlabs <- paste0("d", 1:ncol(d_par))
+    b_star <- round(do.call("rbind", b_star), 2)
 
-  if (sum(thresholds) > 1){
-    item_parameters <- data.frame(item = item_no, b = b_par, d = d_par, a = a_par, c = c_par, k = k, p = item_type)
+    item_parameters <- data.frame(item = item_no, b = b_star, d = d_par, a = a_par, c = c_par, k = k, p = item_type)
     colnames(item_parameters) <- c("item", "b", dlabs, "a", "c", "k", "p")
+  
   }
-  if (sum(thresholds) == 1){
+
+  if (sum(thresholds) == 1) {
+
+    b_par <- round(do.call("rbind", b_par), 2)
+
     item_parameters <- data.frame(item = item_no, b = b_par, a = a_par, c = c_par, k = k, p = item_type)
     colnames(item_parameters) <- c("item", "b", "a", "c", "k", "p")
+
   }
 
 

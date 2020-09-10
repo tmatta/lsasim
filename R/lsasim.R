@@ -1,4 +1,5 @@
-#' lsasim: A package for simulating large scale assessment data
+#' @title lsasim: A package for simulating large scale assessment data
+#' @description lsasim simulates data that mimics large-scale assessments (LSAs), including background questionnaire data and cognitive item responses that adhere to a multiple-matrix sampled design
 #'
 #' @description Functions to Facilitate the Simulation of Large Scale Assessment Data
 #'
