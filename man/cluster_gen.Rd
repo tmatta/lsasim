@@ -104,6 +104,9 @@ n <- list(3, c(20, 15, 25))
 N <- list(5, c(200, 500, 400, 100, 100))
 cluster_gen(n, N, n_X = 5, n_W = 2)
 
+# Condensing the output
+set.seed(0); cluster_gen(c(2, 4))
+set.seed(0); cluster_gen(c(2, 4), collapse=TRUE) # same, but in one dataset
 
 # Controlling the intra-class correlation and the grand mean
 x <- cluster_gen(c(5, 1000), rho = .9, n_X = 2, n_W = 0, c_mean = 10)
