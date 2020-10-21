@@ -13,7 +13,7 @@ draw_cluster_structure(n, labels = NULL, resp = NULL, output = "tree")
 
 \item{resp}{corresponds to resp_labels from cluster_gen}
 
-\item{output}{"tree" or "text"}
+\item{output}{"tree" draws a tree-like structure on the console, "text" prints the structure as a character vector}
 }
 \value{
 Prints structure to console.
@@ -23,4 +23,9 @@ This function creates a visual representation of the hierarchical structure
 }
 \note{
 This function is useful for checking how a `list()` object looks as a hierarchical structure, usually to be used as the  `n` and/or `N` arguments of the `cluster_gen` function.
+}
+\examples{
+n <- c(2, 4, 3)
+draw_cluster_structure(n)
+draw_cluster_structure(n, output="text")
 }
