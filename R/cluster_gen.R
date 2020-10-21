@@ -12,9 +12,9 @@
 #' @param cat_prop list of cumulative proportions for each item. If \code{theta
 #'   = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
 #'   corresponds to the \code{theta}.
-#' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
-#' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
-#' @param cor_matrix Correlation matrix between all variables (except weights)
+#' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0.
+#' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1.
+#' @param cor_matrix Correlation matrix between all variables (except weights). By default, correlations are randomly generated.
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param rho estimated intraclass correlation
 #' @param theta if \code{TRUE}, the first continuous variable will be labeled

@@ -44,11 +44,11 @@ corresponds to the \code{theta}.}
 
 \item{n_W}{list of `n_W` per cluster level}
 
-\item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level}
+\item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0.}
 
-\item{sigma}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level}
+\item{sigma}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1.}
 
-\item{cor_matrix}{Correlation matrix between all variables (except weights)}
+\item{cor_matrix}{Correlation matrix between all variables (except weights). By default, correlations are randomly generated.}
 
 \item{separate_questionnaires}{if `TRUE`, each level will have its own questionnaire}
 
