@@ -5,6 +5,8 @@
 \alias{lsasim}
 \title{lsasim: A package for simulating large scale assessment data}
 \description{
+lsasim simulates data that mimics large-scale assessments (LSAs), including background questionnaire data and cognitive item responses that adhere to a multiple-matrix sampled design
+
 Functions to Facilitate the Simulation of Large Scale Assessment Data
 }
 \note{

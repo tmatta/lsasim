@@ -2,7 +2,7 @@
 #' @param n numeric vector with the number of sampled observations (clusters or subjects) on each level
 #' @param cluster_labels character vector with the names of each cluster level
 #' @param resp_labels character vector with the names of the questionnaire respondents on each level
-#' @param collapse if `TRUE`, function output contains only one data frame with all answers
+#' @param collapse if `TRUE`, function output contains only one data frame with all answers. It can also be "none", "partial" and "full" for finer control on 3+ levels
 #' @param separate_questionnaires if `TRUE`, each level will have its own questionnaire
 #' @param N list of numeric vector with the population size of each *sampled* cluster element on each level
 #' @param calc_weights if `TRUE`, sampling weights are calculated
@@ -12,9 +12,9 @@
 #' @param cat_prop list of cumulative proportions for each item. If \code{theta
 #'   = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
 #'   corresponds to the \code{theta}.
-#' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
-#' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
-#' @param cor_matrix Correlation matrix between all variables (except weights)
+#' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0.
+#' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1.
+#' @param cor_matrix Correlation matrix between all variables (except weights). By default, correlations are randomly generated.
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param rho estimated intraclass correlation
 #' @param theta if \code{TRUE}, the first continuous variable will be labeled
@@ -50,6 +50,14 @@
 #' N <- list(5, c(200, 500, 400, 100, 100))
 #' cluster_gen(n, N, n_X = 5, n_W = 2)
 #'
+#' # Condensing the output
+#' set.seed(0); cluster_gen(c(2, 4))
+#' set.seed(0); cluster_gen(c(2, 4), collapse=TRUE) # same, but in one dataset
+#'
+#' # Condensing the output: 3 levels
+#' str(cluster_gen(c(2, 2, 1), collapse="none"))
+#' str(cluster_gen(c(2, 2, 1), collapse="partial"))
+#' str(cluster_gen(c(2, 2, 1), collapse="full"))
 #'
 #' # Controlling the intra-class correlation and the grand mean
 #' x <- cluster_gen(c(5, 1000), rho = .9, n_X = 2, n_W = 0, c_mean = 10)

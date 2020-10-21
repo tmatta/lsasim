@@ -2,10 +2,14 @@
 #' @param n same from cluster_gen
 #' @param labels corresponds to cluster_labels from cluster_gen
 #' @param resp corresponds to resp_labels from cluster_gen
-#' @param output "tree" or "text"
+#' @param output "tree" draws a tree-like structure on the console, "text" prints the structure as a character vector
 #' @description This function creates a visual representation of the hierarchical structure
 #' @return Prints structure to console.
 #' @note This function is useful for checking how a `list()` object looks as a hierarchical structure, usually to be used as the  `n` and/or `N` arguments of the `cluster_gen` function.
+#' @examples
+#' n <- c(2, 4, 3)
+#' draw_cluster_structure(n)
+#' draw_cluster_structure(n, output="text")
 #' @export
 draw_cluster_structure <- function(
   n, labels = NULL, resp = NULL, output = "tree"
@@ -66,7 +70,7 @@ draw_cluster_structure <- function(
     obs <- n[[length(n)]][match(submx_collapsed, structure_collapsed)]
     obs <- data.frame(submx_collapsed, obs)
     obs <- merge(
-      x = data.frame(nodes), y = obs, by.x = "nodes", by.y = "submx_collapsed", 
+      x = data.frame(nodes), y = obs, by.x = "nodes", by.y = "submx_collapsed",
       all = TRUE
     )
     obs <- obs[match(nodes, obs$nodes), ]  # fixes order for 10+ PSUs

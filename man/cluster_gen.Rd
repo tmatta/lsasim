@@ -44,15 +44,15 @@ corresponds to the \code{theta}.}
 
 \item{n_W}{list of `n_W` per cluster level}
 
-\item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level}
+\item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0.}
 
-\item{sigma}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level}
+\item{sigma}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1.}
 
-\item{cor_matrix}{Correlation matrix between all variables (except weights)}
+\item{cor_matrix}{Correlation matrix between all variables (except weights). By default, correlations are randomly generated.}
 
 \item{separate_questionnaires}{if `TRUE`, each level will have its own questionnaire}
 
-\item{collapse}{if `TRUE`, function output contains only one data frame with all answers}
+\item{collapse}{if `TRUE`, function output contains only one data frame with all answers. It can also be "none", "partial" and "full" for finer control on 3+ levels}
 
 \item{sum_pop}{total population at each level (sampled or not)}
 
@@ -104,6 +104,14 @@ n <- list(3, c(20, 15, 25))
 N <- list(5, c(200, 500, 400, 100, 100))
 cluster_gen(n, N, n_X = 5, n_W = 2)
 
+# Condensing the output
+set.seed(0); cluster_gen(c(2, 4))
+set.seed(0); cluster_gen(c(2, 4), collapse=TRUE) # same, but in one dataset
+
+# Condensing the output: 3 levels
+str(cluster_gen(c(2, 2, 1), collapse="none"))
+str(cluster_gen(c(2, 2, 1), collapse="partial"))
+str(cluster_gen(c(2, 2, 1), collapse="full"))
 
 # Controlling the intra-class correlation and the grand mean
 x <- cluster_gen(c(5, 1000), rho = .9, n_X = 2, n_W = 0, c_mean = 10)

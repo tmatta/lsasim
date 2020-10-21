@@ -5,9 +5,9 @@ context("Random cluster sampling")
 # ==============================================================================
 N1 <- list(school = 2, class = c(3, 2), student = c(5, 4, 5, 5, 5))
 N2 <- list(
-  school = 5,
-  class  = c(20, 8, 5, 7, 3),
-  student = c(rep(20, 20), rep(30, 8), rep(10, 5), rep(5, 7), rep(9, 3))
+	school = 5,
+	class  = c(20, 8, 5, 7, 3),
+	student = c(rep(20, 20), rep(30, 8), rep(10, 5), rep(5, 7), rep(9, 3))
 )
 
 # TODO: create test for this
@@ -28,7 +28,7 @@ df2 <- cluster_gen(
 	verbose = FALSE
 )
 df3 <- cluster_gen(n = select(4, 2, 1), N = c(10, 5, 3), verbose = FALSE)
-df4 <- cluster_gen(n = select(4, 2), N = c(10, 5))
+df4 <- cluster_gen(n = select(4, 2), N = c(10, 5), verbose = FALSE)
 
 # ==============================================================================
 # Adding tests
