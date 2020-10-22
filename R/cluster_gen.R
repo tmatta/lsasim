@@ -38,6 +38,13 @@
 #'
 #' @note The only arguments that can be used to label each level are `n`, `N`, `cluster_labels` and `resp_labels`. Labeling other arguments such as `c_mean` and `cat_prop` has no effect on the final results, but it is a recommended way for users to keep track of which value corresponds to which element in a complex hierarchical structure.
 #'
+#' One of the extra arguments that can be passed by this function is `family`.
+#' If \code{family == "gaussian"}, the questionnaire will be generated
+#'   assuming that all the variables are jointly-distributed as a multivariate
+#'   normal. The default behavior is \code{family == NULL}, where the data is
+#'   generated using the polychoric correlation matrix, with no distributional
+#'   assumptions.
+#'
 #' @seealso cluster_estimates cluster_gen_separate cluster_gen_together questionnaire_gen
 #' @export
 #' @examples
