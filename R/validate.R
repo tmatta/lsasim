@@ -87,7 +87,9 @@ validate_questionnaire_gen <- function(
         "Make sure all eigenvalues are non-negative.\n",
         "The eigenvalues of the matrix passed are as follows:\n",
         paste0(eigen(cor_matrix)$values, collapse=", "),
-        "\nFor more information, use the eigen() function."
+        "\n\nFor more information, use the eigen() function.",
+        "\n\nThis can usually be fixed by adjusting the matrix correlations",
+        "to avoid inconsistencies."
       )
     )
   }
