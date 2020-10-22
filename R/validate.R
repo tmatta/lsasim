@@ -14,7 +14,7 @@
 #' @param c_sd vector of standard deviations of all variables (YXW)
 #'
 validate_questionnaire_gen <- function(
-  n_cats, n_vars, n_X, n_W, theta, cat_prop, cor_matrix, cov_matrix, 
+  n_cats, n_vars, n_X, n_W, theta, cat_prop, cor_matrix, cov_matrix,
   c_mean, c_sd
 ) {
 
@@ -29,20 +29,25 @@ validate_questionnaire_gen <- function(
     if (n_W > 1) {
       check_condition(
         n_X + n_W + theta != ncol(cov_matrix),
-        paste0("n_X + n_W + theta must not be different from ncol(cov_matrix).",
+        paste0(
+          "\nn_X + n_W + theta must not be different from ncol(cov_matrix).",
           " The former add up to",
           n_X + n_W + theta,
           ", whereas the latter equals ",
-          ncol(cov_matrix)
+          ncol(cov_matrix), ".",
+          "\n\nIf you are passing a matrix, try manually setting n_X, n_W\n",
+          "and theta so that the number of variables match the matrix rank."
         )
       )
       check_condition(
         n_X + n_W + theta != ncol(cor_matrix),
         paste0("n_X + n_W + theta must not be different from ncol(cor_matrix).",
-          " The former add up to ",
+          "\nThe former add up to ",
           n_X + n_W + theta,
           ", whereas the latter equals ",
-          ncol(cor_matrix)
+          ncol(cor_matrix), ".",
+          "\n\nIf you are passing a matrix, try manually setting n_X, n_W\n",
+          "and theta so that the number of variables match the matrix rank."
         )
       )
     }
@@ -77,7 +82,15 @@ validate_questionnaire_gen <- function(
     check_condition(!isSymmetric(cor_matrix), "cor_matrix is not symmetric")
     check_condition(
       any(eigen(cor_matrix)$values < 0),
-      "Improper correlation matrix. Make sure all eigenvalues are non-negative"
+      paste(
+        "Improper correlation matrix passed.",
+        "Make sure all eigenvalues are non-negative.\n",
+        "The eigenvalues of the matrix passed are as follows:\n",
+        paste0(eigen(cor_matrix)$values, collapse=", "),
+        "\n\nFor more information, use the eigen() function.",
+        "\n\nThis can usually be fixed by adjusting the matrix correlations",
+        "to avoid inconsistencies."
+      )
     )
   }
   if (!is.null(cov_matrix)) {
@@ -118,7 +131,7 @@ validate_cluster_gen <- function(
   n, N, cluster_labels, resp_labels, n_X, n_W, rho, sigma, c_mean,
   separate_questionnaires, collapse, sampling_method) {
   check_condition(
-    (!is.null(names(n)) | !is.null(names(N))) & 
+    (!is.null(names(n)) | !is.null(names(N))) &
     (!is.null(cluster_labels) | !is.null(resp_labels)),
     "If n or N are labeled, cluster_labels and resp_labels must be left NULL."
   )
@@ -131,7 +144,7 @@ validate_cluster_gen <- function(
     "Unique questionnaire requested. n_W must therefore be a scalar or a list."
   )
   check_condition(
-    !separate_questionnaires & 
+    !separate_questionnaires &
       (class(rho) == "list" | class(c_mean) == "list" | class(sigma) == "list"),
     "Unique questionnaire requested. rho, c_mean and c_sd must not be lists."
   )

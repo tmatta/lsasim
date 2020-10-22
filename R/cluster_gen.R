@@ -187,20 +187,17 @@ cluster_gen <- function(
   # Defining n_X and n_W ==================================================
   if (is.null(cat_prop)) {
     if (n_levels > 1 & separate_questionnaires) {
-      if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
-      if (length(n_W) == 1 & class(n_W) == "numeric") {
-        n_W <- rep(n_W, n_levels)
-      } else if (length(n_W) > 1 & class(n_W) == "list") {
-        if (any(sapply(n_W, class) == "list")) {
-          n_W <- n_W
-        } else {
-          n_W <- rep(list(n_W), n_levels)
-        }
-      }
+      # Repeating a non-null n_X and n_W to all levels
+      n_X <- repeatXW(n_X, n_W, n_levels)$n_X
+      n_W <- repeatXW(n_X, n_W, n_levels)$n_W
     }
     if (!is.null(cor_matrix) & is.null(n_X) & is.null(n_W)) {
+      # Generating n_X and n_W
       n_X <- sample(x = seq(0, ncol(cor_matrix)), size = 1)
-      n_W <- ncol(cor_matrix) - n_X
+      n_W <- ncol(cor_matrix) - n_X - theta
+      # Repeating n_X and n_W across multiple levels
+      n_X <- repeatXW(n_X, n_W, n_levels)$n_X
+      n_W <- repeatXW(n_X, n_W, n_levels)$n_W
     } else {
       if (is.null(n_X)) {
         if (length(rho) > 1) {
@@ -277,4 +274,19 @@ cluster_gen <- function(
   }
 
   return(sample)
+}
+
+repeatXW <- function(n_X, n_W, n_levels) {
+  # Repeats a non-null n_X and n_W to all levels
+  if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
+  if (length(n_W) == 1 & is(n_W, "numeric")) {
+    n_W <- rep(n_W, n_levels)
+  } else if (length(n_W) > 1 & class(n_W) == "list") {
+    if (any(sapply(n_W, class) == "list")) {
+      n_W <- n_W
+    } else {
+      n_W <- rep(list(n_W), n_levels)
+    }
+  }
+  return(list(n_X = n_X, n_W = n_W))
 }
