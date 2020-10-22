@@ -44,9 +44,9 @@ corresponds to the \code{theta}.}
 
 \item{n_W}{list of `n_W` per cluster level}
 
-\item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0.}
+\item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0, but can change if `rho` is set.}
 
-\item{sigma}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1.}
+\item{sigma}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1, but can change if `rho` is set.}
 
 \item{cor_matrix}{Correlation matrix between all variables (except weights). By default, correlations are randomly generated.}
 
