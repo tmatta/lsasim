@@ -118,6 +118,11 @@
 #'   followed by \eqn{X} and then \eqn{W}. The reference category of the
 #'   categorical variables \eqn{W} is always the first one.
 #'
+#'   For very small means/sigmas (e.g. 0.005) and multiple levels, estimates
+#'   may have differing levels of accuracy (e.g. school level estimates will not
+#'   be as accurate as the student levels ones). In general, one should expect
+#'   naturally worse estimation on higher hierarchical setups.
+#'
 #' @return By default, the function returns a \code{data.frame} object where the
 #'   first column ("subject") is a \eqn{1,\ldots,n} ordered list of the \eqn{n}
 #'   observations and the other columns correspond to the questionnaire answers.
