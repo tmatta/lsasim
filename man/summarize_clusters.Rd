@@ -4,7 +4,7 @@
 \alias{summarize_clusters}
 \title{Summarizes clusters}
 \usage{
-summarize_clusters(data, digits = 2, print = "partial")
+summarize_clusters(data, digits = 2, print = "partial", force_matrix = FALSE)
 }
 \arguments{
 \item{data}{output of `cluster_gen`}
@@ -12,6 +12,8 @@ summarize_clusters(data, digits = 2, print = "partial")
 \item{digits}{controls the number of digits in the output (for `print = TRUE`)}
 
 \item{print}{"all" will pretty-print a summary of statistics, "partial" will only print cluster-level sumamrizes; "none" outputs statistics as a list}
+
+\item{force_matrix}{if `TRUE`, prints the heterogeneous correlation matrix even if warnings are generated}
 }
 \value{
 list of summaries
