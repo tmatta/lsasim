@@ -19,6 +19,15 @@ list of summaries
 \description{
 Takes the output of `cluster_gen` and creates summary statistics of the questionnaire variables
 }
+\note{
+Setting `print="none"` allows for saving the results as an R object (list). Otherwise, the results will be simply printed and not saveable.
+}
+\examples{
+n <- c(3, 30)
+cls <- cluster_gen(n, n_X = 3, n_W = 5)
+summarize_clusters(cls)
+summarize_clusters(cls, print="none") # allows saving results
+}
 \seealso{
 anova_table
 }

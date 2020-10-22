@@ -3,8 +3,15 @@
 #' @param data output of `cluster_gen`
 #' @param digits controls the number of digits in the output (for `print = TRUE`)
 #' @param print "all" will pretty-print a summary of statistics, "partial" will only print cluster-level sumamrizes; "none" outputs statistics as a list
+#' @note
+#' Setting `print="none"` allows for saving the results as an R object (list). Otherwise, the results will be simply printed and not saveable.
 #' @return list of summaries
 #' @seealso anova_table
+#' @examples
+#' n <- c(3, 30)
+#' cls <- cluster_gen(n, n_X = 3, n_W = 5)
+#' summarize_clusters(cls)
+#' summarize_clusters(cls, print="none") # allows saving results
 #' @export
 summarize_clusters <- function(data, digits = 2, print = "partial") {
     # Validation ===============================================================
@@ -18,7 +25,7 @@ summarize_clusters <- function(data, digits = 2, print = "partial") {
         data <- list(data)
         names(data) <- gsub("[0-9]", "", names(data[[1]])[1])
     }
-    
+
     # Filtering out subject, ID and weight variables ===========================
     detect_data_cols <- function(x) {
         grep("subject|ID|weight", x, invert = TRUE)
@@ -86,7 +93,7 @@ summarize_clusters <- function(data, digits = 2, print = "partial") {
         if (print == "none") {
             out[[n]]$y_bar <- apply(
                 X      = out[[n]]$y_bar_j,
-                MARGIN = 2, 
+                MARGIN = 2,
                 FUN    = function(x) stats::weighted.mean(x, out[[n]]$n_j)
             )
             out[[n]]$N <- length(out[[n]]$n_j)
@@ -96,7 +103,7 @@ summarize_clusters <- function(data, digits = 2, print = "partial") {
         }
     }
 
-    
+
     # Printing aggregate level statistics or returning output ==================
     if (print != "none") {
         collapsed_data <- lapply(data, function(x) do.call(rbind, x))
