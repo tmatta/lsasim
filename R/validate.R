@@ -29,20 +29,25 @@ validate_questionnaire_gen <- function(
     if (n_W > 1) {
       check_condition(
         n_X + n_W + theta != ncol(cov_matrix),
-        paste0("n_X + n_W + theta must not be different from ncol(cov_matrix).",
+        paste0(
+          "\nn_X + n_W + theta must not be different from ncol(cov_matrix).",
           " The former add up to",
           n_X + n_W + theta,
           ", whereas the latter equals ",
-          ncol(cov_matrix)
+          ncol(cov_matrix), ".",
+          "\n\nIf you are passing a matrix, try manually setting n_X, n_W\n",
+          "and theta so that the number of variables match the matrix rank."
         )
       )
       check_condition(
         n_X + n_W + theta != ncol(cor_matrix),
         paste0("n_X + n_W + theta must not be different from ncol(cor_matrix).",
-          " The former add up to ",
+          "\nThe former add up to ",
           n_X + n_W + theta,
           ", whereas the latter equals ",
-          ncol(cor_matrix)
+          ncol(cor_matrix), ".",
+          "\n\nIf you are passing a matrix, try manually setting n_X, n_W\n",
+          "and theta so that the number of variables match the matrix rank."
         )
       )
     }
