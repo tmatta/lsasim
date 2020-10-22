@@ -12,8 +12,8 @@
 #' @param cat_prop list of cumulative proportions for each item. If \code{theta
 #'   = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
 #'   corresponds to the \code{theta}.
-#' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0.
-#' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1.
+#' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0, but can change if `rho` is set.
+#' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1, but can change if `rho` is set.
 #' @param cor_matrix Correlation matrix between all variables (except weights). By default, correlations are randomly generated.
 #' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
 #' @param rho estimated intraclass correlation
@@ -37,6 +37,13 @@
 #' @note The `ranges()` function should always be put inside a `list()`,as putting it inside a vector (`c()`) will cancel its effect. For more details, please read the documentation of the `ranges()` function.
 #'
 #' @note The only arguments that can be used to label each level are `n`, `N`, `cluster_labels` and `resp_labels`. Labeling other arguments such as `c_mean` and `cat_prop` has no effect on the final results, but it is a recommended way for users to keep track of which value corresponds to which element in a complex hierarchical structure.
+#'
+#' One of the extra arguments that can be passed by this function is `family`.
+#' If \code{family == "gaussian"}, the questionnaire will be generated
+#'   assuming that all the variables are jointly-distributed as a multivariate
+#'   normal. The default behavior is \code{family == NULL}, where the data is
+#'   generated using the polychoric correlation matrix, with no distributional
+#'   assumptions.
 #'
 #' @seealso cluster_estimates cluster_gen_separate cluster_gen_together questionnaire_gen
 #' @export

@@ -3,10 +3,18 @@
 #' @param data output of `cluster_gen`
 #' @param digits controls the number of digits in the output (for `print = TRUE`)
 #' @param print "all" will pretty-print a summary of statistics, "partial" will only print cluster-level sumamrizes; "none" outputs statistics as a list
+#' @param force_matrix if `TRUE`, prints the heterogeneous correlation matrix even if warnings are generated
+#' @note
+#' Setting `print="none"` allows for saving the results as an R object (list). Otherwise, the results will be simply printed and not saveable.
 #' @return list of summaries
 #' @seealso anova_table
+#' @examples
+#' n <- c(3, 30)
+#' cls <- cluster_gen(n, n_X = 3, n_W = 5)
+#' summarize_clusters(cls)
+#' summarize_clusters(cls, print="none") # allows saving results
 #' @export
-summarize_clusters <- function(data, digits = 2, print = "partial") {
+summarize_clusters <- function(data, digits = 2, print = "partial", force_matrix = FALSE) {
     # Validation ===============================================================
     check_condition(
         condition = !(print %in% c("partial", "all", "none")),
@@ -18,7 +26,7 @@ summarize_clusters <- function(data, digits = 2, print = "partial") {
         data <- list(data)
         names(data) <- gsub("[0-9]", "", names(data[[1]])[1])
     }
-    
+
     # Filtering out subject, ID and weight variables ===========================
     detect_data_cols <- function(x) {
         grep("subject|ID|weight", x, invert = TRUE)
@@ -51,8 +59,7 @@ summarize_clusters <- function(data, digits = 2, print = "partial") {
                 print(df_table)
 
                 # Adding correlation matrix
-                cat("\n Heterogeneous correlation matrix\n")
-                print(polycor::hetcor(df)$correlations)
+                printHetcor(df, force_matrix)
                 for (w in names(df[w_cols])) {
                     message("\nStatistics per category of ", w)
                     w_lvls <- levels(df[, w])
@@ -71,8 +78,7 @@ summarize_clusters <- function(data, digits = 2, print = "partial") {
                 }
 
                 # Adding correlation matrix
-                cat("\n Heterogeneous correlation matrix\n")
-                print(polycor::hetcor(df)$correlations)
+                printHetcor(df, force_matrix)
                 cli::cat_rule()
             } else {
                 df_X <- df[x_cols]
@@ -86,7 +92,7 @@ summarize_clusters <- function(data, digits = 2, print = "partial") {
         if (print == "none") {
             out[[n]]$y_bar <- apply(
                 X      = out[[n]]$y_bar_j,
-                MARGIN = 2, 
+                MARGIN = 2,
                 FUN    = function(x) stats::weighted.mean(x, out[[n]]$n_j)
             )
             out[[n]]$N <- length(out[[n]]$n_j)
@@ -96,7 +102,7 @@ summarize_clusters <- function(data, digits = 2, print = "partial") {
         }
     }
 
-    
+
     # Printing aggregate level statistics or returning output ==================
     if (print != "none") {
         collapsed_data <- lapply(data, function(x) do.call(rbind, x))
@@ -111,10 +117,30 @@ summarize_clusters <- function(data, digits = 2, print = "partial") {
             print(df_table)
 
             # Adding correlation matrix
-            cat("\n Heterogeneous correlation matrix\n")
-            print(polycor::hetcor(df)$correlations)
+            printHetcor(df, force_matrix)
         }
     } else {
         return(out)
     }
+}
+
+printHetcor <- function(df, force) {
+    tryCatch(
+        expr = {
+            message("\nHeterogeneous correlation matrix\n")
+            print(polycor::hetcor(df)$correlations)
+        },
+        warning = function(w) {
+            if (force) {
+                cat("\n Heterogeneous correlation matrix\n")
+                print(polycor::hetcor(df)$correlations)
+            } else {
+                warning(
+                    "Generation of the correlation matrix yields warnings ",
+                    "and has been suppressed. ",
+                    "Set 'force_matrix=TRUE' to generate it anyway."
+                )
+            }
+        }
+    )
 }

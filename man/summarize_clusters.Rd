@@ -4,7 +4,7 @@
 \alias{summarize_clusters}
 \title{Summarizes clusters}
 \usage{
-summarize_clusters(data, digits = 2, print = "partial")
+summarize_clusters(data, digits = 2, print = "partial", force_matrix = FALSE)
 }
 \arguments{
 \item{data}{output of `cluster_gen`}
@@ -12,12 +12,23 @@ summarize_clusters(data, digits = 2, print = "partial")
 \item{digits}{controls the number of digits in the output (for `print = TRUE`)}
 
 \item{print}{"all" will pretty-print a summary of statistics, "partial" will only print cluster-level sumamrizes; "none" outputs statistics as a list}
+
+\item{force_matrix}{if `TRUE`, prints the heterogeneous correlation matrix even if warnings are generated}
 }
 \value{
 list of summaries
 }
 \description{
 Takes the output of `cluster_gen` and creates summary statistics of the questionnaire variables
+}
+\note{
+Setting `print="none"` allows for saving the results as an R object (list). Otherwise, the results will be simply printed and not saveable.
+}
+\examples{
+n <- c(3, 30)
+cls <- cluster_gen(n, n_X = 3, n_W = 5)
+summarize_clusters(cls)
+summarize_clusters(cls, print="none") # allows saving results
 }
 \seealso{
 anova_table

@@ -220,6 +220,11 @@ If \code{family == NULL}, the number of levels for each categorical
   By definition, the expected order of the variables is \eqn{theta},
   followed by \eqn{X} and then \eqn{W}. The reference category of the
   categorical variables \eqn{W} is always the first one.
+
+  For very small means/sigmas (e.g. 0.005) and multiple levels, estimates
+  may have differing levels of accuracy (e.g. school level estimates will not
+  be as accurate as the student levels ones). In general, one should expect
+  naturally worse estimation on higher hierarchical setups.
 }
 \examples{
 # Using polychoric correlations
