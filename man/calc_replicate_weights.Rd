@@ -26,6 +26,12 @@ According to OECD (2015), PISA uses the Fay method with a factor of 0.5. This is
 \note{
 This function is essentially a big wrapper for `replicate_var`, applying that function on each element of an output of `cluster_gen`.
 }
+\examples{
+data <- cluster_gen(c(3, 50))
+calc_replicate_weights(data, "Jackknife")
+calc_replicate_weights(data, "BRR")
+calc_replicate_weights(data, "BRR Fay")
+}
 \references{
 OECD (2015). Pisa Data Analysis Manual.
 Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.

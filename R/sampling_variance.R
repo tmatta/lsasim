@@ -11,6 +11,11 @@
 #' Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.
 #' @return list with data and, if requeted, some statistics
 #' @note This function is essentially a big wrapper for `replicate_var`, applying that function on each element of an output of `cluster_gen`.
+#' @examples
+#' data <- cluster_gen(c(3, 50))
+#' calc_replicate_weights(data, "Jackknife")
+#' calc_replicate_weights(data, "BRR")
+#' calc_replicate_weights(data, "BRR Fay")
 #' @export
 calc_replicate_weights <- function(data, method, k = 0) {
     # Verification =============================================================
