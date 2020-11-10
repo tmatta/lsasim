@@ -4,7 +4,7 @@
 \alias{customize_summary}
 \title{Customize Summary}
 \usage{
-customize_summary(df_summary, df, numeric_cols, factor_cols)
+customize_summary(df_summary, df, numeric_cols, factor_cols, digits = 3)
 }
 \arguments{
 \item{df_summary}{dataframe containing summary statistics}
@@ -14,6 +14,8 @@ customize_summary(df_summary, df, numeric_cols, factor_cols)
 \item{numeric_cols}{indices of the numeric columns}
 
 \item{factor_cols}{indices of the factor columns}
+
+\item{digits}{controls the number of digits in the output}
 }
 \description{
 Adds standard deviations and removes quantiles from a `summary()` output

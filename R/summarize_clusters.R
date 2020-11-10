@@ -1,11 +1,13 @@
 #' @title Summarizes clusters
 #' @description Takes the output of `cluster_gen` and creates summary statistics of the questionnaire variables
 #' @param data output of `cluster_gen`
-#' @param digits controls the number of digits in the output (for `print = TRUE`)
+#' @param digits loosely controls the number of digits (significant or not) in the output (for `print = TRUE`)
 #' @param print "all" will pretty-print a summary of statistics, "partial" will only print cluster-level sumamrizes; "none" outputs statistics as a list
 #' @param force_matrix if `TRUE`, prints the heterogeneous correlation matrix even if warnings are generated
 #' @note
 #' Setting `print="none"` allows for saving the results as an R object (list). Otherwise, the results will be simply printed and not saveable.
+#'
+#' Changing `digits` may yield unexpected results for the estimates of continuous variables, given how most of them are printed using the number of significant digits (for more information, see `help("summary")`).
 #' @return list of summaries
 #' @seealso anova_table
 #' @examples
@@ -14,7 +16,7 @@
 #' summarize_clusters(cls)
 #' summarize_clusters(cls, print="none") # allows saving results
 #' @export
-summarize_clusters <- function(data, digits = 2, print = "partial", force_matrix = FALSE) {
+summarize_clusters <- function(data, digits = 4, print = "partial", force_matrix = FALSE) {
     # Validation ===============================================================
     check_condition(
         condition = !(print %in% c("partial", "all", "none")),
@@ -55,7 +57,9 @@ summarize_clusters <- function(data, digits = 2, print = "partial", force_matrix
             if (print == "all") {
                 message("Summary statistics for ", n, i)
                 df_summary <- summary(df, digits = digits)
-                df_table <- customize_summary(df_summary, df, x_cols, w_cols)
+                df_table <- customize_summary(
+                    df_summary, df, x_cols, w_cols, digits
+                )
                 print(df_table)
 
                 # Adding correlation matrix
@@ -113,7 +117,9 @@ summarize_clusters <- function(data, digits = 2, print = "partial", force_matrix
             df_summary <- summary(df)
             x_cols <- sapply(df, class) == "numeric"
             w_cols <- sapply(df, class) == "factor"
-            df_table <- customize_summary(df_summary, df, x_cols, w_cols)
+            df_table <- customize_summary(
+                df_summary, df, x_cols, w_cols, digits
+            )
             print(df_table)
 
             # Adding correlation matrix
