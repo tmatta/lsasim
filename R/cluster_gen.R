@@ -193,8 +193,12 @@ cluster_gen <- function(
     }
     if (!is.null(cor_matrix) & is.null(n_X) & is.null(n_W)) {
       # Generating n_X and n_W
-      n_X <- sample(x = seq(0, ncol(cor_matrix)), size = 1)
-      n_W <- ncol(cor_matrix) - n_X - theta
+      if (is.null(c_mean)) {
+        n_X <- sample(x = seq(0, ncol(cor_matrix)), size = 1) - theta
+      } else {
+        n_X <- length(c_mean) - theta
+      }
+      n_W <- ncol(cor_matrix) - n_X
       # Repeating n_X and n_W across multiple levels
       n_X <- repeatXW(n_X, n_W, n_levels)$n_X
       n_W <- repeatXW(n_X, n_W, n_levels)$n_W
@@ -208,7 +212,22 @@ cluster_gen <- function(
         }
       }
       if (is.null(n_W)) {
-        n_W <- gen_X_W_cluster(n_levels, separate_questionnaires, class_cor = NULL)$n_W
+        n_W <- gen_X_W_cluster(
+          n_levels, separate_questionnaires, class_cor = NULL
+        )$n_W
+        # Dropping levels of n_W to adjust them to the limits of c_mean
+        # or cor_ matrix
+        if (!is.null(c_mean)) {
+          n_W <- sapply(
+            seq_along(n_W),
+            function(x) if (x > length(c_mean)) n_W[[x]] <- NULL
+          )
+        } else if (!is.null(cor_matrix)) {
+          n_W <- sapply(
+            seq_along(n_W),
+            function(x) if (x > length(c_mean)) n_W[[x]] <- NULL
+          )
+        }
       }
     }
   }
