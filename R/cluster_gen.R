@@ -296,6 +296,8 @@ cluster_gen <- function(
     )
   }
 
+  # Reclassifying object and returning it ---------------------------------
+  class(sample) <- c("lsasim-cluster", "list", "data.frame") # FIXME: breaks tests
   return(sample)
 }
 
