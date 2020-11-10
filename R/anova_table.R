@@ -2,9 +2,11 @@
 #' @description Prints Analysis of Variance table for `cluster_gen` output.
 #' @param data list output of `cluster_gen`
 #' @param print if `TRUE`, output will be a list containing estimators; if `FALSE` (default), output are formatted tables of this information
+#' @param calc.se if `TRUE`, will try to calculate the standard error of the intreaclass correlation
 #' @return Printed ANOVA table
+#' @note  If the rhos for different levels are varied in scale, the generated rho will be less accurate.
 #' @export
-anova_table <- function(data, print = TRUE) {
+anova_table <- function(data, print = TRUE, calc.se = TRUE) {
     # Wrap data in a list (for !separate_questionnaires) =======================
     if (all(sapply(data, class) != "list")) {
         data <- list(data)
@@ -37,12 +39,22 @@ anova_table <- function(data, print = TRUE) {
                 tau2_hat <- max(s2_between[x] - s2_within[x] / ds$n_tilde, 0)
                 rho_hat <-  intraclass_cor(tau2_hat, sigma2_hat[x])
                 if (stats::var(ds$n_j) == 0) {
-                    se_rho <- calc_se_rho(rho_hat, ds$n_j, ds$N)
+                    if (calc.se) {
+                        se_rho <- calc_se_rho(rho_hat, ds$n_j, ds$N)
+                    } else {
+                        se_rho <- NA
+                    }
                 } else {
                     se_rho <- NA
-                    warning("SE not yet implemented for different sample sizes")
+                    if (calc.se) {
+                        warning(
+                            "SE not yet implemented for different ",
+                            "sample sizes. You can set calc.se=FALSE ",
+                            "to get rid of this message."
+                        )
+                    }
                 }
-                out$population_estimates[[x]] <- c(sigma2_hat = sigma2_hat[x], 
+                out$population_estimates[[x]] <- c(sigma2_hat = sigma2_hat[x],
                                                 tau2_hat = tau2_hat,
                                                 rho_hat = rho_hat,
                                                 se_rho = se_rho)
@@ -50,8 +62,8 @@ anova_table <- function(data, print = TRUE) {
                 ### ANOVA table ................................................
                 if (print) {
                     message("\nANOVA table for ", pluralize(n), ", ", x)
-                    print_anova_table(s2_within[x], s2_between[x], s2_total[x], 
-                                    sigma2_hat[x], tau2_hat, rho_hat, se_rho, 
+                    print_anova_table(s2_within[x], s2_between[x], s2_total[x],
+                                    sigma2_hat[x], tau2_hat, rho_hat, se_rho,
                                     ds$n_tilde, ds$M, ds$N)
                 }
             }
