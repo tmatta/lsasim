@@ -1,6 +1,6 @@
 Package: lsasim
 Title: Functions to Facilitate the Simulation of Large Scale Assessment Data
-Version: 2.0.2.9003
+Version: 2.0.2.9004
 Authors@R: c(
   person("Tyler", "Matta",
          email = "tyler.matta@gmail.com", role = "aut"),
@@ -20,7 +20,7 @@ BugReports: https://github.com/tmatta/lsasim/issues
 Description: Provides functions to simulate data from large-scale educational
   assessments, including background questionnaire data and cognitive item
   responses that adhere to a multiple-matrix sampled design.
-Imports: mvtnorm, cli, methods
+Imports: mvtnorm, cli, methods, polycor
 Depends:
     R (>= 3.6.0)
 License: GPL-3
@@ -29,7 +29,6 @@ LazyData: true
 RoxygenNote: 7.1.1
 Suggests:
     testthat,
-    polycor,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
