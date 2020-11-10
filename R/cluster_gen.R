@@ -211,7 +211,6 @@ cluster_gen <- function(
                                 class_cor = NULL)$n_X
         }
       }
-      # browser() # TEMP
       if (is.null(n_W)) {
         n_W <- gen_X_W_cluster(
           n_levels, separate_questionnaires, class_cor = NULL
@@ -219,11 +218,15 @@ cluster_gen <- function(
         # Dropping levels of n_W to adjust them to the limits of c_mean
         # or cor_ matrix
         if (!is.null(c_mean)) {
-          # n_W <- length(c_mean) - n_X - theta
-          n_W <- sapply(seq_along(n_W), function(x) if (x > length(c_mean)) n_W[[x]] <- NULL)
+          n_W <- sapply(
+            seq_along(n_W),
+            function(x) if (x > length(c_mean)) n_W[[x]] <- NULL
+          )
         } else if (!is.null(cor_matrix)) {
-          # n_W <- length(cor_matrix) - n_X - theta
-          n_W <- sapply(seq_along(n_W), function(x) if (x > length(c_mean)) n_W[[x]] <- NULL)
+          n_W <- sapply(
+            seq_along(n_W),
+            function(x) if (x > length(c_mean)) n_W[[x]] <- NULL
+          )
         }
       }
     }
