@@ -19,3 +19,6 @@ Printed ANOVA table
 \description{
 Prints Analysis of Variance table for `cluster_gen` output.
 }
+\note{
+If the rhos for different levels are varied in scale, the generated rho will be less accurate.
+}

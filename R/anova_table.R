@@ -4,6 +4,7 @@
 #' @param print if `TRUE`, output will be a list containing estimators; if `FALSE` (default), output are formatted tables of this information
 #' @param calc.se if `TRUE`, will try to calculate the standard error of the intreaclass correlation
 #' @return Printed ANOVA table
+#' @note  If the rhos for different levels are varied in scale, the generated rho will be less accurate.
 #' @export
 anova_table <- function(data, print = TRUE, calc.se = TRUE) {
     # Wrap data in a list (for !separate_questionnaires) =======================
