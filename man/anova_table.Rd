@@ -4,12 +4,14 @@
 \alias{anova_table}
 \title{Print ANOVA table}
 \usage{
-anova_table(data, print = TRUE)
+anova_table(data, print = TRUE, calc.se = TRUE)
 }
 \arguments{
 \item{data}{list output of `cluster_gen`}
 
 \item{print}{if `TRUE`, output will be a list containing estimators; if `FALSE` (default), output are formatted tables of this information}
+
+\item{calc.se}{if `TRUE`, will try to calculate the standard error of the intreaclass correlation}
 }
 \value{
 Printed ANOVA table
