@@ -193,8 +193,12 @@ cluster_gen <- function(
     }
     if (!is.null(cor_matrix) & is.null(n_X) & is.null(n_W)) {
       # Generating n_X and n_W
-      n_X <- sample(x = seq(0, ncol(cor_matrix)), size = 1)
-      n_W <- ncol(cor_matrix) - n_X - theta
+      if (is.null(c_mean)) {
+        n_X <- sample(x = seq(0, ncol(cor_matrix)), size = 1) - theta
+      } else {
+        n_X <- length(c_mean) - theta
+      }
+      n_W <- ncol(cor_matrix) - n_X
       # Repeating n_X and n_W across multiple levels
       n_X <- repeatXW(n_X, n_W, n_levels)$n_X
       n_W <- repeatXW(n_X, n_W, n_levels)$n_W
