@@ -512,7 +512,7 @@ test_that("Replication weights are correct", {
   df <- cluster_gen(c(sch = 4, stu = 10), n_X = 3, n_W = 1, verb = FALSE)
   df2 <- cluster_gen(c(4, 2, 50), N = 2, n_X = 3, n_W = 1, verb = FALSE)
   expect_equivalent(
-    unlist(sampling_variance(df, "Jackknife")),
+    unlist(calc_replicate_weights(df, "Jackknife")),
     c(0.1583, 0.25863, -0.6291, 0.22373, 0.37991, 0.22653, 0.46595, 0.12253,
      -0.21558, 0.21949, 0.007635, 0.19926, 0.22443, 0.35964, 0.57823, 0.29161,
       0.55662, 0.380, -0.22718, 0.24207, -0.062089, 0.34626, -0.058133,
@@ -520,7 +520,7 @@ test_that("Replication weights are correct", {
     tolerance = .001
   )
   expect_equivalent(
-    unlist(sampling_variance(df, "BRR")),
+    unlist(calc_replicate_weights(df, "BRR")),
     c(0.1583, 0.26948, -0.6291,
       0.25458, 0.37991, 0.26840, 0.46595, 0.087336, -0.21558, 0.18462, 0.007635,
       0.11830, 0.22443, 0.42200, 0.57823, 0.19830, 0.55662, 0.19854, -0.22718,
@@ -528,14 +528,14 @@ test_that("Replication weights are correct", {
     tolerance = .001
   )
   expect_equivalent(
-    unlist(sampling_variance(df, "BRR Fay")), c(0.1583, 0.37924, -0.6291,
+    unlist(calc_replicate_weights(df, "BRR Fay")), c(0.1583, 0.37924, -0.6291,
       0.37981, 0.37991, 0.35083, 0.46595, 0.11388, -0.21558, 0.17835, 0.007635,
       0.061061, 0.22443, 0.31347, 0.57823, 0.26680, 0.55662, 0.27788, -0.22718,
       0.15690, -0.062089, 0.16565, -0.058133, 0.43946),
     tolerance = .001
   )
   expect_equivalent(
-    unlist(sampling_variance(df2, "Jackknife")),
+    unlist(calc_replicate_weights(df2, "Jackknife")),
     c(-0.91682, 0.58524, -0.75526, 0.62202, 0.078651, 0.18152, -0.60683, 1.0304,
       -0.61887, 0.28214, 0.14648, 0.097626, 0.34393, 0.81689, -0.3518, 0.69058,
       -0.18448, 1.0098, -0.97671, 0.54090, 0.089031, 0.33646, 0.31780, 0.24962,
@@ -549,7 +549,7 @@ test_that("Replication weights are correct", {
     tolerance = .001
   )
   expect_equivalent(
-    unlist(sampling_variance(df2, "BRR")),
+    unlist(calc_replicate_weights(df2, "BRR")),
     c(-0.91682, 0.58524, -0.75526, 0.62202, 0.078651, 0.18152, -0.60683, 1.0304,
       -0.61887, 0.28214, 0.14648, 0.097626, 0.34393, 0.81689, -0.3518, 0.69058,
       -0.18448, 1.0098, -0.97671, 0.54090, 0.089031, 0.33646, 0.31780, 0.24962,
@@ -563,7 +563,7 @@ test_that("Replication weights are correct", {
     tolerance = .001
   )
   expect_equivalent(
-    unlist(sampling_variance(df2, "BRR Fay")),
+    unlist(calc_replicate_weights(df2, "BRR Fay")),
     c(-0.91682, 0.58524, -0.75526, 0.62202, 0.078651, 0.18152, -0.60683, 1.0304,
       -0.61887, 0.28214, 0.14648, 0.097626, 0.34393, 0.81689, -0.3518, 0.69058,
       -0.18448, 1.0098, -0.97671, 0.54090, 0.089031, 0.33646, 0.31780, 0.24962,
@@ -589,18 +589,18 @@ test_that("Replication weights are correct", {
                    N = c(sch = 1e2, stu = 20),
                    n_X = 3, n_W = 1,
                    print_pop_structure = FALSE, verbose = FALSE)
-  expect_equivalent(mean(unlist(sampling_variance(w, "Jackknife"))), 0.2, .1)
-  expect_equivalent(mean(unlist(sampling_variance(w, "BRR"))), 0.2, .1)
-  expect_equivalent(mean(unlist(sampling_variance(w, "BRR Fay"))), 0.2, .1)
-  expect_equal(mean(unlist(sampling_variance(x, "Jackknife"))), NaN)
-  expect_equal(mean(unlist(sampling_variance(x, "BRR"))), 0.4, .1)
-  expect_equivalent(mean(unlist(sampling_variance(x, "BRR Fay"))), 0.4, .1)
-  expect_equivalent(mean(unlist(sampling_variance(y, "Jackknife"))), 0.1, .1)
-  expect_equivalent(mean(unlist(sampling_variance(y, "BRR"))), 0.1, .1)
-  expect_equivalent(mean(unlist(sampling_variance(y, "BRR Fay"))), 0.1, .1)
-  expect_equivalent(mean(unlist(sampling_variance(z, "Jackknife"))), 0.2, .1)
-  expect_equivalent(mean(unlist(sampling_variance(z, "BRR"))), 0.2, .1)
-  expect_equivalent(mean(unlist(sampling_variance(z, "BRR Fay"))), 0.2, .1)
+  expect_equivalent(mean(unlist(calc_replicate_weights(w, "Jackknife"))), 0.2, .1)
+  expect_equivalent(mean(unlist(calc_replicate_weights(w, "BRR"))), 0.2, .1)
+  expect_equivalent(mean(unlist(calc_replicate_weights(w, "BRR Fay"))), 0.2, .1)
+  expect_equal(mean(unlist(calc_replicate_weights(x, "Jackknife"))), NaN)
+  expect_equal(mean(unlist(calc_replicate_weights(x, "BRR"))), 0.4, .1)
+  expect_equivalent(mean(unlist(calc_replicate_weights(x, "BRR Fay"))), 0.4, .1)
+  expect_equivalent(mean(unlist(calc_replicate_weights(y, "Jackknife"))), 0.1, .1)
+  expect_equivalent(mean(unlist(calc_replicate_weights(y, "BRR"))), 0.1, .1)
+  expect_equivalent(mean(unlist(calc_replicate_weights(y, "BRR Fay"))), 0.1, .1)
+  expect_equivalent(mean(unlist(calc_replicate_weights(z, "Jackknife"))), 0.2, .1)
+  expect_equivalent(mean(unlist(calc_replicate_weights(z, "BRR"))), 0.2, .1)
+  expect_equivalent(mean(unlist(calc_replicate_weights(z, "BRR Fay"))), 0.2, .1)
 })
 
 # Intraclass correlations =====================================================
