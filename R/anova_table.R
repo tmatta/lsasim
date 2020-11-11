@@ -5,6 +5,7 @@
 #' @param calc.se if `TRUE`, will try to calculate the standard error of the intreaclass correlation
 #' @return Printed ANOVA table
 #' @note  If the rhos for different levels are varied in scale, the generated rho will be less accurate.
+#' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
 #' @export
 anova_table <- function(data, print = TRUE, calc.se = TRUE) {
     # Wrap data in a list (for !separate_questionnaires) =======================
