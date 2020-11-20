@@ -185,16 +185,17 @@ summarize_clusters <- function(
 printHetcor <- function(df, force=FALSE) {
     tryCatch(
         expr = {
+            hetcor_printed <- polycor::hetcor(df)$correlations
             message("\nHeterogeneous correlation matrix\n")
-            print(polycor::hetcor(df)$correlations)
+            print(hetcor_printed)
         },
         warning = function(w) {
             if (force) {
-                cat("\n Heterogeneous correlation matrix\n")
+                message("\n Heterogeneous correlation matrix\n")
                 print(polycor::hetcor(df)$correlations)
             } else {
                 warning(
-                    "Generation of the correlation matrix yields warnings ",
+                    "Generation of a correlation matrix yielded warnings ",
                     "and has been suppressed. ",
                     "Set 'force_matrix=TRUE' to generate it anyway. ",
                     "Alternatively, set print_hetcor=FALSE to suppress the ",
