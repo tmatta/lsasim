@@ -1,8 +1,7 @@
-library(devtools); library(lsasim); library(testthat) #TEMP
-context("Hugo's 2.0.2 report")
+# library(devtools); library(lsasim); library(testthat) #TEMP
 
 # ======================================================== #
-# Prep                                                     #
+# General prep                                             #
 # ======================================================== #
 set.seed(12334)
 
@@ -45,6 +44,7 @@ cluster_gen_2 <- function(...) {
 # ======================================================== #
 # GitHub Issue 13                                          #
 # ======================================================== #
+context("Hugo's 2.0.2 report: GitHub issue #13")
 
 data1 <- cluster_gen_2(n3, n_X = c(1, 2), c_mean = list(10, c(-100, 1e3)))
 data2 <- cluster_gen_2(n3, n_X = c(1, 2), sigma = list(.1, c(1, 2)))
@@ -68,7 +68,7 @@ s8 <- cluster_gen_2(n8, n_X = 4, sigma = c(0.111, 0.113, 0.115, 0.117))
 set.seed(12334)
 s9 <- cluster_gen_2(n9, n_X = c(2, 2), sigma = list(c(99, 101), c(0.006, 0.008)))
 
-test_that("Issue 13: summarize_cluster()", {
+test_that("Stress-testing summarize_cluster()", {
 	expect_message(
 		invisible(capture.output(
 			summarize_clusters(data1, print="all", print_hetcor=FALSE)
@@ -191,4 +191,54 @@ test_that("Issue 13: summarize_cluster()", {
 	expect_output(str(summarize_clusters(s7, print="none")), "List of 2")
 	expect_output(str(summarize_clusters(s8, print="none")), "List of 2")
 	expect_output(str(summarize_clusters(s9, print="none")), "List of 2")
+})
+
+# ======================================================== #
+# GitHub Issue 14                                          #
+# ======================================================== #
+context("Hugo's 2.0.2 report: GitHub issue #14")
+
+set.seed(12334)
+m2 <- matrix(c(
+	1, 0.05, 0.8,
+	0.05, 1, 0.77,
+	0.8, 0.77, 1
+), 3, 3)
+m3 <- matrix(c(
+	1,0.5,0.8,
+	0.5,1,0.77,
+	0.8,0.77,1
+),3,3)
+set.seed(12334)
+c3 <- cluster_gen_2(n5, cor_matrix = m3)
+c3a <- cluster_gen_2(n4, cor_matrix = m3)
+m4 <- matrix(c(
+	1,0.12,0.1,
+	0.12,1,0.11,
+	0.1,0.11,1
+),3,3)
+set.seed(12334)
+c4 <- cluster_gen_2(n4, cor_matrix = m4)
+set.seed(12334)
+c4_1 <- cluster_gen_2(n4, n_W=1, cor_matrix = m4)
+m5 <- matrix(c(
+	1, 0.55, 0.75, 0.3,
+	0.55, 1, 0.15, 0.9,
+	0.75, 0.15, 1, 0.25,
+	0.3, 0.9, 0.25, 1
+), 4, 4)
+
+test_that("Working with matrices", {
+	expect_error(cluster_gen_2(n5, cor_matrix = m2))
+	expect_error(cluster_gen_2(n5, n_X=3, cor_matrix = m2))
+	expect_error(cluster_gen_2(n5, n_X=3, n_W=0, cor_matrix = m2))
+	expect_error(cluster_gen_2(n5, n_X=2, n_W=1, cor_matrix = m2))
+	expect_output(str(c3$school), "List of 3")
+	expect_output(str(c3$class), "List of 6")
+	expect_output(str(c3a), "List of 20")
+	expect_output(str(c4), "List of 20")
+	expect_warning(capture.output(invisible(summarize_clusters(c4))))
+	expect_output(str(c4_1), "List of 20")
+	expect_output(str(summarize_clusters(c4_1, 4, "none"))$school, "List of 7")
+	expect_error(cluster_gen_2(n6a, cor_matrix = m5))
 })
