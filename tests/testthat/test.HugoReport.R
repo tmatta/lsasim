@@ -242,3 +242,31 @@ test_that("Working with matrices", {
 	expect_output(str(summarize_clusters(c4_1, 4, "none"))$school, "List of 7")
 	expect_error(cluster_gen_2(n6a, cor_matrix = m5))
 })
+
+# ======================================================== #
+# GitHub Issue 15                                          #
+# ======================================================== #
+context("Hugo's 2.0.2 report: GitHub issue #15")
+
+set.seed(12334)
+n7 <- list(school = 10, student = ranges(1000, 5000))
+r1 <- cluster_gen_2(n4, rho = c(0.005, 0.01, 0.85))
+r1a <- cluster_gen_2(n4, rho = c(0.005, 0.001, 0.85))
+r2 <- cluster_gen_2(n4, rho = c(0.05, 0.1, 0.45))
+r3 <- cluster_gen_2(n4, rho = c(0.5, 0.45))
+r4 <- cluster_gen_2(n4, rho = 0.2)
+r5 <- cluster_gen_2(n7, rho = c(0.005, 0.01, 0.85))
+r6 <- cluster_gen_2(n7, rho = c(0.05, 0.1, 0.45))
+r7 <- cluster_gen_2(n7, rho = c(0.5, 0.45))
+r8 <- cluster_gen_2(n7, rho = 0.2)
+
+test_that("Testing rho", {
+	expect_output(str(anova_table(r1, FALSE)), "List of 2")
+	expect_output(str(anova_table(r2, FALSE)), "List of 2")
+	expect_output(str(anova_table(r3, FALSE)), "List of 2")
+	expect_output(str(anova_table(r4, FALSE)), "List of 2")
+	expect_output(str(anova_table(r5, FALSE, FALSE)), "List of 2")
+	expect_output(str(anova_table(r6, FALSE, FALSE)), "List of 2")
+	expect_output(str(anova_table(r7, FALSE, FALSE)), "List of 2")
+	expect_output(str(anova_table(r8, FALSE, FALSE)), "List of 2")
+})
