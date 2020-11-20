@@ -270,3 +270,37 @@ test_that("Testing rho", {
 	expect_output(str(anova_table(r7, FALSE, FALSE)), "List of 2")
 	expect_output(str(anova_table(r8, FALSE, FALSE)), "List of 2")
 })
+
+# ======================================================== #
+# GitHub Issue 16                                          #
+# ======================================================== #
+context("Hugo's 2.0.2 report: GitHub issue #16")
+
+set.seed(12334)
+r1 <- cluster_gen_2(n4, n_X = 5, c_mean = c(0.1, 0.5, 0.001, 234, 701), sigma = c(0.111, 0.113, 0.115, 0.117, 0.119))
+r2 <- cluster_gen_2(n4, n_X = 5, c_mean = c(10, 55, 0.21, 2.34, 5000), sigma = c(40, 100, 0.11, 3, 1500))
+r3 <- cluster_gen_2(n4, n_X = 5, c_mean = c(10, 55, 0.21, 2.34, 5000), sigma = c(40, 100, 0.11, 3, 1500))
+r4 <- cluster_gen_2(n4, n_X = 5, c_mean = c(0.1, 0.5, 0.001, 234, 701), sigma = c(0.111, 0.113, 0.115, 0.117, 0.119))
+r5 <- cluster_gen_2(n6, n_X = 3, c_mean = c(0.3, 0.35, 0.4), sigma = c(0.11, 0.22, 0.33))
+r6 <- cluster_gen_2(n6, n_X = 3, c_mean = c(0.7, 100, 355), sigma = c(0.2, 21, 0.7))
+r7 <- cluster_gen_2(n10, n_X = 4, c_mean = c(1, 20, 0.25, 50.54), sigma = c(0.3, 3.5, 0.1, 3))
+r8 <- cluster_gen_2(n10, n_X = 4, c_mean = c(0.001, 0.005, 213, 234), sigma = c(0.0001, 0.001, 11, 6))
+
+test_that("mean values are the expected", {
+	r1s <- summarize_clusters(r1, print_hetcor=FALSE, print="none")$school$y_bar
+	r2s <- summarize_clusters(r2, print_hetcor=FALSE, print="none")$school$y_bar
+	r3s <- summarize_clusters(r3, print_hetcor=FALSE, print="none")$school$y_bar
+	r4s <- summarize_clusters(r4, print_hetcor=FALSE, print="none")$school$y_bar
+	r5s <- summarize_clusters(r5, print_hetcor=FALSE, print="none")$school$y_bar
+	r6s <- summarize_clusters(r6, print_hetcor=FALSE, print="none")$school$y_bar
+	r7s <- summarize_clusters(r7, print_hetcor=FALSE, print="none")$school$y_bar
+	r8s <- summarize_clusters(r8, print_hetcor=FALSE, print="none")$school$y_bar
+	expect_equivalent(r1s["q3"], -9.61962e-4, 1e-3)
+	expect_equivalent(r2s, c(10.59184, 56.59062, 0.2136, 2.41009, 5081.18057))
+	expect_equivalent(r3s, c(10.4341, 56.5640, 0.2109, 2.2098, 5013.1259), 1e-4)
+	expect_equivalent(r4s, c(0.0958, 0.5077, 0.0024, 233.995, 700.9958), 1e-4)
+	expect_equivalent(r5s, c(0.30242, 0.50752, 0.48754), 1e-4)
+	expect_equivalent(r6s, c(0.78077, 93.89067, 354.82602), 1e-4)
+	expect_equivalent(r7s, c(1.05165, 19.59206, 0.25891, 50.14332), 1e-4)
+	expect_equivalent(r8s, c(0.00102, 0.005, 211.45723, 232.78356), 1e-4)
+})
