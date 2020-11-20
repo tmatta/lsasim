@@ -48,8 +48,27 @@ cluster_gen_2 <- function(...) {
 
 data1 <- cluster_gen_2(n3, n_X = c(1, 2), c_mean = list(10, c(-100, 1e3)))
 data2 <- cluster_gen_2(n3, n_X = c(1, 2), sigma = list(.1, c(1, 2)))
+dat4 <- cluster_gen_2(n4, n_X = 3, c_mean = c(0.0005, 0.0006, 0.0008))
+dat5 <- cluster_gen_2(n5, n_X = c(1, 3), c_mean = list(34.55, c(0.1, 0.2, 0.3)))
+dat5a <- cluster_gen_2(n5a, n_X = c(3, 3), c_mean = list(c(1, 2, 2), c(0.15, 0.25, 0.35)))
+dat6 <- cluster_gen_2(n6, n_X = c(2, 2), c_mean = list(c(10, 20), c(200, 3)))
+dat10 <- cluster_gen_2(n10, n_X = c(2, 3, 3), c_mean = list(c(0.1, 0.225), c(0.87, 0.005, 30), c(70, 700, 7000)))
+dat11 <- cluster_gen_2(n11, n_X = c(1, 2, 2, 2), c_mean = list(0.001, c(0.15, 0.25), c(0.35, 0.45), c(0.55, 0.65)))
+dat12 <- cluster_gen_2(n12, n_X = c(1, 1, 2, 2, 3), c_mean = list(0.07, 0.75, c(10.55, 25), c(44, 66), c(78, 88, 98)))
+set.seed(12334)
+s4 <- cluster_gen_2(n4, n_X = 4, sigma = c(0.7, 0.8, 0.9, 0.11))
+set.seed(12334)
+s5 <- cluster_gen_2(n5, n_X = c(1, 2), sigma = list(.07, c(14.5, 20.5)))
+set.seed(12334)
+s6a <- cluster_gen_2(n6a, n_X = c(3, 3), sigma = list(c(21, 37, 48), c(51, 58, 67)))
+set.seed(12334)
+s7 <- cluster_gen_2(n7, n_X = 2, sigma = c(72, 81))
+set.seed(12334)
+s8 <- cluster_gen_2(n8, n_X = 4, sigma = c(0.111, 0.113, 0.115, 0.117))
+set.seed(12334)
+s9 <- cluster_gen_2(n9, n_X = c(2, 2), sigma = list(c(99, 101), c(0.006, 0.008)))
 
-test_that("summarize_cluster() works", {
+test_that("Issue 13: summarize_cluster()", {
 	expect_message(
 		invisible(capture.output(
 			summarize_clusters(data1, print="all", print_hetcor=FALSE)
@@ -61,11 +80,115 @@ test_that("summarize_cluster() works", {
 		))
 	)
 	expect_message(
+		invisible(capture.output(
+			summarize_clusters(dat4, print="all", print_hetcor=FALSE)
+		))
+	)
+	expect_message(
+		invisible(capture.output(
+			summarize_clusters(dat5, print="all", print_hetcor=FALSE)
+		))
+	)
+	expect_message(
+		invisible(capture.output(
+			summarize_clusters(dat5a, print="all", print_hetcor=FALSE)
+		))
+	)
+	expect_message(
+		invisible(capture.output(
+			summarize_clusters(dat11, print="all", print_hetcor=FALSE)
+		))
+	)
+	expect_message(
+		invisible(capture.output(
+			summarize_clusters(dat12, print="all", print_hetcor=FALSE)
+		))
+	)
+	expect_message(
+		invisible(capture.output(
+			summarize_clusters(s4, print="all", print_hetcor=FALSE)
+		))
+	)
+	expect_message(
+		invisible(capture.output(
+			summarize_clusters(s5, print="all", print_hetcor=FALSE)
+		))
+	)
+	expect_message(
+		invisible(capture.output(
+			summarize_clusters(s6a, print="all", print_hetcor=FALSE)
+		))
+	)
+	expect_message(
+		invisible(capture.output(
+			summarize_clusters(s7, print="all", print_hetcor=FALSE)
+		))
+	)
+	expect_message(
+		invisible(capture.output(
+			summarize_clusters(s8, print="all", print_hetcor=FALSE)
+		))
+	)
+	expect_message(
+		invisible(capture.output(
+			summarize_clusters(s9, print="all", print_hetcor=FALSE)
+		))
+	)
+	expect_message(
 		invisible(capture.output(summarize_clusters(data1, print_hetcor=FALSE)))
 	)
 	expect_message(
 		invisible(capture.output(summarize_clusters(data2, print_hetcor=FALSE)))
 	)
+	expect_message(
+		invisible(capture.output(summarize_clusters(dat4, print_hetcor=FALSE)))
+	)
+	expect_message(
+		invisible(capture.output(summarize_clusters(dat5, print_hetcor=FALSE)))
+	)
+	expect_message(
+		invisible(capture.output(summarize_clusters(dat5a, print_hetcor=FALSE)))
+	)
+	expect_message(
+		invisible(capture.output(summarize_clusters(dat6, print_hetcor=FALSE)))
+	)
+	expect_message(
+		invisible(capture.output(summarize_clusters(dat10, print_hetcor=FALSE)))
+	)
+	expect_message(
+		invisible(capture.output(summarize_clusters(dat11, print_hetcor=FALSE)))
+	)
+	expect_message(
+		invisible(capture.output(summarize_clusters(s4, print_hetcor=FALSE)))
+	)
+	expect_message(
+		invisible(capture.output(summarize_clusters(s5, print_hetcor=FALSE)))
+	)
+	expect_message(
+		invisible(capture.output(summarize_clusters(s6a, print_hetcor=FALSE)))
+	)
+	expect_message(
+		invisible(capture.output(summarize_clusters(s7)))
+	)
+	expect_message(
+		invisible(capture.output(summarize_clusters(s8)))
+	)
+	expect_message(
+		invisible(capture.output(summarize_clusters(s9)))
+	)
 	expect_output(str(summarize_clusters(data1, print="none")), "List of 2")
 	expect_output(str(summarize_clusters(data2, print="none")), "List of 2")
+	expect_output(str(summarize_clusters(dat4, print="none")), "List of 2")
+	expect_output(str(summarize_clusters(dat5, print="none")), "List of 2")
+	expect_output(str(summarize_clusters(dat5a, print="none")), "List of 2")
+	expect_output(str(summarize_clusters(dat6, print="none")), "List of 2")
+	expect_output(str(summarize_clusters(dat10, print="none")), "List of 2")
+	expect_output(str(summarize_clusters(dat11, print="none")), "List of 2")
+	expect_output(str(summarize_clusters(dat12, print="none")), "List of 2")
+	expect_output(str(summarize_clusters(s4, print="none")), "List of 2")
+	expect_output(str(summarize_clusters(s5, print="none")), "List of 2")
+	expect_output(str(summarize_clusters(s6a, print="none")), "List of 2")
+	expect_output(str(summarize_clusters(s7, print="none")), "List of 2")
+	expect_output(str(summarize_clusters(s8, print="none")), "List of 2")
+	expect_output(str(summarize_clusters(s9, print="none")), "List of 2")
 })
