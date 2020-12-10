@@ -494,35 +494,59 @@ m1 <- matrix(
 	c(1, 0.2, 0.3, 0.4,0.2, 1, 0.5, 0.7, 0.3, 0.5, 1, 0.8, 0.4, 0.7, 0.8, 1),
 	4, 4
 )
+m2 <- matrix(c(1, 0.5, 0.6, 0.5, 1, 0.9, 0.6, 0.9, 1), 3, 3)
+m3 <- matrix(c(1, 0.55, 0.77, 0.55, 1, 0.33, 0.77, 0.33, 1), 3, 3)
+m4 <- matrix(c(1, 0.55, 0.55, 1), 2, 2)
 set.seed(12334)
-csc1 <- cluster_gen_2(n7, n_X=4, n_W=0, c_mean=c(10, 20, 30, 40), sigma=c(1, 2, 3, 4), cor_matrix=m1)
-
-set.seed(12334)
-csc2 <- cluster_gen_2(n7, n_X=1, n_W=2, c_mean=100, sigma=3, cor_matrix=m2)
-summarize_clusters(csc2)
-
-set.seed(12334)
-csc3 <- cluster_gen_2(n7, n_X=2, n_W=1, c_mean=c(100, 150), sigma=c(3, 4), cor_matrix=m3)
-summarize_clusters(csc3)
-set.seed(12334)
-csc4 <- cluster_gen_2(n7, n_X=2, n_W=0, c_mean=c(210, 310), sigma=c(2, 5), cor_matrix=m4)
-summarize_clusters(csc4)
-
-set.seed(12334)
-csr1 <- cluster_gen_2(
-	n7, n_X = 5,
-	c_mean = list(15, c(10, 55, 0.21, 2.34, 5000)),
-	sigma = list(20, c(40, 100, 0.11, 3, 1500)),
-	rho = c(0.2, 0.15)
+csc1 <- cluster_gen_2(
+	n7, n_X=4, n_W=0, c_mean=c(10, 20, 30, 40), sigma=c(1, 2, 3, 4),
+	cor_matrix=m1
 )
-summarize_clusters(csr1) # FIXME: c_mean doesn't match results
-csr1_stable <- cluster_gen_2(
-	n7, n_X = 5,
-	c_mean = list(15, c(10, 55, 0.21, 2.34, 5000)),
-	sigma = list(0, c(0, 0, 0, 0, 0)),
-	rho = c(0.2, 0.15)
+set.seed(12334)
+csc2 <- cluster_gen_2(
+	n7, n_X=1, n_W=2, c_mean=100, sigma=3, cor_matrix=m2
 )
-summarize_clusters(csr1_stable) # FIXME: catches mean from lvl 1 (15)
+
+set.seed(12334)
+csc3 <- cluster_gen_2(
+	n7, n_X=2, n_W=1, c_mean=c(100, 150), sigma=c(3, 4), cor_matrix=m3
+)
+set.seed(12334)
+csc4 <- cluster_gen_2(
+	n7, n_X=2, n_W=0, c_mean=c(210, 310), sigma=c(2, 5), cor_matrix=m4
+)
+
+test_that("Clusters are generated correctly", {
+	expect_output(str(csc1), "school:List of 10")
+	expect_output(str(csc2), "school:List of 10")
+	expect_output(str(csc3), "school:List of 10")
+	expect_output(str(csc4), "school:List of 10")
+})
+test_that("Summaries are generated correctly", {
+	expect_equivalent(
+		object = summarize_clusters(csc2, print="none")$school$y_bar,
+		expected = 100,
+		tol = 1
+	)
+	expect_equivalent(
+		object = summarize_clusters(csc3, print="none")$school$y_bar,
+		expected = c(100, 150),
+		tol = 1
+	)
+	expect_equivalent(
+		object = summarize_clusters(csc4, print="none")$school$y_bar,
+		expected = c(210, 310),
+		tol = 1
+	)
+	expect_error(
+		cluster_gen_2(
+			n7, n_X = 5,
+			c_mean = list(15, c(10, 55, 0.21, 2.34, 5000)),
+			sigma  = list(20, c(40, 100, 0.11, 3, 1500)),
+			rho = c(0.2, 0.15)
+		)
+	)
+})
 
 csr2 <- cluster_gen_2(
 	n7, n_X = 5,
