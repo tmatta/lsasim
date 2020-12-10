@@ -149,6 +149,15 @@ validate_cluster_gen <- function(
     "Unique questionnaire requested. rho, c_mean and c_sd must not be lists."
   )
   check_condition(
+    !is.null(rho) & !is.null(sigma) & !is.null(c_mean),
+    paste(
+      "rho and sigma were defined. The three parameters are interdependent",
+      "and should not be passed simultaneously.",
+      "By design, c_mean will be ignored and recalculated."
+    ),
+    FALSE
+  )
+  check_condition(
     is(c_mean, "list") & (length(c_mean) == length(n)),
     paste(
       "c_mean must have one fewer levels than n.",
