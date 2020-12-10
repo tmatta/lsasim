@@ -708,14 +708,12 @@ test_that("Rho behaves properly with sigma and c_mean", {
   df2 <- cluster_gen(
     n = c(5, 40, 100), n_X = 1, n_W = 0,
     sigma = list(5, 10),
-    rho = .5,
     verbose = FALSE
   )
   df3 <- cluster_gen(
     n = c(5, 40, 100), n_X = 1, n_W = 0,
     c_mean = list(1, 7),
     sigma = list(3, 9),
-    rho = list(.2, .8),
     verbose = FALSE
   )
   expect_equivalent(
@@ -797,7 +795,6 @@ test_that("Rho works for together questionnaires", {
   )
   df4 <- cluster_gen(
     n = c(5, 40, 100), n_X = 2, n_W = 0,
-    c_mean = c(1, 7),
     sigma = c(3, 9),
     rho = c(.2, .8),
     verbose = FALSE,
@@ -817,9 +814,6 @@ test_that("Rho works for together questionnaires", {
   expect_equivalent(anova_table(df4, print=F)$pop$q2["rho_hat.q2"], .8, .1)
   expect_equivalent(anova_table(df4, print=F)$pop$q1["sigma2_hat.q1"], 9, .1)
   expect_equivalent(anova_table(df4, print=F)$pop$q2["sigma2_hat.q2"], 81, .1)
-  expect_equivalent(
-    summarize_clusters(df4, print="none")$class$y_bar, c(1, 7), .5
-  )
 })
 
 # Adding cor_matrix and cat_prop to cluster_gen ===============================

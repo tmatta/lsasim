@@ -521,7 +521,29 @@ test_that("Clusters are generated correctly", {
 	expect_output(str(csc2), "school:List of 10")
 	expect_output(str(csc3), "school:List of 10")
 	expect_output(str(csc4), "school:List of 10")
+	expect_error(
+		cluster_gen_2(
+			n7, n_X = 5,
+			c_mean = list(15, c(10, 55, 0.21, 2.34, 5000)),
+			sigma  = list(20, c(40, 100, 0.11, 3, 1500))
+		)
+	)
+	expect_warning(
+		cluster_gen_2(
+			n7, n_X = 5,
+			c_mean = c(10, 55, 0.21, 2.34, 5000),
+			sigma  = c(40, 100, 0.11, 3.0, 1500),
+			rho = 0.2
+		)
+	)
 })
+
+csc2_norho <- cluster_gen_2(
+	n7, n_X = 5,
+	c_mean = c(10, 55, 0.21, 2.34, 5000),
+	sigma  = c(40, 100, 0.11, 3.0, 1500)
+)
+
 test_that("Summaries are generated correctly", {
 	expect_equivalent(
 		object = summarize_clusters(csc2, print="none")$school$y_bar,
@@ -534,31 +556,8 @@ test_that("Summaries are generated correctly", {
 		tol = 1
 	)
 	expect_equivalent(
-		object = summarize_clusters(csc4, print="none")$school$y_bar,
-		expected = c(210, 310),
+		object = summarize_clusters(csc2_norho, print="none")$school$y_bar,
+		expected =  c(10, 55, 0.21, 2.34, 5000),
 		tol = 1
 	)
-	expect_error(
-		cluster_gen_2(
-			n7, n_X = 5,
-			c_mean = list(15, c(10, 55, 0.21, 2.34, 5000)),
-			sigma  = list(20, c(40, 100, 0.11, 3, 1500)),
-			rho = c(0.2, 0.15)
-		)
-	)
 })
-
-csr2 <- cluster_gen_2(
-	n7, n_X = 5,
-	c_mean = c(10, 55, 0.21, 2.34, 5000),
-	sigma = c(40, 100, 0.11, 3, 1500),
-	rho = 0.2
-)
-summarize_clusters(csr2)
-csr2_stable <- cluster_gen_2(
-	n7, n_X = 5,
-	c_mean = c(10, 55, 0.21, 2.34, 5000),
-	sigma = c(0, 0, 0, 0, 0),
-	rho = 0.2
-)
-summarize_clusters(csr2_stable) # FIXME: catches mean from 1st PSU (10)
