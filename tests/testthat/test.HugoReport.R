@@ -390,3 +390,63 @@ test_that("Summaries produce expected output", {
 	expect_output(str(summarize_clusters(mc7_1, print="none")), "List of 7")
 	expect_output(str(summarize_clusters(mc8, print="none")), "List of 7")
 })
+
+# ======================================================== #
+# GitHub issue 18                                          #
+# ======================================================== #
+context("Hugo's 2.0.2 report: GitHub issue #18")
+
+m1 <- matrix(
+	c(
+		1, 0.2, 0.3, 0.4,
+		0.2, 1, 0.5, 0.7,
+		0.3, 0.5, 1, 0.8,
+		0.4, 0.7, 0.8, 1
+	), 4, 4
+)
+m2 <- matrix(
+	c(
+		1, 0.5, 0.6,
+		0.5, 1, 0.9,
+		0.6, 0.9, 1
+	), 3, 3
+)
+m3 <- matrix(
+	c(
+		1, 0.55, 0.77,
+		0.55, 1, 0.33,
+		0.77, 0.33, 1
+	), 3, 3
+)
+m4 <- matrix(c(1, 0.55, 0.55, 1), 2, 2)
+set.seed(12334); sc1 <- cluster_gen_2(n7, sigma = 1:4, cor_matrix = m1)
+set.seed(123554); sc1_1 <- cluster_gen_2(n7, sigma = 1:4, cor_matrix = m1)
+sc2 <- cluster_gen_2(n7, sigma = c(0.5, 0.7, 10), cor_matrix = m2)
+sc3 <- cluster_gen_2(n7, sigma = c(0.2, 0.4, 5), cor_matrix = m3)
+set.seed(12334)
+sc4 <- cluster_gen_2(n7, sigma = c(7, 1.5), cor_matrix = m4)
+sc1_2 <- cluster_gen_2(n7, n_X=4, n_W=0, sigma = c(1, 2, 3, 4), cor_matrix = m1)
+set.seed(12334)
+sc2_2 <- cluster_gen_2(n7, n_X=2, n_W=1, sigma = c(0.5, 0.7), cor_matrix = m2)
+set.seed(12334)
+sc3_2 <- cluster_gen_2(n7, n_X=3, n_W=0, sigma = c(0.2, 0.4, 5), cor_matrix = m3)
+set.seed(12334)
+sc4_2 <- cluster_gen_2(n7, n_X=2, n_W=0, sigma = c(7, 1.5), cor_matrix = m4)
+
+test_that("Clusters are generated correctly", {
+	expect_output(str(sc1), "school:List of 10")
+	expect_output(str(sc1_1), "school:List of 10")
+	expect_output(str(sc2), "school:List of 10")
+	expect_output(str(sc3), "school:List of 10")
+	expect_output(str(sc4), "school:List of 10")
+	expect_output(str(sc1_2), "school:List of 10")
+	expect_output(str(sc2_2), "school:List of 10")
+	expect_output(str(sc3_2), "school:List of 10")
+	expect_output(str(sc4_2), "school:List of 10")
+})
+test_that("Summaries produce expected output", {
+	expect_output(str(summarize_clusters(sc1, print="none")), "List of 7")
+	expect_output(str(summarize_clusters(sc2, print="none")), "List of 7")
+	expect_output(str(summarize_clusters(sc3, print="none")), "List of 7")
+	expect_output(str(summarize_clusters(sc4, print="none")), "List of 7")
+})
