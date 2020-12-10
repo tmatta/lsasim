@@ -1,5 +1,3 @@
-# library(devtools); library(lsasim); library(testthat) #TEMP
-
 # ======================================================== #
 # General prep                                             #
 # ======================================================== #
@@ -486,5 +484,57 @@ test_that("rho converges to true values", {
 	)
 })
 
+# ======================================================== #
+# GitHub issue 20                                          #
+# ======================================================== #
 
-# cr13 <- cluster_gen_2(n13, n_X=1, n_W=2, cor_matrix=m2, rho=0.7)
+context("Hugo's 2.0.2 report: GitHub issue #20")
+
+m1 <- matrix(
+	c(1, 0.2, 0.3, 0.4,0.2, 1, 0.5, 0.7, 0.3, 0.5, 1, 0.8, 0.4, 0.7, 0.8, 1),
+	4, 4
+)
+set.seed(12334)
+csc1 <- cluster_gen_2(n7, n_X=4, n_W=0, c_mean=c(10, 20, 30, 40), sigma=c(1, 2, 3, 4), cor_matrix=m1)
+
+set.seed(12334)
+csc2 <- cluster_gen_2(n7, n_X=1, n_W=2, c_mean=100, sigma=3, cor_matrix=m2)
+summarize_clusters(csc2)
+
+set.seed(12334)
+csc3 <- cluster_gen_2(n7, n_X=2, n_W=1, c_mean=c(100, 150), sigma=c(3, 4), cor_matrix=m3)
+summarize_clusters(csc3)
+set.seed(12334)
+csc4 <- cluster_gen_2(n7, n_X=2, n_W=0, c_mean=c(210, 310), sigma=c(2, 5), cor_matrix=m4)
+summarize_clusters(csc4)
+
+set.seed(12334)
+csr1 <- cluster_gen_2(
+	n7, n_X = 5,
+	c_mean = list(15, c(10, 55, 0.21, 2.34, 5000)),
+	sigma = list(20, c(40, 100, 0.11, 3, 1500)),
+	rho = c(0.2, 0.15)
+)
+summarize_clusters(csr1) # FIXME: c_mean doesn't match results
+csr1_stable <- cluster_gen_2(
+	n7, n_X = 5,
+	c_mean = list(15, c(10, 55, 0.21, 2.34, 5000)),
+	sigma = list(0, c(0, 0, 0, 0, 0)),
+	rho = c(0.2, 0.15)
+)
+summarize_clusters(csr1_stable) # FIXME: catches mean from lvl 1 (15)
+
+csr2 <- cluster_gen_2(
+	n7, n_X = 5,
+	c_mean = c(10, 55, 0.21, 2.34, 5000),
+	sigma = c(40, 100, 0.11, 3, 1500),
+	rho = 0.2
+)
+summarize_clusters(csr2)
+csr2_stable <- cluster_gen_2(
+	n7, n_X = 5,
+	c_mean = c(10, 55, 0.21, 2.34, 5000),
+	sigma = c(0, 0, 0, 0, 0),
+	rho = 0.2
+)
+summarize_clusters(csr2_stable) # FIXME: catches mean from 1st PSU (10)
