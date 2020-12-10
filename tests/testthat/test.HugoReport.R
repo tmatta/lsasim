@@ -450,3 +450,41 @@ test_that("Summaries produce expected output", {
 	expect_output(str(summarize_clusters(sc3, print="none")), "List of 7")
 	expect_output(str(summarize_clusters(sc4, print="none")), "List of 7")
 })
+
+# ======================================================== #
+# GitHub Issue 19                                          #
+# ======================================================== #
+
+context("Hugo's 2.0.2 report: GitHub issue #19")
+
+set.seed(12334)
+m1 <- matrix(
+	c(1, 0.2, 0.3, 0.4, 0.2, 1, 0.5, 0.7, 0.3, 0.5, 1, 0.8, 0.4, 0.7, 0.8, 1),
+	4, 4
+)
+sample_size <- 50
+rho_hat <- matrix(nrow=sample_size, ncol=2)
+for (i in seq_len(sample_size)) {
+	cr1 <- cluster_gen_2(n7, n_X=2, n_W=2, cor_matrix=m1, rho=c(0.1, 0.2))
+	rho_hat[i, ] <- c(
+		anova_table(cr1, calc.se=FALSE, print=FALSE)$population$q1[[3]],
+		anova_table(cr1, calc.se=FALSE, print=FALSE)$population$q2[[3]]
+	)
+}
+n7_500 <- list(school = 500, student = ranges(10, 50))
+cr1_500 <- cluster_gen_2(n7_500, n_X=2, n_W=2, cor_matrix=m1, rho=c(0.1, 0.2))
+
+test_that("rho converges to true values", {
+	expect_equivalent(apply(rho_hat, 2, mean), c(0.1, 0.2), tol = 0.05)
+	expect_equivalent(
+		object = c(
+			anova_table(cr1_500, calc.se=FALSE, print=FALSE)$population$q1[[3]],
+			anova_table(cr1_500, calc.se=FALSE, print=FALSE)$population$q2[[3]]
+		),
+		expected = c(0.1, 0.2),
+		tol = 0.05
+	)
+})
+
+
+# cr13 <- cluster_gen_2(n13, n_X=1, n_W=2, cor_matrix=m2, rho=0.7)
