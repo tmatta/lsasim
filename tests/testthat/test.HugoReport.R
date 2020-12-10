@@ -390,3 +390,34 @@ test_that("Summaries produce expected output", {
 	expect_output(str(summarize_clusters(mc7_1, print="none")), "List of 7")
 	expect_output(str(summarize_clusters(mc8, print="none")), "List of 7")
 })
+
+# ======================================================== #
+# GitHub issue 18                                          #
+# ======================================================== #
+context("Hugo's 2.0.2 report: GitHub issue #18")
+
+m1 <- matrix(
+	c(
+		1, 0.2, 0.3, 0.4,
+		0.2, 1, 0.5, 0.7,
+		0.3, 0.5, 1, 0.8,
+		0.4, 0.7, 0.8, 1
+	), 4, 4
+)
+m2 <- matrix(
+	c(
+		1, 0.5, 0.6,
+		0.5, 1, 0.9,
+		0.6, 0.9, 1
+	), 3, 3
+)
+m3 <- matrix(
+	c(
+		1, 0.55, 0.77,
+		0.55, 1, 0.33,
+		0.77, 0.33, 1
+	), 3, 3
+)
+m4 <- matrix(c(1, 0.55, 0.55, 1), 2, 2)
+set.seed(12334); sc1 <- cluster_gen_2(n7, sigma = 1:4, cor_matrix = m1)
+set.seed(123554); sc1 <- cluster_gen_2(n7, sigma = 1:4, cor_matrix = m1)
