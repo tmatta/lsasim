@@ -5,7 +5,7 @@
 # ======================================================== #
 set.seed(12334)
 
-# Cluster elements --------------------------------------- #
+# Cluster elements ---------------------------------------
 n1 <- c(3, 6)
 n2 <- c(groups = 4, people = 2)
 n3 <- c(school = 3, class = 2, student = 5)
@@ -303,4 +303,90 @@ test_that("mean values are the expected", {
 	expect_equivalent(r6s, c(0.78077, 93.89067, 354.82602), 1e-4)
 	expect_equivalent(r7s, c(1.05165, 19.59206, 0.25891, 50.14332), 1e-4)
 	expect_equivalent(r8s, c(0.00102, 0.005, 211.45723, 232.78356), 1e-4)
+})
+
+# ======================================================== #
+# GitHub issue 17                                          #
+# ======================================================== #
+context("Hugo's 2.0.2 report: GitHub issue #17")
+
+
+set.seed(12334)
+m1 <- matrix(c(
+	1, 0.2, 0.3, 0.4,
+	0.2, 1, 0.5, 0.7,
+	0.3, 0.5, 1, 0.8,
+	0.4, 0.7, 0.8, 1
+), 4, 4)
+mc1 <- cluster_gen_2(n1, c_mean = c(0.1, 0.5, 0.001, 234), cor_matrix = m1)
+mc4 <- cluster_gen_2(n7, c_mean = c(0.1, 0.5, 0.001, 234), cor_matrix = m1)
+mc1_1 <- cluster_gen_2(
+	n1, n_X=4, c_mean = c(0.1, 0.5, 0.001, 234), cor_matrix = m1
+)
+set.seed(12334)
+mc7 <- cluster_gen_2(
+	n7, n_X=4, n_W=0, c_mean = c(0.1, 0.5, 0.001, 234), cor_matrix = m1
+)
+set.seed(12334)
+mc7_1 <- cluster_gen_2(
+	n7, n_X=2, n_W=2, c_mean = c(0.5, 0.001), cor_matrix = m1
+)
+mc7_2 <- cluster_gen_2(
+	n7, n_X=3, n_W=1, c_mean = c(0.5, 0.001, 234), cor_matrix = m1
+)
+set.seed(12334)
+m2 <- matrix(c(
+	1, 0.5, 0.6,
+	0.5, 1, 0.9,
+	0.6, 0.9, 1
+), 3, 3)
+mc2 <- cluster_gen_2(n7, c_mean = c(55, 2.34, 5001), cor_matrix = m2)
+set.seed(12334)
+mc3 <- cluster_gen_2(n7, c_mean = c(55, 2.34, 5001), cor_matrix = m2)
+set.seed(12334)
+mc3_1 <- cluster_gen_2(
+	n7, n_X=3, n_W=0, c_mean = c(55, 2.34, 5001), cor_matrix = m2
+)
+set.seed(12334)
+mc3_2 <- cluster_gen_2(
+	n7, n_X=2, n_W=1, c_mean = c(55, 2.34), cor_matrix = m2
+)
+m3 <- matrix(c(
+	1, 0.55, 0.77,
+	0.55, 1, 0.33,
+	0.77, 0.33, 1
+), 3, 3)
+set.seed(12334)
+mc5 <- cluster_gen_2(n6, c_mean = c(0.3, 0.35, 0.4), cor_matrix = m3)
+m4 <- matrix(c(1, 0.55, 0.55, 1), 2, 2)
+set.seed(12334)
+mc6 <- cluster_gen_2(n6, c_mean = c(0.7, 355), cor_matrix = m4)
+set.seed(12334)
+mc7 <- cluster_gen_2(n10, c_mean = c(20, 0.25, 50.54), cor_matrix = m3)
+set.seed(12334)
+mc8 <- cluster_gen_2(n10, c_mean = c(213, 234), cor_matrix = m4)
+
+set.seed(12334)
+mc8 <- cluster_gen_2(
+	n10, n_X=2, n_W=0, c_mean = c(213, 234), cor_matrix = m4
+)
+
+test_that("Clusters are created correctly", {
+	expect_output(str(mc1), "school:List of 3")
+	expect_output(str(mc4), "school:List of 10")
+	expect_output(str(mc1_1), "school:List of 3")
+	expect_output(str(mc7), "country:List of 2")
+	expect_output(str(mc7_1), "school:List of 10")
+	expect_output(str(mc7_2), "school:List of 10")
+	expect_output(str(mc2), "school:List of 10")
+	expect_output(str(mc3), "school:List of 10")
+	expect_output(str(mc3_1), "school:List of 10")
+	expect_output(str(mc3_2), "school:List of 10")
+})
+test_that("Summaries produce expected output", {
+	expect_output(str(summarize_clusters(mc7_2, print="none")), "List of 7")
+	expect_output(str(summarize_clusters(mc3_1, print="none")), "List of 7")
+	expect_output(str(summarize_clusters(mc3_2, print="none")), "List of 7")
+	expect_output(str(summarize_clusters(mc7_1, print="none")), "List of 7")
+	expect_output(str(summarize_clusters(mc8, print="none")), "List of 7")
 })
