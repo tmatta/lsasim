@@ -1,6 +1,7 @@
 # ======================================================== #
 # General prep                                             #
 # ======================================================== #
+context("Hugo's report on lsasim 2.0.2")
 set.seed(12334)
 
 # Cluster elements ---------------------------------------
@@ -42,7 +43,6 @@ cluster_gen_2 <- function(...) {
 # ======================================================== #
 # GitHub Issue 13                                          #
 # ======================================================== #
-context("Hugo's 2.0.2 report: GitHub issue #13")
 
 data1 <- cluster_gen_2(n3, n_X = c(1, 2), c_mean = list(10, c(-100, 1e3)))
 data2 <- cluster_gen_2(n3, n_X = c(1, 2), sigma = list(.1, c(1, 2)))
@@ -194,7 +194,6 @@ test_that("Stress-testing summarize_cluster()", {
 # ======================================================== #
 # GitHub Issue 14                                          #
 # ======================================================== #
-context("Hugo's 2.0.2 report: GitHub issue #14")
 
 set.seed(12334)
 m2 <- matrix(c(
@@ -244,7 +243,6 @@ test_that("Working with matrices", {
 # ======================================================== #
 # GitHub Issue 15                                          #
 # ======================================================== #
-context("Hugo's 2.0.2 report: GitHub issue #15")
 
 set.seed(12334)
 n7 <- list(school = 10, student = ranges(1000, 5000))
@@ -272,7 +270,6 @@ test_that("Testing rho", {
 # ======================================================== #
 # GitHub Issue 16                                          #
 # ======================================================== #
-context("Hugo's 2.0.2 report: GitHub issue #16")
 
 set.seed(12334)
 r1 <- cluster_gen_2(n4, n_X = 5, c_mean = c(0.1, 0.5, 0.001, 234, 701), sigma = c(0.111, 0.113, 0.115, 0.117, 0.119))
@@ -306,8 +303,6 @@ test_that("mean values are the expected", {
 # ======================================================== #
 # GitHub issue 17                                          #
 # ======================================================== #
-context("Hugo's 2.0.2 report: GitHub issue #17")
-
 
 set.seed(12334)
 m1 <- matrix(c(
@@ -392,7 +387,6 @@ test_that("Summaries produce expected output", {
 # ======================================================== #
 # GitHub issue 18                                          #
 # ======================================================== #
-context("Hugo's 2.0.2 report: GitHub issue #18")
 
 m1 <- matrix(
 	c(
@@ -453,8 +447,6 @@ test_that("Summaries produce expected output", {
 # GitHub Issue 19                                          #
 # ======================================================== #
 
-context("Hugo's 2.0.2 report: GitHub issue #19")
-
 set.seed(12334)
 m1 <- matrix(
 	c(1, 0.2, 0.3, 0.4, 0.2, 1, 0.5, 0.7, 0.3, 0.5, 1, 0.8, 0.4, 0.7, 0.8, 1),
@@ -487,8 +479,6 @@ test_that("rho converges to true values", {
 # ======================================================== #
 # GitHub issue 20                                          #
 # ======================================================== #
-
-context("Hugo's 2.0.2 report: GitHub issue #20")
 
 m1 <- matrix(
 	c(1, 0.2, 0.3, 0.4,0.2, 1, 0.5, 0.7, 0.3, 0.5, 1, 0.8, 0.4, 0.7, 0.8, 1),
