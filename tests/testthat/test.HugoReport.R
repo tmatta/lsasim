@@ -1,8 +1,7 @@
-# library(devtools); library(lsasim); library(testthat) #TEMP
-
 # ======================================================== #
 # General prep                                             #
 # ======================================================== #
+context("Hugo's report on lsasim 2.0.2")
 set.seed(12334)
 
 # Cluster elements ---------------------------------------
@@ -44,7 +43,6 @@ cluster_gen_2 <- function(...) {
 # ======================================================== #
 # GitHub Issue 13                                          #
 # ======================================================== #
-context("Hugo's 2.0.2 report: GitHub issue #13")
 
 data1 <- cluster_gen_2(n3, n_X = c(1, 2), c_mean = list(10, c(-100, 1e3)))
 data2 <- cluster_gen_2(n3, n_X = c(1, 2), sigma = list(.1, c(1, 2)))
@@ -196,7 +194,6 @@ test_that("Stress-testing summarize_cluster()", {
 # ======================================================== #
 # GitHub Issue 14                                          #
 # ======================================================== #
-context("Hugo's 2.0.2 report: GitHub issue #14")
 
 set.seed(12334)
 m2 <- matrix(c(
@@ -246,7 +243,6 @@ test_that("Working with matrices", {
 # ======================================================== #
 # GitHub Issue 15                                          #
 # ======================================================== #
-context("Hugo's 2.0.2 report: GitHub issue #15")
 
 set.seed(12334)
 n7 <- list(school = 10, student = ranges(1000, 5000))
@@ -274,7 +270,6 @@ test_that("Testing rho", {
 # ======================================================== #
 # GitHub Issue 16                                          #
 # ======================================================== #
-context("Hugo's 2.0.2 report: GitHub issue #16")
 
 set.seed(12334)
 r1 <- cluster_gen_2(n4, n_X = 5, c_mean = c(0.1, 0.5, 0.001, 234, 701), sigma = c(0.111, 0.113, 0.115, 0.117, 0.119))
@@ -308,8 +303,6 @@ test_that("mean values are the expected", {
 # ======================================================== #
 # GitHub issue 17                                          #
 # ======================================================== #
-context("Hugo's 2.0.2 report: GitHub issue #17")
-
 
 set.seed(12334)
 m1 <- matrix(c(
@@ -394,7 +387,6 @@ test_that("Summaries produce expected output", {
 # ======================================================== #
 # GitHub issue 18                                          #
 # ======================================================== #
-context("Hugo's 2.0.2 report: GitHub issue #18")
 
 m1 <- matrix(
 	c(
@@ -455,8 +447,6 @@ test_that("Summaries produce expected output", {
 # GitHub Issue 19                                          #
 # ======================================================== #
 
-context("Hugo's 2.0.2 report: GitHub issue #19")
-
 set.seed(12334)
 m1 <- matrix(
 	c(1, 0.2, 0.3, 0.4, 0.2, 1, 0.5, 0.7, 0.3, 0.5, 1, 0.8, 0.4, 0.7, 0.8, 1),
@@ -486,5 +476,78 @@ test_that("rho converges to true values", {
 	)
 })
 
+# ======================================================== #
+# GitHub issue 20                                          #
+# ======================================================== #
 
-# cr13 <- cluster_gen_2(n13, n_X=1, n_W=2, cor_matrix=m2, rho=0.7)
+m1 <- matrix(
+	c(1, 0.2, 0.3, 0.4,0.2, 1, 0.5, 0.7, 0.3, 0.5, 1, 0.8, 0.4, 0.7, 0.8, 1),
+	4, 4
+)
+m2 <- matrix(c(1, 0.5, 0.6, 0.5, 1, 0.9, 0.6, 0.9, 1), 3, 3)
+m3 <- matrix(c(1, 0.55, 0.77, 0.55, 1, 0.33, 0.77, 0.33, 1), 3, 3)
+m4 <- matrix(c(1, 0.55, 0.55, 1), 2, 2)
+set.seed(12334)
+csc1 <- cluster_gen_2(
+	n7, n_X=4, n_W=0, c_mean=c(10, 20, 30, 40), sigma=c(1, 2, 3, 4),
+	cor_matrix=m1
+)
+set.seed(12334)
+csc2 <- cluster_gen_2(
+	n7, n_X=1, n_W=2, c_mean=100, sigma=3, cor_matrix=m2
+)
+
+set.seed(12334)
+csc3 <- cluster_gen_2(
+	n7, n_X=2, n_W=1, c_mean=c(100, 150), sigma=c(3, 4), cor_matrix=m3
+)
+set.seed(12334)
+csc4 <- cluster_gen_2(
+	n7, n_X=2, n_W=0, c_mean=c(210, 310), sigma=c(2, 5), cor_matrix=m4
+)
+
+test_that("Clusters are generated correctly", {
+	expect_output(str(csc1), "school:List of 10")
+	expect_output(str(csc2), "school:List of 10")
+	expect_output(str(csc3), "school:List of 10")
+	expect_output(str(csc4), "school:List of 10")
+	expect_error(
+		cluster_gen_2(
+			n7, n_X = 5,
+			c_mean = list(15, c(10, 55, 0.21, 2.34, 5000)),
+			sigma  = list(20, c(40, 100, 0.11, 3, 1500))
+		)
+	)
+	expect_warning(
+		cluster_gen_2(
+			n7, n_X = 5,
+			c_mean = c(10, 55, 0.21, 2.34, 5000),
+			sigma  = c(40, 100, 0.11, 3.0, 1500),
+			rho = 0.2
+		)
+	)
+})
+
+csc2_norho <- cluster_gen_2(
+	n7, n_X = 5,
+	c_mean = c(10, 55, 0.21, 2.34, 5000),
+	sigma  = c(40, 100, 0.11, 3.0, 1500)
+)
+
+test_that("Summaries are generated correctly", {
+	expect_equivalent(
+		object = summarize_clusters(csc2, print="none")$school$y_bar,
+		expected = 100,
+		tol = 1
+	)
+	expect_equivalent(
+		object = summarize_clusters(csc3, print="none")$school$y_bar,
+		expected = c(100, 150),
+		tol = 1
+	)
+	expect_equivalent(
+		object = summarize_clusters(csc2_norho, print="none")$school$y_bar,
+		expected =  c(10, 55, 0.21, 2.34, 5000),
+		tol = 1
+	)
+})

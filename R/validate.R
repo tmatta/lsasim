@@ -148,6 +148,29 @@ validate_cluster_gen <- function(
       (class(rho) == "list" | class(c_mean) == "list" | class(sigma) == "list"),
     "Unique questionnaire requested. rho, c_mean and c_sd must not be lists."
   )
+  check_condition(
+    !is.null(rho) & !is.null(sigma) & !is.null(c_mean),
+    paste(
+      "rho and sigma were defined. The three parameters are interdependent",
+      "and should not be passed simultaneously.",
+      "By design, c_mean will be ignored and recalculated."
+    ),
+    FALSE
+  )
+  check_condition(
+    is(c_mean, "list") & (length(c_mean) == length(n)),
+    paste(
+      "c_mean must have one fewer levels than n.",
+      "Please keep in mind that the first (top_) level of n is a nesting level"
+    )
+  )
+  check_condition(
+    is(sigma, "list") & (length(c_mean) == length(n)),
+    paste(
+      "sigma must have one fewer levels than n.",
+      "Please keep in mind that the first (top_) level of n is a nesting level"
+    )
+  )
   check_condition(length(n) == 1, "n must have length longer than 1")
   check_condition(
     length(n) > length(cluster_labels) + 1 & !is.null(cluster_labels),
