@@ -20,7 +20,7 @@ anova.lsasimcluster <- function(object, print = TRUE, calc.se = TRUE, ...) {
     }
 
     # Create summary statistics ================================================
-    data_summary <- summarize_clusters(data, print = "none")
+    data_summary <- summary.lsasimcluster(data, print = "none")
 
     # Create other relevant input ==============================================
     out_complete <- list()

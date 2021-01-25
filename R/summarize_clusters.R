@@ -5,6 +5,7 @@
 #' @param print "all" will pretty-print a summary of statistics, "partial" will only print cluster-level sumamrizes; "none" outputs statistics as a list
 #' @param print_hetcor if `TRUE` (default), prints the heterogeneous correlation matrix
 #' @param force_matrix if `TRUE`, prints the heterogeneous correlation matrix even if warnings are generated
+#' @param ... additional arguments (unused; added for compatibility with generic)
 #' @note
 #' Setting `print="none"` allows for saving the results as an R object (list). Otherwise, the results will be simply printed and not saveable.
 #'
@@ -16,11 +17,12 @@
 #' @examples
 #' n <- c(3, 30)
 #' cls <- cluster_gen(n, n_X = 3, n_W = 5)
-#' summarize_clusters(cls)
-#' summarize_clusters(cls, print="none") # allows saving results
+#' summary(cls)
+#' summary(cls, print="none") # allows saving results
 #' @export
-summarize_clusters <- function(
-    data, digits=4, print="partial", print_hetcor=TRUE, force_matrix=FALSE
+summary.lsasimcluster <- function(
+    object, digits=4, print="partial", print_hetcor=TRUE, force_matrix=FALSE,
+    ...
 ) {
     # Validation ===============================================================
     check_condition(
@@ -29,7 +31,8 @@ summarize_clusters <- function(
         fatal = FALSE
     )
     # Wrap data in a list (for !separate_questionnaires) =======================
-    if (all(sapply(data, class) != "list")) {
+    data <- object
+    if (all(sapply(data, function(d) !is(d, "list")))) {
         data <- list(data)
         names(data) <- gsub("[0-9]", "", names(data[[1]])[1])
     }
@@ -38,7 +41,7 @@ summarize_clusters <- function(
     detect_data_cols <- function(x) {
         grep("subject|ID|weight", x, invert = TRUE)
     }
-    if (all(sapply(data, function (d) is(d, "list")))) {
+    if (all(sapply(data, function(d) is(d, "list")))) {
         # Data was generated with separate_questionnaires = TRUE
         # data_names <- lapply(data, function(x) sapply(x[1], names))
     } else {

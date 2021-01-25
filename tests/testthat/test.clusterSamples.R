@@ -681,7 +681,7 @@ test_that("c_mean and rho work together", {
   rho <- .3
   df <- cluster_gen(n = c(20, 200), n_X = 1, n_W = 0,
                     rho = rho, c_mean = 5, verbose = FALSE)
-  expect_equivalent(summarize_clusters(df, print = "none")$school$y_bar, 5, .1)
+  expect_equivalent(summary(df, print = "none")$school$y_bar, 5, .1)
   expect_equivalent(
     anova(df, print = FALSE)$population_estimates$q1[3], rho, .1
   )
@@ -804,7 +804,7 @@ test_that("Rho works for together questionnaires", {
   expect_equivalent(anova(df2, print=F)$pop$q1["rho_hat.q1"], .2, .1)
   expect_equivalent(anova(df2, print=F)$pop$q2["rho_hat.q2"], .8, .1)
   expect_equivalent(
-    summarize_clusters(df2, print="none")$class$y_bar, c(1, 7), .1
+    summary(df2, print="none")$class$y_bar, c(1, 7), .1
   )
   expect_equivalent(anova(df3, print=F)$pop$q1["rho_hat.q1"], .5, .1)
   expect_equivalent(anova(df3, print=F)$pop$q2["rho_hat.q2"], .5, .1)
