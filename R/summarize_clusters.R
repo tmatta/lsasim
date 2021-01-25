@@ -38,7 +38,7 @@ summarize_clusters <- function(
     detect_data_cols <- function(x) {
         grep("subject|ID|weight", x, invert = TRUE)
     }
-    if (all(sapply(data, class) == "list")) {
+    if (all(sapply(data, function (d) is(d, "list")))) {
         # Data was generated with separate_questionnaires = TRUE
         # data_names <- lapply(data, function(x) sapply(x[1], names))
     } else {
