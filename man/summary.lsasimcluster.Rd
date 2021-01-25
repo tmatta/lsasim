@@ -14,6 +14,8 @@
 )
 }
 \arguments{
+\item{object}{output of `cluster_gen`}
+
 \item{digits}{loosely controls the number of digits (significant or not) in the output (for `print = TRUE`)}
 
 \item{print}{"all" will pretty-print a summary of statistics, "partial" will only print cluster-level sumamrizes; "none" outputs statistics as a list}
@@ -23,8 +25,6 @@
 \item{force_matrix}{if `TRUE`, prints the heterogeneous correlation matrix even if warnings are generated}
 
 \item{...}{additional arguments (unused; added for compatibility with generic)}
-
-\item{data}{output of `cluster_gen`}
 }
 \value{
 list of summaries
