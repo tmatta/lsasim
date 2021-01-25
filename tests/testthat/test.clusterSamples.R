@@ -615,7 +615,7 @@ for (r in seq_len(reps)) {
                     rho = rho,
                     sigma = rpois(1, 10),
                     verbose = FALSE)
-  df_stats <- anova_table(df, FALSE)
+  df_stats <- anova(df, FALSE)
   rep_stats[r, ] <- unlist(df_stats)
   bias <- append(bias, rep_stats[r, 9] - rho)
 }
@@ -627,7 +627,7 @@ test_that("Rho changes as expected", {
   rho <- c(.9, .3, .2)
   set.seed(8141221)
   df <- cluster_gen(c(40, 100), n_X = 3, n_W = 0, rho = rho, verbose = FALSE)
-  df_stats <- anova_table(df, FALSE)
+  df_stats <- anova(df, FALSE)
   expect_equivalent(
     unlist(df_stats$population_estimates)[c(3, 7, 11)], rho, tol = .1
   )
@@ -635,7 +635,7 @@ test_that("Rho changes as expected", {
 test_that("Rho works for dataframes with three or more levels", {
   set.seed(9621)
   df <- cluster_gen(c(5, 4, 50), rho = .7, verbose = FALSE)
-  df_stats <- anova_table(df, FALSE)
+  df_stats <- anova(df, FALSE)
   expect_equivalent(mean(unlist(df_stats$school$population_estimates)[c(3, 7)]),
                     .52,
                     tol = .1)
@@ -644,7 +644,7 @@ test_that("Rho works for dataframes with three or more levels", {
                     tol = .1)
   set.seed(6485)
   df2 <- cluster_gen(c(10, 20, 50), rho = c(.7, .2), verbose = FALSE)
-  df2_stats <- anova_table(df2, FALSE)
+  df2_stats <- anova(df2, FALSE)
   expect_equivalent(unlist(df2_stats$school$population_estimates)[c(3, 7)],
                     c(.7, .2),
                     tol = .1)
@@ -653,7 +653,7 @@ test_that("Rho works for dataframes with three or more levels", {
                     tol = .1)
   set.seed(893961)
   df3 <- cluster_gen(c(25, 15, 50), rho = list(.4, .9), verbose = FALSE)
-  df3_stats <- anova_table(df3, FALSE)
+  df3_stats <- anova(df3, FALSE)
   expect_equivalent(unlist(df3_stats$school$population_estimates)[c(3, 7)],
                     c(.4, .4),
                     tol = .1)
@@ -668,7 +668,7 @@ test_that("Rho works for dataframes with three or more levels", {
     n_X = list(2, 3),
     verbose = FALSE
   )
-  df4_stats <- anova_table(df4, FALSE)
+  df4_stats <- anova(df4, FALSE)
   expect_equivalent(unlist(df4_stats$school$population_estimates)[c(3, 7)],
                     c(.4, .4),
                     tol = .2)
@@ -683,7 +683,7 @@ test_that("c_mean and rho work together", {
                     rho = rho, c_mean = 5, verbose = FALSE)
   expect_equivalent(summarize_clusters(df, print = "none")$school$y_bar, 5, .1)
   expect_equivalent(
-    anova_table(df, print = FALSE)$population_estimates$q1[3], rho, .1
+    anova(df, print = FALSE)$population_estimates$q1[3], rho, .1
   )
   rho <- .5
   df <- cluster_gen(n = c(50, 500), n_X = 1, n_W = 0,
@@ -691,7 +691,7 @@ test_that("c_mean and rho work together", {
                     c_mean = list(as.list(seq(1, 4, length.out = 50))),
                     verbose = FALSE)
   expect_equivalent(
-    anova_table(df, FALSE)$population_estimates$q1[3], rho, .1
+    anova(df, FALSE)$population_estimates$q1[3], rho, .1
   )
 })
 
@@ -717,18 +717,18 @@ test_that("Rho behaves properly with sigma and c_mean", {
     verbose = FALSE
   )
   expect_equivalent(
-    anova_table(df2, print=FALSE)$school$sample_statistics[1], 25, 1
+    anova(df2, print=FALSE)$school$sample_statistics[1], 25, 1
   )
   expect_equivalent(
-    anova_table(df2, print=FALSE)$class$sample_statistics[1], 100, 1
+    anova(df2, print=FALSE)$class$sample_statistics[1], 100, 1
   )
   expect_equivalent(
-    anova_table(df3, print=FALSE)$school$sample_statistics[1], 9, 1
+    anova(df3, print=FALSE)$school$sample_statistics[1], 9, 1
   )
   expect_equivalent(
-    anova_table(df3, print=FALSE)$class$sample_statistics[1], 64, 1
+    anova(df3, print=FALSE)$class$sample_statistics[1], 64, 1
   )
-  anova_table(df3, print=FALSE)
+  anova(df3, print=FALSE)
 })
 
 test_that("Rho is retrieved when c_mean is provided and sigma2 is missing", {
@@ -754,22 +754,22 @@ test_that("Rho is retrieved when c_mean is provided and sigma2 is missing", {
     c_mean = unlist(c_mean_wide)
   )
   expect_equivalent(
-    object = anova_table(df_narrow, print = FALSE)$population$q1["rho_hat.q1"],
+    object = anova(df_narrow, print = FALSE)$population$q1["rho_hat.q1"],
     expected = .2,
     tol = .1
   )
   expect_equivalent(
-    object = anova_table(df_wide, print = FALSE)$population$q1["rho_hat.q1"],
+    object = anova(df_wide, print = FALSE)$population$q1["rho_hat.q1"],
     expected = .2,
     tol = .1
   )
   expect_equivalent(
-    object = anova_table(df_narrow_tog, print = FALSE)$pop$q1["rho_hat.q1"],
+    object = anova(df_narrow_tog, print = FALSE)$pop$q1["rho_hat.q1"],
     expected = .2,
     tol = .1
   )
   expect_equivalent(
-    object = anova_table(df_wide, print = FALSE)$pop$q1["rho_hat.q1"],
+    object = anova(df_wide, print = FALSE)$pop$q1["rho_hat.q1"],
     expected = .2,
     tol = .1
   )
@@ -800,20 +800,20 @@ test_that("Rho works for together questionnaires", {
     verbose = FALSE,
     separate_questionnaires = FALSE
   )
-  expect_equivalent(anova_table(df1, print=F)$pop$q1["rho_hat.q1"], .8, .1)
-  expect_equivalent(anova_table(df2, print=F)$pop$q1["rho_hat.q1"], .2, .1)
-  expect_equivalent(anova_table(df2, print=F)$pop$q2["rho_hat.q2"], .8, .1)
+  expect_equivalent(anova(df1, print=F)$pop$q1["rho_hat.q1"], .8, .1)
+  expect_equivalent(anova(df2, print=F)$pop$q1["rho_hat.q1"], .2, .1)
+  expect_equivalent(anova(df2, print=F)$pop$q2["rho_hat.q2"], .8, .1)
   expect_equivalent(
     summarize_clusters(df2, print="none")$class$y_bar, c(1, 7), .1
   )
-  expect_equivalent(anova_table(df3, print=F)$pop$q1["rho_hat.q1"], .5, .1)
-  expect_equivalent(anova_table(df3, print=F)$pop$q2["rho_hat.q2"], .5, .1)
-  expect_equivalent(anova_table(df3, print=F)$pop$q1["sigma2_hat.q1"], 25, .1)
-  expect_equivalent(anova_table(df3, print=F)$pop$q2["sigma2_hat.q2"], 100, 1)
-  expect_equivalent(anova_table(df4, print=F)$pop$q1["rho_hat.q1"], .2, .1)
-  expect_equivalent(anova_table(df4, print=F)$pop$q2["rho_hat.q2"], .8, .1)
-  expect_equivalent(anova_table(df4, print=F)$pop$q1["sigma2_hat.q1"], 9, .1)
-  expect_equivalent(anova_table(df4, print=F)$pop$q2["sigma2_hat.q2"], 81, .1)
+  expect_equivalent(anova(df3, print=F)$pop$q1["rho_hat.q1"], .5, .1)
+  expect_equivalent(anova(df3, print=F)$pop$q2["rho_hat.q2"], .5, .1)
+  expect_equivalent(anova(df3, print=F)$pop$q1["sigma2_hat.q1"], 25, .1)
+  expect_equivalent(anova(df3, print=F)$pop$q2["sigma2_hat.q2"], 100, 1)
+  expect_equivalent(anova(df4, print=F)$pop$q1["rho_hat.q1"], .2, .1)
+  expect_equivalent(anova(df4, print=F)$pop$q2["rho_hat.q2"], .8, .1)
+  expect_equivalent(anova(df4, print=F)$pop$q1["sigma2_hat.q1"], 9, .1)
+  expect_equivalent(anova(df4, print=F)$pop$q2["sigma2_hat.q2"], 81, .1)
 })
 
 # Adding cor_matrix and cat_prop to cluster_gen ===============================

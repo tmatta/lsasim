@@ -129,7 +129,7 @@ mean(sapply(1:5, function(s) mean(x$school[[s]]$q1))) # closer to c_mean
 
 # Making the intraclass variance explode by forcing "incompatible" rho and c_mean
 x <- cluster_gen(c(5, 1000), rho = .5, n_X = 2, n_W = 0, c_mean = 1:5)
-anova_table(x)
+anova(x)
 }
 \seealso{
 cluster_estimates cluster_gen_separate cluster_gen_together questionnaire_gen

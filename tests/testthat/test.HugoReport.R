@@ -257,14 +257,14 @@ r7 <- cluster_gen_2(n7, rho = c(0.5, 0.45))
 r8 <- cluster_gen_2(n7, rho = 0.2)
 
 test_that("Testing rho", {
-	expect_output(str(anova_table(r1, FALSE)), "List of 2")
-	expect_output(str(anova_table(r2, FALSE)), "List of 2")
-	expect_output(str(anova_table(r3, FALSE)), "List of 2")
-	expect_output(str(anova_table(r4, FALSE)), "List of 2")
-	expect_output(str(anova_table(r5, FALSE, FALSE)), "List of 2")
-	expect_output(str(anova_table(r6, FALSE, FALSE)), "List of 2")
-	expect_output(str(anova_table(r7, FALSE, FALSE)), "List of 2")
-	expect_output(str(anova_table(r8, FALSE, FALSE)), "List of 2")
+	expect_output(str(anova(r1, FALSE)), "List of 2")
+	expect_output(str(anova(r2, FALSE)), "List of 2")
+	expect_output(str(anova(r3, FALSE)), "List of 2")
+	expect_output(str(anova(r4, FALSE)), "List of 2")
+	expect_output(str(anova(r5, FALSE, FALSE)), "List of 2")
+	expect_output(str(anova(r6, FALSE, FALSE)), "List of 2")
+	expect_output(str(anova(r7, FALSE, FALSE)), "List of 2")
+	expect_output(str(anova(r8, FALSE, FALSE)), "List of 2")
 })
 
 # ======================================================== #
@@ -457,8 +457,8 @@ rho_hat <- matrix(nrow=sample_size, ncol=2)
 for (i in seq_len(sample_size)) {
 	cr1 <- cluster_gen_2(n7, n_X=2, n_W=2, cor_matrix=m1, rho=c(0.1, 0.2))
 	rho_hat[i, ] <- c(
-		anova_table(cr1, calc.se=FALSE, print=FALSE)$population$q1[[3]],
-		anova_table(cr1, calc.se=FALSE, print=FALSE)$population$q2[[3]]
+		anova(cr1, calc.se=FALSE, print=FALSE)$population$q1[[3]],
+		anova(cr1, calc.se=FALSE, print=FALSE)$population$q2[[3]]
 	)
 }
 n7_500 <- list(school = 500, student = ranges(10, 50))
@@ -468,8 +468,8 @@ test_that("rho converges to true values", {
 	expect_equivalent(apply(rho_hat, 2, mean), c(0.1, 0.2), tol = 0.05)
 	expect_equivalent(
 		object = c(
-			anova_table(cr1_500, calc.se=FALSE, print=FALSE)$population$q1[[3]],
-			anova_table(cr1_500, calc.se=FALSE, print=FALSE)$population$q2[[3]]
+			anova(cr1_500, calc.se=FALSE, print=FALSE)$population$q1[[3]],
+			anova(cr1_500, calc.se=FALSE, print=FALSE)$population$q2[[3]]
 		),
 		expected = c(0.1, 0.2),
 		tol = 0.05

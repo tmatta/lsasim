@@ -1,17 +1,20 @@
 #' @title Print ANOVA table
 #' @description Prints Analysis of Variance table for `cluster_gen` output.
-#' @param data list output of `cluster_gen`
+#' @param object list output of `cluster_gen`
 #' @param print if `TRUE`, output will be a list containing estimators; if `FALSE` (default), output are formatted tables of this information
 #' @param calc.se if `TRUE`, will try to calculate the standard error of the intreaclass correlation
+#' @param ... additional objects of the same type (see `helpe("anova")` for details)
 #' @return Printed ANOVA table
 #' @note  If the rhos for different levels are varied in scale, the generated rho will be less accurate.
 #' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
 #' @export
-anova_table <- function(data, print = TRUE, calc.se = TRUE) {
+anova.lsasimcluster <- function(object, print = TRUE, calc.se = TRUE, ...) {
     # Wrap data in a list (for !separate_questionnaires) =======================
-    if (all(sapply(data, class) != "list")) {
-        data <- list(data)
+    if (all(sapply(object, class) != "list")) {
+        data <- list(object)
         names(data) <- gsub("[0-9]", "", names(data[[1]])[1])
+    } else {
+        data <- object
     }
 
     # Create summary statistics ================================================
@@ -63,7 +66,7 @@ anova_table <- function(data, print = TRUE, calc.se = TRUE) {
                 ### ANOVA table ................................................
                 if (print) {
                     message("\nANOVA table for ", pluralize(n), ", ", x)
-                    print_anova_table(s2_within[x], s2_between[x], s2_total[x],
+                    print_anova(s2_within[x], s2_between[x], s2_total[x],
                                     sigma2_hat[x], tau2_hat, rho_hat, se_rho,
                                     ds$n_tilde, ds$M, ds$N)
                 }

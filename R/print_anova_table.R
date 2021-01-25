@@ -10,8 +10,8 @@
 #' @param M total sample size
 #' @param N number of classes j
 #' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
-#' @seealso anova_table
-print_anova_table <- function(s2_within, s2_between, s2_total,
+#' @seealso anova
+print_anova <- function(s2_within, s2_between, s2_total,
     sigma2_hat, tau2_hat, rho_hat, se_rho, n_tilde, M, N) {
     sources <- c(
         "Within-group variance",
@@ -37,6 +37,6 @@ print_anova_table <- function(s2_within, s2_between, s2_total,
     F_stat <- n_tilde * s2_between / s2_within
     F_stat_p_value <- stats::pf(F_stat, N - 1, M - N, lower.tail = FALSE)
     cat("\nTesting for group differences\n")
-    cat("F-statistic:", F_stat, "on", N - 1, "and", M - N, "DF. p-value: ", 
+    cat("F-statistic:", F_stat, "on", N - 1, "and", M - N, "DF. p-value: ",
         F_stat_p_value, "\n")
 }
