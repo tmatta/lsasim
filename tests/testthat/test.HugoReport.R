@@ -69,126 +69,126 @@ s9 <- cluster_gen_2(n9, n_X = c(2, 2), sigma = list(c(99, 101), c(0.006, 0.008))
 test_that("Stress-testing summarize_cluster()", {
 	expect_message(
 		invisible(capture.output(
-			summarize_clusters(data1, print="all", print_hetcor=FALSE)
+			summary(data1, print="all", print_hetcor=FALSE)
 		))
 	)
 	expect_message(
 		invisible(capture.output(
-			summarize_clusters(data2, print="all", print_hetcor=FALSE)
+			summary(data2, print="all", print_hetcor=FALSE)
 		))
 	)
 	expect_message(
 		invisible(capture.output(
-			summarize_clusters(dat4, print="all", print_hetcor=FALSE)
+			summary(dat4, print="all", print_hetcor=FALSE)
 		))
 	)
 	expect_message(
 		invisible(capture.output(
-			summarize_clusters(dat5, print="all", print_hetcor=FALSE)
+			summary(dat5, print="all", print_hetcor=FALSE)
 		))
 	)
 	expect_message(
 		invisible(capture.output(
-			summarize_clusters(dat5a, print="all", print_hetcor=FALSE)
+			summary(dat5a, print="all", print_hetcor=FALSE)
 		))
 	)
 	expect_message(
 		invisible(capture.output(
-			summarize_clusters(dat11, print="all", print_hetcor=FALSE)
+			summary(dat11, print="all", print_hetcor=FALSE)
 		))
 	)
 	expect_message(
 		invisible(capture.output(
-			summarize_clusters(dat12, print="all", print_hetcor=FALSE)
+			summary(dat12, print="all", print_hetcor=FALSE)
 		))
 	)
 	expect_message(
 		invisible(capture.output(
-			summarize_clusters(s4, print="all", print_hetcor=FALSE)
+			summary(s4, print="all", print_hetcor=FALSE)
 		))
 	)
 	expect_message(
 		invisible(capture.output(
-			summarize_clusters(s5, print="all", print_hetcor=FALSE)
+			summary(s5, print="all", print_hetcor=FALSE)
 		))
 	)
 	expect_message(
 		invisible(capture.output(
-			summarize_clusters(s6a, print="all", print_hetcor=FALSE)
+			summary(s6a, print="all", print_hetcor=FALSE)
 		))
 	)
 	expect_message(
 		invisible(capture.output(
-			summarize_clusters(s7, print="all", print_hetcor=FALSE)
+			summary(s7, print="all", print_hetcor=FALSE)
 		))
 	)
 	expect_message(
 		invisible(capture.output(
-			summarize_clusters(s8, print="all", print_hetcor=FALSE)
+			summary(s8, print="all", print_hetcor=FALSE)
 		))
 	)
 	expect_message(
 		invisible(capture.output(
-			summarize_clusters(s9, print="all", print_hetcor=FALSE)
+			summary(s9, print="all", print_hetcor=FALSE)
 		))
 	)
 	expect_message(
-		invisible(capture.output(summarize_clusters(data1, print_hetcor=FALSE)))
+		invisible(capture.output(summary(data1, print_hetcor=FALSE)))
 	)
 	expect_message(
-		invisible(capture.output(summarize_clusters(data2, print_hetcor=FALSE)))
+		invisible(capture.output(summary(data2, print_hetcor=FALSE)))
 	)
 	expect_message(
-		invisible(capture.output(summarize_clusters(dat4, print_hetcor=FALSE)))
+		invisible(capture.output(summary(dat4, print_hetcor=FALSE)))
 	)
 	expect_message(
-		invisible(capture.output(summarize_clusters(dat5, print_hetcor=FALSE)))
+		invisible(capture.output(summary(dat5, print_hetcor=FALSE)))
 	)
 	expect_message(
-		invisible(capture.output(summarize_clusters(dat5a, print_hetcor=FALSE)))
+		invisible(capture.output(summary(dat5a, print_hetcor=FALSE)))
 	)
 	expect_message(
-		invisible(capture.output(summarize_clusters(dat6, print_hetcor=FALSE)))
+		invisible(capture.output(summary(dat6, print_hetcor=FALSE)))
 	)
 	expect_message(
-		invisible(capture.output(summarize_clusters(dat10, print_hetcor=FALSE)))
+		invisible(capture.output(summary(dat10, print_hetcor=FALSE)))
 	)
 	expect_message(
-		invisible(capture.output(summarize_clusters(dat11, print_hetcor=FALSE)))
+		invisible(capture.output(summary(dat11, print_hetcor=FALSE)))
 	)
 	expect_message(
-		invisible(capture.output(summarize_clusters(s4, print_hetcor=FALSE)))
+		invisible(capture.output(summary(s4, print_hetcor=FALSE)))
 	)
 	expect_message(
-		invisible(capture.output(summarize_clusters(s5, print_hetcor=FALSE)))
+		invisible(capture.output(summary(s5, print_hetcor=FALSE)))
 	)
 	expect_message(
-		invisible(capture.output(summarize_clusters(s6a, print_hetcor=FALSE)))
+		invisible(capture.output(summary(s6a, print_hetcor=FALSE)))
 	)
 	expect_message(
-		invisible(capture.output(summarize_clusters(s7)))
+		invisible(capture.output(summary(s7)))
 	)
 	expect_message(
-		invisible(capture.output(summarize_clusters(s8)))
+		invisible(capture.output(summary(s8)))
 	)
 	expect_message(
-		invisible(capture.output(summarize_clusters(s9)))
+		invisible(capture.output(summary(s9)))
 	)
-	expect_output(str(summarize_clusters(data1, print="none")), "List of 2")
-	expect_output(str(summarize_clusters(data2, print="none")), "List of 2")
-	expect_output(str(summarize_clusters(dat4, print="none")), "List of 2")
-	expect_output(str(summarize_clusters(dat5, print="none")), "List of 2")
-	expect_output(str(summarize_clusters(dat5a, print="none")), "List of 2")
-	expect_output(str(summarize_clusters(dat6, print="none")), "List of 2")
-	expect_output(str(summarize_clusters(dat10, print="none")), "List of 2")
-	expect_output(str(summarize_clusters(dat11, print="none")), "List of 2")
-	expect_output(str(summarize_clusters(dat12, print="none")), "List of 2")
-	expect_output(str(summarize_clusters(s4, print="none")), "List of 2")
-	expect_output(str(summarize_clusters(s5, print="none")), "List of 2")
-	expect_output(str(summarize_clusters(s6a, print="none")), "List of 2")
-	expect_output(str(summarize_clusters(s7, print="none")), "List of 2")
-	expect_output(str(summarize_clusters(s8, print="none")), "List of 2")
-	expect_output(str(summarize_clusters(s9, print="none")), "List of 2")
+	expect_output(str(summary(data1, print="none")), "List of 2")
+	expect_output(str(summary(data2, print="none")), "List of 2")
+	expect_output(str(summary(dat4, print="none")), "List of 2")
+	expect_output(str(summary(dat5, print="none")), "List of 2")
+	expect_output(str(summary(dat5a, print="none")), "List of 2")
+	expect_output(str(summary(dat6, print="none")), "List of 2")
+	expect_output(str(summary(dat10, print="none")), "List of 2")
+	expect_output(str(summary(dat11, print="none")), "List of 2")
+	expect_output(str(summary(dat12, print="none")), "List of 2")
+	expect_output(str(summary(s4, print="none")), "List of 2")
+	expect_output(str(summary(s5, print="none")), "List of 2")
+	expect_output(str(summary(s6a, print="none")), "List of 2")
+	expect_output(str(summary(s7, print="none")), "List of 2")
+	expect_output(str(summary(s8, print="none")), "List of 2")
+	expect_output(str(summary(s9, print="none")), "List of 2")
 })
 
 # ======================================================== #
@@ -234,9 +234,9 @@ test_that("Working with matrices", {
 	expect_output(str(c3$class), "List of 6")
 	expect_output(str(c3a), "List of 20")
 	expect_output(str(c4), "List of 20")
-	expect_warning(capture.output(invisible(summarize_clusters(c4))))
+	expect_warning(capture.output(invisible(summary(c4))))
 	expect_output(str(c4_1), "List of 20")
-	expect_output(str(summarize_clusters(c4_1, 4, "none"))$school, "List of 7")
+	expect_output(str(summary(c4_1, 4, "none"))$school, "List of 7")
 	expect_error(cluster_gen_2(n6a, cor_matrix = m5))
 })
 
@@ -257,14 +257,14 @@ r7 <- cluster_gen_2(n7, rho = c(0.5, 0.45))
 r8 <- cluster_gen_2(n7, rho = 0.2)
 
 test_that("Testing rho", {
-	expect_output(str(anova_table(r1, FALSE)), "List of 2")
-	expect_output(str(anova_table(r2, FALSE)), "List of 2")
-	expect_output(str(anova_table(r3, FALSE)), "List of 2")
-	expect_output(str(anova_table(r4, FALSE)), "List of 2")
-	expect_output(str(anova_table(r5, FALSE, FALSE)), "List of 2")
-	expect_output(str(anova_table(r6, FALSE, FALSE)), "List of 2")
-	expect_output(str(anova_table(r7, FALSE, FALSE)), "List of 2")
-	expect_output(str(anova_table(r8, FALSE, FALSE)), "List of 2")
+	expect_output(str(anova(r1, FALSE)), "List of 2")
+	expect_output(str(anova(r2, FALSE)), "List of 2")
+	expect_output(str(anova(r3, FALSE)), "List of 2")
+	expect_output(str(anova(r4, FALSE)), "List of 2")
+	expect_output(str(anova(r5, FALSE, FALSE)), "List of 2")
+	expect_output(str(anova(r6, FALSE, FALSE)), "List of 2")
+	expect_output(str(anova(r7, FALSE, FALSE)), "List of 2")
+	expect_output(str(anova(r8, FALSE, FALSE)), "List of 2")
 })
 
 # ======================================================== #
@@ -282,14 +282,14 @@ r7 <- cluster_gen_2(n10, n_X = 4, c_mean = c(1, 20, 0.25, 50.54), sigma = c(0.3,
 r8 <- cluster_gen_2(n10, n_X = 4, c_mean = c(0.001, 0.005, 213, 234), sigma = c(0.0001, 0.001, 11, 6))
 
 test_that("mean values are the expected", {
-	r1s <- summarize_clusters(r1, print_hetcor=FALSE, print="none")$school$y_bar
-	r2s <- summarize_clusters(r2, print_hetcor=FALSE, print="none")$school$y_bar
-	r3s <- summarize_clusters(r3, print_hetcor=FALSE, print="none")$school$y_bar
-	r4s <- summarize_clusters(r4, print_hetcor=FALSE, print="none")$school$y_bar
-	r5s <- summarize_clusters(r5, print_hetcor=FALSE, print="none")$school$y_bar
-	r6s <- summarize_clusters(r6, print_hetcor=FALSE, print="none")$school$y_bar
-	r7s <- summarize_clusters(r7, print_hetcor=FALSE, print="none")$school$y_bar
-	r8s <- summarize_clusters(r8, print_hetcor=FALSE, print="none")$school$y_bar
+	r1s <- summary(r1, print_hetcor=FALSE, print="none")$school$y_bar
+	r2s <- summary(r2, print_hetcor=FALSE, print="none")$school$y_bar
+	r3s <- summary(r3, print_hetcor=FALSE, print="none")$school$y_bar
+	r4s <- summary(r4, print_hetcor=FALSE, print="none")$school$y_bar
+	r5s <- summary(r5, print_hetcor=FALSE, print="none")$school$y_bar
+	r6s <- summary(r6, print_hetcor=FALSE, print="none")$school$y_bar
+	r7s <- summary(r7, print_hetcor=FALSE, print="none")$school$y_bar
+	r8s <- summary(r8, print_hetcor=FALSE, print="none")$school$y_bar
 	expect_equivalent(r1s["q3"], -9.61962e-4, 1e-3)
 	expect_equivalent(r2s, c(10.59184, 56.59062, 0.2136, 2.41009, 5081.18057))
 	expect_equivalent(r3s, c(10.4341, 56.5640, 0.2109, 2.2098, 5013.1259), 1e-4)
@@ -377,11 +377,11 @@ test_that("Clusters are created correctly", {
 	expect_output(str(mc3_2), "school:List of 10")
 })
 test_that("Summaries produce expected output", {
-	expect_output(str(summarize_clusters(mc7_2, print="none")), "List of 7")
-	expect_output(str(summarize_clusters(mc3_1, print="none")), "List of 7")
-	expect_output(str(summarize_clusters(mc3_2, print="none")), "List of 7")
-	expect_output(str(summarize_clusters(mc7_1, print="none")), "List of 7")
-	expect_output(str(summarize_clusters(mc8, print="none")), "List of 7")
+	expect_output(str(summary(mc7_2, print="none")), "List of 7")
+	expect_output(str(summary(mc3_1, print="none")), "List of 7")
+	expect_output(str(summary(mc3_2, print="none")), "List of 7")
+	expect_output(str(summary(mc7_1, print="none")), "List of 7")
+	expect_output(str(summary(mc8, print="none")), "List of 7")
 })
 
 # ======================================================== #
@@ -437,10 +437,10 @@ test_that("Clusters are generated correctly", {
 	expect_output(str(sc4_2), "school:List of 10")
 })
 test_that("Summaries produce expected output", {
-	expect_output(str(summarize_clusters(sc1, print="none")), "List of 7")
-	expect_output(str(summarize_clusters(sc2, print="none")), "List of 7")
-	expect_output(str(summarize_clusters(sc3, print="none")), "List of 7")
-	expect_output(str(summarize_clusters(sc4, print="none")), "List of 7")
+	expect_output(str(summary(sc1, print="none")), "List of 7")
+	expect_output(str(summary(sc2, print="none")), "List of 7")
+	expect_output(str(summary(sc3, print="none")), "List of 7")
+	expect_output(str(summary(sc4, print="none")), "List of 7")
 })
 
 # ======================================================== #
@@ -457,8 +457,8 @@ rho_hat <- matrix(nrow=sample_size, ncol=2)
 for (i in seq_len(sample_size)) {
 	cr1 <- cluster_gen_2(n7, n_X=2, n_W=2, cor_matrix=m1, rho=c(0.1, 0.2))
 	rho_hat[i, ] <- c(
-		anova_table(cr1, calc.se=FALSE, print=FALSE)$population$q1[[3]],
-		anova_table(cr1, calc.se=FALSE, print=FALSE)$population$q2[[3]]
+		anova(cr1, calc.se=FALSE, print=FALSE)$population$q1[[3]],
+		anova(cr1, calc.se=FALSE, print=FALSE)$population$q2[[3]]
 	)
 }
 n7_500 <- list(school = 500, student = ranges(10, 50))
@@ -468,8 +468,8 @@ test_that("rho converges to true values", {
 	expect_equivalent(apply(rho_hat, 2, mean), c(0.1, 0.2), tol = 0.05)
 	expect_equivalent(
 		object = c(
-			anova_table(cr1_500, calc.se=FALSE, print=FALSE)$population$q1[[3]],
-			anova_table(cr1_500, calc.se=FALSE, print=FALSE)$population$q2[[3]]
+			anova(cr1_500, calc.se=FALSE, print=FALSE)$population$q1[[3]],
+			anova(cr1_500, calc.se=FALSE, print=FALSE)$population$q2[[3]]
 		),
 		expected = c(0.1, 0.2),
 		tol = 0.05
@@ -536,17 +536,17 @@ csc2_norho <- cluster_gen_2(
 
 test_that("Summaries are generated correctly", {
 	expect_equivalent(
-		object = summarize_clusters(csc2, print="none")$school$y_bar,
+		object = summary(csc2, print="none")$school$y_bar,
 		expected = 100,
 		tol = 1
 	)
 	expect_equivalent(
-		object = summarize_clusters(csc3, print="none")$school$y_bar,
+		object = summary(csc3, print="none")$school$y_bar,
 		expected = c(100, 150),
 		tol = 1
 	)
 	expect_equivalent(
-		object = summarize_clusters(csc2_norho, print="none")$school$y_bar,
+		object = summary(csc2_norho, print="none")$school$y_bar,
 		expected =  c(10, 55, 0.21, 2.34, 5000),
 		tol = 1
 	)

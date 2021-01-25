@@ -15,8 +15,8 @@ summary_2(data, digits = 3)
 Creates summary statistics of a dataset
 }
 \note{
-This function is inspired by base::summary(), but outputs content more relevant to the context of cluster_gen() and summarize_clusters()
+This function is inspired by base::summary(), but outputs content more relevant to the context of cluster_gen() and summary()
 }
 \seealso{
-summarize_clusters()
+summary()
 }

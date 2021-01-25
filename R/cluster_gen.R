@@ -75,7 +75,7 @@
 #'
 #' # Making the intraclass variance explode by forcing "incompatible" rho and c_mean
 #' x <- cluster_gen(c(5, 1000), rho = .5, n_X = 2, n_W = 0, c_mean = 1:5)
-#' anova_table(x)
+#' anova(x)
 cluster_gen <- function(
   n,
   N = 1,
@@ -296,6 +296,12 @@ cluster_gen <- function(
     )
   }
 
+  # Reclassifying object and returning it ---------------------------------
+  if (is(sample, "list")) {
+    class(sample) <- c("lsasimcluster", "list") # FIXME: breaks tests
+  } else {
+    class(sample) <- c("lsasimcluster", "data.frame")
+  }
   return(sample)
 }
 
