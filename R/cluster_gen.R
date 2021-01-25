@@ -297,7 +297,11 @@ cluster_gen <- function(
   }
 
   # Reclassifying object and returning it ---------------------------------
-  class(sample) <- c("lsasim-cluster", "list", "data.frame") # FIXME: breaks tests
+  if (is(sample, "list")) {
+    class(sample) <- c("lsasim-cluster", "list") # FIXME: breaks tests
+  } else {
+    class(sample) <- c("lsasim-cluster", "data.frame")
+  }
   return(sample)
 }
 
