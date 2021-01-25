@@ -10,7 +10,7 @@ N2 <- list(
 	student = c(rep(20, 20), rep(30, 8), rep(10, 5), rep(5, 7), rep(9, 3))
 )
 
-# TODO: create test for this
+# TODO: create test for this (issue # 27)
 set.seed(1)
 df1 <- cluster_gen(
 	n = select(sch = 1, cl = 2, st = 4),

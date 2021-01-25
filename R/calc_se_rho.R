@@ -11,7 +11,7 @@ calc_se_rho <- function(rho, n_j, N) {
             sqrt(2 / (n * (n - 1) * (N - 1)))
     } else {
         stop("Not yet implemented for the case of varying n_j")
-        # TODO: Implement equation (6.1) from Donner (1986)
+        # TODO: Implement equation (6.1) from Donner (1986) - issue #22
     }
     return(se_rho)
 }
