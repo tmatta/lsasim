@@ -39,23 +39,6 @@ There are several sources of information that help a user get started with `lsas
 
 This package contains vignettes. If you are installing `lsasim` from GitHub, remember to include `build_vignettes=TRUE` in your `remotes::install_github()` call. Afterwards, you can browse the vignettes by issuing `browseVignettes("lsasim")` in your R terminal.
 
-## Feature wishlist
-
-### `questionnaire_gen`:
-
-1. Improve handling of `NULL` parameters
-2. Support `family = "binomial"` and `"poisson"`
-3. Include indicator grouping by factor
-4. Include factor loadings
-
-### `beta_gen`:
-
-1. Support more complex functions, e.g. including interactions between the covariates.
-
-### `cluster_gen`:
-
-1. Implement stratified sampling
-
 ## Reporting bugs and requesting features
 
 Bugs should be reported by creating a new issue on https://github.com/tmatta/lsasim/issues. For feature requests, please use [this form](https://embracingheterogeneity.com/contact/). If you would rather contribute with source code yourself, please fork the project and issue a [pull request](https://github.com/tmatta/lsasim/pulls) when you are ready to have us review your contribution.
