@@ -136,7 +136,7 @@ x <- cluster_gen(c(5, 1000), rho = .5, n_X = 2, n_W = 0, c_mean = 1:5)
 ```
 
 ```{r ex 4_str}
-anova_table(x)
+anova(x)
 ```
 
 ---
@@ -187,7 +187,7 @@ cg <- cluster_gen(n, n_X = c(1, 2), sigma = list(.1, c(1, 2)))
 ```
 
 ```{r ex 7_summary}
-summarize_clusters(cg)
+summary(cg)
 ```
 
 ---
