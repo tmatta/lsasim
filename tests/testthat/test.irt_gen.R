@@ -1,7 +1,11 @@
+# Context: https://github.com/tmatta/lsasim/issues/40
 
+# Extra effort to make code work
+n_items <- 30
+
+# Original code
 response_gen2 <- function (subject, item, theta, a_par = NULL, b_par, c_par = NULL,
-                           d_par = NULL, item_no = NULL, ogive = "Logistic")
-{
+                           d_par = NULL, item_no = NULL, ogive = "Logistic") {
   if (length(subject) != length(item))
     stop("subject and item vectors must be equal length.",
          call. = FALSE)
@@ -62,14 +66,12 @@ irt_gen2 <- function (theta, a_par = 1, b_par, c_par = 0, D = 1)
   return(y)
 }
 
-
 set.seed(345)
 
 #this is a normal example
 subject <- 1:100
 theta <- rnorm(100,0,1)
 student_dt <- data.frame(subject, theta)
-
 
 item <- as.integer(c(1:n_items))
 a <- runif(n_items, 0.5, 1.5)
@@ -80,9 +82,9 @@ item_par <- data.frame(item, a, b, c)
 resp_matrix <- response_gen(subject = sort(rep(subject, 30)), item = rep(item,100), theta = theta, a_par = a, b_par = b, c_par = c)
 
 #item means make sense and everything looks fine
-colMeans(resp_matrix[item])
+print(colMeans(resp_matrix[item]))
 
-lm(colMeans(resp_matrix[item]) ~ b)
+print(lm(colMeans(resp_matrix[item]) ~ b))
 
 
 #Let's make it very extreme, student mean theta is -20, I don't expect them to solve anything. But guessing parameters are super high. So, regardles if their theta 80%-90% of them should solve these items.
@@ -101,11 +103,11 @@ item_par <- data.frame(item, a, b, c)
 
 resp_matrix <- response_gen(subject = sort(rep(subject, 30)), item = rep(item,100), theta = theta, a_par = a, b_par = b, c_par = c)
 
-colMeans(resp_matrix[item]) #look at the results, they are around 50%, what happened to .8-.9 guessing parameter
-lm(colMeans(resp_matrix[item]) ~ b)
+print(colMeans(resp_matrix[item])) #look at the results, they are around 50%, what happened to .8-.9 guessing parameter
+print(lm(colMeans(resp_matrix[item]) ~ b))
 
 
 #let's check after the fix - but it only works for dichotomous variables
 resp_matrix2 <- response_gen2(subject = sort(rep(subject, 30)), item = rep(item,100), theta = theta, a_par = a, b_par = b, c_par = c)
-colMeans(resp_matrix2[item]) #look at the results, they are around 50%, what happened to .8-.9 guessing parameter
-lm(colMeans(resp_matrix2[item]) ~ b)
+print(colMeans(resp_matrix2[item])) #look at the results, they are around 50%, what happened to .8-.9 guessing parameter
+print(lm(colMeans(resp_matrix2[item]) ~ b))
