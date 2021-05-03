@@ -1,3 +1,12 @@
+# lsasim (development version)
+
+lsasim 2.0.2
+------------
+
+### Bug fixes
+
+* Solves [Issue #11](https://github.com/tmatta/lsasim/issues/11), which was causing `item_gen()` to produce out-of-bounds item difficulties in some situations.
+
 lsasim 2.0.1
 ------------
 
