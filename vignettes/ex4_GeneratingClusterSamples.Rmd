@@ -20,13 +20,7 @@ opts_chunk$set(comment = "", warning = FALSE, message = FALSE,
                echo = TRUE, tidy = TRUE)
 ```
 
-```{r install, include = FALSE, warning = FALSE}
-#install.packages("devtools")
-#install_github("wleoncio/lsasim", force = TRUE)
-```
-
 ```{r load}
-library(devtools)
 library(lsasim)
 ```
 
