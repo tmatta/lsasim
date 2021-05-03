@@ -1,0 +1,202 @@
+---
+title: "Ex. 4 - Generating cluster samples"
+author: Kondwani Kajera Mughogho
+header-includes:
+    - \usepackage{setspace}\onehalfspacing
+output:
+  html_document:
+    highlight: tango
+vignette: >
+  %\VignetteIndexEntry{Ex. 4 - Generating cluster samples}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE, warning = FALSE}
+library(knitr)
+library(formatR)
+options(width = 90, tidy = TRUE, warning = FALSE, message = FALSE)
+opts_chunk$set(comment = "", warning = FALSE, message = FALSE,
+               echo = TRUE, tidy = TRUE)
+```
+
+```{r load}
+library(lsasim)
+```
+
+```{r packageVersion}
+packageVersion("lsasim")
+```
+
+---
+
+### **Generating background questionnaire data**
+
+```{r equation, eval=FALSE}
+cluster_gen(n, N = 1, cluster_labels = NULL, resp_labels = NULL,
+            cat_prop = NULL, n_X = NULL, n_W = NULL, c_mean = NULL,
+            sigma = NULL, cor_matrix = NULL, separate_questionnaires = TRUE,
+            collapse = "none", sum_pop = sapply(N, sum), calc_weights = TRUE,
+            sampling_method = "mixed", rho = NULL, theta = FALSE,
+            verbose = TRUE, print_pop_structure = verbose)
+```
+
+As its single mandatory argument, cluster_gen requires a numeric list or vector containing the hierarchical structure of the data. As a general rule, as far as this first argument (`n`) as well as the second argument (`N`, representing the population structure) are concerned, vectors can be used to represent symmetric structures and lists can be used for asymmetric structures. What follows are some examples.
+
+The function `cluster_gen` generates clustered samples which resembles the composition of international large-scale assessments participants. The required argument is `n` and the other optional arguments include
+
+* `n`: a numeric vector with the number of sampled observations (clusters or subjects) on each level.
+* `N`: a list of numeric vector(s) with the population size of each *sampled* cluster element on each level.
+* `cluster_labels`: a character vector with the names of each cluster level.
+* `resp_labels`: a character vector with the names of the questionnaire respondents on each level.
+* `cat_prop`: a list of vectors where each vector contains the cumulative proportions for each category of a given item.  If theta = TRUE, the first element of cat_prop must be a scalar 1, which corresponds to the theta.
+* `n_X`: the number of continuous (`X`) variables per cluster level.
+* `n_W`: the number of ordinal (`W`) variables per cluster level.
+* `cor_matrix`: a correlation matrix between all variables (except weights).
+* `c_mean`: the vector of means for the continuous variables or list of vectors for the continuous variables for each level.
+* `sigma`: the vector of  of standard deviations for the continuous variables or list of vectors for the continuous variables for each level.
+* `separate_questionnaires`: if the logical argument `separate_questionnaires` 'TRUE', each level will have its own questionnaire. Otherwise, it will be labeled 'q1'.
+* `theta`: if the logical argument `theta` is `TRUE` then the latent trait will be generated as the first continuous variable and labeled 'theta'.
+* `collapse`: if the logical argument `collapse` is 'TRUE', then function output contains only one data frame with all answers.
+* `sum_pop`: is the specification of the total population at each level (sampled or not)
+* `calc_weights`: if the logical argument `calc_weights` is 'TRUE', then sampling weights are calculated.
+* `sampling_method`: can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size.
+* `rho`: specifies the estimated intraclass correlation.
+* `verbose`: if the logical argument `verbose` is 'TRUE', then messages are printed in the output.
+* `print_pop_structure`: if `print_pop_structure` is 'TRUE', then the population hierarchical structure is printed out (as long as it differs from the sample structure).
+* `...`: additional parameterss to be passed to `questionnaire_gen()`.
+
+---
+
+#### **Example 1**
+
+We can specify a simple structure of 3 schools with 5 students in each school. That is, `n = 3` and `N = 5`.
+
+```{r ex 1}
+set.seed(4388)
+cg <- cluster_gen(c(n = 3, N= 5))
+```
+
+```{r ex 1_str}
+cg$n[[1]]
+cg$n[[2]]
+cg$n[[3]]
+```
+
+---
+
+#### **Example 2**
+
+We can specify a more complex structure of 2 schools with different numbers of students, sampling weights, and custom numbers of questions.
+
+```{r ex 2}
+set.seed(4388)
+n <- list(3, c(20, 15, 25))
+N <- list(5, c(200, 500, 400, 100, 100))
+cg <- cluster_gen(n, N, n_X = 5, n_W = 2)
+```
+
+```{r ex 2_str}
+str(cg$school[[1]])
+str(cg$school[[2]])
+str(cg$school[[3]])
+```
+
+---
+
+#### **Example 3**
+
+We can also control the intra-class correlations and the grand mean.
+
+```{r ex 3}
+set.seed(4388)
+cg <- cluster_gen(c(5, 1000), rho = .9, n_X = 2, n_W = 0, c_mean = 10)
+sapply(1:5, function(s) mean(cg$school[[s]]$q1))  # means per school != 10
+mean(sapply(1:5, function(s) mean(cg$school[[s]]$q1))) # closer to c_mean
+```
+
+```{r ex 3_str}
+str(cg)
+```
+
+---
+
+#### **Example 4**
+We can make the intraclass variance explode by forcing "incompatible" rho and c_mean.
+
+```{r ex 4}
+x <- cluster_gen(c(5, 1000), rho = .5, n_X = 2, n_W = 0, c_mean = 1:5)
+
+```
+
+```{r ex 4_str}
+anova(x)
+```
+
+---
+* Other specifications of `cluster_gen`.
+
+#### **Example 5**
+
+The named vector below represents a sampling structure of 1 country, 2 schools, 5 students per school. The naming of the vector is optional.
+
+```{r ex 5}
+set.seed(4388)
+n <- c(cnt = 1, sch = 2, stu = 5)
+cg <- cluster_gen(n = n)
+
+```
+
+```{r ex 5_str}
+cg
+```
+
+---
+
+#### **Example 6**
+
+The named vector below represents a sampling structure of 1 country, 2 schools, 5 students per school. In the example, the number of continuous variables have been specified as `n_X` = 10. Only 5 means have been expressed to correspond to the 10 continuous variables. That is, `c_mean` = c(0.3, 0.4, 0.5, 0.6, 0.7). The function will still run by recycling the means over the other, five, variables. In this case, a warning message that reads `Warning: c_mean recycled to fit all continuous variables` will be reported.
+
+```{r ex 6, warning = TRUE}
+set.seed(4388)
+n <- c(cnt = 1, sch = 2, stu = 5)
+cg <- cluster_gen(n = n, n_X = 10, c_mean = c(0.3, 0.4, 0.5, 0.6, 0.7))
+
+```
+
+```{r ex 6_str}
+cg
+```
+
+---
+
+#### **Example 7**
+
+The named vector below represents a sampling structure of 3 schools, 2 classes, and 5 students per class. Again, the naming of the vector is optional. However, `n_X` and `sigma` can be expressed as lists that coincide with the different levels (i.e., schools and classes). For example, `n_X` = c(1, 2) and `sigma` = list(.1, c(1, 2) can be represented to represent the school and classroom levels. Note that, `sigma` = list(.1, c(1, 2) means that at cluster 1 (class), the standard deviations are .1, where as the standard deviations for level 2 (class) are 1 and 2.
+
+```{r ex 7}
+set.seed(4388)
+n <- c(school = 3, class = 2, student = 5)
+cg <- cluster_gen(n, n_X = c(1, 2), sigma = list(.1, c(1, 2)))
+```
+
+```{r ex 7_summary}
+summary(cg)
+```
+
+---
+
+#### **Example 8**
+
+The named vector below represents a sampling structure of 3 schools, 2 classes, and 5 students per class. Again, the naming of the vector is optional. However, `c_mean` can also be expressed as a list that coincide with the different levels (i.e., schools and classes). For example, `c_mean` = list(.1, c(0.55, 0.32) can be represented to represent the school and classroom levels. Note that, `c_mean` = list(.1, c(0.55, 0.32)) means that at cluster 1 (class), the means for the continuous variables are .1, where as the means for level 2 (class) are 0.55 and 0.32.
+
+```{r ex 8}
+set.seed(4388)
+n <- c(school = 3, class = 2, student = 5)
+cg <- cluster_gen(n, n_X = c(1, 2), n_W = c(0, 1), c_mean = list(.1, c(0.55, 0.32)))
+```
+
+```{r ex 8_summary}
+cg
+```
+

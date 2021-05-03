@@ -1,11 +1,11 @@
 ---
-title: "Retrieving regression coefficients"
+title: "Ex. 3 - Retrieving regression coefficients"
 author: Yuan-Ling Liaw and Waldir Leoncio
 header-includes:
     - \usepackage{setspace}\onehalfspacing
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Retrieving regression coefficients}
+  %\VignetteIndexEntry{Ex. 3 - Retrieving regression coefficients}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

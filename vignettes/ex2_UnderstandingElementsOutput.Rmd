@@ -1,11 +1,11 @@
 ---
-title: "Understanding the elements in output"
+title: "Ex. 2 - Understanding the elements in output"
 author: Yuan-Ling Liaw and Waldir Leoncio
 header-includes:
     - \usepackage{setspace}\onehalfspacing
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Understanding the elements in output}
+  %\VignetteIndexEntry{Ex. 2 - Understanding the elements in output}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -21,14 +21,14 @@ library(lsasim)
 ```
 
 ```{r packageVersion}
-packageVersion("lsasim") 
+packageVersion("lsasim")
 ```
 
 ```{r equation, eval=FALSE}
-questionnaire_gen(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL, n_W = NULL, 
-                  cor_matrix = NULL, cov_matrix = NULL, 
-                  c_mean = NULL, c_sd = NULL, 
-                  theta = FALSE, family = NULL, 
+questionnaire_gen(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL, n_W = NULL,
+                  cor_matrix = NULL, cov_matrix = NULL,
+                  c_mean = NULL, c_sd = NULL,
+                  theta = FALSE, family = NULL,
                   full_output = FALSE, verbose = TRUE)
 ```
 
@@ -62,13 +62,13 @@ If the logical argument `full_output` is `TRUE`, output will be a list containin
 
 ---
 
-We generate one continuous and two ordinal covariates. We specify the covariance matrix between the numeric and ordinal variables. The data is generated from a multivariate normal distribution. And we set the logical argument `full_output = TRUE`. 
+We generate one continuous and two ordinal covariates. We specify the covariance matrix between the numeric and ordinal variables. The data is generated from a multivariate normal distribution. And we set the logical argument `full_output = TRUE`.
 
 ```{r, include = FALSE}
 set.seed(1234)
 (props <- list(1, c(.25, 1), c(.2, .8, 1)))
 (yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3))
-bg <- questionnaire_gen(n_obs = 10, cat_prop = props, cov_matrix = yw_cov, theta = TRUE, 
+bg <- questionnaire_gen(n_obs = 10, cat_prop = props, cov_matrix = yw_cov, theta = TRUE,
                   family = "gaussian", full_output = TRUE)
 names(bg)
 ```
@@ -86,7 +86,7 @@ set.seed(1234)
 ```
 
 ```{r}
-questionnaire_gen(n_obs = 10, cat_prop = props, cov_matrix = yw_cov, theta = TRUE, 
+questionnaire_gen(n_obs = 10, cat_prop = props, cov_matrix = yw_cov, theta = TRUE,
                   family = "gaussian", full_output = TRUE)
 ```
 
