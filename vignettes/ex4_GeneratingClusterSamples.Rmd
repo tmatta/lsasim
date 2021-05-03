@@ -6,6 +6,10 @@ header-includes:
 output:
   html_document:
     highlight: tango
+vignette: >
+  %\VignetteIndexEntry{Generating cluster samples}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE, warning = FALSE}
