@@ -1,5 +1,5 @@
 ---
-title: "Generating cluster samples"
+title: "Ex. 4 - Generating cluster samples"
 author: Kondwani Kajera Mughogho
 header-includes:
     - \usepackage{setspace}\onehalfspacing
@@ -7,7 +7,7 @@ output:
   html_document:
     highlight: tango
 vignette: >
-  %\VignetteIndexEntry{Generating cluster samples}
+  %\VignetteIndexEntry{Ex. 4 - Generating cluster samples}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
