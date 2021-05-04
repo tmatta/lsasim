@@ -1,6 +1,6 @@
 #' @title Calculate the total variance
-#' @seealso anova_table
-#' @param n_tilde function of the variance of n_N, M and N. See reference and code within `summarize_clusters` for details
+#' @seealso anova.lsasimcluster
+#' @param n_tilde function of the variance of n_N, M and N. See documentation and code of \code{lsasim:::summary.lsasimcluster} for details
 #' @param M total sample size
 #' @param N number of classes j
 #' @param s2_within Within-class variance
@@ -12,7 +12,7 @@ calc_var_tot <- function(M, N, n_tilde, s2_within, s2_between) {
     for (x in X) {
         s2_tot <- append(
             s2_tot,
-            (M - N) / (M - 1) * s2_within[x] + 
+            (M - N) / (M - 1) * s2_within[x] +
                 n_tilde * (N - 1) / (M - 1) * s2_between[x]
         )
     }

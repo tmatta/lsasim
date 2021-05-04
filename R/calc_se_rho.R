@@ -1,5 +1,5 @@
 #' @title Calculate Standard Error of Intraclass Correlation
-#' @seealso anova_table
+#' @seealso anova.lsasimcluster
 #' @param rho intraclass correlation
 #' @param n_j number of elements in class j
 #' @param N number of classes j

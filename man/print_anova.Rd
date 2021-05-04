@@ -32,7 +32,7 @@ print_anova(
 
 \item{se_rho}{standard errors of `rho_hat`}
 
-\item{n_tilde}{function of the variance of n_N, M and N. See reference and code within `summarize_clusters` for details}
+\item{n_tilde}{function of the variance of n_N, M and N. See documentation and code of \code{lsasim:::summary.lsasimcluster} for details}
 
 \item{M}{total sample size}
 

@@ -22,5 +22,5 @@ Calculate variance within classes
 Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
 }
 \seealso{
-anova_table
+anova.lsasimcluster
 }

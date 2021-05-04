@@ -18,5 +18,5 @@ Calculates the intraclass correlation of clustered data
 Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
 }
 \seealso{
-cluster_gen summarize_clusters
+cluster_gen ?lsasim:::summary.lsasimcluster
 }

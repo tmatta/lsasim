@@ -46,5 +46,5 @@ summary(cls)
 summary(cls, print="none") # allows saving results
 }
 \seealso{
-anova_table
+anova.lsasimcluster
 }
