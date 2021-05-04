@@ -19,8 +19,8 @@ Maintainer: Waldir Leoncio <w.l.netto@medisin.uio.no>
 BugReports: https://github.com/tmatta/lsasim/issues
 Description: Provides functions to simulate data from large-scale educational
   assessments, including background questionnaire data and cognitive item
-  responses that adhere to a multiple-matrix sampled design. The rheoretical
-  foundation as well as theoretical background can be found on
+  responses that adhere to a multiple-matrix sampled design. The theoretical
+  foundation can be found on
   Matta, T.H., Rutkowski, L., Rutkowski, D. et al. (2018)
   <doi:10.1186/s40536-018-0068-8>.
 Imports: mvtnorm, cli, methods, polycor
