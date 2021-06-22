@@ -13,7 +13,9 @@ Authors@R: c(
   person("Kondwani Kajera", "Mughogho",
          email = "k.k.mughogho@cemo.uio.no", role = "ctb"),
   person("Waldir", "Leoncio",
-         email = "w.l.netto@medisin.uio.no", role = c("aut", "cre"))
+         email = "w.l.netto@medisin.uio.no", role = c("aut", "cre")),
+  person("Sinan", "Yavuz", role = "ctb"),
+  person("Paul", "Bailey", role = "ctb")
   )
 Maintainer: Waldir Leoncio <w.l.netto@medisin.uio.no>
 BugReports: https://github.com/tmatta/lsasim/issues
