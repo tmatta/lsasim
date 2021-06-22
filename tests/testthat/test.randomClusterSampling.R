@@ -37,4 +37,4 @@ test_that("N can't be a multiplier if n is select", {
 	expect_error(cluster_gen(n = select(4, 1), N = 2))
 })
 
-#TODO: add function to clean up NA data, then add df1--df4 as tests
+#TODO: add function to clean up NA data (#39), then add df1--df4 as tests (#27)
