@@ -13,14 +13,10 @@ gen_X_W_cluster <- function(n_levels, separate, class_cor) {
         n_W <- list()
         for (l in seq(n_levels)) {
             n_W[[l]] <- as.list(number_of_W())
-            # n_cats <- rzeropois(lambda=1) + 1
-            # n_W[[l]] <- as.list(replicate(rzeropois(5), n_cats))
         }
     } else {
         n_X <- rzeropois(1.5) # a positive number of Xs
         n_W <- as.list(number_of_W())
-        # n_cats <- rzeropois(lambda=1) + 1
-        # n_W <- as.list(replicate(rzeropois(5), 2))
     }
     out <- list("n_X" = n_X, "n_W" = n_W)
     return(out)

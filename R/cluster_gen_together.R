@@ -51,9 +51,8 @@ cluster_gen_together <- function(
   if (!is.null(rho)) {
 
     ### Expanding rho to n_level width .......................................
-    # if (class(rho) != "list") rho <- replicate(n_levels, list(rho))
     if (length(rho) == 1) rho <- rep(rho, n_X)
-    
+
     ### Defining sigma2 and tau2 .............................................
     if (missing_sigma2) {
       sigma2 <- rchisq(n_X, 2)
@@ -67,7 +66,7 @@ cluster_gen_together <- function(
     M <- sum(n_j)
     Nn <- length(n_j)
     s2 <- sigma2 * (M - Nn) / sum(n_j - 1)
-  }  
+  }
 
   ### Generating questionnaire data for lowest level ...........................
   for (l in seq(num_questionnaires)) {
@@ -108,10 +107,10 @@ cluster_gen_together <- function(
     } else {
       mu <- mu_mu
     }
-    
+
     ## Generating data ---------------------------------------------------------
     cluster_bg <- questionnaire_gen(
-      respondents, n_X = n_X, n_W = n_W, cat_prop = cat_prop_lvl, 
+      respondents, n_X = n_X, n_W = n_W, cat_prop = cat_prop_lvl,
       c_mean = mu, c_sd = sd_X, cor_matrix = cor_mx, verbose = FALSE,...
     )
 
