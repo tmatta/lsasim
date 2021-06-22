@@ -1,4 +1,14 @@
-# lsasim (development version)
+lsasim 2.1.0
+------------
+
+### API changes
+
+* Adds `cluster_gen`, a function to generate background questionnaires (with `questionnaire_gen`) in a cluster sampling structure.
+* Package description now includes a literary reference for the theoretical framework behind the package (issue #38, pull request #42)
+
+### Bug fixes
+
+* Fixes item parameter generation by `irt_gen` when the guesssing parameter is larger than zero (issue #40)
 
 lsasim 2.0.2
 ------------
