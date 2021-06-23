@@ -98,7 +98,6 @@ summary.lsasimcluster <- function(
                     stats_binded <- do.call(cbind, stats)
                     colnames(stats_binded) <- paste(x_names, rep(names(stats), each = length(x_names)), sep = " for ")
                     stats_binded <- stats_binded[, sort(colnames(stats_binded))]
-                    # TODO: call customize_summary() instead?
                     stats_table <- as.table(stats_binded)
                     print(stats_table)
                 }

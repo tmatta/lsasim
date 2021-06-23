@@ -22,7 +22,6 @@ print_anova <- function(s2_within, s2_between, s2_total,
         "Source" = sources,
         "Sample statistic" = c(s2_within, s2_between, s2_total),
         "Population estimate" = c(sigma2_hat, tau2_hat, NA)
-        # ASK: Total <- sigma2_hat + hau2_hat?
     )
     rho <- data.frame(
         "Estimated" = rho_hat,
