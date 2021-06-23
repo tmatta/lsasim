@@ -1,0 +1,92 @@
+---
+title: "Ex. 2 - Understanding the elements in output"
+author: Yuan-Ling Liaw and Waldir Leoncio
+header-includes:
+    - \usepackage{setspace}\onehalfspacing
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Ex. 2 - Understanding the elements in output}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r setup, include = FALSE, warning = FALSE}
+library(knitr)
+options(width = 90, tidy = TRUE, warning = FALSE, message = FALSE)
+opts_chunk$set(comment = "", warning = FALSE, message = FALSE,
+               echo = TRUE, tidy = TRUE)
+```
+
+```{r load}
+library(lsasim)
+```
+
+```{r packageVersion}
+packageVersion("lsasim")
+```
+
+```{r equation, eval=FALSE}
+questionnaire_gen(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL, n_W = NULL,
+                  cor_matrix = NULL, cov_matrix = NULL,
+                  c_mean = NULL, c_sd = NULL,
+                  theta = FALSE, family = NULL,
+                  full_output = FALSE, verbose = TRUE)
+```
+
+By default, the function returns a data.frame object where the first column ("subject") is a $1, \ldots, n$ ordered list of the $n$ observations and the other columns correspond to the questionnaire answers.  If `theta = TRUE`, the first column after "subject" will be the latent variable theta; in any case, the continuous variables always come before the categorical ones.
+
+If the logical argument `full_output` is `TRUE`, output will be a list containing the questionnaire data as well as several objects that might be of interest for further analysis of the data, listed below:
+
+- `bg`: a data frame containing the background questionnaire answers (i.e., the same object output if `full_output = FALSE`).
+- `c_mean`: is a vector of population means for each continuous variable ($Y$ and $X$).
+- `c_sd`: is a vector of population standard deviations for each continuous variable ($Y$ and $X$).
+- `cat_prop`: list of cumulative proportions for each item. If `theta = TRUE`, the first element of `cat_prop` must be a scalar 1, which corresponds to `theta`.
+- `cat_prop_W_p`: a list containing the probabilities for each category of the categorical variables (`cat_prop_W` contains the cumulative probabilities).
+- `cor_matrix`: latent correlation matrix. The first row/column corresponds to the latent trait ($Y$). The other rows/columns correspond to the continuous ($X$ or $Z$) or the discrete ($W$) background variables, in the same order as `cat_prop`.
+- `cov_matrix`: latent covariance matrix, formatted as `cor_matrix`.
+- `family`: distribution of the background variables. Can be `NULL` (default) or 'gaussian'.
+- `n_obs`: number of observations to generate.
+- `n_tot`: named vector containing the number of total variables, the number of continuous background variables (i.e., the total number of background variables except theta) and the number of categorical variables.
+- `n_W`: vector containing the number of categorical variables.
+- `n_X`: vector containing the number of continuous variables (except theta).
+- `sd_YXW`: vector with the standard deviations of all the variables
+- `sd_YXZ`: vector containing the standard deviations of theta, the background continuous variables ($X$) and the Normally-distributed variables $Z$ which will generate the background categorical variables ($W$).
+- `theta`: if `TRUE`, the first continuous variable will be labeled "theta". Otherwise, it will be labeled `q1`.
+- `var_W`: list containing the variances of the categorical variables.
+- `var_YX`: list containing the variances of the continuous variables (including theta)
+- `linear_regression`: This list is printed only if `theta = TRUE`, `family
+          = "gaussian"` and `full_output = TRUE`. It contains one
+          vector named `betas` and one tabled named `cov_YXW`. The
+          former displays the true linear regression coefficients of
+          theta on the background questionnaire answers; the latter
+          contains the covariance matrix between all these variables.
+
+---
+
+We generate one continuous and two ordinal covariates. We specify the covariance matrix between the numeric and ordinal variables. The data is generated from a multivariate normal distribution. And we set the logical argument `full_output = TRUE`.
+
+```{r, include = FALSE}
+set.seed(1234)
+(props <- list(1, c(.25, 1), c(.2, .8, 1)))
+(yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3))
+bg <- questionnaire_gen(n_obs = 10, cat_prop = props, cov_matrix = yw_cov, theta = TRUE,
+                  family = "gaussian", full_output = TRUE)
+names(bg)
+```
+
+The output is a list containing the following elements: `r names(bg)`.
+
+```{r, eval=FALSE}
+?questionnaire_gen
+```
+
+```{r ex 1a}
+set.seed(1234)
+(props <- list(1, c(.25, 1), c(.2, .8, 1)))
+(yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3))
+```
+
+```{r}
+questionnaire_gen(n_obs = 10, cat_prop = props, cov_matrix = yw_cov, theta = TRUE,
+                  family = "gaussian", full_output = TRUE)
+```
+

@@ -8,4 +8,5 @@
 ^desktop\.ini$
 gendat3*
 .vscode
-doc
+^Meta$
+^doc$

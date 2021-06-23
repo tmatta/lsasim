@@ -6,6 +6,11 @@
 \title{lsasim: A package for simulating large scale assessment data}
 \description{
 lsasim simulates data that mimics large-scale assessments (LSAs), including background questionnaire data and cognitive item responses that adhere to a multiple-matrix sampled design
+
+Functions to Facilitate the Simulation of Large Scale Assessment Data
+}
+\note{
+This package contains vignettes. If you are installing lsasim from GitHub, remember to use `build_vignettes=TRUE` in your `remotes::install_github()` call. Afterwards, you can browse the vignettes by issuing `browseVignettes("lsasim")` in your R terminal.
 }
 \section{Core functions}{
 
@@ -17,10 +22,11 @@ lsasim simulates data that mimics large-scale assessments (LSAs), including back
   \item \code{proportion_gen} Generation of random cumulative proportions.
   \item \code{questionnaire_gen} Generation of ordinal and continuous variables.
   \item \code{response_gen} Generation of item response data using a rotated block design.
+  \item \code{cluster_gen} Generation of background questionnaires from a cluster sampling scheme.
 }
 }
 
-\section{Ancillary functions}{
+\section{Useful ancillary functions}{
 
 \itemize{
   \item \code{irt_gen} Generate item responses from an IRT model.  Used by

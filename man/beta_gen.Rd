@@ -55,6 +55,13 @@ This function was primarily conceived as a subfunction of
   \code{questionnaire_gen}, when \code{family = "gaussian"}, \code{theta =
   TRUE}, and \code{full_output = TRUE}. However, it can also be directly
   called by the user so they can perform further analysis.
+  
+  This function primarily calculates the true regression coefficients 
+  (\eqn{\beta}) for the linear influence of the background questionnaire 
+  variables in \eqn{\theta}. From a statistical perspective, this 
+  relationship can be modeled as follows, where \eqn{E(\theta | \boldsymbol{X}, \boldsymbol{W})}{E(\theta | X, W)} is the expectation of \eqn{\theta} given \eqn{\boldsymbol{X} = \{X_1, \ldots, X_P\}}{X = {X_1, ..., X_P}} and \eqn{\boldsymbol{W} = \{W_1, \ldots, W_Q\}}{W = {W_1, ..., W_Q}}:
+  
+  \deqn{E(\theta | \boldsymbol{X}, \boldsymbol{W}) = \beta_0 + \sum_{p = 1}^P \beta_p X_p + \sum_{q = 1}^Q \beta_{P + q} W_q}{E(theta | X, W) = b_0 + \sum_{p = 1}^P b_p X_p + \sum_{q = 1}^Q b_{P + q} W_q}
 
   The regression coefficients are calculated using the true covariance matrix
   either provided by the user upon calling of \code{questionnaire_gen} or
@@ -80,6 +87,9 @@ This function was primarily conceived as a subfunction of
   on the appropriate distribution (either multivariate normal or truncated
   normal). To avoid multicollinearity, the first categories of each \eqn{W}
   are dropped before the regression coefficients are calculated.
+}
+\note{
+The equation in this page is best formatted in PDF. We recommend issuing `help("beta_gen", help_type = "PDF")` in your terminal and opening the `beta_gen.pdf` file generated in your working directly. You may also set `help_type = "HTML"`, but the equations will have degraded formatting.
 }
 \examples{
 

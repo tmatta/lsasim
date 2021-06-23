@@ -1,3 +1,29 @@
+lsasim 2.1.0
+------------
+
+### API changes
+
+* Adds `cluster_gen`, a function to generate background questionnaires (with `questionnaire_gen`) in a cluster sampling structure.
+* Package description now includes a literary reference for the theoretical framework behind the package (issue #38, pull request #42)
+
+### Bug fixes
+
+* Fixes item parameter generation by `irt_gen` when the guesssing parameter is larger than zero (issue #40)
+
+lsasim 2.0.2
+------------
+
+### Bug fixes
+
+* Solves [Issue #11](https://github.com/tmatta/lsasim/issues/11), which was causing `item_gen()` to produce out-of-bounds item difficulties in some situations.
+
+lsasim 2.0.1
+------------
+
+### Bug fixes
+
+* Makes lsasim compliant with changes to be introduced in the next major release of R. lsasim 2.0.1 is functionally identical to 2.0.0, as all changes relate to how `if(class(x)) == "matrix"` statements are written. Specifically, such statements were changed to `if(class(x))[1] == "matrix"` to accomodate for cases where `x` may be a matrix with complex classes such as `"matrix" "array"`.
+
 lsasim 2.0.0
 ------------
 

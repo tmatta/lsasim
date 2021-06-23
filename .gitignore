@@ -15,6 +15,7 @@ archive/
 jss/
 .Rproj.user/
 .vscode/
+
 #-----------------#
 #--- TeX stuff ---#
 #-----------------#
@@ -66,4 +67,6 @@ desktop.ini
 
 # Test files
 gendat3*
+inst/doc
 doc
+Meta

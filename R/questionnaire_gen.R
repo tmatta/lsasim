@@ -13,9 +13,9 @@
 #'   variables, in the same order as \code{cat_prop}.
 #' @param cov_matrix latent covariance matrix, formatted as \code{cor_matrix}.
 #' @param c_mean is a vector of population means for each continuous variable
-#'   (\eqn{Y} and \eqn{X}).
+#'   (\eqn{Y} and \eqn{X}). Defaults to 0.
 #' @param c_sd is a vector of population standard deviations for each continuous
-#'   variable  (\eqn{Y} and \eqn{X}).
+#'   variable  (\eqn{Y} and \eqn{X}). Defaults to 1.
 #' @param theta if \code{TRUE}, the first continuous variable will be labeled
 #'   'theta'. Otherwise, it will be labeled 'q1'.
 #' @param n_vars total number of variables in the questionnaire, including the
@@ -107,12 +107,21 @@
 #'   equivalent to the number of possible categories, even if they are not
 #'   observed in the data.
 #'
-#'   It is important to note that all arguments directly related to variable 
+#'   It is important to note that all arguments directly related to variable
 #'   parameters (e.g. `cat_prop`, `cov_matrix`, `cor_matrix`, `c_mean`, `c_sd`)
-#'   have the following order: Y, X, W (missing variables are skipped). This 
-#'   must be kept in mind when using real-life data as input to 
+#'   have the following order: Y, X, W (missing variables are skipped). This
+#'   must be kept in mind when using real-life data as input to
 #'   `questionnaire_gen`, as the input might need to be reordered to fit the
 #'   expectations of the function.
+#'
+#'   By definition, the expected order of the variables is \eqn{theta},
+#'   followed by \eqn{X} and then \eqn{W}. The reference category of the
+#'   categorical variables \eqn{W} is always the first one.
+#'
+#'   For very small means/sigmas (e.g. 0.005) and multiple levels, estimates
+#'   may have differing levels of accuracy (e.g. school level estimates will not
+#'   be as accurate as the student levels ones). In general, one should expect
+#'   naturally worse estimation on higher hierarchical setups.
 #'
 #' @return By default, the function returns a \code{data.frame} object where the
 #'   first column ("subject") is a \eqn{1,\ldots,n} ordered list of the \eqn{n}
@@ -137,7 +146,7 @@
 #'   Details section for more information.}
 #'
 #'   \item{cat_prop_W_p}{a list containing the probabilities for each category
-#'   of the categorical variables (cat_prop_W contains the cumulative
+#'   of the categorical variables (\code{cat_prop_W} contains the cumulative
 #'   probabilities).}
 #'
 #'   \item{cor_matrix}{identical to the input argument of the same name. Read
@@ -173,11 +182,11 @@
 #'
 #'   \item{var_YX}{list containing the variances of the continuous variables
 #'   (including \eqn{\theta})}
-#'   
-#'   \item{linear_regression}{This list is printed only If `theta = TRUE`,
-#'   `family = "gaussian"` and `full_output = TRUE`. It contains one vector 
+#'
+#'   \item{linear_regression}{This list is printed only if `theta = TRUE`,
+#'   `family = "gaussian"` and `full_output = TRUE`. It contains one vector
 #'   named `betas` and one tabled named `cov_YXW`. The former displays the true
-#'   linear regression coefficients of \eqn{theta} on the background  
+#'   linear regression coefficients of \eqn{theta} on the background
 #'   questionnaire answers; the latter contains the covariance matrix between
 #'   all these variables.}
 #'
@@ -223,8 +232,10 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
   }
 
   # Initial checks for consistency ----------------------------------------
-  run_condition_checks(n_cats, n_vars, n_X, n_W, theta, cat_prop, cor_matrix,
-                       cov_matrix, c_mean, c_sd)
+  validate_questionnaire_gen(
+    n_cats, n_vars, n_X, n_W, theta, cat_prop, cor_matrix, cov_matrix,
+    c_mean, c_sd
+  )
 
   # Generation of number and characteristic of variables, if necessary ----
   if (is.null(n_vars)) {

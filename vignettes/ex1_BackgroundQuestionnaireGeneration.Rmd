@@ -1,0 +1,163 @@
+---
+title: "Ex. 1 - Background questionnaire generation"
+author: Yuan-Ling Liaw and Waldir Leoncio
+header-includes:
+    - \usepackage{setspace}\onehalfspacing
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Ex. 1 - Background questionnaire generation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE, warning = FALSE}
+library(knitr)
+options(width = 90, tidy = TRUE, warning = FALSE, message = FALSE)
+opts_chunk$set(comment = "", warning = FALSE, message = FALSE,
+               echo = TRUE, tidy = TRUE)
+```
+
+```{r load}
+library(lsasim)
+```
+
+```{r packageVersion}
+packageVersion("lsasim")
+```
+
+---
+
+```{r equation, eval=FALSE}
+questionnaire_gen(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL, n_W = NULL,
+                  cor_matrix = NULL, cov_matrix = NULL,
+                  c_mean = NULL, c_sd = NULL,
+                  theta = FALSE, family = NULL,
+                  full_output = FALSE, verbose = TRUE)
+```
+
+The function `questionnaire_gen` generates correlated continuous and ordinal data which resembles background questionnaire data. The required argument is `n_obs` and the optional arguments include
+
+* `n_obs`: the number of observations (e.g., test takers).
+* `cat_prop`: a list of vectors where each vector contains the cumulative proportions for each category of a given item.
+* `n_vars`: the number of variables, including the continuous (`X`) and the ordinal (`W`) covariates as well as the latent trait (`theta`).
+* `n_X`: the number of continuous (`X`) variables.
+* `n_W`: the number of ordinal (`W`) variables.
+* `cor_matrix`: a possibly heterogenous correlation matrix, consisting of polyserial correlations between continuous and ordinal variables, and polychoric correlations between ordinal variables.
+* `cov_matrix`: a covariance matrix, formatted as `cov_matrix`.
+
+The arguments `c_mean` and `c_sd` are scaling parameters for continuous variables. If the logical argument `theta` is `TRUE` then the latent trait will be generated as the first continuous variable and labeled 'theta'. If `family` is `gaussian` then the data will be generated from a multivariate normal distribution, or the data will be generated from the polychoric correlation matrix.
+
+If the logical argument `full_output` is `TRUE`, output will be a list containing the questionnaire data as well as several objects that might be of interest for further analysis of the data. The output of `full_output`will be addressed in future tutorials.
+
+---
+
+We only specify `n_obs = 100` and use a multivariate normal distribution. It turned out the generated data involves one continuous variable and four ordinal covariates, which are 2-category, 3-category, 4-category, and 5-category, respectively.
+
+```{r ex 1a}
+set.seed(4388)
+bg <- questionnaire_gen(n_obs = 100, family = "gaussian")
+str(bg)
+```
+
+---
+
+In addition to `n_obs = 100`, we specify the logical argument `theta = TRUE`. An additional continuous variable is generated and labeled `theta`. The latent trait is always placed first in the generated data.
+
+```{r ex 1b}
+set.seed(4388)
+bg <- questionnaire_gen(n_obs = 100, theta = TRUE, family = "gaussian")
+str(bg)
+```
+
+---
+
+We specify `n_vars = 4` regardless the item type. Four different item types are generated, one 1-category item (continuous), one 2-category item, one 4-category item, and one 5-category item.
+
+```{r ex 2a}
+set.seed(4388)
+bg <- questionnaire_gen(n_obs = 100, n_vars = 4, family = "gaussian")
+str(bg)
+```
+
+---
+
+In addition to `n_vars = 4`, we specify the logical argument `theta = TRUE`. Three different item types are generated, two 1-category item (latent trait and continuous), one 2-category item, and one 5-category item. It is noted that when `theta = TRUE`, the first continuous variable generated is alwasy labeled `theta`.
+
+```{r ex 2b}
+set.seed(4388)
+bg <- questionnaire_gen(n_obs = 100, n_vars = 4, theta = TRUE, family = "gaussian")
+str(bg)
+```
+
+---
+
+We generate one latent trait and three continuous variables by specifying `theta = TRUE` and `n_X = 3`. We also add `n_W = 0`, or random number of ordinal variables will be generated.
+
+```{r ex 3a}
+set.seed(4388)
+bg <- questionnaire_gen(n_obs = 100, n_X = 3, n_W = 0, theta = TRUE, family = "gaussian")
+str(bg)
+```
+
+---
+
+```{r ex 3b}
+set.seed(4388)
+bg <- questionnaire_gen(n_obs = 100, n_X = 3, theta = TRUE, family = "gaussian")
+str(bg)
+```
+
+---
+
+We can also specify `cat_prop = list(1, 1, 1, 1)` to generate one latent trait and three continuous covariates. The length of `cat_prop` corresponds to the number of generated variables (including latent trait and continuous variables in this case).
+
+```{r ex 3c}
+set.seed(4388)
+bg <- questionnaire_gen(n_obs = 100, cat_prop = list(1, 1, 1, 1), theta = TRUE, family = "gaussian")
+str(bg)
+```
+
+---
+
+We generate two ordinal variables regardless the item type. It turned out one 2-category variable and one 5-category variable are generated, respectively.
+
+```{r ex 4a}
+set.seed(4388)
+bg <- questionnaire_gen(n_obs = 100, n_X = 0, n_W = 2, family = "gaussian")
+str(bg)
+```
+
+---
+
+We generate one binary variable and 3 four-category variables.
+
+```{r ex 4b}
+set.seed(4388)
+bg <- questionnaire_gen(n_obs = 100, n_X = 0, n_W = list(2, 4, 4, 4), family = "gaussian")
+str(bg)
+```
+
+---
+
+We generate five variables including one latent trait, two continuous, and two binary covariates. The latent trait is scaled on a mean set at 500, with a standard deviation of 100.
+
+```{r ex 5a}
+set.seed(4388)
+bg <- questionnaire_gen(n_obs = 100, n_X = 2, n_W = list(2, 2), theta = TRUE,
+                        c_mean = c(500, 0, 0), c_sd = c(100, 1, 1), family = "gaussian")
+str(bg)
+```
+
+---
+
+We generate one continuous and two ordinal covariates. We specify the covariance matrix between the numeric and ordinal variables. The continuous covariate is scaled and the average is 2 by specifying `c_mean = 2`. When `cov_matrix` is provided, `c_sd` is ignored .
+
+```{r ex 5b}
+set.seed(4388)
+props <- list(1, c(.25, 1), c(.2, .8, 1))
+yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
+bg <- questionnaire_gen(n_obs = 100, cat_prop = props, cov_matrix = yw_cov,
+                        c_mean = 2,
+                        family = "gaussian")
+str(bg)
+```

@@ -1,0 +1,70 @@
+---
+title: "Ex. 3 - Retrieving regression coefficients"
+author: Yuan-Ling Liaw and Waldir Leoncio
+header-includes:
+    - \usepackage{setspace}\onehalfspacing
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Ex. 3 - Retrieving regression coefficients}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE, warning = FALSE}
+library(knitr)
+options(width = 90, tidy = TRUE, warning = FALSE, message = FALSE)
+opts_chunk$set(comment = "", warning = FALSE, message = FALSE,
+               echo = TRUE, tidy = TRUE)
+```
+
+```{r load}
+library(lsasim)
+```
+
+```{r packageVersion}
+packageVersion("lsasim")
+```
+
+---
+
+With the arguments `theta = TRUE`, `full_Output = TRUE` and `family = "gaussian"`, the output will automatically contain the $\beta$ vector and the $R$ matrix (i.e., `beta_gen` will be called automatically from within `questionnaire_gen`).
+
+---
+
+We generate one latent trait, two continuous, one binary, and one 3-category covariates. The data is generated from a multivariate normal distribution. The logical argument `full_output` is `TRUE`.
+
+```{r}
+set.seed(1234)
+bg <- questionnaire_gen(n_obs = 1000, n_X = 2, n_W = list(2, 3), theta = TRUE,
+                        family = "gaussian", full_output = TRUE)
+```
+
+```{r}
+str(bg$bg)
+```
+
+`linear_regression` is a list that contains two elements. The first element, `betas`, summarizes the true regression coefficients $\beta$. The second element, `vcov_YXW`, shows the $R$ matrix.
+
+```{r}
+bg$linear_regression
+```
+
+---
+
+`beta_gen` uses the output from `questionnaire_gen` to generate linear regression coefficients.
+
+```{r}
+beta_gen(bg)
+```
+
+If the logical argument `MC` is `TRUE` in `beta_gen`, Monte Carlo simulation is used to estimate regression coefficients. If the logical argument `rename_to_q` is `TRUE`, the background variables are all labeled as `q` to match the default behavior of `questionnaire_gen`.
+
+The first column contains the true $\beta$, as estimated by the covariance matrix, which will always be the same for the same data. The column of `MC` reports the Monte Carlo simulation estimates for $\beta$, which is sample-dependent and will change each time the `beta_gen` function is called. The next two columns summarize the 99% confidence interval for these estimates. And the column of `cov_in_CI` return to logical argument whether the `cov_matrix` estimates are contained within their respective confidence intervals ("1" corresponds to "yes" and "0" to "no").
+
+```{r}
+beta_gen(bg, MC = TRUE, MC_replications = 100, rename_to_q = TRUE)
+```
+
+```{r}
+beta_gen(bg, MC = TRUE, MC_replications = 100, rename_to_q = TRUE)
+```
