@@ -1,3 +1,10 @@
+lsasim 2.1.1
+------------
+
+### Bug fixes
+
+* Fixes test unit dependency on GNU libiconv
+
 lsasim 2.1.0
 ------------
 
