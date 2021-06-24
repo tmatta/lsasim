@@ -168,7 +168,7 @@ test_that("Named vectors are working properly", {
   df1 <- cluster_gen(n       = c("land" = 1, "skole" = 3, "klasse" = 2),
                      verbose = FALSE,
                      collapse = "full")
-  df2 <- cluster_gen(n       = list("país" = 1, "cidade" = 4,
+  df2 <- cluster_gen(n       = list("pais" = 1, "cidade" = 4,
                                     "escola" = 1:4, "estudante" = rep(1, 10)),
                     verbose = FALSE,
                     collapse = "full")
