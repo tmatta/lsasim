@@ -1,3 +1,10 @@
+lsasim 2.1.2
+------------
+
+### Bug fixes
+
+* Refactoring to improve building on Fedora + Clang
+
 lsasim 2.1.1
 ------------
 
@@ -69,5 +76,3 @@ lsasim 1.0.0
 -------------
 
 * Launched
-
-
