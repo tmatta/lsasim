@@ -184,7 +184,7 @@ n <- c(school = 3, class = 2, student = 5)
 cg <- cluster_gen(n, n_X = c(1, 2), sigma = list(.1, c(1, 2)))
 ```
 
-```{r ex 7_summary}
+```{r ex 7_summary, warning = TRUE}
 summary(cg)
 ```
 
