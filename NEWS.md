@@ -3,7 +3,7 @@ lsasim 2.1.2
 
 ### Bug fixes
 
-* Refactoring to improve building on Fedora + Clang
+* Refactoring to fix building on Fedora/Clang and M1-powered Macs
 
 lsasim 2.1.1
 ------------
