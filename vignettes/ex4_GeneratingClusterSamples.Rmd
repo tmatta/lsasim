@@ -16,8 +16,10 @@ vignette: >
 library(knitr)
 library(formatR)
 options(width = 90, tidy = TRUE, warning = FALSE, message = FALSE)
-opts_chunk$set(comment = "", warning = FALSE, message = FALSE,
-               echo = TRUE, tidy = TRUE)
+opts_chunk$set(
+  comment = "", warning = FALSE, message = FALSE,
+  echo = TRUE, tidy = TRUE
+)
 ```
 
 ```{r load}
@@ -33,12 +35,14 @@ packageVersion("lsasim")
 ### **Generating background questionnaire data**
 
 ```{r equation, eval=FALSE}
-cluster_gen(n, N = 1, cluster_labels = NULL, resp_labels = NULL,
-            cat_prop = NULL, n_X = NULL, n_W = NULL, c_mean = NULL,
-            sigma = NULL, cor_matrix = NULL, separate_questionnaires = TRUE,
-            collapse = "none", sum_pop = sapply(N, sum), calc_weights = TRUE,
-            sampling_method = "mixed", rho = NULL, theta = FALSE,
-            verbose = TRUE, print_pop_structure = verbose)
+cluster_gen(n,
+  N = 1, cluster_labels = NULL, resp_labels = NULL,
+  cat_prop = NULL, n_X = NULL, n_W = NULL, c_mean = NULL,
+  sigma = NULL, cor_matrix = NULL, separate_questionnaires = TRUE,
+  collapse = "none", sum_pop = sapply(N, sum), calc_weights = TRUE,
+  sampling_method = "mixed", rho = NULL, theta = FALSE,
+  verbose = TRUE, print_pop_structure = verbose
+)
 ```
 
 As its single mandatory argument, cluster_gen requires a numeric list or vector containing the hierarchical structure of the data. As a general rule, as far as this first argument (`n`) as well as the second argument (`N`, representing the population structure) are concerned, vectors can be used to represent symmetric structures and lists can be used for asymmetric structures. What follows are some examples.
@@ -74,7 +78,7 @@ We can specify a simple structure of 3 schools with 5 students in each school. T
 
 ```{r ex 1}
 set.seed(4388)
-cg <- cluster_gen(c(n = 3, N= 5))
+cg <- cluster_gen(c(n = 3, N = 5))
 ```
 
 ```{r ex 1_str}
@@ -111,7 +115,7 @@ We can also control the intra-class correlations and the grand mean.
 ```{r ex 3}
 set.seed(4388)
 cg <- cluster_gen(c(5, 1000), rho = .9, n_X = 2, n_W = 0, c_mean = 10)
-sapply(1:5, function(s) mean(cg$school[[s]]$q1))  # means per school != 10
+sapply(1:5, function(s) mean(cg$school[[s]]$q1)) # means per school != 10
 mean(sapply(1:5, function(s) mean(cg$school[[s]]$q1))) # closer to c_mean
 ```
 
@@ -134,6 +138,7 @@ anova(x)
 ```
 
 ---
+
 * Other specifications of `cluster_gen`.
 
 #### **Example 5**
@@ -144,7 +149,6 @@ The named vector below represents a sampling structure of 1 country, 2 schools, 
 set.seed(4388)
 n <- c(cnt = 1, sch = 2, stu = 5)
 cg <- cluster_gen(n = n)
-
 ```
 
 ```{r ex 5_str}
@@ -180,7 +184,7 @@ n <- c(school = 3, class = 2, student = 5)
 cg <- cluster_gen(n, n_X = c(1, 2), sigma = list(.1, c(1, 2)))
 ```
 
-```{r ex 7_summary}
+```{r ex 7_summary, warning = TRUE}
 summary(cg)
 ```
 
@@ -199,4 +203,3 @@ cg <- cluster_gen(n, n_X = c(1, 2), n_W = c(0, 1), c_mean = list(.1, c(0.55, 0.3
 ```{r ex 8_summary}
 cg
 ```
-
