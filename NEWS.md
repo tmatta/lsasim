@@ -1,5 +1,9 @@
 # lsasim (development version)
 
+### Bug fixes
+
+* Fixes generation of thresholds on `item_gen()` (issue #48)
+
 lsasim 2.1.2
 ------------
 
