@@ -127,7 +127,6 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
     }
 
     b_par[[p]] <- unlist(b_i)
-
   }
 
   if (sum(thresholds) > 1) {
@@ -142,6 +141,11 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
 
         d_i[[pp]] <- b_par[[pp]] - b_star[[pp]]
 
+        # Right-pad with zeros
+        if (length(d_i[[pp]]) < max(k)) {
+          d_i[[pp]] <- c(d_i[[pp]], rep(0, max(k) - length(d_i[[pp]])))
+        }
+
       } else {
 
         d_i[[pp]] <- rep(0, max(k))
@@ -149,7 +153,7 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
       }
 
     }
-    browser() # TEMP
+
     d_par <- round(do.call("rbind", d_i), 2)
 
     dlabs <- paste0("d", 1:ncol(d_par))
@@ -162,7 +166,6 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
   }
 
   if (sum(thresholds) == 1) {
-
     b_par <- round(do.call("rbind", b_par), 2)
 
     item_parameters <- data.frame(item = item_no, b = b_par, a = a_par, c = c_par, k = k, p = item_type)
