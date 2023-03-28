@@ -310,7 +310,7 @@ repeatXW <- function(n_X, n_W, n_levels) {
   if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
   if (length(n_W) == 1 & is(n_W, "numeric")) {
     n_W <- rep(n_W, n_levels)
-  } else if (length(n_W) > 1 & class(n_W) == "list") {
+  } else if (length(n_W) > 1 & is(n_W, "list")) {
     if (any(sapply(n_W, class) == "list")) {
       n_W <- n_W
     } else {

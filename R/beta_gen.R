@@ -20,12 +20,12 @@
 #'   \code{questionnaire_gen}, when \code{family = "gaussian"}, \code{theta =
 #'   TRUE}, and \code{full_output = TRUE}. However, it can also be directly
 #'   called by the user so they can perform further analysis.
-#'   
-#'   This function primarily calculates the true regression coefficients 
-#'   (\eqn{\beta}) for the linear influence of the background questionnaire 
-#'   variables in \eqn{\theta}. From a statistical perspective, this 
+#'
+#'   This function primarily calculates the true regression coefficients
+#'   (\eqn{\beta}) for the linear influence of the background questionnaire
+#'   variables in \eqn{\theta}. From a statistical perspective, this
 #'   relationship can be modeled as follows, where \eqn{E(\theta | \boldsymbol{X}, \boldsymbol{W})}{E(\theta | X, W)} is the expectation of \eqn{\theta} given \eqn{\boldsymbol{X} = \{X_1, \ldots, X_P\}}{X = {X_1, ..., X_P}} and \eqn{\boldsymbol{W} = \{W_1, \ldots, W_Q\}}{W = {W_1, ..., W_Q}}:
-#'   
+#'
 #'   \deqn{E(\theta | \boldsymbol{X}, \boldsymbol{W}) = \beta_0 + \sum_{p = 1}^P \beta_p X_p + \sum_{q = 1}^Q \beta_{P + q} W_q}{E(theta | X, W) = b_0 + \sum_{p = 1}^P b_p X_p + \sum_{q = 1}^Q b_{P + q} W_q}
 #'
 #'   The regression coefficients are calculated using the true covariance matrix
@@ -78,7 +78,7 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
 
   # Basic validation checks -----------------------------------------------
   if (!data$theta) stop("Data must include theta")
-  if (class(data) != "list") {
+  if (!is(data, "list")) {
     stop("Generate data with questionnaire_gen(full_output = TRUE)")
   }
   if (!MC & MC_replications != 100) {

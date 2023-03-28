@@ -8,7 +8,7 @@
 #' @param vars vector containing the variables of interest
 #' @param full_output if `TRUE`, returns all intermediate objects created
 #' @param weight_var variables containing the weights
-#' @details `data_rep` can be obtained from 
+#' @details `data_rep` can be obtained from
 #' @seealso jackknife brr
 #' @importFrom stats weighted.mean sd
 #' @export
@@ -24,11 +24,11 @@ replicate_var <- function(data_whole, data_rep, method, k = 0,
     if (method == "BRR Fay" & k == 0) {
         k <- .5
     }
-    if (missing(data_rep) & class(data_whole) == "list") {
+    if (missing(data_rep) & is(data_whole, "list")) {
         stop("If data_rep is missing, ",
              "data_whole must be a data frame or a matrix")
     }
-    if (missing(data_rep) & class(data_whole) != "list") {
+    if (missing(data_rep) & !is(data_whole, "list")) {
         message("Generating replications and statistics with ", method)
         if (method %in% c("Jackknife", "jackknife")) {
             data_rep <- jackknife(data_whole, drop = FALSE)
@@ -47,7 +47,7 @@ replicate_var <- function(data_whole, data_rep, method, k = 0,
     statistic <- match.fun(stat)
 
     # Converting data to data frame, if necessary ==============================
-    if (class(data_whole) == "matrix") data_whole <- data.frame(data_whole)
+    if (is(data_whole, "matrix")) data_whole <- data.frame(data_whole)
     if (any(sapply(data_rep, class) == "matrix")) {
         data_rep <- lapply(data_rep, data.frame)
     }
@@ -59,7 +59,7 @@ replicate_var <- function(data_whole, data_rep, method, k = 0,
     } else {
         vars <- list(whole = vars, rep = c(vars, weight_var))
     }
-    
+
     # Dropping categorical and nominal variables ===============================
     vars_classes <- list(whole = sapply(data_whole[vars$whole], class),
                           rep   = sapply(data_rep[[1]][vars$rep], class))

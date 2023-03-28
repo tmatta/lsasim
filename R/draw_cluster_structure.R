@@ -16,7 +16,7 @@ draw_cluster_structure <- function(
 )
 {
   # Check if list structure is correct =========================================
-  if (class(n) != "list") n <- convert_vector_to_list(n)
+  if (!is(n, "list")) n <- convert_vector_to_list(n)
   if (any(sapply(n, class) == "range")) n <- convert_vector_to_list(n)
   check_valid_structure(n)
 
