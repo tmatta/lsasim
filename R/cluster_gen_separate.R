@@ -39,7 +39,7 @@ cluster_gen_separate <- function(
   n_quest <- sapply(n, sum)
   id_combos <- label_respondents(n, cluster_labels)
   missing_sigma2 <- is.null(sigma)
-  if (class(cor_matrix)[1] != "list") {
+  if (!is(cor_matrix[1], "list")) {
     cor_matrix <- replicate(n_levels - 1, list(cor_matrix))
   }
   cor_matrix_list <- cor_matrix
@@ -48,8 +48,8 @@ cluster_gen_separate <- function(
   # Generating data ============================================================
   for (l in seq(n_levels - 1)) {
     ## Adapting additional parameters to questionnaire_gen format --------------
-    if (class(c_mean_list) == "list") c_mean <- c_mean_list[[l]]
-    if (class(sigma_list) == "list") sigma <- sigma_list[[l]]
+    if (is(c_mean_list, "list")) c_mean <- c_mean_list[[l]]
+    if (is(sigma_list, "list")) sigma <- sigma_list[[l]]
     if (any(sapply(cat_prop_orig, class) == "list")) {
       cat_prop <- cat_prop_orig[[l]]
     }
@@ -66,7 +66,7 @@ cluster_gen_separate <- function(
     if (l > 1) {
       # Only applicable for sub-country levels and when next nevel is an
       # indicator of "X per Y" (instead of "X across Y")
-      if (class(n) != "list") n[l] <- n[l] * n[l - 1]
+      if (!is(n, "list")) n[l] <- n[l] * n[l - 1]
       previous_clusterID <- as.vector(unlist(sapply(sample[[l - 1]],
                                             function(x) x$clusterID)))
 
@@ -80,7 +80,7 @@ cluster_gen_separate <- function(
     if (!is.null(rho)) {
 
       ### Expanding rho to n_level width .......................................
-      if (class(rho) != "list") rho <- replicate(n_levels, list(rho))
+      if (!is(rho, "list")) rho <- replicate(n_levels, list(rho))
       if (length(rho[[l]]) == 1) rho[[l]] <- rep(rho[[l]], n_X[[l]] + theta)
 
       ### Defining sigma2 and tau2 .............................................
@@ -98,7 +98,7 @@ cluster_gen_separate <- function(
           sigma2 <- tau2 * (1 - rho[[l]]) / rho[[l]]
         }
       } else {
-        if (class(sigma) == "list") {
+        if (is(sigma, "list")) {
           sigma2 <- sigma[[l]] ^ 2
         } else {
           sigma2 <- sigma ^ 2
@@ -121,18 +121,18 @@ cluster_gen_separate <- function(
       } else {
         cat_prop_lvl <- cat_prop
       }
-      if (!is.null(c_mean) & class(c_mean) == "list") {
+      if (!is.null(c_mean) & is(c_mean, "list")) {
         mu_mu <- c_mean[[lvl]]
       } else {
         mu_mu <- c_mean
       }
       if (!is.null(cor_matrix) & class(cor_matrix)[1] == "list") {
         cor_mx <- cor_matrix[[l]]
-        if (class(cor_mx)[1] == "list")  cor_mx <- cor_matrix[[l]][[lvl]]
+        if (is(cor_mx[1], "list"))  cor_mx <- cor_matrix[[l]][[lvl]]
       }
       if (!is.null(rho[[l]])) {
         sd_X <- sqrt(s2)  # same sd for all PSUs if rho is present
-      } else if (!is.null(sigma) & class(sigma) == "list") {
+      } else if (!is.null(sigma) & is(sigma, "list")) {
         sd_X <- sigma[[lvl]]
       } else {
         sd_X <- sigma

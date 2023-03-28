@@ -3,6 +3,7 @@
 ### Bug fixes
 
 * Fixes generation of thresholds on `item_gen()` (issue #48)
+* Refactored usage of `class()` on if-statements
 
 lsasim 2.1.2
 ------------
@@ -42,7 +43,7 @@ lsasim 2.0.1
 
 ### Bug fixes
 
-* Makes lsasim compliant with changes to be introduced in the next major release of R. lsasim 2.0.1 is functionally identical to 2.0.0, as all changes relate to how `if(class(x)) == "matrix"` statements are written. Specifically, such statements were changed to `if(class(x))[1] == "matrix"` to accomodate for cases where `x` may be a matrix with complex classes such as `"matrix" "array"`.
+* Makes lsasim compliant with changes to be introduced in the next major release of R. lsasim 2.0.1 is functionally identical to 2.0.0, as all changes relate to how `if (class(x) == "matrix"` statements are written. Specifically, such statements were changed to `if(class(x))[1] == "matrix"` to accomodate for cases where `x` may be a matrix with complex classes such as `"matrix" "array"`.
 
 lsasim 2.0.0
 ------------

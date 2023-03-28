@@ -223,7 +223,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
   if (!is.null(cat_prop)) {
     n_cats <- sapply(cat_prop, length)[sapply(cat_prop, length) > 1]
   }
-  if (class(n_W) == "list") {
+  if (is(n_W, "list")) {
     n_cats <- unlist(n_W)
     n_W <- length(n_W)
   } else if (length(n_W) > 1) {

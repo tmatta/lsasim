@@ -195,7 +195,7 @@ validate_cluster_gen <- function(
           "(i.e., sigma must not contain a list within a list)")
   )
   check_condition(
-    !is.null(n_W) & (length(n_W) > length(n) - 1) & class(n_W) != "list",
+    !is.null(n_W) & (length(n_W) > length(n) - 1) & !is(n_W, "list"),
     "length(n_W) cannot be larger than length(n) - 1"
   )
 }

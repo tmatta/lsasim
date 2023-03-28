@@ -150,7 +150,7 @@ summary.lsasimcluster <- function(
         cli::cat_rule()
         for (n in names(collapsed_data)) {
             message("Summary statistics for all ", pluralize(n))
-            if (class(collapsed_data[[n]]) == "data.frame") {
+            if (is(collapsed_data[[n]], "data.frame")) {
                 df <- collapsed_data[n]
             } else {
                 df <- collapsed_data[[n]]
