@@ -21,13 +21,13 @@ item_gen(
 
 \item{c_bounds}{a vector containing the bounds of the the uniform distribution for sampling the guessing parameters.}
 
-\item{thresholds}{if numeric, number of thresholds for 1- and/or 2- parameter dichotomous items, if vector, 
+\item{thresholds}{if numeric, number of thresholds for 1- and/or 2- parameter dichotomous items, if vector,
 each element is the number of thresholds corresponding to the vector of n_1pl and/or n_2pl.}
 
-\item{n_1pl}{if integer, number of 1-parameter dichotomous items, if vector, 
+\item{n_1pl}{if integer, number of 1-parameter dichotomous items, if vector,
 each element is the number of partial credit items corresponding to thresholds number.}
 
-\item{n_2pl, }{if integer, number of 2-parameter dichotomous items, if vector, 
+\item{n_2pl, }{if integer, number of 2-parameter dichotomous items, if vector,
 each element is the number of generalized partial credit items corresponding to thresholds number.}
 
 \item{n_3pl}{integer, number of 3-parameter items.}
@@ -37,14 +37,14 @@ Creates a data frame of item parameters.
 }
 \section{Details}{
 
-The data frame includes two variables \code{p} and \code{k} which indicate the 
+The data frame includes two variables \code{p} and \code{k} which indicate the
 number of parameters and the number of thresholds, respectively
 }
 
 \examples{
-item_gen(b_bounds = c(-2, 2), a_bounds = c(.75, 1.25), 
+item_gen(b_bounds = c(-2, 2), a_bounds = c(.75, 1.25),
   thresholds = c(1, 2, 3), n_1pl = c(5, 5, 5), n_2pl = c(0, 0, 5))
-item_gen(b_bounds = c(-2, 2), a_bounds = c(.75, 1.25), c_bounds = c(0, .25), 
+item_gen(b_bounds = c(-2, 2), a_bounds = c(.75, 1.25), c_bounds = c(0, .25),
   n_2pl = 5, n_3pl = 5)
 
 }

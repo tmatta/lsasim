@@ -5,7 +5,7 @@
 #' @note This function is primarily used as a way to simplify the classification of n and N in the `cluster_gen` function.
 check_n_N_class <- function(x)
 {
-    if (class(x) == "select") {
+    if (is(x, "select")) {
         class_x <- "select"
     } else {
         if (length(x) == 1) {

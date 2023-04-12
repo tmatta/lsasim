@@ -13,13 +13,13 @@ convert_vector_to_list <- function(x, x_max = x, verbose = TRUE) {
   # Defining top-level element =================================================
 
   # For x_max ------------------------------------------------------------------
-  if (class(x_max[[1]]) == "range") {
+  if (is(x_max[[1]], "range")) {
     x_max_list[[1]] <- sample(x_max_list[[1]][1]:x_max_list[[1]][2], size = 1)
   }
 
   # For x ----------------------------------------------------------------------
   trimmed_x <- FALSE  # defines if x was trimmed by x_max
-  if (class(x_list[[1]]) == "range") {
+  if (is(x_list[[1]], "range")) {
     if (x_max_list[[1]] == 1) {
       x_list[[1]] <- 1
     } else {
@@ -35,7 +35,7 @@ convert_vector_to_list <- function(x, x_max = x, verbose = TRUE) {
 
   # Defining elements for other levels of x_max ================================
   for (l in 2:length(x_max)) {
-      if (class(x_max_list[[l]]) == "range") {
+      if (is(x_max_list[[l]], "range")) {
         x_max_list[[l]] <- sample_within_range(x_max[[l]], sum(x_max_list[[l - 1]]))
       } else {
       if (length(x_max_list[[l]]) < sum(x_max_list[[l - 1]])) {
@@ -46,7 +46,7 @@ convert_vector_to_list <- function(x, x_max = x, verbose = TRUE) {
 
   # Defining elements for other levels of x ====================================
   for (l in 2:length(x)) {
-    if (class(x_list[[l]]) == "range") {
+    if (is(x_list[[l]], "range")) {
       if (l < length(x)) {
         limit <- min(sum(x_list[[l - 1]]), sum(x_max_list[[l - 1]]))
         x_list[[l]] <- sample_within_range(x_list[[l]], limit)

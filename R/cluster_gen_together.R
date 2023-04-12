@@ -29,17 +29,17 @@ cluster_gen_together <- function(
   # Creating basic elements ----------------------------------------------------
 	sample <- list()  # will store all BG questionnaires
   c_mean_list <- c_mean
-  if (class(c_mean_list) == "list") {
+  if (is(c_mean_list, "list")) {
     c_mean_list <- c_mean_list[[n_levels - 1]]
   }
   missing_sigma2 <- is.null(sigma)
   sigma_list <- sigma
-  if (class(sigma_list) == "list") {
+  if (is(sigma_list, "list")) {
     sigma_list <- sigma_list[[n_levels - 1]]
   }
   id_combos <- label_respondents(n, cluster_labels)  # level label combinations
   num_questionnaires <- nrow(id_combos)
-  if (class(cor_matrix)[1] != "list") {
+  if (!is(cor_matrix[1], "list")) {
     cor_matrix <- replicate(n_levels - 1, list(cor_matrix))
   }
   cor_matrix_list <- cor_matrix
@@ -78,19 +78,19 @@ cluster_gen_together <- function(
       cat_prop_lvl <- cat_prop
     }
     respondents <- n[[n_levels]][l]
-    if (!is.null(c_mean_list) & class(c_mean_list) == "list") {
+    if (!is.null(c_mean_list) & is(c_mean_list, "list")) {
       mu_mu <- c_mean_list[[l]]
     } else {
       mu_mu <- c_mean_list
     }
-    if (!is.null(cor_matrix) & class(cor_matrix) == "list") {
+    if (!is.null(cor_matrix) & is(cor_matrix, "list")) {
       cor_mx <- cor_matrix[[1]]
-      if (class(cor_mx)[1] == "list")  cor_mx <- cor_matrix[[1]][[l]]
+      if (is(cor_mx[1], "list"))  cor_mx <- cor_matrix[[1]][[l]]
     }
 
     if (!is.null(rho)) {
       sd_X <- sqrt(s2)  # same sd for all PSUs if rho is present
-    } else if (!is.null(sigma_list) & class(sigma_list) == "list") {
+    } else if (!is.null(sigma_list) & is(sigma_list, "list")) {
       sd_X <- sigma_list
     } else {
       sd_X <- sigma_list

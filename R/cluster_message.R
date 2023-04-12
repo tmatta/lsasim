@@ -19,7 +19,7 @@ cluster_message <- function(n_obs, resp_labels, cluster_labels, n_levels,
   } else {
     # Questionnaires only for the lowest level
     message("Generating questionnaires for ",
-            pluralize(resp_labels[n_levels - 1]))  
+            pluralize(resp_labels[n_levels - 1]))
   }
 
   # Printing second until second-to-last messages ==============================
@@ -35,18 +35,18 @@ cluster_message <- function(n_obs, resp_labels, cluster_labels, n_levels,
     }
 
     # Printing second to second-to-last levels ---------------------------------
-    if (class(n_obs) == "list" & length(n_obs[[l + 1]]) > 1) {
+    if (is(n_obs, "list") & length(n_obs[[l + 1]]) > 1) {
       n_obs_print[[l]] <- paste0(paste(n_obs[[l]], collapse = " and "),
                                  ", respectively")
       n_obs_print[[l + 1]] <- paste0(paste(n_obs[[l + 1]], collapse = " and "),
                                      ", respectively")
     }
     if (detail & l < length(n_obs) - 1) {
-      message("Each ", cluster_labels[l], " sampled ", 
+      message("Each ", cluster_labels[l], " sampled ",
               pluralize(cluster_labels[l + 1]),
               " (", n_obs_print[l + 1], ")")
     }
-    if (l > 1 & class(n_obs) != "list" & separate_questionnaires) {
+    if (l > 1 & !is(n_obs, "list") & separate_questionnaires) {
       tot_resp <- tot_resp + prod(n_obs[1:l])
       operands <- c(operands, prod(n_obs[1:l]))
     }
