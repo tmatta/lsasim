@@ -3,6 +3,7 @@
 \docType{package}
 \name{lsasim}
 \alias{lsasim}
+\alias{lsasim-package}
 \title{lsasim: A package for simulating large scale assessment data}
 \description{
 lsasim simulates data that mimics large-scale assessments (LSAs), including background questionnaire data and cognitive item responses that adhere to a multiple-matrix sampled design
@@ -37,3 +38,29 @@ This package contains vignettes. If you are installing lsasim from GitHub, remem
 }
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item Report bugs at \url{https://github.com/tmatta/lsasim/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Waldir Leoncio \email{w.l.netto@medisin.uio.no}
+
+Authors:
+\itemize{
+  \item Tyler Matta \email{tyler.matta@gmail.com}
+  \item Leslie Rutkowski \email{leslie.rutkowski@cemo.uio.no}
+  \item David Rutkowski \email{david.rutkowski@cemo.uio.no}
+  \item Yuan-Ling Linda Liaw \email{y.l.liaw@cemo.uio.no}
+}
+
+Other contributors:
+\itemize{
+  \item Kondwani Kajera Mughogho \email{k.k.mughogho@cemo.uio.no} [contributor]
+  \item Sinan Yavuz [contributor]
+  \item Paul Bailey [contributor]
+}
+
+}

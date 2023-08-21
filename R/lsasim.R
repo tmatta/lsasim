@@ -31,4 +31,4 @@
 #' @docType package
 #' @name lsasim
 #'
-NULL
+"_PACKAGE"
