@@ -1,4 +1,9 @@
-# lsasim (development version)
+lsasim 2.1.4
+------------
+
+### Bug fixes
+
+* Fixed top-level package documentation (`?lsasim`)
 
 lsasim 2.1.3
 ------------
