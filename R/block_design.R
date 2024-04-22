@@ -53,7 +53,7 @@ block_design <- function(n_blocks = NULL, item_parameters, item_block_matrix = N
   colnames(item_block_matrix) <- block_vec
 
   item_block_df <- data.frame(item_block_matrix)
-  item_block_df$item <- rownames(item_block_df)
+  item_block_df$item <- item_parameters[["item"]]
   block_assignment <- merge(item_parameters, item_block_df, by = "item")
 
   #--- Build block descriptives table
