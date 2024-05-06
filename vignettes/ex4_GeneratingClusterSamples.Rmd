@@ -68,7 +68,7 @@ The function `cluster_gen` generates clustered samples which resembles the compo
 * `rho`: specifies the estimated intraclass correlation.
 * `verbose`: if the logical argument `verbose` is 'TRUE', then messages are printed in the output.
 * `print_pop_structure`: if `print_pop_structure` is 'TRUE', then the population hierarchical structure is printed out (as long as it differs from the sample structure).
-* `...`: additional parameterss to be passed to `questionnaire_gen()`.
+* `...`: additional parameters to be passed to `questionnaire_gen()`.
 
 ---
 

@@ -3,7 +3,7 @@
 #' \code{block_design} creates a length-2 list containing:
 #' \itemize{
 #'   \item a matrix that identifies which items correspond to which blocks and
-#'   \item a table of block descriptive statisics.
+#'   \item a table of block descriptive statistics.
 #'}
 #'
 #' @param n_blocks an integer indicating how many blocks to create.

@@ -42,7 +42,7 @@ The function `questionnaire_gen` generates correlated continuous and ordinal dat
 * `n_vars`: the number of variables, including the continuous (`X`) and the ordinal (`W`) covariates as well as the latent trait (`theta`).
 * `n_X`: the number of continuous (`X`) variables.
 * `n_W`: the number of ordinal (`W`) variables.
-* `cor_matrix`: a possibly heterogenous correlation matrix, consisting of polyserial correlations between continuous and ordinal variables, and polychoric correlations between ordinal variables.
+* `cor_matrix`: a possibly heterogeneous correlation matrix, consisting of polyserial correlations between continuous and ordinal variables, and polychoric correlations between ordinal variables.
 * `cov_matrix`: a covariance matrix, formatted as `cov_matrix`.
 
 The arguments `c_mean` and `c_sd` are scaling parameters for continuous variables. If the logical argument `theta` is `TRUE` then the latent trait will be generated as the first continuous variable and labeled 'theta'. If `family` is `gaussian` then the data will be generated from a multivariate normal distribution, or the data will be generated from the polychoric correlation matrix.
@@ -81,7 +81,7 @@ str(bg)
 
 ---
 
-In addition to `n_vars = 4`, we specify the logical argument `theta = TRUE`. Three different item types are generated, two 1-category item (latent trait and continuous), one 2-category item, and one 5-category item. It is noted that when `theta = TRUE`, the first continuous variable generated is alwasy labeled `theta`.
+In addition to `n_vars = 4`, we specify the logical argument `theta = TRUE`. Three different item types are generated, two 1-category item (latent trait and continuous), one 2-category item, and one 5-category item. It is noted that when `theta = TRUE`, the first continuous variable generated is always labeled `theta`.
 
 ```{r ex 2b}
 set.seed(4388)

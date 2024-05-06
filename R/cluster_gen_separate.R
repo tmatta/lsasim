@@ -1,5 +1,5 @@
 #' @title Generate cluster samples with individual questionnaires
-#' @description This is a subfunction of `cluster_gen` that performs cluster sampling, with the twist that each cluster level has its own questionnaire.
+#' @description This is a sub-function of `cluster_gen` that performs cluster sampling, with the twist that each cluster level has its own questionnaire.
 #' @param n_levels number of cluster levels
 #' @param n numeric vector with the number of sampled observations (clusters or subjects) on each level
 #' @param cluster_labels character vector with the names of each cluster level

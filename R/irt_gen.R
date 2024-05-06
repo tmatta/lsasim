@@ -6,7 +6,7 @@
 #' @param b_par numeric or vector of numerics difficulty parameter(s).
 #' @param a_par numeric discrimination parameter.
 #' @param c_par numeric guessing parameter.
-#' @param D numeric parameter to specify logisitic (1) or normal (1.7).
+#' @param D numeric parameter to specify logistic (1) or normal (1.7).
 #'
 #' @examples
 #' irt_gen(theta = 0.2, b_par = 0.6)
@@ -23,5 +23,3 @@ irt_gen <- function(theta, a_par = 1, b_par, c_par = 0, D = 1) {
   y <- sample(1:length(response_pr) - 1, size = 1, prob = response_pr)
   return(y)
 }
-
-

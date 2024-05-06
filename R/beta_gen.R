@@ -16,7 +16,7 @@
 #'   "q"
 #' @param verbose if `FALSE`, output messages will be suppressed (useful for simulations). Defaults to `TRUE`
 #' @importFrom stats lm model.matrix quantile cov pnorm setNames
-#' @details This function was primarily conceived as a subfunction of
+#' @details This function was primarily conceived as a sub-function of
 #'   \code{questionnaire_gen}, when \code{family = "gaussian"}, \code{theta =
 #'   TRUE}, and \code{full_output = TRUE}. However, it can also be directly
 #'   called by the user so they can perform further analysis.

@@ -1,6 +1,6 @@
 Package: lsasim
 Title: Functions to Facilitate the Simulation of Large Scale Assessment Data
-Version: 2.1.4
+Version: 2.1.5
 Authors@R: c(
   person("Tyler", "Matta",
          email = "tyler.matta@gmail.com", role = "aut"),
@@ -38,4 +38,4 @@ Suggests:
     rmarkdown,
     NAEPirtparams
 VignetteBuilder: knitr
-Date: 2023-08-21
+Date: 2024-05-06

@@ -9,7 +9,7 @@
 #' @references
 #' OECD (2015). Pisa Data Analysis Manual.
 #' Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.
-#' @return list with data and, if requeted, some statistics
+#' @return list with data and, if requested, some statistics
 #' @note This function is essentially a big wrapper for `replicate_var`, applying that function on each element of an output of `cluster_gen`.
 #' @examples
 #' data <- cluster_gen(c(3, 50))

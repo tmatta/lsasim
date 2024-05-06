@@ -7,9 +7,9 @@
 trim_sample(n, N)
 }
 \arguments{
-\item{n}{vector or unranged list corresponding to sample structure}
+\item{n}{vector or non-ranged list corresponding to sample structure}
 
-\item{N}{vector or unranged list corresponding to population structure}
+\item{N}{vector or non-ranged list corresponding to population structure}
 }
 \description{
 Makes sure n <= N
