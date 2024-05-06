@@ -1,6 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^NEWS\.md$
 ^README\.md$
 ^dev\.R$
 ^\.travis\.yml$
