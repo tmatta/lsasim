@@ -10,3 +10,4 @@ gendat3*
 ^Meta$
 ^doc$
 ^\.github$
+^CRAN-SUBMISSION$
