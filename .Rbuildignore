@@ -9,3 +9,4 @@ gendat3*
 .vscode
 ^Meta$
 ^doc$
+^\.github$

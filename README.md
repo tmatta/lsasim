@@ -1,4 +1,4 @@
-![Current CRAN release](https://www.r-pkg.org/badges/version/lsasim) [![Build Status](https://travis-ci.org/tmatta/lsasim.svg?branch=master)](https://travis-ci.org/tmatta/lsasim)
+![Current CRAN release](https://www.r-pkg.org/badges/version/lsasim) [![R-CMD-check](https://github.com/tmatta/lsasim/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tmatta/lsasim/actions/workflows/R-CMD-check.yaml)
 
 # LSASIM
 
