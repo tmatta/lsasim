@@ -1,3 +1,8 @@
+lsasim 2.1.5
+------------
+
+* Fixed `block_design()` for non-sequential items (issue #50)
+
 lsasim 2.1.4
 ------------
 
