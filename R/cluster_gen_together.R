@@ -1,5 +1,5 @@
 #' @title Generate cluster samples with lowest-level questionnaires
-#' @description This is a subfunction of `cluster_gen` that performs cluster sampling where only the lowest-level individuals (e.g. students) fill out questionnaires.
+#' @description This is a sub-function of `cluster_gen` that performs cluster sampling where only the lowest-level individuals (e.g. students) fill out questionnaires.
 #' @param n_levels number of cluster levels
 #' @param n numeric vector with the number of sampled observations (clusters or subjects) on each level
 #' @param cluster_labels character vector with the names of each cluster level

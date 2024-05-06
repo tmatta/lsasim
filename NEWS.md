@@ -42,7 +42,7 @@ lsasim 2.1.0
 
 ### Bug fixes
 
-* Fixes item parameter generation by `irt_gen` when the guesssing parameter is larger than zero (issue #40)
+* Fixes item parameter generation by `irt_gen` when the guessing parameter is larger than zero (issue #40)
 
 lsasim 2.0.2
 ------------
@@ -56,7 +56,7 @@ lsasim 2.0.1
 
 ### Bug fixes
 
-* Makes lsasim compliant with changes to be introduced in the next major release of R. lsasim 2.0.1 is functionally identical to 2.0.0, as all changes relate to how `if (class(x) == "matrix"` statements are written. Specifically, such statements were changed to `if(class(x))[1] == "matrix"` to accomodate for cases where `x` may be a matrix with complex classes such as `"matrix" "array"`.
+* Makes lsasim compliant with changes to be introduced in the next major release of R. lsasim 2.0.1 is functionally identical to 2.0.0, as all changes relate to how `if (class(x) == "matrix"` statements are written. Specifically, such statements were changed to `if(class(x))[1] == "matrix"` to accommodate for cases where `x` may be a matrix with complex classes such as `"matrix" "array"`.
 
 lsasim 2.0.0
 ------------

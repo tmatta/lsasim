@@ -15,7 +15,7 @@ irt_gen(theta, a_par = 1, b_par, c_par = 0, D = 1)
 
 \item{c_par}{numeric guessing parameter.}
 
-\item{D}{numeric parameter to specify logisitic (1) or normal (1.7).}
+\item{D}{numeric parameter to specify logistic (1) or normal (1.7).}
 }
 \description{
 Creates a data frame of item parameters.

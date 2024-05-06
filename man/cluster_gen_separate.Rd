@@ -72,7 +72,7 @@ corresponds to the \code{theta}.}
 \item{...}{Additional parameters to be passed to `questionnaire_gen()`}
 }
 \description{
-This is a subfunction of `cluster_gen` that performs cluster sampling, with the twist that each cluster level has its own questionnaire.
+This is a sub-function of `cluster_gen` that performs cluster sampling, with the twist that each cluster level has its own questionnaire.
 }
 \seealso{
 cluster_gen cluster_gen_together

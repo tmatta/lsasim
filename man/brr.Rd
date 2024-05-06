@@ -43,7 +43,7 @@ PISA uses the BRR Fay method with \eqn{k = 0.5}.
 }
 \references{
 OECD (2015). Pisa Data Analysis Manual.
-Adams, R., & Wu, M. (2002). PISA 2000 Technical Report. Paris: Organisation for Economic Co-operation and Development (OECD).
+Adams, R., & Wu, M. (2002). PISA 2000 Technical Report. Paris: Organization for Economic Co-operation and Development (OECD).
 Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.
 }
 \seealso{

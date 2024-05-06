@@ -1,7 +1,7 @@
 #' @title Trim sample
 #' @description Makes sure n <= N
-#' @param n vector or unranged list corresponding to sample structure
-#' @param N vector or unranged list corresponding to population structure
+#' @param n vector or non-ranged list corresponding to sample structure
+#' @param N vector or non-ranged list corresponding to population structure
 #' @seealso cluster_gen
 #' @export
 trim_sample <- function(n, N) {

@@ -14,7 +14,7 @@ calc_replicate_weights(data, method, k = 0)
 \item{k}{deflating weight factor (used only when `method = "BRR Fay")}
 }
 \value{
-list with data and, if requeted, some statistics
+list with data and, if requested, some statistics
 }
 \description{
 Takes the output of `cluster_gen` to calculate the replicate weights as well as some summary statistics

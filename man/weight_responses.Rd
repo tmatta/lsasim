@@ -27,9 +27,9 @@ weight_responses(
 
 \item{lvl}{number of the current level}
 
-\item{sublvl}{number of the current sublevel (element within level)}
+\item{sublvl}{number of the current sub-level (element within level)}
 
-\item{previous_sublvl}{number of the sublevel of the parent level}
+\item{previous_sublvl}{number of the sub-level of the parent level}
 
 \item{sampling_method}{can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size}
 
