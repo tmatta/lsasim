@@ -65,7 +65,7 @@ corresponds to the \code{theta}.}
 \item{...}{Additional parameters to be passed to `questionnaire_gen()`}
 }
 \description{
-This is a subfunction of `cluster_gen` that performs cluster sampling where only the lowest-level individuals (e.g. students) fill out questionnaires.
+This is a sub-function of `cluster_gen` that performs cluster sampling where only the lowest-level individuals (e.g. students) fill out questionnaires.
 }
 \seealso{
 cluster_gen cluster_gen_separate cluster_gen_together

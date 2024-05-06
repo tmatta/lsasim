@@ -1,8 +1,27 @@
+Dear CRAN Team,
+this is a resubmission of package 'lsasim'. I have added the following changes:
+
+## Bug fixes
+
+* Fixed `block_design()` for non-sequential items (issue #50)
+* Fixed typos in documentation
+* Reimplemented continuous integration routine (issue #47)
+
+Please upload to CRAN.
+Best, Waldir
+
+# Package lsasim 2.1.5
+
+Reporting is done by packager version 1.15.2
+
+
 ## Test environments
-* local GNU/Linux installs (Arch and Ubuntu 18.04), R 3.6.1
-* win-builder (devel and release)
-* ubuntu 12.04 (on travis-ci), R 3.3.2
+- R version 4.3.3 (2024-02-29)
+   Platform: x86_64-pc-linux-gnu (64-bit)
+   Running under: EndeavourOS
+   ERROR: No check log found!
+- win-builder (devel)
 
-## R CMD check results
-There were no ERRORs, WARNINGS, or NOTEs.
+## Local test results
 
+## Local meta results

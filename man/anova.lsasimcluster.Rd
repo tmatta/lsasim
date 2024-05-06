@@ -11,7 +11,7 @@
 
 \item{print}{if `TRUE`, output will be a list containing estimators; if `FALSE` (default), output are formatted tables of this information}
 
-\item{calc.se}{if `TRUE`, will try to calculate the standard error of the intreaclass correlation}
+\item{calc.se}{if `TRUE`, will try to calculate the standard error of the intraclass correlation}
 
 \item{...}{additional objects of the same type (see `help("anova")` for details)}
 }

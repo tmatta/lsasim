@@ -14,15 +14,15 @@ block_design(n_blocks = NULL, item_parameters, item_block_matrix = NULL)
 \item{item_block_matrix}{a matrix of indicators to assign items to blocks.}
 }
 \description{
-\code{block_design} creates a length-2 list containing: 
+\code{block_design} creates a length-2 list containing:
 \itemize{
   \item a matrix that identifies which items correspond to which blocks and
-  \item a table of block descriptive statisics.    
+  \item a table of block descriptive statistics.
 }
 }
 \section{Warning}{
 
-The default \code{item_block_matrix} spirals the items across the \code{n_blocks} and requires \code{n_blocks} >= 3. 
+The default \code{item_block_matrix} spirals the items across the \code{n_blocks} and requires \code{n_blocks} >= 3.
 If \code{n_blocks} < 3, \code{item_block_matrix} must be specified.
 
 The columns of \code{item_block_matrix} represent each block while the rows
@@ -33,7 +33,7 @@ block 2 does not contain item 1.
 
 \examples{
 item_param <- data.frame(item = seq(1:25), b = runif(25, -2, 2))
-ib_matrix <- matrix(nrow = 25, ncol = 5, byrow = FALSE, 
+ib_matrix <- matrix(nrow = 25, ncol = 5, byrow = FALSE,
   c(1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,

@@ -2,7 +2,7 @@
 #' @description Takes the output of `cluster_gen` and creates summary statistics of the questionnaire variables
 #' @param object output of `cluster_gen`
 #' @param digits loosely controls the number of digits (significant or not) in the output (for `print = TRUE`)
-#' @param print "all" will pretty-print a summary of statistics, "partial" will only print cluster-level sumamrizes; "none" outputs statistics as a list
+#' @param print "all" will pretty-print a summary of statistics, "partial" will only print cluster-level summaries; "none" outputs statistics as a list
 #' @param print_hetcor if `TRUE` (default), prints the heterogeneous correlation matrix
 #' @param force_matrix if `TRUE`, prints the heterogeneous correlation matrix even if warnings are generated
 #' @param ... additional arguments (unused; added for compatibility with generic)

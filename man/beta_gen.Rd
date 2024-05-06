@@ -51,7 +51,7 @@ Uses the output from questionnaire_gen to generate linear
   regression coefficients.
 }
 \details{
-This function was primarily conceived as a subfunction of
+This function was primarily conceived as a sub-function of
   \code{questionnaire_gen}, when \code{family = "gaussian"}, \code{theta =
   TRUE}, and \code{full_output = TRUE}. However, it can also be directly
   called by the user so they can perform further analysis.

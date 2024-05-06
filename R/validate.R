@@ -1,5 +1,5 @@
 #' Wrapper-functions for check_condition
-#' @description functions to save space in ther parent functions by moving the validation checks here
+#' @description functions to save space in their parent functions by moving the validation checks here
 #' @param n_cats vector with number of categories for each categorical variable
 #'   (W)
 #' @param n_vars number of variables (Y, X and W)

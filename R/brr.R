@@ -10,9 +10,9 @@
 #' @return a list containing all the BRR replicates of `data`
 #' @seealso jackknife
 #' @note PISA uses the BRR Fay method with \eqn{k = 0.5}.
-#' @references 
+#' @references
 #' OECD (2015). Pisa Data Analysis Manual.
-#' Adams, R., & Wu, M. (2002). PISA 2000 Technical Report. Paris: Organisation for Economic Co-operation and Development (OECD).
+#' Adams, R., & Wu, M. (2002). PISA 2000 Technical Report. Paris: Organization for Economic Co-operation and Development (OECD).
 #' Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.
 #' @export
 brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
@@ -44,7 +44,7 @@ brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
     }
 
     # Determining the number of replicates =====================================
-    if (is.null(reps)) { 
+    if (is.null(reps)) {
         total_replicates <- 4
         for (r in seq_len(pseudo_strata)) {
             if (r %% 4 == 0) total_replicates <- total_replicates + 4
@@ -63,7 +63,7 @@ brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
         if (pseudo_strata == 0) {
             data$pseudo_stratum <- 1
             pseudo_strata <- 1
-        } else {   
+        } else {
             expanded_pseudo_strata <- rep(seq_len(pseudo_strata), each = 2)
             data$pseudo_stratum <- c(expanded_pseudo_strata, pseudo_strata)
         }

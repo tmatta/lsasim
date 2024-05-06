@@ -41,5 +41,5 @@ background variables}
 \item{c_sd}{vector of standard deviations of all variables (YXW)}
 }
 \description{
-functions to save space in ther parent functions by moving the validation checks here
+functions to save space in their parent functions by moving the validation checks here
 }

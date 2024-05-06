@@ -1,6 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^NEWS\.md$
 ^README\.md$
 ^dev\.R$
 ^\.travis\.yml$
@@ -10,3 +9,5 @@ gendat3*
 .vscode
 ^Meta$
 ^doc$
+^\.github$
+^CRAN-SUBMISSION$

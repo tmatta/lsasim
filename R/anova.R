@@ -2,7 +2,7 @@
 #' @description Prints Analysis of Variance table for `cluster_gen` output.
 #' @param object list output of `cluster_gen`
 #' @param print if `TRUE`, output will be a list containing estimators; if `FALSE` (default), output are formatted tables of this information
-#' @param calc.se if `TRUE`, will try to calculate the standard error of the intreaclass correlation
+#' @param calc.se if `TRUE`, will try to calculate the standard error of the intraclass correlation
 #' @param ... additional objects of the same type (see `help("anova")` for details)
 #' @return Printed ANOVA table or list of parameters
 #' @note  If the rhos for different levels are varied in scale, the generated rho will be less accurate.
