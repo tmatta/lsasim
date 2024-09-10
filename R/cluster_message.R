@@ -8,6 +8,7 @@
 #' @param type Type of top-level message
 #' @param detail if `TRUE`, prints further details about each level composition
 #' @return Messages.
+#' @importFrom stats var
 cluster_message <- function(n_obs, resp_labels, cluster_labels, n_levels,
                            separate_questionnaires, type, detail = FALSE)
 {
@@ -60,15 +61,23 @@ cluster_message <- function(n_obs, resp_labels, cluster_labels, n_levels,
   }
 
   # Total respondents ==========================================================
+  send_tot_resp_message(n_obs, n_levels, separate_questionnaires)
+}
+
+send_tot_resp_message <- function(n_obs, n_levels, separate_questionnaires) {
   if (separate_questionnaires) {
     tot_resp <- sum(unlist(n_obs)[-1])
     operands <- unlist(n_obs[-1])
-    operator <- " + "
   } else {
     tot_resp <- sum(unlist(n_obs[[n_levels]]))
     operands <- unlist(n_obs[[n_levels]])
-    operator <- " + "
   }
-  message("Total respondents: ", paste0(tot_resp, " (",
-            paste(operands, collapse = operator), ")"))
+  if (var(operands) == 0 && length(operands) > 1) {
+    # All operands are the same, use multiplication
+    operands_txt <- paste(operands[1], "*", length(operands))
+  } else {
+    # Different operands, use addition
+    operands_txt <- paste(operands, collapse = " + ")
+  }
+  message("Total respondents: ", paste0(tot_resp, " (", operands_txt, ")"))
 }
