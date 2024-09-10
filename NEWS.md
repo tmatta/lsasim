@@ -1,5 +1,9 @@
 # lsasim (development version)
 
+## Bug fixes
+
+* Allow simultaneous specification of `cat_prop` and `rho` on `cluster_gen()` (issue #51)
+
 # lsasim 2.1.5
 
 ## Bug fixes
