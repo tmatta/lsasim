@@ -49,6 +49,9 @@ cluster_gen_together <- function(
 
   ## Defining parameters for intraclass correlations -------------------------
   if (!is.null(rho)) {
+    if (is.null(n_X)) {
+      n_X <- get_n_X_from_cat_prop(cat_prop)
+    }
 
     ### Expanding rho to n_level width .......................................
     if (length(rho) == 1) rho <- rep(rho, n_X)
@@ -66,6 +69,7 @@ cluster_gen_together <- function(
     M <- sum(n_j)
     Nn <- length(n_j)
     s2 <- sigma2 * (M - Nn) / sum(n_j - 1)
+    n_X <- get_n_X_from_cat_prop(cat_prop, n_X) # it is not needed anymore. Keeping it triggers warnings
   }
 
   ### Generating questionnaire data for lowest level ...........................

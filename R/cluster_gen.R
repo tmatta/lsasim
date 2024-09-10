@@ -319,3 +319,16 @@ repeatXW <- function(n_X, n_W, n_levels) {
   }
   return(list(n_X = n_X, n_W = n_W))
 }
+
+get_n_X_from_cat_prop <- function(cat_prop, n_X = NULL) {
+  # Retrieve n_X from the elements of cat_prop that equal 1
+  if (!is.null(cat_prop)) {
+    if (is.null(n_X)) {
+      sum(vapply(cat_prop, function(x) all(x == 1), logical(1)))
+    } else {
+      NULL
+    }
+  } else {
+    n_X
+  }
+}
