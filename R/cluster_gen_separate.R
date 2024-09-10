@@ -78,10 +78,16 @@ cluster_gen_separate <- function(
 
     ## Defining parameters for intraclass correlations -------------------------
     if (!is.null(rho)) {
+      if (is.null(n_X) && !is.null(cat_prop)) {
+        # Retrieve n_X from the elements of cat_prop that equal 1
+        n_X <- sum(vapply(cat_prop, function(x) all(x == 1), logical(1)))
+      }
 
       ### Expanding rho to n_level width .......................................
       if (!is(rho, "list")) rho <- replicate(n_levels, list(rho))
-      if (length(rho[[l]]) == 1) rho[[l]] <- rep(rho[[l]], n_X[[l]] + theta)
+      if (length(rho[[l]]) == 1) {
+        rho[[l]] <- rep(rho[[l]], n_X[[l]] + theta)
+      }
 
       ### Defining sigma2 and tau2 .............................................
       n_j <- n[[l + 1]]
@@ -109,6 +115,9 @@ cluster_gen_separate <- function(
       ### Defining the group correlations (s2_j == s2 for all j) ...............
       Nn <- length(n_j)
       s2 <- sigma2 * (M - Nn) / sum(n_j - 1)
+      if (!is.null(cat_prop)) {
+        n_X <- NULL # it is not needed anymore. Keeping it triggers warnings
+      }
     }
 
     ## Generating questionnaires for each cluster element of that level --------
