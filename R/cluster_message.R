@@ -69,6 +69,10 @@ cluster_message <- function(n_obs, resp_labels, cluster_labels, n_levels,
     operands <- unlist(n_obs[[n_levels]])
     operator <- " + "
   }
-  message("Total respondents: ", paste0(tot_resp, " (",
-            paste(operands, collapse = operator), ")"))
+  if (var(operands) == 0 && length(operands) > 1) {
+    operands_txt <- paste0(operands[1], " * ", length(operands))
+  } else {
+    operands_txt <- paste(operands, collapse = operator)
+  }
+  message("Total respondents: ", paste0(tot_resp, " (", operands_txt, ")"))
 }
