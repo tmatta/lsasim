@@ -22,7 +22,7 @@ Prints structure to console.
 This function creates a visual representation of the hierarchical structure
 }
 \note{
-This function is useful for checking how a `list()` object looks as a hierarchical structure, usually to be used as the  `n` and/or `N` arguments of the `cluster_gen` function.
+This function is useful for checking how a \code{list()} object looks as a hierarchical structure, usually to be used as the  \code{n} and/or \code{N} arguments of the \code{cluster_gen} function.
 }
 \examples{
 n <- c(2, 4, 3)

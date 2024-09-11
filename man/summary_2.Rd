@@ -18,5 +18,5 @@ Creates summary statistics of a dataset
 This function is inspired by base::summary(), but outputs content more relevant to the context of cluster_gen() and summary()
 }
 \seealso{
-summary()
+\code{\link[base:summary]{base::summary()}}
 }

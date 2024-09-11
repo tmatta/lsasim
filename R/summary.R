@@ -13,7 +13,7 @@
 #'
 #' Please note that datasets containing large values for the coefficient of variation (sigma / mu) should yield imprecise results.
 #' @return list of summaries
-#' @seealso anova.lsasimcluster
+#' @seealso [anova.lsasimcluster()]
 #' @examples
 #' n <- c(3, 30)
 #' cls <- cluster_gen(n, n_X = 3, n_W = 5)

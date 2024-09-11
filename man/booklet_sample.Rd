@@ -16,7 +16,7 @@ booklet_sample(
 \arguments{
 \item{n_subj}{an integer, the number of subjects (test takers).}
 
-\item{book_item_design}{a data frame containing the items that belong to each 
+\item{book_item_design}{a data frame containing the items that belong to each
 booklet with booklets as columns and booklet item numbers as rows.  See 'Details'.}
 
 \item{book_prob}{a vector of probability weights for obtaining the booklets being sampled.
@@ -25,7 +25,7 @@ The default equally weights all books.}
 \item{resample}{logical indicating if booklets should be re-sampled to minimize differences.
 Can only be used when \code{book_prob = NULL}.}
 
-\item{e}{a number between 0 and 1 exclusive, re-sampling stopping criteria, 
+\item{e}{a number between 0 and 1 exclusive, re-sampling stopping criteria,
 the difference between the most sampled and least sampled booklets.}
 
 \item{iter}{an integer defining the number of iterations to reach e.}

@@ -64,7 +64,7 @@
 #'   previous paragraph. The second one, called \code{vcov_YXW}, contains
 #'   the covariance matrix of the regression coefficients.
 #' @note The equation in this page is best formatted in PDF. We recommend issuing `help("beta_gen", help_type = "PDF")` in your terminal and opening the `beta_gen.pdf` file generated in your working directly. You may also set `help_type = "HTML"`, but the equations will have degraded formatting.
-#' @seealso questionnaire_gen
+#' @seealso [questionnaire_gen()]
 #' @export
 #' @examples
 #'

@@ -16,9 +16,9 @@ label_respondents(
 
 \item{cluster_labels}{character vector with the names of each cluster level}
 
-\item{add_last_level}{if `TRUE` (not default), adds the last level to the output table}
+\item{add_last_level}{if \code{TRUE} (not default), adds the last level to the output table}
 
-\item{apply_labels}{if `TRUE`, applies labels (column names) to data cells}
+\item{apply_labels}{if \code{TRUE}, applies labels (column names) to data cells}
 }
 \value{
 Data frame with the combinations of IDs from all levels

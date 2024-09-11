@@ -3,7 +3,7 @@
 #' @param weight_cols vector of weight columns
 #' @param drop if `TRUE`, the observation that will not be part of the subsample is dropped from the dataset. Otherwise, it stays in the dataset but a new weight column is created to differentiate the selected observations
 #' @return a list containing all the Jackknife replicates of `data`
-#' @seealso brr
+#' @seealso [brr()]
 #' @examples
 #' x <- data.frame(
 #'     number = 1:5,

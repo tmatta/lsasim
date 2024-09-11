@@ -15,5 +15,5 @@ trim_sample(n, N)
 Makes sure n <= N
 }
 \seealso{
-cluster_gen
+\code{\link[=cluster_gen]{cluster_gen()}}
 }

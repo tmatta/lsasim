@@ -7,14 +7,14 @@
 check_n_N_class(x)
 }
 \arguments{
-\item{x}{either n or N from `cluster_gen`}
+\item{x}{either n or N from \code{cluster_gen}}
 }
 \description{
-Check the class of an object (usually n and N from `cluster_gen`)
+Check the class of an object (usually n and N from \code{cluster_gen})
 }
 \note{
-This function is primarily used as a way to simplify the classification of n and N in the `cluster_gen` function.
+This function is primarily used as a way to simplify the classification of n and N in the \code{cluster_gen} function.
 }
 \seealso{
-cluster_gen
+\code{\link[=cluster_gen]{cluster_gen()}}
 }

@@ -1,10 +1,10 @@
 #' @title Generate cluster sample
-#' @param n numeric vector with the number of sampled observations (clusters or subjects) on each level
+#' @param n numeric vector or list with the number of sampled observations (clusters or subjects) on each level
+#' @param N population size of each *sampled* cluster element on each level. Either a numeric vector or a list of numeric vectors. If `N` is a list, it must have the same length as `n` and each element of `N` must have the same length as the corresponding element of `n`
 #' @param cluster_labels character vector with the names of each cluster level
 #' @param resp_labels character vector with the names of the questionnaire respondents on each level
 #' @param collapse if `TRUE`, function output contains only one data frame with all answers. It can also be "none", "partial" and "full" for finer control on 3+ levels
 #' @param separate_questionnaires if `TRUE`, each level will have its own questionnaire
-#' @param N list of numeric vector with the population size of each *sampled* cluster element on each level
 #' @param calc_weights if `TRUE`, sampling weights are calculated
 #' @param sum_pop total population at each level (sampled or not)
 #' @param n_X list of `n_X` per cluster level
@@ -12,11 +12,11 @@
 #' @param cat_prop list of cumulative proportions for each item. If \code{theta
 #'   = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
 #'   corresponds to the \code{theta}.
-#' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0, but can change if `rho` is set.
-#' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1, but can change if `rho` is set.
+#' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0, but may change if `rho` is set.
+#' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1, but may change if `rho` is set.
 #' @param cor_matrix Correlation matrix between all variables (except weights). By default, correlations are randomly generated.
-#' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
-#' @param rho estimated intraclass correlation
+#' @param sampling_method can be "SRS" for Simple Random Sampling, "PPS" for Probabilities Proportional to Size, "mixed" to use PPS for schools and SRS otherwise, or a vector with the sampling method for each level
+#' @param rho intraclass correlation (scalar, vector or list, as appropriate)
 #' @param theta if \code{TRUE}, the first continuous variable will be labeled
 #'   'theta'. Otherwise, it will be labeled 'q1'.
 #' @param verbose if `TRUE`, prints output messages
@@ -47,7 +47,7 @@
 #'   generated using the polychoric correlation matrix, with no distributional
 #'   assumptions.
 #'
-#' @seealso cluster_estimates cluster_gen_separate cluster_gen_together questionnaire_gen
+#' @seealso [cluster_gen_separate()] [cluster_gen_together()] [questionnaire_gen()]
 #' @export
 #' @examples
 #' # Simple structure of 3 schools with 5 students each

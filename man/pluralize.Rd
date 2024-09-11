@@ -12,7 +12,7 @@ pluralize(word, n = rep(2, length(word)))
 \item{n}{vector of number of times each word appears (to determine if the plural or single form will be returned)}
 }
 \value{
-`word`, either pluralized or not (depending on `n`)
+\code{word}, either pluralized or not (depending on \code{n})
 }
 \description{
 Pluralize a word
