@@ -1,10 +1,10 @@
 #' @title Generate cluster sample
-#' @param n numeric vector with the number of sampled observations (clusters or subjects) on each level
+#' @param n numeric vector or list with the number of sampled observations (clusters or subjects) on each level
+#' @param N population size of each *sampled* cluster element on each level. Either a numeric vector or a list of numeric vectors. If `N` is a list, it must have the same length as `n` and each element of `N` must have the same length as the corresponding element of `n`
 #' @param cluster_labels character vector with the names of each cluster level
 #' @param resp_labels character vector with the names of the questionnaire respondents on each level
 #' @param collapse if `TRUE`, function output contains only one data frame with all answers. It can also be "none", "partial" and "full" for finer control on 3+ levels
 #' @param separate_questionnaires if `TRUE`, each level will have its own questionnaire
-#' @param N list of numeric vector with the population size of each *sampled* cluster element on each level
 #' @param calc_weights if `TRUE`, sampling weights are calculated
 #' @param sum_pop total population at each level (sampled or not)
 #' @param n_X list of `n_X` per cluster level

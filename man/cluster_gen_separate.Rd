@@ -30,9 +30,9 @@ cluster_gen_separate(
 \arguments{
 \item{n_levels}{number of cluster levels}
 
-\item{n}{numeric vector with the number of sampled observations (clusters or subjects) on each level}
+\item{n}{numeric vector or list with the number of sampled observations (clusters or subjects) on each level}
 
-\item{N}{list of numeric vector with the population size of each *sampled* cluster element on each level}
+\item{N}{population size of each *sampled* cluster element on each level. Either a numeric vector or a list of numeric vectors. If `N` is a list, it must have the same length as `n` and each element of `N` must have the same length as the corresponding element of `n`}
 
 \item{sum_pop}{total population at each level (sampled or not)}
 
