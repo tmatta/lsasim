@@ -3,6 +3,8 @@
 ## API changes
 
 * Improved output of `cluster_gen()`
+* Improved documentation of `cluster_gen()` (issue #52)
+* Improved Markdown formatting of documentation everywhere
 
 ## Bug fixes
 
