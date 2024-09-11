@@ -27,3 +27,6 @@ If the rhos for different levels are varied in scale, the generated rho will be 
 \references{
 Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
 }
+\seealso{
+\code{\link[=summary.lsasimcluster]{summary.lsasimcluster()}}
+}

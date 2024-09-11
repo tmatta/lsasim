@@ -5,7 +5,7 @@
 #' @param k deflating weight factor (used only when `method = "BRR Fay")
 #' @details Replicate weights can be calculated using the Jackknife for unstratified two-stage sample designs or Balanced Repeated Replication (BRR) with or without Fay's modification.
 #' According to OECD (2015), PISA uses the Fay method with a factor of 0.5. This is why `k = .5` by default.
-#' @seealso [cluster_gen()] [jackknife()], [jackknife_var()]
+#' @seealso [cluster_gen()] [jackknife()]
 #' @references
 #' OECD (2015). Pisa Data Analysis Manual.
 #' Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.
