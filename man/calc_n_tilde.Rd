@@ -20,5 +20,5 @@ Calculates n tilde
 Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
 }
 \seealso{
-?lsasim:::summary.lsasimcluster
+\code{\link[=summary.lsasimcluster]{summary.lsasimcluster()}}
 }

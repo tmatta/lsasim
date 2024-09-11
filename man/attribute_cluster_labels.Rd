@@ -16,5 +16,5 @@ list containing appropriate labels for the clusters and their respondents
 Attributes cluster and respondent labels in the context of \code{cluster_gen}.
 }
 \seealso{
-cluster_gen
+\code{\link[=cluster_gen]{cluster_gen()}}
 }

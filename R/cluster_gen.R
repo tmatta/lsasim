@@ -47,7 +47,7 @@
 #'   generated using the polychoric correlation matrix, with no distributional
 #'   assumptions.
 #'
-#' @seealso cluster_gen_separate cluster_gen_together questionnaire_gen
+#' @seealso [cluster_gen_separate()] [cluster_gen_together()] [questionnaire_gen()]
 #' @export
 #' @examples
 #' # Simple structure of 3 schools with 5 students each

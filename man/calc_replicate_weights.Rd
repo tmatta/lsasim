@@ -37,5 +37,5 @@ OECD (2015). Pisa Data Analysis Manual.
 Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.
 }
 \seealso{
-cluster_gen jackknife, jackknife_var
+\code{\link[=cluster_gen]{cluster_gen()}} \code{\link[=jackknife]{jackknife()}}, \code{\link[=jackknife_var]{jackknife_var()}}
 }

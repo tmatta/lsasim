@@ -2,7 +2,7 @@
 #' @description This is a sub-function of `cluster_gen` that performs cluster sampling where only the lowest-level individuals (e.g. students) fill out questionnaires.
 #' @inheritParams cluster_gen_separate
 #' @param cor_matrix correlation matrix or list of correlation matrices per PSU
-#' @seealso cluster_gen cluster_gen_separate
+#' @seealso [cluster_gen()] [cluster_gen_separate()]
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @export
 cluster_gen_together <- function(

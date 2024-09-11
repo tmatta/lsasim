@@ -10,7 +10,7 @@
 #' @param M total sample size
 #' @param N number of classes j
 #' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
-#' @seealso anova
+#' @seealso [stats::anova()]
 print_anova <- function(s2_within, s2_between, s2_total,
     sigma2_hat, tau2_hat, rho_hat, se_rho, n_tilde, M, N) {
     sources <- c(

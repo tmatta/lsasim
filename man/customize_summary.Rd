@@ -21,5 +21,5 @@ customize_summary(df_summary, df, numeric_cols, factor_cols, digits = 3)
 Adds standard deviations and removes quantiles from a \code{summary()} output
 }
 \seealso{
-summary ?lsasim:::summary.lsasimcluster
+\code{\link[=summary]{summary()}} \code{\link[=summary.lsasimcluster]{summary.lsasimcluster()}}
 }

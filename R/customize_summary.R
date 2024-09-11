@@ -1,5 +1,5 @@
 #' @title Customize Summary
-#' @seealso summary ?lsasim:::summary.lsasimcluster
+#' @seealso [summary()] [summary.lsasimcluster()]
 #' @param df_summary dataframe containing summary statistics
 #' @param df original data frame
 #' @param numeric_cols indices of the numeric columns

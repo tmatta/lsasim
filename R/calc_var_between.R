@@ -5,7 +5,7 @@
 #' @param n_tilde function of the variance of n_N, M and N. See documentation and code of \code{lsasim:::summary.lsasimcluster} for details
 #' @param N number of classes j
 #' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
-#' @seealso anova.lsasimcluster
+#' @seealso [anova.lsasimcluster()]
 calc_var_between <- function(n_j, y_bar_j, y_bar, n_tilde, N) {
     if (!is(y_bar_j[1], "matrix")) {
         y_bar_j <- as.matrix(y_bar_j)

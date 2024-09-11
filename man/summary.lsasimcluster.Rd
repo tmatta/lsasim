@@ -46,5 +46,5 @@ summary(cls)
 summary(cls, print="none") # allows saving results
 }
 \seealso{
-anova.lsasimcluster
+\code{\link[=anova.lsasimcluster]{anova.lsasimcluster()}}
 }

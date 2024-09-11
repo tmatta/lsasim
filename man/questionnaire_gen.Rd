@@ -251,5 +251,5 @@ lsasim: an R package for simulating large-scale assessment data.
 Large-scale Assessments in Education, 6(1), 15.
 }
 \seealso{
-beta_gen
+\code{\link[=beta_gen]{beta_gen()}}
 }

@@ -47,5 +47,5 @@ Adams, R., & Wu, M. (2002). PISA 2000 Technical Report. Paris: Organization for 
 Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.
 }
 \seealso{
-jackknife
+\code{\link[=jackknife]{jackknife()}}
 }

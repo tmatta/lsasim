@@ -75,5 +75,5 @@ corresponds to the \code{theta}.}
 This is a sub-function of \code{cluster_gen} that performs cluster sampling, with the twist that each cluster level has its own questionnaire.
 }
 \seealso{
-cluster_gen cluster_gen_together
+\code{\link[=cluster_gen]{cluster_gen()}} \code{\link[=cluster_gen_together]{cluster_gen_together()}}
 }

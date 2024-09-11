@@ -1,5 +1,5 @@
 #' @title Check class of n or N
-#' @seealso cluster_gen
+#' @seealso [cluster_gen()]
 #' @description Check the class of an object (usually n and N from `cluster_gen`)
 #' @param x either n or N from `cluster_gen`
 #' @note This function is primarily used as a way to simplify the classification of n and N in the `cluster_gen` function.

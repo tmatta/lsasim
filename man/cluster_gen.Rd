@@ -132,5 +132,5 @@ x <- cluster_gen(c(5, 1000), rho = .5, n_X = 2, n_W = 0, c_mean = 1:5)
 anova(x)
 }
 \seealso{
-cluster_gen_separate cluster_gen_together questionnaire_gen
+\code{\link[=cluster_gen_separate]{cluster_gen_separate()}} \code{\link[=cluster_gen_together]{cluster_gen_together()}} \code{\link[=questionnaire_gen]{questionnaire_gen()}}
 }

@@ -45,5 +45,5 @@ Print the ANOVA table
 Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
 }
 \seealso{
-anova
+\code{\link[stats:anova]{stats::anova()}}
 }

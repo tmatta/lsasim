@@ -16,5 +16,5 @@ Check the class of an object (usually n and N from \code{cluster_gen})
 This function is primarily used as a way to simplify the classification of n and N in the \code{cluster_gen} function.
 }
 \seealso{
-cluster_gen
+\code{\link[=cluster_gen]{cluster_gen()}}
 }

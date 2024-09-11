@@ -16,5 +16,5 @@ Error if the structure is improper. Otherwise, there's no output.
 Checks if a list has a proper structure to be transformed into a hierarchical structure
 }
 \seealso{
-check_condition
+\code{\link[=check_condition]{check_condition()}}
 }

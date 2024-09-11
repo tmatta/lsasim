@@ -24,5 +24,5 @@ Calculate the total variance
 Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
 }
 \seealso{
-anova.lsasimcluster
+\code{\link[=anova.lsasimcluster]{anova.lsasimcluster()}}
 }

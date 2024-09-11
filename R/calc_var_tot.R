@@ -1,5 +1,5 @@
 #' @title Calculate the total variance
-#' @seealso anova.lsasimcluster
+#' @seealso [anova.lsasimcluster()]
 #' @param n_tilde function of the variance of n_N, M and N. See documentation and code of \code{lsasim:::summary.lsasimcluster} for details
 #' @param M total sample size
 #' @param N number of classes j

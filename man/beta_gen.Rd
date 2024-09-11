@@ -99,5 +99,5 @@ beta_gen(data, MC = TRUE)
 
 }
 \seealso{
-questionnaire_gen
+\code{\link[=questionnaire_gen]{questionnaire_gen()}}
 }

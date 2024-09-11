@@ -1,6 +1,6 @@
 #' @title Attribute Labels in Hierarchical Structure
 #' @description Attributes cluster and respondent labels in the context of `cluster_gen`.
-#' @seealso cluster_gen
+#' @seealso [cluster_gen()]
 #' @param n numeric vector or list
 #' @return list containing appropriate labels for the clusters and their respondents
 attribute_cluster_labels <- function(n)

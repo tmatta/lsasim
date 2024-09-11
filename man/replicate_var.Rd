@@ -39,5 +39,5 @@ Estimates the mean variance for Jackknife, BRR and BRR Fay replication methods
 \code{data_rep} can be obtained from
 }
 \seealso{
-jackknife brr
+\code{\link[=jackknife]{jackknife()}} \code{\link[=brr]{brr()}}
 }

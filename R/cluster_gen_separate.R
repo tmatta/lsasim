@@ -7,7 +7,7 @@
 #' @param n_levels number of cluster levels
 #' @param whitelist used when `n = select(...)`, determines which PSUs get to generate questionnaires
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
-#' @seealso cluster_gen cluster_gen_together
+#' @seealso [cluster_gen()] [cluster_gen_together()]
 #' @importFrom stats rchisq
 #' @importFrom methods is
 #' @export

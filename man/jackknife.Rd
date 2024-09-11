@@ -29,5 +29,5 @@ jackknife(x)
 jackknife(x, drop = FALSE)
 }
 \seealso{
-brr
+\code{\link[=brr]{brr()}}
 }
