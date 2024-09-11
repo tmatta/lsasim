@@ -34,17 +34,17 @@ cluster_gen_separate(
 
 \item{N}{list of numeric vector with the population size of each *sampled* cluster element on each level}
 
-\item{sum_pop}{total population at the lowest level (sampled or not)}
+\item{sum_pop}{total population at each level (sampled or not)}
 
 \item{calc_weights}{if `TRUE`, sampling weights are calculated}
 
-\item{sampling_method}{can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size, "mixed" to use SRS for students and PPS otherwise or a vector with the sampling method for each level}
+\item{sampling_method}{can be "SRS" for Simple Random Sampling, "PPS" for Probabilities Proportional to Size, or "mixed" to use SRS for students and PPS otherwise or a vector with the sampling method for each level}
 
 \item{cluster_labels}{character vector with the names of each cluster level}
 
 \item{resp_labels}{character vector with the names of the questionnaire respondents on each level}
 
-\item{collapse}{if `TRUE`, function output contains only one data frame with all answers}
+\item{collapse}{if `TRUE`, function output contains only one data frame with all answers. It can also be "none", "partial" and "full" for finer control on 3+ levels}
 
 \item{n_X}{list of `n_X` per cluster level}
 
@@ -60,7 +60,7 @@ corresponds to the \code{theta}.}
 
 \item{cor_matrix}{Correlation matrix between all variables (except weights)}
 
-\item{rho}{estimated intraclass correlation}
+\item{rho}{intraclass correlation (scalar, vector or list, as appropriate)}
 
 \item{theta}{if \code{TRUE}, the first continuous variable will be labeled
 'theta'. Otherwise, it will be labeled 'q1'.}

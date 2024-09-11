@@ -44,9 +44,9 @@ corresponds to the \code{theta}.}
 
 \item{n_W}{list of `n_W` per cluster level}
 
-\item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0, but can change if `rho` is set.}
+\item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0, but may change if `rho` is set.}
 
-\item{sigma}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1, but can change if `rho` is set.}
+\item{sigma}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1, but may change if `rho` is set.}
 
 \item{cor_matrix}{Correlation matrix between all variables (except weights). By default, correlations are randomly generated.}
 
@@ -58,9 +58,9 @@ corresponds to the \code{theta}.}
 
 \item{calc_weights}{if `TRUE`, sampling weights are calculated}
 
-\item{sampling_method}{can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size}
+\item{sampling_method}{can be "SRS" for Simple Random Sampling, "PPS" for Probabilities Proportional to Size, or "mixed" to use SRS for students and PPS otherwise or a vector with the sampling method for each level}
 
-\item{rho}{estimated intraclass correlation}
+\item{rho}{intraclass correlation (scalar, vector or list, as appropriate)}
 
 \item{theta}{if \code{TRUE}, the first continuous variable will be labeled
 'theta'. Otherwise, it will be labeled 'q1'.}
@@ -132,5 +132,5 @@ x <- cluster_gen(c(5, 1000), rho = .5, n_X = 2, n_W = 0, c_mean = 1:5)
 anova(x)
 }
 \seealso{
-cluster_estimates cluster_gen_separate cluster_gen_together questionnaire_gen
+cluster_gen_separate cluster_gen_together questionnaire_gen
 }

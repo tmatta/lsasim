@@ -32,17 +32,17 @@ cluster_gen_together(
 
 \item{N}{list of numeric vector with the population size of each *sampled* cluster element on each level}
 
-\item{sum_pop}{total population at the lowest level (sampled or not)}
+\item{sum_pop}{total population at each level (sampled or not)}
 
 \item{calc_weights}{if `TRUE`, sampling weights are calculated}
 
-\item{sampling_method}{can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size}
+\item{sampling_method}{can be "SRS" for Simple Random Sampling, "PPS" for Probabilities Proportional to Size, or "mixed" to use SRS for students and PPS otherwise or a vector with the sampling method for each level}
 
 \item{cluster_labels}{character vector with the names of each cluster level}
 
 \item{resp_labels}{character vector with the names of the questionnaire respondents on each level}
 
-\item{collapse}{if `TRUE`, function output contains only one data frame with all answers}
+\item{collapse}{if `TRUE`, function output contains only one data frame with all answers. It can also be "none", "partial" and "full" for finer control on 3+ levels}
 
 \item{n_X}{list of `n_X` per cluster level}
 
@@ -58,7 +58,7 @@ corresponds to the \code{theta}.}
 
 \item{cor_matrix}{correlation matrix or list of correlation matrices per PSU}
 
-\item{rho}{intraclass correlation (scalar, vector or list)}
+\item{rho}{intraclass correlation (scalar, vector or list, as appropriate)}
 
 \item{verbose}{if `TRUE`, prints output messages}
 
@@ -68,5 +68,5 @@ corresponds to the \code{theta}.}
 This is a sub-function of `cluster_gen` that performs cluster sampling where only the lowest-level individuals (e.g. students) fill out questionnaires.
 }
 \seealso{
-cluster_gen cluster_gen_separate cluster_gen_together
+cluster_gen cluster_gen_separate
 }

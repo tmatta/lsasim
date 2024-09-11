@@ -1,25 +1,8 @@
 #' @title Generate cluster samples with lowest-level questionnaires
 #' @description This is a sub-function of `cluster_gen` that performs cluster sampling where only the lowest-level individuals (e.g. students) fill out questionnaires.
-#' @param n_levels number of cluster levels
-#' @param n numeric vector with the number of sampled observations (clusters or subjects) on each level
-#' @param cluster_labels character vector with the names of each cluster level
-#' @param resp_labels character vector with the names of the questionnaire respondents on each level
-#' @param collapse if `TRUE`, function output contains only one data frame with all answers
-#' @param N list of numeric vector with the population size of each *sampled* cluster element on each level
-#' @param sum_pop total population at the lowest level (sampled or not)
-#' @param calc_weights if `TRUE`, sampling weights are calculated
-#' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
-#' @param n_X list of `n_X` per cluster level
-#' @param n_W list of `n_W` per cluster level
-#' @param cat_prop list of cumulative proportions for each item. If \code{theta
-#'   = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
-#'   corresponds to the \code{theta}.
-#' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
-#' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
+#' @inheritParams cluster_gen_separate
 #' @param cor_matrix correlation matrix or list of correlation matrices per PSU
-#' @param rho intraclass correlation (scalar, vector or list)
-#' @seealso cluster_gen cluster_gen_separate cluster_gen_together
-#' @param verbose if `TRUE`, prints output messages
+#' @seealso cluster_gen cluster_gen_separate
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @export
 cluster_gen_together <- function(
