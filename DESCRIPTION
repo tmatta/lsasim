@@ -38,4 +38,5 @@ Suggests:
     rmarkdown,
     NAEPirtparams
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
 Date: 2024-05-06

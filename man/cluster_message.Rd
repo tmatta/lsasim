@@ -23,11 +23,11 @@ cluster_message(
 
 \item{n_levels}{number of cluster levels}
 
-\item{separate_questionnaires}{if `TRUE`, each level will have its own questionnaire}
+\item{separate_questionnaires}{if \code{TRUE}, each level will have its own questionnaire}
 
 \item{type}{Type of top-level message}
 
-\item{detail}{if `TRUE`, prints further details about each level composition}
+\item{detail}{if \code{TRUE}, prints further details about each level composition}
 }
 \value{
 Messages.

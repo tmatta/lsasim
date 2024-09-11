@@ -12,13 +12,13 @@ ranges(x, y)
 \item{y}{second element}
 }
 \value{
-`c(x, y)`, but with the "range" class
+\code{c(x, y)}, but with the "range" class
 }
 \description{
 Redefines the class of a vector as "range"
 }
 \note{
-This function was created to be used as an element in the `N` argument of `cluster_gen`. The name was chosen to avoid conflict with `base::range()`.
+This function was created to be used as an element in the \code{N} argument of \code{cluster_gen}. The name was chosen to avoid conflict with \code{base::range()}.
 
-`ranges()` should always be used within a `list()`. Inserting a "range" vector inside a common vector (`c()`) will result in a common vector. For example, `c(3, ranges(8, 10))` is the same as `c(3, 8, 10)`, because when faced with conflicting classes in the same element, R will resolve to the simpler case ("numeric", in this case). An easier way to understand this concept is by checking `class(c(3, "a"))` is "character", meaning the number 3 was devolved into a character "3".
+\code{ranges()} should always be used within a \code{list()}. Inserting a "range" vector inside a common vector (\code{c()}) will result in a common vector. For example, \code{c(3, ranges(8, 10))} is the same as \code{c(3, 8, 10)}, because when faced with conflicting classes in the same element, R will resolve to the simpler case ("numeric", in this case). An easier way to understand this concept is by checking \code{class(c(3, "a"))} is "character", meaning the number 3 was devolved into a character "3".
 }

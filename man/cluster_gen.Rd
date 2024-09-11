@@ -30,33 +30,33 @@ cluster_gen(
 \arguments{
 \item{n}{numeric vector or list with the number of sampled observations (clusters or subjects) on each level}
 
-\item{N}{population size of each *sampled* cluster element on each level. Either a numeric vector or a list of numeric vectors. If `N` is a list, it must have the same length as `n` and each element of `N` must have the same length as the corresponding element of `n`}
+\item{N}{population size of each \emph{sampled} cluster element on each level. Either a numeric vector or a list of numeric vectors. If \code{N} is a list, it must have the same length as \code{n} and each element of \code{N} must have the same length as the corresponding element of \code{n}}
 
 \item{cluster_labels}{character vector with the names of each cluster level}
 
 \item{resp_labels}{character vector with the names of the questionnaire respondents on each level}
 
 \item{cat_prop}{list of cumulative proportions for each item. If \code{theta
-= TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
+  = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
 corresponds to the \code{theta}.}
 
-\item{n_X}{list of `n_X` per cluster level}
+\item{n_X}{list of \code{n_X} per cluster level}
 
-\item{n_W}{list of `n_W` per cluster level}
+\item{n_W}{list of \code{n_W} per cluster level}
 
-\item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0, but may change if `rho` is set.}
+\item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0, but may change if \code{rho} is set.}
 
-\item{sigma}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1, but may change if `rho` is set.}
+\item{sigma}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1, but may change if \code{rho} is set.}
 
 \item{cor_matrix}{Correlation matrix between all variables (except weights). By default, correlations are randomly generated.}
 
-\item{separate_questionnaires}{if `TRUE`, each level will have its own questionnaire}
+\item{separate_questionnaires}{if \code{TRUE}, each level will have its own questionnaire}
 
-\item{collapse}{if `TRUE`, function output contains only one data frame with all answers. It can also be "none", "partial" and "full" for finer control on 3+ levels}
+\item{collapse}{if \code{TRUE}, function output contains only one data frame with all answers. It can also be "none", "partial" and "full" for finer control on 3+ levels}
 
 \item{sum_pop}{total population at each level (sampled or not)}
 
-\item{calc_weights}{if `TRUE`, sampling weights are calculated}
+\item{calc_weights}{if \code{TRUE}, sampling weights are calculated}
 
 \item{sampling_method}{can be "SRS" for Simple Random Sampling, "PPS" for Probabilities Proportional to Size, "mixed" to use PPS for schools and SRS otherwise, or a vector with the sampling method for each level}
 
@@ -65,11 +65,11 @@ corresponds to the \code{theta}.}
 \item{theta}{if \code{TRUE}, the first continuous variable will be labeled
 'theta'. Otherwise, it will be labeled 'q1'.}
 
-\item{verbose}{if `TRUE`, prints output messages}
+\item{verbose}{if \code{TRUE}, prints output messages}
 
-\item{print_pop_structure}{if `TRUE`, prints the population hierarchical structure (as long as it differs from the sample structure)}
+\item{print_pop_structure}{if \code{TRUE}, prints the population hierarchical structure (as long as it differs from the sample structure)}
 
-\item{...}{Additional parameters to be passed to `questionnaire_gen()`}
+\item{...}{Additional parameters to be passed to \code{questionnaire_gen()}}
 }
 \value{
 list with background questionnaire data, grouped by level or not
@@ -78,30 +78,30 @@ list with background questionnaire data, grouped by level or not
 Generate cluster sample
 }
 \details{
-This function relies heavily in two sub-functions---`cluster_gen_separate` and `cluster_gen_together`---which can be called independently. This does not make `cluster_gen` a simple wrapper function, as it performs several operations prior to calling its sub-functions, such as randomly generating `n_X` and `n_W` if they are not determined by user.
-`n` can have unitary length, in which case all clusters will have the same size.
-`N` is *not* the population size across all elements of a level, but the population size for each element of one level.
-Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
+This function relies heavily in two sub-functions---\code{cluster_gen_separate} and \code{cluster_gen_together}---which can be called independently. This does not make \code{cluster_gen} a simple wrapper function, as it performs several operations prior to calling its sub-functions, such as randomly generating \code{n_X} and \code{n_W} if they are not determined by user.
+\code{n} can have unitary length, in which case all clusters will have the same size.
+\code{N} is \emph{not} the population size across all elements of a level, but the population size for each element of one level.
+Regarding the additional parameters to be passed to \code{questionnaire_gen()}, they can be passed either in the same format as \code{questionnaire_gen()} or as more complex objects that contain information for each cluster level.
 }
 \note{
-For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, for example, schools are the first cluster level, classes are the second, and students are the third and final level. This behavior can be customized by naming the `n` argument or providing custom labels in `cluster_labels` and `resp_labels`.
+For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, for example, schools are the first cluster level, classes are the second, and students are the third and final level. This behavior can be customized by naming the \code{n} argument or providing custom labels in \code{cluster_labels} and \code{resp_labels}.
 
-Manually setting both `c_mean` and `rho`, while possible, may yield unexpected results due to how those parameters work together. A high intraclass correlation (`rho`) theoretically means that each group will end up with different means so they can be better separated. If `c_mean` is left untouched (i.e., at the default value of zero), then `c_mean` will freely change between clusters in order to result in the expected intraclass correlation. For large samples, `c_mean` will in practice correspond to the grand mean across that level, as the means of each element will be different no matter the sample size.
+Manually setting both \code{c_mean} and \code{rho}, while possible, may yield unexpected results due to how those parameters work together. A high intraclass correlation (\code{rho}) theoretically means that each group will end up with different means so they can be better separated. If \code{c_mean} is left untouched (i.e., at the default value of zero), then \code{c_mean} will freely change between clusters in order to result in the expected intraclass correlation. For large samples, \code{c_mean} will in practice correspond to the grand mean across that level, as the means of each element will be different no matter the sample size.
 
-Moreover, if `c_mean`, `sigma` and `rho` are passed to the function, the means will be recalculated as a function of the other two parameters. The three are interdependent and cannot be passed simultaneously.
+Moreover, if \code{c_mean}, \code{sigma} and \code{rho} are passed to the function, the means will be recalculated as a function of the other two parameters. The three are interdependent and cannot be passed simultaneously.
 
-If in addition to `rho` the user also determine different means for each level, the only way the math can check out is if the variance in each group becomes very high. For examples of this scenario and the one described in the previous paragraph, check out the final section of this page.
+If in addition to \code{rho} the user also determine different means for each level, the only way the math can check out is if the variance in each group becomes very high. For examples of this scenario and the one described in the previous paragraph, check out the final section of this page.
 
-The `ranges()` function should always be put inside a `list()`,as putting it inside a vector (`c()`) will cancel its effect. For more details, please read the documentation of the `ranges()` function.
+The \code{ranges()} function should always be put inside a \code{list()},as putting it inside a vector (\code{c()}) will cancel its effect. For more details, please read the documentation of the \code{ranges()} function.
 
-The only arguments that can be used to label each level are `n`, `N`, `cluster_labels` and `resp_labels`. Labeling other arguments such as `c_mean` and `cat_prop` has no effect on the final results, but it is a recommended way for users to keep track of which value corresponds to which element in a complex hierarchical structure.
+The only arguments that can be used to label each level are \code{n}, \code{N}, \code{cluster_labels} and \code{resp_labels}. Labeling other arguments such as \code{c_mean} and \code{cat_prop} has no effect on the final results, but it is a recommended way for users to keep track of which value corresponds to which element in a complex hierarchical structure.
 
-One of the extra arguments that can be passed by this function is `family`.
+One of the extra arguments that can be passed by this function is \code{family}.
 If \code{family == "gaussian"}, the questionnaire will be generated
-  assuming that all the variables are jointly-distributed as a multivariate
-  normal. The default behavior is \code{family == NULL}, where the data is
-  generated using the polychoric correlation matrix, with no distributional
-  assumptions.
+assuming that all the variables are jointly-distributed as a multivariate
+normal. The default behavior is \code{family == NULL}, where the data is
+generated using the polychoric correlation matrix, with no distributional
+assumptions.
 }
 \examples{
 # Simple structure of 3 schools with 5 students each

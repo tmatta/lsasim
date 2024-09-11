@@ -18,7 +18,7 @@ customize_summary(df_summary, df, numeric_cols, factor_cols, digits = 3)
 \item{digits}{controls the number of digits in the output}
 }
 \description{
-Adds standard deviations and removes quantiles from a `summary()` output
+Adds standard deviations and removes quantiles from a \code{summary()} output
 }
 \seealso{
 summary ?lsasim:::summary.lsasimcluster

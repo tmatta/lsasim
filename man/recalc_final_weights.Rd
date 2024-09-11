@@ -13,7 +13,7 @@ recalc_final_weights(data, w_cols, replicate_weight = 1, reorder = TRUE)
 
 \item{replicate_weight}{scalar with the replicate weights}
 
-\item{reorder}{if `TRUE`, reorders the dataset so that the replicate weights appear before the final weights}
+\item{reorder}{if \code{TRUE}, reorders the dataset so that the replicate weights appear before the final weights}
 }
 \value{
 input data with recalculated final weights, incorporating the replicate weights

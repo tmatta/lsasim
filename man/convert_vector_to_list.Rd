@@ -11,7 +11,7 @@ convert_vector_to_list(x, x_max = x, verbose = TRUE)
 
 \item{x_max}{reference vector or ranged list with max values for x}
 
-\item{verbose}{if `TRUE`, sends messages to user about what's being done}
+\item{verbose}{if \code{TRUE}, sends messages to user about what's being done}
 }
 \value{
 expanded/replicated version of x

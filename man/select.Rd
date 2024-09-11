@@ -7,14 +7,14 @@
 select(...)
 }
 \arguments{
-\item{...}{parameters to be passed to `c()`}
+\item{...}{parameters to be passed to \code{c()}}
 }
 \value{
-same as `x`, but with a class attribute that classifies `x` as "select"
+same as \code{x}, but with a class attribute that classifies \code{x} as "select"
 }
 \description{
 Attaches a "select" class to a vector
 }
 \note{
-This function was created to be used instead of `c()` in the `n` argument of `cluster_gen`.
+This function was created to be used instead of \code{c()} in the \code{n} argument of \code{cluster_gen}.
 }
