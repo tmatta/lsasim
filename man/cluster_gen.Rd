@@ -58,7 +58,7 @@ corresponds to the \code{theta}.}
 
 \item{calc_weights}{if `TRUE`, sampling weights are calculated}
 
-\item{sampling_method}{can be "SRS" for Simple Random Sampling, "PPS" for Probabilities Proportional to Size, or "mixed" to use SRS for students and PPS otherwise or a vector with the sampling method for each level}
+\item{sampling_method}{can be "SRS" for Simple Random Sampling, "PPS" for Probabilities Proportional to Size, "mixed" to use PPS for schools and SRS otherwise, or a vector with the sampling method for each level}
 
 \item{rho}{intraclass correlation (scalar, vector or list, as appropriate)}
 

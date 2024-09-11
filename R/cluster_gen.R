@@ -15,7 +15,7 @@
 #' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0, but may change if `rho` is set.
 #' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1, but may change if `rho` is set.
 #' @param cor_matrix Correlation matrix between all variables (except weights). By default, correlations are randomly generated.
-#' @param sampling_method can be "SRS" for Simple Random Sampling, "PPS" for Probabilities Proportional to Size, or "mixed" to use SRS for students and PPS otherwise or a vector with the sampling method for each level
+#' @param sampling_method can be "SRS" for Simple Random Sampling, "PPS" for Probabilities Proportional to Size, "mixed" to use PPS for schools and SRS otherwise, or a vector with the sampling method for each level
 #' @param rho intraclass correlation (scalar, vector or list, as appropriate)
 #' @param theta if \code{TRUE}, the first continuous variable will be labeled
 #'   'theta'. Otherwise, it will be labeled 'q1'.
