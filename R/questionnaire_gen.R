@@ -211,7 +211,7 @@
 #' questionnaire_gen(n_obs = 10,
 #'                   cat_prop = list(c(.25, 1), c(.6, 1), c(.2, 1)),
 #'                   family = "gaussian")
-#' @seealso beta_gen
+#' @seealso [beta_gen()]
 #' @export
 questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
                               n_W = NULL, cor_matrix = NULL, cov_matrix = NULL,

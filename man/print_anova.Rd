@@ -30,7 +30,7 @@ print_anova(
 
 \item{rho_hat}{estimated intraclass correlation}
 
-\item{se_rho}{standard errors of `rho_hat`}
+\item{se_rho}{standard errors of \code{rho_hat}}
 
 \item{n_tilde}{function of the variance of n_N, M and N. See documentation and code of \code{lsasim:::summary.lsasimcluster} for details}
 
@@ -45,5 +45,5 @@ Print the ANOVA table
 Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
 }
 \seealso{
-anova
+\code{\link[stats:anova]{stats::anova()}}
 }

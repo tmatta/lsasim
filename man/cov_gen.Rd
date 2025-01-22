@@ -20,7 +20,7 @@ matrix}
 }
 \value{
 A list containing three covariance matrices: vcov_yxw, vcov_yxz and
-  vcov_yfz
+vcov_yfz
 }
 \description{
 Construct covariance matrices for the generation of simulated test data.

@@ -7,13 +7,13 @@
 #' @param force_matrix if `TRUE`, prints the heterogeneous correlation matrix even if warnings are generated
 #' @param ... additional arguments (unused; added for compatibility with generic)
 #' @note
-#' Setting `print="none"` allows for saving the results as an R object (list). Otherwise, the results will be simply printed and not saveable.
+#' Setting `print="none"` allows for saving the results as an R object (list). Otherwise, the results will be simply printed and not savable.
 #'
 #' Changing `digits` may yield unexpected results for the estimates of continuous variables, given how most of them are printed using the number of significant digits (for more information, see `help("summary")`).
 #'
 #' Please note that datasets containing large values for the coefficient of variation (sigma / mu) should yield imprecise results.
 #' @return list of summaries
-#' @seealso anova.lsasimcluster
+#' @seealso [anova.lsasimcluster()]
 #' @examples
 #' n <- c(3, 30)
 #' cls <- cluster_gen(n, n_X = 3, n_W = 5)

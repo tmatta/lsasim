@@ -9,16 +9,16 @@ proportion_gen(cat_options, n_cat_options)
 \arguments{
 \item{cat_options}{vector of response types.}
 
-\item{n_cat_options}{vector of number of items of the corresponding response 
+\item{n_cat_options}{vector of number of items of the corresponding response
 type.}
 }
 \description{
-Creates a list of vectors, each containing the randomly generated cumulative 
+Creates a list of vectors, each containing the randomly generated cumulative
 proportions of a discrete variable.
 }
 \section{Details}{
 
-\code{cat_options} and \code{n_cat_options} must be the same length.  
+\code{cat_options} and \code{n_cat_options} must be the same length.
 \code{cat_options = 1} is a continuous variable.
 
 The result from \code{proportion_gen} can be used directly with the \code{cat_prop}

@@ -7,6 +7,7 @@
 #' @return Printed ANOVA table or list of parameters
 #' @note  If the rhos for different levels are varied in scale, the generated rho will be less accurate.
 #' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
+#' @seealso [summary.lsasimcluster()]
 #' @importFrom stats anova
 #' @method anova lsasimcluster
 #' @export

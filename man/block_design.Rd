@@ -16,8 +16,8 @@ block_design(n_blocks = NULL, item_parameters, item_block_matrix = NULL)
 \description{
 \code{block_design} creates a length-2 list containing:
 \itemize{
-  \item a matrix that identifies which items correspond to which blocks and
-  \item a table of block descriptive statistics.
+\item a matrix that identifies which items correspond to which blocks and
+\item a table of block descriptive statistics.
 }
 }
 \section{Warning}{

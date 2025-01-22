@@ -8,7 +8,7 @@
 #' @param drop if `TRUE`, the observation that will not be part of the subsample is dropped from the dataset. Otherwise, it stays in the dataset but a new weight column is created to differentiate the selected observations
 #' @param id_col number of column in dataset containing subject IDs. Set 0 to use the row names as ID
 #' @return a list containing all the BRR replicates of `data`
-#' @seealso jackknife
+#' @seealso [jackknife()]
 #' @note PISA uses the BRR Fay method with \eqn{k = 0.5}.
 #' @references
 #' OECD (2015). Pisa Data Analysis Manual.

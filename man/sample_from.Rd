@@ -13,7 +13,7 @@ sample_from(N, n, labels = names(N), verbose = TRUE)
 
 \item{labels}{character vector with the names of the questionnaire respondents on each level}
 
-\item{verbose}{if `TRUE`, prints output messages}
+\item{verbose}{if \code{TRUE}, prints output messages}
 }
 \description{
 Generates a sample from a population structure

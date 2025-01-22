@@ -1,5 +1,5 @@
 #' @title Calculate variance within classes
-#' @seealso anova.lsasimcluster
+#' @seealso [anova.lsasimcluster()]
 #' @param n_j number of elements in class j
 #' @param M total sample size
 #' @param N number of classes j

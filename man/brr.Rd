@@ -24,16 +24,16 @@ brr(
 
 \item{reps}{number of replicates}
 
-\item{max_reps}{maximum number of replicates (only functional if `reps = NULL`)}
+\item{max_reps}{maximum number of replicates (only functional if \code{reps = NULL})}
 
 \item{weight_cols}{vector of weight columns}
 
 \item{id_col}{number of column in dataset containing subject IDs. Set 0 to use the row names as ID}
 
-\item{drop}{if `TRUE`, the observation that will not be part of the subsample is dropped from the dataset. Otherwise, it stays in the dataset but a new weight column is created to differentiate the selected observations}
+\item{drop}{if \code{TRUE}, the observation that will not be part of the subsample is dropped from the dataset. Otherwise, it stays in the dataset but a new weight column is created to differentiate the selected observations}
 }
 \value{
-a list containing all the BRR replicates of `data`
+a list containing all the BRR replicates of \code{data}
 }
 \description{
 Generate replicates of a dataset using Balanced Repeated Replication
@@ -47,5 +47,5 @@ Adams, R., & Wu, M. (2002). PISA 2000 Technical Report. Paris: Organization for 
 Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.
 }
 \seealso{
-jackknife
+\code{\link[=jackknife]{jackknife()}}
 }

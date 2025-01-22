@@ -9,10 +9,10 @@ gen_X_W_cluster(n_levels, separate, class_cor)
 \arguments{
 \item{n_levels}{number of levels}
 
-\item{separate}{to the `separate_questionnaires` argument of `cluster_gen`}
+\item{separate}{to the \code{separate_questionnaires} argument of \code{cluster_gen}}
 
-\item{class_cor}{corresponds to the `class_cor` argument of `cluster_gen`}
+\item{class_cor}{corresponds to the \code{class_cor} argument of \code{cluster_gen}}
 }
 \description{
-Generates n_X and n_W for `cluster_gen` based on a correlation matrix
+Generates n_X and n_W for \code{cluster_gen} based on a correlation matrix
 }
