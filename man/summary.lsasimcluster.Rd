@@ -33,7 +33,7 @@ list of summaries
 Takes the output of \code{cluster_gen} and creates summary statistics of the questionnaire variables
 }
 \note{
-Setting \code{print="none"} allows for saving the results as an R object (list). Otherwise, the results will be simply printed and not saveable.
+Setting \code{print="none"} allows for saving the results as an R object (list). Otherwise, the results will be simply printed and not savable.
 
 Changing \code{digits} may yield unexpected results for the estimates of continuous variables, given how most of them are printed using the number of significant digits (for more information, see \code{help("summary")}).
 

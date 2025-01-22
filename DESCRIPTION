@@ -40,3 +40,4 @@ Suggests:
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 Date: 2024-05-06
+Language: en-US

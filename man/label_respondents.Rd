@@ -24,5 +24,5 @@ label_respondents(
 Data frame with the combinations of IDs from all levels
 }
 \description{
-This function nerated level label combinations for each respondent
+Generate level label combinations for each respondent
 }
