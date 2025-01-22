@@ -39,7 +39,7 @@
 #' These data are for illustration purposes only.  Handling of missing data may not be suitable for valid inferences.
 #'
 #' @source
-#' Raw data can be found at \url{https://www.oecd.org/pisa/pisaproducts/pisa2012database-downloadabledata.htm}
-#' Codebook can be found at \url{https://www.oecd.org/pisa/pisaproducts/PISA12_stu_codebook.pdf}
+#' Raw data can be found at \url{https://www.oecd.org/en/data/datasets/pisa-2012-database.html}
+#' Codebook can be found at \url{https://www.oecd.org/en/about/programmes/pisa.html}
 #'
 "pisa2012_q_cormat"

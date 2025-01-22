@@ -1,6 +1,6 @@
 #' PISA 2012 mathematics item - item block indicator matrix
 #'
-#' A dataset containing indicators associating those PISA 2012 mathematics items 
+#' A dataset containing indicators associating those PISA 2012 mathematics items
 #' to the PISA 2012 mathematics item blocks.
 #'
 #' @format A data frame with 109 rows and 12 variables:
@@ -19,8 +19,8 @@
 #'   \item{block10}{Indicator specifying those items in block 10.}
 #' }
 #' @source PISA 2012 Technical Report, ANNEX A.
-#'         Table A.1: PISA 2012 Main Survey mathematics item classification. 
+#'         Table A.1: PISA 2012 Main Survey mathematics item classification.
 #'         Pages 406 - 409.
-#'         \url{https://www.oecd.org/pisa/pisaproducts/PISA-2012-technical-report-final.pdf}
-#' 
+#'         \url{https://www.oecd.org/en/about/programmes/pisa.html}
+#'
 "pisa2012_math_block"

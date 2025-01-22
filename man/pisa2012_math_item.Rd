@@ -18,7 +18,7 @@ A data frame with 109 rows and 5 variables:
 PISA 2012 Technical Report, ANNEX A.
 Table A.1: PISA 2012 Main Survey mathematics item classification.
 Pages 406 - 409.
-\url{https://www.oecd.org/pisa/pisaproducts/PISA-2012-technical-report-final.pdf}
+\url{https://www.oecd.org/en/about/programmes/pisa.html}
 }
 \usage{
 pisa2012_math_item
