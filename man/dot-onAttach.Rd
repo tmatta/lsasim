@@ -12,7 +12,7 @@
 \item{pkgname}{name of the package}
 }
 \description{
-Prints "This is lsasim \if{html}{\out{<version number>}}" on package load
+Prints welcome message with package version on load
 }
 \note{
 This function was adapted from the lavaan package, so credit for it goes to lavaan's creator, Yves Rosseel

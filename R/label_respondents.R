@@ -1,5 +1,5 @@
 #' @title Label respondents
-#' @description This function nerated level label combinations for each respondent
+#' @description Generate level label combinations for each respondent
 #' @param n_obs list with the number of elements per level
 #' @param cluster_labels character vector with the names of each cluster level
 #' @param add_last_level if `TRUE` (not default), adds the last level to the output table

@@ -1,4 +1,4 @@
-# lsasim (development version)
+# lsasim 2.1.6
 
 * Improved output of `cluster_gen()`
 * Improved documentation of `cluster_gen()` (issue #52)
@@ -9,7 +9,7 @@
 
 * Fixed `block_design()` for non-sequential items (issue #50)
 * Fixed typos in documentation
-* Reimplemented continuous integration routine (issue #47)
+* Re-implemented continuous integration routine (issue #47)
 
 # lsasim 2.1.4
 
