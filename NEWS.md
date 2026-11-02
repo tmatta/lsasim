@@ -1,6 +1,8 @@
 # lsasim 2.1.7
 
 * Adjust test expectations to new `str()` behavior (issue #53)
+* `DESCRIPTION` now includes a URL
+* Adapted documentation to Roxygen2 version 8
 
 # lsasim 2.1.6
 
