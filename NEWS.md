@@ -1,5 +1,7 @@
 # lsasim (development version)
 
+* Adjust test expectations to new `str()` behavior (issue #53)
+
 # lsasim 2.1.6
 
 * Improved output of `cluster_gen()`
