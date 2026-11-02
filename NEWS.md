@@ -1,3 +1,5 @@
+# lsasim (development version)
+
 # lsasim 2.1.6
 
 * Improved output of `cluster_gen()`
