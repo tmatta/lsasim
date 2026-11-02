@@ -49,7 +49,7 @@ cluster_gen_together(
 \item{n_W}{list of \code{n_W} per cluster level}
 
 \item{cat_prop}{list of cumulative proportions for each item. If \code{theta
-  = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
+= TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
 corresponds to the \code{theta}.}
 
 \item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level}
