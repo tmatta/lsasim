@@ -1,4 +1,4 @@
-# lsasim (development version)
+# lsasim 2.1.7
 
 * Adjust test expectations to new `str()` behavior (issue #53)
 
