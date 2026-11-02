@@ -24,7 +24,7 @@ questionnaire_gen(
 \item{n_obs}{number of observations to generate.}
 
 \item{cat_prop}{list of cumulative proportions for each item. If \code{theta
-  = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
+= TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
 corresponds to the \code{theta}.}
 
 \item{n_vars}{total number of variables in the questionnaire, including the

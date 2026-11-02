@@ -41,6 +41,7 @@ latent variable. Used by \code{questionnaire_gen}
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://github.com/tmatta/lsasim}
   \item Report bugs at \url{https://github.com/tmatta/lsasim/issues}
 }
 
@@ -50,6 +51,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Waldir Leoncio \email{w.l.netto@medisin.uio.no}
   \item Tyler Matta \email{tyler.matta@gmail.com}
   \item Leslie Rutkowski \email{leslie.rutkowski@cemo.uio.no}
   \item David Rutkowski \email{david.rutkowski@cemo.uio.no}

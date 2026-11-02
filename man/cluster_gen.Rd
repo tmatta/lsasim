@@ -37,7 +37,7 @@ cluster_gen(
 \item{resp_labels}{character vector with the names of the questionnaire respondents on each level}
 
 \item{cat_prop}{list of cumulative proportions for each item. If \code{theta
-  = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
+= TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
 corresponds to the \code{theta}.}
 
 \item{n_X}{list of \code{n_X} per cluster level}

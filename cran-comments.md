@@ -1,23 +1,22 @@
 Dear CRAN Team,
 this is a resubmission of package 'lsasim'. I have added the following changes:
 
-* Improved output of `cluster_gen()`
-* Improved documentation of `cluster_gen()` (issue #52)
-* Improved Markdown formatting of documentation everywhere
-* Allow simultaneous specification of `cat_prop` and `rho` on `cluster_gen()` (issue #51)
+* Adjust test expectations to new `str()` behavior (issue #53)
+* `DESCRIPTION` now includes a URL
+* Adapted documentation to Roxygen2 version 8
 
 Please upload to CRAN.
 Best, Waldir
 
-# Package lsasim 2.1.6
+# Package lsasim 2.1.7
 
-Reporting is done by packager version 1.15.2
+Reporting is done by packager version 1.15.3
 
 
 ## Test environments
-- R version 4.4.1 (2024-06-14)
+- R version 4.5.2 (2025-10-31)
    Platform: x86_64-pc-linux-gnu
-   Running under: Ubuntu 24.10
+   Running under: Ubuntu 26.04.1 LTS
    ERROR: No check log found!
 - win-builder (devel)
 
