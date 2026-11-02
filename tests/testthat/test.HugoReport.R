@@ -365,16 +365,16 @@ mc8 <- cluster_gen_2(
 )
 
 test_that("Clusters are created correctly", {
-	expect_output(str(mc1), "school:List of 3")
-	expect_output(str(mc4), "school:List of 10")
-	expect_output(str(mc1_1), "school:List of 3")
-	expect_output(str(mc7), "country:List of 2")
-	expect_output(str(mc7_1), "school:List of 10")
-	expect_output(str(mc7_2), "school:List of 10")
-	expect_output(str(mc2), "school:List of 10")
-	expect_output(str(mc3), "school:List of 10")
-	expect_output(str(mc3_1), "school:List of 10")
-	expect_output(str(mc3_2), "school:List of 10")
+	expect_output(str(mc1), "school: *List of 3")
+	expect_output(str(mc4), "school: *List of 10")
+	expect_output(str(mc1_1), "school: *List of 3")
+	expect_output(str(mc7), "country: *List of 2")
+	expect_output(str(mc7_1), "school: *List of 10")
+	expect_output(str(mc7_2), "school: *List of 10")
+	expect_output(str(mc2), "school: *List of 10")
+	expect_output(str(mc3), "school: *List of 10")
+	expect_output(str(mc3_1), "school: *List of 10")
+	expect_output(str(mc3_2), "school: *List of 10")
 })
 test_that("Summaries produce expected output", {
 	expect_output(str(summary(mc7_2, print="none")), "List of 7")
@@ -426,15 +426,15 @@ set.seed(12334)
 sc4_2 <- cluster_gen_2(n7, n_X=2, n_W=0, sigma = c(7, 1.5), cor_matrix = m4)
 
 test_that("Clusters are generated correctly", {
-	expect_output(str(sc1), "school:List of 10")
-	expect_output(str(sc1_1), "school:List of 10")
-	expect_output(str(sc2), "school:List of 10")
-	expect_output(str(sc3), "school:List of 10")
-	expect_output(str(sc4), "school:List of 10")
-	expect_output(str(sc1_2), "school:List of 10")
-	expect_output(str(sc2_2), "school:List of 10")
-	expect_output(str(sc3_2), "school:List of 10")
-	expect_output(str(sc4_2), "school:List of 10")
+	expect_output(str(sc1), "school: *List of 10")
+	expect_output(str(sc1_1), "school: *List of 10")
+	expect_output(str(sc2), "school: *List of 10")
+	expect_output(str(sc3), "school: *List of 10")
+	expect_output(str(sc4), "school: *List of 10")
+	expect_output(str(sc1_2), "school: *List of 10")
+	expect_output(str(sc2_2), "school: *List of 10")
+	expect_output(str(sc3_2), "school: *List of 10")
+	expect_output(str(sc4_2), "school: *List of 10")
 })
 test_that("Summaries produce expected output", {
 	expect_output(str(summary(sc1, print="none")), "List of 7")
@@ -507,10 +507,10 @@ csc4 <- cluster_gen_2(
 )
 
 test_that("Clusters are generated correctly", {
-	expect_output(str(csc1), "school:List of 10")
-	expect_output(str(csc2), "school:List of 10")
-	expect_output(str(csc3), "school:List of 10")
-	expect_output(str(csc4), "school:List of 10")
+	expect_output(str(csc1), "school: *List of 10")
+	expect_output(str(csc2), "school: *List of 10")
+	expect_output(str(csc3), "school: *List of 10")
+	expect_output(str(csc4), "school: *List of 10")
 	expect_error(
 		cluster_gen_2(
 			n7, n_X = 5,
