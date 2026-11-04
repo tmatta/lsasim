@@ -3,17 +3,27 @@
 #' @param k deflating weight factor. \eqn{0 \leq k \leq 1}.
 #' @param pseudo_strata number of pseudo-strata
 #' @param reps number of replicates
-#' @param max_reps maximum number of replicates (only functional if `reps = NULL`)
+#' @param max_reps maximum number of replicates (only functional if
+#'   `reps = NULL`)
 #' @param weight_cols vector of weight columns
-#' @param drop if `TRUE`, the observation that will not be part of the subsample is dropped from the dataset. Otherwise, it stays in the dataset but a new weight column is created to differentiate the selected observations
-#' @param id_col number of column in dataset containing subject IDs. Set 0 to use the row names as ID
+#' @param drop if `TRUE`, the observation that will not be part of the
+#'   subsample is dropped from the dataset. Otherwise, it stays in the dataset
+#'   but a new weight column is created to differentiate the selected
+#'   observations
+#' @param id_col number of column in dataset containing subject IDs. Set 0 to
+#'   use the row names as ID
 #' @return a list containing all the BRR replicates of `data`
 #' @seealso [jackknife()]
 #' @note PISA uses the BRR Fay method with \eqn{k = 0.5}.
 #' @references
 #' OECD (2015). Pisa Data Analysis Manual.
-#' Adams, R., & Wu, M. (2002). PISA 2000 Technical Report. Paris: Organization for Economic Co-operation and Development (OECD).
-#' Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex surveys using replication techniques. Statistical methods in medical research, 5(3), 283-310.
+#'
+#' Adams, R., & Wu, M. (2002). PISA 2000 Technical Report. Paris: Organization
+#'   for Economic Co-operation and Development (OECD).
+#'
+#' Rust, K. F., & Rao, J. N. K. (1996). Variance estimation for complex
+#'   surveys using replication techniques. Statistical methods in medical
+#'   research, 5(3), 283-310.
 #' @export
 brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
                 reps = NULL, max_reps = 80,

@@ -1,8 +1,10 @@
 #' @title Sample from population structure
 #' @description Generates a sample from a population structure
 #' @param N list containing the population sampling structure
-#' @param n numeric vector with the number of sampled observations (clusters or subjects) on each level
-#' @param labels character vector with the names of the questionnaire respondents on each level
+#' @param n numeric vector with the number of sampled observations (clusters
+#'   or subjects) on each level
+#' @param labels character vector with the names of the questionnaire
+#'   respondents on each level
 #' @param verbose if `TRUE`, prints output messages
 #' @importFrom stats complete.cases
 #' @export

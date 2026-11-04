@@ -39,6 +39,8 @@ test_that("Sampling weights are the expected", {
     extract_weights(data_skl_elv_mix), extract_weights(data_skl_elv_srs)
   )
   expect_false(
-    identical(extract_weights(data_skl_elv_mix), extract_weights(data_sch_stu_pps))
+    identical(
+      extract_weights(data_skl_elv_mix), extract_weights(data_sch_stu_pps)
+    )
   )
 })

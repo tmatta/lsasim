@@ -5,7 +5,8 @@
 #' @param numeric_cols indices of the numeric columns
 #' @param factor_cols indices of the factor columns
 #' @param digits controls the number of digits in the output
-#' @description Adds standard deviations and removes quantiles from a `summary()` output
+#' @description Adds standard deviations and removes quantiles from a
+#'   `summary()` output
 #' @importFrom stats sd
 customize_summary <- function(
   df_summary, df, numeric_cols, factor_cols, digits = 3

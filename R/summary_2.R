@@ -2,7 +2,8 @@
 #' @description Creates summary statistics of a dataset
 #' @param data Data frame
 #' @param digits number of digits for the output
-#' @note This function is inspired by base::summary(), but outputs content more relevant to the context of cluster_gen() and summary()
+#' @note This function is inspired by base::summary(), but outputs content
+#'   more relevant to the context of cluster_gen() and summary()
 #' @seealso [base::summary()]
 summary_2 <- function(data, digits = 3) {
   # Basic elements

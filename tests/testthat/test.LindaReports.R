@@ -158,12 +158,16 @@ test_that("Case 1: consistent changing cor_matrix, n_vars and cat_prop", {
 
 test_that("Case 2: errors are thrown", {
   expect_error(questionnaire_gen(n_obs = 5, n_vars = 4, n_X = 1, n_W = 2))
-  expect_error(questionnaire_gen(n_obs = 5, n_vars = 4, n_X = 1, n_W = 2, theta = F))
+  expect_error(
+    questionnaire_gen(n_obs = 5, n_vars = 4, n_X = 1, n_W = 2, theta = F)
+  )
 })
 
 test_that("Case 3: data is generated", {
   data1 <- questionnaire_gen(n_obs = 5, n_vars = 4, n_X = 1, n_W = 2, theta = T)
-  data2 <- questionnaire_gen(n_obs = 5, n_vars = 4, n_X = 1, n_W = list(2, 2), theta = T)
+  data2 <- questionnaire_gen(
+    n_obs = 5, n_vars = 4, n_X = 1, n_W = list(2, 2), theta = T
+  )
   expect_output(str(data1), "5 obs")
   expect_output(str(data2), "5 obs")
 })

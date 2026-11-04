@@ -2,16 +2,20 @@
 #' @description calculates sampling weights for the questionnaire responses
 #' @param cluster_bg dataset with background questionnaire
 #' @param n_obs list with the number of elements per level
-#' @param N list of numeric vector with the population size of each *sampled* cluster element on each level
+#' @param N list of numeric vector with the population size of each *sampled*
+#'   cluster element on each level
 #' @param lvl number of the current level
 #' @param sublvl number of the current sub-level (element within level)
 #' @param previous_sublvl number of the sub-level of the parent level
-#' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size
+#' @param sampling_method can be "SRS" for Simple Random Sampling or "PPS" for
+#'   Probabilities Proportional to Size
 #' @param cluster_labels character vector with the names of each cluster level
-#' @param resp_labels character vector with the names of the questionnaire respondents on each level
+#' @param resp_labels character vector with the names of the questionnaire
+#'   respondents on each level
 #' @param sum_pop total population at each level (sampled or not)
 #' @param verbose if `TRUE`, prints output messages
-#' @return Input data frame (`cluster_bg`) with three new columns for the sampling weights.
+#' @return Input data frame (`cluster_bg`) with three new columns for the
+#'   sampling weights.
 weight_responses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
                              sampling_method, cluster_labels, resp_labels,
                              sum_pop, verbose) {
@@ -77,8 +81,12 @@ weight_responses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
     for (l in 2:max(lvl - 1, 2)) {
       parent_label <- label_respondents(n_obs)[sublvl, l - 1]
       cluster_substructure <- list(
-        n = cluster_substructure$n[cluster_substructure$n[, l - 1] == parent_label, ],
-        N = cluster_substructure$N[cluster_substructure$N[, l - 1] == parent_label, ]
+        n = cluster_substructure$n[
+          cluster_substructure$n[, l - 1] == parent_label,
+        ],
+        N = cluster_substructure$N[
+          cluster_substructure$N[, l - 1] == parent_label,
+        ]
       )
     }
   }

@@ -413,7 +413,9 @@ test_that("Weights are correct for different sampling methods", {
     sum(rep(8, sum(8:4)))
   )
   expect_equivalent(calc_weights(ex7$state)["state.weight"], 1 * 3)
-  expect_equivalent(calc_weights(ex7$school)["final.principal.weight"], sum(8:4))
+  expect_equivalent(
+    calc_weights(ex7$school)["final.principal.weight"], sum(8:4)
+  )
   expect_equivalent(calc_weights(ex7$class)["class.weight"], 5 * 2 * 6)
 })
 
@@ -715,16 +717,22 @@ test_that("Replication weights are correct", {
     n_X = 3, n_W = 1,
     print_pop_structure = FALSE, verbose = FALSE
   )
-  expect_equivalent(mean(unlist(calc_replicate_weights(w, "Jackknife"))), 0.2, .1)
+  expect_equivalent(
+    mean(unlist(calc_replicate_weights(w, "Jackknife"))), 0.2, .1
+  )
   expect_equivalent(mean(unlist(calc_replicate_weights(w, "BRR"))), 0.2, .1)
   expect_equivalent(mean(unlist(calc_replicate_weights(w, "BRR Fay"))), 0.2, .1)
   expect_equal(mean(unlist(calc_replicate_weights(x, "Jackknife"))), NaN)
   expect_equal(mean(unlist(calc_replicate_weights(x, "BRR"))), 0.4, .1)
   expect_equivalent(mean(unlist(calc_replicate_weights(x, "BRR Fay"))), 0.4, .1)
-  expect_equivalent(mean(unlist(calc_replicate_weights(y, "Jackknife"))), 0.1, .1)
+  expect_equivalent(
+    mean(unlist(calc_replicate_weights(y, "Jackknife"))), 0.1, .1
+  )
   expect_equivalent(mean(unlist(calc_replicate_weights(y, "BRR"))), 0.1, .1)
   expect_equivalent(mean(unlist(calc_replicate_weights(y, "BRR Fay"))), 0.1, .1)
-  expect_equivalent(mean(unlist(calc_replicate_weights(z, "Jackknife"))), 0.2, .1)
+  expect_equivalent(
+  mean(unlist(calc_replicate_weights(z, "Jackknife"))), 0.2, .1
+)
   expect_equivalent(mean(unlist(calc_replicate_weights(z, "BRR"))), 0.2, .1)
   expect_equivalent(mean(unlist(calc_replicate_weights(z, "BRR Fay"))), 0.2, .1)
 })

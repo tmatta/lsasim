@@ -8,14 +8,16 @@
 #' @param b_par numeric vector of item b parameters for each item.
 #' @param a_par numeric vector of item a parameters for each item.
 #' @param c_par numeric vector of item c parameters for each item.
-#' @param d_par list of numeric vectors of item threshold parameters for each item.
+#' @param d_par list of numeric vectors of item threshold parameters for each
+#'   item.
 #' @param item_no vector of item numbers the correspond the item parameters
 #' @param ogive can be "Normal" or "Logistic".
 #'
 #' @section Details:
 #' \code{subject} and \code{item} must be equal lengths.
 #'
-#' Generalized partial credit models (\code{!is.null(d_par)}) uses threshold parameterization.
+#' Generalized partial credit models (\code{!is.null(d_par)}) uses threshold
+#'   parameterization.
 #'
 #' @examples
 #' set.seed(1234)
@@ -49,8 +51,12 @@
 #' )
 #'
 #' @export
-response_gen <- function(subject, item, theta, a_par = NULL, b_par, c_par = NULL, d_par = NULL, item_no = NULL, ogive = "Logistic") {
-  if (length(subject) != length(item)) stop("subject and item vectors must be equal length.", call. = FALSE)
+response_gen <- function(subject, item, theta, a_par = NULL, b_par,
+  c_par = NULL, d_par = NULL, item_no = NULL, ogive = "Logistic"
+) {
+  if (length(subject) != length(item)) {
+    stop("subject and item vectors must be equal length.", call. = FALSE)
+  }
 
   if (is.null(a_par)) a_par <- rep(1, length(unique(item)))
   if (is.null(c_par)) c_par <- rep(0, length(unique(item)))

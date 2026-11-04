@@ -1,7 +1,10 @@
 #' @title Generate replicates of a dataset using Jackknife
 #' @param data dataset
 #' @param weight_cols vector of weight columns
-#' @param drop if `TRUE`, the observation that will not be part of the subsample is dropped from the dataset. Otherwise, it stays in the dataset but a new weight column is created to differentiate the selected observations
+#' @param drop if `TRUE`, the observation that will not be part of the
+#'   subsample is dropped from the dataset. Otherwise, it stays in the dataset
+#'   but a new weight column is created to differentiate the selected
+#'   observations
 #' @return a list containing all the Jackknife replicates of `data`
 #' @seealso [brr()]
 #' @examples

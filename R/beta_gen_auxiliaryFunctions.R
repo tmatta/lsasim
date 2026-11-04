@@ -14,7 +14,9 @@ exp_AB <- function(names_b, mu_a, mu_b, cov_ab, q_z, mu_z = 0, sd_z = 1) {
     b_num <- match(b, names_b)
     for (i in seq_along(mu_b[[b]])) {
       exp_ab[[b]][i] <- mu_b[[b]][i] *
-        exp_A_given_B(q_z[[b]][i], q_z[[b]][i + 1], mu_a, mu_z, sd_z, cov_ab[b_num])
+        exp_A_given_B(
+          q_z[[b]][i], q_z[[b]][i + 1], mu_a, mu_z, sd_z, cov_ab[b_num]
+        )
     }
   }
   return(exp_ab)

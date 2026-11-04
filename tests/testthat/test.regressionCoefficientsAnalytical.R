@@ -69,7 +69,9 @@ yxw <- setNames(df_yxw$bg, c("subject", "y", "x1", "x2", "w1", "w2"))
 
 # Test data (to be removed) ------------------------------------------
 mu_yxz <- list(y = mu_yx[1], x1 = mu_yx[2], x2 = mu_yx[3], z1 = 0, z2 = 0)
-var_yxz <- list(y = sd_yx[1]^2, x1 = sd_yx[2]^2, x2 = sd_yx[3]^2, z1 = 1, z2 = 1)
+var_yxz <- list(
+  y = sd_yx[1]^2, x1 = sd_yx[2]^2, x2 = sd_yx[3]^2, z1 = 1, z2 = 1
+)
 sd_yxz <- lapply(var_yxz, sqrt)
 num_yx <- 3
 cols_z <- 4:5
@@ -107,7 +109,9 @@ reg_yxw <- lm(y ~ x1 + x2 + w1 + w2, yxw)
 # Calculating elements of vcov_yxw ----------------------------------------
 # Missing pieces: all covariances involving W, i.e., Cov(Y, W), Cov(X, W) and
 # Cov(W, W). Calculations below:
-exp_X_given_Y <- function(lo_lim, up_lim, mu_X = 0, cov_XY = .5, mu_Y = 0, sd_Y = 1) {
+exp_X_given_Y <- function(
+  lo_lim, up_lim, mu_X = 0, cov_XY = .5, mu_Y = 0, sd_Y = 1
+) {
   a <- (lo_lim - mu_Y) / sd_Y
   b <- (up_lim - mu_Y) / sd_Y
   return(mu_X + (cov_XY / sd_Y) * (dnorm(a) - dnorm(b)) / (pnorm(b) - pnorm(a)))
@@ -163,8 +167,9 @@ vcov_yxw[1, ] <- vcov_yxw[, 1] <- c(var_yxz$y, cov_yx, cov_yx, unlist(cov_yw))
 vcov_yxw[1:num_yx, 1:num_yx] <- vcov_yxz[-cols_z, -cols_z]
 
 # Adding Cov(X, W)
-vcov_yxw["x1", c("w1", "w21", "w22")] <- vcov_yxw[c("w1", "w21", "w22"), "x1"] <- unlist(cov_x1w)
-vcov_yxw["x2", c("w1", "w21", "w22")] <- vcov_yxw[c("w1", "w21", "w22"), "x2"] <- unlist(cov_x2w)
+w12122 <- c("w1", "w21", "w22")
+vcov_yxw["x1", w12122] <- vcov_yxw[w12122, "x1"] <- unlist(cov_x1w)
+vcov_yxw["x2", w12122] <- vcov_yxw[w12122, "x2"] <- unlist(cov_x2w)
 
 # Adding Cov(W, W) for the same Z
 vcov_yxw[4, 4] <- vcov_w$w1
@@ -177,8 +182,14 @@ calc_p_mvn_trunc <- function(lo, up, sig, mu = c(0, 0)) {
 
 vcov_yxw["w1", c("w21", "w22")] <- vcov_yxw[c("w21", "w22"), "w1"] <-
   c(
-    calc_p_mvn_trunc(c(q_z$w1[2], q_z$w2[2]), c(q_z$w1[3], q_z$w2[3]), sig = matrix(c(1, cov_zz, cov_zz, 1), 2)) * .5 - .6 * .5,
-    calc_p_mvn_trunc(c(q_z$w1[2], q_z$w2[3]), c(q_z$w1[3], q_z$w2[4]), sig = matrix(c(1, cov_zz, cov_zz, 1), 2)) * .2 - .6 * .2
+    calc_p_mvn_trunc(
+      c(q_z$w1[2], q_z$w2[2]), c(q_z$w1[3], q_z$w2[3]),
+      sig = matrix(c(1, cov_zz, cov_zz, 1), 2)
+    ) * .5 - .6 * .5,
+    calc_p_mvn_trunc(
+      c(q_z$w1[2], q_z$w2[3]), c(q_z$w1[3], q_z$w2[4]),
+      sig = matrix(c(1, cov_zz, cov_zz, 1), 2)
+    ) * .2 - .6 * .2
   )
 
 # Creating submatrices
@@ -189,9 +200,13 @@ vcov_yw2 <- vcov_yxw[c("y", "w21", "w22"), c("y", "w21", "w22")]
 vcov_yx1w1 <- vcov_yxw[c("y", "x1", "w1"), c("y", "x1", "w1")]
 vcov_yx1w2 <- vcov_yxw[c("y", "x1", "w21", "w22"), c("y", "x1", "w21", "w22")]
 vcov_yw <- vcov_yxw[c("y", "w1", "w21", "w22"), c("y", "w1", "w21", "w22")]
-vcov_yx1w <- vcov_yxw[c("y", "x1", "w1", "w21", "w22"), c("y", "x1", "w1", "w21", "w22")]
+vcov_yx1w <- vcov_yxw[
+  c("y", "x1", "w1", "w21", "w22"), c("y", "x1", "w1", "w21", "w22")
+]
 vcov_yxw1 <- vcov_yxw[c("y", "x1", "x2", "w1"), c("y", "x1", "x2", "w1")]
-vcov_yxw2 <- vcov_yxw[c("y", "x1", "x2", "w21", "w22"), c("y", "x1", "x2", "w21", "w22")]
+vcov_yxw2 <- vcov_yxw[
+  c("y", "x1", "x2", "w21", "w22"), c("y", "x1", "x2", "w21", "w22")
+]
 
 # Calculating regression coefficients -------------------------------------
 mu_xw <- c("x1" = mu_yxz$x1, "x2" = mu_yxz$x2, mu_w_minus_1)
@@ -230,7 +245,9 @@ beta_reg_yx1w <- beta_gen(df_yx1w)
 beta_reg_yxw <- beta_gen(df_yxw)
 
 # Benchmarking regression coefficients ------------------------------------
-compareRegScrBeta <- function(reg_data, cov_data, beta_gen_data, print = FALSE) {
+compareRegScrBeta <- function(
+    reg_data, cov_data, beta_gen_data, print = FALSE
+  ) {
   tab <- rbind(
     "reg" = coef(reg_data),
     "script" = cov_data,

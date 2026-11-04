@@ -3,7 +3,9 @@
 # Data and subset
 set.seed(8078908)
 param <- NAEPirtparams::parameters
-item_par <- param[param$level %in% 8 & param$subject %in% "Mathematics" & param$year %in% 2015, ]
+item_par <- param[
+  param$level %in% 8 & param$subject %in% "Mathematics" & param$year %in% 2015,
+]
 
 # Happy path
 item_par_1 <- item_par

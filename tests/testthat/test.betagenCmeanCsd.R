@@ -45,7 +45,8 @@ qGenWrap <- function(nX, nW, mu = NULL, n = 200, verbose = FALSE) {
   return(list(data = data, means = means, avg_coverage = avg_coverage))
 }
 
-# The numbering logic below is df_abc, where the "abc" contains numbers of n_X amd n_W and for mu
+# The numbering logic below is df_abc, where the "abc" contains numbers of n_X
+# amd n_W and for mu
 
 df_111mb <- qGenWrap(1, list(2), c(20, -30))
 
@@ -105,7 +106,8 @@ qGenWrap <- function(nX, nW, sd = NULL, n = 200, verbose = FALSE) {
   return(list(data = data, sds = sds, avg_coverage = avg_coverage))
 }
 
-# The numbering logic below is df_abc, where the "abc" contains numbers for n_X, n_W and sd
+# The numbering logic below is df_abc, where the "abc" contains numbers for
+# n_X, n_W and sd
 
 df_229m <- qGenWrap(2, list(2, 3), 7:9)
 

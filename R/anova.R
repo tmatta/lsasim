@@ -1,12 +1,17 @@
 #' @title Generate an ANOVA table for LSASIM clusters
 #' @description Prints Analysis of Variance table for `cluster_gen` output.
 #' @param object list output of `cluster_gen`
-#' @param print if `TRUE`, output will be a list containing estimators; if `FALSE` (default), output are formatted tables of this information
-#' @param calc.se if `TRUE`, will try to calculate the standard error of the intraclass correlation
-#' @param ... additional objects of the same type (see `help("anova")` for details)
+#' @param print if `TRUE`, output will be a list containing estimators; if
+#'   `FALSE` (default), output are formatted tables of this information
+#' @param calc.se if `TRUE`, will try to calculate the standard error of the
+#'   intraclass correlation
+#' @param ... additional objects of the same type (see `help("anova")` for
+#'   details)
 #' @return Printed ANOVA table or list of parameters
-#' @note  If the rhos for different levels are varied in scale, the generated rho will be less accurate.
-#' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
+#' @note  If the rhos for different levels are varied in scale, the generated
+#'   rho will be less accurate.
+#' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel
+#'   Analysis. Sage Publications.
 #' @seealso [summary.lsasimcluster()]
 #' @importFrom stats anova
 #' @method anova lsasimcluster
@@ -35,7 +40,9 @@ anova.lsasimcluster <- function(object, print = TRUE, calc.se = TRUE, ...) {
     } else {
       ## Sample statistics -----------------------------------------------
       s2_within <- calc_var_within(ds$n_j, ds$s2_j, ds$M, ds$N)
-      s2_between <- calc_var_between(ds$n_j, ds$y_bar_j, ds$y_bar, ds$n_tilde, ds$N)
+      s2_between <- calc_var_between(
+        ds$n_j, ds$y_bar_j, ds$y_bar, ds$n_tilde, ds$N
+      )
       s2_total <- calc_var_tot(ds$M, ds$N, ds$n_tilde, s2_within, s2_between)
       out <- list(sample_statistics = c(
         s2_within = s2_within,

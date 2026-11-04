@@ -3,8 +3,10 @@
 #' @param data dataset
 #' @param w_cols columns containing the weights
 #' @param replicate_weight scalar with the replicate weights
-#' @param reorder if `TRUE`, reorders the dataset so that the replicate weights appear before the final weights
-#' @return input data with recalculated final weights, incorporating the replicate weights
+#' @param reorder if `TRUE`, reorders the dataset so that the replicate
+#'   weights appear before the final weights
+#' @return input data with recalculated final weights, incorporating the
+#'   replicate weights
 #' @export
 recalc_final_weights <- function(data, w_cols, replicate_weight = 1,
                                  reorder = TRUE) {

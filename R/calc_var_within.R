@@ -4,7 +4,8 @@
 #' @param M total sample size
 #' @param N number of classes j
 #' @param s2_j variance of all elements in class j
-#' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
+#' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel
+#'   Analysis. Sage Publications.
 calc_var_within <- function(n_j, s2_j, M, N) {
   X <- colnames(s2_j)
   s2_within <- vector()

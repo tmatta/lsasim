@@ -26,7 +26,8 @@ n10 <- list(
   student = ranges(10, 50)
 )
 n11 <- list(
-  culture = 2, country = 2, school = 10, class = c(2, 1, 3, 1, 1, 1, 2, 1, 2, 1),
+  culture = 2, country = 2, school = 10,
+  class = c(2, 1, 3, 1, 1, 1, 2, 1, 2, 1),
   student = ranges(10, 50)
 )
 n12 <- list(
@@ -48,23 +49,38 @@ data1 <- cluster_gen_2(n3, n_X = c(1, 2), c_mean = list(10, c(-100, 1e3)))
 data2 <- cluster_gen_2(n3, n_X = c(1, 2), sigma = list(.1, c(1, 2)))
 dat4 <- cluster_gen_2(n4, n_X = 3, c_mean = c(0.0005, 0.0006, 0.0008))
 dat5 <- cluster_gen_2(n5, n_X = c(1, 3), c_mean = list(34.55, c(0.1, 0.2, 0.3)))
-dat5a <- cluster_gen_2(n5a, n_X = c(3, 3), c_mean = list(c(1, 2, 2), c(0.15, 0.25, 0.35)))
+dat5a <- cluster_gen_2(
+  n5a, n_X = c(3, 3), c_mean = list(c(1, 2, 2), c(0.15, 0.25, 0.35))
+)
 dat6 <- cluster_gen_2(n6, n_X = c(2, 2), c_mean = list(c(10, 20), c(200, 3)))
-dat10 <- cluster_gen_2(n10, n_X = c(2, 3, 3), c_mean = list(c(0.1, 0.225), c(0.87, 0.005, 30), c(70, 700, 7000)))
-dat11 <- cluster_gen_2(n11, n_X = c(1, 2, 2, 2), c_mean = list(0.001, c(0.15, 0.25), c(0.35, 0.45), c(0.55, 0.65)))
-dat12 <- cluster_gen_2(n12, n_X = c(1, 1, 2, 2, 3), c_mean = list(0.07, 0.75, c(10.55, 25), c(44, 66), c(78, 88, 98)))
+dat10 <- cluster_gen_2(
+  n10, n_X = c(2, 3, 3),
+  c_mean = list(c(0.1, 0.225), c(0.87, 0.005, 30), c(70, 700, 7000))
+)
+dat11 <- cluster_gen_2(
+  n11, n_X = c(1, 2, 2, 2),
+  c_mean = list(0.001, c(0.15, 0.25), c(0.35, 0.45), c(0.55, 0.65))
+)
+dat12 <- cluster_gen_2(
+  n12, n_X = c(1, 1, 2, 2, 3),
+  c_mean = list(0.07, 0.75, c(10.55, 25), c(44, 66), c(78, 88, 98))
+)
 set.seed(12334)
 s4 <- cluster_gen_2(n4, n_X = 4, sigma = c(0.7, 0.8, 0.9, 0.11))
 set.seed(12334)
 s5 <- cluster_gen_2(n5, n_X = c(1, 2), sigma = list(.07, c(14.5, 20.5)))
 set.seed(12334)
-s6a <- cluster_gen_2(n6a, n_X = c(3, 3), sigma = list(c(21, 37, 48), c(51, 58, 67)))
+s6a <- cluster_gen_2(
+  n6a, n_X = c(3, 3), sigma = list(c(21, 37, 48), c(51, 58, 67))
+)
 set.seed(12334)
 s7 <- cluster_gen_2(n7, n_X = 2, sigma = c(72, 81))
 set.seed(12334)
 s8 <- cluster_gen_2(n8, n_X = 4, sigma = c(0.111, 0.113, 0.115, 0.117))
 set.seed(12334)
-s9 <- cluster_gen_2(n9, n_X = c(2, 2), sigma = list(c(99, 101), c(0.006, 0.008)))
+s9 <- cluster_gen_2(
+  n9, n_X = c(2, 2), sigma = list(c(99, 101), c(0.006, 0.008))
+)
 
 test_that("Stress-testing summarize_cluster()", {
   expect_message(
@@ -272,14 +288,35 @@ test_that("Testing rho", {
 # ======================================================== #
 
 set.seed(12334)
-r1 <- cluster_gen_2(n4, n_X = 5, c_mean = c(0.1, 0.5, 0.001, 234, 701), sigma = c(0.111, 0.113, 0.115, 0.117, 0.119))
-r2 <- cluster_gen_2(n4, n_X = 5, c_mean = c(10, 55, 0.21, 2.34, 5000), sigma = c(40, 100, 0.11, 3, 1500))
-r3 <- cluster_gen_2(n4, n_X = 5, c_mean = c(10, 55, 0.21, 2.34, 5000), sigma = c(40, 100, 0.11, 3, 1500))
-r4 <- cluster_gen_2(n4, n_X = 5, c_mean = c(0.1, 0.5, 0.001, 234, 701), sigma = c(0.111, 0.113, 0.115, 0.117, 0.119))
-r5 <- cluster_gen_2(n6, n_X = 3, c_mean = c(0.3, 0.35, 0.4), sigma = c(0.11, 0.22, 0.33))
-r6 <- cluster_gen_2(n6, n_X = 3, c_mean = c(0.7, 100, 355), sigma = c(0.2, 21, 0.7))
-r7 <- cluster_gen_2(n10, n_X = 4, c_mean = c(1, 20, 0.25, 50.54), sigma = c(0.3, 3.5, 0.1, 3))
-r8 <- cluster_gen_2(n10, n_X = 4, c_mean = c(0.001, 0.005, 213, 234), sigma = c(0.0001, 0.001, 11, 6))
+r1 <- cluster_gen_2(
+  n4, n_X = 5, c_mean = c(0.1, 0.5, 0.001, 234, 701),
+  sigma = c(0.111, 0.113, 0.115, 0.117, 0.119)
+)
+r2 <- cluster_gen_2(
+  n4, n_X = 5, c_mean = c(10, 55, 0.21, 2.34, 5000),
+  sigma = c(40, 100, 0.11, 3, 1500)
+)
+r3 <- cluster_gen_2(
+  n4, n_X = 5, c_mean = c(10, 55, 0.21, 2.34, 5000),
+  sigma = c(40, 100, 0.11, 3, 1500)
+)
+r4 <- cluster_gen_2(
+  n4, n_X = 5, c_mean = c(0.1, 0.5, 0.001, 234, 701),
+  sigma = c(0.111, 0.113, 0.115, 0.117, 0.119)
+)
+r5 <- cluster_gen_2(
+  n6, n_X = 3, c_mean = c(0.3, 0.35, 0.4), sigma = c(0.11, 0.22, 0.33)
+)
+r6 <- cluster_gen_2(
+  n6, n_X = 3, c_mean = c(0.7, 100, 355), sigma = c(0.2, 21, 0.7)
+)
+r7 <- cluster_gen_2(
+  n10, n_X = 4, c_mean = c(1, 20, 0.25, 50.54), sigma = c(0.3, 3.5, 0.1, 3)
+)
+r8 <- cluster_gen_2(
+  n10, n_X = 4, c_mean = c(0.001, 0.005, 213, 234),
+  sigma = c(0.0001, 0.001, 11, 6)
+)
 
 test_that("mean values are the expected", {
   r1s <- summary(r1, print_hetcor = FALSE, print = "none")$school$y_bar
@@ -426,11 +463,17 @@ sc2 <- cluster_gen_2(n7, sigma = c(0.5, 0.7, 10), cor_matrix = m2)
 sc3 <- cluster_gen_2(n7, sigma = c(0.2, 0.4, 5), cor_matrix = m3)
 set.seed(12334)
 sc4 <- cluster_gen_2(n7, sigma = c(7, 1.5), cor_matrix = m4)
-sc1_2 <- cluster_gen_2(n7, n_X = 4, n_W = 0, sigma = c(1, 2, 3, 4), cor_matrix = m1)
+sc1_2 <- cluster_gen_2(
+  n7, n_X = 4, n_W = 0, sigma = c(1, 2, 3, 4), cor_matrix = m1
+)
 set.seed(12334)
-sc2_2 <- cluster_gen_2(n7, n_X = 2, n_W = 1, sigma = c(0.5, 0.7), cor_matrix = m2)
+sc2_2 <- cluster_gen_2(
+  n7, n_X = 2, n_W = 1, sigma = c(0.5, 0.7), cor_matrix = m2
+)
 set.seed(12334)
-sc3_2 <- cluster_gen_2(n7, n_X = 3, n_W = 0, sigma = c(0.2, 0.4, 5), cor_matrix = m3)
+sc3_2 <- cluster_gen_2(
+  n7, n_X = 3, n_W = 0, sigma = c(0.2, 0.4, 5), cor_matrix = m3
+)
 set.seed(12334)
 sc4_2 <- cluster_gen_2(n7, n_X = 2, n_W = 0, sigma = c(7, 1.5), cor_matrix = m4)
 
@@ -471,7 +514,9 @@ for (i in seq_len(sample_size)) {
   )
 }
 n7_500 <- list(school = 500, student = ranges(10, 50))
-cr1_500 <- cluster_gen_2(n7_500, n_X = 2, n_W = 2, cor_matrix = m1, rho = c(0.1, 0.2))
+cr1_500 <- cluster_gen_2(
+  n7_500, n_X = 2, n_W = 2, cor_matrix = m1, rho = c(0.1, 0.2)
+)
 
 test_that("rho converges to true values", {
   expect_equivalent(apply(rho_hat, 2, mean), c(0.1, 0.2), tol = 0.05)

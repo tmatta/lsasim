@@ -4,9 +4,12 @@
 #'
 #' @section Details:
 #'
-#' A list containing the marginal cumulative proportions for each response category from the PISA 2012 background questionnaire.
-#' Elements 1 - 18 are the marginal proportions for the selected items from the background questionnaire.
-#' Element 19 is the marginal proportion for the selected mathematics plausible value.
+#' A list containing the marginal cumulative proportions for each response
+#'   category from the PISA 2012 background questionnaire.
+#' Elements 1 - 18 are the marginal proportions for the selected items from
+#'   the background questionnaire.
+#' Element 19 is the marginal proportion for the selected mathematics
+#'   plausible value.
 #'
 #'  \tabular{llll}{
 #'  \strong{Row/Col} \tab   \strong{Name}  \tab  \strong{Label}                 \tab  \strong{Length} \cr
@@ -33,10 +36,13 @@
 #'
 #' @section Warning:
 #'
-#' These data are for illustration purposes only.  Handling of missing data may not be suitable for valid inferences.
+#' These data are for illustration purposes only.  Handling of missing data
+#'   may not be suitable for valid inferences.
 #'
 #' @source
-#' Raw data can be found at \url{https://www.oecd.org/en/data/datasets/pisa-2012-database.html}
-#' Codebook can be found at \url{https://www.oecd.org/en/about/programmes/pisa.html}
+#' Raw data can be found at
+#'   \url{https://www.oecd.org/en/data/datasets/pisa-2012-database.html}
+#' Codebook can be found at
+#'   \url{https://www.oecd.org/en/about/programmes/pisa.html}
 #'
 "pisa2012_q_marginal"

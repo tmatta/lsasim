@@ -3,7 +3,8 @@
 #' @param rho intraclass correlation
 #' @param n_j number of elements in class j
 #' @param N number of classes j
-#' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
+#' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel
+#'   Analysis. Sage Publications.
 calc_se_rho <- function(rho, n_j, N) {
   if (stats::var(n_j) == 0) {
     n <- unname(n_j[1])

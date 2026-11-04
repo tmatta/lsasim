@@ -1,10 +1,13 @@
 #' @title Print messages about clusters
-#' @description Prints messages about the cluster scheme before generating questionnaire responses.
+#' @description Prints messages about the cluster scheme before generating
+#'   questionnaire responses.
 #' @param n_obs list with the number of elements per level
 #' @param cluster_labels character vector with the names of each cluster level
-#' @param resp_labels character vector with the names of the questionnaire respondents on each level
+#' @param resp_labels character vector with the names of the questionnaire
+#'   respondents on each level
 #' @param n_levels number of cluster levels
-#' @param separate_questionnaires if `TRUE`, each level will have its own questionnaire
+#' @param separate_questionnaires if `TRUE`, each level will have its own
+#'   questionnaire
 #' @param type Type of top-level message
 #' @param detail if `TRUE`, prints further details about each level composition
 #' @return Messages.

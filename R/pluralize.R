@@ -1,7 +1,8 @@
 #' @title Pluralize words
 #' @description Pluralize a word
 #' @param word vector of characters to be pluralized
-#' @param n vector of number of times each word appears (to determine if the plural or single form will be returned)
+#' @param n vector of number of times each word appears (to determine if the
+#'   plural or single form will be returned)
 #' @return `word`, either pluralized or not (depending on `n`)
 pluralize <- function(word, n = rep(2, length(word))) {
   # Define basic dictionaty ====================================================

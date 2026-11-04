@@ -49,7 +49,9 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
   # Analytical covariance matrix ------------------------------------------
   # yxz is the covariance between y, x1, ..., x36; z
   # using var(z) = pq and point biserial correlations
-  vcov_yxz <- cov_yxz_gen(vcov_yxw, w_names, Phi, pr_grp_1, n_ind, n_fac, Lambda, var_z)
+  vcov_yxz <- cov_yxz_gen(
+    vcov_yxw, w_names, Phi, pr_grp_1, n_ind, n_fac, Lambda, var_z
+  )
 
   # Latent regression covariance matrix -----------------------------------
   vcov_yfz <- cov_yfz_gen(n_ind, n_fac, Phi, n_z, sd_z, w_names, pr_grp_1)

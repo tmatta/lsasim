@@ -1,18 +1,23 @@
 #' @title Generate cluster samples with individual questionnaires
-#' @description This is a sub-function of `cluster_gen` that performs cluster sampling, with the twist that each cluster level has its own questionnaire.
+#' @description This is a sub-function of `cluster_gen` that performs cluster
+#'   sampling, with the twist that each cluster level has its own questionnaire.
 #' @inheritParams cluster_gen
 #' @param cor_matrix Correlation matrix between all variables (except weights)
-#' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level
-#' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level
+#' @param c_mean vector of means for the continuous variables or list of
+#'   vectors for the continuous variables for each level
+#' @param sigma vector of standard deviations for the continuous variables or
+#'   list of vectors for the continuous variables for each level
 #' @param n_levels number of cluster levels
-#' @param whitelist used when `n = select(...)`, determines which PSUs get to generate questionnaires
+#' @param whitelist used when `n = select(...)`, determines which PSUs get to
+#'   generate questionnaires
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @seealso [cluster_gen()] [cluster_gen_together()]
 #' @importFrom stats rchisq
 #' @importFrom methods is
 #' @export
 cluster_gen_separate <- function(
-  n_levels, n, N, sum_pop, calc_weights, sampling_method, cluster_labels, resp_labels, collapse, n_X, n_W, cat_prop, c_mean, sigma, cor_matrix,
+  n_levels, n, N, sum_pop, calc_weights, sampling_method, cluster_labels,
+  resp_labels, collapse, n_X, n_W, cat_prop, c_mean, sigma, cor_matrix,
   rho, theta, whitelist, verbose, ...
 ) {
   # Creating basic elements ====================================================
@@ -100,7 +105,7 @@ cluster_gen_separate <- function(
       ### Defining the group correlations (s2_j == s2 for all j) ...............
       Nn <- length(n_j)
       s2 <- sigma2 * (M - Nn) / sum(n_j - 1)
-      n_X <- get_n_X_from_cat_prop(cat_prop, n_X) # it is not needed anymore. Keeping it triggers warnings
+      n_X <- get_n_X_from_cat_prop(cat_prop, n_X) # not needed. Triggers warning
     }
 
     ## Generating questionnaires for each cluster element of that level --------

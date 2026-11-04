@@ -7,16 +7,24 @@ gen_questionnaire_var_names <- function(nW = NULL, nX = NULL, n = 10) {
   )
   # Data from covariance matrix and cat_prop
   short_names <- rownames(data$cor_matrix)
-  W_levels_cov <- sapply(data$cat_prop[lapply(data$cat_prop, length) > 1], length)
-  X_length <- sapply(data$cat_prop[lapply(data$cat_prop, length) == 1], length)[-1]
+  W_levels_cov <- sapply(
+    data$cat_prop[lapply(data$cat_prop, length) > 1], length
+  )
+  X_length <- sapply(
+    data$cat_prop[lapply(data$cat_prop, length) == 1], length)[-1
+  ]
   cov_numbers <- as.numeric(substring(short_names[-1], 2))
 
   # Data from the regression
   expanded_names <- names(data$linear_regression$betas)
-  expanded_numbers <- as.numeric(gsub("\\.\\d", "", gsub("q", "", expanded_names[-1])))
+  expanded_numbers <- as.numeric(
+    gsub("\\.\\d", "", gsub("q", "", expanded_names[-1]))
+  )
   expanded_levels_reg <- table(expanded_numbers)
   if (length(X_length) > 0) {
-    expanded_levels_reg <- as.vector(expanded_levels_reg[-(1:length(X_length))] + 1)
+    expanded_levels_reg <- as.vector(
+      expanded_levels_reg[-(1:length(X_length))] + 1
+    )
   } else {
     expanded_levels_reg <- as.vector(expanded_levels_reg + 1)
   }

@@ -1,6 +1,7 @@
 #' @title Sample from range
 #' @description Creates a uniformly-distributed sample from a 2-length vector
-#' @note This function was created primarily to be used to expand an object with the "range" class.
+#' @note This function was created primarily to be used to expand an object
+#'   with the "range" class.
 #' @param rg a "range"-class vector
 #' @param sample_size the size of the sample to be generated
 #' @param seed pseudo-random number generator seed

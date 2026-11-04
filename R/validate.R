@@ -1,5 +1,6 @@
 #' Wrapper-functions for check_condition
-#' @description functions to save space in their parent functions by moving the validation checks here
+#' @description functions to save space in their parent functions by moving
+#'   the validation checks here
 #' @param n_cats vector with number of categories for each categorical variable
 #'   (W)
 #' @param n_vars number of variables (Y, X and W)
@@ -129,7 +130,11 @@ validate_questionnaire_gen <- function(
     )
     check_condition(
       abs(max(cov2cor(cov_matrix))) > 1,
-      "cov_matrix is possibly invalid, because it generates correlations above 1", FALSE
+      c(
+        "cov_matrix is possibly invalid,",
+        "because it generates correlations above 1"
+      ),
+      FALSE
     )
     check_condition(
       !is.null(c_sd),

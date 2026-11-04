@@ -2,20 +2,26 @@
 #'
 #' Creates a data frame of item parameters.
 #'
-#' @param b_bounds a vector containing the bounds of the the uniform distribution for sampling the difficulty parameters.
-#' @param a_bounds a vector containing the bounds of the the uniform distribution for sampling the discrimination parameters.
-#' @param c_bounds a vector containing the bounds of the the uniform distribution for sampling the guessing parameters.
-#' @param thresholds if numeric, number of thresholds for 1- and/or 2- parameter dichotomous items, if vector,
-#'        each element is the number of thresholds corresponding to the vector of n_1pl and/or n_2pl.
+#' @param b_bounds a vector containing the bounds of the the uniform
+#'   distribution for sampling the difficulty parameters.
+#' @param a_bounds a vector containing the bounds of the the uniform
+#'   distribution for sampling the discrimination parameters.
+#' @param c_bounds a vector containing the bounds of the the uniform
+#'   distribution for sampling the guessing parameters.
+#' @param thresholds if numeric, number of thresholds for 1- and/or
+#'   2-parameter dichotomous items, if vector, each element is the number of
+#'   thresholds corresponding to the vector of n_1pl and/or n_2pl.
 #' @param n_1pl if integer, number of 1-parameter dichotomous items, if vector,
-#'        each element is the number of partial credit items corresponding to thresholds number.
+#'   each element is the number of partial credit items corresponding to
+#'   thresholds number.
 #' @param n_2pl, if integer, number of 2-parameter dichotomous items, if vector,
-#'        each element is the number of generalized partial credit items corresponding to thresholds number.
+#'   each element is the number of generalized partial credit items
+#' corresponding to thresholds number.
 #' @param n_3pl integer, number of 3-parameter items.
 #'
 #' @section Details:
-#' The data frame includes two variables \code{p} and \code{k} which indicate the
-#' number of parameters and the number of thresholds, respectively
+#' The data frame includes two variables \code{p} and \code{k} which indicate
+#' the number of parameters and the number of thresholds, respectively
 #'
 #' @examples
 #' item_gen(
@@ -33,18 +39,74 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
                      thresholds = 1,
                      n_1pl = NULL, n_2pl = NULL, n_3pl = NULL) {
   #--- ERRORS -----------------------------------------------------------------#
-  if (!is.null(n_1pl) & length(n_1pl) < length(thresholds)) stop("Must specify the number of 1PL items for each threshold.", call. = FALSE)
-  if (!is.null(n_1pl) & length(n_1pl) > length(thresholds)) stop("Too few thresholds specified for n_1pl.", call. = FALSE)
-  if (!is.null(n_2pl) & length(n_2pl) < length(thresholds)) stop("Must specify the number of 2PL items for each threshold.", call. = FALSE)
-  if (!is.null(n_2pl) & length(n_2pl) > length(thresholds)) stop("Too few thresholds specified for n_2pl.", call. = FALSE)
-  if (length(n_3pl) > 1) stop("3PL items can only have 1 threshold.", call. = FALSE)
-  if (!is.null(n_3pl) & is.null(n_1pl) & is.null(n_2pl) & sum(thresholds) > 1) stop("3PL items can only have 1 threshold.", call. = FALSE)
+  if (!is.null(n_1pl) & length(n_1pl) < length(thresholds)) {
+    stop(
+      "Must specify the number of 1PL items for each threshold.", call. = FALSE
+    )
+  }
+  if (!is.null(n_1pl) & length(n_1pl) > length(thresholds)) {
+    stop("Too few thresholds specified for n_1pl.", call. = FALSE)
+  }
+  if (!is.null(n_2pl) & length(n_2pl) < length(thresholds)) {
+    stop(
+      "Must specify the number of 2PL items for each threshold.", call. = FALSE
+    )
+  }
+  if (!is.null(n_2pl) & length(n_2pl) > length(thresholds)) {
+    stop("Too few thresholds specified for n_2pl.", call. = FALSE)
+  }
+  if (length(n_3pl) > 1) {
+    stop("3PL items can only have 1 threshold.", call. = FALSE)
+  }
+  if (!is.null(n_3pl) & is.null(n_1pl) & is.null(n_2pl) & sum(thresholds) > 1) {
+    stop("3PL items can only have 1 threshold.", call. = FALSE)
+  }
   #--- WARNINGS ---------------------------------------------------------------#
-  if (!is.null(a_bounds) & is.null(n_2pl) & is.null(n_3pl)) warning("No 2PL or 3PL items are specified. Bounds for the a parameter will be ignored.", call. = FALSE)
-  if (!is.null(c_bounds) & is.null(n_3pl)) warning("No 3PL items are specified. Bounds for the c parameter will be ignored.", call. = FALSE)
-  if (is.null(c_bounds) & !is.null(n_3pl)) warning("Generated 3PL items without setting bounds for the c parameter. All c parameters will be 0.", call. = FALSE)
-  if (is.null(a_bounds) & !is.null(n_2pl)) warning("Generated 2PL items without setting bounds for the a parameter. All a parameters will be 1.", call. = FALSE)
-  if (is.null(a_bounds) & !is.null(n_3pl)) warning("Generated 3PL items without setting bounds for the a parameter. All a parameters will be 1.", call. = FALSE)
+  if (!is.null(a_bounds) & is.null(n_2pl) & is.null(n_3pl)) {
+    warning(
+      c(
+        "No 2PL or 3PL items are specified.",
+        "Bounds for the a parameter will be ignored."
+      ),
+      call. = FALSE
+    )
+  }
+  if (!is.null(c_bounds) & is.null(n_3pl)) {
+    warning(
+      c(
+        "No 3PL items are specified.",
+        "Bounds for the c parameter will be ignored."
+      ),
+      call. = FALSE
+    )
+  }
+  if (is.null(c_bounds) & !is.null(n_3pl)) {
+    warning(
+      c(
+        "Generated 3PL items without setting bounds for the c parameter.",
+        "All c parameters will be 0."
+      ),
+      call. = FALSE
+    )
+  }
+  if (is.null(a_bounds) & !is.null(n_2pl)) {
+    warning(
+      c(
+        "Generated 2PL items without setting bounds for the a parameter.",
+        "All a parameters will be 1."
+      ),
+      call. = FALSE
+    )
+  }
+  if (is.null(a_bounds) & !is.null(n_3pl)) {
+    warning(
+      c(
+        "Generated 3PL items without setting bounds for the a parameter.",
+        "All a parameters will be 1."
+      ),
+      call. = FALSE
+    )
+  }
 
 
   #--- Number of items
@@ -117,11 +179,14 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
     b_i <- list()
 
     if (k[p] != 1) {
-      # dividing the b_bounds[2] by 5 helps keep partial credit items from getting too big.
+      # dividing the b_bounds[2] by 5 helps keep partial credit items from
+      # getting too big.
       b_i[[1]] <- runif(1, min = b_bounds[1], max = (b_bounds[2] * 0.2))
 
       for (j in 2:k[p]) {
-        d <- runif(1, min = .1, max = (b_bounds[2] * max((1 - (k[p] / 10)), 0.2))) # must be positive
+        d <- runif(
+          1, min = .1, max = (b_bounds[2] * max((1 - (k[p] / 10)), 0.2))
+        ) # must be positive
         b_i[[j]] <- b_i[[(j - 1)]] + d
       }
     } else {
@@ -155,14 +220,19 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
 
     b_star <- round(do.call("rbind", b_star), 2)
 
-    item_parameters <- data.frame(item = item_no, b = b_star, d = d_par, a = a_par, c = c_par, k = k, p = item_type)
+    item_parameters <- data.frame(
+      item = item_no, b = b_star, d = d_par, a = a_par, c = c_par, k = k,
+      p = item_type
+    )
     colnames(item_parameters) <- c("item", "b", dlabs, "a", "c", "k", "p")
   }
 
   if (sum(thresholds) == 1) {
     b_par <- round(do.call("rbind", b_par), 2)
 
-    item_parameters <- data.frame(item = item_no, b = b_par, a = a_par, c = c_par, k = k, p = item_type)
+    item_parameters <- data.frame(
+      item = item_no, b = b_par, a = a_par, c = c_par, k = k, p = item_type
+    )
     colnames(item_parameters) <- c("item", "b", "a", "c", "k", "p")
   }
 

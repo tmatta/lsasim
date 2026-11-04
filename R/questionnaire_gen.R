@@ -219,10 +219,12 @@
 #' )
 #' @seealso [beta_gen()]
 #' @export
-questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
-                              n_W = NULL, cor_matrix = NULL, cov_matrix = NULL,
-                              c_mean = NULL, c_sd = NULL, theta = FALSE,
-                              family = NULL, full_output = FALSE, verbose = TRUE) {
+questionnaire_gen <- function(
+  n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
+  n_W = NULL, cor_matrix = NULL, cov_matrix = NULL,
+  c_mean = NULL, c_sd = NULL, theta = FALSE,
+  family = NULL, full_output = FALSE, verbose = TRUE
+) {
   # Changes n_W to a scalar, if necessary ---------------------------------
   n_cats <- NULL # number of categories per categorical variable W
   if (!is.null(cat_prop)) {

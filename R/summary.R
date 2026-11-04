@@ -1,17 +1,27 @@
 #' @title Summarizes clusters
-#' @description Takes the output of `cluster_gen` and creates summary statistics of the questionnaire variables
+#' @description Takes the output of `cluster_gen` and creates summary statistics
+#'   of the questionnaire variables
 #' @param object output of `cluster_gen`
-#' @param digits loosely controls the number of digits (significant or not) in the output (for `print = TRUE`)
-#' @param print "all" will pretty-print a summary of statistics, "partial" will only print cluster-level summaries; "none" outputs statistics as a list
-#' @param print_hetcor if `TRUE` (default), prints the heterogeneous correlation matrix
-#' @param force_matrix if `TRUE`, prints the heterogeneous correlation matrix even if warnings are generated
-#' @param ... additional arguments (unused; added for compatibility with generic)
+#' @param digits loosely controls the number of digits (significant or not)
+#'   in the output (for `print = TRUE`)
+#' @param print "all" will pretty-print a summary of statistics, "partial" will
+#'   only print cluster-level summaries; "none" outputs statistics as a list
+#' @param print_hetcor if `TRUE` (default), prints the heterogeneous correlation
+#'   matrix
+#' @param force_matrix if `TRUE`, prints the heterogeneous correlation matrix
+#'   even if warnings are generated
+#' @param ... additional arguments (unused; added for compatibility with
+#'   generic)
 #' @note
-#' Setting `print="none"` allows for saving the results as an R object (list). Otherwise, the results will be simply printed and not savable.
+#' Setting `print="none"` allows for saving the results as an R object (list).
+#'   Otherwise, the results will be simply printed and not savable.
 #'
-#' Changing `digits` may yield unexpected results for the estimates of continuous variables, given how most of them are printed using the number of significant digits (for more information, see `help("summary")`).
+#' Changing `digits` may yield unexpected results for the estimates of
+#'   continuous variables, given how most of them are printed using the number
+#'   of significant digits (for more information, see `help("summary")`).
 #'
-#' Please note that datasets containing large values for the coefficient of variation (sigma / mu) should yield imprecise results.
+#' Please note that datasets containing large values for the coefficient of
+#'   variation (sigma / mu) should yield imprecise results.
 #' @return list of summaries
 #' @seealso [anova.lsasimcluster()]
 #' @examples
@@ -21,8 +31,8 @@
 #' summary(cls, print = "none") # allows saving results
 #' @export
 summary.lsasimcluster <- function(
-  object, digits = 4, print = "partial", print_hetcor = TRUE, force_matrix = FALSE,
-  ...
+  object, digits = 4, print = "partial", print_hetcor = TRUE,
+  force_matrix = FALSE, ...
 ) {
   # Validation ===============================================================
   check_condition(
@@ -95,7 +105,9 @@ summary.lsasimcluster <- function(
           )
           names(stats) <- paste0(w, ".", w_lvls)
           stats_binded <- do.call(cbind, stats)
-          colnames(stats_binded) <- paste(x_names, rep(names(stats), each = length(x_names)), sep = " for ")
+          colnames(stats_binded) <- paste(
+            x_names, rep(names(stats), each = length(x_names)), sep = " for "
+          )
           stats_binded <- stats_binded[, sort(colnames(stats_binded))]
           stats_table <- as.table(stats_binded)
           print(stats_table)

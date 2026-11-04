@@ -42,8 +42,10 @@ cov_yxz_gen <- function(vcov_yxw, w_names, Phi,
   ## Between Zs and Xs
   for (i in seq(n_ind_rep)) {
     l_seq <- l_start[i]:l_end[i]
-    vcov_yxz[wcol_yxz, l_seq + 1] <- Lambda[l_seq, i] * cor_ptbis[(i + 1)] * sd_z
-    vcov_yxz[l_seq + 1, wcol_yxz] <- Lambda[l_seq, i] * cor_ptbis[(i + 1)] * sd_z
+    vcov_yxz[wcol_yxz, l_seq + 1] <-
+      Lambda[l_seq, i] * cor_ptbis[(i + 1)] * sd_z
+    vcov_yxz[l_seq + 1, wcol_yxz] <-
+      Lambda[l_seq, i] * cor_ptbis[(i + 1)] * sd_z
   }
 
   return(vcov_yxz)

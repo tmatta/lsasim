@@ -37,8 +37,16 @@ df_0X4W <- questionnaire_gen(10,
 )
 
 test_that("n_W is expanded correctly", {
-  expect_equivalent(sapply(df_3X1W[5], function(x) length(levels(x))), rep(4, 1))
-  expect_equivalent(sapply(df_2X2W[4:5], function(x) length(levels(x))), rep(4, 2))
-  expect_equivalent(sapply(df_1X3W[3:5], function(x) length(levels(x))), rep(4, 3))
-  expect_equivalent(sapply(df_0X4W[2:5], function(x) length(levels(x))), rep(4, 4))
+  expect_equivalent(
+    sapply(df_3X1W[5], function(x) length(levels(x))), rep(4, 1)
+  )
+  expect_equivalent(
+    sapply(df_2X2W[4:5], function(x) length(levels(x))), rep(4, 2)
+  )
+  expect_equivalent(
+    sapply(df_1X3W[3:5], function(x) length(levels(x))), rep(4, 3)
+  )
+  expect_equivalent(
+    sapply(df_0X4W[2:5], function(x) length(levels(x))), rep(4, 4)
+  )
 })

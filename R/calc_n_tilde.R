@@ -4,7 +4,8 @@
 #' @param M total number of population (i.e., sum of n_j over all j)
 #' @param N number of each class j
 #' @param n_j vector with size of each class j
-#' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
+#' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis.
+#'   Sage Publications.
 
 calc_n_tilde <- function(M, N, n_j) {
   n_bar <- M / N

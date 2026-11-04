@@ -1,5 +1,6 @@
 #' @title Check if List is Valid
-#' @description Checks if a list has a proper structure to be transformed into a hierarchical structure
+#' @description Checks if a list has a proper structure to be transformed into
+#'   a hierarchical structure
 #' @param n list
 #' @return Error if the structure is improper. Otherwise, there's no output.
 #' @seealso [check_condition()]

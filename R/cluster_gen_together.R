@@ -1,5 +1,7 @@
 #' @title Generate cluster samples with lowest-level questionnaires
-#' @description This is a sub-function of `cluster_gen` that performs cluster sampling where only the lowest-level individuals (e.g. students) fill out questionnaires.
+#' @description This is a sub-function of `cluster_gen` that performs cluster
+#'   sampling where only the lowest-level individuals (e.g. students) fill out
+#'   questionnaires.
 #' @inheritParams cluster_gen_separate
 #' @param cor_matrix correlation matrix or list of correlation matrices per PSU
 #' @seealso [cluster_gen()] [cluster_gen_separate()]
@@ -7,7 +9,8 @@
 #' @export
 cluster_gen_together <- function(
   n_levels, n, N, sum_pop, calc_weights, sampling_method, cluster_labels,
-  resp_labels, collapse, n_X, n_W, cat_prop, c_mean, sigma, cor_matrix, rho, verbose, ...
+  resp_labels, collapse, n_X, n_W, cat_prop, c_mean, sigma, cor_matrix, rho,
+  verbose, ...
 ) {
   # Creating basic elements ----------------------------------------------------
   sample <- list() # will store all BG questionnaires
@@ -52,7 +55,7 @@ cluster_gen_together <- function(
     M <- sum(n_j)
     Nn <- length(n_j)
     s2 <- sigma2 * (M - Nn) / sum(n_j - 1)
-    n_X <- get_n_X_from_cat_prop(cat_prop, n_X) # it is not needed anymore. Keeping it triggers warnings
+    n_X <- get_n_X_from_cat_prop(cat_prop, n_X) # not needed? Triggers warnings
   }
 
   ### Generating questionnaire data for lowest level ...........................

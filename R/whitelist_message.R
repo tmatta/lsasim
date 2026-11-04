@@ -1,5 +1,7 @@
 #' @title Whitelist message
-#' @description Prints out the sampled elements when cluster_gen is called with select. This function is analogous to cluster_message, but is more proper for random sampling.
+#' @description Prints out the sampled elements when cluster_gen is called
+#'   with select. This function is analogous to cluster_message, but is more
+#'   proper for random sampling.
 #' @param w whitelist
 whitelist_message <- function(w) {
   message("Sampled elements")

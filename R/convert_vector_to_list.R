@@ -1,5 +1,7 @@
 #' @title Convert Vector to Expanded List
-#' @description Converts a vector to list where each element is replicated a certain number of times depending on the previous vector. Also work for ranged lists
+#' @description Converts a vector to list where each element is replicated a
+#'   certain number of times depending on the previous vector. Also work for
+#'   ranged lists
 #' @param x vector or ranged list to be converted
 #' @param x_max reference vector or ranged list with max values for x
 #' @param verbose if `TRUE`, sends messages to user about what's being done
@@ -36,7 +38,9 @@ convert_vector_to_list <- function(x, x_max = x, verbose = TRUE) {
   # Defining elements for other levels of x_max ================================
   for (l in 2:length(x_max)) {
     if (is(x_max_list[[l]], "range")) {
-      x_max_list[[l]] <- sample_within_range(x_max[[l]], sum(x_max_list[[l - 1]]))
+      x_max_list[[l]] <- sample_within_range(
+        x_max[[l]], sum(x_max_list[[l - 1]])
+      )
     } else {
       if (length(x_max_list[[l]]) < sum(x_max_list[[l - 1]])) {
         x_max_list[[l]] <- rep(x_max[[l]], sum(x_max_list[[l - 1]]))
