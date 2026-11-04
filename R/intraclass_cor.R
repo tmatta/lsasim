@@ -6,6 +6,6 @@
 #' @seealso [cluster_gen()] [summary.lsasimcluster()]
 #' @export
 intraclass_cor <- function(tau2_hat, sigma2_hat) {
-    rho_hat <- tau2_hat / (tau2_hat + sigma2_hat)
-    return(rho_hat)
+  rho_hat <- tau2_hat / (tau2_hat + sigma2_hat)
+  return(rho_hat)
 }

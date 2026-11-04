@@ -60,17 +60,19 @@
 #' cluster_gen(n, N, n_X = 5, n_W = 2)
 #'
 #' # Condensing the output
-#' set.seed(0); cluster_gen(c(2, 4))
-#' set.seed(0); cluster_gen(c(2, 4), collapse=TRUE) # same, but in one dataset
+#' set.seed(0)
+#' cluster_gen(c(2, 4))
+#' set.seed(0)
+#' cluster_gen(c(2, 4), collapse = TRUE) # same, but in one dataset
 #'
 #' # Condensing the output: 3 levels
-#' str(cluster_gen(c(2, 2, 1), collapse="none"))
-#' str(cluster_gen(c(2, 2, 1), collapse="partial"))
-#' str(cluster_gen(c(2, 2, 1), collapse="full"))
+#' str(cluster_gen(c(2, 2, 1), collapse = "none"))
+#' str(cluster_gen(c(2, 2, 1), collapse = "partial"))
+#' str(cluster_gen(c(2, 2, 1), collapse = "full"))
 #'
 #' # Controlling the intra-class correlation and the grand mean
 #' x <- cluster_gen(c(5, 1000), rho = .9, n_X = 2, n_W = 0, c_mean = 10)
-#' sapply(1:5, function(s) mean(x$school[[s]]$q1))  # means per school != 10
+#' sapply(1:5, function(s) mean(x$school[[s]]$q1)) # means per school != 10
 #' mean(sapply(1:5, function(s) mean(x$school[[s]]$q1))) # closer to c_mean
 #'
 #' # Making the intraclass variance explode by forcing "incompatible" rho and c_mean
@@ -97,8 +99,7 @@ cluster_gen <- function(
   verbose = TRUE,
   print_pop_structure = verbose,
   ...
-)
-{
+) {
   # Validating ============================================================
   validate_cluster_gen(
     n, N, cluster_labels, resp_labels, n_X, n_W, rho, sigma, c_mean,
@@ -113,7 +114,7 @@ cluster_gen <- function(
   class_n <- check_n_N_class(n)
   class_N <- check_n_N_class(N)
 
-  census <- TRUE  # used to decide whether to print the pop structure or not
+  census <- TRUE # used to decide whether to print the pop structure or not
   if (class_N != "multiplier") {
     census <- FALSE
   } else {
@@ -126,14 +127,16 @@ cluster_gen <- function(
     check_condition(
       class_N == "multiplier",
       "if n is select, N must be a vector or a list"
-      )
+    )
     if (is(N, "numeric")) N <- convert_vector_to_list(N)
     whitelist <- sample_from(N, n)
     n <- N
   } else if (class_n == "list with ranges") {
     if (class_N == "multiplier") {
-      check_condition(N != 1,
-                      "If n is a list, N must be 1 or explicitly defined")
+      check_condition(
+        N != 1,
+        "If n is a list, N must be 1 or explicitly defined"
+      )
       n <- convert_vector_to_list(n)
       N <- n
       sum_pop <- sapply(N, sum)
@@ -153,7 +156,7 @@ cluster_gen <- function(
         stop("If n is a list, N must be 1 or explicitly defined")
       }
     } else if (class_N %in% c("vector", "list with ranges")) {
-        N <- convert_vector_to_list(N)
+      N <- convert_vector_to_list(N)
     }
     n <- convert_vector_to_list(n, N)
   } else if (class_n == "vector") {
@@ -184,7 +187,7 @@ cluster_gen <- function(
   # Removing accents ======================================================
   if (!is.null(names(n))) names(n) <- iconv(names(n), to = "ASCII//TRANSLIT")
   cluster_labels <- iconv(cluster_labels, to = "ASCII//TRANSLIT")
-  resp_labels    <- iconv(resp_labels, to = "ASCII//TRANSLIT")
+  resp_labels <- iconv(resp_labels, to = "ASCII//TRANSLIT")
 
   # Defining n_X and n_W ==================================================
   if (is.null(cat_prop)) {
@@ -212,12 +215,14 @@ cluster_gen <- function(
           n_X <- as.list(rep(length(rho), n_levels))
         } else {
           n_X <- gen_X_W_cluster(n_levels, separate_questionnaires,
-                                class_cor = NULL)$n_X
+            class_cor = NULL
+          )$n_X
         }
       }
       if (is.null(n_W)) {
         n_W <- gen_X_W_cluster(
-          n_levels, separate_questionnaires, class_cor = NULL
+          n_levels, separate_questionnaires,
+          class_cor = NULL
         )$n_W
         # Dropping levels of n_W to adjust them to the limits of c_mean
         # or cor_ matrix
@@ -247,8 +252,10 @@ cluster_gen <- function(
       }
       if (is.null(whitelist)) {
         message("Sampled structure")
-        cluster_message(n, resp_labels, cluster_labels, n_levels,
-                      separate_questionnaires, 1)
+        cluster_message(
+          n, resp_labels, cluster_labels, n_levels,
+          separate_questionnaires, 1
+        )
         draw_cluster_structure(n, cluster_labels, resp_labels)
       } else {
         whitelist_message(whitelist)
@@ -277,8 +284,10 @@ cluster_gen <- function(
         message("Sampled structure")
       }
       if (is.null(whitelist)) {
-        cluster_message(n, resp_labels, cluster_labels, n_levels,
-                      separate_questionnaires, 2)
+        cluster_message(
+          n, resp_labels, cluster_labels, n_levels,
+          separate_questionnaires, 2
+        )
         draw_cluster_structure(n, cluster_labels, resp_labels)
       } else {
         whitelist_message(whitelist)

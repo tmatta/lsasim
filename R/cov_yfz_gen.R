@@ -11,7 +11,7 @@
 #' @param pr_grp_1 scalar or list of proportions of the first group
 #'
 cov_yfz_gen <- function(n_ind, n_fac, Phi, n_z, sd_z, w_names, pr_grp_1) {
-  n_ind_rep <- rep(n_ind, n_fac)  # number of indicators for each factor
+  n_ind_rep <- rep(n_ind, n_fac) # number of indicators for each factor
   wcol_Phi <- match(w_names, colnames(Phi))
   sd_vec <- c(rep(1, max(wcol_Phi) - n_z), sd_z)
   yfcol_yfz <- colnames(Phi)[-match(w_names, colnames(Phi))]
@@ -24,7 +24,7 @@ cov_yfz_gen <- function(n_ind, n_fac, Phi, n_z, sd_z, w_names, pr_grp_1) {
   }
   cor_ptbis <- unlist(cor_ptbis)
 
-  Phi_pb[wcol_Phi, yfcol_yfz] <- cor_ptbis  # Y and Fs vs. Ws
+  Phi_pb[wcol_Phi, yfcol_yfz] <- cor_ptbis # Y and Fs vs. Ws
   Phi_pb[yfcol_yfz, wcol_Phi] <- t(Phi_pb[wcol_Phi, yfcol_yfz])
 
   vcov_yfz <- diag(sd_vec) %*% Phi_pb %*% diag(sd_vec)

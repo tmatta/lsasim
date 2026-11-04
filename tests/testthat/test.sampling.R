@@ -5,7 +5,8 @@ cluster_gen_wrap <- function(samp, clab = NULL, rlab = NULL, seed = 9674731) {
   enn <- list(3, rep(20, 3))
   ENN <- list(6, seq(30, 80, 10))
   cluster_gen(
-    enn, ENN, cluster_labels = clab, resp_labels = rlab,
+    enn, ENN,
+    cluster_labels = clab, resp_labels = rlab,
     calc_weights = TRUE, sampling_method = samp, verbose = FALSE
   )
 }

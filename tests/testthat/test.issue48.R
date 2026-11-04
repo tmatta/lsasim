@@ -4,9 +4,9 @@ set.seed(9947061)
 i1 <- item_gen(b_bounds = c(-1, 1), thresholds = c(1, 2, 4), n_1pl = c(1, 1, 1))
 i2 <- item_gen(b_bounds = c(-1, 1), thresholds = 1:6, n_1pl = rep(2, 6))
 i3 <- item_gen(
-    b_bounds = c(-2, 2), a_bounds = c(.75, 1.25), thresholds = c(1, 2, 3),
-    n_1pl = c(5, 5, 5), n_2pl = c(0, 0, 5)
-  )
+  b_bounds = c(-2, 2), a_bounds = c(.75, 1.25), thresholds = c(1, 2, 3),
+  n_1pl = c(5, 5, 5), n_2pl = c(0, 0, 5)
+)
 
 test_that("Threshold values are as expected", {
   expect_equal(i1$d1, c(0, -.21, -.46))

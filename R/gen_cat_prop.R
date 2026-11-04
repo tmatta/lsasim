@@ -11,8 +11,12 @@ gen_cat_prop <- function(n_X, n_W, n_cat_W) {
   } else {
     n_cat_W <- n_cat_W - 1
   }
-  cat_prop <- c(lapply(n_cat_X, function(x) x),
-                lapply(n_cat_W,
-                       function(x) c(sort(sample(seq(.2, .8, .1), x)), 1)))
+  cat_prop <- c(
+    lapply(n_cat_X, function(x) x),
+    lapply(
+      n_cat_W,
+      function(x) c(sort(sample(seq(.2, .8, .1), x)), 1)
+    )
+  )
   return(cat_prop)
 }

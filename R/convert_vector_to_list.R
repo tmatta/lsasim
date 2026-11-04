@@ -18,7 +18,7 @@ convert_vector_to_list <- function(x, x_max = x, verbose = TRUE) {
   }
 
   # For x ----------------------------------------------------------------------
-  trimmed_x <- FALSE  # defines if x was trimmed by x_max
+  trimmed_x <- FALSE # defines if x was trimmed by x_max
   if (is(x_list[[1]], "range")) {
     if (x_max_list[[1]] == 1) {
       x_list[[1]] <- 1
@@ -35,9 +35,9 @@ convert_vector_to_list <- function(x, x_max = x, verbose = TRUE) {
 
   # Defining elements for other levels of x_max ================================
   for (l in 2:length(x_max)) {
-      if (is(x_max_list[[l]], "range")) {
-        x_max_list[[l]] <- sample_within_range(x_max[[l]], sum(x_max_list[[l - 1]]))
-      } else {
+    if (is(x_max_list[[l]], "range")) {
+      x_max_list[[l]] <- sample_within_range(x_max[[l]], sum(x_max_list[[l - 1]]))
+    } else {
       if (length(x_max_list[[l]]) < sum(x_max_list[[l - 1]])) {
         x_max_list[[l]] <- rep(x_max[[l]], sum(x_max_list[[l - 1]]))
       }
@@ -69,11 +69,11 @@ convert_vector_to_list <- function(x, x_max = x, verbose = TRUE) {
 
   # Returning converted x ======================================================
   if (verbose & trimmed_x) {
-      warning(
-        "Some elements of the sample structure provided were larger ",
-        "than their counterparts in the population",
-        "; they were trimmed accordingly."
-      )
+    warning(
+      "Some elements of the sample structure provided were larger ",
+      "than their counterparts in the population",
+      "; they were trimmed accordingly."
+    )
   }
   return(x_list)
 }

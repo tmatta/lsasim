@@ -8,7 +8,7 @@
 #' @param col_names vector with col names
 #'
 lambda_gen <- function(n_ind, n_fac, limits, row_names, col_names) {
-  n_ind_rep <- rep(n_ind, n_fac)  # number of indicators for each factor
+  n_ind_rep <- rep(n_ind, n_fac) # number of indicators for each factor
   Lambda_mx <- matrix(0, ncol = length(n_ind_rep), nrow = sum(n_ind_rep))
 
   l_start <- cumsum(n_ind_rep) - (n_ind_rep - 1)

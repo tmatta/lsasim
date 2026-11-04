@@ -7,21 +7,21 @@
 #' @references Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
 #' @seealso [anova.lsasimcluster()]
 calc_var_between <- function(n_j, y_bar_j, y_bar, n_tilde, N) {
-    if (!is(y_bar_j[1], "matrix")) {
-        y_bar_j <- as.matrix(y_bar_j)
-    }
-    if (is.null(colnames(y_bar_j))) {
-        X <- ncol(y_bar_j)
-    } else {
-        X <- colnames(y_bar_j)
-    }
-    s2_between <- vector()
-    for (x in X) {
-        s2_between <- append(
-            s2_between,
-            sum(n_j * (y_bar_j[, x] - y_bar[x]) ^ 2) / (n_tilde * (N - 1))
-        )
-    }
-    names(s2_between) <- X
-    return(s2_between)
+  if (!is(y_bar_j[1], "matrix")) {
+    y_bar_j <- as.matrix(y_bar_j)
+  }
+  if (is.null(colnames(y_bar_j))) {
+    X <- ncol(y_bar_j)
+  } else {
+    X <- colnames(y_bar_j)
+  }
+  s2_between <- vector()
+  for (x in X) {
+    s2_between <- append(
+      s2_between,
+      sum(n_j * (y_bar_j[, x] - y_bar[x])^2) / (n_tilde * (N - 1))
+    )
+  }
+  names(s2_between) <- X
+  return(s2_between)
 }

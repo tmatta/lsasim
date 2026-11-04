@@ -1,8 +1,10 @@
 context("X and W variables are renamed correctly after beta_gen")
 
 gen_questionnaire_var_names <- function(nW = NULL, nX = NULL, n = 10) {
-  data <- questionnaire_gen(n, n_W = nW, n_X = nX, theta = TRUE,
-                            full_output = TRUE, family = "gaussian")
+  data <- questionnaire_gen(n,
+    n_W = nW, n_X = nX, theta = TRUE,
+    full_output = TRUE, family = "gaussian"
+  )
   # Data from covariance matrix and cat_prop
   short_names <- rownames(data$cor_matrix)
   W_levels_cov <- sapply(data$cat_prop[lapply(data$cat_prop, length) > 1], length)
@@ -25,11 +27,13 @@ gen_questionnaire_var_names <- function(nW = NULL, nX = NULL, n = 10) {
   }
 
   # Putting everything together
-  output <- list(data = data$bg,
-                 reg_var_numbers = unique(expanded_numbers),
-                 cov_numbers = cov_numbers,
-                 reg_var_length = expanded_levels_reg,
-                 cov_var_length = W_levels_cov)
+  output <- list(
+    data = data$bg,
+    reg_var_numbers = unique(expanded_numbers),
+    cov_numbers = cov_numbers,
+    reg_var_length = expanded_levels_reg,
+    cov_var_length = W_levels_cov
+  )
   return(output)
 }
 

@@ -14,7 +14,7 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
                                          c_sd, theta) {
   #--- Load functions ---------------------------------------------------------#
   #--- generates data from num_x independent standard normals
-  mvsn <- function(n, num_x){
+  mvsn <- function(n, num_x) {
     uncor_mat <- matrix(NA, nrow = n, ncol = num_x)
     for (i in 1:num_x) uncor_mat[, i] <- rnorm(n, 0, 1)
     return(uncor_mat)
@@ -59,7 +59,7 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
     discrete_dat <- cor_dat
 
     #--- place an upper limit on the z score so that it will not exceed the upper threshold
-    discrete_dat[discrete_dat[, discrete_var] > 5.6]  <- 5.6
+    discrete_dat[discrete_dat[, discrete_var] > 5.6] <- 5.6
 
     for (i in 1:length(discrete_var)) {
       for (j in rev(1:length(var_thresholds[[i]]))) {
@@ -92,18 +92,18 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
     if (theta == TRUE) {
       #  Call first non-integer variable theta.
       colnames(discrete_df)[which(!(vapply(discrete_df, is.factor, c(is.factor = FALSE))))[1]] <- "theta"
-      xtra_cols <- paste0("q", 1:(ncol(discrete_df) - 1) )
+      xtra_cols <- paste0("q", 1:(ncol(discrete_df) - 1))
       colnames(discrete_df)[which(colnames(discrete_df) != "theta")] <- xtra_cols
       discrete_df$subject <- 1:nrow(discrete_df)
       discrete_df <- discrete_df[, c("subject", "theta", xtra_cols)]
     } else {
-      xtra_cols <- paste0("q", 1:(ncol(discrete_df)) )
+      xtra_cols <- paste0("q", 1:(ncol(discrete_df)))
       colnames(discrete_df) <- xtra_cols
       discrete_df$subject <- 1:nrow(discrete_df)
       discrete_df <- discrete_df[, c("subject", xtra_cols)]
     }
   } else {
-    df_named <-  names(cat_prop)[which(names(cat_prop) != "NA")]
+    df_named <- names(cat_prop)[which(names(cat_prop) != "NA")]
     colnames(discrete_df)[which(names(cat_prop) != "NA")] <- df_named
     df_unnamed <- paste0("p", seq_along(names(cat_prop))[is.na(names(cat_prop))])
     colnames(discrete_df)[is.na(names(cat_prop))] <- df_unnamed

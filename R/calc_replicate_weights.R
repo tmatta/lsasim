@@ -18,62 +18,64 @@
 #' calc_replicate_weights(data, "BRR Fay")
 #' @export
 calc_replicate_weights <- function(data, method, k = 0) {
-    # Verification =============================================================
-    if (k < 0 | k > 1) stop ("k must be between 0 and 1")
-    if (method != "BRR Fay" & k != .5 & k != 0) {
-        warning(method, " ignores k. Use 'BRR Fay' instead.")
+  # Verification =============================================================
+  if (k < 0 | k > 1) stop("k must be between 0 and 1")
+  if (method != "BRR Fay" & k != .5 & k != 0) {
+    warning(method, " ignores k. Use 'BRR Fay' instead.")
+  }
+
+  # Basic variable creation ==================================================
+  num_lvl <- length(data)
+  new_bg <- list()
+  replicate_stats <- list()
+
+  # Analysing each dataset separately ========================================
+  for (lvl in seq(num_lvl)) {
+    lvl_name <- names(data)[lvl]
+    num_sublvl <- length(data[[lvl]])
+
+    for (sublvl in seq(num_sublvl)) {
+      bg <- data[[lvl_name]][[sublvl]]
+      w_cols <- names(bg)[grep("weight", names(bg))]
+
+      # Remove uninsteresting columns ------------------------------------
+      data_cols <- grep("subject|ID|weight", names(bg), invert = TRUE)
+      data_cols <- names(bg)[data_cols]
+
+      # Calculating replicate weights ------------------------------------
+      if (method == "Jackknife") {
+        replicates <- jackknife(bg, drop = FALSE)
+      } else if (method == "BRR") {
+        replicates <- brr(bg, drop = FALSE)
+      } else if (method == "BRR Fay") {
+        k <- ifelse(k != 0, k, .5)
+        replicates <- brr(bg, k, drop = FALSE)
+      } else {
+        stop("Invalid replication method.")
+      }
+      rep_stats <- replicate_var(
+        data_whole = bg,
+        data_rep = replicates,
+        method = method,
+        k = k,
+        weight_var = "replicate_weight",
+        vars = data_cols,
+        full_output = TRUE
+      )
+
+      # Organizing statistics --------------------------------------------
+      means <- rep_stats$theta_whole
+      vars <- rep_stats$sigma2
+      stats <- rbind(means, sqrt(vars))
+      rownames(stats) <- c("mean", "SE")
+
+      # Putting data and stats into common list for output ---------------
+      bg -> new_bg[[lvl_name]][[sublvl]]
+      stats -> replicate_stats[[lvl_name]][[sublvl]]
     }
+  }
 
-    # Basic variable creation ==================================================
-    num_lvl <- length(data)
-    new_bg <- list()
-    replicate_stats <- list()
-
-    # Analysing each dataset separately ========================================
-    for (lvl in seq(num_lvl)) {
-        lvl_name <- names(data)[lvl]
-        num_sublvl <- length(data[[lvl]])
-
-        for (sublvl in seq(num_sublvl)) {
-            bg <- data[[lvl_name]][[sublvl]]
-            w_cols <- names(bg)[grep("weight", names(bg))]
-
-            # Remove uninsteresting columns ------------------------------------
-            data_cols <- grep("subject|ID|weight", names(bg), invert = TRUE)
-            data_cols <- names(bg)[data_cols]
-
-            # Calculating replicate weights ------------------------------------
-            if (method == "Jackknife") {
-                replicates <- jackknife(bg, drop = FALSE)
-            } else if (method == "BRR") {
-                replicates <- brr(bg, drop = FALSE)
-            } else if (method == "BRR Fay") {
-                k <- ifelse(k != 0, k, .5)
-                replicates <- brr(bg, k, drop = FALSE)
-            } else {
-                stop("Invalid replication method.")
-            }
-            rep_stats <- replicate_var(data_whole = bg,
-                data_rep   = replicates,
-                method     = method,
-                k          = k,
-                weight_var = "replicate_weight",
-                vars       = data_cols,
-                full_output = TRUE)
-
-            # Organizing statistics --------------------------------------------
-            means <- rep_stats$theta_whole
-            vars  <- rep_stats$sigma2
-            stats <- rbind(means, sqrt(vars))
-            rownames(stats) <- c("mean", "SE")
-
-            # Putting data and stats into common list for output ---------------
-            bg -> new_bg[[lvl_name]][[sublvl]]
-            stats -> replicate_stats[[lvl_name]][[sublvl]]
-        }
-    }
-
-    # Assembling output ========================================================
-    out <- replicate_stats
-    return(out)
+  # Assembling output ========================================================
+  out <- replicate_stats
+  return(out)
 }

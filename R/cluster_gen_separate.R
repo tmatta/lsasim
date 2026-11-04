@@ -16,8 +16,8 @@ cluster_gen_separate <- function(
   rho, theta, whitelist, verbose, ...
 ) {
   # Creating basic elements ====================================================
-  out    <- list()  # actual output (differs from sample if collapse)
-	sample <- list()  # will store all BG questionnaires
+  out <- list() # actual output (differs from sample if collapse)
+  sample <- list() # will store all BG questionnaires
   c_mean_list <- c_mean
   sigma_list <- sigma
   n_quest <- sapply(n, sum)
@@ -51,8 +51,10 @@ cluster_gen_separate <- function(
       # Only applicable for sub-country levels and when next nevel is an
       # indicator of "X per Y" (instead of "X across Y")
       if (!is(n, "list")) n[l] <- n[l] * n[l - 1]
-      previous_clusterID <- as.vector(unlist(sapply(sample[[l - 1]],
-                                            function(x) x$clusterID)))
+      previous_clusterID <- as.vector(unlist(sapply(
+        sample[[l - 1]],
+        function(x) x$clusterID
+      )))
 
       # Remove letters from label (useful for calculating weights)
       previous_sublvl <- gsub("[A-Za-z]", "", previous_clusterID)
@@ -88,9 +90,9 @@ cluster_gen_separate <- function(
         }
       } else {
         if (is(sigma, "list")) {
-          sigma2 <- sigma[[l]] ^ 2
+          sigma2 <- sigma[[l]]^2
         } else {
-          sigma2 <- sigma ^ 2
+          sigma2 <- sigma^2
         }
       }
       tau2 <- rho[[l]] * sigma2 / (1 - rho[[l]])
@@ -103,7 +105,6 @@ cluster_gen_separate <- function(
 
     ## Generating questionnaires for each cluster element of that level --------
     for (lvl in seq(n_groups)) {
-
       ### Creating basic elements ..............................................
       n_resp <- n[[l + 1]][lvl]
       if (any(sapply(cat_prop, class) == "list")) {
@@ -118,10 +119,10 @@ cluster_gen_separate <- function(
       }
       if (!is.null(cor_matrix) & class(cor_matrix)[1] == "list") {
         cor_mx <- cor_matrix[[l]]
-        if (is(cor_mx[1], "list"))  cor_mx <- cor_matrix[[l]][[lvl]]
+        if (is(cor_mx[1], "list")) cor_mx <- cor_matrix[[l]][[lvl]]
       }
       if (!is.null(rho[[l]])) {
-        sd_X <- sqrt(s2)  # same sd for all PSUs if rho is present
+        sd_X <- sqrt(s2) # same sd for all PSUs if rho is present
       } else if (!is.null(sigma) & is(sigma, "list")) {
         sd_X <- sigma[[lvl]]
       } else {
@@ -130,7 +131,7 @@ cluster_gen_separate <- function(
 
       ### Recalculating mu to fit rho ..........................................
       if (all(!is.null(rho[[l]]))) {
-        sd_mu <- sqrt(tau2 + sigma2 / n_j[lvl])  # from Snijders p. 20
+        sd_mu <- sqrt(tau2 + sigma2 / n_j[lvl]) # from Snijders p. 20
         mu_mu <- ifelse(is.null(mu_mu), 0, mu_mu)
         mu <- sapply(sd_mu, function(s) rnorm(1, mu_mu, s))
       } else {
@@ -148,7 +149,8 @@ cluster_gen_separate <- function(
         n_W_used <- n_W_used[[l]][lvl]
       }
       cluster_bg <- questionnaire_gen(
-        n_resp, n_X = n_X[[l]], n_W = n_W_used, cat_prop = cat_prop_lvl,
+        n_resp,
+        n_X = n_X[[l]], n_W = n_W_used, cat_prop = cat_prop_lvl,
         c_mean = mu, verbose = FALSE, c_sd = sd_X, cor_matrix = cor_mx,
         theta = theta, ...
       )
@@ -165,8 +167,10 @@ cluster_gen_separate <- function(
       respID <- paste0(next_level_label, seq(cluster_bg$subject))
       if (l > 1) {
         previous_lvl <- as.vector(unlist(sapply(n[[l]], seq)))[lvl]
-        cluster_bg$clusterID <- paste0(level_label, previous_lvl, "_",
-                                        previous_clusterID[lvl])
+        cluster_bg$clusterID <- paste0(
+          level_label, previous_lvl, "_",
+          previous_clusterID[lvl]
+        )
       } else {
         cluster_bg$clusterID <- paste0(level_label, lvl)
       }
@@ -213,8 +217,9 @@ cluster_gen_separate <- function(
           } else if (l == n_levels - 1) {
             rowmatched <- match(clusterID_extracted, whitelist_extracted)
             limit <- whitelist[rowmatched, n_levels]
-            if (limit < nrow(cluster_bg))
-            cluster_bg <- cluster_bg[seq_len(limit), ]
+            if (limit < nrow(cluster_bg)) {
+              cluster_bg <- cluster_bg[seq_len(limit), ]
+            }
           }
         }
       }
@@ -240,9 +245,11 @@ cluster_gen_separate <- function(
           non_weight_cols <- grep("weight", names(out[[l]]), invert = TRUE)
           names(out[[l]])[non_weight_cols] <-
             paste0(names(out[[l]])[non_weight_cols], ".", resp_labels[l])
-          out[[l]] <- merge(x = out[[l]], y = out[[l - 1]][-1],
-                            by.x = paste0("clusterID", ".", resp_labels[l]),
-                            by.y = paste0("uniqueID", ".", resp_labels[l - 1]))
+          out[[l]] <- merge(
+            x = out[[l]], y = out[[l - 1]][-1],
+            by.x = paste0("clusterID", ".", resp_labels[l]),
+            by.y = paste0("uniqueID", ".", resp_labels[l - 1])
+          )
           out[[l]][paste0("clusterID.", level_label)] <- NULL
         }
         if (l == n_levels - 1) {

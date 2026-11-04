@@ -10,7 +10,7 @@ cluster_gen_together <- function(
   resp_labels, collapse, n_X, n_W, cat_prop, c_mean, sigma, cor_matrix, rho, verbose, ...
 ) {
   # Creating basic elements ----------------------------------------------------
-	sample <- list()  # will store all BG questionnaires
+  sample <- list() # will store all BG questionnaires
   c_mean_list <- c_mean
   if (is(c_mean_list, "list")) {
     c_mean_list <- c_mean_list[[n_levels - 1]]
@@ -20,7 +20,7 @@ cluster_gen_together <- function(
   if (is(sigma_list, "list")) {
     sigma_list <- sigma_list[[n_levels - 1]]
   }
-  id_combos <- label_respondents(n, cluster_labels)  # level label combinations
+  id_combos <- label_respondents(n, cluster_labels) # level label combinations
   num_questionnaires <- nrow(id_combos)
   if (!is(cor_matrix[1], "list")) {
     cor_matrix <- replicate(n_levels - 1, list(cor_matrix))
@@ -43,7 +43,7 @@ cluster_gen_together <- function(
     if (missing_sigma2) {
       sigma2 <- rchisq(n_X, 2)
     } else {
-      sigma2 <- sigma ^ 2
+      sigma2 <- sigma^2
     }
     tau2 <- rho * sigma2 / (1 - rho)
 
@@ -57,7 +57,6 @@ cluster_gen_together <- function(
 
   ### Generating questionnaire data for lowest level ...........................
   for (l in seq(num_questionnaires)) {
-
     #### Filtering elements pertaining to that specific PSU ("l")
     if (any(sapply(cat_prop, class) == "list")) {
       cat_prop_lvl <- cat_prop[[l]]
@@ -72,11 +71,11 @@ cluster_gen_together <- function(
     }
     if (!is.null(cor_matrix) & is(cor_matrix, "list")) {
       cor_mx <- cor_matrix[[1]]
-      if (is(cor_mx[1], "list"))  cor_mx <- cor_matrix[[1]][[l]]
+      if (is(cor_mx[1], "list")) cor_mx <- cor_matrix[[1]][[l]]
     }
 
     if (!is.null(rho)) {
-      sd_X <- sqrt(s2)  # same sd for all PSUs if rho is present
+      sd_X <- sqrt(s2) # same sd for all PSUs if rho is present
     } else if (!is.null(sigma_list) & is(sigma_list, "list")) {
       sd_X <- sigma_list
     } else {
@@ -97,14 +96,16 @@ cluster_gen_together <- function(
 
     ## Generating data ---------------------------------------------------------
     cluster_bg <- questionnaire_gen(
-      respondents, n_X = n_X, n_W = n_W, cat_prop = cat_prop_lvl,
-      c_mean = mu, c_sd = sd_X, cor_matrix = cor_mx, verbose = FALSE,...
+      respondents,
+      n_X = n_X, n_W = n_W, cat_prop = cat_prop_lvl,
+      c_mean = mu, c_sd = sd_X, cor_matrix = cor_mx, verbose = FALSE, ...
     )
 
     # Adding weights
     if (calc_weights) {
       cluster_bg <- weight_responses(
-        cluster_bg, n, N, n_levels, l, previous_sublvl = 0,
+        cluster_bg, n, N, n_levels, l,
+        previous_sublvl = 0,
         sampling_method, cluster_labels, resp_labels, sum_pop, verbose
       )
     }

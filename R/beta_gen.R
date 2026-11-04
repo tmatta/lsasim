@@ -68,14 +68,15 @@
 #' @export
 #' @examples
 #'
-#' data <- questionnaire_gen(100, family="gaussian", theta = TRUE,
-#'                            full_output = TRUE, n_X = 2, n_W = list(2, 2, 4))
+#' data <- questionnaire_gen(100,
+#'   family = "gaussian", theta = TRUE,
+#'   full_output = TRUE, n_X = 2, n_W = list(2, 2, 4)
+#' )
 #' beta_gen(data, MC = TRUE)
 #'
 beta_gen <- function(data, MC = FALSE, MC_replications = 100,
                      CI = c(0.005, 0.995), output_cov = FALSE,
                      rename_to_q = FALSE, verbose = TRUE) {
-
   # Basic validation checks -----------------------------------------------
   if (!data$theta) stop("Data must include theta")
   if (!is(data, "list")) {
@@ -86,8 +87,8 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
   }
 
   # Basic data subsetting -------------------------------------------------
-  YXW <- data$bg[-1]  # remove "subject"
-  XW <- YXW[-1]  # remove "theta" (and "subject", from before)
+  YXW <- data$bg[-1] # remove "subject"
+  XW <- YXW[-1] # remove "theta" (and "subject", from before)
 
   # Identifying and labeling elements -------------------------------------
   names_X <- names_W <- names_Z <- NULL
@@ -120,8 +121,8 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
     XW_mu_minus_1st <- unlist(c(X_mu, W_mu_minus_1st))
   }
 
-  Y_var <- data$c_sd["theta"] ^ 2
-  X_var <- data$c_sd[substring(names(data$c_sd), 1, 1) == "x"] ^ 2
+  Y_var <- data$c_sd["theta"]^2
+  X_var <- data$c_sd[substring(names(data$c_sd), 1, 1) == "x"]^2
   Y_sd <- sqrt(Y_var)
   X_sd <- sqrt(X_var)
 
@@ -143,8 +144,10 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
 
     cov_XW <- exp_XW <- list()
     for (x in names_X) {
-      exp_XW[[x]] <- exp_AB(names_W, Z_mu, W_mu, cov_XZ[x, ], q_Z,
-                            X_mu[[x]], Z_sd)
+      exp_XW[[x]] <- exp_AB(
+        names_W, Z_mu, W_mu, cov_XZ[x, ], q_Z,
+        X_mu[[x]], Z_sd
+      )
       cov_XW[[x]] <- cov_AB(names_W, exp_XW[[x]], X_mu[[x]], W_mu)
     }
 
@@ -178,8 +181,9 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
     w_cols <- vector()
     ref_names <- colnames(vcov_YXW)
     for (c in seq_along(ref_names)) {
-      if (w %in% substr(ref_names[c], 1, nchar(ref_names[c]) - 1))
+      if (w %in% substr(ref_names[c], 1, nchar(ref_names[c]) - 1)) {
         w_cols <- c(w_cols, c)
+      }
     }
     vcov_YXW[w_cols, w_cols] <- vcov_W[[w]]
   }
@@ -202,7 +206,7 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
         lo_lim <- c(q_Z[[wA]][numA], q_Z[[wB]][numB])
         up_lim <- c(q_Z[[wA]][numA + 1], q_Z[[wB]][numB + 1])
         covAB <- calc_p_mvn_trunc(lo_lim, up_lim, cov_zA_zB) * muB - muA * muB
-        vcov_YXW[catA, catB] <- vcov_YXW[catB, catA] <-  covAB
+        vcov_YXW[catA, catB] <- vcov_YXW[catB, catA] <- covAB
       }
     }
   }
@@ -230,8 +234,10 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
     # Checking if cov_matrix estimates is contained in MC confidence interval
     cov_in_CI <- output > boot_CI[1, ] & output < boot_CI[2, ]
 
-    output <- t(rbind(cov_matrix = output, MC = boot_avg_coef, boot_CI,
-                    cov_in_CI = as.logical(cov_in_CI)))
+    output <- t(rbind(
+      cov_matrix = output, MC = boot_avg_coef, boot_CI,
+      cov_in_CI = as.logical(cov_in_CI)
+    ))
   }
   if (output_cov) output <- list(betas = output, vcov_YXW = vcov_YXW)
   if (rename_to_q) {
@@ -241,10 +247,14 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
       W_numbers <- 1:data$n_W + length(X_numbers)
       W_categories <- sapply(data$cat_prop_W, length)
       W_categories_expanded <- lapply(W_categories, function(x) 2:max(x))
-      W_numbers_expanded <- rep(W_numbers,
-                                sapply(data$cat_prop_W, function(x) length(x) - 1))
-      W_numbers_expanded_cats <- paste0(W_numbers_expanded, ".",
-                                        unlist(W_categories_expanded))
+      W_numbers_expanded <- rep(
+        W_numbers,
+        sapply(data$cat_prop_W, function(x) length(x) - 1)
+      )
+      W_numbers_expanded_cats <- paste0(
+        W_numbers_expanded, ".",
+        unlist(W_categories_expanded)
+      )
     }
     new_variable_numbers <- c(X_numbers, W_numbers_expanded_cats)
     new_variable_names <- c("theta", paste0("q", new_variable_numbers))

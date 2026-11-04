@@ -18,23 +18,26 @@
 #' number of parameters and the number of thresholds, respectively
 #'
 #' @examples
-#' item_gen(b_bounds = c(-2, 2), a_bounds = c(.75, 1.25),
-#'   thresholds = c(1, 2, 3), n_1pl = c(5, 5, 5), n_2pl = c(0, 0, 5))
-#' item_gen(b_bounds = c(-2, 2), a_bounds = c(.75, 1.25), c_bounds = c(0, .25),
-#'   n_2pl = 5, n_3pl = 5)
+#' item_gen(
+#'   b_bounds = c(-2, 2), a_bounds = c(.75, 1.25),
+#'   thresholds = c(1, 2, 3), n_1pl = c(5, 5, 5), n_2pl = c(0, 0, 5)
+#' )
+#' item_gen(
+#'   b_bounds = c(-2, 2), a_bounds = c(.75, 1.25), c_bounds = c(0, .25),
+#'   n_2pl = 5, n_3pl = 5
+#' )
 #'
 #' @export
 
 item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
                      thresholds = 1,
-                     n_1pl = NULL, n_2pl = NULL, n_3pl = NULL){
-
+                     n_1pl = NULL, n_2pl = NULL, n_3pl = NULL) {
   #--- ERRORS -----------------------------------------------------------------#
   if (!is.null(n_1pl) & length(n_1pl) < length(thresholds)) stop("Must specify the number of 1PL items for each threshold.", call. = FALSE)
   if (!is.null(n_1pl) & length(n_1pl) > length(thresholds)) stop("Too few thresholds specified for n_1pl.", call. = FALSE)
   if (!is.null(n_2pl) & length(n_2pl) < length(thresholds)) stop("Must specify the number of 2PL items for each threshold.", call. = FALSE)
   if (!is.null(n_2pl) & length(n_2pl) > length(thresholds)) stop("Too few thresholds specified for n_2pl.", call. = FALSE)
-  if ( length(n_3pl) > 1) stop("3PL items can only have 1 threshold.", call. = FALSE)
+  if (length(n_3pl) > 1) stop("3PL items can only have 1 threshold.", call. = FALSE)
   if (!is.null(n_3pl) & is.null(n_1pl) & is.null(n_2pl) & sum(thresholds) > 1) stop("3PL items can only have 1 threshold.", call. = FALSE)
   #--- WARNINGS ---------------------------------------------------------------#
   if (!is.null(a_bounds) & is.null(n_2pl) & is.null(n_3pl)) warning("No 2PL or 3PL items are specified. Bounds for the a parameter will be ignored.", call. = FALSE)
@@ -88,10 +91,11 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
 
   #--- Generate a parameters
   if (is.null(a_bounds)) {
-     a_par <- rep(1, i)
+    a_par <- rep(1, i)
   } else {
-     a_par <- ifelse(item_type > 1,
-                      round(runif(no_a_params, a_bounds[1], a_bounds[2]), 2), 1)
+    a_par <- ifelse(item_type > 1,
+      round(runif(no_a_params, a_bounds[1], a_bounds[2]), 2), 1
+    )
   }
 
   #--- Pseudo-guessing parameter ----------------------------------------------#
@@ -102,7 +106,8 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
     c_par <- rep(0, i)
   } else {
     c_par <- ifelse(item_type == 3,
-                      round(runif(no_c_params, c_bounds[1], c_bounds[2]), 2), 0)
+      round(runif(no_c_params, c_bounds[1], c_bounds[2]), 2), 0
+    )
   }
 
   #--- Difficulty parameter(s) ------------------------------------------------#
@@ -111,47 +116,37 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
   for (p in 1:i) {
     b_i <- list()
 
-    if (k[p] != 1){
+    if (k[p] != 1) {
       # dividing the b_bounds[2] by 5 helps keep partial credit items from getting too big.
       b_i[[1]] <- runif(1, min = b_bounds[1], max = (b_bounds[2] * 0.2))
 
-      for (j in 2 : k[p]){
-        d <- runif(1, min = .1, max = (b_bounds[2] * max((1 - (k[p]/10)), 0.2)))  # must be positive
+      for (j in 2:k[p]) {
+        d <- runif(1, min = .1, max = (b_bounds[2] * max((1 - (k[p] / 10)), 0.2))) # must be positive
         b_i[[j]] <- b_i[[(j - 1)]] + d
       }
-
     } else {
-
       b_i[[1]] <- runif(1, min = b_bounds[1], max = b_bounds[2])
-
     }
 
     b_par[[p]] <- unlist(b_i)
   }
 
   if (sum(thresholds) > 1) {
-
     b_star <- lapply(b_par, mean)
 
     d_i <- list()
 
     for (pp in 1:i) {
-
       if (k[pp] != 1) {
-
         d_i[[pp]] <- b_par[[pp]] - b_star[[pp]]
 
         # Right-pad with zeros
         if (length(d_i[[pp]]) < max(k)) {
           d_i[[pp]] <- c(d_i[[pp]], rep(0, max(k) - length(d_i[[pp]])))
         }
-
       } else {
-
         d_i[[pp]] <- rep(0, max(k))
-
       }
-
     }
 
     d_par <- round(do.call("rbind", d_i), 2)
@@ -162,7 +157,6 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
 
     item_parameters <- data.frame(item = item_no, b = b_star, d = d_par, a = a_par, c = c_par, k = k, p = item_type)
     colnames(item_parameters) <- c("item", "b", dlabs, "a", "c", "k", "p")
-
   }
 
   if (sum(thresholds) == 1) {
@@ -170,11 +164,10 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
 
     item_parameters <- data.frame(item = item_no, b = b_par, a = a_par, c = c_par, k = k, p = item_type)
     colnames(item_parameters) <- c("item", "b", "a", "c", "k", "p")
-
   }
 
 
   #----------------------------------------------------------------------------#
-  #return(list(b_par = b_center, a_par = a_par, c_par = c_par))
+  # return(list(b_par = b_center, a_par = a_par, c_par = c_par))
   return(item_parameters)
 }

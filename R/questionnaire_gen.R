@@ -195,31 +195,36 @@
 #'   Large-scale Assessments in Education, 6(1), 15.
 #' @examples
 #' # Using polychoric correlations
-#' props <- list(c(1), c(.25, .6, 1))  # one continuous, one with 3 categories
-#' questionnaire_gen(n_obs = 10, cat_prop = props,
-#'                   cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
-#'                   c_mean = 2, c_sd = 1.5, theta = TRUE)
+#' props <- list(c(1), c(.25, .6, 1)) # one continuous, one with 3 categories
+#' questionnaire_gen(
+#'   n_obs = 10, cat_prop = props,
+#'   cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
+#'   c_mean = 2, c_sd = 1.5, theta = TRUE
+#' )
 #'
 #' # Using the multinomial distribution
 #' # two categorical variables W: one has 2 categories, the other has 3
 #' props <- list(1, c(.25, 1), c(.2, .8, 1))
 #' yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
-#' questionnaire_gen(n_obs = 10, cat_prop = props, cov_matrix = yw_cov,
-#'                   family = "gaussian")
+#' questionnaire_gen(
+#'   n_obs = 10, cat_prop = props, cov_matrix = yw_cov,
+#'   family = "gaussian"
+#' )
 #'
 #' # Not providing covariance matrix
-#' questionnaire_gen(n_obs = 10,
-#'                   cat_prop = list(c(.25, 1), c(.6, 1), c(.2, 1)),
-#'                   family = "gaussian")
+#' questionnaire_gen(
+#'   n_obs = 10,
+#'   cat_prop = list(c(.25, 1), c(.6, 1), c(.2, 1)),
+#'   family = "gaussian"
+#' )
 #' @seealso [beta_gen()]
 #' @export
 questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
                               n_W = NULL, cor_matrix = NULL, cov_matrix = NULL,
                               c_mean = NULL, c_sd = NULL, theta = FALSE,
                               family = NULL, full_output = FALSE, verbose = TRUE) {
-
   # Changes n_W to a scalar, if necessary ---------------------------------
-  n_cats <- NULL  # number of categories per categorical variable W
+  n_cats <- NULL # number of categories per categorical variable W
   if (!is.null(cat_prop)) {
     n_cats <- sapply(cat_prop, length)[sapply(cat_prop, length) > 1]
   }
@@ -257,7 +262,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
       n_X <- n_tot["n_X"]
       # Expanding n_W if it was provided as a 1-length list for all Ws
       if (length(n_cats) == 1 &
-          n_tot["n_vars"] != n_tot["n_X"] + n_tot["n_W"] + n_tot["theta"]) {
+        n_tot["n_vars"] != n_tot["n_X"] + n_tot["n_W"] + n_tot["theta"]) {
         n_tot["n_W"] <- n_tot["n_vars"] - n_tot["n_X"] - n_tot["theta"]
         n_cats <- rep(n_cats, n_tot["n_W"])
       }
@@ -291,20 +296,22 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
   cat_prop_W_p <- lapply(cat_prop_W, function(x) c(x[1], diff(x)))
 
   # Generating covariance and correlation matrix, if necessary ------------
-  var_W <- lapply(seq(cat_prop_W_p),
-                  function(x) cat_prop_W_p[[x]] * (1 - cat_prop_W_p[[x]]))
+  var_W <- lapply(
+    seq(cat_prop_W_p),
+    function(x) cat_prop_W_p[[x]] * (1 - cat_prop_W_p[[x]])
+  )
   if (is.null(c_sd) & length(cat_prop_YX)) {
-    var_YX <- ifelse(is.null(c_sd), 1, c_sd ^ 2)
+    var_YX <- ifelse(is.null(c_sd), 1, c_sd^2)
     var_YX <- rep(var_YX, length(cat_prop_YX))
   } else {
-    var_YX <- rep(c_sd ^ 2, abs(length(c_sd) - length(cat_prop_YX)) + 1)
+    var_YX <- rep(c_sd^2, abs(length(c_sd) - length(cat_prop_YX)) + 1)
   }
   var_Z <- lapply(seq(var_W), function(x) 1)
   if (is.null(family)) var_W <- lapply(seq(var_W), function(x) var_W[[x]][1])
   sd_YXW <- sqrt(c(var_YX, unlist(var_W)))
   sd_YXZ <- sqrt(c(var_YX, unlist(var_Z)))
 
-    if (is.null(cov_matrix)) {
+  if (is.null(cov_matrix)) {
     if (is.null(cor_matrix)) {
       if (is.null(family)) {
         cor_matrix <- cor_gen(n_vars)
@@ -319,7 +326,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
       cov_matrix <- cor_matrix * (sd_YXZ %*% t(sd_YXZ))
     }
   } else if (is.null(cor_matrix)) {
-      cor_matrix <- cov2cor(cov_matrix)
+    cor_matrix <- cov2cor(cov_matrix)
   }
 
   # Recalculating n_X and n_W ---------------------------------------------
@@ -345,12 +352,16 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
   # Generating background data --------------------------------------------
   if (is.null(family)) {
     if (verbose) message("Generating background data from correlation matrix")
-    bg <- questionnaire_gen_polychoric(n_obs, cat_prop, cor_matrix,
-                                       c_mean, c_sd, theta)
+    bg <- questionnaire_gen_polychoric(
+      n_obs, cat_prop, cor_matrix,
+      c_mean, c_sd, theta
+    )
   } else {
     if (verbose) message("Generating ", family, "-distributed background data")
-    bg <- questionnaire_gen_family(n_obs, cat_prop, cov_matrix,
-                                   family, theta, c_mean, n_cats)
+    bg <- questionnaire_gen_family(
+      n_obs, cat_prop, cov_matrix,
+      family, theta, c_mean, n_cats
+    )
     if (!is.null(names(cat_prop))) names(bg)[-1] <- names(cat_prop)
   }
 
@@ -377,17 +388,21 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
 
   # Calculating regression coefficients -----------------------------------
   if (theta & full_output & !is.null(family)) {
-    betas <- beta_gen(data        = out,
-                      output_cov  = TRUE,
-                      rename_to_q = TRUE,
-                      verbose     = verbose)
+    betas <- beta_gen(
+      data = out,
+      output_cov = TRUE,
+      rename_to_q = TRUE,
+      verbose = verbose
+    )
     out <- c(out, linear_regression = list(betas))
   }
 
   # Suppressing objects from output ---------------------------------------
   if (full_output) {
-    out <- within(out, rm(full_output, n_vars, n_cats, label_YXZ, var_Z,
-                          cat_prop_YX, cat_prop_W))
+    out <- within(out, rm(
+      full_output, n_vars, n_cats, label_YXZ, var_Z,
+      cat_prop_YX, cat_prop_W
+    ))
   }
 
   return(out)

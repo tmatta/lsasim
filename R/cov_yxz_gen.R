@@ -13,7 +13,7 @@
 #'
 cov_yxz_gen <- function(vcov_yxw, w_names, Phi,
                         pr_grp_1, n_ind, n_fac, Lambda, var_z) {
-  n_ind_rep <- rep(n_ind, n_fac)  # number of indicators for each factor
+  n_ind_rep <- rep(n_ind, n_fac) # number of indicators for each factor
   l_start <- cumsum(n_ind_rep) - (n_ind_rep - 1)
   l_end <- l_start + n_ind_rep - 1
   wcol_Phi <- match(w_names, colnames(Phi))

@@ -9,7 +9,9 @@
 #'  Modeling. Journal of Statistical Software, 48(2), 1-36. URL
 #'  http://www.jstatsoft.org/v48/i02/.
 .onAttach <- function(libname, pkgname) {
-    version <- read.dcf(file   = system.file("DESCRIPTION", package = pkgname),
-                        fields = "Version")
-    packageStartupMessage("This is ", paste(pkgname, version))
+  version <- read.dcf(
+    file = system.file("DESCRIPTION", package = pkgname),
+    fields = "Version"
+  )
+  packageStartupMessage("This is ", paste(pkgname, version))
 }

@@ -130,7 +130,6 @@ We can make the intraclass variance explode by forcing "incompatible" rho and c_
 
 ```{r ex 4}
 x <- cluster_gen(c(5, 1000), rho = .5, n_X = 2, n_W = 0, c_mean = 1:5)
-
 ```
 
 ```{r ex 4_str}
@@ -165,7 +164,6 @@ The named vector below represents a sampling structure of 1 country, 2 schools, 
 set.seed(4388)
 n <- c(cnt = 1, sch = 2, stu = 5)
 cg <- cluster_gen(n = n, n_X = 10, c_mean = c(0.3, 0.4, 0.5, 0.6, 0.7))
-
 ```
 
 ```{r ex 6_str}
