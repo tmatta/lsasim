@@ -8,7 +8,8 @@ test_that("cat_prop and rho can be specified simultaneously", {
   enn <- c(sample(5:20, 1L), sample(2:5, 1L))
   dt_separated_q <- cluster_gen(enn, cat_prop = props, rho = r, verbose = FALSE)
   dt_joint_q <- cluster_gen(
-    enn, cat_prop = props, rho = r, separate_questionnaires = FALSE,
+    enn,
+    cat_prop = props, rho = r, separate_questionnaires = FALSE,
     verbose = FALSE
   )
   expect_s3_class(dt_separated_q, "lsasimcluster")

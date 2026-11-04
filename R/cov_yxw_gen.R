@@ -7,7 +7,7 @@
 #' @param Lambda matrix containing the factor loadings
 #'
 cov_yxw_gen <- function(n_ind, n_z, Phi, n_fac, Lambda) {
-  n_ind_rep <- rep(n_ind, n_fac)  # number of indicators for each factor
+  n_ind_rep <- rep(n_ind, n_fac) # number of indicators for each factor
 
   x_names <- paste0("x", 1:sum(n_ind_rep))
   f_names <- paste0("f", 1:length(n_ind_rep))
@@ -34,7 +34,7 @@ cov_yxw_gen <- function(n_ind, n_z, Phi, n_fac, Lambda) {
   # Compute covariance matrix for factor indicators (X)
   Phi_f <- Phi[2:(n_fac + 1), 2:(n_fac + 1)]
   cov_x <- Lambda %*% Phi_f %*% t(Lambda)
-  var_xf <- Lambda ^ 2 %*% Phi_f + (1 - Lambda ^ 2)
+  var_xf <- Lambda^2 %*% Phi_f + (1 - Lambda^2)
 
   # Compute variances for factor indicators
   indicator_vars <- list()

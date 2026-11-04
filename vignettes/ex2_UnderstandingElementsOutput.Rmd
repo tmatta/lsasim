@@ -12,8 +12,10 @@ vignette: >
 ```{r setup, include = FALSE, warning = FALSE}
 library(knitr)
 options(width = 90, tidy = TRUE, warning = FALSE, message = FALSE)
-opts_chunk$set(comment = "", warning = FALSE, message = FALSE,
-               echo = TRUE, tidy = TRUE)
+opts_chunk$set(
+  comment = "", warning = FALSE, message = FALSE,
+  echo = TRUE, tidy = TRUE
+)
 ```
 
 ```{r load}
@@ -25,11 +27,13 @@ packageVersion("lsasim")
 ```
 
 ```{r equation, eval=FALSE}
-questionnaire_gen(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL, n_W = NULL,
-                  cor_matrix = NULL, cov_matrix = NULL,
-                  c_mean = NULL, c_sd = NULL,
-                  theta = FALSE, family = NULL,
-                  full_output = FALSE, verbose = TRUE)
+questionnaire_gen(n_obs,
+  cat_prop = NULL, n_vars = NULL, n_X = NULL, n_W = NULL,
+  cor_matrix = NULL, cov_matrix = NULL,
+  c_mean = NULL, c_sd = NULL,
+  theta = FALSE, family = NULL,
+  full_output = FALSE, verbose = TRUE
+)
 ```
 
 By default, the function returns a data.frame object where the first column ("subject") is a $1, \ldots, n$ ordered list of the $n$ observations and the other columns correspond to the questionnaire answers.  If `theta = TRUE`, the first column after "subject" will be the latent variable theta; in any case, the continuous variables always come before the categorical ones.
@@ -68,8 +72,10 @@ We generate one continuous and two ordinal covariates. We specify the covariance
 set.seed(1234)
 (props <- list(1, c(.25, 1), c(.2, .8, 1)))
 (yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3))
-bg <- questionnaire_gen(n_obs = 10, cat_prop = props, cov_matrix = yw_cov, theta = TRUE,
-                  family = "gaussian", full_output = TRUE)
+bg <- questionnaire_gen(
+  n_obs = 10, cat_prop = props, cov_matrix = yw_cov, theta = TRUE,
+  family = "gaussian", full_output = TRUE
+)
 names(bg)
 ```
 
@@ -86,7 +92,9 @@ set.seed(1234)
 ```
 
 ```{r}
-questionnaire_gen(n_obs = 10, cat_prop = props, cov_matrix = yw_cov, theta = TRUE,
-                  family = "gaussian", full_output = TRUE)
+questionnaire_gen(
+  n_obs = 10, cat_prop = props, cov_matrix = yw_cov, theta = TRUE,
+  family = "gaussian", full_output = TRUE
+)
 ```
 

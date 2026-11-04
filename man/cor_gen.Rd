@@ -16,8 +16,8 @@ Creates a random correlation matrix.
 }
 \section{Details}{
 
-The result from \code{cor_gen} can be used directly with the \code{cor_matrix}
-argument of \code{questionnaire_gen}.
+The result from \code{cor_gen} can be used directly with the
+\code{cor_matrix} argument of \code{questionnaire_gen}.
 }
 
 \examples{

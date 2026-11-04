@@ -1,10 +1,18 @@
 #' @title Generate cluster sample
-#' @param n numeric vector or list with the number of sampled observations (clusters or subjects) on each level
-#' @param N population size of each *sampled* cluster element on each level. Either a numeric vector or a list of numeric vectors. If `N` is a list, it must have the same length as `n` and each element of `N` must have the same length as the corresponding element of `n`
+#' @param n numeric vector or list with the number of sampled observations
+#'   (clusters or subjects) on each level
+#' @param N population size of each *sampled* cluster element on each level.
+#'   Either a numeric vector or a list of numeric vectors. If `N` is a list,
+#'   it must have the same length as `n` and each element of `N` must have the
+#'   same length as the corresponding element of `n`
 #' @param cluster_labels character vector with the names of each cluster level
-#' @param resp_labels character vector with the names of the questionnaire respondents on each level
-#' @param collapse if `TRUE`, function output contains only one data frame with all answers. It can also be "none", "partial" and "full" for finer control on 3+ levels
-#' @param separate_questionnaires if `TRUE`, each level will have its own questionnaire
+#' @param resp_labels character vector with the names of the questionnaire
+#'   respondents on each level
+#' @param collapse if `TRUE`, function output contains only one data frame
+#'   with all answers. It can also be "none", "partial" and "full" for finer
+#'   control on 3+ levels
+#' @param separate_questionnaires if `TRUE`, each level will have its own
+#'   questionnaire
 #' @param calc_weights if `TRUE`, sampling weights are calculated
 #' @param sum_pop total population at each level (sampled or not)
 #' @param n_X list of `n_X` per cluster level
@@ -12,33 +20,75 @@
 #' @param cat_prop list of cumulative proportions for each item. If \code{theta
 #'   = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
 #'   corresponds to the \code{theta}.
-#' @param c_mean vector of means for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 0, but may change if `rho` is set.
-#' @param sigma vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level. Defaults to 1, but may change if `rho` is set.
-#' @param cor_matrix Correlation matrix between all variables (except weights). By default, correlations are randomly generated.
-#' @param sampling_method can be "SRS" for Simple Random Sampling, "PPS" for Probabilities Proportional to Size, "mixed" to use PPS for schools and SRS otherwise, or a vector with the sampling method for each level
+#' @param c_mean vector of means for the continuous variables or list of
+#'   vectors for the continuous variables for each level. Defaults to 0, but
+#'   may change if `rho` is set.
+#' @param sigma vector of standard deviations for the continuous variables or
+#'   list of vectors for the continuous variables for each level. Defaults to
+#'   1, but may change if `rho` is set.
+#' @param cor_matrix Correlation matrix between all variables (except
+#'   weights). By default, correlations are randomly generated.
+#' @param sampling_method can be "SRS" for Simple Random Sampling, "PPS" for
+#'   Probabilities Proportional to Size, "mixed" to use PPS for schools and
+#'   SRS otherwise, or a vector with the sampling method for each level
 #' @param rho intraclass correlation (scalar, vector or list, as appropriate)
 #' @param theta if \code{TRUE}, the first continuous variable will be labeled
 #'   'theta'. Otherwise, it will be labeled 'q1'.
 #' @param verbose if `TRUE`, prints output messages
-#' @param print_pop_structure if `TRUE`, prints the population hierarchical structure (as long as it differs from the sample structure)
+#' @param print_pop_structure if `TRUE`, prints the population hierarchical
+#'   structure (as long as it differs from the sample structure)
 #' @param ... Additional parameters to be passed to `questionnaire_gen()`
 #' @return list with background questionnaire data, grouped by level or not
-#' @details This function relies heavily in two sub-functions---`cluster_gen_separate` and `cluster_gen_together`---which can be called independently. This does not make `cluster_gen` a simple wrapper function, as it performs several operations prior to calling its sub-functions, such as randomly generating `n_X` and `n_W` if they are not determined by user.
-#' `n` can have unitary length, in which case all clusters will have the same size.
-#' `N` is *not* the population size across all elements of a level, but the population size for each element of one level.
-#' Regarding the additional parameters to be passed to `questionnaire_gen()`, they can be passed either in the same format as `questionnaire_gen()` or as more complex objects that contain information for each cluster level.
+#' @details This function relies heavily in two
+#'   sub-functions---`cluster_gen_separate` and `cluster_gen_together`---which
+#'   can be called independently. This does not make `cluster_gen` a simple
+#'   wrapper function, as it performs several operations prior to calling its
+#'   sub-functions, such as randomly generating `n_X` and `n_W` if they are
+#'   not determined by user.
 #'
-#' @note For the purpose of this function, levels are counted starting from the top nesting/clustering level. This means that, for example, schools are the first cluster level, classes are the second, and students are the third and final level. This behavior can be customized by naming the `n` argument or providing custom labels in `cluster_labels` and `resp_labels`.
+#' `n` can have unitary length, in which case all clusters will have the same
+#'   size.
+#' `N` is *not* the population size across all elements of a level, but the
+#'   population size for each element of one level.
+#' Regarding the additional parameters to be passed to `questionnaire_gen()`,
+#'   they can be passed either in the same format as `questionnaire_gen()` or
+#'   as more complex objects that contain information for each cluster level.
 #'
-#' @note Manually setting both `c_mean` and `rho`, while possible, may yield unexpected results due to how those parameters work together. A high intraclass correlation (`rho`) theoretically means that each group will end up with different means so they can be better separated. If `c_mean` is left untouched (i.e., at the default value of zero), then `c_mean` will freely change between clusters in order to result in the expected intraclass correlation. For large samples, `c_mean` will in practice correspond to the grand mean across that level, as the means of each element will be different no matter the sample size.
+#' @note For the purpose of this function, levels are counted starting from
+#'   the top nesting/clustering level. This means that, for example, schools
+#'   are the first cluster level, classes are the second, and students are the
+#'   third and final level. This behavior can be customized by naming the `n`
+#'   argument or providing custom labels in `cluster_labels` and `resp_labels`.
 #'
-#' Moreover, if `c_mean`, `sigma` and `rho` are passed to the function, the means will be recalculated as a function of the other two parameters. The three are interdependent and cannot be passed simultaneously.
+#' @note Manually setting both `c_mean` and `rho`, while possible, may yield
+#'   unexpected results due to how those parameters work together. A high
+#'   intraclass correlation (`rho`) theoretically means that each group will
+#'   end up with different means so they can be better separated. If `c_mean`
+#'   is left untouched (i.e., at the default value of zero), then `c_mean`
+#'   will freely change between clusters in order to result in the expected
+#'   intraclass correlation. For large samples, `c_mean` will in practice
+#'   correspond to the grand mean across that level, as the means of each
+#'   element will be different no matter the sample size.
 #'
-#' If in addition to `rho` the user also determine different means for each level, the only way the math can check out is if the variance in each group becomes very high. For examples of this scenario and the one described in the previous paragraph, check out the final section of this page.
+#' Moreover, if `c_mean`, `sigma` and `rho` are passed to the function, the
+#'   means will be recalculated as a function of the other two parameters. The
+#'   three are interdependent and cannot be passed simultaneously.
 #'
-#' @note The `ranges()` function should always be put inside a `list()`,as putting it inside a vector (`c()`) will cancel its effect. For more details, please read the documentation of the `ranges()` function.
+#' If in addition to `rho` the user also determine different means for each
+#'   level, the only way the math can check out is if the variance in each
+#'   group becomes very high. For examples of this scenario and the one
+#'   described in the previous paragraph, check out the final section of this
+#'   page.
 #'
-#' @note The only arguments that can be used to label each level are `n`, `N`, `cluster_labels` and `resp_labels`. Labeling other arguments such as `c_mean` and `cat_prop` has no effect on the final results, but it is a recommended way for users to keep track of which value corresponds to which element in a complex hierarchical structure.
+#' @note The `ranges()` function should always be put inside a `list()`, as
+#'   putting it inside a vector (`c()`) will cancel its effect. For more
+#'   details, please read the documentation of the `ranges()` function.
+#'
+#' @note The only arguments that can be used to label each level are `n`, `N`,
+#'   `cluster_labels` and `resp_labels`. Labeling other arguments such as
+#'   `c_mean` and `cat_prop` has no effect on the final results, but it is a
+#'   recommended way for users to keep track of which value corresponds to
+#'   which element in a complex hierarchical structure.
 #'
 #' One of the extra arguments that can be passed by this function is `family`.
 #' If \code{family == "gaussian"}, the questionnaire will be generated
@@ -47,7 +97,8 @@
 #'   generated using the polychoric correlation matrix, with no distributional
 #'   assumptions.
 #'
-#' @seealso [cluster_gen_separate()] [cluster_gen_together()] [questionnaire_gen()]
+#' @seealso [cluster_gen_separate()] [cluster_gen_together()]
+#'   [questionnaire_gen()]
 #' @export
 #' @examples
 #' # Simple structure of 3 schools with 5 students each
@@ -60,20 +111,23 @@
 #' cluster_gen(n, N, n_X = 5, n_W = 2)
 #'
 #' # Condensing the output
-#' set.seed(0); cluster_gen(c(2, 4))
-#' set.seed(0); cluster_gen(c(2, 4), collapse=TRUE) # same, but in one dataset
+#' set.seed(0)
+#' cluster_gen(c(2, 4))
+#' set.seed(0)
+#' cluster_gen(c(2, 4), collapse = TRUE) # same, but in one dataset
 #'
 #' # Condensing the output: 3 levels
-#' str(cluster_gen(c(2, 2, 1), collapse="none"))
-#' str(cluster_gen(c(2, 2, 1), collapse="partial"))
-#' str(cluster_gen(c(2, 2, 1), collapse="full"))
+#' str(cluster_gen(c(2, 2, 1), collapse = "none"))
+#' str(cluster_gen(c(2, 2, 1), collapse = "partial"))
+#' str(cluster_gen(c(2, 2, 1), collapse = "full"))
 #'
 #' # Controlling the intra-class correlation and the grand mean
 #' x <- cluster_gen(c(5, 1000), rho = .9, n_X = 2, n_W = 0, c_mean = 10)
-#' sapply(1:5, function(s) mean(x$school[[s]]$q1))  # means per school != 10
+#' sapply(1:5, function(s) mean(x$school[[s]]$q1)) # means per school != 10
 #' mean(sapply(1:5, function(s) mean(x$school[[s]]$q1))) # closer to c_mean
 #'
-#' # Making the intraclass variance explode by forcing "incompatible" rho and c_mean
+#' # Making the intraclass variance explode by forcing "incompatible" rho and
+#' # c_mean
 #' x <- cluster_gen(c(5, 1000), rho = .5, n_X = 2, n_W = 0, c_mean = 1:5)
 #' anova(x)
 cluster_gen <- function(
@@ -97,8 +151,7 @@ cluster_gen <- function(
   verbose = TRUE,
   print_pop_structure = verbose,
   ...
-)
-{
+) {
   # Validating ============================================================
   validate_cluster_gen(
     n, N, cluster_labels, resp_labels, n_X, n_W, rho, sigma, c_mean,
@@ -113,7 +166,7 @@ cluster_gen <- function(
   class_n <- check_n_N_class(n)
   class_N <- check_n_N_class(N)
 
-  census <- TRUE  # used to decide whether to print the pop structure or not
+  census <- TRUE # used to decide whether to print the pop structure or not
   if (class_N != "multiplier") {
     census <- FALSE
   } else {
@@ -126,14 +179,16 @@ cluster_gen <- function(
     check_condition(
       class_N == "multiplier",
       "if n is select, N must be a vector or a list"
-      )
+    )
     if (is(N, "numeric")) N <- convert_vector_to_list(N)
     whitelist <- sample_from(N, n)
     n <- N
   } else if (class_n == "list with ranges") {
     if (class_N == "multiplier") {
-      check_condition(N != 1,
-                      "If n is a list, N must be 1 or explicitly defined")
+      check_condition(
+        N != 1,
+        "If n is a list, N must be 1 or explicitly defined"
+      )
       n <- convert_vector_to_list(n)
       N <- n
       sum_pop <- sapply(N, sum)
@@ -153,7 +208,7 @@ cluster_gen <- function(
         stop("If n is a list, N must be 1 or explicitly defined")
       }
     } else if (class_N %in% c("vector", "list with ranges")) {
-        N <- convert_vector_to_list(N)
+      N <- convert_vector_to_list(N)
     }
     n <- convert_vector_to_list(n, N)
   } else if (class_n == "vector") {
@@ -184,7 +239,7 @@ cluster_gen <- function(
   # Removing accents ======================================================
   if (!is.null(names(n))) names(n) <- iconv(names(n), to = "ASCII//TRANSLIT")
   cluster_labels <- iconv(cluster_labels, to = "ASCII//TRANSLIT")
-  resp_labels    <- iconv(resp_labels, to = "ASCII//TRANSLIT")
+  resp_labels <- iconv(resp_labels, to = "ASCII//TRANSLIT")
 
   # Defining n_X and n_W ==================================================
   if (is.null(cat_prop)) {
@@ -212,12 +267,14 @@ cluster_gen <- function(
           n_X <- as.list(rep(length(rho), n_levels))
         } else {
           n_X <- gen_X_W_cluster(n_levels, separate_questionnaires,
-                                class_cor = NULL)$n_X
+            class_cor = NULL
+          )$n_X
         }
       }
       if (is.null(n_W)) {
         n_W <- gen_X_W_cluster(
-          n_levels, separate_questionnaires, class_cor = NULL
+          n_levels, separate_questionnaires,
+          class_cor = NULL
         )$n_W
         # Dropping levels of n_W to adjust them to the limits of c_mean
         # or cor_ matrix
@@ -247,8 +304,10 @@ cluster_gen <- function(
       }
       if (is.null(whitelist)) {
         message("Sampled structure")
-        cluster_message(n, resp_labels, cluster_labels, n_levels,
-                      separate_questionnaires, 1)
+        cluster_message(
+          n, resp_labels, cluster_labels, n_levels,
+          separate_questionnaires, 1
+        )
         draw_cluster_structure(n, cluster_labels, resp_labels)
       } else {
         whitelist_message(whitelist)
@@ -277,8 +336,10 @@ cluster_gen <- function(
         message("Sampled structure")
       }
       if (is.null(whitelist)) {
-        cluster_message(n, resp_labels, cluster_labels, n_levels,
-                      separate_questionnaires, 2)
+        cluster_message(
+          n, resp_labels, cluster_labels, n_levels,
+          separate_questionnaires, 2
+        )
         draw_cluster_structure(n, cluster_labels, resp_labels)
       } else {
         whitelist_message(whitelist)

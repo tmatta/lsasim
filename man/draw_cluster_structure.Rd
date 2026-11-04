@@ -13,19 +13,23 @@ draw_cluster_structure(n, labels = NULL, resp = NULL, output = "tree")
 
 \item{resp}{corresponds to resp_labels from cluster_gen}
 
-\item{output}{"tree" draws a tree-like structure on the console, "text" prints the structure as a character vector}
+\item{output}{"tree" draws a tree-like structure on the console, "text"
+prints the structure as a character vector}
 }
 \value{
 Prints structure to console.
 }
 \description{
-This function creates a visual representation of the hierarchical structure
+This function creates a visual representation of the
+hierarchical structure
 }
 \note{
-This function is useful for checking how a \code{list()} object looks as a hierarchical structure, usually to be used as the  \code{n} and/or \code{N} arguments of the \code{cluster_gen} function.
+This function is useful for checking how a \code{list()} object looks as a
+hierarchical structure, usually to be used as the  \code{n} and/or \code{N}
+arguments of the \code{cluster_gen} function.
 }
 \examples{
 n <- c(2, 4, 3)
 draw_cluster_structure(n)
-draw_cluster_structure(n, output="text")
+draw_cluster_structure(n, output = "text")
 }

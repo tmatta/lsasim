@@ -30,21 +30,30 @@ cluster_gen_separate(
 \arguments{
 \item{n_levels}{number of cluster levels}
 
-\item{n}{numeric vector or list with the number of sampled observations (clusters or subjects) on each level}
+\item{n}{numeric vector or list with the number of sampled observations
+(clusters or subjects) on each level}
 
-\item{N}{population size of each \emph{sampled} cluster element on each level. Either a numeric vector or a list of numeric vectors. If \code{N} is a list, it must have the same length as \code{n} and each element of \code{N} must have the same length as the corresponding element of \code{n}}
+\item{N}{population size of each \emph{sampled} cluster element on each level.
+Either a numeric vector or a list of numeric vectors. If \code{N} is a list,
+it must have the same length as \code{n} and each element of \code{N} must have the
+same length as the corresponding element of \code{n}}
 
 \item{sum_pop}{total population at each level (sampled or not)}
 
 \item{calc_weights}{if \code{TRUE}, sampling weights are calculated}
 
-\item{sampling_method}{can be "SRS" for Simple Random Sampling, "PPS" for Probabilities Proportional to Size, "mixed" to use PPS for schools and SRS otherwise, or a vector with the sampling method for each level}
+\item{sampling_method}{can be "SRS" for Simple Random Sampling, "PPS" for
+Probabilities Proportional to Size, "mixed" to use PPS for schools and
+SRS otherwise, or a vector with the sampling method for each level}
 
 \item{cluster_labels}{character vector with the names of each cluster level}
 
-\item{resp_labels}{character vector with the names of the questionnaire respondents on each level}
+\item{resp_labels}{character vector with the names of the questionnaire
+respondents on each level}
 
-\item{collapse}{if \code{TRUE}, function output contains only one data frame with all answers. It can also be "none", "partial" and "full" for finer control on 3+ levels}
+\item{collapse}{if \code{TRUE}, function output contains only one data frame
+with all answers. It can also be "none", "partial" and "full" for finer
+control on 3+ levels}
 
 \item{n_X}{list of \code{n_X} per cluster level}
 
@@ -54,9 +63,11 @@ cluster_gen_separate(
 = TRUE}, the first element of \code{cat_prop} must be a scalar 1, which
 corresponds to the \code{theta}.}
 
-\item{c_mean}{vector of means for the continuous variables or list of vectors for the continuous variables for each level}
+\item{c_mean}{vector of means for the continuous variables or list of
+vectors for the continuous variables for each level}
 
-\item{sigma}{vector of standard deviations for the continuous variables or list of vectors for the continuous variables for each level}
+\item{sigma}{vector of standard deviations for the continuous variables or
+list of vectors for the continuous variables for each level}
 
 \item{cor_matrix}{Correlation matrix between all variables (except weights)}
 
@@ -65,14 +76,16 @@ corresponds to the \code{theta}.}
 \item{theta}{if \code{TRUE}, the first continuous variable will be labeled
 'theta'. Otherwise, it will be labeled 'q1'.}
 
-\item{whitelist}{used when \code{n = select(...)}, determines which PSUs get to generate questionnaires}
+\item{whitelist}{used when \code{n = select(...)}, determines which PSUs get to
+generate questionnaires}
 
 \item{verbose}{if \code{TRUE}, prints output messages}
 
 \item{...}{Additional parameters to be passed to \code{questionnaire_gen()}}
 }
 \description{
-This is a sub-function of \code{cluster_gen} that performs cluster sampling, with the twist that each cluster level has its own questionnaire.
+This is a sub-function of \code{cluster_gen} that performs cluster
+sampling, with the twist that each cluster level has its own questionnaire.
 }
 \seealso{
 \code{\link[=cluster_gen]{cluster_gen()}} \code{\link[=cluster_gen_together]{cluster_gen_together()}}

@@ -20,5 +20,6 @@ A vector containing the generated sample
 Creates a uniformly-distributed sample from a 2-length vector
 }
 \note{
-This function was created primarily to be used to expand an object with the "range" class.
+This function was created primarily to be used to expand an object
+with the "range" class.
 }

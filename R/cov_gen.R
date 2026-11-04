@@ -13,16 +13,15 @@
 #'   vcov_yfz
 #' @export
 #' @examples
-#'  vcov <- cov_gen(pr_grp_1 = .5, n_fac = 3, n_ind = 2)
-#'  str(vcov)
+#' vcov <- cov_gen(pr_grp_1 = .5, n_fac = 3, n_ind = 2)
+#' str(vcov)
 cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
-
   # General parameters ----------------------------------------------------
-  pr_grp_2 <- 1 - pr_grp_1  # proportion of observations in group 2
-  var_z <- pr_grp_1 * pr_grp_2  # variance of dichotomous variable z
-  sd_z  <- sqrt(var_z)
-  n_z   <- length(sd_z)  # number of background variables
-  n_ind_rep <- rep(n_ind, n_fac)  # number of indicators for each factor
+  pr_grp_2 <- 1 - pr_grp_1 # proportion of observations in group 2
+  var_z <- pr_grp_1 * pr_grp_2 # variance of dichotomous variable z
+  sd_z <- sqrt(var_z)
+  n_z <- length(sd_z) # number of background variables
+  n_ind_rep <- rep(n_ind, n_fac) # number of indicators for each factor
   f_names <- paste0("f", 1:length(n_ind_rep))
   x_names <- paste0("x", 1:sum(n_ind_rep))
   w_names <- paste0("w", 1:n_z)
@@ -39,8 +38,8 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
   # Generating covariance matrix between Y, X and Z -----------------------
   # Z ~ N(0, 1) is the latent representation of discrete W
   # converts pt. biserial correlations to biserial correlations
-  n_yfw <- 1 + n_fac + n_z  # 1 for y
-  Phi <- cor_gen(n_yfw)  # latent regression correlation matrix
+  n_yfw <- 1 + n_fac + n_z # 1 for y
+  Phi <- cor_gen(n_yfw) # latent regression correlation matrix
   rownames(Phi) <- colnames(Phi) <- c("y", f_names, w_names)
 
   # Setup full YXW covariance matrix --------------------------------------
@@ -50,7 +49,9 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
   # Analytical covariance matrix ------------------------------------------
   # yxz is the covariance between y, x1, ..., x36; z
   # using var(z) = pq and point biserial correlations
-  vcov_yxz <- cov_yxz_gen(vcov_yxw, w_names, Phi, pr_grp_1, n_ind, n_fac, Lambda, var_z)
+  vcov_yxz <- cov_yxz_gen(
+    vcov_yxw, w_names, Phi, pr_grp_1, n_ind, n_fac, Lambda, var_z
+  )
 
   # Latent regression covariance matrix -----------------------------------
   vcov_yfz <- cov_yfz_gen(n_ind, n_fac, Phi, n_z, sd_z, w_names, pr_grp_1)

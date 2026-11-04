@@ -13,7 +13,8 @@ calc_var_between(n_j, y_bar_j, y_bar, n_tilde, N)
 
 \item{y_bar}{mean of variable of interest across classes}
 
-\item{n_tilde}{function of the variance of n_N, M and N. See documentation and code of \code{lsasim:::summary.lsasimcluster} for details}
+\item{n_tilde}{function of the variance of n_N, M and N. See documentation
+and code of \code{lsasim:::summary.lsasimcluster} for details}
 
 \item{N}{number of classes j}
 }
@@ -21,7 +22,8 @@ calc_var_between(n_j, y_bar_j, y_bar, n_tilde, N)
 Calculate variance between classes
 }
 \references{
-Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
+Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel
+Analysis. Sage Publications.
 }
 \seealso{
 \code{\link[=anova.lsasimcluster]{anova.lsasimcluster()}}

@@ -32,7 +32,8 @@ print_anova(
 
 \item{se_rho}{standard errors of \code{rho_hat}}
 
-\item{n_tilde}{function of the variance of n_N, M and N. See documentation and code of \code{lsasim:::summary.lsasimcluster} for details}
+\item{n_tilde}{function of the variance of n_N, M and N. See documentation
+and code of \code{lsasim:::summary.lsasimcluster} for details}
 
 \item{M}{total sample size}
 
@@ -42,7 +43,8 @@ print_anova(
 Print the ANOVA table
 }
 \references{
-Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
+Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel
+Analysis. Sage Publications.
 }
 \seealso{
 \code{\link[stats:anova]{stats::anova()}}

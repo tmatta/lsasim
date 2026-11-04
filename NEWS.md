@@ -1,5 +1,7 @@
 # lsasim (development version)
 
+* Delinted package (issue #58)
+
 # lsasim 2.1.7
 
 * Adjust test expectations to new `str()` behavior (issue #53)

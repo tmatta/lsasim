@@ -70,9 +70,11 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   names(cat_prop) <- colnames(data_yxw)
   for (z in z_name) {
     z_num <- match(z, z_name)
-    cut_points <- c(-Inf, qnorm(p    = cat_prop_W[[z_num]],
-                                mean = mean_z[z_num],
-                                sd   = sqrt(var_z[[z_num]][1])))
+    cut_points <- c(-Inf, qnorm(
+      p = cat_prop_W[[z_num]],
+      mean = mean_z[z_num],
+      sd = sqrt(var_z[[z_num]][1])
+    ))
     # if W is dichotomous, labels are 0:1; else, labels start at 1.
     if (length(cat_prop[[z]]) == 2) {
       labels <- 1:2

@@ -228,22 +228,28 @@ naturally worse estimation on higher hierarchical setups.
 }
 \examples{
 # Using polychoric correlations
-props <- list(c(1), c(.25, .6, 1))  # one continuous, one with 3 categories
-questionnaire_gen(n_obs = 10, cat_prop = props,
-                  cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
-                  c_mean = 2, c_sd = 1.5, theta = TRUE)
+props <- list(c(1), c(.25, .6, 1)) # one continuous, one with 3 categories
+questionnaire_gen(
+  n_obs = 10, cat_prop = props,
+  cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
+  c_mean = 2, c_sd = 1.5, theta = TRUE
+)
 
 # Using the multinomial distribution
 # two categorical variables W: one has 2 categories, the other has 3
 props <- list(1, c(.25, 1), c(.2, .8, 1))
 yw_cov <- matrix(c(1, .5, .5, .5, 1, .8, .5, .8, 1), nrow = 3)
-questionnaire_gen(n_obs = 10, cat_prop = props, cov_matrix = yw_cov,
-                  family = "gaussian")
+questionnaire_gen(
+  n_obs = 10, cat_prop = props, cov_matrix = yw_cov,
+  family = "gaussian"
+)
 
 # Not providing covariance matrix
-questionnaire_gen(n_obs = 10,
-                  cat_prop = list(c(.25, 1), c(.6, 1), c(.2, 1)),
-                  family = "gaussian")
+questionnaire_gen(
+  n_obs = 10,
+  cat_prop = list(c(.25, 1), c(.6, 1), c(.2, 1)),
+  family = "gaussian"
+)
 }
 \references{
 Matta, T. H., Rutkowski, L., Rutkowski, D., & Liaw, Y. L. (2018).

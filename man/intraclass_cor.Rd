@@ -15,7 +15,8 @@ intraclass_cor(tau2_hat, sigma2_hat)
 Calculates the intraclass correlation of clustered data
 }
 \references{
-Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
+Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel
+Analysis. Sage Publications.
 }
 \seealso{
 \code{\link[=cluster_gen]{cluster_gen()}} \code{\link[=summary.lsasimcluster]{summary.lsasimcluster()}}

@@ -13,8 +13,10 @@ vignette: >
 ```{r setup, include = FALSE, warning = FALSE}
 library(knitr)
 options(width = 90, tidy = TRUE, warning = FALSE, message = FALSE)
-opts_chunk$set(comment = "", warning = FALSE, message = FALSE,
-               echo = TRUE, tidy = TRUE)
+opts_chunk$set(
+  comment = "", warning = FALSE, message = FALSE,
+  echo = TRUE, tidy = TRUE
+)
 ```
 
 ```{r load}
@@ -35,8 +37,10 @@ We generate one latent trait, two continuous, one binary, and one 3-category cov
 
 ```{r}
 set.seed(1234)
-bg <- questionnaire_gen(n_obs = 1000, n_X = 2, n_W = list(2, 3), theta = TRUE,
-                        family = "gaussian", full_output = TRUE)
+bg <- questionnaire_gen(
+  n_obs = 1000, n_X = 2, n_W = list(2, 3), theta = TRUE,
+  family = "gaussian", full_output = TRUE
+)
 ```
 
 ```{r}

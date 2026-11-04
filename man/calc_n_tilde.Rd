@@ -17,7 +17,8 @@ calc_n_tilde(M, N, n_j)
 Calculates n tilde
 }
 \references{
-Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
+Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis.
+Sage Publications.
 }
 \seealso{
 \code{\link[=summary.lsasimcluster]{summary.lsasimcluster()}}

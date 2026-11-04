@@ -9,7 +9,8 @@ pluralize(word, n = rep(2, length(word)))
 \arguments{
 \item{word}{vector of characters to be pluralized}
 
-\item{n}{vector of number of times each word appears (to determine if the plural or single form will be returned)}
+\item{n}{vector of number of times each word appears (to determine if the
+plural or single form will be returned)}
 }
 \value{
 \code{word}, either pluralized or not (depending on \code{n})

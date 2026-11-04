@@ -19,7 +19,8 @@ calc_var_within(n_j, s2_j, M, N)
 Calculate variance within classes
 }
 \references{
-Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
+Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel
+Analysis. Sage Publications.
 }
 \seealso{
 \code{\link[=anova.lsasimcluster]{anova.lsasimcluster()}}

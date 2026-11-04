@@ -14,8 +14,12 @@
 \description{
 Prints welcome message with package version on load
 }
+\details{
+package user.
+}
 \note{
-This function was adapted from the lavaan package, so credit for it goes to lavaan's creator, Yves Rosseel
+This function was adapted from the lavaan package, so credit for it
+goes to lavaan's creator, Yves Rosseel
 }
 \references{
 Yves Rosseel (2012). lavaan: An R Package for Structural Equation

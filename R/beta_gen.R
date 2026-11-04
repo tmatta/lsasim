@@ -14,7 +14,8 @@
 #'   YXW
 #' @param rename_to_q if \code{TRUE}, renames the variables from "x" and "w" to
 #'   "q"
-#' @param verbose if `FALSE`, output messages will be suppressed (useful for simulations). Defaults to `TRUE`
+#' @param verbose if `FALSE`, output messages will be suppressed (useful for
+#'   simulations). Defaults to `TRUE`
 #' @importFrom stats lm model.matrix quantile cov pnorm setNames
 #' @details This function was primarily conceived as a sub-function of
 #'   \code{questionnaire_gen}, when \code{family = "gaussian"}, \code{theta =
@@ -24,9 +25,17 @@
 #'   This function primarily calculates the true regression coefficients
 #'   (\eqn{\beta}) for the linear influence of the background questionnaire
 #'   variables in \eqn{\theta}. From a statistical perspective, this
-#'   relationship can be modeled as follows, where \eqn{E(\theta | \boldsymbol{X}, \boldsymbol{W})}{E(\theta | X, W)} is the expectation of \eqn{\theta} given \eqn{\boldsymbol{X} = \{X_1, \ldots, X_P\}}{X = {X_1, ..., X_P}} and \eqn{\boldsymbol{W} = \{W_1, \ldots, W_Q\}}{W = {W_1, ..., W_Q}}:
+#'   relationship can be modeled as follows, where
+#'   \eqn{E(\theta | \boldsymbol{X}, \boldsymbol{W})}{E(\theta | X, W)}
+#'   is the expectation of
+#'   \eqn{\theta} given
+#'   \eqn{\boldsymbol{X} = \{X_1, \ldots, X_P\}}{X = {X_1, ..., X_P}} and
+#'   \eqn{\boldsymbol{W} = \{W_1, \ldots, W_Q\}}{W = {W_1, ..., W_Q}}:
 #'
-#'   \deqn{E(\theta | \boldsymbol{X}, \boldsymbol{W}) = \beta_0 + \sum_{p = 1}^P \beta_p X_p + \sum_{q = 1}^Q \beta_{P + q} W_q}{E(theta | X, W) = b_0 + \sum_{p = 1}^P b_p X_p + \sum_{q = 1}^Q b_{P + q} W_q}
+#'   \deqn{E(\theta | \boldsymbol{X}, \boldsymbol{W}) = \beta_0 +
+#'     \sum_{p = 1}^P \beta_p X_p +
+#'     \sum_{q = 1}^Q \beta_{P + q} W_q}{E(theta | X, W) = b_0 + \sum_{p = 1}^P
+#'     b_p X_p + \sum_{q = 1}^Q b_{P + q} W_q}
 #'
 #'   The regression coefficients are calculated using the true covariance matrix
 #'   either provided by the user upon calling of \code{questionnaire_gen} or
@@ -63,31 +72,43 @@
 #'   the first one, \code{betas}, will contain the same output described in the
 #'   previous paragraph. The second one, called \code{vcov_YXW}, contains
 #'   the covariance matrix of the regression coefficients.
-#' @note The equation in this page is best formatted in PDF. We recommend issuing `help("beta_gen", help_type = "PDF")` in your terminal and opening the `beta_gen.pdf` file generated in your working directly. You may also set `help_type = "HTML"`, but the equations will have degraded formatting.
+#' @note The equation in this page is best formatted in PDF. We recommend
+#'   issuing `help("beta_gen", help_type = "PDF")` in your terminal and
+#'   opening the `beta_gen.pdf` file generated in your working directly. You
+#'   may also set `help_type = "HTML"`, but the equations will have degraded
+#'   formatting.
 #' @seealso [questionnaire_gen()]
 #' @export
 #' @examples
 #'
-#' data <- questionnaire_gen(100, family="gaussian", theta = TRUE,
-#'                            full_output = TRUE, n_X = 2, n_W = list(2, 2, 4))
+#' data <- questionnaire_gen(100,
+#'   family = "gaussian", theta = TRUE,
+#'   full_output = TRUE, n_X = 2, n_W = list(2, 2, 4)
+#' )
 #' beta_gen(data, MC = TRUE)
 #'
 beta_gen <- function(data, MC = FALSE, MC_replications = 100,
                      CI = c(0.005, 0.995), output_cov = FALSE,
                      rename_to_q = FALSE, verbose = TRUE) {
-
   # Basic validation checks -----------------------------------------------
   if (!data$theta) stop("Data must include theta")
   if (!is(data, "list")) {
     stop("Generate data with questionnaire_gen(full_output = TRUE)")
   }
   if (!MC & MC_replications != 100) {
-    if (verbose) message("Changing the number of Monte Carlo replications has no effect unless MC = TRUE")
+    if (verbose) {
+      message(
+        c(
+          "Changing the number of Monte Carlo replications has no effect",
+          "unless MC = TRUE"
+        )
+      )
+    }
   }
 
   # Basic data subsetting -------------------------------------------------
-  YXW <- data$bg[-1]  # remove "subject"
-  XW <- YXW[-1]  # remove "theta" (and "subject", from before)
+  YXW <- data$bg[-1] # remove "subject"
+  XW <- YXW[-1] # remove "theta" (and "subject", from before)
 
   # Identifying and labeling elements -------------------------------------
   names_X <- names_W <- names_Z <- NULL
@@ -120,8 +141,8 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
     XW_mu_minus_1st <- unlist(c(X_mu, W_mu_minus_1st))
   }
 
-  Y_var <- data$c_sd["theta"] ^ 2
-  X_var <- data$c_sd[substring(names(data$c_sd), 1, 1) == "x"] ^ 2
+  Y_var <- data$c_sd["theta"]^2
+  X_var <- data$c_sd[substring(names(data$c_sd), 1, 1) == "x"]^2
   Y_sd <- sqrt(Y_var)
   X_sd <- sqrt(X_var)
 
@@ -143,8 +164,10 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
 
     cov_XW <- exp_XW <- list()
     for (x in names_X) {
-      exp_XW[[x]] <- exp_AB(names_W, Z_mu, W_mu, cov_XZ[x, ], q_Z,
-                            X_mu[[x]], Z_sd)
+      exp_XW[[x]] <- exp_AB(
+        names_W, Z_mu, W_mu, cov_XZ[x, ], q_Z,
+        X_mu[[x]], Z_sd
+      )
       cov_XW[[x]] <- cov_AB(names_W, exp_XW[[x]], X_mu[[x]], W_mu)
     }
 
@@ -162,24 +185,25 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
   # Everything that doesn't involve W
   vcov_YXW[names_YX, names_YX] <- data$cov_matrix[names_YX, names_YX]
 
-  # Cov(Y, W)
+  # Covariance between Y and W
   vcov_YXW["theta", W_cat_names_minus_1st] <- unlist(cov_YW)
   vcov_YXW[W_cat_names_minus_1st, "theta"] <- unlist(cov_YW)
 
-  # Cov(X, W)
+  # Covariance between X and W
   for (x in names_X) {
     vcov_YXW[x, W_cat_names_minus_1st] <- unlist(cov_XW[[x]])
     vcov_YXW[W_cat_names_minus_1st, x] <- unlist(cov_XW[[x]])
   }
 
-  # Cov(W, W)
+  # Covariance between W and W
   # Covariances between categories within the same W
   for (w in names_W) {
     w_cols <- vector()
     ref_names <- colnames(vcov_YXW)
     for (c in seq_along(ref_names)) {
-      if (w %in% substr(ref_names[c], 1, nchar(ref_names[c]) - 1))
+      if (w %in% substr(ref_names[c], 1, nchar(ref_names[c]) - 1)) {
         w_cols <- c(w_cols, c)
+      }
     }
     vcov_YXW[w_cols, w_cols] <- vcov_W[[w]]
   }
@@ -202,7 +226,7 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
         lo_lim <- c(q_Z[[wA]][numA], q_Z[[wB]][numB])
         up_lim <- c(q_Z[[wA]][numA + 1], q_Z[[wB]][numB + 1])
         covAB <- calc_p_mvn_trunc(lo_lim, up_lim, cov_zA_zB) * muB - muA * muB
-        vcov_YXW[catA, catB] <- vcov_YXW[catB, catA] <-  covAB
+        vcov_YXW[catA, catB] <- vcov_YXW[catB, catA] <- covAB
       }
     }
   }
@@ -213,14 +237,18 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
   intercept <- Y_mu - crossprod(beta_hat, XW_mu_minus_1st)
   output <- setNames(as.vector(c(intercept, beta_hat)), colnames(vcov_YXW))
   if (MC) {
-    if (verbose) message("Generating Monte Carlo coefficient estimates. Please wait...")
+    if (verbose) {
+      message("Generating Monte Carlo coefficient estimates. Please wait...")
+    }
     boot_data <- list()
     for (r in seq(MC_replications)) {
       unique_lvl <- TRUE
       while (unique_lvl) {
         boot_obs <- sample(rownames(data$bg), replace = TRUE)
         boot_data[[r]] <- YXW[boot_obs, ]
-        unique_lvl <- any(sapply(boot_data[[r]], function(x) all(duplicated(x)[-1L])))
+        unique_lvl <- any(
+          sapply(boot_data[[r]], function(x) all(duplicated(x)[-1L]))
+        )
       }
     }
     boot_coef <- sapply(boot_data, function(x) lm(theta ~ ., x)$coefficients)
@@ -230,8 +258,10 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
     # Checking if cov_matrix estimates is contained in MC confidence interval
     cov_in_CI <- output > boot_CI[1, ] & output < boot_CI[2, ]
 
-    output <- t(rbind(cov_matrix = output, MC = boot_avg_coef, boot_CI,
-                    cov_in_CI = as.logical(cov_in_CI)))
+    output <- t(rbind(
+      cov_matrix = output, MC = boot_avg_coef, boot_CI,
+      cov_in_CI = as.logical(cov_in_CI)
+    ))
   }
   if (output_cov) output <- list(betas = output, vcov_YXW = vcov_YXW)
   if (rename_to_q) {
@@ -241,10 +271,14 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
       W_numbers <- 1:data$n_W + length(X_numbers)
       W_categories <- sapply(data$cat_prop_W, length)
       W_categories_expanded <- lapply(W_categories, function(x) 2:max(x))
-      W_numbers_expanded <- rep(W_numbers,
-                                sapply(data$cat_prop_W, function(x) length(x) - 1))
-      W_numbers_expanded_cats <- paste0(W_numbers_expanded, ".",
-                                        unlist(W_categories_expanded))
+      W_numbers_expanded <- rep(
+        W_numbers,
+        sapply(data$cat_prop_W, function(x) length(x) - 1)
+      )
+      W_numbers_expanded_cats <- paste0(
+        W_numbers_expanded, ".",
+        unlist(W_categories_expanded)
+      )
     }
     new_variable_numbers <- c(X_numbers, W_numbers_expanded_cats)
     new_variable_names <- c("theta", paste0("q", new_variable_numbers))

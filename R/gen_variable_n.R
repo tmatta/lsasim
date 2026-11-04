@@ -14,7 +14,6 @@ gen_variable_n <- function(n_vars, n_X, n_W, theta = FALSE) {
         ifelse(is.null(n_X), 0, n_X) + theta
     } else {
       n_vars <- n_W + n_X + theta
-
     }
   }
   if (is.null(n_X) & is.null(n_W)) {

@@ -17,15 +17,17 @@ booklet_sample(
 \item{n_subj}{an integer, the number of subjects (test takers).}
 
 \item{book_item_design}{a data frame containing the items that belong to each
-booklet with booklets as columns and booklet item numbers as rows.  See 'Details'.}
+booklet with booklets as columns and booklet item numbers as rows.
+See 'Details'.}
 
-\item{book_prob}{a vector of probability weights for obtaining the booklets being sampled.
-The default equally weights all books.}
+\item{book_prob}{a vector of probability weights for obtaining the booklets
+being sampled. The default equally weights all books.}
 
-\item{resample}{logical indicating if booklets should be re-sampled to minimize differences.
-Can only be used when \code{book_prob = NULL}.}
+\item{resample}{logical indicating if booklets should be re-sampled to
+minimize differences. Can only be used when \code{book_prob = NULL}.}
 
 \item{e}{a number between 0 and 1 exclusive, re-sampling stopping criteria,
+:w
 the difference between the most sampled and least sampled booklets.}
 
 \item{iter}{an integer defining the number of iterations to reach e.}
@@ -35,13 +37,18 @@ the difference between the most sampled and least sampled booklets.}
 }
 \section{Details}{
 
-If using \code{booklet_sample} in tandem with \code{booklet_design}, \code{book_item_design}
-is the the first element of the returned list of \code{block_design}.
+If using \code{booklet_sample} in tandem with \code{booklet_design},
+\code{book_item_design} is the the first element of the returned list of
+\code{block_design}.
 }
 
 \examples{
-it_bk <- matrix(c(1, 2, 1, 4, 5, 4, 7, 8, 7, 10, 3, 10, 2, 6, 3, 5, 9, 6, 8, 0, 9), 
-           ncol = 3, byrow = TRUE)
-booklet_sample(n_subj = 10, book_item_design = it_bk, book_prob = c(.2, .5, .3))
+it_bk <- matrix(
+  c(1, 2, 1, 4, 5, 4, 7, 8, 7, 10, 3, 10, 2, 6, 3, 5, 9, 6, 8, 0, 9),
+  ncol = 3, byrow = TRUE
+)
+booklet_sample(
+  n_subj = 10, book_item_design = it_bk, book_prob = c(.2, .5, .3)
+)
 
 }

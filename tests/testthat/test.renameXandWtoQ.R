@@ -1,20 +1,30 @@
 context("X and W variables are renamed correctly after beta_gen")
 
 gen_questionnaire_var_names <- function(nW = NULL, nX = NULL, n = 10) {
-  data <- questionnaire_gen(n, n_W = nW, n_X = nX, theta = TRUE,
-                            full_output = TRUE, family = "gaussian")
+  data <- questionnaire_gen(n,
+    n_W = nW, n_X = nX, theta = TRUE,
+    full_output = TRUE, family = "gaussian"
+  )
   # Data from covariance matrix and cat_prop
   short_names <- rownames(data$cor_matrix)
-  W_levels_cov <- sapply(data$cat_prop[lapply(data$cat_prop, length) > 1], length)
-  X_length <- sapply(data$cat_prop[lapply(data$cat_prop, length) == 1], length)[-1]
+  W_levels_cov <- sapply(
+    data$cat_prop[lapply(data$cat_prop, length) > 1], length
+  )
+  X_length <- sapply(
+    data$cat_prop[lapply(data$cat_prop, length) == 1], length)[-1
+  ]
   cov_numbers <- as.numeric(substring(short_names[-1], 2))
 
   # Data from the regression
   expanded_names <- names(data$linear_regression$betas)
-  expanded_numbers <- as.numeric(gsub("\\.\\d", "", gsub("q", "", expanded_names[-1])))
+  expanded_numbers <- as.numeric(
+    gsub("\\.\\d", "", gsub("q", "", expanded_names[-1]))
+  )
   expanded_levels_reg <- table(expanded_numbers)
   if (length(X_length) > 0) {
-    expanded_levels_reg <- as.vector(expanded_levels_reg[-(1:length(X_length))] + 1)
+    expanded_levels_reg <- as.vector(
+      expanded_levels_reg[-(1:length(X_length))] + 1
+    )
   } else {
     expanded_levels_reg <- as.vector(expanded_levels_reg + 1)
   }
@@ -25,11 +35,13 @@ gen_questionnaire_var_names <- function(nW = NULL, nX = NULL, n = 10) {
   }
 
   # Putting everything together
-  output <- list(data = data$bg,
-                 reg_var_numbers = unique(expanded_numbers),
-                 cov_numbers = cov_numbers,
-                 reg_var_length = expanded_levels_reg,
-                 cov_var_length = W_levels_cov)
+  output <- list(
+    data = data$bg,
+    reg_var_numbers = unique(expanded_numbers),
+    cov_numbers = cov_numbers,
+    reg_var_length = expanded_levels_reg,
+    cov_var_length = W_levels_cov
+  )
   return(output)
 }
 

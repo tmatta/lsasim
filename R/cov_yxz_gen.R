@@ -13,7 +13,7 @@
 #'
 cov_yxz_gen <- function(vcov_yxw, w_names, Phi,
                         pr_grp_1, n_ind, n_fac, Lambda, var_z) {
-  n_ind_rep <- rep(n_ind, n_fac)  # number of indicators for each factor
+  n_ind_rep <- rep(n_ind, n_fac) # number of indicators for each factor
   l_start <- cumsum(n_ind_rep) - (n_ind_rep - 1)
   l_end <- l_start + n_ind_rep - 1
   wcol_Phi <- match(w_names, colnames(Phi))
@@ -42,8 +42,10 @@ cov_yxz_gen <- function(vcov_yxw, w_names, Phi,
   ## Between Zs and Xs
   for (i in seq(n_ind_rep)) {
     l_seq <- l_start[i]:l_end[i]
-    vcov_yxz[wcol_yxz, l_seq + 1] <- Lambda[l_seq, i] * cor_ptbis[(i + 1)] * sd_z
-    vcov_yxz[l_seq + 1, wcol_yxz] <- Lambda[l_seq, i] * cor_ptbis[(i + 1)] * sd_z
+    vcov_yxz[wcol_yxz, l_seq + 1] <-
+      Lambda[l_seq, i] * cor_ptbis[(i + 1)] * sd_z
+    vcov_yxz[l_seq + 1, wcol_yxz] <-
+      Lambda[l_seq, i] * cor_ptbis[(i + 1)] * sd_z
   }
 
   return(vcov_yxz)

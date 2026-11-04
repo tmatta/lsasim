@@ -9,11 +9,14 @@
 check_ignored_parameters <- function(provided_parameters, ignored_parameters) {
   provided_but_ignored_parameters <-
     provided_parameters[match(ignored_parameters, provided_parameters,
-                              nomatch = 0)]
+      nomatch = 0
+    )]
   if (length(provided_but_ignored_parameters) > 0) {
     if (!is.na(provided_but_ignored_parameters)) {
-      warning("Ignored parameters: ",
-              paste(provided_but_ignored_parameters, collapse = ", "))
+      warning(
+        "Ignored parameters: ",
+        paste(provided_but_ignored_parameters, collapse = ", ")
+      )
     }
   }
 }

@@ -21,8 +21,8 @@ proportions of a discrete variable.
 \code{cat_options} and \code{n_cat_options} must be the same length.
 \code{cat_options = 1} is a continuous variable.
 
-The result from \code{proportion_gen} can be used directly with the \code{cat_prop}
-argument of \code{questionnaire_gen}.
+The result from \code{proportion_gen} can be used directly with the
+\code{cat_prop} argument of \code{questionnaire_gen}.
 }
 
 \examples{

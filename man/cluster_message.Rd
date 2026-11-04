@@ -17,13 +17,15 @@ cluster_message(
 \arguments{
 \item{n_obs}{list with the number of elements per level}
 
-\item{resp_labels}{character vector with the names of the questionnaire respondents on each level}
+\item{resp_labels}{character vector with the names of the questionnaire
+respondents on each level}
 
 \item{cluster_labels}{character vector with the names of each cluster level}
 
 \item{n_levels}{number of cluster levels}
 
-\item{separate_questionnaires}{if \code{TRUE}, each level will have its own questionnaire}
+\item{separate_questionnaires}{if \code{TRUE}, each level will have its own
+questionnaire}
 
 \item{type}{Type of top-level message}
 
@@ -33,5 +35,6 @@ cluster_message(
 Messages.
 }
 \description{
-Prints messages about the cluster scheme before generating questionnaire responses.
+Prints messages about the cluster scheme before generating
+questionnaire responses.
 }

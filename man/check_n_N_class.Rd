@@ -10,10 +10,12 @@ check_n_N_class(x)
 \item{x}{either n or N from \code{cluster_gen}}
 }
 \description{
-Check the class of an object (usually n and N from \code{cluster_gen})
+Check the class of an object (usually n and N from
+\code{cluster_gen})
 }
 \note{
-This function is primarily used as a way to simplify the classification of n and N in the \code{cluster_gen} function.
+This function is primarily used as a way to simplify the
+classification of n and N in the \code{cluster_gen} function.
 }
 \seealso{
 \code{\link[=cluster_gen]{cluster_gen()}}
