@@ -262,7 +262,7 @@ questionnaire_gen <- function(n_obs, cat_prop = NULL, n_vars = NULL, n_X = NULL,
       n_X <- n_tot["n_X"]
       # Expanding n_W if it was provided as a 1-length list for all Ws
       if (length(n_cats) == 1 &
-        n_tot["n_vars"] != n_tot["n_X"] + n_tot["n_W"] + n_tot["theta"]) {
+            n_tot["n_vars"] != n_tot["n_X"] + n_tot["n_W"] + n_tot["theta"]) {
         n_tot["n_W"] <- n_tot["n_vars"] - n_tot["n_X"] - n_tot["theta"]
         n_cats <- rep(n_cats, n_tot["n_W"])
       }
