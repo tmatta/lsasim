@@ -10,11 +10,13 @@ select(...)
 \item{...}{parameters to be passed to \code{c()}}
 }
 \value{
-same as \code{x}, but with a class attribute that classifies \code{x} as "select"
+same as \code{x}, but with a class attribute that classifies \code{x} as
+"select"
 }
 \description{
 Attaches a "select" class to a vector
 }
 \note{
-This function was created to be used instead of \code{c()} in the \code{n} argument of \code{cluster_gen}.
+This function was created to be used instead of \code{c()} in the \code{n}
+argument of \code{cluster_gen}.
 }

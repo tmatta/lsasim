@@ -26,6 +26,6 @@ vcov_yfz
 Construct covariance matrices for the generation of simulated test data.
 }
 \examples{
- vcov <- cov_gen(pr_grp_1 = .5, n_fac = 3, n_ind = 2)
- str(vcov)
+vcov <- cov_gen(pr_grp_1 = .5, n_fac = 3, n_ind = 2)
+str(vcov)
 }

@@ -23,7 +23,8 @@ weight_responses(
 
 \item{n_obs}{list with the number of elements per level}
 
-\item{N}{list of numeric vector with the population size of each \emph{sampled} cluster element on each level}
+\item{N}{list of numeric vector with the population size of each \emph{sampled}
+cluster element on each level}
 
 \item{lvl}{number of the current level}
 
@@ -31,18 +32,21 @@ weight_responses(
 
 \item{previous_sublvl}{number of the sub-level of the parent level}
 
-\item{sampling_method}{can be "SRS" for Simple Random Sampling or "PPS" for Probabilities Proportional to Size}
+\item{sampling_method}{can be "SRS" for Simple Random Sampling or "PPS" for
+Probabilities Proportional to Size}
 
 \item{cluster_labels}{character vector with the names of each cluster level}
 
-\item{resp_labels}{character vector with the names of the questionnaire respondents on each level}
+\item{resp_labels}{character vector with the names of the questionnaire
+respondents on each level}
 
 \item{sum_pop}{total population at each level (sampled or not)}
 
 \item{verbose}{if \code{TRUE}, prints output messages}
 }
 \value{
-Input data frame (\code{cluster_bg}) with three new columns for the sampling weights.
+Input data frame (\code{cluster_bg}) with three new columns for the
+sampling weights.
 }
 \description{
 calculates sampling weights for the questionnaire responses

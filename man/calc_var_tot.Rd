@@ -11,7 +11,8 @@ calc_var_tot(M, N, n_tilde, s2_within, s2_between)
 
 \item{N}{number of classes j}
 
-\item{n_tilde}{function of the variance of n_N, M and N. See documentation and code of \code{lsasim:::summary.lsasimcluster} for details}
+\item{n_tilde}{function of the variance of n_N, M and N. See documentation
+and code of \code{lsasim:::summary.lsasimcluster} for details}
 
 \item{s2_within}{Within-class variance}
 
@@ -21,7 +22,8 @@ calc_var_tot(M, N, n_tilde, s2_within, s2_between)
 Calculate the total variance
 }
 \references{
-Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
+Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel
+Analysis. Sage Publications.
 }
 \seealso{
 \code{\link[=anova.lsasimcluster]{anova.lsasimcluster()}}

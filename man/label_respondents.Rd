@@ -16,7 +16,8 @@ label_respondents(
 
 \item{cluster_labels}{character vector with the names of each cluster level}
 
-\item{add_last_level}{if \code{TRUE} (not default), adds the last level to the output table}
+\item{add_last_level}{if \code{TRUE} (not default), adds the last level to the
+output table}
 
 \item{apply_labels}{if \code{TRUE}, applies labels (column names) to data cells}
 }

@@ -10,5 +10,7 @@ whitelist_message(w)
 \item{w}{whitelist}
 }
 \description{
-Prints out the sampled elements when cluster_gen is called with select. This function is analogous to cluster_message, but is more proper for random sampling.
+Prints out the sampled elements when cluster_gen is called
+with select. This function is analogous to cluster_message, but is more
+proper for random sampling.
 }

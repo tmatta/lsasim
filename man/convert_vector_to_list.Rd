@@ -17,5 +17,7 @@ convert_vector_to_list(x, x_max = x, verbose = TRUE)
 expanded/replicated version of x
 }
 \description{
-Converts a vector to list where each element is replicated a certain number of times depending on the previous vector. Also work for ranged lists
+Converts a vector to list where each element is replicated a
+certain number of times depending on the previous vector. Also work for
+ranged lists
 }

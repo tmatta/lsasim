@@ -9,9 +9,11 @@ sample_from(N, n, labels = names(N), verbose = TRUE)
 \arguments{
 \item{N}{list containing the population sampling structure}
 
-\item{n}{numeric vector with the number of sampled observations (clusters or subjects) on each level}
+\item{n}{numeric vector with the number of sampled observations (clusters
+or subjects) on each level}
 
-\item{labels}{character vector with the names of the questionnaire respondents on each level}
+\item{labels}{character vector with the names of the questionnaire
+respondents on each level}
 
 \item{verbose}{if \code{TRUE}, prints output messages}
 }

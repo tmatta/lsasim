@@ -9,11 +9,14 @@
 \arguments{
 \item{object}{list output of \code{cluster_gen}}
 
-\item{print}{if \code{TRUE}, output will be a list containing estimators; if \code{FALSE} (default), output are formatted tables of this information}
+\item{print}{if \code{TRUE}, output will be a list containing estimators; if
+\code{FALSE} (default), output are formatted tables of this information}
 
-\item{calc.se}{if \code{TRUE}, will try to calculate the standard error of the intraclass correlation}
+\item{calc.se}{if \code{TRUE}, will try to calculate the standard error of the
+intraclass correlation}
 
-\item{...}{additional objects of the same type (see \code{help("anova")} for details)}
+\item{...}{additional objects of the same type (see \code{help("anova")} for
+details)}
 }
 \value{
 Printed ANOVA table or list of parameters
@@ -22,10 +25,12 @@ Printed ANOVA table or list of parameters
 Prints Analysis of Variance table for \code{cluster_gen} output.
 }
 \note{
-If the rhos for different levels are varied in scale, the generated rho will be less accurate.
+If the rhos for different levels are varied in scale, the generated
+rho will be less accurate.
 }
 \references{
-Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
+Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel
+Analysis. Sage Publications.
 }
 \seealso{
 \code{\link[=summary.lsasimcluster]{summary.lsasimcluster()}}

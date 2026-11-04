@@ -17,7 +17,8 @@ calc_se_rho(rho, n_j, N)
 Calculate Standard Error of Intraclass Correlation
 }
 \references{
-Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel Analysis. Sage Publications.
+Snijders, T. A. B., & Bosker, R. J. (1999). Multilevel
+Analysis. Sage Publications.
 }
 \seealso{
 \code{\link[=anova.lsasimcluster]{anova.lsasimcluster()}}

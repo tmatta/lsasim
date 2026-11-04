@@ -16,7 +16,8 @@ replicate_var(
 )
 }
 \arguments{
-\item{data_whole}{full, original dataset (the one that generated the replications)}
+\item{data_whole}{full, original dataset (the one that generated the
+replications)}
 
 \item{data_rep}{list with replications of \code{data_whole}}
 
@@ -33,7 +34,8 @@ replicate_var(
 \item{full_output}{if \code{TRUE}, returns all intermediate objects created}
 }
 \description{
-Estimates the mean variance for Jackknife, BRR and BRR Fay replication methods
+Estimates the mean variance for Jackknife, BRR and BRR Fay
+replication methods
 }
 \details{
 \code{data_rep} can be obtained from

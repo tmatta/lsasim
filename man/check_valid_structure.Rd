@@ -13,7 +13,8 @@ check_valid_structure(n)
 Error if the structure is improper. Otherwise, there's no output.
 }
 \description{
-Checks if a list has a proper structure to be transformed into a hierarchical structure
+Checks if a list has a proper structure to be transformed into
+a hierarchical structure
 }
 \seealso{
 \code{\link[=check_condition]{check_condition()}}

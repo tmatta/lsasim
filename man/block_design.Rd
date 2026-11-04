@@ -22,24 +22,32 @@ block_design(n_blocks = NULL, item_parameters, item_block_matrix = NULL)
 }
 \section{Warning}{
 
-The default \code{item_block_matrix} spirals the items across the \code{n_blocks} and requires \code{n_blocks} >= 3.
-If \code{n_blocks} < 3, \code{item_block_matrix} must be specified.
+The default \code{item_block_matrix} spirals the items across the
+\code{n_blocks} and requires \code{n_blocks} >= 3. If \code{n_blocks} < 3,
+\code{item_block_matrix} must be specified.
 
 The columns of \code{item_block_matrix} represent each block while the rows
-represent the total number of items. \code{item_block_matrix[1, 1] = 1} indicates
-that block 1 contains item 1 while \code{item_block_matrix[1, 2] = 0} indicates that
-block 2 does not contain item 1.
+represent the total number of items. \code{item_block_matrix[1, 1] = 1}
+indicates that block 1 contains item 1 while
+\code{item_block_matrix[1, 2] = 0} indicates that block 2 does not contain
+item 1.
 }
 
 \examples{
 item_param <- data.frame(item = seq(1:25), b = runif(25, -2, 2))
-ib_matrix <- matrix(nrow = 25, ncol = 5, byrow = FALSE,
-  c(1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1))
-block_design(n_blocks = 5, item_parameters = item_param, item_block_matrix = ib_matrix)
+ib_matrix_values <- c(
+  1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1
+)
+ib_matrix <- matrix(
+  ib_matrix_values, nrow = 25, ncol = 5, byrow = FALSE
+)
+block_design(
+  n_blocks = 5, item_parameters = item_param, item_block_matrix = ib_matrix
+)
 block_design(n_blocks = 5, item_parameters = item_param)
 
 }

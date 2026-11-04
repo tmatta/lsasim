@@ -10,10 +10,12 @@ attribute_cluster_labels(n)
 \item{n}{numeric vector or list}
 }
 \value{
-list containing appropriate labels for the clusters and their respondents
+list containing appropriate labels for the clusters and their
+respondents
 }
 \description{
-Attributes cluster and respondent labels in the context of \code{cluster_gen}.
+Attributes cluster and respondent labels in the context of
+\code{cluster_gen}.
 }
 \seealso{
 \code{\link[=cluster_gen]{cluster_gen()}}
