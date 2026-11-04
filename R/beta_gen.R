@@ -185,17 +185,17 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
   # Everything that doesn't involve W
   vcov_YXW[names_YX, names_YX] <- data$cov_matrix[names_YX, names_YX]
 
-  # Cov(Y, W)
+  # Covariance between Y and W
   vcov_YXW["theta", W_cat_names_minus_1st] <- unlist(cov_YW)
   vcov_YXW[W_cat_names_minus_1st, "theta"] <- unlist(cov_YW)
 
-  # Cov(X, W)
+  # Covariance between X and W
   for (x in names_X) {
     vcov_YXW[x, W_cat_names_minus_1st] <- unlist(cov_XW[[x]])
     vcov_YXW[W_cat_names_minus_1st, x] <- unlist(cov_XW[[x]])
   }
 
-  # Cov(W, W)
+  # Covariance between W and W
   # Covariances between categories within the same W
   for (w in names_W) {
     w_cols <- vector()

@@ -10,10 +10,10 @@ n3 <- c(school = 3, class = 2, student = 10)
 nW1 <- list(list(3, 4, 4), list(2, 5))
 
 # nW2 implies the following number of categories:
-# school1 = q11-?, q21-?, q31-?
-# school2 = q11-?, q21-?, q31-?, q41-?
-# school3 = q11-?, q21-?, q31-?, q41-?
-# classX = n_W = X (X = 1,...,6)
+# school1: q11-?, q21-?, q31-?
+# school2: q11-?, q21-?, q31-?, q41-?
+# school3: q11-?, q21-?, q31-?, q41-?
+# classX: n_W equals X (X = 1,...,6)
 nW2 <- list(c(3, 4, 4), 1:6)
 
 # nW3 implies the following number of categories:

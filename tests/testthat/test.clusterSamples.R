@@ -803,7 +803,6 @@ test_that("Rho works for dataframes with three or more levels", {
     c(.9, .9),
     tol = .1
   )
-  # set.seed(977753)
   set.seed(9775)
   df4 <- cluster_gen(
     n = c(10, 20, 50),

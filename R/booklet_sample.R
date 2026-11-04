@@ -58,7 +58,6 @@ booklet_sample <- function(n_subj, book_item_design, book_prob = NULL,
   if (resample == FALSE) {
     subj_book <- subj_book_start
     book_dist <- book_dist_start
-    # print(book_dist_start)
   }
 
   if (resample == TRUE) {

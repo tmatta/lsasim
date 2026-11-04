@@ -34,7 +34,7 @@ calc_p_mvn_trunc <- function(low, upp, sig, mu = c(0, 0)) {
 
 create_vcov_w <- function(mu, var, remove_ref_cat = TRUE) {
   # Calculates the covariance matrix of the Ws given a list of means
-  mx <- tcrossprod(mu, -mu) # Covariances = - p_i * p_j
+  mx <- tcrossprod(mu, -mu) # Covariances equal -p_i * p_j
   diag(mx) <- var # Variances equal p_i * (1 - p_i), not p_i ^ 2
   if (remove_ref_cat) mx <- mx[-1, -1]
   return(mx)

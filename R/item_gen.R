@@ -238,6 +238,5 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
 
 
   #----------------------------------------------------------------------------#
-  # return(list(b_par = b_center, a_par = a_par, c_par = c_par))
   return(item_parameters)
 }

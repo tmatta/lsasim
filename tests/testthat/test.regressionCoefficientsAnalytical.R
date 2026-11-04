@@ -91,7 +91,7 @@ cov_xz <- .4
 cov_zz <- .5
 vcov_yxz <- cov_mx_yxw
 dimnames(vcov_yxz) <- list(names(mu_yxz), names(mu_yxz))
-q_z <- lapply(cum_prob, function(x) qnorm(x, mean = 0, sd = 1)) # Z ~ N(0, 1)
+q_z <- lapply(cum_prob, function(x) qnorm(x, mean = 0, sd = 1)) # Z is N(0, 1)
 
 # Regressions -------------------------------------------------------------
 reg_yx1 <- lm(y ~ x1, yx1)
@@ -147,7 +147,7 @@ cov_x2w <- cov_AB(names_w, exp_x2w, mu_yxz$x2, mu_w)
 
 # Covariance matrix of the categories of W
 create_vcov_w <- function(mu, var, remove_ref_cat = TRUE) {
-  mx <- tcrossprod(mu, -mu) # Covariances = - p_i * p_j
+  mx <- tcrossprod(mu, -mu) # Covariances equals -p_i * p_j
   diag(mx) <- var # Variances equal p_i * (1 - p_i), not p_i ^ 2
   if (remove_ref_cat) mx <- mx[-1, -1]
   return(mx)

@@ -85,7 +85,6 @@ brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
   R <- list() # will restore replicate data
   for (rep in seq_len(total_replicates)) {
     replicate <- data
-    # if (!drop) replicate$replicate_weight <- 2 - k
     for (p in seq_len(pseudo_strata)) {
       data_pseudo_stratum <- data[data$pseudo_stratum == p, ]
       chosen_one <- sample(data_pseudo_stratum[, id_col], size = 1)

@@ -53,7 +53,7 @@ summary.lsasimcluster <- function(
   }
   if (all(sapply(data, function(d) is(d, "list")))) {
     # Data was generated with separate_questionnaires = TRUE
-    # data_names <- lapply(data, function(x) sapply(x[1], names))
+    # nothing more to do, data is already a list of lists
   } else {
     # Data was generated with separate_questionnaires = FALSE
     data_list <- list(data) # makes it behave like separate = TRUE
