@@ -11,8 +11,8 @@ gen_questionnaire_var_names <- function(nW = NULL, nX = NULL, n = 10) {
     data$cat_prop[lapply(data$cat_prop, length) > 1], length
   )
   X_length <- sapply(
-    data$cat_prop[lapply(data$cat_prop, length) == 1], length)[-1
-  ]
+    data$cat_prop[lapply(data$cat_prop, length) == 1], length
+  )[-1]
   cov_numbers <- as.numeric(substring(short_names[-1], 2))
 
   # Data from the regression

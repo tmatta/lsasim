@@ -58,8 +58,9 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
   if (length(n_3pl) > 1) {
     stop("3PL items can only have 1 threshold.", call. = FALSE)
   }
-  if (!is.null(n_3pl) && is.null(n_1pl) && is.null(n_2pl) &&
-    sum(thresholds) > 1) {
+  if (
+    !is.null(n_3pl) && is.null(n_1pl) && is.null(n_2pl) && sum(thresholds) > 1
+  ) {
     stop("3PL items can only have 1 threshold.", call. = FALSE)
   }
   #--- WARNINGS ---------------------------------------------------------------#

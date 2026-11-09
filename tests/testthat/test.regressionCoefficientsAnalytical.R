@@ -246,8 +246,8 @@ beta_reg_yxw <- beta_gen(df_yxw)
 
 # Benchmarking regression coefficients ------------------------------------
 compareRegScrBeta <- function(
-    reg_data, cov_data, beta_gen_data, print = FALSE
-  ) {
+  reg_data, cov_data, beta_gen_data, print = FALSE
+) {
   tab <- rbind(
     "reg" = coef(reg_data),
     "script" = cov_data,

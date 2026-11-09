@@ -731,8 +731,8 @@ test_that("Replication weights are correct", {
   expect_equivalent(mean(unlist(calc_replicate_weights(y, "BRR"))), 0.1, .1)
   expect_equivalent(mean(unlist(calc_replicate_weights(y, "BRR Fay"))), 0.1, .1)
   expect_equivalent(
-  mean(unlist(calc_replicate_weights(z, "Jackknife"))), 0.2, .1
-)
+    mean(unlist(calc_replicate_weights(z, "Jackknife"))), 0.2, .1
+  )
   expect_equivalent(mean(unlist(calc_replicate_weights(z, "BRR"))), 0.2, .1)
   expect_equivalent(mean(unlist(calc_replicate_weights(z, "BRR Fay"))), 0.2, .1)
 })
