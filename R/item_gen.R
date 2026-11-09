@@ -218,7 +218,7 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
 
     d_par <- round(do.call("rbind", d_i), 2)
 
-    dlabs <- paste0("d", 1:ncol(d_par))
+    dlabs <- paste0("d", seq_len(ncol(d_par)))
 
     b_star <- round(do.call("rbind", b_star), 2)
 

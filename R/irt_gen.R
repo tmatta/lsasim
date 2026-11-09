@@ -20,5 +20,5 @@ irt_gen <- function(theta, a_par = 1, b_par, c_par = 0, D = 1) {
   den <- sum(num)
   response_pr <- c_par + (1 - c_par) * (num / den)
   response_pr[1] <- ifelse(c_par > 0, 1 - response_pr[2], response_pr[1])
-  sample(1:length(response_pr) - 1, size = 1, prob = response_pr)
+  sample(seq_along(response_pr) - 1, size = 1, prob = response_pr)
 }

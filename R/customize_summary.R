@@ -20,7 +20,7 @@ customize_summary <- function(
   rownames(df_table)[7] <- ""
 
   # Removing quantiles, adding prop tables ===================================
-  for (col in seq(ncol(df_table))) {
+  for (col in seq_len(ncol(df_table))) {
     is_numeric <- numeric_cols[col]
     is_factor <- factor_cols[col]
     if (is_numeric) {

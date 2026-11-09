@@ -64,20 +64,20 @@ response_gen <- function(subject, item, theta, a_par = NULL, b_par,
   if (ogive == "Logistic") DD <- 1
   if (ogive == "Normal") DD <- 1.7
 
-  if (is.null(item_no)) item_no <- seq(length(unique(item)))
+  if (is.null(item_no)) item_no <- seq_along(unique(item))
 
 
   #--- construct b_pars list to be used in irt_gen() --------------------------#
-  if (is.null(d_par)) b_pars <- split(b_par, seq(length(b_par)))
+  if (is.null(d_par)) b_pars <- split(b_par, seq_along(b_par))
 
   if (!is.null(d_par)) {
     d_mat <- do.call("cbind", d_par)
     b_pars <- list()
 
-    for (i in 1:length(b_par)) {
+    for (i in seq_along(b_par)) {
       if (sum(abs(d_mat[i, ])) != 0) {
         b_list <- list()
-        for (j in 1:length(d_mat[i, ])) b_list[[j]] <- b_par[i] + d_mat[i, j]
+        for (j in seq_along(d_mat[i, ])) b_list[[j]] <- b_par[i] + d_mat[i, j]
         b_pars[[i]] <- unlist(b_list)
       }
 
@@ -89,7 +89,7 @@ response_gen <- function(subject, item, theta, a_par = NULL, b_par,
 
   y <- numeric(length(subject))
 
-  for (n in 1:length(subject)) {
+  for (n in seq_along(subject)) {
     y[n] <- irt_gen(
       theta = theta[subject[n]],
       a_par = a_par[which(item_no == item[n])],

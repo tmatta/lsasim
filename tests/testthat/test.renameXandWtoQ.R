@@ -23,7 +23,7 @@ gen_questionnaire_var_names <- function(nW = NULL, nX = NULL, n = 10) {
   expanded_levels_reg <- table(expanded_numbers)
   if (length(X_length) > 0) {
     expanded_levels_reg <- as.vector(
-      expanded_levels_reg[-(1:length(X_length))] + 1
+      expanded_levels_reg[-(seq_along(X_length))] + 1
     )
   } else {
     expanded_levels_reg <- as.vector(expanded_levels_reg + 1)

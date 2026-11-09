@@ -71,7 +71,7 @@ weight_responses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
   names(cluster_structure$N) <- names(cluster_structure$n) <- cluster_labels
 
   # Defining substructures =====================================================
-  parent_index <- unlist(sapply(n_obs[[lvl - 1]], seq))[sublvl]
+  parent_index <- unlist(sequence(n_obs[[lvl - 1]]))[sublvl]
   parent_label <- paste0(cluster_labels[lvl - 1], parent_index)
   cluster_substructure <- list(
     n = cluster_structure$n[cluster_structure$n[, lvl - 1] == parent_label, ],

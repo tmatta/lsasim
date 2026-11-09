@@ -26,7 +26,7 @@ almostEqualMean <- function(sample) {
     data_cat <- data[(sample$n_X + 1):(sample$n_X + sample$n_W)]
     mean_cat <- unlist(lapply(data_cat, function(x) prop.table(table(x))))
   }
-  expect_equal(
+  testthat::expect_equal(
     object = c(mean_cont, mean_cat), expected = c(mu_cont, mu_cat),
     tolerance = 0.1, check.attributes = FALSE
   )

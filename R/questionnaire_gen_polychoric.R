@@ -39,7 +39,7 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
     if (is.null(c_mean)) c_mean <- rep(0, length(continuous_var))
     if (is.null(c_sd)) c_sd <- rep(1, length(continuous_var))
 
-    for (i in 1:length(continuous_var)) {
+    for (i in seq_along(continuous_var)) {
       cor_dat[, continuous_var[i]] <-
         cor_dat[, continuous_var[i]] * c_sd[i] + c_mean[i]
     }
@@ -65,8 +65,8 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
     #--- upper threshold
     discrete_dat[discrete_dat[, discrete_var] > 5.6] <- 5.6
 
-    for (i in 1:length(discrete_var)) {
-      for (j in rev(1:length(var_thresholds[[i]]))) {
+    for (i in seq_along(discrete_var)) {
+      for (j in rev(seq_along(var_thresholds[[i]]))) {
         discrete_dat[
           which(
             cor_dat[, discrete_var[i]] <= var_thresholds[[i]][j]
@@ -108,12 +108,12 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
       xtra_cols <- paste0("q", 1:(ncol(discrete_df) - 1))
       colnames(discrete_df)[which(colnames(discrete_df) != "theta")] <-
         xtra_cols
-      discrete_df$subject <- 1:nrow(discrete_df)
+      discrete_df$subject <- seq_len(nrow(discrete_df))
       discrete_df <- discrete_df[, c("subject", "theta", xtra_cols)]
     } else {
-      xtra_cols <- paste0("q", 1:(ncol(discrete_df)))
+      xtra_cols <- paste0("q", seq_len(ncol(discrete_df)))
       colnames(discrete_df) <- xtra_cols
-      discrete_df$subject <- 1:nrow(discrete_df)
+      discrete_df$subject <- seq_len(nrow(discrete_df))
       discrete_df <- discrete_df[, c("subject", xtra_cols)]
     }
   } else {
@@ -124,7 +124,7 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
     )
     colnames(discrete_df)[is.na(names(cat_prop))] <- df_unnamed
     df_names <- colnames(discrete_df)
-    discrete_df$subject <- 1:nrow(discrete_df)
+    discrete_df$subject <- seq_len(nrow(discrete_df))
     discrete_df[, c("subject", df_names)]
   }
 }

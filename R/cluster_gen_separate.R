@@ -168,7 +168,7 @@ cluster_gen_separate <- function(
       ### Generating unique IDs ..............................................
       respID <- paste0(next_level_label, seq(cluster_bg$subject))
       if (l > 1) {
-        previous_lvl <- as.vector(unlist(sapply(n[[l]], seq)))[lvl]
+        previous_lvl <- as.vector(unlist(sequence(n[[l]])))[lvl]
         cluster_bg$clusterID <- paste0(
           level_label, previous_lvl, "_",
           previous_clusterID[lvl]
@@ -262,11 +262,11 @@ cluster_gen_separate <- function(
           out[paste0("clusterID.", resp_labels[l])] <- NULL
           # Renaming subjects (variable and values)
           names(out)[1] <- "subject"
-          out$subject <- seq(nrow(out))
+          out$subject <- seq_len(nrow(out))
         }
       } else {
         out[[level_label]]["clusterID"] <- NULL
-        out[[level_label]]$subject <- seq(nrow(out[[level_label]]))
+        out[[level_label]]$subject <- seq_len(nrow(out[[level_label]]))
       }
     }
   }

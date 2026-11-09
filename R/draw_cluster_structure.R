@@ -34,7 +34,7 @@ draw_cluster_structure <- function(
   for (toplvl in toplvl_labels) {
     submatrix <- structure_table[structure_table[, 1] == toplvl, , drop = FALSE]
     nodes <- vector()
-    for (row in seq(nrow(submatrix))) {
+    for (row in seq_len(nrow(submatrix))) {
       if (ncol(submatrix) > 1) {
         for (col in 2:ncol(submatrix)) {
           nodes <- append(

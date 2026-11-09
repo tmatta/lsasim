@@ -50,7 +50,7 @@ brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
   # Adding subject variable (easier than working with row names) =============
   drop_subject <- FALSE
   if (id_col == 0) {
-    data$subject <- seq(nrow(data))
+    data$subject <- seq_len(nrow(data))
     id_col <- match("subject", names(data))
     drop_subject <- TRUE
   }
@@ -113,7 +113,7 @@ brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
       replicate[weight_cols] <- replicate[weight_cols] * adj_factor
     }
     if (drop_subject) replicate$subject <- NULL
-    replicate -> R[[paste0("R", rep)]]
+    R[[paste0("R", rep)]] <- replicate
   }
   R
 }

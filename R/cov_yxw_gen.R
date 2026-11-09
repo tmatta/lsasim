@@ -10,7 +10,7 @@ cov_yxw_gen <- function(n_ind, n_z, Phi, n_fac, Lambda) {
   n_ind_rep <- rep(n_ind, n_fac) # number of indicators for each factor
 
   x_names <- paste0("x", 1:sum(n_ind_rep))
-  f_names <- paste0("f", 1:length(n_ind_rep))
+  f_names <- paste0("f", seq_along(n_ind_rep))
   w_names <- paste0("w", 1:n_z)
 
   rownames(Phi) <- colnames(Phi) <- c("y", f_names, w_names)

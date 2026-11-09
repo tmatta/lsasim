@@ -59,8 +59,8 @@ booklet_design <- function(item_block_assignment, book_design = NULL) {
     }
 
     book_block_mat <- matrix(0, nrow = n_block, ncol = n_block)
-    for (i in 1:nrow(book_design)) {
-      for (j in 1:ncol(book_design)) {
+    for (i in seq_len(nrow(book_design))) {
+      for (j in seq_len(ncol(book_design))) {
         book_block_mat[i, book_design[i, j]] <- 1
       }
     }

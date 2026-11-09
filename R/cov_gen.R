@@ -22,7 +22,7 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
   sd_z <- sqrt(var_z)
   n_z <- length(sd_z) # number of background variables
   n_ind_rep <- rep(n_ind, n_fac) # number of indicators for each factor
-  f_names <- paste0("f", 1:length(n_ind_rep))
+  f_names <- paste0("f", seq_along(n_ind_rep))
   x_names <- paste0("x", 1:sum(n_ind_rep))
   w_names <- paste0("w", 1:n_z)
 

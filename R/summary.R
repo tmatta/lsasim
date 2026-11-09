@@ -75,7 +75,7 @@ summary.lsasimcluster <- function(
   # Producing summary statistics =============================================
   out <- list()
   for (n in names(data)) {
-    for (i in 1:length(data[[n]])) {
+    for (i in seq_along(data[[n]])) {
       ## Calculating simple statistics for a cluster element i -----------
       if (equal_n) {
         data_columns <- data_cols[[n]]

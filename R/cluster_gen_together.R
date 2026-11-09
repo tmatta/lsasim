@@ -113,7 +113,7 @@ cluster_gen_together <- function(
     }
 
     # Creating new ID variable
-    studentID <- paste0("student", seq(nrow(cluster_bg)))
+    studentID <- paste0("student", seq_len(nrow(cluster_bg)))
     clusterID <- paste(rev(id_combos[l, ]), collapse = "_")
     cluster_bg$uniqueID <- paste(studentID, clusterID, sep = "_")
 
@@ -123,10 +123,10 @@ cluster_gen_together <- function(
 
   # Collapsing data and creating output ----------------------------------------
   if (collapse == "none") {
-    names(sample) <- paste0(cluster_labels[n_levels - 1], seq(length(sample)))
+    names(sample) <- paste0(cluster_labels[n_levels - 1], seq_along(sample))
   } else {
     sample <- do.call(rbind, sample)
-    sample$subject <- seq(nrow(sample))
+    sample$subject <- seq_len(nrow(sample))
   }
 
   sample

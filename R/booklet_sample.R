@@ -50,7 +50,8 @@ booklet_sample <- function(n_subj, book_item_design, book_prob = NULL,
   #--- distribute books randomly to subject
   x <- 0
   subj_book_start <- sample(
-    1:ncol(book_item_design), size = n_subj, replace = TRUE, prob = book_prob
+    seq_len(ncol(book_item_design)), size = n_subj, replace = TRUE,
+    prob = book_prob
   )
   book_dist_start <- prop.table(table(subj_book_start))
   pr_dist <- max(book_dist_start) - min(book_dist_start)
@@ -70,7 +71,7 @@ booklet_sample <- function(n_subj, book_item_design, book_prob = NULL,
     while (pr_dist >= e) {
       x <- x + 1
       subj_book_2 <- sample(
-        1:ncol(book_item_design), size = n_subj, replace = TRUE,
+        seq_len(ncol(book_item_design)), size = n_subj, replace = TRUE,
         prob = book_prob
       )
       book_dist_2 <- prop.table(table(subj_book_2))
@@ -96,7 +97,7 @@ booklet_sample <- function(n_subj, book_item_design, book_prob = NULL,
   booklet_mat <- t(book_item_design) # each row rw is a book column is item
 
   #--- merge item numbers with subject id and book id
-  row.names(booklet_mat) <- 1:nrow(booklet_mat) # specify row names for merge
+  row.names(booklet_mat) <- seq_len(nrow(booklet_mat)) # for merge
 
   item_assign <- merge(
     book_assign, booklet_mat, by.x = "book", by.y = "row.names"
