@@ -91,5 +91,5 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   } else {
     colnames(data_yxw) <- paste0("q", seq(data_yxw))
   }
-  data.frame(subject = 1:nrow(data_yxz), data_yxw)
+  data.frame(subject = seq_len(nrow(data_yxz)), data_yxw)
 }

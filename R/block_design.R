@@ -100,7 +100,7 @@ block_design <- function(
     item_per_block[, i] <- block_i
   }
   colnames(item_per_block) <- block_vec
-  item_vec <- paste0("i", 1:nrow(item_per_block))
+  item_vec <- paste0("i", seq_len(nrow(item_per_block)))
   rownames(item_per_block) <- item_vec
 
 

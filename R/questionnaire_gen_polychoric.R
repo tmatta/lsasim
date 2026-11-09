@@ -108,12 +108,12 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
       xtra_cols <- paste0("q", 1:(ncol(discrete_df) - 1))
       colnames(discrete_df)[which(colnames(discrete_df) != "theta")] <-
         xtra_cols
-      discrete_df$subject <- 1:nrow(discrete_df)
+      discrete_df$subject <- seq_len(nrow(discrete_df))
       discrete_df <- discrete_df[, c("subject", "theta", xtra_cols)]
     } else {
       xtra_cols <- paste0("q", 1:(ncol(discrete_df)))
       colnames(discrete_df) <- xtra_cols
-      discrete_df$subject <- 1:nrow(discrete_df)
+      discrete_df$subject <- seq_len(nrow(discrete_df))
       discrete_df <- discrete_df[, c("subject", xtra_cols)]
     }
   } else {
@@ -124,7 +124,7 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
     )
     colnames(discrete_df)[is.na(names(cat_prop))] <- df_unnamed
     df_names <- colnames(discrete_df)
-    discrete_df$subject <- 1:nrow(discrete_df)
+    discrete_df$subject <- seq_len(nrow(discrete_df))
     discrete_df[, c("subject", df_names)]
   }
 }

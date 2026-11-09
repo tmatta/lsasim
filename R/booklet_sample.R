@@ -96,7 +96,7 @@ booklet_sample <- function(n_subj, book_item_design, book_prob = NULL,
   booklet_mat <- t(book_item_design) # each row rw is a book column is item
 
   #--- merge item numbers with subject id and book id
-  row.names(booklet_mat) <- 1:nrow(booklet_mat) # specify row names for merge
+  row.names(booklet_mat) <- seq_len(nrow(booklet_mat)) # specify row names for merge
 
   item_assign <- merge(
     book_assign, booklet_mat, by.x = "book", by.y = "row.names"
