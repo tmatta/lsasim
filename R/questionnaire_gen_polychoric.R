@@ -111,7 +111,7 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
       discrete_df$subject <- seq_len(nrow(discrete_df))
       discrete_df <- discrete_df[, c("subject", "theta", xtra_cols)]
     } else {
-      xtra_cols <- paste0("q", 1:(ncol(discrete_df)))
+      xtra_cols <- paste0("q", seq_len(ncol(discrete_df)))
       colnames(discrete_df) <- xtra_cols
       discrete_df$subject <- seq_len(nrow(discrete_df))
       discrete_df <- discrete_df[, c("subject", xtra_cols)]

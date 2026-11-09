@@ -45,8 +45,12 @@ label_respondents <- function(n_obs, cluster_labels = names(n_obs),
     }
   }
   id_combos <- t(id_combos)
-  id_combos <- id_combos[, ncol(id_combos):1, drop = FALSE] # 1st lvl comes 1st
+
+  # Make 1st lvl comes 1st
+  id_combos <- id_combos[, rev(seq_len(ncol(id_combos))), drop = FALSE]
+
   id_combos <- as.data.frame(id_combos) # prevents bug with list n. don't ask.
+
   names(id_combos) <- cluster_labels[-n_levels]
 
   # Adding bottom level ========================================================
@@ -57,7 +61,7 @@ label_respondents <- function(n_obs, cluster_labels = names(n_obs),
 
   # Pasting labels onto cells ==================================================
   if (apply_labels) {
-    for (l in seq(ncol(id_combos))) {
+    for (l in seq_len(ncol(id_combos))) {
       id_combos[, l] <- paste0(cluster_labels[l], id_combos[, l])
     }
   }
