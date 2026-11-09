@@ -39,30 +39,31 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
                      thresholds = 1,
                      n_1pl = NULL, n_2pl = NULL, n_3pl = NULL) {
   #--- ERRORS -----------------------------------------------------------------#
-  if (!is.null(n_1pl) & length(n_1pl) < length(thresholds)) {
+  if (!is.null(n_1pl) && length(n_1pl) < length(thresholds)) {
     stop(
       "Must specify the number of 1PL items for each threshold.", call. = FALSE
     )
   }
-  if (!is.null(n_1pl) & length(n_1pl) > length(thresholds)) {
+  if (!is.null(n_1pl) && length(n_1pl) > length(thresholds)) {
     stop("Too few thresholds specified for n_1pl.", call. = FALSE)
   }
-  if (!is.null(n_2pl) & length(n_2pl) < length(thresholds)) {
+  if (!is.null(n_2pl) && length(n_2pl) < length(thresholds)) {
     stop(
       "Must specify the number of 2PL items for each threshold.", call. = FALSE
     )
   }
-  if (!is.null(n_2pl) & length(n_2pl) > length(thresholds)) {
+  if (!is.null(n_2pl) && length(n_2pl) > length(thresholds)) {
     stop("Too few thresholds specified for n_2pl.", call. = FALSE)
   }
   if (length(n_3pl) > 1) {
     stop("3PL items can only have 1 threshold.", call. = FALSE)
   }
-  if (!is.null(n_3pl) & is.null(n_1pl) & is.null(n_2pl) & sum(thresholds) > 1) {
+  if (!is.null(n_3pl) && is.null(n_1pl) && is.null(n_2pl) &&
+    sum(thresholds) > 1) {
     stop("3PL items can only have 1 threshold.", call. = FALSE)
   }
   #--- WARNINGS ---------------------------------------------------------------#
-  if (!is.null(a_bounds) & is.null(n_2pl) & is.null(n_3pl)) {
+  if (!is.null(a_bounds) && is.null(n_2pl) && is.null(n_3pl)) {
     warning(
       c(
         "No 2PL or 3PL items are specified.",
@@ -71,7 +72,7 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
       call. = FALSE
     )
   }
-  if (!is.null(c_bounds) & is.null(n_3pl)) {
+  if (!is.null(c_bounds) && is.null(n_3pl)) {
     warning(
       c(
         "No 3PL items are specified.",
@@ -80,7 +81,7 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
       call. = FALSE
     )
   }
-  if (is.null(c_bounds) & !is.null(n_3pl)) {
+  if (is.null(c_bounds) && !is.null(n_3pl)) {
     warning(
       c(
         "Generated 3PL items without setting bounds for the c parameter.",
@@ -89,7 +90,7 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
       call. = FALSE
     )
   }
-  if (is.null(a_bounds) & !is.null(n_2pl)) {
+  if (is.null(a_bounds) && !is.null(n_2pl)) {
     warning(
       c(
         "Generated 2PL items without setting bounds for the a parameter.",
@@ -98,7 +99,7 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
       call. = FALSE
     )
   }
-  if (is.null(a_bounds) & !is.null(n_3pl)) {
+  if (is.null(a_bounds) && !is.null(n_3pl)) {
     warning(
       c(
         "Generated 3PL items without setting bounds for the a parameter.",

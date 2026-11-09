@@ -19,20 +19,20 @@ replicate_var <- function(data_whole, data_rep, method, k = 0,
                           stat = weighted.mean, vars = NULL,
                           full_output = FALSE) {
   # Verification =============================================================
-  if (k < 0 | k > 1) stop("k must be between 0 and 1")
-  if (method != "BRR Fay" & k != .5 & k != 0) {
+  if (k < 0 || k > 1) stop("k must be between 0 and 1")
+  if (method != "BRR Fay" && k != .5 && k != 0) {
     warning(method, " ignores k. Use 'BRR Fay' instead.")
   }
-  if (method == "BRR Fay" & k == 0) {
+  if (method == "BRR Fay" && k == 0) {
     k <- .5
   }
-  if (missing(data_rep) & is(data_whole, "list")) {
+  if (missing(data_rep) && is(data_whole, "list")) {
     stop(
       "If data_rep is missing, ",
       "data_whole must be a data frame or a matrix"
     )
   }
-  if (missing(data_rep) & !is(data_whole, "list")) {
+  if (missing(data_rep) && !is(data_whole, "list")) {
     message("Generating replications and statistics with ", method)
     if (method %in% c("Jackknife", "jackknife")) {
       data_rep <- jackknife(data_whole, drop = FALSE)

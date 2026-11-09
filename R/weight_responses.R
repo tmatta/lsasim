@@ -36,7 +36,7 @@ weight_responses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
   label_ij <- paste0("final.", resp_labels[lvl - 1], ".weight")
 
   # Messages to user ===========================================================
-  if (verbose & sublvl == 1) {
+  if (verbose && sublvl == 1) {
     message(
       "- Calculating ", sampling_method, " weights at the ",
       cluster_labels[lvl - 1], " level"

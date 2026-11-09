@@ -9,14 +9,14 @@
 #' @export
 gen_variable_n <- function(n_vars, n_X, n_W, theta = FALSE) {
   if (is.null(n_vars)) {
-    if (is.null(n_W) | is.null(n_X)) {
+    if (is.null(n_W) || is.null(n_X)) {
       n_vars <- rzeropois(lambda = 4) + ifelse(is.null(n_W), 0, n_W) +
         ifelse(is.null(n_X), 0, n_X) + theta
     } else {
       n_vars <- n_W + n_X + theta
     }
   }
-  if (is.null(n_X) & is.null(n_W)) {
+  if (is.null(n_X) && is.null(n_W)) {
     n_X <- rbinom(n = 1, size = n_vars, prob = .2)
     n_W <- n_vars - n_X - theta
   } else {

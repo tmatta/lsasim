@@ -96,7 +96,7 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
   #--- If the list cat_prop is not labeled, give it labels q1, ..., qX
   if (is.null(names(cat_prop))) {
     if (
-      all(vapply(discrete_df, is.factor, c(is.factor = FALSE))) & theta == TRUE
+      all(vapply(discrete_df, is.factor, c(is.factor = FALSE))) && theta == TRUE
     ) {
       stop("Cannot assign theta, all data are discrete", call. = FALSE)
     }

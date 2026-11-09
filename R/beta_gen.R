@@ -95,7 +95,7 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
   if (!is(data, "list")) {
     stop("Generate data with questionnaire_gen(full_output = TRUE)")
   }
-  if (!MC & MC_replications != 100) {
+  if (!MC && MC_replications != 100) {
     if (verbose) {
       message(
         c(
@@ -219,7 +219,7 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
       cond1 <- match(catA, W_cat_names_minus_1st) <
         match(catB, W_cat_names_minus_1st)
       cond2 <- zA != zB
-      if (cond1 & cond2) {
+      if (cond1 && cond2) {
         numA <- as.numeric(substring(catA, nchar(catA)))
         numB <- as.numeric(substring(catB, nchar(catB)))
         cov_zA_zB <- data$cov_matrix[c(zA, zB), c(zA, zB)]

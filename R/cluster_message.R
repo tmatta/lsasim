@@ -36,7 +36,7 @@ cluster_message <- function(n_obs, resp_labels, cluster_labels, n_levels,
     n_obs_print <- n_obs
 
     # Printing top level -------------------------------------------------------
-    if (l == 1 & detail) {
+    if (l == 1 && detail) {
       message(
         "Top level: ", pluralize(cluster_labels[l]),
         " (", n_obs_print[l], ")"
@@ -44,7 +44,7 @@ cluster_message <- function(n_obs, resp_labels, cluster_labels, n_levels,
     }
 
     # Printing second to second-to-last levels ---------------------------------
-    if (is(n_obs, "list") & length(n_obs[[l + 1]]) > 1) {
+    if (is(n_obs, "list") && length(n_obs[[l + 1]]) > 1) {
       n_obs_print[[l]] <- paste0(
         paste(n_obs[[l]], collapse = " and "),
         ", respectively"
@@ -54,14 +54,14 @@ cluster_message <- function(n_obs, resp_labels, cluster_labels, n_levels,
         ", respectively"
       )
     }
-    if (detail & l < length(n_obs) - 1) {
+    if (detail && l < length(n_obs) - 1) {
       message(
         "Each ", cluster_labels[l], " sampled ",
         pluralize(cluster_labels[l + 1]),
         " (", n_obs_print[l + 1], ")"
       )
     }
-    if (l > 1 & !is(n_obs, "list") & separate_questionnaires) {
+    if (l > 1 && !is(n_obs, "list") && separate_questionnaires) {
       tot_resp <- tot_resp + prod(n_obs[1:l])
       operands <- c(operands, prod(n_obs[1:l]))
     }

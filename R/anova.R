@@ -89,7 +89,7 @@ anova.lsasimcluster <- function(object, print = TRUE, calc.se = TRUE, ...) {
           )
         }
       }
-      if (print & sapply(data, class)[1] == "list" &
+      if (print && sapply(data, class)[1] == "list" &&
             (n != names(data)[length(names(data))])) {
         cli::cat_rule()
       }

@@ -31,7 +31,7 @@ validate_questionnaire_gen <- function(
     n_X == 0 & n_W == 0,
     "At least one background variable must be generated"
   )
-  if (!is.null(n_X) & !is.null(n_W)) {
+  if (!is.null(n_X) && !is.null(n_W)) {
     if (n_W > 1) {
       check_condition(
         n_X + n_W + theta != ncol(cov_matrix),
