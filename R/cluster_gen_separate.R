@@ -168,7 +168,7 @@ cluster_gen_separate <- function(
       ### Generating unique IDs ..............................................
       respID <- paste0(next_level_label, seq(cluster_bg$subject))
       if (l > 1) {
-        previous_lvl <- as.vector(unlist(sapply(n[[l]], seq)))[lvl]
+        previous_lvl <- as.vector(unlist(sequence(n[[l]])))[lvl]
         cluster_bg$clusterID <- paste0(
           level_label, previous_lvl, "_",
           previous_clusterID[lvl]
