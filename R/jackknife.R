@@ -35,7 +35,7 @@ jackknife <- function(data, weight_cols = "none", drop = TRUE) {
       adj_factor <- n_PSU / (n_PSU - 1)
       replicate[weight_cols] <- replicate[weight_cols] * adj_factor
     }
-    replicate -> R[[paste0("R", rep)]]
+    R[[paste0("R", rep)]] <- replicate
   }
   R
 }

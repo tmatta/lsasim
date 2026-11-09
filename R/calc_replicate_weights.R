@@ -78,8 +78,8 @@ calc_replicate_weights <- function(data, method, k = 0) {
       rownames(stats) <- c("mean", "SE")
 
       # Putting data and stats into common list for output ---------------
-      bg -> new_bg[[lvl_name]][[sublvl]]
-      stats -> replicate_stats[[lvl_name]][[sublvl]]
+      new_bg[[lvl_name]][[sublvl]] <- bg
+      replicate_stats[[lvl_name]][[sublvl]] <- stats
     }
   }
 

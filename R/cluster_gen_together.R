@@ -118,7 +118,7 @@ cluster_gen_together <- function(
     cluster_bg$uniqueID <- paste(studentID, clusterID, sep = "_")
 
     # Saving the questionnaire to the final list (sample)
-    cluster_bg -> sample[[l]]
+    sample[[l]] <- cluster_bg
   }
 
   # Collapsing data and creating output ----------------------------------------
