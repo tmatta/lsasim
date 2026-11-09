@@ -108,7 +108,6 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
 
   # Basic data subsetting -------------------------------------------------
   YXW <- data$bg[-1] # remove "subject"
-  XW <- YXW[-1] # remove "theta" (and "subject", from before)
 
   # Identifying and labeling elements -------------------------------------
   names_X <- names_W <- names_Z <- NULL
@@ -128,7 +127,6 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
   # Defining parameters for Y, X, Z and W ---------------------------------
   if (is.null(data$c_mean)) {
     Y_mu <- 0
-    XW_mu <- rep(0, length(XW))
   } else {
     Y_mu <- data$c_mean[1]
     X_mu <- data$c_mean[-1]
@@ -137,14 +135,8 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
     W_cat_names_minus_1st <- W_cat_names[!grepl("1$", W_cat_names)]
     W_mu_minus_1st <- unlist(sapply(W_mu, function(w) w[-1, drop = FALSE]))
     names(W_mu_minus_1st) <- W_cat_names_minus_1st
-    XW_mu <- unlist(c(X_mu, W_mu))
     XW_mu_minus_1st <- unlist(c(X_mu, W_mu_minus_1st))
   }
-
-  Y_var <- data$c_sd["theta"]^2
-  X_var <- data$c_sd[substring(names(data$c_sd), 1, 1) == "x"]^2
-  Y_sd <- sqrt(Y_var)
-  X_sd <- sqrt(X_var)
 
   if (data$n_W > 0) {
     W_var <- lapply(W_mu, function(p) p * (1 - p))
@@ -152,6 +144,7 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
     Z_sd <- 1
     cov_YZ <- data$cov_matrix["theta", names_Z, drop = FALSE]
   }
+
   cov_XZ <- data$cov_matrix[names_X, names_Z, drop = FALSE]
 
   # Calculating elements for YXW covariance matrix (provided was XYZ) -----

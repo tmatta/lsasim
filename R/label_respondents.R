@@ -11,7 +11,6 @@ label_respondents <- function(n_obs, cluster_labels = names(n_obs),
                               add_last_level = FALSE, apply_labels = TRUE) {
   # Creating basic elements ====================================================
   n_levels <- length(n_obs)
-  level_combos <- list() # will store ID combinations
   n_combos <- sum(n_obs[[n_levels - 1]])
   second_last_level <- unlist(sapply(n_obs[[n_levels - 1]], seq))
   id_combos <- matrix(second_last_level, ncol = n_combos)

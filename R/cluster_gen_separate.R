@@ -25,13 +25,10 @@ cluster_gen_separate <- function(
   sample <- list() # will store all BG questionnaires
   c_mean_list <- c_mean
   sigma_list <- sigma
-  n_quest <- sapply(n, sum)
-  id_combos <- label_respondents(n, cluster_labels)
   missing_sigma2 <- is.null(sigma)
   if (!is(cor_matrix[1], "list")) {
     cor_matrix <- replicate(n_levels - 1, list(cor_matrix))
   }
-  cor_matrix_list <- cor_matrix
   cat_prop_orig <- cat_prop
 
   # Generating data ============================================================

@@ -53,18 +53,16 @@ booklet_sample <- function(n_subj, book_item_design, book_prob = NULL,
     1:ncol(book_item_design), size = n_subj, replace = TRUE, prob = book_prob
   )
   book_dist_start <- prop.table(table(subj_book_start))
-  pr_dist <- pr_dist_start <- max(book_dist_start) - min(book_dist_start)
+  pr_dist <- max(book_dist_start) - min(book_dist_start)
 
   if (resample == FALSE) {
     subj_book <- subj_book_start
-    book_dist <- book_dist_start
   }
 
   if (resample == TRUE) {
     #--- If initial sampling meets stopping criteria
     if (pr_dist <= e) {
       subj_book <- subj_book_start
-      book_dist <- book_dist_start
       message("Initial difference in booklet distribution ", round(pr_dist, 2))
     }
 
@@ -79,14 +77,12 @@ booklet_sample <- function(n_subj, book_item_design, book_prob = NULL,
 
       if (pr_dist_2 < pr_dist) {
         subj_book <- subj_book_2
-        book_dist <- book_dist_2
         pr_dist <- pr_dist_2
       }
       message("iteration ", x, ": difference in booklet distribution ", pr_dist)
 
       if (x == iter && pr_dist_2 >= pr_dist) {
         subj_book <- subj_book_2
-        book_dist <- book_dist_2
         pr_dist <- pr_dist_2
         message("Sampling terminated")
         break

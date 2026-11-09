@@ -45,7 +45,6 @@ calc_replicate_weights <- function(data, method, k = 0) {
 
     for (sublvl in seq(num_sublvl)) {
       bg <- data[[lvl_name]][[sublvl]]
-      w_cols <- names(bg)[grep("weight", names(bg))]
 
       # Remove uninsteresting columns ------------------------------------
       data_cols <- grep("subject|ID|weight", names(bg), invert = TRUE)

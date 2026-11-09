@@ -15,8 +15,5 @@ trim_sample <- function(n, N) {
     n <- convert_vector_to_list(n, N)
   }
 
-  # Restructuring variables ==================================================
-  n_lab <- label_respondents(n, add_last_level = TRUE, apply_labels = FALSE)
-  N_lab <- label_respondents(N, add_last_level = TRUE, apply_labels = FALSE)
   n
 }
