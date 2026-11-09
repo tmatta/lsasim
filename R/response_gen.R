@@ -64,11 +64,11 @@ response_gen <- function(subject, item, theta, a_par = NULL, b_par,
   if (ogive == "Logistic") DD <- 1
   if (ogive == "Normal") DD <- 1.7
 
-  if (is.null(item_no)) item_no <- seq(length(unique(item)))
+  if (is.null(item_no)) item_no <- seq_along(unique(item))
 
 
   #--- construct b_pars list to be used in irt_gen() --------------------------#
-  if (is.null(d_par)) b_pars <- split(b_par, seq(length(b_par)))
+  if (is.null(d_par)) b_pars <- split(b_par, seq_along(b_par))
 
   if (!is.null(d_par)) {
     d_mat <- do.call("cbind", d_par)
