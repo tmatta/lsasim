@@ -363,7 +363,7 @@ cluster_gen <- function(
   } else {
     class(sample) <- c("lsasimcluster", "data.frame")
   }
-  return(sample)
+  sample
 }
 
 repeatXW <- function(n_X, n_W, n_levels) {
@@ -378,7 +378,7 @@ repeatXW <- function(n_X, n_W, n_levels) {
       n_W <- rep(list(n_W), n_levels)
     }
   }
-  return(list(n_X = n_X, n_W = n_W))
+  list(n_X = n_X, n_W = n_W)
 }
 
 get_n_X_from_cat_prop <- function(cat_prop, n_X = NULL) {

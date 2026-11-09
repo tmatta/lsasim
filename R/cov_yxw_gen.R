@@ -67,5 +67,5 @@ cov_yxw_gen <- function(n_ind, n_z, Phi, n_fac, Lambda) {
   vcov_yxw[1, wcol_yxw] <- vcov_yxw[wcol_yxw, 1] <- Phi[1, wcol_Phi]
   diag(vcov_yxw) <- 1
 
-  return(vcov_yxw)
+  vcov_yxw
 }

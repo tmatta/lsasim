@@ -98,9 +98,9 @@ anova.lsasimcluster <- function(object, print = TRUE, calc.se = TRUE, ...) {
   }
   if (!print) {
     if (length(out_complete) > 1) {
-      return(out_complete)
+      out_complete
     } else {
-      return(out)
+      out
     }
   }
 }

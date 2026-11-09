@@ -32,5 +32,5 @@ pluralize <- function(word, n = rep(2, length(word))) {
     out <- append(out, new_w)
   }
 
-  return(out)
+  out
 }

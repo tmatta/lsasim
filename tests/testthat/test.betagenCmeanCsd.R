@@ -42,7 +42,7 @@ qGenWrap <- function(nX, nW, mu = NULL, n = 200, verbose = FALSE) {
   coverages <- sapply(betas, function(x) x[, "cov_in_CI"])
   avg_coverage <- apply(coverages, 1, mean)
 
-  return(list(data = data, means = means, avg_coverage = avg_coverage))
+  list(data = data, means = means, avg_coverage = avg_coverage)
 }
 
 # The numbering logic below is df_abc, where the "abc" contains numbers of n_X
@@ -103,7 +103,7 @@ qGenWrap <- function(nX, nW, sd = NULL, n = 200, verbose = FALSE) {
   coverages <- sapply(betas, function(x) x[, "cov_in_CI"])
   avg_coverage <- apply(coverages, 1, mean)
 
-  return(list(data = data, sds = sds, avg_coverage = avg_coverage))
+  list(data = data, sds = sds, avg_coverage = avg_coverage)
 }
 
 # The numbering logic below is df_abc, where the "abc" contains numbers for

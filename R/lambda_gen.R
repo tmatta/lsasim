@@ -20,5 +20,5 @@ lambda_gen <- function(n_ind, n_fac, limits, row_names, col_names) {
   }
   Lambda <- Lambda_mx
   dimnames(Lambda) <- list(row_names, col_names)
-  return(Lambda)
+  Lambda
 }

@@ -22,5 +22,5 @@ check_n_N_class <- function(x) {
       }
     }
   }
-  return(class_x)
+  class_x
 }

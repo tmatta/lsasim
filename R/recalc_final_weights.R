@@ -29,5 +29,5 @@ recalc_final_weights <- function(data, w_cols, replicate_weight = 1,
     data <- data[final_order]
   }
 
-  return(data)
+  data
 }

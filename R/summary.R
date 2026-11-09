@@ -191,7 +191,7 @@ summary.lsasimcluster <- function(
       }
     }
   } else {
-    return(out)
+    out
   }
 }
 

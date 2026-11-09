@@ -35,14 +35,13 @@ gen_questionnaire_var_names <- function(nW = NULL, nX = NULL, n = 10) {
   }
 
   # Putting everything together
-  output <- list(
+  list(
     data = data$bg,
     reg_var_numbers = unique(expanded_numbers),
     cov_numbers = cov_numbers,
     reg_var_length = expanded_levels_reg,
     cov_var_length = W_levels_cov
   )
-  return(output)
 }
 
 d_random <- gen_questionnaire_var_names()

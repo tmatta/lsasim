@@ -240,5 +240,5 @@ item_gen <- function(b_bounds, a_bounds = NULL, c_bounds = NULL,
 
 
   #----------------------------------------------------------------------------#
-  return(item_parameters)
+  item_parameters
 }

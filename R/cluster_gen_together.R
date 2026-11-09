@@ -130,5 +130,5 @@ cluster_gen_together <- function(
     sample$subject <- seq(nrow(sample))
   }
 
-  return(sample)
+  sample
 }

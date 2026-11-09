@@ -62,5 +62,5 @@ label_respondents <- function(n_obs, cluster_labels = names(n_obs),
       id_combos[, l] <- paste0(cluster_labels[l], id_combos[, l])
     }
   }
-  return(id_combos)
+  id_combos
 }

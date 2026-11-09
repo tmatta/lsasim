@@ -19,6 +19,5 @@ gen_X_W_cluster <- function(n_levels, separate, class_cor) {
     n_X <- rzeropois(1.5) # a positive number of Xs
     n_W <- as.list(number_of_W())
   }
-  out <- list("n_X" = n_X, "n_W" = n_W)
-  return(out)
+  list("n_X" = n_X, "n_W" = n_W)
 }

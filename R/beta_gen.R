@@ -297,5 +297,5 @@ beta_gen <- function(data, MC = FALSE, MC_replications = 100,
       }
     }
   }
-  return(output)
+  output
 }

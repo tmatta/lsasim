@@ -48,5 +48,5 @@ cov_yxz_gen <- function(vcov_yxw, w_names, Phi,
       Lambda[l_seq, i] * cor_ptbis[(i + 1)] * sd_z
   }
 
-  return(vcov_yxz)
+  vcov_yxz
 }

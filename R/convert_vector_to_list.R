@@ -79,5 +79,5 @@ convert_vector_to_list <- function(x, x_max = x, verbose = TRUE) {
       "; they were trimmed accordingly."
     )
   }
-  return(x_list)
+  x_list
 }

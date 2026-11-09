@@ -28,5 +28,5 @@ attribute_cluster_labels <- function(n) {
     cluster_labels <- rev(cluster_labels[[length(n) - 1]])
     resp_labels <- rev(resp_labels[[length(n) - 1]])[-1]
   }
-  return(list(cl = cluster_labels, resp = resp_labels))
+  list(cl = cluster_labels, resp = resp_labels)
 }

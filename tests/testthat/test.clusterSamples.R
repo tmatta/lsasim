@@ -104,7 +104,7 @@ test_that("uniqueIDs are correct", {
       verbose = verb, collapse = coll
     )
     if (!return_all) data <- data[, 6]
-    return(data) # corresponds to the bottom level's uniqueID
+    data # corresponds to the bottom level's uniqueID
   }
   scheme1 <- list(1, 2, c(1, 2), c(3, 2, 3))
   scheme2 <- list(2, c(3, 2), c(1, 1, 2, 3, 2), rep(2, 9))
@@ -281,8 +281,7 @@ calc_weights <- function(data_list) {
   w_sum <- rowSums(w)
   w_1_i <- w_sum[1]
   n_i_w_ij <- w_sum[3]
-  out <- c(w_1_i, n_i_w_ij)
-  return(out)
+  c(w_1_i, n_i_w_ij)
 }
 
 # Example from PISA manual tables ==============================================
@@ -301,7 +300,7 @@ test_that("Weights and labels from PISA examples are correct", {
       ...
     )
     if (verbose) print(data)
-    return(data)
+    data
   }
   ex_3.3 <- wrap_cl_gen(
     n = c(school = 4, student = 10),
@@ -364,7 +363,7 @@ wrap_cluster_gen <- function(n, N, meth = "SRS", sum_pop = sapply(N, sum),
     ...
   )
   if (print) print(data)
-  return(data)
+  data
 }
 test_that("Sampling weights are correct", {
   ex1 <- wrap_cluster_gen(n = c(1, 2, 3), N = c(10, 100, 600))
@@ -485,9 +484,9 @@ check_cluster_structure <- function(n, FUN = "length") {
   n_list <- convert_vector_to_list(n)
   structure <- draw_cluster_structure(n_list, output = "text")
   func <- match.fun(FUN)
-  structure_out <- func(structure)
-  return(structure_out)
+  func(structure)
 }
+
 n <- c(city = 2, school = 2, class = 3, student = 4)
 n2 <- list(city = 2, school = 2, class = 3, student = ranges(10, 50))
 n3 <- list(city = 2, school = 2, class = ranges(1, 3), stu = ranges(10, 50))

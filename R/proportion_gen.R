@@ -59,5 +59,5 @@ proportion_gen <- function(cat_options, n_cat_options) {
 
     cat_pr[[i]] <- unlist(rand_pr)
   }
-  return(cat_pr)
+  cat_pr
 }

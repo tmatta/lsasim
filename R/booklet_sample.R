@@ -120,6 +120,5 @@ booklet_sample <- function(n_subj, book_item_design, book_prob = NULL,
   rownames(item_assign_l) <- item_assign_l$id <- NULL
   item_assign_l <- item_assign_l[, c("subject", "book", "item")]
   item_assign_l <- item_assign_l[which(item_assign_l$item != 0), ]
-
-  return(item_assign_l)
+  item_assign_l
 }

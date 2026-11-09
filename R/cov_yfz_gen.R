@@ -27,6 +27,5 @@ cov_yfz_gen <- function(n_ind, n_fac, Phi, n_z, sd_z, w_names, pr_grp_1) {
   Phi_pb[wcol_Phi, yfcol_yfz] <- cor_ptbis # Y and Fs vs. Ws
   Phi_pb[yfcol_yfz, wcol_Phi] <- t(Phi_pb[wcol_Phi, yfcol_yfz])
 
-  vcov_yfz <- diag(sd_vec) %*% Phi_pb %*% diag(sd_vec)
-  return(vcov_yfz)
+  diag(sd_vec) %*% Phi_pb %*% diag(sd_vec)
 }

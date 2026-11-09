@@ -37,5 +37,5 @@ jackknife <- function(data, weight_cols = "none", drop = TRUE) {
     }
     replicate -> R[[paste0("R", rep)]]
   }
-  return(R)
+  R
 }

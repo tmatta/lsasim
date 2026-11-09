@@ -17,7 +17,7 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
   mvsn <- function(n, num_x) {
     uncor_mat <- matrix(NA, nrow = n, ncol = num_x)
     for (i in 1:num_x) uncor_mat[, i] <- rnorm(n, 0, 1)
-    return(uncor_mat)
+    uncor_mat
   }
   #--- Generate uncorrelated standard normals
   n_vars <- length(cat_prop)
@@ -125,8 +125,6 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
     colnames(discrete_df)[is.na(names(cat_prop))] <- df_unnamed
     df_names <- colnames(discrete_df)
     discrete_df$subject <- 1:nrow(discrete_df)
-    discrete_df <- discrete_df[, c("subject", df_names)]
-
-    return(discrete_df)
+    discrete_df[, c("subject", df_names)]
   }
 }

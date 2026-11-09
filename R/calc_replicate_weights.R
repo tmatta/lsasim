@@ -85,6 +85,5 @@ calc_replicate_weights <- function(data, method, k = 0) {
   }
 
   # Assembling output ========================================================
-  out <- replicate_stats
-  return(out)
+  replicate_stats
 }
