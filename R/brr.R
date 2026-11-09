@@ -113,7 +113,7 @@ brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
       replicate[weight_cols] <- replicate[weight_cols] * adj_factor
     }
     if (drop_subject) replicate$subject <- NULL
-    replicate -> R[[paste0("R", rep)]]
+      R[[paste0("R", rep)]] <- replicate
   }
   R
 }
