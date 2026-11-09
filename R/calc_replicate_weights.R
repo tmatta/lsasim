@@ -28,8 +28,8 @@
 #' @export
 calc_replicate_weights <- function(data, method, k = 0) {
   # Verification =============================================================
-  if (k < 0 | k > 1) stop("k must be between 0 and 1")
-  if (method != "BRR Fay" & k != .5 & k != 0) {
+  if (k < 0 || k > 1) stop("k must be between 0 and 1")
+  if (method != "BRR Fay" && k != .5 && k != 0) {
     warning(method, " ignores k. Use 'BRR Fay' instead.")
   }
 

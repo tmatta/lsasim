@@ -33,16 +33,16 @@
 #'
 booklet_sample <- function(n_subj, book_item_design, book_prob = NULL,
                            resample = FALSE, e = .1, iter = 20) {
-  if (!is.null(book_prob) & resample == TRUE) {
+  if (!is.null(book_prob) && resample == TRUE) {
     stop("Cannot specify probability weights when re-sampling.", call. = FALSE)
   }
-  if (!is.null(book_prob) & length(book_prob) != ncol(book_item_design)) {
+  if (!is.null(book_prob) && length(book_prob) != ncol(book_item_design)) {
     stop(
       "The number of probability weights must equal the number of booklets",
       call. = FALSE
     )
   }
-  if (!is.null(book_prob) & sum(book_prob) != 1) {
+  if (!is.null(book_prob) && sum(book_prob) != 1) {
     stop("Probability weights must sum to 1.", call. = FALSE)
   }
   subject <- 1:n_subj
@@ -84,7 +84,7 @@ booklet_sample <- function(n_subj, book_item_design, book_prob = NULL,
       }
       message("iteration ", x, ": difference in booklet distribution ", pr_dist)
 
-      if (x == iter & pr_dist_2 >= pr_dist) {
+      if (x == iter && pr_dist_2 >= pr_dist) {
         subj_book <- subj_book_2
         book_dist <- book_dist_2
         pr_dist <- pr_dist_2

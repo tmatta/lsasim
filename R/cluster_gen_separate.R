@@ -83,7 +83,7 @@ cluster_gen_separate <- function(
       n_j <- n[[l + 1]]
       M <- sum(n_j)
       if (missing_sigma2) {
-        if (is.null(c_mean) | is.null(rho) | length(c_mean) == 1) {
+        if (is.null(c_mean) || is.null(rho) || length(c_mean) == 1) {
           sigma2 <- rchisq(n_X[[l]] + theta, 2)
         } else {
           n_tilde <- calc_n_tilde(M, N[[l]], n_j)
@@ -117,18 +117,18 @@ cluster_gen_separate <- function(
       } else {
         cat_prop_lvl <- cat_prop
       }
-      if (!is.null(c_mean) & is(c_mean, "list")) {
+      if (!is.null(c_mean) && is(c_mean, "list")) {
         mu_mu <- c_mean[[lvl]]
       } else {
         mu_mu <- c_mean
       }
-      if (!is.null(cor_matrix) & class(cor_matrix)[1] == "list") {
+      if (!is.null(cor_matrix) && class(cor_matrix)[1] == "list") {
         cor_mx <- cor_matrix[[l]]
         if (is(cor_mx[1], "list")) cor_mx <- cor_matrix[[l]][[lvl]]
       }
       if (!is.null(rho[[l]])) {
         sd_X <- sqrt(s2) # same sd for all PSUs if rho is present
-      } else if (!is.null(sigma) & is(sigma, "list")) {
+      } else if (!is.null(sigma) && is(sigma, "list")) {
         sd_X <- sigma[[lvl]]
       } else {
         sd_X <- sigma
@@ -150,7 +150,7 @@ cluster_gen_separate <- function(
       } else {
         n_W_used <- n_W[[l]]
       }
-      if (is(n_W_used, "list") & any(sapply(n_W_used, length) > 1)) {
+      if (is(n_W_used, "list") && any(sapply(n_W_used, length) > 1)) {
         n_W_used <- n_W_used[[l]][lvl]
       }
       cluster_bg <- questionnaire_gen(

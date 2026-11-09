@@ -30,7 +30,7 @@ gen_questionnaire_var_names <- function(nW = NULL, nX = NULL, n = 10) {
   }
 
   # Workaround for unmatching classes in expanded_levels_reg and W_levels_cov
-  if (length(expanded_levels_reg) == 0 & length(W_levels_cov) == 0) {
+  if (length(expanded_levels_reg) == 0 && length(W_levels_cov) == 0) {
     expanded_levels_reg <- W_levels_cov <- NULL
   }
 

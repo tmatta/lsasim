@@ -28,7 +28,7 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
     } else {
       mean_z <- NULL
     }
-    if (is.null(mean_yx) & length(cat_prop_YX)) {
+    if (is.null(mean_yx) && length(cat_prop_YX)) {
       mean_yx <- rep(0, cat_prop_YX)
     }
     mean_yxz <- c(mean_yx, mean_z)

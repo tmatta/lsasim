@@ -67,19 +67,19 @@ cluster_gen_together <- function(
       cat_prop_lvl <- cat_prop
     }
     respondents <- n[[n_levels]][l]
-    if (!is.null(c_mean_list) & is(c_mean_list, "list")) {
+    if (!is.null(c_mean_list) && is(c_mean_list, "list")) {
       mu_mu <- c_mean_list[[l]]
     } else {
       mu_mu <- c_mean_list
     }
-    if (!is.null(cor_matrix) & is(cor_matrix, "list")) {
+    if (!is.null(cor_matrix) && is(cor_matrix, "list")) {
       cor_mx <- cor_matrix[[1]]
       if (is(cor_mx[1], "list")) cor_mx <- cor_matrix[[1]][[l]]
     }
 
     if (!is.null(rho)) {
       sd_X <- sqrt(s2) # same sd for all PSUs if rho is present
-    } else if (!is.null(sigma_list) & is(sigma_list, "list")) {
+    } else if (!is.null(sigma_list) && is(sigma_list, "list")) {
       sd_X <- sigma_list
     } else {
       sd_X <- sigma_list

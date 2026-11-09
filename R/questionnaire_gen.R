@@ -263,7 +263,7 @@ questionnaire_gen <- function(
       }
       n_X <- n_tot["n_X"]
       # Expanding n_W if it was provided as a 1-length list for all Ws
-      if (length(n_cats) == 1 &
+      if (length(n_cats) == 1 &&
             n_tot["n_vars"] != n_tot["n_X"] + n_tot["n_W"] + n_tot["theta"]) {
         n_tot["n_W"] <- n_tot["n_vars"] - n_tot["n_X"] - n_tot["theta"]
         n_cats <- rep(n_cats, n_tot["n_W"])
@@ -302,7 +302,7 @@ questionnaire_gen <- function(
     seq(cat_prop_W_p),
     function(x) cat_prop_W_p[[x]] * (1 - cat_prop_W_p[[x]])
   )
-  if (is.null(c_sd) & length(cat_prop_YX)) {
+  if (is.null(c_sd) && length(cat_prop_YX)) {
     var_YX <- ifelse(is.null(c_sd), 1, c_sd^2)
     var_YX <- rep(var_YX, length(cat_prop_YX))
   } else {
@@ -389,7 +389,7 @@ questionnaire_gen <- function(
   }
 
   # Calculating regression coefficients -----------------------------------
-  if (theta & full_output & !is.null(family)) {
+  if (theta && full_output && !is.null(family)) {
     betas <- beta_gen(
       data = out,
       output_cov = TRUE,

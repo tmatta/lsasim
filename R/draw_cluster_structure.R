@@ -58,7 +58,7 @@ draw_cluster_structure <- function(
       for (n2 in seq(nodes)) {
         parent <- substr(nodes[n2], 1, chars_n1)
         level_n2 <- nchar(gsub("[A-Za-z0-9]", "", nodes[n2])) + 1 # counts "_"
-        if (parent == nodes[n1] & (level_n1 + 1) == level_n2) {
+        if (parent == nodes[n1] && (level_n1 + 1) == level_n2) {
           children <- append(children, nodes[n2])
         }
       }

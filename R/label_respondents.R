@@ -28,7 +28,7 @@ label_respondents <- function(n_obs, cluster_labels = names(n_obs),
   if (n_levels - 1 >= 2) {
     for (row in 2:(n_levels - 1)) {
       id_level <- max(n_levels - row, 1)
-      if (length(n_obs[[id_level]]) > 1 & all(n_obs[[id_level]] == 1)) {
+      if (length(n_obs[[id_level]]) > 1 && all(n_obs[[id_level]] == 1)) {
         n_obs[[id_level]] <- sum(n_obs[[id_level]])
       }
       expanded_level <- as.vector(unlist(sapply(n_obs[[id_level]], seq)))

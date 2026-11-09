@@ -243,14 +243,14 @@ cluster_gen <- function(
 
   # Defining n_X and n_W ==================================================
   if (is.null(cat_prop)) {
-    if (n_levels > 1 & separate_questionnaires) {
+    if (n_levels > 1 && separate_questionnaires) {
       # Repeating a non-null n_X and n_W to all levels
       n_X <- repeatXW(n_X, n_W, n_levels)$n_X
       n_W <- repeatXW(n_X, n_W, n_levels)$n_W
     }
-    if (!is.null(cor_matrix) & is.null(n_X) & is.null(n_W)) {
+    if (!is.null(cor_matrix) && is.null(n_X) && is.null(n_W)) {
       # Generating n_X and n_W
-      if (is.null(c_mean) & is.null(sigma)) {
+      if (is.null(c_mean) && is.null(sigma)) {
         n_X <- sample(x = seq(0, ncol(cor_matrix)), size = 1) - theta
       } else {
         n_X <- ifelse(
@@ -298,7 +298,7 @@ cluster_gen <- function(
     # Message explaining cluster scheme -----------------------------------
     if (verbose) {
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
-      if (!census & print_pop_structure) {
+      if (!census && print_pop_structure) {
         message("Population structure")
         draw_cluster_structure(N, cluster_labels, resp_labels)
       }
@@ -315,7 +315,7 @@ cluster_gen <- function(
     }
 
     # Questionnaire generation --------------------------------------------
-    if (verbose & calc_weights) {
+    if (verbose && calc_weights) {
       print(cli::rule(left = cli::col_blue("Information on sampling weights")))
     }
     sample <- cluster_gen_separate(
@@ -330,7 +330,7 @@ cluster_gen <- function(
     # Message explaining cluster scheme -----------------------------------
     if (verbose) {
       print(cli::rule(left = cli::col_blue("Hierarchical structure")))
-      if (!census & print_pop_structure) {
+      if (!census && print_pop_structure) {
         message("Population structure")
         draw_cluster_structure(N, cluster_labels, resp_labels)
         message("Sampled structure")
@@ -347,7 +347,7 @@ cluster_gen <- function(
     }
 
     # Questionnaire generation --------------------------------------------
-    if (verbose & calc_weights) {
+    if (verbose && calc_weights) {
       print(cli::rule(left = cli::col_blue("Information on sampling weights")))
     }
     sample <- cluster_gen_together(
@@ -369,9 +369,9 @@ cluster_gen <- function(
 repeatXW <- function(n_X, n_W, n_levels) {
   # Repeats a non-null n_X and n_W to all levels
   if (length(n_X) == 1) n_X <- rep(n_X, n_levels)
-  if (length(n_W) == 1 & is(n_W, "numeric")) {
+  if (length(n_W) == 1 && is(n_W, "numeric")) {
     n_W <- rep(n_W, n_levels)
-  } else if (length(n_W) > 1 & is(n_W, "list")) {
+  } else if (length(n_W) > 1 && is(n_W, "list")) {
     if (any(sapply(n_W, class) == "list")) {
       n_W <- n_W
     } else {

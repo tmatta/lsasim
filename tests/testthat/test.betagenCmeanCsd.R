@@ -30,7 +30,7 @@ qGenWrap <- function(nX, nW, mu = NULL, n = 200, verbose = FALSE) {
   # Constructing a coverage percentage for the true betas
   betas <- list()
   for (rep in seq(50)) {
-    if (verbose & (rep %% 5 == 0)) cat(rep, "")
+    if (verbose && (rep %% 5 == 0)) cat(rep, "")
     betas[[rep]] <- beta_gen(
       data = data,
       MC = TRUE,
@@ -91,7 +91,7 @@ qGenWrap <- function(nX, nW, sd = NULL, n = 200, verbose = FALSE) {
   # Constructing a coverage percentage for the true betas
   betas <- list()
   for (rep in seq(50)) {
-    if (verbose & (rep %% 5 == 0)) cat(rep, "")
+    if (verbose && (rep %% 5 == 0)) cat(rep, "")
     betas[[rep]] <- beta_gen(
       data = data,
       MC = TRUE,

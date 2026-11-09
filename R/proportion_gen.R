@@ -24,7 +24,7 @@ proportion_gen <- function(cat_options, n_cat_options) {
   #- cat_options: list of response options in the survey
   #- n_cat_options: list of how many of each response option is in the survey
 
-  if (length(cat_options) > length(n_cat_options) |
+  if (length(cat_options) > length(n_cat_options) ||
     length(cat_options) < length(n_cat_options)
   ) {
     stop("cat_options and n_cat_options are not the same length", call. = FALSE)

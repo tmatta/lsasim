@@ -29,7 +29,7 @@ convert_vector_to_list <- function(x, x_max = x, verbose = TRUE) {
       x_list[[1]] <- sample(x_list[[1]][1]:limit, size = 1)
     }
   } else {
-    if (x_list[[1]] > x_max_list[[1]] & !identical(x, x_max)) {
+    if (x_list[[1]] > x_max_list[[1]] && !identical(x, x_max)) {
       trimmed_x <- TRUE
     }
     x_list[[1]] <- min(x_list[[1]], x_max_list[[1]])
@@ -64,7 +64,7 @@ convert_vector_to_list <- function(x, x_max = x, verbose = TRUE) {
 
     ## Trim x_list[[l]] by comparing it to the max value -----------------------
     for (e in seq_along(x_list[[l]])) {
-      if (x_list[[l]][e] > x_max_list[[l]][e] & !identical(x, x_max)) {
+      if (x_list[[l]][e] > x_max_list[[l]][e] && !identical(x, x_max)) {
         trimmed_x <- TRUE
       }
       x_list[[l]][e] <- min(x_list[[l]][e], x_max_list[[l]][e])
@@ -72,7 +72,7 @@ convert_vector_to_list <- function(x, x_max = x, verbose = TRUE) {
   }
 
   # Returning converted x ======================================================
-  if (verbose & trimmed_x) {
+  if (verbose && trimmed_x) {
     warning(
       "Some elements of the sample structure provided were larger ",
       "than their counterparts in the population",

@@ -43,7 +43,7 @@ booklet_design <- function(item_block_assignment, book_design = NULL) {
   n_block <- ncol(item_block_assignment)
   max_items <- nrow(item_block_assignment)
 
-  if (n_block <= 2 & is.null(book_design)) {
+  if (n_block <= 2 && is.null(book_design)) {
     stop("Default booklet assembly requires more than 2 blocks", call. = FALSE)
   }
 
