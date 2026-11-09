@@ -39,7 +39,7 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
     if (is.null(c_mean)) c_mean <- rep(0, length(continuous_var))
     if (is.null(c_sd)) c_sd <- rep(1, length(continuous_var))
 
-    for (i in 1:length(continuous_var)) {
+    for (i in seq_along(continuous_var)) {
       cor_dat[, continuous_var[i]] <-
         cor_dat[, continuous_var[i]] * c_sd[i] + c_mean[i]
     }
@@ -65,8 +65,8 @@ questionnaire_gen_polychoric <- function(n_obs, cat_prop, cor_matrix, c_mean,
     #--- upper threshold
     discrete_dat[discrete_dat[, discrete_var] > 5.6] <- 5.6
 
-    for (i in 1:length(discrete_var)) {
-      for (j in rev(1:length(var_thresholds[[i]]))) {
+    for (i in seq_along(discrete_var)) {
+      for (j in rev(seq_along(var_thresholds[[i]]))) {
         discrete_dat[
           which(
             cor_dat[, discrete_var[i]] <= var_thresholds[[i]][j]

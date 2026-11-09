@@ -74,10 +74,10 @@ response_gen <- function(subject, item, theta, a_par = NULL, b_par,
     d_mat <- do.call("cbind", d_par)
     b_pars <- list()
 
-    for (i in 1:length(b_par)) {
+    for (i in seq_along(b_par)) {
       if (sum(abs(d_mat[i, ])) != 0) {
         b_list <- list()
-        for (j in 1:length(d_mat[i, ])) b_list[[j]] <- b_par[i] + d_mat[i, j]
+        for (j in seq_along(d_mat[i, ])) b_list[[j]] <- b_par[i] + d_mat[i, j]
         b_pars[[i]] <- unlist(b_list)
       }
 
@@ -89,7 +89,7 @@ response_gen <- function(subject, item, theta, a_par = NULL, b_par,
 
   y <- numeric(length(subject))
 
-  for (n in 1:length(subject)) {
+  for (n in seq_along(subject)) {
     y[n] <- irt_gen(
       theta = theta[subject[n]],
       a_par = a_par[which(item_no == item[n])],
