@@ -262,11 +262,11 @@ cluster_gen_separate <- function(
           out[paste0("clusterID.", resp_labels[l])] <- NULL
           # Renaming subjects (variable and values)
           names(out)[1] <- "subject"
-          out$subject <- seq(nrow(out))
+          out$subject <- seq_len(nrow(out))
         }
       } else {
         out[[level_label]]["clusterID"] <- NULL
-        out[[level_label]]$subject <- seq(nrow(out[[level_label]]))
+        out[[level_label]]$subject <- seq_len(nrow(out[[level_label]]))
       }
     }
   }

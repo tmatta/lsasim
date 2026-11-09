@@ -50,7 +50,7 @@ brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
   # Adding subject variable (easier than working with row names) =============
   drop_subject <- FALSE
   if (id_col == 0) {
-    data$subject <- seq(nrow(data))
+    data$subject <- seq_len(nrow(data))
     id_col <- match("subject", names(data))
     drop_subject <- TRUE
   }
