@@ -81,8 +81,7 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
     } else {
       labels <- seq(cat_prop[[z]])
     }
-    w_name <- gsub("z", "w", z)
-    data_yxw[substitute(w_name)] <- cut(data_yxw[, z], cut_points, labels)
+    data_yxw[[gsub("z", "w", z)]] <- cut(data_yxw[, z], cut_points, labels)
     data_yxw[z] <- NULL
   }
 
@@ -92,7 +91,5 @@ questionnaire_gen_family <- function(n_obs, cat_prop, cov_matrix,
   } else {
     colnames(data_yxw) <- paste0("q", seq(data_yxw))
   }
-  out <- data.frame(subject = 1:nrow(data_yxz), data_yxw)
-
-  return(out)
+  data.frame(subject = 1:nrow(data_yxz), data_yxw)
 }

@@ -30,11 +30,11 @@ calcPctIn <- function(data) {
     )
   pct_coverage <- estimates[, "cov_in_CI", ]
   avg_coverage <- apply(pct_coverage, 1, mean)
-  return(list(
+  list(
     estimates = estimates,
     differences = estimates[, "cov_matrix", ] - estimates[, "MC", ],
     coverage_ratio = avg_coverage
-  ))
+  )
 }
 pct_df_1X <- calcPctIn(df_1X)
 pct_df_1W <- calcPctIn(df_1W)

@@ -43,7 +43,5 @@ sample_from <- function(N, n, labels = names(N), verbose = TRUE) {
   )
 
   # Dropping NAs
-  n_submatrix <- n_submatrix[complete.cases(n_submatrix), ]
-
-  return(n_submatrix)
+  n_submatrix[complete.cases(n_submatrix), ]
 }

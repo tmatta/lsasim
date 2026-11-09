@@ -57,6 +57,5 @@ cov_gen <- function(pr_grp_1, n_fac, n_ind, Lambda = 0:1) {
   vcov_yfz <- cov_yfz_gen(n_ind, n_fac, Phi, n_z, sd_z, w_names, pr_grp_1)
 
   # Analytical parameters -------------------------------------------------
-  out <- list(vcov_yxw = vcov_yxw, vcov_yxz = vcov_yxz, vcov_yfz = vcov_yfz)
-  return(out)
+  list(vcov_yxw = vcov_yxw, vcov_yxz = vcov_yxz, vcov_yfz = vcov_yfz)
 }

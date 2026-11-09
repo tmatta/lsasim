@@ -9,5 +9,5 @@
 select <- function(...) {
   out <- unname(c(...))
   class(out) <- "select"
-  return(out)
+  out
 }

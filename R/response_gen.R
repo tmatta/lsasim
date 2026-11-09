@@ -115,5 +115,5 @@ response_gen <- function(subject, item, theta, a_par = NULL, b_par,
   colnames(df_w)[2:length(df_w)] <- df_item_new
   df_w <- df_w[, order(names(df_w))]
   rownames(df_w) <- NULL
-  return(y = df_w)
+  df_w
 }

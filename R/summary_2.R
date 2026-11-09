@@ -15,7 +15,6 @@ summary_2 <- function(data, digits = 3) {
       x_min <- formatC(min(data[, x]), format = "f", digits = digits)
       x_avg <- formatC(mean(data[, x]), format = "f", digits = digits)
       x_max <- formatC(max(data[, x]), format = "f", digits = digits)
-      x_std <- formatC(sd(data[, x]), format = "f", digits = digits)
       cat(
         " Min    :", x_min, "\n",
         "Mean   :", x_avg, "\n",

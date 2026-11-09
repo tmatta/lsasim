@@ -50,21 +50,19 @@ booklet_sample <- function(n_subj, book_item_design, book_prob = NULL,
   #--- distribute books randomly to subject
   x <- 0
   subj_book_start <- sample(
-    1:ncol(book_item_design), size = n_subj, replace = T, prob = book_prob
+    1:ncol(book_item_design), size = n_subj, replace = TRUE, prob = book_prob
   )
   book_dist_start <- prop.table(table(subj_book_start))
-  pr_dist <- pr_dist_start <- max(book_dist_start) - min(book_dist_start)
+  pr_dist <- max(book_dist_start) - min(book_dist_start)
 
   if (resample == FALSE) {
     subj_book <- subj_book_start
-    book_dist <- book_dist_start
   }
 
   if (resample == TRUE) {
     #--- If initial sampling meets stopping criteria
     if (pr_dist <= e) {
       subj_book <- subj_book_start
-      book_dist <- book_dist_start
       message("Initial difference in booklet distribution ", round(pr_dist, 2))
     }
 
@@ -72,21 +70,20 @@ booklet_sample <- function(n_subj, book_item_design, book_prob = NULL,
     while (pr_dist >= e) {
       x <- x + 1
       subj_book_2 <- sample(
-        1:ncol(book_item_design), size = n_subj, replace = T, prob = book_prob
+        1:ncol(book_item_design), size = n_subj, replace = TRUE,
+        prob = book_prob
       )
       book_dist_2 <- prop.table(table(subj_book_2))
       pr_dist_2 <- max(book_dist_2) - min(book_dist_2)
 
       if (pr_dist_2 < pr_dist) {
         subj_book <- subj_book_2
-        book_dist <- book_dist_2
         pr_dist <- pr_dist_2
       }
       message("iteration ", x, ": difference in booklet distribution ", pr_dist)
 
       if (x == iter && pr_dist_2 >= pr_dist) {
         subj_book <- subj_book_2
-        book_dist <- book_dist_2
         pr_dist <- pr_dist_2
         message("Sampling terminated")
         break
@@ -120,6 +117,5 @@ booklet_sample <- function(n_subj, book_item_design, book_prob = NULL,
   rownames(item_assign_l) <- item_assign_l$id <- NULL
   item_assign_l <- item_assign_l[, c("subject", "book", "item")]
   item_assign_l <- item_assign_l[which(item_assign_l$item != 0), ]
-
-  return(item_assign_l)
+  item_assign_l
 }

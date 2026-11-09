@@ -16,6 +16,5 @@ sample_within_range <- function(rg, sample_size = NULL, seed = NULL) {
   sample_space <- seq(from = minimum, to = maximum)
   if (is.null(sample_size)) sample_size <- length(sample_space)
   if (!is.null(seed)) set.seed(seed)
-  out <- sample(sample_space, sample_size, replace = TRUE)
-  return(out)
+  sample(sample_space, sample_size, replace = TRUE)
 }

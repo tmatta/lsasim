@@ -115,5 +115,5 @@ brr <- function(data, k = 0, pseudo_strata = ceiling(nrow(data) / 2),
     if (drop_subject) replicate$subject <- NULL
     replicate -> R[[paste0("R", rep)]]
   }
-  return(R)
+  R
 }

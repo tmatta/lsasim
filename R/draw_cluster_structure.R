@@ -112,6 +112,6 @@ draw_cluster_structure <- function(
     }
   }
   if (output == "text") {
-    return(out)
+    out
   }
 }

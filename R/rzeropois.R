@@ -15,5 +15,5 @@ rzeropois <- function(lambda) {
     t <- t * lambda / k
     s <- s + t
   }
-  return(k)
+  k
 }

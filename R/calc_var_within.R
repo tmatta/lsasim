@@ -13,5 +13,5 @@ calc_var_within <- function(n_j, s2_j, M, N) {
     s2_within <- append(s2_within, sum((n_j - 1) * s2_j[, x]) / (M - N))
   }
   names(s2_within) <- X
-  return(s2_within)
+  s2_within
 }

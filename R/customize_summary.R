@@ -46,5 +46,5 @@ customize_summary <- function(
   }
 
   # Returning table ==========================================================
-  return(as.table(df_table))
+  as.table(df_table)
 }

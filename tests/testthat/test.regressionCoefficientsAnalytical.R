@@ -114,7 +114,7 @@ exp_X_given_Y <- function(
 ) {
   a <- (lo_lim - mu_Y) / sd_Y
   b <- (up_lim - mu_Y) / sd_Y
-  return(mu_X + (cov_XY / sd_Y) * (dnorm(a) - dnorm(b)) / (pnorm(b) - pnorm(a)))
+  mu_X + (cov_XY / sd_Y) * (dnorm(a) - dnorm(b)) / (pnorm(b) - pnorm(a))
 }
 
 # Calculates E(XW) or E(YW) for covariance later on
@@ -127,7 +127,7 @@ exp_AB2 <- function(names_b, mu_a, mu_b, cov_ab, q, ...) {
         exp_X_given_Y(q[[b]][i], q[[b]][i + 1], mu_a, cov_ab, ...)
     }
   }
-  return(exp_ab)
+  exp_ab
 }
 
 exp_yw <- exp_AB2(names_w, mu_yxz$y, mu_w, cov_yz, q_z)
@@ -135,8 +135,7 @@ exp_x1w <- exp_AB2(names_w, mu_yxz$x1, mu_w, cov_xz, q_z, sd_Y = sd_yxz$y)
 exp_x2w <- exp_AB2(names_w, mu_yxz$x2, mu_w, cov_xz, q_z, sd_Y = sd_yxz$y)
 
 cov_AB <- function(names_b, exp_ab, mu_a, mu_b) {
-  covar <- sapply(names_b, function(b) (exp_ab[[b]] - mu_a * mu_b[[b]])[-1])
-  return(covar)
+  sapply(names_b, function(b) (exp_ab[[b]] - mu_a * mu_b[[b]])[-1])
 }
 
 # [-1] below removes first category
@@ -150,7 +149,7 @@ create_vcov_w <- function(mu, var, remove_ref_cat = TRUE) {
   mx <- tcrossprod(mu, -mu) # Covariances equals -p_i * p_j
   diag(mx) <- var # Variances equal p_i * (1 - p_i), not p_i ^ 2
   if (remove_ref_cat) mx <- mx[-1, -1]
-  return(mx)
+  mx
 }
 vcov_w <- sapply(names_w, function(w) create_vcov_w(mu_w[[w]], var_w[[w]]))
 
@@ -215,8 +214,7 @@ calcRegCoeff <- function(cov, mu_y, mu_x) {
   beta <- solve(cov[-1, -1], cov[1, -1])
   alpha <- mu_y - crossprod(beta, mu_x)
   names_coeff <- c("theta", names(mu_x))
-  out <- setNames(unlist(list(alpha, beta)), names_coeff)
-  return(out)
+  setNames(unlist(list(alpha, beta)), names_coeff)
 }
 
 cov_reg_yx1 <- calcRegCoeff(vcov_yx1, mu_yxz$y, mu_xw[c(1)])
@@ -246,8 +244,8 @@ beta_reg_yxw <- beta_gen(df_yxw)
 
 # Benchmarking regression coefficients ------------------------------------
 compareRegScrBeta <- function(
-    reg_data, cov_data, beta_gen_data, print = FALSE
-  ) {
+  reg_data, cov_data, beta_gen_data, print = FALSE
+) {
   tab <- rbind(
     "reg" = coef(reg_data),
     "script" = cov_data,
@@ -261,7 +259,7 @@ compareRegScrBeta <- function(
       x[3] - x[2]
     ))
   })
-  return(list(tab = tab, diffs = diffs))
+  list(tab = tab, diffs = diffs)
 }
 comp_yx1 <- compareRegScrBeta(reg_yx1, cov_reg_yx1, beta_reg_yx1)
 comp_yx <- compareRegScrBeta(reg_yx, cov_reg_yx, beta_reg_yx)

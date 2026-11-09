@@ -55,7 +55,6 @@ block_design <- function(
   #--- build default block / item matrix
   if (is.null(item_block_matrix)) {
     item_block_vec <- rep(1:n_blocks, length.out = n_items)
-    item_no <- rep(1:n_items)
     item_block_matrix <- matrix(NA, nrow = n_items, ncol = n_blocks)
 
     for (j in 1:n_blocks) {
@@ -105,10 +104,8 @@ block_design <- function(
   rownames(item_per_block) <- item_vec
 
 
-  return(
-    list(
-      block_assignment = item_per_block,
-      block_descriptives = t(block_descriptives)
-    )
+  list(
+    block_assignment = item_per_block,
+    block_descriptives = t(block_descriptives)
   )
 }

@@ -144,7 +144,8 @@ We generate one binary variable and 3 four-category variables.
 ```{r ex 4b}
 set.seed(4388)
 bg <- questionnaire_gen(
-  n_obs = 100, n_X = 0, n_W = list(2, 4, 4, 4), family = "gaussian")
+  n_obs = 100, n_X = 0, n_W = list(2, 4, 4, 4), family = "gaussian"
+)
 str(bg)
 ```
 

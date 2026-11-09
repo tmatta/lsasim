@@ -25,5 +25,5 @@ calc_var_between <- function(n_j, y_bar_j, y_bar, n_tilde, N) {
     )
   }
   names(s2_between) <- X
-  return(s2_between)
+  s2_between
 }

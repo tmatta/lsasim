@@ -45,7 +45,6 @@ calc_replicate_weights <- function(data, method, k = 0) {
 
     for (sublvl in seq(num_sublvl)) {
       bg <- data[[lvl_name]][[sublvl]]
-      w_cols <- names(bg)[grep("weight", names(bg))]
 
       # Remove uninsteresting columns ------------------------------------
       data_cols <- grep("subject|ID|weight", names(bg), invert = TRUE)
@@ -79,12 +78,11 @@ calc_replicate_weights <- function(data, method, k = 0) {
       rownames(stats) <- c("mean", "SE")
 
       # Putting data and stats into common list for output ---------------
-      bg -> new_bg[[lvl_name]][[sublvl]]
-      stats -> replicate_stats[[lvl_name]][[sublvl]]
+      new_bg[[lvl_name]][[sublvl]] <- bg
+      replicate_stats[[lvl_name]][[sublvl]] <- stats
     }
   }
 
   # Assembling output ========================================================
-  out <- replicate_stats
-  return(out)
+  replicate_stats
 }

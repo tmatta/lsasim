@@ -407,5 +407,5 @@ questionnaire_gen <- function(
     ))
   }
 
-  return(out)
+  out
 }

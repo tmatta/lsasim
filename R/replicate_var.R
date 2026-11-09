@@ -88,7 +88,7 @@ replicate_var <- function(data_whole, data_rep, method, k = 0,
       w_col <- x[, w]
       out <- apply(x_without_w, 2, function(x) statistic(x, w_col))
     }
-    return(out)
+    out
   }
 
   theta_rep <- t(sapply(numeric_data$rep, statistic_rep))
@@ -127,5 +127,5 @@ replicate_var <- function(data_whole, data_rep, method, k = 0,
   } else {
     out <- sigma2
   }
-  return(out)
+  out
 }

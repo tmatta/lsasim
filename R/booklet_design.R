@@ -100,6 +100,5 @@ booklet_design <- function(item_block_assignment, book_design = NULL) {
     item_matrix <- item_matrix[-which(rowSums(item_matrix) == 0), ]
   }
 
-  booklet <- data.frame(item_matrix)
-  return(booklet)
+  data.frame(item_matrix)
 }

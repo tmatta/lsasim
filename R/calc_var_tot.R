@@ -19,5 +19,5 @@ calc_var_tot <- function(M, N, n_tilde, s2_within, s2_between) {
     )
   }
   names(s2_tot) <- X
-  return(s2_tot)
+  s2_tot
 }

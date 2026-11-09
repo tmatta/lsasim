@@ -28,7 +28,6 @@ cluster_gen_together <- function(
   if (!is(cor_matrix[1], "list")) {
     cor_matrix <- replicate(n_levels - 1, list(cor_matrix))
   }
-  cor_matrix_list <- cor_matrix
   if (any(sapply(cat_prop, class) == "list")) {
     cat_prop <- cat_prop[[n_levels - 1]]
   }
@@ -119,7 +118,7 @@ cluster_gen_together <- function(
     cluster_bg$uniqueID <- paste(studentID, clusterID, sep = "_")
 
     # Saving the questionnaire to the final list (sample)
-    cluster_bg -> sample[[l]]
+    sample[[l]] <- cluster_bg
   }
 
   # Collapsing data and creating output ----------------------------------------
@@ -130,5 +129,5 @@ cluster_gen_together <- function(
     sample$subject <- seq(nrow(sample))
   }
 
-  return(sample)
+  sample
 }

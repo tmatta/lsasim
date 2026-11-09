@@ -97,8 +97,9 @@ weight_responses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
       x[, 1:lvl, drop = FALSE], 1,
       function(x) paste(x, collapse = "")
     )
-    return(length(unique(lbl)))
+    length(unique(lbl))
   }
+
   n_sc <- retrieve_unique_labels(cluster_structure$n, lvl - 1)
   N_sc <- retrieve_unique_labels(cluster_structure$N, lvl - 1)
   n_i <- ifelse(test = lvl == final_level,
@@ -132,5 +133,5 @@ weight_responses <- function(cluster_bg, n_obs, N, lvl, sublvl, previous_sublvl,
   cluster_bg[label_2_ij] <- w_2_ij
   cluster_bg[label_ij] <- w_ij
 
-  return(cluster_bg)
+  cluster_bg
 }

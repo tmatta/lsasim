@@ -14,5 +14,5 @@ calc_se_rho <- function(rho, n_j, N) {
     stop("Not yet implemented for the case of varying n_j")
     # TODO: Implement equation (6.1) from Donner (1986) - issue #22
   }
-  return(se_rho)
+  se_rho
 }
