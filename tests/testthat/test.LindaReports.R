@@ -89,7 +89,7 @@ test_that("Sizes of cat_prop, cor_matrix and n_vars don't conflict", {
       n_obs = 5, cat_prop = list(c(1), c(.5, 1)),
       cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
       n_vars = 2,
-      theta = T
+      theta = TRUE
     ),
     "Generating background data from correlation matrix"
   )
@@ -97,7 +97,7 @@ test_that("Sizes of cat_prop, cor_matrix and n_vars don't conflict", {
     n_obs = 5, cat_prop = list(c(.5, 1)),
     cor_matrix = matrix(c(1, .6, .6, 1), nrow = 2),
     n_vars = 1,
-    theta = T
+    theta = TRUE
   ))
   expect_error(questionnaire_gen(
     n_obs = 5, cat_prop = list(c(1), c(.5, 1)),
@@ -107,16 +107,16 @@ test_that("Sizes of cat_prop, cor_matrix and n_vars don't conflict", {
       .5, .5, 1
     ), nrow = 3),
     n_vars = 2,
-    theta = T
+    theta = TRUE
   ))
   expect_error(questionnaire_gen(
     n_obs = 5, cat_prop = list(c(1), c(.5, 1)),
     cor_matrix = matrix(c(
       1, .65,
       .6, 1
-    ), 2, byrow = T),
+    ), 2, byrow = TRUE),
     n_vars = 2,
-    theta = T
+    theta = TRUE
   ))
   expect_error(questionnaire_gen(
     n_obs = 5, cat_prop = list(1, 1, c(.5, 1)),
@@ -124,9 +124,9 @@ test_that("Sizes of cat_prop, cor_matrix and n_vars don't conflict", {
       1, .5, .5,
       .45, 1, .5,
       .5, .5, 1
-    ), 3, byrow = T),
+    ), 3, byrow = TRUE),
     n_vars = 3,
-    theta = T
+    theta = TRUE
   ))
 })
 
@@ -140,15 +140,15 @@ test_that("Case 1: consistent changing cor_matrix, n_vars and cat_prop", {
       .5, 1, .5,
       .5, .5, 1
     ), nrow = 3),
-    n_vars = 3, theta = T
+    n_vars = 3, theta = TRUE
   )
   data2 <- questionnaire_gen(
     n_obs = 5, cat_prop = list(1, c(.2, 1), c(.5, 1)),
-    n_vars = 3, theta = T
+    n_vars = 3, theta = TRUE
   )
   data3 <- questionnaire_gen(
     n_obs = 5, cat_prop = list(1, c(.2, 1), c(.5, 1)),
-    theta = T
+    theta = TRUE
   )
   classes <- c("theta" = "numeric", "q1" = "factor", "q2" = "factor")
   expect_identical(sapply(data1, class)[-1], classes)
@@ -159,14 +159,14 @@ test_that("Case 1: consistent changing cor_matrix, n_vars and cat_prop", {
 test_that("Case 2: errors are thrown", {
   expect_error(questionnaire_gen(n_obs = 5, n_vars = 4, n_X = 1, n_W = 2))
   expect_error(
-    questionnaire_gen(n_obs = 5, n_vars = 4, n_X = 1, n_W = 2, theta = F)
+    questionnaire_gen(n_obs = 5, n_vars = 4, n_X = 1, n_W = 2, theta = FALSE)
   )
 })
 
 test_that("Case 3: data is generated", {
-  data1 <- questionnaire_gen(n_obs = 5, n_vars = 4, n_X = 1, n_W = 2, theta = T)
+  data1 <- questionnaire_gen(n_obs = 5, n_vars = 4, n_X = 1, n_W = 2, theta = TRUE)
   data2 <- questionnaire_gen(
-    n_obs = 5, n_vars = 4, n_X = 1, n_W = list(2, 2), theta = T
+    n_obs = 5, n_vars = 4, n_X = 1, n_W = list(2, 2), theta = TRUE
   )
   expect_output(str(data1), "5 obs")
   expect_output(str(data2), "5 obs")
@@ -175,50 +175,50 @@ test_that("Case 3: data is generated", {
 test_that("Case 4: playing around more with n_X, n_W and theta", {
   expect_error(questionnaire_gen(
     n_obs = 5, n_X = 1, n_W = list(2, 3, 2),
-    c_mean = c(1, 2), theta = F
+    c_mean = c(1, 2), theta = FALSE
   ))
   data1 <- questionnaire_gen(
     n_obs = 5, n_X = 1, n_W = list(2, 3, 2),
-    c_mean = c(1, 2), theta = T
+    c_mean = c(1, 2), theta = TRUE
   )
   data2 <- questionnaire_gen(
     n_obs = 5, n_X = 3, n_W = list(2, 3, 2),
-    c_mean = 500, theta = F
+    c_mean = 500, theta = FALSE
   )
   expect_output(str(data1), "5 obs")
   expect_output(str(data2), "5 obs")
   expect_warning(questionnaire_gen(
     n_obs = 5, n_X = 3, n_W = list(2, 3, 2),
-    c_mean = c(100, 500), theta = F
+    c_mean = c(100, 500), theta = FALSE
   ))
   expect_warning(questionnaire_gen(
     n_obs = 5, n_X = 3, n_W = list(2, 3, 2),
-    c_mean = c(100, 500), c_sd = 0, theta = F
+    c_mean = c(100, 500), c_sd = 0, theta = FALSE
   ))
   expect_warning(questionnaire_gen(
     n_obs = 5, n_X = 3, n_W = list(2, 3, 2),
-    c_mean = c(100, 500), c_sd = 0, theta = T
+    c_mean = c(100, 500), c_sd = 0, theta = TRUE
   ))
   expect_warning(questionnaire_gen(
     n_obs = 5, n_X = 2, n_W = list(2, 3, 2),
-    c_mean = c(500, 100), theta = T
+    c_mean = c(500, 100), theta = TRUE
   ))
 })
 
 test_that("Case 5: error if c_sd is negative", {
   expect_error(questionnaire_gen(
     n_obs = 5, n_X = 1, n_W = list(2, 3, 2),
-    c_mean = 100, c_sd = -1, theta = F
+    c_mean = 100, c_sd = -1, theta = FALSE
   ))
 })
 
 test_that("Case 6: if n_X = NULL, a random number of n_X is generated", {
   set.seed(1234)
-  data1 <- questionnaire_gen(n_obs = 5, n_W = list(2, 3, 2), theta = F)
+  data1 <- questionnaire_gen(n_obs = 5, n_W = list(2, 3, 2), theta = FALSE)
   set.seed(5678)
-  data2 <- questionnaire_gen(n_obs = 5, n_W = list(2, 3, 2), theta = F)
+  data2 <- questionnaire_gen(n_obs = 5, n_W = list(2, 3, 2), theta = FALSE)
   set.seed(91011)
-  data3 <- questionnaire_gen(n_obs = 5, n_W = list(2, 3, 2), theta = T)
+  data3 <- questionnaire_gen(n_obs = 5, n_W = list(2, 3, 2), theta = TRUE)
   expect_output(str(data1), "4 variables")
   expect_output(str(data2), "4 variables")
   expect_output(str(data3), "7 variables")
@@ -230,15 +230,15 @@ test_that("Case 7: generating 1 binary and 1 3-cat W", {
     cor_matrix = matrix(c(
       1, .6,
       .6, 1
-    ), nrow = 2, byrow = T),
-    theta = F
+    ), nrow = 2, byrow = TRUE),
+    theta = FALSE
   )
   expect_output(str(data), "5 obs")
 })
 
 test_that("Case 8: generating only one binary n_W", {
   set.seed(87326)
-  data <- questionnaire_gen(n_obs = 100, n_X = 0, n_W = list(2), theta = F)
+  data <- questionnaire_gen(n_obs = 100, n_X = 0, n_W = list(2), theta = FALSE)
   expect_identical(names(data), c("subject", "q1"))
   expect_output(str(data$q1), "Factor w/ 2 levels")
 })

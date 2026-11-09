@@ -50,7 +50,7 @@ booklet_sample <- function(n_subj, book_item_design, book_prob = NULL,
   #--- distribute books randomly to subject
   x <- 0
   subj_book_start <- sample(
-    1:ncol(book_item_design), size = n_subj, replace = T, prob = book_prob
+    1:ncol(book_item_design), size = n_subj, replace = TRUE, prob = book_prob
   )
   book_dist_start <- prop.table(table(subj_book_start))
   pr_dist <- pr_dist_start <- max(book_dist_start) - min(book_dist_start)
@@ -72,7 +72,7 @@ booklet_sample <- function(n_subj, book_item_design, book_prob = NULL,
     while (pr_dist >= e) {
       x <- x + 1
       subj_book_2 <- sample(
-        1:ncol(book_item_design), size = n_subj, replace = T, prob = book_prob
+        1:ncol(book_item_design), size = n_subj, replace = TRUE, prob = book_prob
       )
       book_dist_2 <- prop.table(table(subj_book_2))
       pr_dist_2 <- max(book_dist_2) - min(book_dist_2)

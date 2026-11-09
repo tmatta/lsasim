@@ -950,20 +950,20 @@ test_that("Rho works for together questionnaires", {
     verbose = FALSE,
     separate_questionnaires = FALSE
   )
-  expect_equivalent(anova(df1, print = F)$pop$q1["rho_hat.q1"], .8, .1)
-  expect_equivalent(anova(df2, print = F)$pop$q1["rho_hat.q1"], .2, .1)
-  expect_equivalent(anova(df2, print = F)$pop$q2["rho_hat.q2"], .8, .1)
+  expect_equivalent(anova(df1, print = FALSE)$pop$q1["rho_hat.q1"], .8, .1)
+  expect_equivalent(anova(df2, print = FALSE)$pop$q1["rho_hat.q1"], .2, .1)
+  expect_equivalent(anova(df2, print = FALSE)$pop$q2["rho_hat.q2"], .8, .1)
   expect_equivalent(
     summary(df2, print = "none")$class$y_bar, c(1, 7), .1
   )
-  expect_equivalent(anova(df3, print = F)$pop$q1["rho_hat.q1"], .5, .1)
-  expect_equivalent(anova(df3, print = F)$pop$q2["rho_hat.q2"], .5, .1)
-  expect_equivalent(anova(df3, print = F)$pop$q1["sigma2_hat.q1"], 25, .1)
-  expect_equivalent(anova(df3, print = F)$pop$q2["sigma2_hat.q2"], 100, 1)
-  expect_equivalent(anova(df4, print = F)$pop$q1["rho_hat.q1"], .2, .1)
-  expect_equivalent(anova(df4, print = F)$pop$q2["rho_hat.q2"], .8, .1)
-  expect_equivalent(anova(df4, print = F)$pop$q1["sigma2_hat.q1"], 9, .1)
-  expect_equivalent(anova(df4, print = F)$pop$q2["sigma2_hat.q2"], 81, .1)
+  expect_equivalent(anova(df3, print = FALSE)$pop$q1["rho_hat.q1"], .5, .1)
+  expect_equivalent(anova(df3, print = FALSE)$pop$q2["rho_hat.q2"], .5, .1)
+  expect_equivalent(anova(df3, print = FALSE)$pop$q1["sigma2_hat.q1"], 25, .1)
+  expect_equivalent(anova(df3, print = FALSE)$pop$q2["sigma2_hat.q2"], 100, 1)
+  expect_equivalent(anova(df4, print = FALSE)$pop$q1["rho_hat.q1"], .2, .1)
+  expect_equivalent(anova(df4, print = FALSE)$pop$q2["rho_hat.q2"], .8, .1)
+  expect_equivalent(anova(df4, print = FALSE)$pop$q1["sigma2_hat.q1"], 9, .1)
+  expect_equivalent(anova(df4, print = FALSE)$pop$q2["sigma2_hat.q2"], 81, .1)
 })
 
 # Adding cor_matrix and cat_prop to cluster_gen ===============================
