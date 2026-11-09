@@ -164,7 +164,9 @@ test_that("Case 2: errors are thrown", {
 })
 
 test_that("Case 3: data is generated", {
-  data1 <- questionnaire_gen(n_obs = 5, n_vars = 4, n_X = 1, n_W = 2, theta = TRUE)
+  data1 <- questionnaire_gen(
+    n_obs = 5, n_vars = 4, n_X = 1, n_W = 2, theta = TRUE
+  )
   data2 <- questionnaire_gen(
     n_obs = 5, n_vars = 4, n_X = 1, n_W = list(2, 2), theta = TRUE
   )
